@@ -1,0 +1,8 @@
+job=10797770 node=qhcn017 partition=intel
+cpus=16 OMP=16 MKL=16
+datasets=smoke1024,ogbn-arxiv,ogbn-products block=32 panel=64
+fine_profile=worker_accumulated_times plus layer/parallel wall; speed=timers_disabled
+benchmark_boundary=three_layer_forward_only rep0=warmup rep1_rep2=measured
+precision_gate=max_abs_le_0.003_and_relative_L2_le_1e-4
+arxiv_fp32_exit=0 arxiv_amx_exit=0
+products_fp32_exit=1 products_amx_exit=4

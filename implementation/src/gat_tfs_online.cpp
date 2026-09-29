@@ -8,6 +8,7 @@
 
 struct TfsTimes {
     double projection=0, bprep=0, lr=0, wpack=0, score=0, softmax=0, rescale=0;
+    double block_max=0,softmax_exp_denom=0,panel_zero=0,parallel_wall=0;
     double weighted=0, transition=0, gemm=0, normalization=0, activation=0, concat=0;
     double schedule=0, total=0;
 };
@@ -29,6 +30,8 @@ static void add_stats(Stats& to,const Stats& from) {
 }
 static void add_times(TfsTimes& a,const TfsTimes& b) {
     a.score+=b.score;a.softmax+=b.softmax;a.rescale+=b.rescale;
+    a.block_max+=b.block_max;a.softmax_exp_denom+=b.softmax_exp_denom;
+    a.panel_zero+=b.panel_zero;
     a.weighted+=b.weighted;a.transition+=b.transition;a.gemm+=b.gemm;
     a.normalization+=b.normalization;a.activation+=b.activation;a.concat+=b.concat;
 }
@@ -86,6 +89,7 @@ static void update_raw(const float* scores,const uint32_t* neighbors,int count,
     auto tick=fine_now();
     float blockmax=-std::numeric_limits<float>::infinity();
     for(int k=0;k<count;k++) blockmax=std::max(blockmax,scores[k]);
+    t.block_max+=sec(tick,fine_now());
     float next=std::max(m,blockmax);
     bool changed=next>m,prior=l>0.0f;
     if constexpr(kCollectStats) if(changed) stats.max_updates++;
@@ -97,9 +101,11 @@ static void update_raw(const float* scores,const uint32_t* neighbors,int count,
         if constexpr(kCollectStats) {stats.rescales++;stats.rescaled_elements+=D;}
         t.rescale+=sec(rs,fine_now());
     }
+    auto softmax_tick=fine_now();
     float p[64];
     for(int k=0;k<count;k++){p[k]=std::exp(scores[k]-next);l+=p[k];}
     m=next;
+    t.softmax_exp_denom+=sec(softmax_tick,fine_now());
     t.softmax+=sec(tick,fine_now());
     tick=fine_now();
     for(int k=0;k<count;k++) {
@@ -203,6 +209,7 @@ static TfsResult tfs_online_fused(const Graph& g,const std::vector<float>& input
     // No N x D U exists. Each OpenMP worker owns only a 16 x D U tile.
     for(int h=0;h<K;h++) {
         auto W=pack_head_weight(p,h,q.t.wpack);
+        auto parallel_begin=Clock::now();
         #pragma omp parallel
         {
             mkl_set_num_threads_local(1);
@@ -214,7 +221,9 @@ static TfsResult tfs_online_fused(const Graph& g,const std::vector<float>& input
                 int64_t rg_end=std::min<int64_t>(g.n,rg+R);
                 for(int64_t pos=rg;pos<rg_end;pos+=TR) {
                     int batch=int(std::min<int64_t>(TR,rg_end-pos));
+                    auto zero_tick=fine_now();
                     std::fill(Utile.begin(),Utile.begin()+size_t(batch)*D,0.0f);
+                    local_t.panel_zero+=sec(zero_tick,fine_now());
                     float denom[TR]={};
                     for(int n=0;n<batch;n++) {
                         uint32_t row=perm[pos+n];
@@ -267,6 +276,7 @@ static TfsResult tfs_online_fused(const Graph& g,const std::vector<float>& input
 #endif
             mkl_set_num_threads_local(0);
         }
+        q.t.parallel_wall+=sec(parallel_begin,Clock::now());
     }
     q.t.total=sec(begin,Clock::now());
     return q;
@@ -285,6 +295,7 @@ static TfsResult panel_transform_first(const Graph& g,const std::vector<float>& 
     q.out.resize(size_t(g.n)*width);
     q.sparse_elements=g.e*uint64_t(K)*d;
     for(int h=0;h<K;h++) {
+        auto parallel_begin=Clock::now();
         #pragma omp parallel
         {
             std::vector<float> Utile(size_t(TR)*d);
@@ -295,7 +306,9 @@ static TfsResult panel_transform_first(const Graph& g,const std::vector<float>& 
                 int64_t rg_end=std::min<int64_t>(g.n,rg+R);
                 for(int64_t pos=rg;pos<rg_end;pos+=TR) {
                     int batch=int(std::min<int64_t>(TR,rg_end-pos));
+                    auto zero_tick=fine_now();
                     std::fill(Utile.begin(),Utile.begin()+size_t(batch)*d,0.0f);
+                    local_t.panel_zero+=sec(zero_tick,fine_now());
                     float denom[TR]={};
                     for(int n=0;n<batch;n++) {
                         uint32_t row=perm[pos+n];
@@ -341,6 +354,7 @@ static TfsResult panel_transform_first(const Graph& g,const std::vector<float>& 
             {add_stats(q.s,local_s);add_times(q.t,local_t);}
 #endif
         }
+        q.t.parallel_wall+=sec(parallel_begin,Clock::now());
     }
     q.t.total=sec(begin,Clock::now());
     return q;
@@ -352,8 +366,12 @@ static void print_control(int layer,const Graph& g,const Param& p,int block,int 
       <<" nodes="<<g.n<<" edges="<<g.e<<" heads="<<p.heads<<" D="<<p.in
       <<" head_dim="<<p.dim<<" block_size="<<block<<" panel_R="<<R
       <<" projection_s="<<t.projection<<" LR_s="<<t.lr
-      <<" score_worker_s="<<t.score<<" softmax_worker_s="<<t.softmax
-      <<" rescale_worker_s="<<t.rescale<<" softmax_includes_rescale=true"
+       <<" score_worker_s="<<t.score<<" softmax_worker_s="<<t.softmax
+       <<" block_max_worker_s="<<t.block_max
+       <<" softmax_exp_denom_worker_s="<<t.softmax_exp_denom
+       <<" rescale_worker_s="<<t.rescale<<" softmax_includes_rescale=true"
+       <<" panel_zero_worker_s="<<t.panel_zero
+       <<" parallel_wall_s="<<t.parallel_wall
       <<" stats_enabled="<<kCollectStats<<" weighted_worker_s="<<t.weighted
       <<" normalization_worker_s="<<t.normalization
       <<" activation_worker_s="<<t.activation<<" concat_worker_s="<<t.concat
@@ -369,8 +387,12 @@ static void print_tfs(const char* path,int layer,const Graph& g,const Param& p,i
      <<" heads="<<p.heads<<" D="<<p.in<<" head_dim="<<p.dim<<" block_size="<<block
      <<" panel_R="<<R<<" row_tile=16"
      <<" bL_bR_prep_s="<<t.bprep<<" LR_s="<<t.lr<<" W_pack_s="<<t.wpack
-     <<" edge_score_worker_s="<<t.score<<" online_softmax_worker_s="<<t.softmax
-     <<" rescale_worker_s="<<t.rescale<<" softmax_includes_rescale=true"
+      <<" edge_score_worker_s="<<t.score<<" online_softmax_worker_s="<<t.softmax
+      <<" block_max_worker_s="<<t.block_max
+      <<" softmax_exp_denom_worker_s="<<t.softmax_exp_denom
+      <<" rescale_worker_s="<<t.rescale<<" softmax_includes_rescale=true"
+      <<" panel_zero_worker_s="<<t.panel_zero
+      <<" parallel_wall_s="<<t.parallel_wall
      <<" stats_enabled="<<kCollectStats<<" weighted_spmm_worker_s="<<t.weighted
      <<" spmm_gemm_transition_worker_s=not_measured gemm_worker_s="<<t.gemm
      <<" normalization_worker_s="<<t.normalization<<" activation_worker_s="<<t.activation

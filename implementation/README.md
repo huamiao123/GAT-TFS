@@ -15,6 +15,8 @@
 
 每个 row/head 维护独立 m、l、U。TFS 路径的 U 是 D 维，先计算 U W，再在 head_dim 维除以 l。Layer 2 的 sparse feature elements 是 transform-first 的 8 倍。所有路径在每层及完整三层端到端与 reference 比较 max_abs_error、mean_abs_error、relative_L2_error；验收阈值 max_abs ≤ 0.003 且 relative_L2 ≤ 1e-4。
 
+性能主基线采用 `reference` 纯 Vanilla GAT。`panel_transform_first_fp32` 使用 TFS 的 Degree Sort 与 panel 调度，只用于分析这些机制带来的差异，不充当主基线。细分计时与两图的同节点比较见 `runs/FINE_TIMING_PURE_GAT_20260929.md`。其中 products 的 TFS/AMX 未通过固定精度门槛，其速度仅作诊断。
+
 tfs_online_fused 是**FP32 TFS-style tile-local fusion**，复用了原 TFS 源码的逻辑 degree-sort、R-panel、16 行 tile 与 OpenMP 动态 panel 调度。它尚未执行 BF16/AMX tile 指令。原源码的实际实现与精度/动态权重适配问题见 TFS_SOURCE_AUDIT.md；不要将本结果称为 AMX 加速。
 
 ## 文件和运行

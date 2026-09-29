@@ -75,6 +75,8 @@ struct BlockResult {
     std::vector<float> denominator; // same quantized weights as AMX left operand
     std::vector<float> reference; // per-head block maximum
     uint64_t pack_bytes=0,tile_load_bytes=0,tile_store_bytes=0;
+    double setup_s=0,score_max_s=0,weight_exp_bf16_s=0;
+    double feature_zero_s=0,feature_bf16_pack_s=0,output_extract_s=0,tile_release_s=0;
     double packing_s=0,tile_config_s=0,tile_load_s=0,tile_compute_s=0,tile_store_s=0;
 };
 
@@ -85,10 +87,12 @@ inline BlockResult head_as_row_block(const float* scores,const float* values,
     if(!scores || !values || heads<1 || heads>8 || count<1 || count>32 ||
        D<1 || value_stride<D)
         throw std::invalid_argument("invalid AMX block shape");
+    auto setup_tick=micro_now();
     BlockResult result;
     result.numerator.assign(size_t(heads)*D,0.0f);
     result.denominator.assign(heads,0.0f);
     result.reference.assign(heads,-std::numeric_limits<float>::infinity());
+    result.setup_s=micro_seconds(setup_tick,micro_now());
     auto tick=micro_now();
     alignas(64) uint16_t P[8][32]{};
     alignas(64) uint16_t Plo[8][32]{};
@@ -100,6 +104,11 @@ inline BlockResult head_as_row_block(const float* scores,const float* values,
             m=std::max(m,s);
         }
         result.reference[h]=m;
+    }
+    result.score_max_s+=micro_seconds(tick,micro_now());
+    tick=micro_now();
+    for(int h=0;h<heads;h++) {
+        float m=result.reference[h];
         for(int k=0;k<count;k++) {
             float p=std::exp(scores[size_t(h)*count+k]-m);
             P[h][k]=bf16_rne_flush(p);
@@ -108,7 +117,8 @@ inline BlockResult head_as_row_block(const float* scores,const float* values,
         }
         if(!(result.denominator[h]>0)) throw std::overflow_error("zero BF16 denominator");
     }
-    result.packing_s+=micro_seconds(tick,micro_now());
+    result.weight_exp_bf16_s+=micro_seconds(tick,micro_now());
+    result.packing_s+=result.score_max_s+result.weight_exp_bf16_s;
     TileConfig cfg;
     cfg.rows[0]=uint8_t(heads);cfg.colsb[0]=64; // 16 FP32 output columns
     cfg.rows[1]=uint8_t(heads);cfg.colsb[1]=64; // 32 BF16 reduction elements
@@ -133,6 +143,8 @@ inline BlockResult head_as_row_block(const float* scores,const float* values,
         tick=micro_now();
         std::memset(Xpack,0,sizeof(Xpack));
         if(compensated) std::memset(Xlo,0,sizeof(Xlo));
+        result.feature_zero_s+=micro_seconds(tick,micro_now());
+        tick=micro_now();
         for(int pair=0;pair<16;pair++) for(int f=0;f<16 && f0+f<D;f++) {
             int k=pair*2;
             if(k<count) {
@@ -146,7 +158,7 @@ inline BlockResult head_as_row_block(const float* scores,const float* values,
                 if(compensated) Xlo[pair][2*f+1]=bf16_rne_flush(x-bf16_to_float(Xpack[pair][2*f+1]));
             }
         }
-        result.packing_s+=micro_seconds(tick,micro_now());
+        result.feature_bf16_pack_s+=micro_seconds(tick,micro_now());
         tick=micro_now();
         _tile_zero(0);
         _tile_loadd(2,Xpack,64);
@@ -163,13 +175,18 @@ inline BlockResult head_as_row_block(const float* scores,const float* values,
         tick=micro_now();
         _tile_stored(0,C,64);
         result.tile_store_s+=micro_seconds(tick,micro_now());
+        tick=micro_now();
         for(int h=0;h<heads;h++) for(int f=0;f<16 && f0+f<D;f++)
             result.numerator[size_t(h)*D+f0+f]=C[h][f];
+        result.output_extract_s+=micro_seconds(tick,micro_now());
         result.pack_bytes+=sizeof(Xpack)*(compensated?2:1);
         result.tile_load_bytes+=sizeof(Xpack)*(compensated?2:1);
         result.tile_store_bytes+=uint64_t(heads)*64;
     }
+    result.packing_s+=result.feature_zero_s+result.feature_bf16_pack_s;
+    tick=micro_now();
     _tile_release();
+    result.tile_release_s+=micro_seconds(tick,micro_now());
     return result;
 }
 #else

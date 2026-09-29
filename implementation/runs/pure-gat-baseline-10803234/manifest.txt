@@ -1,0 +1,8 @@
+job=10803234 node=qhcn026 partition=intel
+cpus=16 OMP=16 MKL=16
+primary_baseline=reference_standard_vanilla_GAT_stable_softmax
+secondary_controls=online_fp32,online_avx512,panel_transform_first_fp32
+datasets=ogbn-arxiv,ogbn-products block=32 panel=64
+precision_evidence=fine-timing-10797770
+arxiv_precision=pass products_precision=fails_fixed_max_abs_gate
+benchmark_boundary=three_layer_forward_only rep0=warmup rep1_rep2=measured

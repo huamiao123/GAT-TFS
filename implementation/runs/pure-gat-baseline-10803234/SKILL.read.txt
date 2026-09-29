@@ -1,0 +1,52 @@
+---
+name: tfs-research-engineering
+description: Execute reproducible TFS-Train v2 static full-batch GCN experiments on the wzh cluster workspace.
+---
+
+# TFS-Train v2 Research Engineering
+
+## Authority and scope
+
+- Active architecture is v2 (2026-08-04). Read `AGENTS.md` and this file fully before every experiment and record both SHA-256 hashes.
+- Read `docs/spec/MATH_SPEC_V2.md`, `KERNEL_LAYOUT_V2.md`, `PYTORCH_EXTENSION_SPEC.md`, and `EXPERIMENT_SPEC_V2.md` before implementation or acceptance work.
+- Scope is static, undirected, full-batch, two-layer standard GCN through a PyTorch autograd C++ extension on CPU AMX. Dynamic graphs are abandoned.
+- PyTorch owns ReLU, dropout and its true mask/inverted scaling, loss, optimizer, FP32 master weights, checkpointing, training loop, and gradcheck.
+
+## Frozen mathematics
+
+Let `s_i=1/sqrt(offdiag_degree_i+1)`, `Hs=diag(s)H`, and let CSR contain only `A_off` (no self loops).
+
+- Forward: `T=(A_off+I)Hs`; `P=diag(s)TW+b`.
+- Backward: `grad_scaled=diag(s)G`; `ybar=(A_off^T+I)grad_scaled`; `dW=Hs^T ybar`; `dH=diag(s)(ybar W^T)`.
+- Code and logs must distinguish `grad_scaled`, `ybar`, and final `dH`.
+- Node tensors remain in original node order. Degree sorting is a logical schedule only. For undirected graphs reuse CSR while retaining the mathematical transpose annotation.
+
+## Active kernel contract
+
+- Backward sparse phase is owner-computes pull-SpMM: reads `G`, writes owned rows, no scatter, atomic, or resident CSC.
+- Preferred weight-gradient form is `dW^T=ybar^T Hs`: ordinary BF16 `ybar^T` 16x32 as AMX left operand, VNNI-packed `Hs` 32x16 as right operand, FP32 16x16 accumulator.
+- Use 32-node reduction blocks, tail zero padding, thread-private FP32 `dW^T`, and deterministic hierarchical reduction.
+- Evaluate row panels `{512,1024,2048}` and initially four accumulator tiles per dW tile panel; avoid broad tuning before the trend is established.
+- `dH` uses `ybar * pack(W^T)` followed by target scaling. `pack(W)` and mathematical `pack(W^T)` are separate representations.
+
+## Deprecated v1 paths
+
+The following must be labelled `DEPRECATED_V1` and excluded from the active/default build and entry points: `recompute_z`, `transpose_z_for_dw`, `pack_g_vnni`, `q_gemm`, `q_materialize`, `q_push`, `q_private`, `dh_hybrid`, `ZStrategy`, `QStrategy`, `dropout_replay`, and `standalone_trainer`. Preserve historical evidence; do not silently delete it.
+
+## C0-v2 gate
+
+One gate must establish all of the following: NumPy FP64 and PyTorch FP32 alignment for `P,dW,dH`; internal `Hs,ybar` equivalence to direct textbook `S`; importable compiled extension; one reference `TFSConvFunction` autograd pass; AMX/environment audit; deprecated paths absent from the default build; B1 strong-forward-baseline audit started; and no unresolved P0/P1 issue.
+
+## Experiment workflow
+
+1. Work only under `/home/huangjianqiang_group/hdacp1/data/wzh`; sibling/shared trees are read-only discovery sources.
+2. Inspect repository, current queue, target partition and previous handoff synchronization. Never touch another user's job.
+3. Use login nodes only for light inspection/edit/compile/submit. Use normal `intel` for correctness; use `intel_expr --exclusive` only for authorized formal performance.
+4. Create a unique run directory and save manifest, exact commands/config, source and binary hashes, environment, Slurm JobID/node, stdout/stderr, raw machine-readable results, and status. Never overwrite a run.
+5. Correctness precedes timing. Warmups and measured repetitions must be explicit; comparisons require identical precision, threads, affinity, data, and timing boundary.
+6. Update `ALL_EXPERIMENTS.md`, `EXPERIMENT_ISSUES.md`, and `PROJECT_PROGRESS.md` after every experiment, including failed probes. A run is incomplete until all three agree with its artifacts and Slurm accounting.
+7. Keep every paper claim `UNVERIFIED` until supported by reproducible formal runs. Negative results and crossover boundaries remain evidence.
+
+## C0 memory floor
+
+For papers100M use `N=111M`, 128-wide BF16 features and approximately 3.2B directed off-diagonal entries after undirecting. Track at least X/H1 (28.4 GB each), gradient buffers (~56.8 GB), dH (28.4 GB), colidx (12.8 GB), rowptr (~0.9 GB), s (~0.44 GB), private dW, allocator/workspace/optimizer overhead; plan conservatively for 150-250 GB and verify physical memory, NUMA, huge pages and mmap behavior on the assigned node.
