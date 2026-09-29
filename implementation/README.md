@@ -1,0 +1,36 @@
+# 三层 Multi-Head Vanilla GAT：Online Softmax 与 TFS-Online
+
+模型固定为 Din → 8×32 → 8×32 → 1×C。每个 head 独立拥有 W、aL、aR、score 和 softmax；前两层 ELU 后 concatenate，第三层输出 logits。LeakyReLU slope=0.2。输入是 destination-row CSR、双向去重边及每点 self-loop。当前是 FP32 三层前向和性能基线，没有 dropout、反向传播、损失函数或训练循环。
+
+## 路径
+
+| 路径 | 数据流 | 边级 score/alpha | 全局 N×D 的 U |
+|---|---|---|---|
+| reference | HW → score → stable softmax → 加权 Z | 完整保存，仅用于正确性 | 不适用 |
+| online_fp32 | HW → score → block Online Softmax → 加权 Z | 不完整保存 | 不适用 |
+| online_avx512 | 同上，score/exp/rescale/加权用 AVX-512 | 不完整保存 | 不适用 |
+| tfs_online_reference | H(Wa) → score → Online Softmax → 加权原始 H → 完整 U → GeMM → 输出归一化 | 不完整保存 | 落地，用于代数验证 |
+| tfs_online_fused | 同一 attention/softmax；原 TFS degree-sort、R-panel、16 行局部 U tile → 立即 GeMM | 不完整保存 | 不落地 |
+| panel_transform_first_fp32 | 同一 TFS panel/线程调度，但聚合 Z；用于公平研究对照 | 不完整保存 | 不适用 |
+
+每个 row/head 维护独立 m、l、U。TFS 路径的 U 是 D 维，先计算 U W，再在 head_dim 维除以 l。Layer 2 的 sparse feature elements 是 transform-first 的 8 倍。所有路径在每层及完整三层端到端与 reference 比较 max_abs_error、mean_abs_error、relative_L2_error；验收阈值 max_abs ≤ 0.003 且 relative_L2 ≤ 1e-4。
+
+tfs_online_fused 是**FP32 TFS-style tile-local fusion**，复用了原 TFS 源码的逻辑 degree-sort、R-panel、16 行 tile 与 OpenMP 动态 panel 调度。它尚未执行 BF16/AMX tile 指令。原源码的实际实现与精度/动态权重适配问题见 TFS_SOURCE_AUDIT.md；不要将本结果称为 AMX 加速。
+
+## 文件和运行
+
+- src/gat_online.cpp：前三条路径及共享模型、图格式、正确性函数。
+- src/gat_tfs_online.cpp：两条 TFS 路径及同调度控制路径。
+- tools/prepare_arxiv.py：把官方 ogbn-arxiv raw 转为 GAT/data/arxiv.gatbin。
+- tools/prepare_smoke.py：固定随机种子的 1024 节点正确性小图。
+- scripts/build.sh、scripts/run_arxiv.slurm：前三条路径的历史基线。
+- scripts/build_tfs.sh、scripts/run_tfs_arxiv.slurm：当前六路径实验。
+- DATASETS_AND_TOOLCHAIN.md：可用数据集与编译链。
+- runs/TFS_ONLINE_EXPERIMENT_SUMMARY.md：正确性、分段计时、稀疏膨胀、匹配线程的加速比和原始日志索引。
+- runs/TFS_ONLINE_ISSUES.md：实现问题及性能对照限制。
+
+构建：bash scripts/build_tfs.sh。运行：sbatch --export=ALL,BLOCK_EDGES=32,SPEED_REPEATS=2,TFS_OMP_THREADS=16,TFS_MKL_THREADS=16 scripts/run_tfs_arxiv.slurm。普通 intel 共享分区、单节点；对正式速度结论还需独享节点重复。BLOCK_EDGES 可选 16/32/64，PANEL_R 可用 auto/16/32/64/128。每个作业在 runs/tfs-arxiv-JOBID 下保存 profile.log、speed_rep0..N.log、manifest 和 hash；rep0 是预热。
+
+细分计时覆盖 bL/bR 准备、L/R、score、online softmax、rescale、weighted SpMM、局部 GeMM、输出归一化、ELU、head concat，以及层和完整三层 E2E。融合路径的 per-stage worker_s 是线程时间合计，layer_total_s 是 wall time；两者不能直接相加。没有显式的 SpMM→GeMM 拷贝步骤，transition_worker_s 为 0；完整 U 的逻辑写读字节单独报告。AMX tile load/compute/store、BF16 pack 和 TMM spill/reload 尚无实测值。
+
+初步结论：TFS fused 在 16 worker 条件下比原来稀疏循环单线程的 Online 路径快，但在相同 panel 和相同 16 worker 下，Layer 2 比 transform-first 控制路径慢约 1.74 倍。因而当前 FP32 实现的融合收益尚未抵消 8× sparse feature workload。

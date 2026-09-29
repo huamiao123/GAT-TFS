@@ -1,0 +1,148 @@
+# Agent Rules
+
+## Active Architecture Version
+
+TFS-Train v2 (2026-08-04) is the only active architecture. The previous C0 result and all un-suffixed v1 specifications are historical evidence and do not constitute current acceptance. Active authority is:
+
+```text
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/MATH_SPEC_V2.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/KERNEL_LAYOUT_V2.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/PYTORCH_EXTENSION_SPEC.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/EXPERIMENT_SPEC_V2.md
+```
+
+Old v1 code/specifications may be retained for provenance but must be marked `DEPRECATED_V1` and excluded from the active/default build and entry points.
+
+This workspace is restricted to:
+
+`/home/huangjianqiang_group/hdacp1/data/wzh`
+
+## Mandatory Pre-Experiment Reading
+
+Before every experiment, the agent must read this file completely from its current server path:
+
+```bash
+cat /home/huangjianqiang_group/hdacp1/data/wzh/AGENTS.md
+```
+
+Then the agent must read the TFS research skill completely:
+
+```bash
+cat /home/huangjianqiang_group/hdacp1/data/wzh/skills/tfs-research-engineering/SKILL.md
+```
+
+This rule applies to all smoke tests, correctness runs, profiling, performance benchmarks, formal reruns, and Slurm jobs. Reading either file in a previous conversation, phase, or experiment does not satisfy the requirement for the next experiment.
+
+After reading both files, inspect the current authoritative specifications, repository state, target paths, partition state, and account queue before compiling or running. Record the two file paths and their current SHA-256 values in the experiment preflight log or manifest.
+
+If either file is missing, unreadable, changed unexpectedly, or conflicts with the planned action, stop before the experiment and resolve the conflict. `AGENTS.md` defines workspace and operational limits; `SKILL.md` defines the TFS-Train research, correctness, evidence, and reporting workflow. Both are mandatory.
+
+## Plan Adaptation Authority
+
+For the TFS-Train project, the user authorizes the agent to adjust the detailed plan dynamically according to the real server, repository, compiler, dependency, data, scheduler, and hardware state. The agent may independently change implementation order, directory organization, interfaces, build method, smoke scope, and other technical details when this improves correctness or execution, without stopping for approval on every minor decision.
+
+This authority does not permit changing the final research objective, restoring the abandoned dynamic-graph direction, writing outside `wzh`, modifying frozen evidence or third-party sources, touching other jobs, or bypassing explicit approval requirements for long-running/high-load cluster work. Every material adjustment must be recorded with its reason, evidence, impact, and resulting decision in the mandatory handoff documents below.
+
+The user explicitly authorizes the agent to adapt the detailed implementation plan to actual server conditions and to make technical decisions independently when problems are discovered. Every such decision must remain inside the boundaries above and be documented with evidence.
+
+## Mandatory TFS-Train Handoff Documents
+
+The following three documents are permanent project state and must exist:
+
+```text
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/handoff/ALL_EXPERIMENTS.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/handoff/EXPERIMENT_ISSUES.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/handoff/PROJECT_PROGRESS.md
+```
+
+Update all three after every experiment, including smoke tests, correctness runs, environment probes, build experiments, profiling, benchmarks, recovery runs, and formal reruns. An experiment is not complete until all three documents are synchronized.
+
+- `ALL_EXPERIMENTS.md` must list every TFS-Train experiment chronologically, including date/time, experiment ID and run tag, purpose, dataset or fixture, model/dimensions, implementation path, partition, JobID, actual node, CPU/NUMA/thread/binding, compiler/build, input/source/binary hashes, timing boundary, repeats, correctness result, performance result, status, evidence paths, and whether it may enter a paper table. Failed, cancelled, timed-out, partial, and superseded experiments must remain visible.
+- `EXPERIMENT_ISSUES.md` must record every major issue or issue likely to recur, including discovery date, affected experiments, symptoms, root cause, diagnostic evidence, resolution/workaround, prevention rule, validation status, and related paths. If an experiment introduces no new major issue, append a short dated `no new major issue` entry so synchronization is auditable.
+- `PROJECT_PROGRESS.md` must show the current cycle, completed/in-progress/pending work, latest experiment outcomes, acceptance status, current technical decisions, deviations from plan, blockers, risks, and the exact next task. Historical progress must not be rewritten to hide failed approaches.
+
+Before starting the next experiment, verify that the previous experiment appears in all three documents. Before reporting a milestone complete, reconcile the documents against run directories, Slurm accounting, manifests, raw logs, and hashes; chat history is not an authority.
+
+## Allowed
+
+- Create, edit, compile, and run files only under `/home/huangjianqiang_group/hdacp1/data/wzh`.
+- Create project subdirectories such as `TFS/`, `code/`, `build/`, `scripts/`, `logs/`, `datasets/`, and temporary test folders only under this workspace.
+- Read files from sibling or shared directories only when needed for reference, diagnostics, or environment discovery.
+- Use shared environment modules in read-only mode, for example `module load intel/intel-oneapi-compilers/2024.1.0/gcc8.5.0-5ndeojp`.
+- Run lightweight tests under this workspace after explaining the command and target path.
+
+## Forbidden
+
+- Do not create, edit, move, rename, or delete files outside `/home/huangjianqiang_group/hdacp1/data/wzh`.
+- Do not modify `/home/huangjianqiang_group/hdacp1/.bashrc`, shell startup files, SSH configuration, or login state.
+- Do not modify `/home/huangjianqiang_group/hdacp1/data/yx` or any other sibling user/project directory.
+- Do not modify shared conda environments, modulefiles, `/opt`, `/apps`, `/etc`, system paths, or cluster-wide software installations.
+- Do not change permissions, ownership, ACLs, quotas, or shared environment configuration.
+- Do not submit cluster jobs, request compute nodes, or start long-running/high-load tasks without explicit user approval.
+- Do not delete shared files or clean shared caches.
+
+## Write Discipline
+
+Before any write operation, state the exact target path and the purpose of the change.
+
+All generated files, build outputs, logs, downloaded datasets, temporary files, and test artifacts must stay under:
+
+`/home/huangjianqiang_group/hdacp1/data/wzh`
+
+If a task appears to require writing outside this workspace, stop and ask the user for explicit approval instead of proceeding.
+
+## Notes
+
+These rules constrain agent behavior. They are not a Linux permission boundary. True enforcement requires cluster account permissions, ACLs, or a dedicated restricted account.
+---
+name: tfs-research-engineering
+description: Execute reproducible TFS-Train v2 static full-batch GCN experiments on the wzh cluster workspace.
+---
+
+# TFS-Train v2 Research Engineering
+
+## Authority and scope
+
+- Active architecture is v2 (2026-08-04). Read `AGENTS.md` and this file fully before every experiment and record both SHA-256 hashes.
+- Read `docs/spec/MATH_SPEC_V2.md`, `KERNEL_LAYOUT_V2.md`, `PYTORCH_EXTENSION_SPEC.md`, and `EXPERIMENT_SPEC_V2.md` before implementation or acceptance work.
+- Scope is static, undirected, full-batch, two-layer standard GCN through a PyTorch autograd C++ extension on CPU AMX. Dynamic graphs are abandoned.
+- PyTorch owns ReLU, dropout and its true mask/inverted scaling, loss, optimizer, FP32 master weights, checkpointing, training loop, and gradcheck.
+
+## Frozen mathematics
+
+Let `s_i=1/sqrt(offdiag_degree_i+1)`, `Hs=diag(s)H`, and let CSR contain only `A_off` (no self loops).
+
+- Forward: `T=(A_off+I)Hs`; `P=diag(s)TW+b`.
+- Backward: `grad_scaled=diag(s)G`; `ybar=(A_off^T+I)grad_scaled`; `dW=Hs^T ybar`; `dH=diag(s)(ybar W^T)`.
+- Code and logs must distinguish `grad_scaled`, `ybar`, and final `dH`.
+- Node tensors remain in original node order. Degree sorting is a logical schedule only. For undirected graphs reuse CSR while retaining the mathematical transpose annotation.
+
+## Active kernel contract
+
+- Backward sparse phase is owner-computes pull-SpMM: reads `G`, writes owned rows, no scatter, atomic, or resident CSC.
+- Preferred weight-gradient form is `dW^T=ybar^T Hs`: ordinary BF16 `ybar^T` 16x32 as AMX left operand, VNNI-packed `Hs` 32x16 as right operand, FP32 16x16 accumulator.
+- Use 32-node reduction blocks, tail zero padding, thread-private FP32 `dW^T`, and deterministic hierarchical reduction.
+- Evaluate row panels `{512,1024,2048}` and initially four accumulator tiles per dW tile panel; avoid broad tuning before the trend is established.
+- `dH` uses `ybar * pack(W^T)` followed by target scaling. `pack(W)` and mathematical `pack(W^T)` are separate representations.
+
+## Deprecated v1 paths
+
+The following must be labelled `DEPRECATED_V1` and excluded from the active/default build and entry points: `recompute_z`, `transpose_z_for_dw`, `pack_g_vnni`, `q_gemm`, `q_materialize`, `q_push`, `q_private`, `dh_hybrid`, `ZStrategy`, `QStrategy`, `dropout_replay`, and `standalone_trainer`. Preserve historical evidence; do not silently delete it.
+
+## C0-v2 gate
+
+One gate must establish all of the following: NumPy FP64 and PyTorch FP32 alignment for `P,dW,dH`; internal `Hs,ybar` equivalence to direct textbook `S`; importable compiled extension; one reference `TFSConvFunction` autograd pass; AMX/environment audit; deprecated paths absent from the default build; B1 strong-forward-baseline audit started; and no unresolved P0/P1 issue.
+
+## Experiment workflow
+
+1. Work only under `/home/huangjianqiang_group/hdacp1/data/wzh`; sibling/shared trees are read-only discovery sources.
+2. Inspect repository, current queue, target partition and previous handoff synchronization. Never touch another user's job.
+3. Use login nodes only for light inspection/edit/compile/submit. Use normal `intel` for correctness; use `intel_expr --exclusive` only for authorized formal performance.
+4. Create a unique run directory and save manifest, exact commands/config, source and binary hashes, environment, Slurm JobID/node, stdout/stderr, raw machine-readable results, and status. Never overwrite a run.
+5. Correctness precedes timing. Warmups and measured repetitions must be explicit; comparisons require identical precision, threads, affinity, data, and timing boundary.
+6. Update `ALL_EXPERIMENTS.md`, `EXPERIMENT_ISSUES.md`, and `PROJECT_PROGRESS.md` after every experiment, including failed probes. A run is incomplete until all three agree with its artifacts and Slurm accounting.
+7. Keep every paper claim `UNVERIFIED` until supported by reproducible formal runs. Negative results and crossover boundaries remain evidence.
+
+## C0 memory floor
+
+For papers100M use `N=111M`, 128-wide BF16 features and approximately 3.2B directed off-diagonal entries after undirecting. Track at least X/H1 (28.4 GB each), gradient buffers (~56.8 GB), dH (28.4 GB), colidx (12.8 GB), rowptr (~0.9 GB), s (~0.44 GB), private dW, allocator/workspace/optimizer overhead; plan conservatively for 150-250 GB and verify physical memory, NUMA, huge pages and mmap behavior on the assigned node.
