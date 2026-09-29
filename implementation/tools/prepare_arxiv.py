@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a destination-row, undirected, self-looped CSR from official ogbn-arxiv raw CSV."""
+"""Create a destination-row, undirected, self-looped CSR from OGB raw CSV."""
 import argparse
 import gzip
 import json
@@ -19,6 +19,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--dataset", default="ogbn-arxiv")
     args = parser.parse_args()
     raw = args.source / "raw"
     x = np.asarray(load_csv(raw / "node-feat.csv.gz", np.float32), dtype="<f4", order="C")
@@ -43,7 +44,7 @@ def main():
         rowptr.tofile(out)
         indices.tofile(out)
         x.tofile(out)
-    meta = dict(dataset="ogbn-arxiv", source=str(args.source), nodes=n,
+    meta = dict(dataset=args.dataset, source=str(args.source), nodes=n,
                 edges=int(indices.size), in_features=d, classes=classes,
                 graph="undirected, deduplicated, one self-loop per node",
                 dtype="float32", format="GATBIN1")
@@ -53,4 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
