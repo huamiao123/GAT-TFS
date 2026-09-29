@@ -9,7 +9,7 @@
 #SBATCH --output=/home/huangjianqiang_group/hdacp1/data/wzh/GAT/runs/amx-slurm-%j.out
 #SBATCH --error=/home/huangjianqiang_group/hdacp1/data/wzh/GAT/runs/amx-slurm-%j.err
 set -euo pipefail
-ROOT="${GAT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+ROOT="${GAT_ROOT:-/home/huangjianqiang_group/hdacp1/data/wzh/GAT}"
 RUN="$ROOT/runs/amx-arxiv-$SLURM_JOB_ID"
 mkdir -p "$RUN" "$ROOT/build/tmp"
 export TMPDIR="$ROOT/build/tmp"
