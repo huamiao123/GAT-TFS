@@ -21,7 +21,7 @@ tfs_online_fused 是**FP32 TFS-style tile-local fusion**，复用了原 TFS 源�
 
 - src/gat_online.cpp：前三条路径及共享模型、图格式、正确性函数。
 - src/gat_tfs_online.cpp：两条 TFS 路径及同调度控制路径。
-- tools/prepare_arxiv.py：把官方 ogbn-arxiv raw 转为 GAT/data/arxiv.gatbin。
+- tools/prepare_arxiv.py：把官方 OGB raw 转为 GATBIN；已用于 ogbn-arxiv 和 ogbn-products。
 - tools/prepare_smoke.py：固定随机种子的 1024 节点正确性小图。
 - scripts/build.sh、scripts/run_arxiv.slurm：前三条路径的历史基线。
 - scripts/build_tfs.sh、scripts/run_tfs_arxiv.slurm：当前六路径实验。
@@ -37,8 +37,8 @@ tfs_online_fused 是**FP32 TFS-style tile-local fusion**，复用了原 TFS 源�
 
 ## 2026-09-29 新增实验性 AMX 路径
 
-上面的历史结论只对应原六条 FP32/AVX 路径。新的 `src/gat_tfs_amx.cpp` 另行实现真实 AMX-BF16 `head-as-row` 聚合，使用 `src/amx_head_row.hpp` 的动态打包微核；每个 head 继续独立维护 online softmax 状态。它将局部 U 交给 FP32 MKL GeMM，不落地全局 U。默认使用 BF16 权重和特征的高低两部分补偿，因单 BF16 在小图三层输出上未达到原 FP32 容差。新路径尚无大图性能结论。
+上面的历史结论只对应原六条 FP32/AVX 路径。`src/gat_tfs_amx.cpp` 实现实验性 AMX-BF16 `head-as-row` 聚合，使用 `src/amx_head_row.hpp` 的动态打包微核；每个 head 继续独立维护 online softmax 状态。它将局部 U 交给 FP32 MKL GeMM，不落地全局 U。默认使用 BF16 权重和特征的高低两部分补偿，因单 BF16 在小图三层输出上未达到原 FP32 容差。
 
-构建：`bash scripts/build_tfs.sh`。小图验证：`bash scripts/run_implementation_smoke.sh` 与 `bash scripts/run_amx_smoke.sh`；运行证据见 `runs/implementation-smoke-*`、`runs/amx-smoke-*`。大图正确性及匹配基线速度作业已准备在 `scripts/run_amx_arxiv.slurm`，遵守服务器 `AGENTS.md` 的作业审批要求，尚未提交。各路径可在独立进程中用 `gat_tfs_online_speed GRAPH 32 benchmark 64 PATH` 测三层前向；AMX 速度入口是 `gat_tfs_amx_speed GRAPH 32 64 benchmark`。正式性能分析之前必须先核对同一图的 AMX 精度。
+构建：`bash scripts/build_tfs.sh`。各路径可在独立进程中用 `gat_tfs_online_speed GRAPH 32 benchmark 64 PATH` 测三层前向；AMX 速度入口是 `gat_tfs_amx_speed GRAPH 32 64 benchmark`。ogbn-arxiv 的三层精度通过，但 AMX 速度为匹配调度 FP32 transform-first 的 0.427×；详见 `runs/AMX_ARXIV_10797351_REPORT.md`。ogbn-products 的 FP32 TFS 和 AMX 均未通过固定的最大绝对误差门槛，其 0.396×/0.294× 速度仅为诊断数据；详见 `runs/PRODUCTS_AMX_20260929_REPORT.md`。这两个结果均来自共享节点，不是正式性能验收。
 
 实现范围和当前限制详见 `IMPLEMENTATION_STATUS_20260929.md`。历史日志与 2026-09-28 时间数据原样保留；新计时边界的数值需要重新运行，不能直接与旧日志拼表。
