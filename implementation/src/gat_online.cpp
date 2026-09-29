@@ -26,13 +26,25 @@ static inline Clock::time_point fine_now() {
     return Clock::now();
 #endif
 }
+#ifdef GAT_NO_FINE_TIMING
+static constexpr bool kCollectStats=false;
+#else
+static constexpr bool kCollectStats=true;
+#endif
 struct Graph {
     uint64_t n=0,e=0; uint32_t din=0,classes=0;
     std::vector<uint64_t> row;
     std::vector<uint32_t> col;
     std::vector<float> x;
 };
+static size_t checked_size(uint64_t a,uint64_t b,const char* label) {
+    if (b && a>std::numeric_limits<size_t>::max()/b)
+        throw std::runtime_error(std::string("size overflow: ")+label);
+    return size_t(a*b);
+}
 template<typename T> void read_exact(std::ifstream& f,T* p,size_t n) {
+    if (n>size_t(std::numeric_limits<std::streamsize>::max())/sizeof(T))
+        throw std::runtime_error("input section too large");
     f.read(reinterpret_cast<char*>(p),sizeof(T)*n);
     if (!f) throw std::runtime_error("truncated input");
 }
@@ -44,15 +56,24 @@ Graph load_graph(const std::string& path) {
     Graph g;
     read_exact(f,&g.n,1); read_exact(f,&g.e,1);
     read_exact(f,&g.din,1); read_exact(f,&g.classes,1);
-    if (!g.n || !g.din || !g.classes || g.e > uint64_t(std::numeric_limits<int>::max())*4)
+    if (!g.n || !g.din || !g.classes ||
+        g.din>uint32_t(std::numeric_limits<int>::max()) ||
+        g.classes>uint32_t(std::numeric_limits<int>::max()) ||
+        g.n>uint64_t(std::numeric_limits<int>::max()) ||
+        g.n>uint64_t(std::numeric_limits<uint32_t>::max()) ||
+        g.e > uint64_t(std::numeric_limits<int>::max())*4 ||
+        g.n==std::numeric_limits<uint64_t>::max())
         throw std::runtime_error("invalid graph dimensions");
-    g.row.resize(g.n+1); g.col.resize(g.e); g.x.resize(g.n*g.din);
+    g.row.resize(checked_size(g.n+1,1,"row"));
+    g.col.resize(checked_size(g.e,1,"col"));
+    g.x.resize(checked_size(g.n,g.din,"features"));
     read_exact(f,g.row.data(),g.row.size());
     read_exact(f,g.col.data(),g.col.size());
     read_exact(f,g.x.data(),g.x.size());
     if (g.row.front()!=0 || g.row.back()!=g.e) throw std::runtime_error("invalid CSR rowptr");
     for (uint64_t i=0;i<g.n;i++) if (g.row[i]>g.row[i+1]) throw std::runtime_error("unsorted rowptr");
     for (auto j:g.col) if (j>=g.n) throw std::runtime_error("bad neighbor id");
+    for (float v:g.x) if (!std::isfinite(v)) throw std::runtime_error("nonfinite input feature");
     return g;
 }
 struct Param {
@@ -100,7 +121,8 @@ void print_result(const std::string& name,int layer,const Graph& g,const Param& 
       <<" heads="<<p.heads<<" head_dim="<<p.dim<<" block_size="<<block
       <<" projection_s="<<t.projection<<" attention_lr_s="<<t.lr
       <<" edge_score_s="<<t.score<<" online_softmax_s="<<t.softmax
-      <<" rescale_s="<<t.rescale<<" weighted_aggregation_s="<<t.weighted
+      <<" rescale_s="<<t.rescale<<" softmax_includes_rescale=true"
+      <<" stats_enabled="<<kCollectStats<<" weighted_aggregation_s="<<t.weighted
       <<" normalization_s="<<t.normalization<<" activation_s="<<t.activation<<" layer_total_s="<<t.total
       <<" num_blocks="<<s.blocks<<" running_max_updates="<<s.max_updates
       <<" rescale_count="<<s.rescales<<" rescaled_feature_elements="<<s.rescaled_elements
@@ -182,8 +204,8 @@ Result reference(const Graph& g,const std::vector<float>& input,const Param& p,b
 struct OnlineState {
     float m=-std::numeric_limits<float>::infinity();
     float l=0;
-    std::vector<float> u;
-    explicit OnlineState(int dim):u(dim,0.0f){}
+    float* u;
+    OnlineState(int dim,float* workspace):u(workspace) {std::fill(u,u+dim,0.0f);}
 };
 // The state interface accepts a score/value block. Future tiled backends can use
 // several destination rows while retaining independent m, l and U per row/head.
@@ -196,17 +218,17 @@ template<bool AVX> __attribute__((noinline)) void online_softmax_update(const fl
     float newmax=std::max(state.m,blockmax);
     bool update=newmax>state.m;
     bool prior=state.l>0.0f;
-    if(update) stats.max_updates++;
+    if constexpr(kCollectStats) if(update) stats.max_updates++;
     float scale=prior?std::exp(state.m-newmax):0.0f;
-    if(update && prior) {stats.rescales++;stats.rescaled_elements+=dim;}
+    if constexpr(kCollectStats) if(update && prior) {stats.rescales++;stats.rescaled_elements+=dim;}
     if(update && prior) {
         auto rs=fine_now();
         if constexpr (AVX) {
             __m512 f=_mm512_set1_ps(scale);
             int d=0;
-            for(;d+16<=dim;d+=16) _mm512_storeu_ps(state.u.data()+d,_mm512_mul_ps(_mm512_loadu_ps(state.u.data()+d),f));
-            if(d<dim){__mmask16 mask=(1u<<(dim-d))-1;_mm512_mask_storeu_ps(state.u.data()+d,mask,_mm512_mul_ps(_mm512_maskz_loadu_ps(mask,state.u.data()+d),f));}
-        } else for(auto& v:state.u) v*=scale;
+            for(;d+16<=dim;d+=16) _mm512_storeu_ps(state.u+d,_mm512_mul_ps(_mm512_loadu_ps(state.u+d),f));
+            if(d<dim){__mmask16 mask=(1u<<(dim-d))-1;_mm512_mask_storeu_ps(state.u+d,mask,_mm512_mul_ps(_mm512_maskz_loadu_ps(mask,state.u+d),f));}
+        } else for(int d=0;d<dim;d++) state.u[d]*=scale;
         state.l*=scale;
         times.rescale+=sec(rs,fine_now());
     }
@@ -225,8 +247,8 @@ template<bool AVX> __attribute__((noinline)) void online_softmax_update(const fl
         float weight=weights[k];
         if constexpr (AVX) {
             __m512 w=_mm512_set1_ps(weight);int d=0;
-            for(;d+16<=dim;d+=16) _mm512_storeu_ps(state.u.data()+d,_mm512_fmadd_ps(w,_mm512_loadu_ps(val+d),_mm512_loadu_ps(state.u.data()+d)));
-            if(d<dim){__mmask16 mask=(1u<<(dim-d))-1;_mm512_mask_storeu_ps(state.u.data()+d,mask,_mm512_fmadd_ps(w,_mm512_maskz_loadu_ps(mask,val+d),_mm512_maskz_loadu_ps(mask,state.u.data()+d)));}
+            for(;d+16<=dim;d+=16) _mm512_storeu_ps(state.u+d,_mm512_fmadd_ps(w,_mm512_loadu_ps(val+d),_mm512_loadu_ps(state.u+d)));
+            if(d<dim){__mmask16 mask=(1u<<(dim-d))-1;_mm512_mask_storeu_ps(state.u+d,mask,_mm512_fmadd_ps(w,_mm512_maskz_loadu_ps(mask,val+d),_mm512_maskz_loadu_ps(mask,state.u+d)));}
         } else for(int d=0;d<dim;d++) state.u[d]+=weight*val[d];
     }
     times.weighted+=sec(a,fine_now());
@@ -236,13 +258,16 @@ template<bool AVX> Result online(const Graph& g,const std::vector<float>& input,
     std::vector<float> z,l,r;projection_lr(input,g.n,p,z,l,r,q.t);
     int width=p.heads*p.dim;
     q.out.resize(g.n*width);
-    q.s.row_ratio.reserve(g.n*p.heads);
-    q.s.row_rescales.reserve(g.n*p.heads);
-    q.s.row_blocks.reserve(g.n*p.heads);
-    q.s.row_max_updates.reserve(g.n*p.heads);
+    if constexpr(kCollectStats) {
+        q.s.row_ratio.reserve(g.n*p.heads);
+        q.s.row_rescales.reserve(g.n*p.heads);
+        q.s.row_blocks.reserve(g.n*p.heads);
+        q.s.row_max_updates.reserve(g.n*p.heads);
+    }
+    std::vector<float> workspace(p.dim);
     alignas(64) float scores[64];
     for(uint64_t i=0;i<g.n;i++) for(int h=0;h<p.heads;h++) {
-        OnlineState state(p.dim);
+        OnlineState state(p.dim,workspace.data());
         uint32_t nblocks=0,nrescales=0,nmaxupdates=0;
         for(uint64_t e=g.row[i];e<g.row[i+1];e+=block) {
             int count=int(std::min<uint64_t>(block,g.row[i+1]-e));
@@ -266,11 +291,14 @@ template<bool AVX> Result online(const Graph& g,const std::vector<float>& input,
                 }
             } else for(int k=0;k<count;k++) scores[k]=leak(l[i*p.heads+h]+r[uint64_t(g.col[e+k])*p.heads+h]);
             q.t.score+=sec(a,fine_now());
-            uint64_t before=q.s.rescales,before_max=q.s.max_updates;
+            uint64_t before=0,before_max=0;
+            if constexpr(kCollectStats) {before=q.s.rescales;before_max=q.s.max_updates;}
             online_softmax_update<AVX>(scores,g.col.data()+e,count,z.data(),width,h,p.dim,state,q.s,q.t);
-            nrescales+=uint32_t(q.s.rescales-before);
-            nmaxupdates+=uint32_t(q.s.max_updates-before_max);
-            nblocks++;q.s.blocks++;
+            if constexpr(kCollectStats) {
+                nrescales+=uint32_t(q.s.rescales-before);
+                nmaxupdates+=uint32_t(q.s.max_updates-before_max);
+                nblocks++;q.s.blocks++;
+            }
         }
         auto a=fine_now();
         float* out=&q.out[i*width+h*p.dim];
@@ -280,24 +308,36 @@ template<bool AVX> Result online(const Graph& g,const std::vector<float>& input,
         a=fine_now();
         if(hidden) for(int d=0;d<p.dim;d++) out[d]=activate(out[d]);
         q.t.activation+=sec(a,fine_now());
-        q.s.row_ratio.push_back(nblocks?float(nrescales)/nblocks:0);
-        q.s.row_rescales.push_back(nrescales);
-        q.s.row_blocks.push_back(nblocks);
-        q.s.row_max_updates.push_back(nmaxupdates);
+        if constexpr(kCollectStats) {
+            q.s.row_ratio.push_back(nblocks?float(nrescales)/nblocks:0);
+            q.s.row_rescales.push_back(nrescales);
+            q.s.row_blocks.push_back(nblocks);
+            q.s.row_max_updates.push_back(nmaxupdates);
+        }
     }
     q.t.total=sec(start,Clock::now());
     return q;
 }
-void compare(const std::string& name,int layer,const std::vector<float>& ref,const std::vector<float>& got) {
-    if(ref.size()!=got.size()) throw std::runtime_error("output size mismatch");
+struct ErrorMetrics {double max_abs=0,mean_abs=0,relative_l2=0;bool pass=false;};
+static ErrorMetrics error_metrics(const std::vector<float>& ref,const std::vector<float>& got) {
+    if(ref.empty() || ref.size()!=got.size()) throw std::runtime_error("empty output or output size mismatch");
     double maxe=0,sume=0,num=0,den=0;
     for(size_t i=0;i<ref.size();i++) {
+        if(!std::isfinite(ref[i]) || !std::isfinite(got[i]))
+            throw std::runtime_error("nonfinite output at index "+std::to_string(i));
         double diff=double(got[i])-ref[i];maxe=std::max(maxe,std::abs(diff));
         sume+=std::abs(diff);num+=diff*diff;den+=double(ref[i])*ref[i];
     }
+    ErrorMetrics result{maxe,sume/ref.size(),std::sqrt(num/std::max(den,1e-30)),false};
+    result.pass=std::isfinite(result.relative_l2) && result.max_abs<=0.003 && result.relative_l2<=1e-4;
+    return result;
+}
+bool compare(const std::string& name,int layer,const std::vector<float>& ref,const std::vector<float>& got) {
+    ErrorMetrics error=error_metrics(ref,got);
     std::cout<<std::setprecision(9)<<"ERROR path="<<name<<" layer="<<layer
-             <<" max_abs_error="<<maxe<<" mean_abs_error="<<sume/ref.size()
-             <<" relative_L2_error="<<std::sqrt(num/den)<<"\n";
+             <<" max_abs_error="<<error.max_abs<<" mean_abs_error="<<error.mean_abs
+             <<" relative_L2_error="<<error.relative_l2<<"\n";
+    return error.pass;
 }
 #ifndef GAT_EMBEDDED
 int main(int argc,char** argv) {
@@ -323,19 +363,8 @@ int main(int argc,char** argv) {
             print_result("reference",layer,g,p,block,ref);
             print_result("online_fp32",layer,g,p,block,fp);
             print_result("online_avx512",layer,g,p,block,avx);
-            compare("online_fp32",layer,ref.out,fp.out);
-            compare("online_avx512",layer,ref.out,avx.out);
-            double maxe=0,den=0,num=0;
-            for(size_t i=0;i<ref.out.size();i++) {
-                double d=double(fp.out[i])-ref.out[i];maxe=std::max(maxe,std::abs(d));num+=d*d;den+=double(ref.out[i])*ref.out[i];
-            }
-            if(maxe>0.003 || std::sqrt(num/std::max(den,1e-30))>0.0001) pass=false;
-            double avx_maxe=0,avx_num=0;
-            for(size_t i=0;i<ref.out.size();i++) {
-                double d=double(avx.out[i])-ref.out[i];
-                avx_maxe=std::max(avx_maxe,std::abs(d));avx_num+=d*d;
-            }
-            if(avx_maxe>0.003 || std::sqrt(avx_num/std::max(den,1e-30))>0.0001) pass=false;
+            pass &= compare("online_fp32",layer,ref.out,fp.out);
+            pass &= compare("online_avx512",layer,ref.out,avx.out);
             input=std::move(fp.out);
         }
         std::vector<float> ref_chain=g.x,avx_chain=g.x;
@@ -344,16 +373,8 @@ int main(int argc,char** argv) {
             ref_chain=reference(g,ref_chain,p,hidden).out;
             avx_chain=online<true>(g,avx_chain,p,block,hidden).out;
         }
-        compare("end_to_end_online_fp32",3,ref_chain,input);
-        compare("end_to_end_online_avx512",3,ref_chain,avx_chain);
-        for(const auto* output:{&input,&avx_chain}) {
-            double maxe=0,num=0,den=0;
-            for(size_t i=0;i<ref_chain.size();i++) {
-                double d=double((*output)[i])-ref_chain[i];
-                maxe=std::max(maxe,std::abs(d));num+=d*d;den+=double(ref_chain[i])*ref_chain[i];
-            }
-            if(maxe>0.003 || std::sqrt(num/std::max(den,1e-30))>0.0001) pass=false;
-        }
+        pass &= compare("end_to_end_online_fp32",3,ref_chain,input);
+        pass &= compare("end_to_end_online_avx512",3,ref_chain,avx_chain);
         std::cout<<"CORRECTNESS "<<(pass?"PASS":"FAIL")<<"\n";
         return pass?0:1;
     } catch(const std::exception& e) {std::cerr<<"ERROR "<<e.what()<<"\n";return 1;}

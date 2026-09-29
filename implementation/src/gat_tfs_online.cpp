@@ -19,6 +19,7 @@ struct TfsResult {
     uint64_t sparse_elements=0;
 };
 static void add_stats(Stats& to,const Stats& from) {
+    if constexpr(!kCollectStats) return;
     to.blocks+=from.blocks;to.max_updates+=from.max_updates;
     to.rescales+=from.rescales;to.rescaled_elements+=from.rescaled_elements;
     to.row_ratio.insert(to.row_ratio.end(),from.row_ratio.begin(),from.row_ratio.end());
@@ -32,6 +33,7 @@ static void add_times(TfsTimes& a,const TfsTimes& b) {
     a.normalization+=b.normalization;a.activation+=b.activation;a.concat+=b.concat;
 }
 static void row_stats(Stats& s,uint32_t blocks,uint32_t maxupdates,uint32_t rescales) {
+    if constexpr(!kCollectStats) return;
     s.row_blocks.push_back(blocks);s.row_max_updates.push_back(maxupdates);
     s.row_rescales.push_back(rescales);
     s.row_ratio.push_back(blocks?float(rescales)/blocks:0.0f);
@@ -86,13 +88,13 @@ static void update_raw(const float* scores,const uint32_t* neighbors,int count,
     for(int k=0;k<count;k++) blockmax=std::max(blockmax,scores[k]);
     float next=std::max(m,blockmax);
     bool changed=next>m,prior=l>0.0f;
-    if(changed) stats.max_updates++;
+    if constexpr(kCollectStats) if(changed) stats.max_updates++;
     if(changed && prior) {
         auto rs=fine_now();
         float r=std::exp(m-next);
         for(int d=0;d<D;d++) U[d]*=r;
         l*=r;
-        stats.rescales++;stats.rescaled_elements+=D;
+        if constexpr(kCollectStats) {stats.rescales++;stats.rescaled_elements+=D;}
         t.rescale+=sec(rs,fine_now());
     }
     float p[64];
@@ -136,10 +138,13 @@ static TfsResult tfs_online_reference(const Graph& g,const std::vector<float>& i
             for(uint64_t e=g.row[i];e<g.row[i+1];e+=block) {
                 int count=int(std::min<uint64_t>(block,g.row[i+1]-e));
                 block_scores(g,att,h,K,i,e,count,scores,q.t);
-                uint64_t oldm=q.s.max_updates,oldr=q.s.rescales;
+                uint64_t oldm=0,oldr=0;
+                if constexpr(kCollectStats) {oldm=q.s.max_updates;oldr=q.s.rescales;}
                 update_raw(scores,g.col.data()+e,count,input.data(),D,0,D,m,l,u,q.s,q.t);
-                blocks++;q.s.blocks++;maxupdates+=uint32_t(q.s.max_updates-oldm);
-                rescales+=uint32_t(q.s.rescales-oldr);
+                if constexpr(kCollectStats) {
+                    blocks++;q.s.blocks++;maxupdates+=uint32_t(q.s.max_updates-oldm);
+                    rescales+=uint32_t(q.s.rescales-oldr);
+                }
             }
             den[i]=l;row_stats(q.s,blocks,maxupdates,rescales);
         }
@@ -219,12 +224,15 @@ static TfsResult tfs_online_fused(const Graph& g,const std::vector<float>& input
                         for(uint64_t e=g.row[row];e<g.row[row+1];e+=block) {
                             int count=int(std::min<uint64_t>(block,g.row[row+1]-e));
                             block_scores(g,att,h,K,row,e,count,scores,local_t);
-                            uint64_t oldm=local_s.max_updates,oldr=local_s.rescales;
+                            uint64_t oldm=0,oldr=0;
+                            if constexpr(kCollectStats) {oldm=local_s.max_updates;oldr=local_s.rescales;}
                             update_raw(scores,g.col.data()+e,count,input.data(),D,0,D,
                                        m,l,U,local_s,local_t);
-                            blocks++;local_s.blocks++;
-                            maxupdates+=uint32_t(local_s.max_updates-oldm);
-                            rescales+=uint32_t(local_s.rescales-oldr);
+                            if constexpr(kCollectStats) {
+                                blocks++;local_s.blocks++;
+                                maxupdates+=uint32_t(local_s.max_updates-oldm);
+                                rescales+=uint32_t(local_s.rescales-oldr);
+                            }
                         }
                         denom[n]=l;row_stats(local_s,blocks,maxupdates,rescales);
                     }
@@ -253,8 +261,10 @@ static TfsResult tfs_online_fused(const Graph& g,const std::vector<float>& input
                     local_t.concat+=sec(tick,fine_now());
                 }
             }
+#ifndef GAT_NO_FINE_TIMING
             #pragma omp critical(tfs_merge)
             {add_stats(q.s,local_s);add_times(q.t,local_t);}
+#endif
             mkl_set_num_threads_local(0);
         }
     }
@@ -295,12 +305,15 @@ static TfsResult panel_transform_first(const Graph& g,const std::vector<float>& 
                         for(uint64_t e=g.row[row];e<g.row[row+1];e+=block) {
                             int count=int(std::min<uint64_t>(block,g.row[row+1]-e));
                             block_scores(g,att,h,K,row,e,count,scores,local_t);
-                            uint64_t oldm=local_s.max_updates,oldr=local_s.rescales;
+                            uint64_t oldm=0,oldr=0;
+                            if constexpr(kCollectStats) {oldm=local_s.max_updates;oldr=local_s.rescales;}
                             update_raw(scores,g.col.data()+e,count,Z.data(),width,h*d,d,
                                        m,l,U,local_s,local_t);
-                            blocks++;local_s.blocks++;
-                            maxupdates+=uint32_t(local_s.max_updates-oldm);
-                            rescales+=uint32_t(local_s.rescales-oldr);
+                            if constexpr(kCollectStats) {
+                                blocks++;local_s.blocks++;
+                                maxupdates+=uint32_t(local_s.max_updates-oldm);
+                                rescales+=uint32_t(local_s.rescales-oldr);
+                            }
                         }
                         denom[n]=l;row_stats(local_s,blocks,maxupdates,rescales);
                     }
@@ -323,8 +336,10 @@ static TfsResult panel_transform_first(const Graph& g,const std::vector<float>& 
                     local_t.concat+=sec(tick,fine_now());
                 }
             }
+#ifndef GAT_NO_FINE_TIMING
             #pragma omp critical(control_merge)
             {add_stats(q.s,local_s);add_times(q.t,local_t);}
+#endif
         }
     }
     q.t.total=sec(begin,Clock::now());
@@ -338,7 +353,8 @@ static void print_control(int layer,const Graph& g,const Param& p,int block,int 
       <<" head_dim="<<p.dim<<" block_size="<<block<<" panel_R="<<R
       <<" projection_s="<<t.projection<<" LR_s="<<t.lr
       <<" score_worker_s="<<t.score<<" softmax_worker_s="<<t.softmax
-      <<" rescale_worker_s="<<t.rescale<<" weighted_worker_s="<<t.weighted
+      <<" rescale_worker_s="<<t.rescale<<" softmax_includes_rescale=true"
+      <<" stats_enabled="<<kCollectStats<<" weighted_worker_s="<<t.weighted
       <<" normalization_worker_s="<<t.normalization
       <<" activation_worker_s="<<t.activation<<" concat_worker_s="<<t.concat
       <<" sparse_feature_elements="<<q.sparse_elements
@@ -354,8 +370,9 @@ static void print_tfs(const char* path,int layer,const Graph& g,const Param& p,i
      <<" panel_R="<<R<<" row_tile=16"
      <<" bL_bR_prep_s="<<t.bprep<<" LR_s="<<t.lr<<" W_pack_s="<<t.wpack
      <<" edge_score_worker_s="<<t.score<<" online_softmax_worker_s="<<t.softmax
-     <<" rescale_worker_s="<<t.rescale<<" weighted_spmm_worker_s="<<t.weighted
-     <<" spmm_gemm_transition_worker_s="<<t.transition<<" gemm_worker_s="<<t.gemm
+     <<" rescale_worker_s="<<t.rescale<<" softmax_includes_rescale=true"
+     <<" stats_enabled="<<kCollectStats<<" weighted_spmm_worker_s="<<t.weighted
+     <<" spmm_gemm_transition_worker_s=not_measured gemm_worker_s="<<t.gemm
      <<" normalization_worker_s="<<t.normalization<<" activation_worker_s="<<t.activation
      <<" head_concat_worker_s="<<t.concat<<" schedule_s="<<t.schedule
      <<" layer_total_s="<<t.total
@@ -378,45 +395,79 @@ static void print_tfs(const char* path,int layer,const Graph& g,const Param& p,i
      <<"\n";
 }
 static bool acceptable(const std::vector<float>& ref,const std::vector<float>& got) {
-    double maxe=0,num=0,den=0;
-    for(size_t i=0;i<ref.size();i++){
-        double e=double(got[i])-ref[i];maxe=std::max(maxe,std::abs(e));
-        num+=e*e;den+=double(ref[i])*ref[i];
-    }
-    return maxe<=0.003 && std::sqrt(num/std::max(den,1e-30))<=1e-4;
+    return error_metrics(ref,got).pass;
 }
-static void attention_equivalence(const Graph& g,const std::vector<float>& input,
+static bool attention_equivalence(const Graph& g,const std::vector<float>& input,
                                   const Param& p,int layer) {
     std::vector<float> z,l,r;Times t;
     projection_lr(input,g.n,p,z,l,r,t);
     auto a=prepare_attention(input,g.n,p);
-    double max_lr=0,sum_lr=0;
+    double max_lr=0,sum_lr=0,max_score=0;
     for(size_t i=0;i<l.size();i++) {
         double dl=std::abs(double(l[i])-a.left[i]),dr=std::abs(double(r[i])-a.right[i]);
         max_lr=std::max(max_lr,std::max(dl,dr));sum_lr+=dl+dr;
     }
+    for(uint64_t i=0;i<g.n;i++) for(uint64_t e=g.row[i];e<g.row[i+1];e++)
+        for(int h=0;h<p.heads;h++) {
+            const size_t dst=size_t(i)*p.heads+h,src=size_t(g.col[e])*p.heads+h;
+            double lhs=leak(l[dst]+r[src]);
+            double rhs=leak(a.left[dst]+a.right[src]);
+            max_score=std::max(max_score,std::abs(lhs-rhs));
+        }
+    bool pass=std::isfinite(max_lr) && std::isfinite(max_score) &&
+              max_lr<=0.003 && max_score<=0.003;
     std::cout<<"ATTENTION_EQ layer="<<layer<<" max_abs_LR="<<max_lr
-             <<" mean_abs_LR="<<sum_lr/(2*l.size())<<"\n";
+             <<" mean_abs_LR="<<sum_lr/(2*l.size())
+             <<" max_abs_score="<<max_score<<" pass="<<pass<<"\n";
+    return pass;
 }
 static std::vector<Param> model(const Graph& g) {
     return {make_param(g.din,8,32,11),make_param(256,8,32,22),
             make_param(256,1,g.classes,33)};
 }
+#ifndef GAT_TFS_EMBEDDED
 int main(int argc,char** argv) {
     try {
-        if(argc<4 || argc>5) {
-            std::cerr<<"usage: gat_tfs_online GRAPH.gatbin BLOCK(16|32|64) MODE(profile|speed) [R=auto|16|32|64|128]\n";
+        if(argc<4 || argc>6) {
+            std::cerr<<"usage: gat_tfs_online GRAPH.gatbin BLOCK(16|32|64) MODE(profile|speed|benchmark) [R=auto|16|32|64|128] [PATH for benchmark]\n";
             return 2;
         }
         Graph g=load_graph(argv[1]);
         int block=std::stoi(argv[2]);
         if(block!=16&&block!=32&&block!=64) throw std::runtime_error("invalid block size");
         std::string mode=argv[3];
-        if(mode!="profile"&&mode!="speed") throw std::runtime_error("invalid mode");
-        int R=(argc==5 && std::string(argv[4])!="auto")?std::stoi(argv[4]):choose_R(g);
+        if(mode!="profile"&&mode!="speed"&&mode!="benchmark") throw std::runtime_error("invalid mode");
+        if(mode=="benchmark" && argc!=6) throw std::runtime_error("benchmark requires path argument");
+        if(mode!="benchmark" && argc==6) throw std::runtime_error("unexpected path argument");
+        int R=(argc>=5 && std::string(argv[4])!="auto")?std::stoi(argv[4]):choose_R(g);
         if(R!=16&&R!=32&&R!=64&&R!=128) throw std::runtime_error("invalid panel R");
         double schedule=0;auto perm=degree_perm(g,schedule);
         auto ps=model(g);
+        const char* names[]={"reference","online_fp32","online_avx512","tfs_online_reference","tfs_online_fused","panel_transform_first_fp32"};
+        if(mode=="benchmark") {
+            int selected=-1;
+            for(int i=0;i<6;i++) if(std::string(argv[5])==names[i]) selected=i;
+            if(selected<0) throw std::runtime_error("unknown benchmark path");
+            std::vector<float> H=g.x;
+            auto start=Clock::now();
+            for(int layer=1;layer<=3;layer++) {
+                const Param& p=ps[layer-1];bool hidden=layer<3;
+                if(selected==0) H=reference(g,H,p,hidden).out;
+                else if(selected==1) H=online<false>(g,H,p,block,hidden).out;
+                else if(selected==2) H=online<true>(g,H,p,block,hidden).out;
+                else if(selected==3) H=tfs_online_reference(g,H,p,block,hidden).out;
+                else if(selected==4) H=tfs_online_fused(g,H,p,block,hidden,perm,R).out;
+                else H=panel_transform_first(g,H,p,block,hidden,perm,R).out;
+            }
+            const double forward_s=sec(start,Clock::now());
+            double checksum=std::accumulate(H.begin(),H.end(),0.0);
+            std::cout<<std::setprecision(9)<<"BENCHMARK path="<<names[selected]
+                     <<" backend=fp32_mkl amx_instructions=false"
+                     <<" fine_timing="<<(!kCollectStats?"disabled":"enabled")
+                     <<" forward_only_s="<<forward_s
+                     <<" schedule_prep_s="<<schedule<<" checksum="<<checksum<<"\n";
+            return 0;
+        }
         std::cout<<"RUN mode="<<mode<<" block="<<block<<" R="<<R
                  <<" omp_threads="<<omp_get_max_threads()
                  <<" schedule_prep_s="<<schedule<<"\n";
@@ -433,30 +484,26 @@ int main(int argc,char** argv) {
             auto fused=tfs_online_fused(g,common,p,block,hidden,perm,R);
             auto control=panel_transform_first(g,common,p,block,hidden,perm,R);
             double full=sec(begin,Clock::now());
-            if(mode=="profile") attention_equivalence(g,common,p,layer);
+            if(mode=="profile") pass &= attention_equivalence(g,common,p,layer);
             print_result("reference",layer,g,p,block,ref);
             print_result("online_fp32",layer,g,p,block,fp);
             print_result("online_avx512",layer,g,p,block,avx);
             print_tfs("tfs_online_reference",layer,g,p,block,R,tfsref);
             print_tfs("tfs_online_fused",layer,g,p,block,R,fused);
             print_control(layer,g,p,block,R,control);
-            compare("online_fp32",layer,ref.out,fp.out);
-            compare("online_avx512",layer,ref.out,avx.out);
-            compare("tfs_online_reference",layer,ref.out,tfsref.out);
-            compare("tfs_online_fused",layer,ref.out,fused.out);
-            compare("panel_transform_first_fp32",layer,ref.out,control.out);
-            pass &= acceptable(ref.out,fp.out)&&acceptable(ref.out,avx.out)
-                 &&acceptable(ref.out,tfsref.out)&&acceptable(ref.out,fused.out)
-                 &&acceptable(ref.out,control.out);
+            pass &= compare("online_fp32",layer,ref.out,fp.out);
+            pass &= compare("online_avx512",layer,ref.out,avx.out);
+            pass &= compare("tfs_online_reference",layer,ref.out,tfsref.out);
+            pass &= compare("tfs_online_fused",layer,ref.out,fused.out);
+            pass &= compare("panel_transform_first_fp32",layer,ref.out,control.out);
             totals[0]+=ref.t.total;totals[1]+=fp.t.total;totals[2]+=avx.t.total;
             totals[3]+=tfsref.t.total;totals[4]+=fused.t.total;totals[5]+=control.t.total;
             std::cout<<"LAYER_COMPARE layer="<<layer<<" all_paths_wall_s="<<full<<"\n";
             common=std::move(ref.out);
         }
-        const char* names[]={"reference","online_fp32","online_avx512","tfs_online_reference","tfs_online_fused","panel_transform_first_fp32"};
         for(int path=0;path<6;path++) {
-            auto e2e_begin=Clock::now();
             std::vector<float> H=g.x;
+            auto e2e_begin=Clock::now();
             for(int layer=1;layer<=3;layer++) {
                 const Param& p=ps[layer-1];bool hidden=layer<3;
                 if(path==0) H=reference(g,H,p,hidden).out;
@@ -466,18 +513,18 @@ int main(int argc,char** argv) {
                 else if(path==4) H=tfs_online_fused(g,H,p,block,hidden,perm,R).out;
                 else H=panel_transform_first(g,H,p,block,hidden,perm,R).out;
             }
+            const double forward_s=sec(e2e_begin,Clock::now());
             if(path==0) {
-                common=H;
+                common=std::move(H);
             } else {
-                compare(std::string("end_to_end_")+names[path],3,common,H);
-                pass &= acceptable(common,H);
+                pass &= compare(std::string("end_to_end_")+names[path],3,common,H);
             }
-            std::cout<<"E2E path="<<names[path]<<" total_s="<<sec(e2e_begin,Clock::now())
-                     <<" layer_time_sum_s="<<totals[path]
+            std::cout<<"E2E path="<<names[path]<<" forward_only_s="<<forward_s
+                     <<" diagnostic_layer_time_sum_s="<<totals[path]
                      <<" schedule_prep_s="<<schedule<<"\n";
         }
         std::cout<<"CORRECTNESS "<<(pass?"PASS":"FAIL")<<"\n";
         return pass?0:1;
     } catch(const std::exception& e) {std::cerr<<"ERROR "<<e.what()<<"\n";return 1;}
 }
-
+#endif // GAT_TFS_EMBEDDED

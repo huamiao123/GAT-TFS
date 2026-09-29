@@ -34,3 +34,11 @@ tfs_online_fused 是**FP32 TFS-style tile-local fusion**，复用了原 TFS 源�
 细分计时覆盖 bL/bR 准备、L/R、score、online softmax、rescale、weighted SpMM、局部 GeMM、输出归一化、ELU、head concat，以及层和完整三层 E2E。融合路径的 per-stage worker_s 是线程时间合计，layer_total_s 是 wall time；两者不能直接相加。没有显式的 SpMM→GeMM 拷贝步骤，transition_worker_s 为 0；完整 U 的逻辑写读字节单独报告。AMX tile load/compute/store、BF16 pack 和 TMM spill/reload 尚无实测值。
 
 初步结论：TFS fused 在 16 worker 条件下比原来稀疏循环单线程的 Online 路径快，但在相同 panel 和相同 16 worker 下，Layer 2 比 transform-first 控制路径慢约 1.74 倍。因而当前 FP32 实现的融合收益尚未抵消 8× sparse feature workload。
+
+## 2026-09-29 新增实验性 AMX 路径
+
+上面的历史结论只对应原六条 FP32/AVX 路径。新的 `src/gat_tfs_amx.cpp` 另行实现真实 AMX-BF16 `head-as-row` 聚合，使用 `src/amx_head_row.hpp` 的动态打包微核；每个 head 继续独立维护 online softmax 状态。它将局部 U 交给 FP32 MKL GeMM，不落地全局 U。默认使用 BF16 权重和特征的高低两部分补偿，因单 BF16 在小图三层输出上未达到原 FP32 容差。新路径尚无大图性能结论。
+
+构建：`bash scripts/build_tfs.sh`。小图验证：`bash scripts/run_implementation_smoke.sh` 与 `bash scripts/run_amx_smoke.sh`；运行证据见 `runs/implementation-smoke-*`、`runs/amx-smoke-*`。大图正确性及匹配基线速度作业已准备在 `scripts/run_amx_arxiv.slurm`，遵守服务器 `AGENTS.md` 的作业审批要求，尚未提交。各路径可在独立进程中用 `gat_tfs_online_speed GRAPH 32 benchmark 64 PATH` 测三层前向；AMX 速度入口是 `gat_tfs_amx_speed GRAPH 32 64 benchmark`。正式性能分析之前必须先核对同一图的 AMX 精度。
+
+实现范围和当前限制详见 `IMPLEMENTATION_STATUS_20260929.md`。历史日志与 2026-09-28 时间数据原样保留；新计时边界的数值需要重新运行，不能直接与旧日志拼表。
