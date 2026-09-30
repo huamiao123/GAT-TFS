@@ -1,0 +1,12 @@
+	tileloadd	(%r11,%rcx), %tmm4
+	tileloadd	(%r14,%r15), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm0
+	tileloadd	(%rbx,%r15), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm1
+	tileloadd	1024(%rbx,%r15), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm2
+	tileloadd	2048(%rbx,%r15), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm3
+	tileloadd	(%r11,%rcx), %tmm4
+	tileloadd	(%r14,%r15), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm0
