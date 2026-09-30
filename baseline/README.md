@@ -1,5 +1,7 @@
 # Vanilla GAT baseline suite
 
+Performance correction (2026-09-30): [B0 NUMA diagnosis](docs/B0_SLOWDOWN_DIAGNOSIS_20260930.md). Earlier B0 FP32/BF16 comparisons had different NUMA first-touch placement. On the same 16 cores with explicit interleave, BF16 B0 is 68.3–68.6 ms and FP32 B0 is 73.8–74.3 ms. The arxiv launcher now applies the same interleave policy to all paths. Direct binary examples below require an equivalent explicit CPU/memory policy for performance comparisons. B1 needs a new run under this policy before updating its speedup claim.
+
 Authority: [IMPLEMENTATION_CONTRACT.md](IMPLEMENTATION_CONTRACT.md), supplied on 2026-09-30. This new baseline suite uses exact-max prescan + a second CSR pass. It supersedes the earlier online-only constraint for this suite; the older `implementation/` experiments remain separate.
 
 ## Paths

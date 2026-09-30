@@ -4,11 +4,12 @@
 #include <map>
 #include <functional>
 #include <sstream>
+#include <sched.h>
 using namespace gat;
 struct Args {
     std::map<std::string,std::string> v;
     Args(int argc,char** argv){for(int i=1;i<argc;++i){std::string k=argv[i];if(k.rfind("--",0)!=0 || i+1==argc)throw std::runtime_error("arguments must be --key value");if(!v.emplace(k,argv[++i]).second)throw std::runtime_error("duplicate argument: "+k);}
-        const std::vector<std::string> allowed={"--graph","--weights","--seed","--save-weights","--path","--mode","--threads","--panel-r","--repeats","--warmups","--layer","--lr-policy","--fixture","--max-abs","--rel-l2","--dump-prefix","--output"};
+        const std::vector<std::string> allowed={"--graph","--weights","--seed","--save-weights","--path","--mode","--threads","--panel-r","--repeats","--warmups","--layer","--lr-policy","--fixture","--max-abs","--rel-l2","--dump-prefix","--output","--init-policy","--diagnostics"};
         for(const auto& x:v)if(std::find(allowed.begin(),allowed.end(),x.first)==allowed.end())throw std::runtime_error("unknown option: "+x.first);}
     std::string get(const std::string& k,const std::string& def="")const{auto i=v.find(k);return i==v.end()?def:i->second;}
     int num(const std::string& k,int def)const{return std::stoi(get(k,std::to_string(def)));}
@@ -30,6 +31,17 @@ int main(int argc,char** argv){try{
     int threads=a.num("--threads",16),panel=a.num("--panel-r",64),reps=a.num("--repeats",5),warmups=a.num("--warmups",2),layer=a.num("--layer",0);
     if(threads<=0||panel<16||panel%16||reps<1||warmups<0||layer<0||layer>3)throw std::runtime_error("invalid benchmark controls");
     omp_set_dynamic(0);omp_set_num_threads(threads);mkl_set_dynamic(0);mkl_set_num_threads(threads);
+    auto init=a.get("--init-policy","original");
+    if(init!="original"&&init!="warm")throw std::runtime_error("bad init policy");
+    if(init=="warm"){
+        #pragma omp parallel
+        { volatile int cpu=sched_getcpu(); (void)cpu; }
+    }
+    auto diagnostic=[&](const std::string& phase){if(a.get("--diagnostics").empty())return;
+        std::cout<<"DIAGNOSTIC phase="<<phase<<" main_cpu="<<sched_getcpu()<<" init="<<init<<"\n";
+        std::ifstream maps("/proc/self/numa_maps");std::ofstream out(a.get("--diagnostics")+"_"+phase+".numa_maps");out<<maps.rdbuf();
+    };
+    diagnostic("before_graph");
     MKLVersion version;mkl_get_version(&version);
     std::cout<<"ENV mkl="<<version.MajorVersion<<"."<<version.MinorVersion<<"."<<version.UpdateVersion<<" processor="<<version.Processor<<" threads="<<threads
       <<" source_input="<<graph<<" checkpoint="<<(a.get("--weights").empty()?"random_fixture_not_trained":a.get("--weights"))<<" profile="<<profiling
@@ -42,6 +54,7 @@ int main(int argc,char** argv){try{
     Schedule sched;if(path=="tfs_bf16"||mode=="correctness"||mode=="fixed-p")sched=degree_schedule(g);
     bool controls=mode=="correctness"||mode=="fixed-p"||mode=="export-fixture"||mode=="micro";
     std::vector<Prepared> prep;for(const auto& p:model)prep.push_back(prepare(p,controls||path=="tfs_bf16"||path=="matched_attention",controls||path=="tfs_bf16",controls||(path!="ref_fp32"&&path!="standard_fp32")));
+    diagnostic("after_prepare");
     double static_s=sched.degree_sort_s;size_t static_bytes=sched.perm.size()*4;
     for(const auto& p:prep){static_s+=p.weight_prepare_s;static_bytes+=(p.w.size()+p.blr_bf16.size()+p.packed.size())*2+(p.blr.size()+p.blr_dot.size())*4;}
     std::cout<<"STATIC degree_sort_ms="<<sched.degree_sort_s*1000<<" model_prepare_ms="<<(static_s-sched.degree_sort_s)*1000<<" bytes="<<static_bytes<<" graph_policy=as_loaded_no_mutation\n";
@@ -141,6 +154,15 @@ int main(int argc,char** argv){try{
     if(mode=="benchmark" && profiling)throw std::runtime_error("benchmark requires speed binary without GAT_PROFILE");
     if(mode=="profile" && !profiling)throw std::runtime_error("profile requires profile binary");
     std::vector<Workspace> ws(3);for(int l=layer?layer-1:0;l<(layer?layer:3);++l){ws[l].allocate(g,model[l],path);if(policy=="z_mkl")ws[l].prepare_lr_sgemm(g,model[l]);}
+    diagnostic("after_allocate");
+    if(!a.get("--diagnostics").empty()){
+        for(int l=0;l<3;++l)std::cout<<"BUFFER layer="<<l+1<<" z="<<static_cast<void*>(ws[l].z.data())<<" out="<<static_cast<void*>(ws[l].out.data())<<"\n";
+        #pragma omp parallel
+        {
+            #pragma omp critical
+            std::cout<<"WORKER tid="<<omp_get_thread_num()<<" cpu="<<sched_getcpu()<<"\n";
+        }
+    }
     size_t workspace=0;for(const auto& w:ws)workspace+=w.bytes();std::cout<<"MODEL workspace_bytes="<<workspace<<" static_bytes="<<static_bytes<<" excludes_graph_and_master_weights=true\n";
     std::vector<float> single_input;
     if(layer){single_input=g.x;for(int l=0;l<layer-1;++l){Workspace rw;rw.allocate(g,model[l],"ref_fp32");Times t;ref_layer(g,model[l],single_input,rw,true,t);single_input=std::move(rw.out);}}
