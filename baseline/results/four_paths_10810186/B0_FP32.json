@@ -1,0 +1,422 @@
+{
+  "label": "Modified B0 FP32",
+  "original_log_path": "B0_FP32",
+  "precision": "FP32",
+  "source_files_relative_to_baseline": [
+    "src/baseline_standard.cpp"
+  ],
+  "entry": "standard_layer(..., fp32=true)",
+  "run_id": "local-10810186",
+  "performance_acceptance": "EXPLORATORY_SHARED_NODE",
+  "task_accuracy_acceptance": "UNVERIFIED",
+  "timing": "Preallocated complete three-layer forward; 1 warmup, 3 measured repetitions.",
+  "note": "Uses corrected explicit NUMA policy; B1 before means before local-U algorithm change.",
+  "datasets": {
+    "arxiv": {
+      "summary": {
+        "median_e2e_ms": 73.9963,
+        "min_e2e_ms": 73.667298,
+        "max_e2e_ms": 74.593216,
+        "measured_repeats": 3,
+        "layers": {
+          "1": {
+            "layer_ms": 30.661696,
+            "lr_ms": 1.276262,
+            "kernel_ms": 20.667025,
+            "projection_ms": 5.249597,
+            "conversion_ms": 3.5e-05,
+            "max_prescan_ms": 0.666311,
+            "normalization_ms": 1.309776,
+            "activation_ms": 1.404296
+          },
+          "2": {
+            "layer_ms": 35.321523,
+            "lr_ms": 1.267062,
+            "kernel_ms": 20.427062,
+            "projection_ms": 10.21766,
+            "conversion_ms": 2.8e-05,
+            "max_prescan_ms": 0.66549,
+            "normalization_ms": 1.252687,
+            "activation_ms": 1.433622
+          },
+          "3": {
+            "layer_ms": 8.047334,
+            "lr_ms": 0.245555,
+            "kernel_ms": 4.170509,
+            "projection_ms": 3.027446,
+            "conversion_ms": 3.1e-05,
+            "max_prescan_ms": 0.410567,
+            "normalization_ms": 0.191035,
+            "activation_ms": 0.000157
+          }
+        }
+      },
+      "raw_measurements": [
+        {
+          "path": "B0_FP32",
+          "rep": 0,
+          "layer": 1,
+          "e2e_ms": 74.593216,
+          "layer_ms": 30.661696,
+          "lr_ms": 1.285834,
+          "kernel_ms": 20.667025,
+          "projection_ms": 5.334998,
+          "conversion_ms": 3.3e-05,
+          "max_prescan_ms": 0.675804,
+          "normalization_ms": 1.307724,
+          "activation_ms": 1.389966
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 0,
+          "layer": 2,
+          "e2e_ms": 74.593216,
+          "layer_ms": 35.881193,
+          "lr_ms": 1.267062,
+          "kernel_ms": 21.072224,
+          "projection_ms": 10.197263,
+          "conversion_ms": 2.8e-05,
+          "max_prescan_ms": 0.659853,
+          "normalization_ms": 1.252687,
+          "activation_ms": 1.431718
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 0,
+          "layer": 3,
+          "e2e_ms": 74.593216,
+          "layer_ms": 8.047334,
+          "lr_ms": 0.24112,
+          "kernel_ms": 4.170509,
+          "projection_ms": 3.027446,
+          "conversion_ms": 2.9e-05,
+          "max_prescan_ms": 0.415019,
+          "normalization_ms": 0.192751,
+          "activation_ms": 0.000157
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 1,
+          "layer": 1,
+          "e2e_ms": 73.667298,
+          "layer_ms": 30.262197,
+          "lr_ms": 1.249576,
+          "kernel_ms": 20.38725,
+          "projection_ms": 5.244549,
+          "conversion_ms": 3.5e-05,
+          "max_prescan_ms": 0.666311,
+          "normalization_ms": 1.309776,
+          "activation_ms": 1.404296
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 1,
+          "layer": 2,
+          "e2e_ms": 73.667298,
+          "layer_ms": 35.321523,
+          "lr_ms": 1.249602,
+          "kernel_ms": 20.28744,
+          "projection_ms": 10.415637,
+          "conversion_ms": 3e-05,
+          "max_prescan_ms": 0.66549,
+          "normalization_ms": 1.252232,
+          "activation_ms": 1.450596
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 1,
+          "layer": 3,
+          "e2e_ms": 73.667298,
+          "layer_ms": 8.081443,
+          "lr_ms": 0.25355,
+          "kernel_ms": 4.182157,
+          "projection_ms": 3.043475,
+          "conversion_ms": 3.1e-05,
+          "max_prescan_ms": 0.410567,
+          "normalization_ms": 0.191035,
+          "activation_ms": 0.000149
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 2,
+          "layer": 1,
+          "e2e_ms": 73.9963,
+          "layer_ms": 30.700215,
+          "lr_ms": 1.276262,
+          "kernel_ms": 20.792191,
+          "projection_ms": 5.249597,
+          "conversion_ms": 0.000126,
+          "max_prescan_ms": 0.656361,
+          "normalization_ms": 1.311045,
+          "activation_ms": 1.41423
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 2,
+          "layer": 2,
+          "e2e_ms": 73.9963,
+          "layer_ms": 35.291881,
+          "lr_ms": 1.291098,
+          "kernel_ms": 20.427062,
+          "projection_ms": 10.21766,
+          "conversion_ms": 2.7e-05,
+          "max_prescan_ms": 0.669256,
+          "normalization_ms": 1.252814,
+          "activation_ms": 1.433622
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 2,
+          "layer": 3,
+          "e2e_ms": 73.9963,
+          "layer_ms": 8.002549,
+          "lr_ms": 0.245555,
+          "kernel_ms": 4.141516,
+          "projection_ms": 3.022888,
+          "conversion_ms": 3.1e-05,
+          "max_prescan_ms": 0.402236,
+          "normalization_ms": 0.189807,
+          "activation_ms": 0.000171
+        }
+      ],
+      "errors_vs_B0_FP32": [
+        {
+          "path": "B0_FP32",
+          "layer": "1",
+          "max_abs_error": "0",
+          "mean_abs_error": "0",
+          "relative_L2_error": "0",
+          "finite": "1",
+          "reference": "B0_FP32",
+          "task_acceptance": "UNVERIFIED"
+        },
+        {
+          "path": "B0_FP32",
+          "layer": "2",
+          "max_abs_error": "0",
+          "mean_abs_error": "0",
+          "relative_L2_error": "0",
+          "finite": "1",
+          "reference": "B0_FP32",
+          "task_acceptance": "UNVERIFIED"
+        },
+        {
+          "path": "B0_FP32",
+          "layer": "3",
+          "max_abs_error": "0",
+          "mean_abs_error": "0",
+          "relative_L2_error": "0",
+          "finite": "1",
+          "reference": "B0_FP32",
+          "task_acceptance": "UNVERIFIED"
+        }
+      ],
+      "sample_profiles": [],
+      "online_statistics": [],
+      "original_log_relative_to_baseline": "runs/local-10810186/arxiv_local.log"
+    },
+    "products": {
+      "summary": {
+        "median_e2e_ms": 3908.667693,
+        "min_e2e_ms": 3903.400157,
+        "max_e2e_ms": 3920.635091,
+        "measured_repeats": 3,
+        "layers": {
+          "1": {
+            "layer_ms": 1642.826048,
+            "lr_ms": 18.13441,
+            "kernel_ms": 1481.212588,
+            "projection_ms": 62.730938,
+            "conversion_ms": 0.000142,
+            "max_prescan_ms": 40.014908,
+            "normalization_ms": 19.359544,
+            "activation_ms": 21.373281
+          },
+          "2": {
+            "layer_ms": 1736.06811,
+            "lr_ms": 18.748742,
+            "kernel_ms": 1485.7698,
+            "projection_ms": 146.129323,
+            "conversion_ms": 3.8e-05,
+            "max_prescan_ms": 42.913447,
+            "normalization_ms": 19.488013,
+            "activation_ms": 22.071955
+          },
+          "3": {
+            "layer_ms": 527.896244,
+            "lr_ms": 3.827638,
+            "kernel_ms": 418.91623,
+            "projection_ms": 69.450162,
+            "conversion_ms": 2e-05,
+            "max_prescan_ms": 32.707544,
+            "normalization_ms": 3.18519,
+            "activation_ms": 5.8e-05
+          }
+        }
+      },
+      "raw_measurements": [
+        {
+          "path": "B0_FP32",
+          "rep": 0,
+          "layer": 1,
+          "e2e_ms": 3920.635091,
+          "layer_ms": 1650.228654,
+          "lr_ms": 18.920301,
+          "kernel_ms": 1484.615237,
+          "projection_ms": 64.765688,
+          "conversion_ms": 0.000142,
+          "max_prescan_ms": 40.846046,
+          "normalization_ms": 19.450479,
+          "activation_ms": 21.630058
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 0,
+          "layer": 2,
+          "e2e_ms": 3920.635091,
+          "layer_ms": 1743.211697,
+          "lr_ms": 18.748742,
+          "kernel_ms": 1494.398374,
+          "projection_ms": 147.100955,
+          "conversion_ms": 0.00014,
+          "max_prescan_ms": 41.730774,
+          "normalization_ms": 19.360355,
+          "activation_ms": 21.871912
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 0,
+          "layer": 3,
+          "e2e_ms": 3920.635091,
+          "layer_ms": 527.191168,
+          "lr_ms": 3.90671,
+          "kernel_ms": 418.04278,
+          "projection_ms": 69.575854,
+          "conversion_ms": 2e-05,
+          "max_prescan_ms": 32.48017,
+          "normalization_ms": 3.18519,
+          "activation_ms": 5.8e-05
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 1,
+          "layer": 1,
+          "e2e_ms": 3903.400157,
+          "layer_ms": 1639.433751,
+          "lr_ms": 18.103718,
+          "kernel_ms": 1478.971741,
+          "projection_ms": 62.692482,
+          "conversion_ms": 0.000175,
+          "max_prescan_ms": 39.121433,
+          "normalization_ms": 19.329275,
+          "activation_ms": 21.214394
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 1,
+          "layer": 2,
+          "e2e_ms": 3903.400157,
+          "layer_ms": 1736.06811,
+          "lr_ms": 18.875893,
+          "kernel_ms": 1484.750883,
+          "projection_ms": 146.129323,
+          "conversion_ms": 3.6e-05,
+          "max_prescan_ms": 44.751535,
+          "normalization_ms": 19.488013,
+          "activation_ms": 22.071955
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 1,
+          "layer": 3,
+          "e2e_ms": 3903.400157,
+          "layer_ms": 527.896244,
+          "lr_ms": 3.81857,
+          "kernel_ms": 418.91623,
+          "projection_ms": 69.316018,
+          "conversion_ms": 2e-05,
+          "max_prescan_ms": 32.707544,
+          "normalization_ms": 3.13741,
+          "activation_ms": 2.5e-05
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 2,
+          "layer": 1,
+          "e2e_ms": 3908.667693,
+          "layer_ms": 1642.826048,
+          "lr_ms": 18.13441,
+          "kernel_ms": 1481.212588,
+          "projection_ms": 62.730938,
+          "conversion_ms": 1.9e-05,
+          "max_prescan_ms": 40.014908,
+          "normalization_ms": 19.359544,
+          "activation_ms": 21.373281
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 2,
+          "layer": 2,
+          "e2e_ms": 3908.667693,
+          "layer_ms": 1735.000327,
+          "lr_ms": 18.606953,
+          "kernel_ms": 1485.7698,
+          "projection_ms": 145.968739,
+          "conversion_ms": 3.8e-05,
+          "max_prescan_ms": 42.913447,
+          "normalization_ms": 19.564279,
+          "activation_ms": 22.176632
+        },
+        {
+          "path": "B0_FP32",
+          "rep": 2,
+          "layer": 3,
+          "e2e_ms": 3908.667693,
+          "layer_ms": 530.839801,
+          "lr_ms": 3.827638,
+          "kernel_ms": 421.541186,
+          "projection_ms": 69.450162,
+          "conversion_ms": 1.8e-05,
+          "max_prescan_ms": 32.710599,
+          "normalization_ms": 3.309691,
+          "activation_ms": 7e-05
+        }
+      ],
+      "errors_vs_B0_FP32": [
+        {
+          "path": "B0_FP32",
+          "layer": "1",
+          "max_abs_error": "0",
+          "mean_abs_error": "0",
+          "relative_L2_error": "0",
+          "finite": "1",
+          "reference": "B0_FP32",
+          "task_acceptance": "UNVERIFIED"
+        },
+        {
+          "path": "B0_FP32",
+          "layer": "2",
+          "max_abs_error": "0",
+          "mean_abs_error": "0",
+          "relative_L2_error": "0",
+          "finite": "1",
+          "reference": "B0_FP32",
+          "task_acceptance": "UNVERIFIED"
+        },
+        {
+          "path": "B0_FP32",
+          "layer": "3",
+          "max_abs_error": "0",
+          "mean_abs_error": "0",
+          "relative_L2_error": "0",
+          "finite": "1",
+          "reference": "B0_FP32",
+          "task_acceptance": "UNVERIFIED"
+        }
+      ],
+      "sample_profiles": [],
+      "online_statistics": [],
+      "original_log_relative_to_baseline": "runs/local-10810186/products_local.log"
+    }
+  }
+}
