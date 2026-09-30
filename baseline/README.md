@@ -2,6 +2,8 @@
 
 Performance correction (2026-09-30): [B0 NUMA diagnosis](docs/B0_SLOWDOWN_DIAGNOSIS_20260930.md) and [B1 diagnosis](docs/B1_SLOWDOWN_DIAGNOSIS_20260930.md). Earlier comparisons had different NUMA first-touch placement. The full rerun arxiv-10809143 with explicit interleave on the same 16 cores measured BF16 B0 67.98 ms, FP32 B0 73.44 ms, B1 448.67 ms. The arxiv launcher applies the same interleave policy to all paths. Direct binary examples below require an equivalent explicit CPU/memory policy for performance comparisons. Results are exploratory shared-node measurements with random parameters, not formal task/performance acceptance.
 
+Historical reconciliation: [same-graph comparison](docs/HISTORY_COMPARISON_20260930.md), history-10809340. Yesterday's local-U TFS still beats the old mostly single-thread sparse Reference, but loses to the matched parallel transform-first control on both official arxiv/products graphs. Current B1 uses a different neighbor-step projection order. Allocation-inclusive and preallocated times are reported separately. On products, current BF16 B0/B1 logits relative L2 errors are 2.54%/2.01% against FP32; their speed is diagnostic until precision/task accuracy is accepted. Current FP32 B0 remains close to FP32 Reference (relative L2 9.43e-7).
+
 Authority: [IMPLEMENTATION_CONTRACT.md](IMPLEMENTATION_CONTRACT.md), supplied on 2026-09-30. This new baseline suite uses exact-max prescan + a second CSR pass. It supersedes the earlier online-only constraint for this suite; the older `implementation/` experiments remain separate.
 
 ## Paths
