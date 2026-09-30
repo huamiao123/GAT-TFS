@@ -52,3 +52,11 @@ Local Windows Python, no cluster allocation. 3-node/2-class binary logits and ex
 
 ## diagnosis-10809096 2026-09-30
 - COMPLETED qhcn059 shared intel,16cores44-59. BoundariesPASS,3warm9repeatABBA. BothN6 FP32105.01ms/BF16105.77-105.84; bothinterleave5,6,7 FP3273.81-74.31/BF1668.26-68.63,ratio1.082x. Same-precision outputSHA256 identical acrossbothpolicies/repeats. Rootcause confirmed initialization-dependent NUMA firsttouch, no kernelchange. arxiv_payload launcher amended explicitinterleave acrossallocatedNUMA nodes (next-run policy; not yet full B1 rerun). Old FP32/BF16 performance comparison superseded; B1 mustrerun beforeupdated speedup claims. Report docs/B0_SLOWDOWN_DIAGNOSIS_20260930.md and runs/diagnose-10809096. No paper acceptance.
+
+## arxiv-10809143 — 2026-09-30: B1 diagnosis under identical NUMA policy
+
+- COMPLETED 0:0, intel shared, qhcn059, 1 node, 16 physical cores 44–59, NUMA 5/6/7 interleave. Elapsed 00:01:26. icpx 2024.1.0 and oneMKL 2023.0 Update2; source/binary/data/rules hashes saved in runs/arxiv-10809143. No kernel changes.
+- arxiv N=169343, E=2484941, Din=128, C=40; three-layer 8×32/8×32/1×40 GAT; identical seed=11 parameters. Boundaries (64 cases), NumPy three-layer oracle, finite output checks PASS. Real checkpoint task gate remains unconfigured.
+- Full three-layer forward: 2 warmups, 7 measured repeats, speed binary, static setup and validation excluded. Median: FP32 B0 73.439 ms, BF16 B0 67.976 ms, B1 448.673 ms, matched-attention diagnostic 68.035 ms. B1 P95 458.663 ms; B1/B0 time ratio 6.60.
+- Layer 2 B1 total 259.107 ms, weighted TFS kernel 253.439 ms. Fixed-p backend 243.980 ms vs B0 24.338 ms. Work audit: AMX 345.789 GFLOP vs B0 projection 22.196 GFLOP; active tile-row fraction 94.2%. Full vector/tile clock instrumentation remains unsuitable for unbiased substage proportions.
+- Evidence: runs/arxiv-10809143 and docs/B1_SLOWDOWN_DIAGNOSIS_20260930.md. Exploratory only, not paper acceptance. Old comparisons retained as superseded history.

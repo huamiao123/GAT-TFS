@@ -28,3 +28,10 @@
 
 ## diagnosis-10809096 2026-09-30
 - COMPLETED qhcn059 shared intel,16cores44-59. BoundariesPASS,3warm9repeatABBA. BothN6 FP32105.01ms/BF16105.77-105.84; bothinterleave5,6,7 FP3273.81-74.31/BF1668.26-68.63,ratio1.082x. Same-precision outputSHA256 identical acrossbothpolicies/repeats. Rootcause confirmed initialization-dependent NUMA firsttouch, no kernelchange. arxiv_payload launcher amended explicitinterleave acrossallocatedNUMA nodes (next-run policy; not yet full B1 rerun). Old FP32/BF16 performance comparison superseded; B1 mustrerun beforeupdated speedup claims. Report docs/B0_SLOWDOWN_DIAGNOSIS_20260930.md and runs/diagnose-10809096. No paper acceptance.
+
+## 2026-09-30 — arxiv-10809143: B1 remains slow after NUMA correction
+
+- Unified interleave reduces B1 from old 586.236 to 448.673 ms, but B0 benefits more and is 67.976 ms. B1 is still 6.60 times slower. Second-layer kernel accounts for 253.439 of 259.107 ms; fixed-p backend remains 10.03 times slower.
+- Source audit confirms neighbor-step `(pX)W` repeats projections, as prescribed in the implementation contract and inherited original kernel. Layer 2 executed projection FLOPs are 15.58 times B0; degree-sort row utilization is 94.2%. This is an execution-order cost, not evidence that degree sorting was absent or is itself the main bottleneck.
+- Existing fine profile inflates Layer 2 to 3654 ms, so its substage ratios cannot quantify actual gather/conversion/compute contributions. Use sampling or controlled microbenchmarks for further attribution.
+- Resolution: accurate diagnosis recorded, baseline preserved; any per-destination UW alternative must be a separate method. No new correctness failure. Evidence: docs/B1_SLOWDOWN_DIAGNOSIS_20260930.md and runs/arxiv-10809143.

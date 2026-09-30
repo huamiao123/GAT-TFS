@@ -28,3 +28,9 @@
 
 ## diagnosis-10809096 2026-09-30
 - COMPLETED qhcn059 shared intel,16cores44-59. BoundariesPASS,3warm9repeatABBA. BothN6 FP32105.01ms/BF16105.77-105.84; bothinterleave5,6,7 FP3273.81-74.31/BF1668.26-68.63,ratio1.082x. Same-precision outputSHA256 identical acrossbothpolicies/repeats. Rootcause confirmed initialization-dependent NUMA firsttouch, no kernelchange. arxiv_payload launcher amended explicitinterleave acrossallocatedNUMA nodes (next-run policy; not yet full B1 rerun). Old FP32/BF16 performance comparison superseded; B1 mustrerun beforeupdated speedup claims. Report docs/B0_SLOWDOWN_DIAGNOSIS_20260930.md and runs/diagnose-10809096. No paper acceptance.
+
+## 2026-09-30 — current status after arxiv-10809143
+
+- Full B1 rerun with identical explicit interleave completed. Boundaries and independent NumPy oracle pass; no kernel changes. BF16 B0 67.976 ms, FP32 B0 73.439 ms, B1 448.673 ms. Detailed report: B1_SLOWDOWN_DIAGNOSIS_20260930.md.
+- Main B1 cost is the weighted neighbor-step TFS backend; Layer 2 253.439 ms kernel / 259.107 ms total. Repeated edge projection creates 15.58 times the projection FLOPs of B0. Degree sorting is present; row padding is a smaller component.
+- This cycle's B0/B1 slowdown diagnosis is complete. No formal task/performance acceptance, no new Ours implementation. Pending work: low-overhead attribution if needed, then independently evaluate an alternative destination/local-tile aggregation→UW method without altering B1 or head semantics; real trained checkpoint and calibrated accuracy gate remain pending.
