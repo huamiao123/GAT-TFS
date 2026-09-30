@@ -1,0 +1,31 @@
+ENV mkl=2023.0.2 processor=Intel(R) Advanced Vector Extensions 512 (Intel(R) AVX-512) with Intel(R) DL Boost, bfloat16 support, Intel(R) AMX with bfloat16 and 8-bit integer support, and FP16 instructions threads=2 source_input=/home/huangjianqiang_group/hdacp1/data/wzh/GAT/baseline/../data/smoke1024.gatbin checkpoint=random_fixture_not_trained profile=0 vendor_amx_status=UNVERIFIED_UNTIL_DISPATCH_EVIDENCE
+STATIC degree_sort_ms=0 model_prepare_ms=0.666267 bytes=478208 graph_policy=as_loaded_no_mutation
+MKL_VERBOSE oneMKL 2023.0 Update 2 Product build 20230613 for Intel(R) 64 architecture Intel(R) Advanced Vector Extensions 512 (Intel(R) AVX-512) with Intel(R) DL Boost, bfloat16 support, Intel(R) AMX with bfloat16 and 8-bit integer support, and FP16 instructions, Lnx 3.10GHz lp64 intel_thread
+MKL_VERBOSE SGEMM(N,N,256,1024,128,0x7ffc9ce4b488,0x14e0332ad010,256,0x14e032dc8010,128,0x7ffc9ce4b490,0x14e032bc6010,256) 13.88ms CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,256,1024,256,0x7ffc9ce4b488,0x14e03326c010,256,0x14e032cc7010,256,0x7ffc9ce4b490,0x19398f0,256) 1.17ms CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MICRO name=convert_rne layer=3 median_ms=0.016955 p95_ms=0.017809
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,40,1024,256,0x7ffc9ce4b4e8,0x17fd320,40,0x1961900,256,0x7ffc9ce4b4f0,0x19e1910,40) 163.51us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,40,1024,256,0x7ffc9ce4b4e8,0x17fd320,40,0x1961900,256,0x7ffc9ce4b4f0,0x19e1910,40) 35.88us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,40,1024,256,0x7ffc9ce4b4e8,0x17fd320,40,0x1961900,256,0x7ffc9ce4b4f0,0x19e1910,40) 32.82us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,40,1024,256,0x7ffc9ce4b4e8,0x17fd320,40,0x1961900,256,0x7ffc9ce4b4f0,0x19e1910,40) 32.82us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MICRO name=projection_bf16 layer=3 median_ms=0.037677 p95_ms=0.041792
+MICRO name=lr_z_avx layer=3 median_ms=0.007521 p95_ms=0.008048
+MKL_VERBOSE SGEMM(N,N,2,1024,40,0x7ffc9ce4b438,0x1810400,2,0x19e1910,40,0x7ffc9ce4b440,0x1810550,2) 50.51us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,2,1024,40,0x7ffc9ce4b438,0x1810400,2,0x19e1910,40,0x7ffc9ce4b440,0x1810550,2) 16.05us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,2,1024,40,0x7ffc9ce4b438,0x1810400,2,0x19e1910,40,0x7ffc9ce4b440,0x1810550,2) 16.34us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,2,1024,40,0x7ffc9ce4b438,0x1810400,2,0x19e1910,40,0x7ffc9ce4b440,0x1810550,2) 16.23us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MICRO name=lr_z_sgemm_including_skinny_setup layer=3 median_ms=0.022828 p95_ms=0.027541
+ERROR path=micro layer=3 stage=lr_z_mkl_vs_avx_L finite=1 max_abs=1.788139343e-07 mean_abs=8.162928111e-09 relative_l2=1.428765027e-07 rmse=1.750518349e-08 p50=3.725290298e-09 p90=1.490116119e-08 p99=5.960464478e-08
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7c20,2,0x1961900,256,0x7ffc9ce4b480,0x180c380,2) 22.33us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7c20,2,0x1961900,256,0x7ffc9ce4b480,0x180c380,2) 20.55us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7c20,2,0x1961900,256,0x7ffc9ce4b480,0x180c380,2) 26.16us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE GEMM_BF16BF16F32(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7c20,2,0x1961900,256,0x7ffc9ce4b480,0x180c380,2) 19.82us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MICRO name=lr_reordered_bf16 layer=3 median_ms=0.026976 p95_ms=0.031684
+MKL_VERBOSE SGEMM(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7410,2,0x18398e0,256,0x7ffc9ce4b480,0x180c380,2) 62.25us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7410,2,0x18398e0,256,0x7ffc9ce4b480,0x180c380,2) 47.50us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7410,2,0x18398e0,256,0x7ffc9ce4b480,0x180c380,2) 41.36us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MKL_VERBOSE SGEMM(N,N,2,1024,256,0x7ffc9ce4b478,0x17a7410,2,0x18398e0,256,0x7ffc9ce4b480,0x180c380,2) 35.04us CNR:OFF Dyn:0 FastMM:1 TID:0  NThr:2
+MICRO name=lr_reordered_fp32 layer=3 median_ms=0.05281 p95_ms=0.089921
+MICRO name=lr_reordered_avx layer=3 median_ms=0.234355 p95_ms=0.237312
+MICRO name=max_prescan layer=3 median_ms=0.022921 p95_ms=0.023365
+MICRO name=weighted_spmm_score_exp layer=3 median_ms=0.264635 p95_ms=0.267474

@@ -2,6 +2,8 @@
 
 本仓库保存三层 Vanilla GAT 的 Online Softmax 与 TFS-style aggregate-first 前向计算实验，以及原 TFS 论文、源码和技术交接文档。归档时间：2026-09-29。
 
+2026-09-30 新增独立 [`baseline/`](baseline/README.md)，按新实现合同搭建 R0 FP32 correctness oracle、B0 强标准 GAT（不使用 TFS）与 B1 原 TFS 风格加权 AMX 路径。正式性能主基线改为 B0；旧 `reference` 仅作正确性参考，以下旧速度表保留为历史诊断记录。新 suite 采用精确 max 预扫描和第二遍融合聚合，包含 fixed-p、micro、full-layer、full-model 以及独立 FP64 oracle 验证。
+
 ## 目录
 
 - [`GAT/`](GAT/)：完整复制自 `D:\Apaper\GAT`，包含原 TFS 源码、源码压缩包、中文论文和实现型技术交接文档。

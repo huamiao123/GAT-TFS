@@ -1,0 +1,15 @@
+# GAT baseline progress
+
+2026-09-30: R0/B0/B1 independent source suite written and initially compiled. Fixed-p, micro, full-layer, full-model interfaces and boundary/oracle tests implemented. Pending: run boundary/oracle tests, resolve observed failures, inspect dispatch evidence, freeze frontend policies using representative microbenchmarks, obtain a real checkpoint/labels/split and calibrate task accuracy. No formal speedup acceptance. Next: small-graph compute-node correctness run using at most one shared node and two CPUs.
+
+2026-09-30 after check-10808045: all boundary and independent NumPy R0 checks passed. All five paths and fixed-p/micro/profile interfaces execute. Added corrected AVX contraction layout, static skinny-SGEMM workspace, speed-build executed-padding metadata, output export and task-evaluation helper. Pending regression, representative frontend microbenchmarks, vendor AMX execution evidence and trained-checkpoint task gate. Next: rebuild revised code, rerun required checks and run exploratory arxiv tests; synthetic fixtures cannot establish task accuracy.
+
+2026-09-30 build-20260930-152447 passed; compiler assembly contains the intended AMX instructions. Next: combined small-graph regression and arxiv exploratory validation/micro/fixed-p/model tests with single-socket affinity and perf evidence. No new method or formal performance acceptance.
+
+2026-09-30 arxiv-10808152 completed; regression and real-graph finite checks passed. oneMKL AMX execution now supported by retired BF16 AMX counter in standard-only process. Actual step affinity was one core; correction written for srun and requires rerun. Added per-vector gather vs pX/RNE profile timing, AVX sparse profile breakdown, path-specific static preparation and actual workspace reporting. Next: compile these changes, run corrected multithreaded arxiv tests, synchronize report/evidence. Formal acceptance remains pending trained checkpoint/development accuracy and dedicated-node measurements.
+
+2026-09-30 build-20260930-154006 PASS. Next: corrected multi-core single-socket arxiv rerun; all implementation changes are now compiled. Regression and acceptance caveats remain explicit.
+
+2026-09-30 arxiv-10808269 COMPLETE0:0, actual16cores/socket1. R0 oracle and all boundary tests passed after latest implementation changes. All benchmark modes run; vendor AMX evidence verified; default frontend policies supported by arxiv micros (B0 AVX L/R, B1 BF16 LR on all three shapes). New B1 is slower than strong B0 both fixed-p and full model. RESULTS_20260930.md records model/stage/error/profile evidence and limitations. Implementation milestone done; research acceptance is not complete. Pending trained GAT checkpoint/labels/split, calibrated task gate, dedicated-node formal benchmarks and profiling with controlled perturbation. Next: synchronize source/results to GitHub; receive checkpoint location before real task-accuracy acceptance.
+
+2026-09-30 local task-evaluator fixture tests PASS, including accuracy-drop failure and malformed/nonfinite inputs. Helper is ready for checkpoint-based acceptance; no real task threshold chosen.
