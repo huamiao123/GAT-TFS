@@ -80,3 +80,23 @@
 - Products layer2 local FP32 kernel4799.471ms/layer4840.405ms. Sample worker shares roughlySpMM79.87%,score/exp13.97%,UW3.90%,rescale-check/scaling1.17%. Sampled worker time not wall decomposition; clocks include no-op packing/rescale checks, floor not removed. Profile+counters separate from medians; FP32layer2 profile change+1.57% products/+7.79% arxiv, cannot claim zero perturbation.
 - Exact FP32layer2 Online counters: arxiv blocks1580688,rescales48654(3.078%);products42882792/4476949(10.440%),rescaled_features1146098944. U is FP32 local memory; no live AMX tile during sparse scan, so rescale spill/reload0. AMX accelerates UW only, not sparse PH. FP32 sampled/counter output bit-identical; AMX64bit fingerprints match.
 - Report docs/LOCAL_ONLINE_RESULTS_20260930.md, raw runs/local-10810186; failed runs10809920/10809928 retained. No paper/task acceptance. Next: shared-reference-input/matched-attention precision controls, then independent-head sourceH read reuse optimization. Checkpoint/accuracy gate still unavailable. Original execution failure during sandbox/tool refresh is resolved; SSH restored.
+
+
+## 2026-10-01 joint build / environment
+
+SSH works again. Existing login startup prints conda/User errors but does not prevent SSH; startup files are untouched. Build passed. Server lacks rg: assembly extraction used grep fallback and build script updated accordingly (does not change binary). Numerics remain unverified pending compute-node tests. Old local-vs-B0 products absolute gate failure remains open: controls will freeze identical L/R to isolate aggregation from H(Wa) reassociation.
+
+
+## 2026-10-01 joint-10849337 findings
+
+Head source reuse works in assembly: one source ZMM load feeds eight independent FMAs, no per-edge accumulator spill. Improvement over old local is real; products G2 outperforms G8, and all candidates still trail strong B0. G8 assembly retains per-edge active-head guards; test full-group specialization next. Logical load reduction does not imply measured DRAM reduction. Precision issue is not only H(Wa): fixed-LR TF/AF products layer2 abs .022377 remains; FP32-master/task gate stays UNVERIFIED, no tolerance relaxation. Sampled worker PROFILE is not additive wall time; rescale fused in SpMM and no-update may compile to multiply-by-one. A read-only SSH grep diagnostic failed because PowerShell removed nested quotes; it was interrupted, no files/jobs changed, subsequent complex SSH scripts use literal base64 transport. This is not a failed kernel experiment.
+
+
+## 2026-10-01 joint-full compile
+
+Build succeeded; no new major build issue. Static reviews by two agents found no integration blocker; actual head/tail/large-graph gate pending. Full-group specialization targets the measured v1 per-edge branch overhead; it does not reduce the D/d sparse FMA amplification or repair the unresolved original master precision gate.
+
+
+## 2026-10-01 joint-full-10849393
+
+No new major correctness/runtime issue. Active-head guards removed in emitted Full8 edge loop and all implementation controls bit identical; measured gain modest,so guards are not the main cause of slow aggregate-first. Wide SpMM and source-access costs persist; G2 is best full-model products while G8 is best arxiv,so maximum group not universally optimal. FP32/D/d sparse arithmetic unchanged; no measured DRAM counters,trained accuracy or original absolute gate acceptance. Keep the branch-removal result as a controlled negative finding. Full-vs-v1 profiles are sampled worker time only.

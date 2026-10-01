@@ -1,0 +1,32 @@
+	vbroadcastss	.LCPI9_4(%rip), %zmm18  # zmm18 = [2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1]
+	vbroadcastss	.LCPI9_2(%rip), %zmm19  # zmm19 = [-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf]
+	vpbroadcastq	.LCPI9_3(%rip), %zmm20  # zmm20 = [1,1,1,1,1,1,1,1]
+	vmovups	%zmm17, 2176(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 2112(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 2048(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 1984(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 1920(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 1856(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 1792(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vmovups	%zmm17, 1728(%rsp)              # AlignMOV convert to UnAlignMOV 
+	vpbroadcastq	.LCPI9_3(%rip), %zmm20  # zmm20 = [1,1,1,1,1,1,1,1]
+	vbroadcastss	.LCPI9_2(%rip), %zmm19  # zmm19 = [-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf]
+	vbroadcastss	.LCPI9_4(%rip), %zmm18  # zmm18 = [2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1]
+	vbroadcastss	%xmm0, %zmm22
+	vpbroadcastq	%r15, %zmm23
+	vmovupd	%zmm22, 1088(%rsp)              # 64-byte Spill
+	vmovdqu64	%zmm23, 1024(%rsp)      # 64-byte Spill
+	vmovdqu64	1024(%rsp), %zmm23      # 64-byte Reload
+	vmovupd	1088(%rsp), %zmm22              # 64-byte Reload
+	vpbroadcastq	.LCPI9_3(%rip), %zmm20  # zmm20 = [1,1,1,1,1,1,1,1]
+	vbroadcastss	.LCPI9_2(%rip), %zmm19  # zmm19 = [-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf,-Inf]
+	vbroadcastss	.LCPI9_4(%rip), %zmm18  # zmm18 = [2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1,2.00000003E-1]
+	vpbroadcastq	%rax, %zmm0
+	vpmovzxdq	640(%rsp,%rsi,4), %zmm1 # zmm1 = mem[0],zero,mem[1],zero,mem[2],zero,mem[3],zero,mem[4],zero,mem[5],zero,mem[6],zero,mem[7],zero
+	vpaddq	%zmm1, %zmm1, %zmm1
+	vporq	%zmm20, %zmm1, %zmm1
+	vpmullq	%zmm0, %zmm1, %zmm1
+	vpaddq	%zmm1, %zmm23, %zmm1
+	vgatherqps	(%rcx,%zmm1,4), %ymm2 {%k1}
+	vmovups	1472(%rsp,%rdx,4), %zmm1 {%k1} {z}
+	vaddps	%zmm1, %zmm22, %zmm1

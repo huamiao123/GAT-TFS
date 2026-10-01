@@ -79,3 +79,23 @@
 - Products layer2 local FP32 kernel4799.471ms/layer4840.405ms. Sample worker shares roughlySpMM79.87%,score/exp13.97%,UW3.90%,rescale-check/scaling1.17%. Sampled worker time not wall decomposition; clocks include no-op packing/rescale checks, floor not removed. Profile+counters separate from medians; FP32layer2 profile change+1.57% products/+7.79% arxiv, cannot claim zero perturbation.
 - Exact FP32layer2 Online counters: arxiv blocks1580688,rescales48654(3.078%);products42882792/4476949(10.440%),rescaled_features1146098944. U is FP32 local memory; no live AMX tile during sparse scan, so rescale spill/reload0. AMX accelerates UW only, not sparse PH. FP32 sampled/counter output bit-identical; AMX64bit fingerprints match.
 - Report docs/LOCAL_ONLINE_RESULTS_20260930.md, raw runs/local-10810186; failed runs10809920/10809928 retained. No paper/task acceptance. Next: shared-reference-input/matched-attention precision controls, then independent-head sourceH read reuse optimization. Checkpoint/accuracy gate still unavailable. Original execution failure during sandbox/tool refresh is resolved; SSH restored.
+
+
+## 2026-10-01 current cycle: independent-head H reuse
+
+Completed SSH recovery and joint FP32 source build (joint-build-20261001-150558, status 0). Implemented head groups 1/2/4/8, shared source-vector load with independent attention/state, fused rescale, degree-sorted TR16 and immediate per-head local UW. Added sampled fixed-attention FP64 associativity oracle and attention-only shift controls. No AMX PH claimed; old B0/B1 sources unchanged. Next: one shared intel qhcn059 job with 16 physical cores, NUMA interleave, smoke before real arxiv/products timing, 1 warmup/3 reps; full model own outputs, profile separately. Correctness/task/paper acceptance remains UNVERIFIED.
+
+
+## 2026-10-01 joint cycle measured
+
+Completed job10849337, reconciled successful Slurm accounting and full logs. Current best FP32 grouped-head E2E: arxiv G8 142.56ms (1.740x vs oldlocal), products G2 4499.23ms (1.774x vs oldlocal); compared with B0_FP32 still 1.926x/1.178x slower. Real fixed-LR output bit identical to oldlocal; master absolute gate remains failed. Next: independent full-group specialization to remove active-head branches without changing attention/state/math, compare v1/v2 in same shared-node job with B0 controls. No AMX PH yet; future PH precision/packing/tails remain research work. Original B0/B1 kernels unchanged.
+
+
+## 2026-10-01 Full-group controlled variant built
+
+Completed joint-full-build-20261001-152302 (status0). Ready for same-binary v1/v2 benchmark with B0FP32/BF16 controls on qhcn059. Smoke will cover 1/2/3/4/5/7/8 heads, blocks16/32/64 and groups1/2/4/8, including partial head groups. Then arxiv/products 3-layer own-output timing, 1 warmup/3 alternating reps, per-path separate sampled profiles and output fingerprints. Gate/task/paper remain UNVERIFIED.
+
+
+## 2026-10-01 cycle reconciliation
+
+Both real-graph jobs10849337 and10849393 completed with0:0;576+1008 smoke configurations pass and real fixed-input/fixed-LR implementation comparisons bit equal. Source H reuse is confirmed in assembly; Full guard removal adds only about1-6%,not a solution to the whole bottleneck. Latest fastest exploratory candidate:arxiv FullG8135.469ms vs B0FP3274.242ms;products FullG24407.019ms vs B0FP323838.167ms. Against old local job10849337 these are approximately1.83x/1.81x faster,but cross-job ratios are descriptive,not the clean within-job guard ablation. No candidate beats strong B0; original master absolute gate and trained-task acceptance remain open. Completed broad primary-source audit including full Illinois CPU GAT thesis (TF z aggregation,no post-UW); don't claim first head-loop/attention fusion. Next research should target source-access/wide PH and precision at high-degree rows before AMX PH; packing/tails/component costs need matched precision controls. Current cycle code/results/research and all handoffs will be synchronized to GitHub with no baseline kernel changes.

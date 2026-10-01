@@ -1,0 +1,131 @@
+CONFIG N=35 E=1083 Din=128 C=40 threads=16 warmups=1 repeats=3 seed=11 untrained=true block=32 panel=64 tile_rows=16 degree_sort_ms=0.005052 full_group_guards=compile_time_removed master_reference_gate=UNVERIFIED
+STATIC layer=1 prepare_ms=0.362671 joint_U_scratch_bytes_per_worker=65536
+STATIC layer=2 prepare_ms=0.698273 joint_U_scratch_bytes_per_worker=131072
+STATIC layer=3 prepare_ms=0.121358 joint_U_scratch_bytes_per_worker=16384
+CHECK path=full_fixed_input_g1 layer=1 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=1 group=1 bit_equal=1
+CHECK path=full_fixed_input_g2 layer=1 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=1 group=2 bit_equal=1
+CHECK path=full_fixed_input_g4 layer=1 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=1 group=4 bit_equal=1
+CHECK path=full_fixed_input_g8 layer=1 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=1 group=8 bit_equal=1
+CHECK path=full_fixed_input_g1 layer=2 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=2 group=1 bit_equal=1
+CHECK path=full_fixed_input_g2 layer=2 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=2 group=2 bit_equal=1
+CHECK path=full_fixed_input_g4 layer=2 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=2 group=4 bit_equal=1
+CHECK path=full_fixed_input_g8 layer=2 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=2 group=8 bit_equal=1
+CHECK path=full_fixed_input_g1 layer=3 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=3 group=1 bit_equal=1
+CHECK path=full_fixed_input_g2 layer=3 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=3 group=2 bit_equal=1
+CHECK path=full_fixed_input_g4 layer=3 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=3 group=4 bit_equal=1
+CHECK path=full_fixed_input_g8 layer=3 reference=joint_v1_g8_same_input max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+MATCHED_IDENTITY layer=3 group=8 bit_equal=1
+CHECK path=B0_FP32 layer=1 reference=B0_FP32_full_model max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+CHECK path=B0_FP32 layer=2 reference=B0_FP32_full_model max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+CHECK path=B0_FP32 layer=3 reference=B0_FP32_full_model max_abs_error=0 mean_abs_error=0 relative_L2_error=0 finite=1 master_gate=UNVERIFIED
+CHECK path=B0_BF16 layer=1 reference=B0_FP32_full_model max_abs_error=0.00269669666886 mean_abs_error=0.000250146628835 relative_L2_error=0.00270015634877 finite=1 master_gate=UNVERIFIED
+CHECK path=B0_BF16 layer=2 reference=B0_FP32_full_model max_abs_error=0.00190770626068 mean_abs_error=0.000226275545842 relative_L2_error=0.00400628664108 finite=1 master_gate=UNVERIFIED
+CHECK path=B0_BF16 layer=3 reference=B0_FP32_full_model max_abs_error=0.00113750621676 mean_abs_error=0.000218497238004 relative_L2_error=0.00429144497178 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_v1_g2 layer=1 reference=B0_FP32_full_model max_abs_error=4.17232513428e-07 mean_abs_error=2.82562723442e-08 relative_L2_error=3.52667994245e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_v1_g2 layer=2 reference=B0_FP32_full_model max_abs_error=3.57627868652e-07 mean_abs_error=3.3339681644e-08 relative_L2_error=6.62886984861e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_v1_g2 layer=3 reference=B0_FP32_full_model max_abs_error=2.08616256714e-07 mean_abs_error=3.30460014603e-08 relative_L2_error=6.58129543295e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_v1_g8 layer=1 reference=B0_FP32_full_model max_abs_error=4.17232513428e-07 mean_abs_error=2.82562723442e-08 relative_L2_error=3.52667994245e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_v1_g8 layer=2 reference=B0_FP32_full_model max_abs_error=3.57627868652e-07 mean_abs_error=3.3339681644e-08 relative_L2_error=6.62886984861e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_v1_g8 layer=3 reference=B0_FP32_full_model max_abs_error=2.08616256714e-07 mean_abs_error=3.30460014603e-08 relative_L2_error=6.58129543295e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g2 layer=1 reference=B0_FP32_full_model max_abs_error=4.17232513428e-07 mean_abs_error=2.82562723442e-08 relative_L2_error=3.52667994245e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g2 layer=2 reference=B0_FP32_full_model max_abs_error=3.57627868652e-07 mean_abs_error=3.3339681644e-08 relative_L2_error=6.62886984861e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g2 layer=3 reference=B0_FP32_full_model max_abs_error=2.08616256714e-07 mean_abs_error=3.30460014603e-08 relative_L2_error=6.58129543295e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g4 layer=1 reference=B0_FP32_full_model max_abs_error=4.17232513428e-07 mean_abs_error=2.82562723442e-08 relative_L2_error=3.52667994245e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g4 layer=2 reference=B0_FP32_full_model max_abs_error=3.57627868652e-07 mean_abs_error=3.3339681644e-08 relative_L2_error=6.62886984861e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g4 layer=3 reference=B0_FP32_full_model max_abs_error=2.08616256714e-07 mean_abs_error=3.30460014603e-08 relative_L2_error=6.58129543295e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g8 layer=1 reference=B0_FP32_full_model max_abs_error=4.17232513428e-07 mean_abs_error=2.82562723442e-08 relative_L2_error=3.52667994245e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g8 layer=2 reference=B0_FP32_full_model max_abs_error=3.57627868652e-07 mean_abs_error=3.3339681644e-08 relative_L2_error=6.62886984861e-07 finite=1 master_gate=UNVERIFIED
+CHECK path=joint_full_g8 layer=3 reference=B0_FP32_full_model max_abs_error=2.08616256714e-07 mean_abs_error=3.30460014603e-08 relative_L2_error=6.58129543295e-07 finite=1 master_gate=UNVERIFIED
+{"path":"B0_FP32","rep":0,"layer":1,"e2e_ms":0.170976,"layer_ms":0.061492,"lr_ms":0.002823,"kernel_ms":0.041114,"projection_ms":0.007318,"conversion_ms":2.2e-05,"max_prescan_ms":0.002675,"normalization_ms":0.003275,"activation_ms":0.004049}
+{"path":"B0_FP32","rep":0,"layer":2,"e2e_ms":0.170976,"layer_ms":0.065082,"lr_ms":0.003264,"kernel_ms":0.042238,"projection_ms":0.01045,"conversion_ms":2.3e-05,"max_prescan_ms":0.002793,"normalization_ms":0.003417,"activation_ms":0.002682}
+{"path":"B0_FP32","rep":0,"layer":3,"e2e_ms":0.170976,"layer_ms":0.04417,"lr_ms":0.01199,"kernel_ms":0.018569,"projection_ms":0.007978,"conversion_ms":2.3e-05,"max_prescan_ms":0.003252,"normalization_ms":0.00211,"activation_ms":3e-05}
+{"path":"B0_BF16","rep":0,"layer":1,"e2e_ms":0.165252,"layer_ms":0.065886,"lr_ms":0.002837,"kernel_ms":0.041978,"projection_ms":0.010627,"conversion_ms":0.002022,"max_prescan_ms":0.002429,"normalization_ms":0.002859,"activation_ms":0.002934}
+{"path":"B0_BF16","rep":0,"layer":2,"e2e_ms":0.165252,"layer_ms":0.067032,"lr_ms":0.003071,"kernel_ms":0.042931,"projection_ms":0.010012,"conversion_ms":0.00282,"max_prescan_ms":0.002569,"normalization_ms":0.003161,"activation_ms":0.002275}
+{"path":"B0_BF16","rep":0,"layer":3,"e2e_ms":0.165252,"layer_ms":0.03205,"lr_ms":0.002953,"kernel_ms":0.017185,"projection_ms":0.005279,"conversion_ms":0.001766,"max_prescan_ms":0.002507,"normalization_ms":0.002131,"activation_ms":2.9e-05}
+{"path":"joint_v1_g2","rep":0,"layer":1,"e2e_ms":0.344959,"layer_ms":0.113996,"lr_ms":0.001692,"kernel_ms":0.108062,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.004155}
+{"path":"joint_v1_g2","rep":0,"layer":2,"e2e_ms":0.344959,"layer_ms":0.185571,"lr_ms":0.003438,"kernel_ms":0.179005,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003042}
+{"path":"joint_v1_g2","rep":0,"layer":3,"e2e_ms":0.344959,"layer_ms":0.044814,"lr_ms":0.003523,"kernel_ms":0.041122,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":8.2e-05}
+{"path":"joint_v1_g8","rep":0,"layer":1,"e2e_ms":0.294071,"layer_ms":0.098162,"lr_ms":0.003373,"kernel_ms":0.091051,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003656}
+{"path":"joint_v1_g8","rep":0,"layer":2,"e2e_ms":0.294071,"layer_ms":0.150151,"lr_ms":0.003429,"kernel_ms":0.142417,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.004223}
+{"path":"joint_v1_g8","rep":0,"layer":3,"e2e_ms":0.294071,"layer_ms":0.045015,"lr_ms":0.003613,"kernel_ms":0.041277,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.2e-05}
+{"path":"joint_full_g2","rep":0,"layer":1,"e2e_ms":0.326427,"layer_ms":0.10764,"lr_ms":0.001598,"kernel_ms":0.102576,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003382}
+{"path":"joint_full_g2","rep":0,"layer":2,"e2e_ms":0.326427,"layer_ms":0.172126,"lr_ms":0.003331,"kernel_ms":0.165341,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003371}
+{"path":"joint_full_g2","rep":0,"layer":3,"e2e_ms":0.326427,"layer_ms":0.046037,"lr_ms":0.003444,"kernel_ms":0.042471,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.2e-05}
+{"path":"joint_full_g4","rep":0,"layer":1,"e2e_ms":0.305967,"layer_ms":0.107652,"lr_ms":0.001596,"kernel_ms":0.103087,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002888}
+{"path":"joint_full_g4","rep":0,"layer":2,"e2e_ms":0.305967,"layer_ms":0.154795,"lr_ms":0.00353,"kernel_ms":0.147967,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003215}
+{"path":"joint_full_g4","rep":0,"layer":3,"e2e_ms":0.305967,"layer_ms":0.043106,"lr_ms":0.003571,"kernel_ms":0.039415,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.1e-05}
+{"path":"joint_full_g8","rep":0,"layer":1,"e2e_ms":0.285342,"layer_ms":0.093897,"lr_ms":0.001629,"kernel_ms":0.089244,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002939}
+{"path":"joint_full_g8","rep":0,"layer":2,"e2e_ms":0.285342,"layer_ms":0.144777,"lr_ms":0.003488,"kernel_ms":0.138459,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002748}
+{"path":"joint_full_g8","rep":0,"layer":3,"e2e_ms":0.285342,"layer_ms":0.046165,"lr_ms":0.003539,"kernel_ms":0.042507,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3e-05}
+{"path":"joint_full_g8","rep":1,"layer":1,"e2e_ms":0.289548,"layer_ms":0.097389,"lr_ms":0.001607,"kernel_ms":0.092901,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002799}
+{"path":"joint_full_g8","rep":1,"layer":2,"e2e_ms":0.289548,"layer_ms":0.146003,"lr_ms":0.003425,"kernel_ms":0.139328,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003155}
+{"path":"joint_full_g8","rep":1,"layer":3,"e2e_ms":0.289548,"layer_ms":0.045834,"lr_ms":0.003613,"kernel_ms":0.0421,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.2e-05}
+{"path":"joint_full_g4","rep":1,"layer":1,"e2e_ms":0.300176,"layer_ms":0.09979,"lr_ms":0.001628,"kernel_ms":0.09513,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002947}
+{"path":"joint_full_g4","rep":1,"layer":2,"e2e_ms":0.300176,"layer_ms":0.15843,"lr_ms":0.003575,"kernel_ms":0.151934,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002837}
+{"path":"joint_full_g4","rep":1,"layer":3,"e2e_ms":0.300176,"layer_ms":0.041432,"lr_ms":0.00353,"kernel_ms":0.037783,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.1e-05}
+{"path":"joint_full_g2","rep":1,"layer":1,"e2e_ms":0.34915,"layer_ms":0.106546,"lr_ms":0.001637,"kernel_ms":0.101748,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003078}
+{"path":"joint_full_g2","rep":1,"layer":2,"e2e_ms":0.34915,"layer_ms":0.201265,"lr_ms":0.00354,"kernel_ms":0.194313,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003326}
+{"path":"joint_full_g2","rep":1,"layer":3,"e2e_ms":0.34915,"layer_ms":0.040696,"lr_ms":0.00358,"kernel_ms":0.037001,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.1e-05}
+{"path":"joint_v1_g8","rep":1,"layer":1,"e2e_ms":0.30708,"layer_ms":0.1142,"lr_ms":0.001617,"kernel_ms":0.108809,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.00369}
+{"path":"joint_v1_g8","rep":1,"layer":2,"e2e_ms":0.30708,"layer_ms":0.147237,"lr_ms":0.003413,"kernel_ms":0.139962,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003774}
+{"path":"joint_v1_g8","rep":1,"layer":3,"e2e_ms":0.30708,"layer_ms":0.045342,"lr_ms":0.003586,"kernel_ms":0.041639,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3e-05}
+{"path":"joint_v1_g2","rep":1,"layer":1,"e2e_ms":0.357623,"layer_ms":0.126177,"lr_ms":0.001625,"kernel_ms":0.115537,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.008931}
+{"path":"joint_v1_g2","rep":1,"layer":2,"e2e_ms":0.357623,"layer_ms":0.185762,"lr_ms":0.003478,"kernel_ms":0.179251,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002949}
+{"path":"joint_v1_g2","rep":1,"layer":3,"e2e_ms":0.357623,"layer_ms":0.045227,"lr_ms":0.003741,"kernel_ms":0.041371,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.1e-05}
+{"path":"B0_BF16","rep":1,"layer":1,"e2e_ms":0.164821,"layer_ms":0.067144,"lr_ms":0.002739,"kernel_ms":0.040675,"projection_ms":0.010997,"conversion_ms":0.002145,"max_prescan_ms":0.002997,"normalization_ms":0.003043,"activation_ms":0.004357}
+{"path":"B0_BF16","rep":1,"layer":2,"e2e_ms":0.164821,"layer_ms":0.064992,"lr_ms":0.003016,"kernel_ms":0.041665,"projection_ms":0.008879,"conversion_ms":0.002726,"max_prescan_ms":0.002545,"normalization_ms":0.003202,"activation_ms":0.002767}
+{"path":"B0_BF16","rep":1,"layer":3,"e2e_ms":0.164821,"layer_ms":0.032455,"lr_ms":0.00264,"kernel_ms":0.015598,"projection_ms":0.007037,"conversion_ms":0.002172,"max_prescan_ms":0.002595,"normalization_ms":0.002197,"activation_ms":2.7e-05}
+{"path":"B0_FP32","rep":1,"layer":1,"e2e_ms":0.163387,"layer_ms":0.061747,"lr_ms":0.002454,"kernel_ms":0.04349,"projection_ms":0.006998,"conversion_ms":2e-05,"max_prescan_ms":0.002628,"normalization_ms":0.003179,"activation_ms":0.002788}
+{"path":"B0_FP32","rep":1,"layer":2,"e2e_ms":0.163387,"layer_ms":0.061279,"lr_ms":0.002801,"kernel_ms":0.039996,"projection_ms":0.009495,"conversion_ms":2.9e-05,"max_prescan_ms":0.002596,"normalization_ms":0.002997,"activation_ms":0.003168}
+{"path":"B0_FP32","rep":1,"layer":3,"e2e_ms":0.163387,"layer_ms":0.040098,"lr_ms":0.012086,"kernel_ms":0.015368,"projection_ms":0.007513,"conversion_ms":2.1e-05,"max_prescan_ms":0.002794,"normalization_ms":0.002083,"activation_ms":2.8e-05}
+{"path":"B0_FP32","rep":2,"layer":1,"e2e_ms":0.164139,"layer_ms":0.062282,"lr_ms":0.002674,"kernel_ms":0.042388,"projection_ms":0.007309,"conversion_ms":2e-05,"max_prescan_ms":0.002548,"normalization_ms":0.003031,"activation_ms":0.00412}
+{"path":"B0_FP32","rep":2,"layer":2,"e2e_ms":0.164139,"layer_ms":0.061354,"lr_ms":0.002823,"kernel_ms":0.039837,"projection_ms":0.010043,"conversion_ms":3.7e-05,"max_prescan_ms":0.002564,"normalization_ms":0.00314,"activation_ms":0.00271}
+{"path":"B0_FP32","rep":2,"layer":3,"e2e_ms":0.164139,"layer_ms":0.040262,"lr_ms":0.01178,"kernel_ms":0.015783,"projection_ms":0.007203,"conversion_ms":2.9e-05,"max_prescan_ms":0.003024,"normalization_ms":0.002212,"activation_ms":3.3e-05}
+{"path":"B0_BF16","rep":2,"layer":1,"e2e_ms":0.163848,"layer_ms":0.065083,"lr_ms":0.002452,"kernel_ms":0.041917,"projection_ms":0.009638,"conversion_ms":0.002329,"max_prescan_ms":0.002448,"normalization_ms":0.003064,"activation_ms":0.003042}
+{"path":"B0_BF16","rep":2,"layer":2,"e2e_ms":0.163848,"layer_ms":0.06581,"lr_ms":0.00276,"kernel_ms":0.042605,"projection_ms":0.008825,"conversion_ms":0.002821,"max_prescan_ms":0.002531,"normalization_ms":0.003509,"activation_ms":0.002565}
+{"path":"B0_BF16","rep":2,"layer":3,"e2e_ms":0.163848,"layer_ms":0.032757,"lr_ms":0.002937,"kernel_ms":0.015573,"projection_ms":0.007342,"conversion_ms":0.001906,"max_prescan_ms":0.002575,"normalization_ms":0.002203,"activation_ms":3.1e-05}
+{"path":"joint_v1_g2","rep":2,"layer":1,"e2e_ms":0.345014,"layer_ms":0.115893,"lr_ms":0.002136,"kernel_ms":0.110094,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003582}
+{"path":"joint_v1_g2","rep":2,"layer":2,"e2e_ms":0.345014,"layer_ms":0.180808,"lr_ms":0.003603,"kernel_ms":0.173152,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003971}
+{"path":"joint_v1_g2","rep":2,"layer":3,"e2e_ms":0.345014,"layer_ms":0.04769,"lr_ms":0.003851,"kernel_ms":0.043722,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.2e-05}
+{"path":"joint_v1_g8","rep":2,"layer":1,"e2e_ms":0.337147,"layer_ms":0.104605,"lr_ms":0.001881,"kernel_ms":0.099485,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003157}
+{"path":"joint_v1_g8","rep":2,"layer":2,"e2e_ms":0.337147,"layer_ms":0.185504,"lr_ms":0.003846,"kernel_ms":0.17891,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002667}
+{"path":"joint_v1_g8","rep":2,"layer":3,"e2e_ms":0.337147,"layer_ms":0.046536,"lr_ms":0.004123,"kernel_ms":0.042297,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3.3e-05}
+{"path":"joint_full_g2","rep":2,"layer":1,"e2e_ms":0.340896,"layer_ms":0.113561,"lr_ms":0.001872,"kernel_ms":0.108137,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003469}
+{"path":"joint_full_g2","rep":2,"layer":2,"e2e_ms":0.340896,"layer_ms":0.16954,"lr_ms":0.003534,"kernel_ms":0.162691,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003234}
+{"path":"joint_full_g2","rep":2,"layer":3,"e2e_ms":0.340896,"layer_ms":0.057422,"lr_ms":0.003769,"kernel_ms":0.05354,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3e-05}
+{"path":"joint_full_g4","rep":2,"layer":1,"e2e_ms":0.305202,"layer_ms":0.097108,"lr_ms":0.001865,"kernel_ms":0.091815,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.003345}
+{"path":"joint_full_g4","rep":2,"layer":2,"e2e_ms":0.305202,"layer_ms":0.158675,"lr_ms":0.003814,"kernel_ms":0.15191,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002871}
+{"path":"joint_full_g4","rep":2,"layer":3,"e2e_ms":0.305202,"layer_ms":0.048883,"lr_ms":0.003938,"kernel_ms":0.044833,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":2.8e-05}
+{"path":"joint_full_g8","rep":2,"layer":1,"e2e_ms":0.280051,"layer_ms":0.098343,"lr_ms":0.001884,"kernel_ms":0.09344,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002936}
+{"path":"joint_full_g8","rep":2,"layer":2,"e2e_ms":0.280051,"layer_ms":0.140613,"lr_ms":0.003712,"kernel_ms":0.133871,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":0.002945}
+{"path":"joint_full_g8","rep":2,"layer":3,"e2e_ms":0.280051,"layer_ms":0.040596,"lr_ms":0.003925,"kernel_ms":0.036555,"projection_ms":0,"conversion_ms":0,"max_prescan_ms":0,"normalization_ms":0,"activation_ms":3e-05}
+PROFILE path=joint_v1_g2 layer=1 layer_wall_ms=0.161877 kernel_wall_ms=0.156125 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_v1_g2 layer=2 layer_wall_ms=0.183511 kernel_wall_ms=0.176323 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_v1_g2 layer=3 layer_wall_ms=0.050374 kernel_wall_ms=0.046427 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_v1_g8 layer=1 layer_wall_ms=0.149401 kernel_wall_ms=0.144179 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_v1_g8 layer=2 layer_wall_ms=0.154482 kernel_wall_ms=0.146818 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_v1_g8 layer=3 layer_wall_ms=0.047644 kernel_wall_ms=0.0437 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g2 layer=1 layer_wall_ms=0.150039 kernel_wall_ms=0.144966 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g2 layer=2 layer_wall_ms=0.172925 kernel_wall_ms=0.165972 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g2 layer=3 layer_wall_ms=0.048147 kernel_wall_ms=0.044242 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g4 layer=1 layer_wall_ms=0.143683 kernel_wall_ms=0.138363 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g4 layer=2 layer_wall_ms=0.152993 kernel_wall_ms=0.146134 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g4 layer=3 layer_wall_ms=0.048956 kernel_wall_ms=0.04472 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+PROFILE path=joint_full_g8 layer=1 layer_wall_ms=0.145213 kernel_wall_ms=0.139883 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+JOINT_ONLINE_STATS layer=1 blocks=408 running_max_updates_including_initial=256 rescales=0 rescaled_feature_elements=0 rescale_per_block=0 row_head_ratio_P50=0 P90=0 P95=0 P99=0 rescale_timing=fused_with_weighted_spmm
+PROFILE path=joint_full_g8 layer=2 layer_wall_ms=0.143652 kernel_wall_ms=0.135821 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+JOINT_ONLINE_STATS layer=2 blocks=408 running_max_updates_including_initial=256 rescales=0 rescaled_feature_elements=0 rescale_per_block=0 row_head_ratio_P50=0 P90=0 P95=0 P99=0 rescale_timing=fused_with_weighted_spmm
+PROFILE path=joint_full_g8 layer=3 layer_wall_ms=0.045657 kernel_wall_ms=0.041445 sampled_tiles=0 init_worker_ms=0 score_exp_den_worker_ms=0 weighted_spmm_rescale_worker_ms=0 UW_worker_ms=0 normalization_scatter_worker_ms=0 sampled_source_vector_loads=0 sampled_fma_vectors=0
+JOINT_ONLINE_STATS layer=3 blocks=51 running_max_updates_including_initial=32 rescales=0 rescaled_feature_elements=0 rescale_per_block=0 row_head_ratio_P50=0 P90=0 P95=0 P99=0 rescale_timing=fused_with_weighted_spmm
+JOINT_COMPLETE implementation_gate=PASS master_reference_gate=UNVERIFIED task_accuracy=UNVERIFIED performance=EXPLORATORY
