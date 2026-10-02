@@ -1,0 +1,29 @@
+# DegreeSort/TR16 TFS in layers 1–2, standard GAT in layer 3 (2026-10-02)
+
+Exploratory job **10856767** completed 0:0 on shared `intel` node `qhcn008` in 2:04 (compute MaxRSS 59411708K). All three paths ran on the same destination CSR, seed-11 untrained Vanilla GAT `Din -> 8x32 -> 8x32 -> 1xC`, 16 pinned physical cores from socket 0 (CPU 10–25), and explicit NUMA interleave over nodes 1–3. One independent smoke, one correctness run, one warmup and three alternating measured repetitions preceded the summary. Full-model timing includes own-output chaining, input conversion, attention, sparse/dense work, normalization and activation. Graph load, DegreeSort, static weight preparation and workspace allocation are outside the steady-state timer and separately logged. Source and graph hashes are in `artifact.sha256` and `source.sha256`.
+
+The new `TFS_L12_B0_L3_MATCHED` path is **a mixed model path**: L1/L2 run the existing `HYBRID_T16_B32` with DegreeSort, TR16 row scheduling, independent 8-head Online state, shared source-H load, block-local weighted `PH` and immediate AMX `UW` consumption. Short neighbor blocks use AVX FP32 PH; longer ones use AMX BF16 high+low PH. L3 runs the strong BF16 transform-first standard GAT, with FP32 contracted L/R from original H so its attention definition matches the TFS front end. The full `HYBRID_T16_B32` control retains original block TFS fallback in L3. Strong `B0_BF16` is standard transform-first in all layers. L3 standard stores its regular projected `Z`; the claim of no global `Z/U/e/alpha` applies to the two TFS layers only.
+
+| Same-job three-layer median | ogbn-arxiv ms | ogbn-products ms |
+|---|---:|---:|
+| Strong B0 BF16, standard all layers | **68.318** | 3845.103 |
+| Full TFS hybrid T16/B32, original L3 fallback | 118.409 | 4032.908 |
+| TFS L1/L2 + standard L3 matched LR | 105.084 | **3411.046** |
+
+On products the mixed path is **1.127× faster than strong B0** and **1.182× faster than full TFS** in same-job medians. Its measured range was 3396.806–3431.652 ms; B0's was 3844.655–3847.163 ms. On arxiv it is **1.538× slower than B0** (105.084 versus 68.318 ms), despite being 1.127× faster than full TFS. This is a graph/shape crossover, not an all-layer TFS win. Different node placement changed the absolute products times relative to job10855618; only same-job ratios are used.
+
+| Products layer median | B0 BF16 ms | Full TFS ms | Mixed path ms |
+|---|---:|---:|---:|
+| L1, `100 -> 8x32` | 1657.345 | 1093.709 | **1088.837** |
+| L2, `256 -> 8x32` | **1686.829** | 1794.584 | 1801.185 |
+| L3, `256 -> 1x47` | **502.986** | 1144.145 | 518.976 |
+
+The mixed model gains about 568.5 ms at L1 against B0, loses about 114.4 ms at L2 and 16.0 ms at L3; this accounts for the 434.1 ms E2E lead. Replacing only the full-TFS L3 fallback cuts its layer time by about **625.2 ms**. L3 matched standard spends 15.154 ms in projection, 18.627 ms in conversion, 20.300 ms in contracted FP32 L/R, 32.508 ms in exact max prescan and 429.023 ms in sparse kernel. Full TFS L3 spends 1102.564 ms in its kernel. Per-layer medians need not sum exactly to the E2E median because medians can come from different repetitions.
+
+Independent hybrid smoke passed 46 optimized operator cases, 6 fallback cases, 3 actual-LR/ELU layer cases, 2 fallback layer controls and 4 profile/counter variants. Same-input contracted-attention L2 and L3 comparisons ran outside timing; the full TFS profile preserved bitwise fingerprints. All real outputs were finite. The products same-input L3 standard versus TFS relative L2 error was 0.001287, max abs 0.449, reflecting different BF16 reduction/dataflow. Against the FP32 B0 own-output chain, products final max abs/relative L2 were B0 BF16 **25.121/0.02538**, full TFS **6.048/0.01513**, mixed **6.046/0.01506**. The original strict 0.003 absolute master gate remains **failed**, including for B0 BF16. No trained checkpoint, development-set metric or task-accuracy certification exists. This is a performance and numerical diagnostic, not an accuracy-accepted result or paper speedup.
+
+The direct exact aggregate-first L2 work still processes `8E x 256` sparse features versus B0's `8E x 32`, an **8× useful sparse width amplification**. Cross-head raw source-load reuse and AMX dispatch reduce hardware work and traffic, but do not remove that algebraic 8×. The current products win comes from TFS advantage at input width 100 in L1 plus choosing a standard dataflow for the one-head, 47-class L3. For arxiv, D=128 and much smaller graph, standard GAT wins all layers.
+
+Evidence: `baseline/runs/icpp-adaptive-10856767/` (`smoke.log`, `arxiv.log`, `products.log`, `timing_summary.tsv`, `checks.tsv`, `manifest.txt`, `affinity.txt`, `pinning.env`, `artifact.sha256`, `source.sha256`, `status.txt`, source snapshot) and `baseline/runs/icpp-adaptive-build-20261002-222445/` (exact compiler command, source snapshot, binary SHA256 `1da262fd8b9affa6b127a0d54d6ad22cb1385b88115ea78d1b333e50ea48aff5`, assembly/opcode check). The graph hashes are arxiv `3407b49a3b659397aa581ea4c5afcdef37e929a70ed98217a52413ef21201280` and products `cbb38a8715b8cc7c99e7caf782aa286f835f45e2802d0f4860673fb442c69869`. Static DegreeSort time was 16.846 ms arxiv and 346.509 ms products, excluded from steady-state comparisons but relevant to cold start. Follow-up needed for any paper claim: real checkpoint/task accuracy and formally controlled repeated performance, while preserving the full TFS control.
+
+The curated GitHub export includes verified source and raw logs/TSVs but omits generated assembly and duplicate source snapshots, which remain in local/server evidence. The build's source-hash glob included three incomplete `icpp_head_block` drafts that were never in the explicit compiler source list; they have been removed from the current source tree and excluded from GitHub. The exact compiler command and retained snapshot identify the executed binary.

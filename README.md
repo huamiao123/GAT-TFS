@@ -1,6 +1,12 @@
 # Multi-Head GAT / TFS-Online 实验归档
 
-本仓库保存三层 Vanilla GAT 的 Online Softmax 与 TFS-style aggregate-first 前向计算实验，以及原 TFS 论文、源码和技术交接文档。归档时间：2026-09-29。
+本仓库保存三层 Vanilla GAT 的 Online Softmax 与 TFS 前向计算实验，以及原 TFS 论文、源码和技术交接文档。归档起始时间：2026-09-29。
+
+2026-10-02 新结果：[保留 DegreeSort/TR16 的跨 head PH 融合与混合调度](baseline/docs/ICPP_TFS_HYBRID_RESULTS_20261002.md)、[前两层 TFS + 第三层标准 GAT 的同场实验](baseline/docs/ICPP_TFS_ADAPTIVE_RESULTS_20261002.md)。products 上混合路径三层 3411 ms，强 B0 BF16 3845 ms，探索性加速 1.127×；完整三层 TFS 4033 ms。arxiv 上混合路径仍慢于 B0（105 ms 对 68 ms）。这是明确标记的混合数据流；L2 的 8× 稀疏宽度放大未消除。随机权重的原始精度门槛和训练任务精度尚未验收。
+
+2026-10-02 最新本地/服务器实验：[保留ICPP TFS的块投影与AMX PH报告](baseline/docs/ICPP_TFS_BLOCK_RESULTS_20261002.md)、[两项瓶颈及原始文献调研](baseline/docs/ICPP_TFS_TWO_BOTTLENECKS_RESEARCH_20261002.md)。保留DegreeSort/TR16/真实AMX融合，products L2重复投影指令少13.8–35.6倍，但最佳完整三层仍慢于纯GAT B0。双head读取复用和块投影分别有完整真实图证据；8行/向量打包的PH只有局部micro收益，尚无整模型集成或master精度验收。原始日志、源码快照和失败记录完整保留。
+
+2026-10-01 最新：新增保留原 ICPP TFS **Degree Sort、TR16逐邻居AMX融合和输出TMM驻留**的 [`baseline/tfs_online/`](baseline/tfs_online/README.md)。Online Softmax 在输出维 `V[32]` 上 rescale；完整三层 products 相对原B1为1.143×探索性加速，arxiv略慢，均未超过强B0。真实图master精度门仍未通过。详见[本轮实现与结果](baseline/docs/ICPP_TFS_ONLINE_RESULTS_20261001.md)。此前FP32 local-U/grouped-head候选分别归档，不能当作原ICPP TFS的改进结果。
 
 2026-09-30 新增独立 [`baseline/`](baseline/README.md)，按新实现合同搭建 R0 FP32 correctness oracle、B0 强标准 GAT（不使用 TFS）与 B1 原 TFS 风格加权 AMX 路径。正式性能主基线改为 B0；旧 `reference` 仅作正确性参考，以下旧速度表保留为历史诊断记录。新 suite 采用精确 max 预扫描和第二遍融合聚合，包含 fixed-p、micro、full-layer、full-model 以及独立 FP64 oracle 验证。
 
@@ -14,13 +20,13 @@
 - [`docs/GAT_TFS_AMX_问题审计与方案设计全记录.md`](docs/GAT_TFS_AMX_问题审计与方案设计全记录.md)：2026-09-29 问题审计与实施路线。
 - [`implementation/IMPLEMENTATION_STATUS_20260929.md`](implementation/IMPLEMENTATION_STATUS_20260929.md)：依据审计实施的最新代码范围、轻量验证和待验收事项。
 
-## 当前实现
+## 2026-09-29 历史实现
 
 模型为 `D_in → 8×32 → 8×32 → 1×C`。每个 attention head 的权重和 softmax 独立，输入为含 self-loop 的 destination-row CSR。当前代码只实现前向，没有反向传播或训练循环。
 
 原有六条 FP32/AVX 路径：`reference`、`online_fp32`、`online_avx512`、`tfs_online_reference`、`tfs_online_fused`，以及使用相同 panel/线程调度的 `panel_transform_first_fp32` 对照。TFS 路径用 `H(Wa_L)` / `H(Wa_R)` 计算与标准 GAT 等价的 attention，Online Softmax 聚合原始 `H`，再执行 GeMM。`tfs_online_reference` 落地完整 `U=AαH`；`tfs_online_fused` 使用线程局部 tile 立即消费 `U`，不落地完整的全局 `U`。
 
-**当前 fused 路径是 FP32 TFS-style tile-local fusion，尚未执行 BF16/AMX tile 指令。** 它复用了原 TFS 源码中的 degree sort、R-panel、16 行 tile 和 OpenMP panel 调度思想；准确范围见源码审计，不应称为 AMX 加速结果。
+**上述历史 fused 路径是 FP32 TFS-style tile-local fusion，尚未执行 BF16/AMX tile 指令。** 它复用了原 TFS 源码中的 degree sort、R-panel、16 行 tile 和 OpenMP panel 调度思想；准确范围见源码审计，不应称为 AMX 加速结果。
 
 2026-09-29 另增实验性 `gat_tfs_amx`：真实 AMX-BF16 `head-as-row` 加权聚合、BF16 高低两部分补偿与局部 FP32 GeMM。1024 节点小图的逐层和三层输出通过现有 FP32 容差；ogbn-arxiv 与真实 checkpoint 尚未验收，不能据此声称 AMX 加速。
 

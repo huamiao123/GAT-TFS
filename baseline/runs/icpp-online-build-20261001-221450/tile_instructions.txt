@@ -1,0 +1,48 @@
+	vmulps	%zmm8, %zmm1, %zmm1 {%k1}
+	vmulps	%zmm1, %zmm0, %zmm1
+	tilestored	%tmm0, (%rax,%r11)
+	tilestored	%tmm1, (%rax,%r11)
+	tilestored	%tmm2, (%rax,%r11)
+	tilestored	%tmm3, (%rax,%r11)
+	vmulps	2880(%rsp,%r8,4){1to16}, %zmm0, %zmm0
+	tileloadd	(%rax,%r11), %tmm0
+	tileloadd	(%rax,%r11), %tmm1
+	tileloadd	(%rax,%r11), %tmm2
+	tileloadd	(%rax,%r11), %tmm3
+	tileloadd	(%rax,%r11), %tmm0
+	vmulps	%zmm0, %zmm1, %zmm0
+	tileloadd	(%rdx,%r8), %tmm4
+	tileloadd	(%rdi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm0
+	tileloadd	(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm1
+	tileloadd	1024(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm2
+	tileloadd	2048(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm3
+	tileloadd	(%rsi,%r8), %tmm4
+	tileloadd	(%rdi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm0
+	tileloadd	(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm1
+	tileloadd	1024(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm2
+	tileloadd	2048(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm3
+	tileloadd	(%rsi,%r8), %tmm4
+	tileloadd	(%rdi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm0
+	tileloadd	(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm1
+	tileloadd	1024(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm2
+	tileloadd	2048(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm3
+	tileloadd	(%rsi,%r8), %tmm4
+	tileloadd	(%rdi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm0
+	tileloadd	(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm1
+	tileloadd	1024(%rsi,%r11), %tmm5
+	tdpbf16ps	%tmm5, %tmm4, %tmm2
+	tileloadd	2048(%rsi,%r11), %tmm5

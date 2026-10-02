@@ -1,0 +1,56 @@
+job=10855618 node=qhcn080 threads=16 cpus=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+NUMA=explicit_interleave nodes=0,1
+purpose=per_destination_exact_short_AVX_dense_AMX_PH_dispatch_keeping_DegreeSort_TR16_AMX_UW
+controls=B0_FP32,B0_BF16,B1_TFS_PREMAX,ICPP_TFS_PAIR_B32,ICPP_TFS_BLOCK_B32;candidate=HEADS_AVX_B16_B32,HEADS_AMX_HILO_B16_B32,HEADS_AMX_PRELOAD_B16_B32,HYBRID_T16_T24_T32_B32
+block_local_U=immediately_consumed_by_AMX;attention/W/m/l/V_independent;no_fullZ/U/e/alpha;V_worker_local_count_all_head_switch_traffic;new_PH_high_low_RNE_interface
+model=8x32,8x32,1xC;seed=11;untrained=true;LR=fp32;blocks=16,32
+timing=preallocated_three_layer_own_outputs;check_runs=1;warmups=1;repeats=3;alternating_order=true
+profile=separate_source_index_score_max_exp_Hpack_Ppack_PHload_PHcompute_PHstore_UBconvert_UWload_UWcompute_Vstore_Vreload_rescale_transition;worker_sums_not_wall_percentages
+correctness=old_heads_independent_oracle_plus_preload_bitwise_plus_mixed_quantized_oracle_before_speed;master_abs_gate=.003_unchanged
+performance=EXPLORATORY;task_accuracy=UNVERIFIED
+extra_diagnostics=same_input_contracted_attention_L2;profile_fingerprint_and_exact_work_identities;full_three_layer_own_output_E2E
+policy: interleave
+preferred node: 0 (interleave next)
+interleavemask: 0 1 
+interleavenode: 0
+physcpubind: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+cpubind: 0 1 
+nodebind: 0 1 
+membind: 0 1 2 3 4 5 6 7 
+preferred: 0 1 
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+CPU(s):              64
+On-line CPU(s) list: 0-63
+Thread(s) per core:  1
+Core(s) per socket:  32
+Socket(s):           2
+NUMA node(s):        8
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               143
+Model name:          Intel(R) Xeon(R) CPU Max 9462
+Stepping:            8
+CPU MHz:             3500.000
+CPU max MHz:         3500.0000
+CPU min MHz:         800.0000
+BogoMIPS:            5400.00
+L1d cache:           48K
+L1i cache:           32K
+L2 cache:            2048K
+L3 cache:            76800K
+NUMA node0 CPU(s):   0-7
+NUMA node1 CPU(s):   8-15
+NUMA node2 CPU(s):   16-23
+NUMA node3 CPU(s):   24-31
+NUMA node4 CPU(s):   32-39
+NUMA node5 CPU(s):   40-47
+NUMA node6 CPU(s):   48-55
+NUMA node7 CPU(s):   56-63
+Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 ds_cpl smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cat_l2 cdp_l3 invpcid_single intel_ppin cdp_l2 ssbd mba ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local split_lock_detect avx_vnni avx512_bf16 wbnoinvd dtherm ida arat pln pts avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq la57 rdpid bus_lock_detect cldemote movdiri movdir64b enqcmd fsrm md_clear serialize tsxldtrk pconfig arch_lbr amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+MKL_DYNAMIC=FALSE
+MKL_NUM_THREADS=16
+OMP_NUM_THREADS=16
+OMP_PLACES=cores
+OMP_PROC_BIND=close
