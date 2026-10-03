@@ -1,0 +1,471 @@
+GRAPH_VALUES name=roadNet-CA checked=5533214 nonunit=0 implicit_ones=0
+CORRECT graph=roadNet-CA method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.34359541e-07 max_abs=1.06990337e-05 max_norm=2.9739771e-07 pass=1
+CONFIG graph=roadNet-CA N=1971281 E=5533214 threads=32 R=64 D=128 F=128 repeats=10 warmups=1
+CORRECT graph=roadNet-CA method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00531768231 max_abs=0.257820129 max_norm=0.00504764666 pass=1
+CORRECT graph=roadNet-CA method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00532136457 max_abs=0.210591272 max_norm=0.00585374001 pass=1
+CORRECT graph=roadNet-CA method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197793 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.34359541e-07 max_abs=1.06990337e-05 max_norm=2.9739771e-07 pass=1
+CORRECT graph=roadNet-CA method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.25980527e-07 max_abs=1.90734863e-05 max_norm=3.73423983e-07 pass=1
+CORRECT graph=roadNet-CA method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052919779 max_abs=0.2578125 max_norm=0.00502214727 pass=1
+CORRECT graph=roadNet-CA method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.01477186e-07 max_abs=9.96887684e-06 max_norm=2.77101766e-07 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.25980527e-07 max_abs=1.90734863e-05 max_norm=3.73423983e-07 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052919779 max_abs=0.2578125 max_norm=0.00502214727 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.01477186e-07 max_abs=9.96887684e-06 max_norm=2.77101766e-07 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00208867053 max_abs=0.107414246 max_norm=0.0021029745 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00671806828 max_abs=0.325187683 max_norm=0.00633460532 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00224499336 max_abs=0.0997603834 max_norm=0.00277300832 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.27820737e-07 max_abs=2.0980835e-05 max_norm=4.10766381e-07 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052919779 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.04040559e-07 max_abs=7.92741776e-06 max_norm=2.20355963e-07 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275499144 max_abs=0.136161804 max_norm=0.00266579913 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00745793744 max_abs=0.343463898 max_norm=0.00669062313 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00291490519 max_abs=0.112401064 max_norm=0.00312437739 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.22316431e-07 max_abs=2.28881836e-05 max_norm=4.48108779e-07 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197791 max_abs=0.257816315 max_norm=0.00502222157 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=8.23352882e-08 max_abs=5.02169132e-06 max_norm=1.3958639e-07 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275997634 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00746428441 max_abs=0.408737183 max_norm=0.00796213653 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00313616879 max_abs=0.143277481 max_norm=0.00398263954 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.22541866e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197792 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.86688344e-07 max_abs=6.1776489e-05 max_norm=1.71718183e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00746428414 max_abs=0.408737183 max_norm=0.00796213653 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00312408271 max_abs=0.124236763 max_norm=0.00345337061 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197792 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.86218389e-07 max_abs=6.1776489e-05 max_norm=1.71718183e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00746428414 max_abs=0.408737183 max_norm=0.00796213653 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00312408271 max_abs=0.124236763 max_norm=0.00345337061 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197792 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.86218389e-07 max_abs=6.1776489e-05 max_norm=1.71718183e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00746428414 max_abs=0.408737183 max_norm=0.00796213653 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00312408271 max_abs=0.124236763 max_norm=0.00345337061 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197792 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.86218389e-07 max_abs=6.1776489e-05 max_norm=1.71718183e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00746428414 max_abs=0.408737183 max_norm=0.00796213653 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00312408271 max_abs=0.124236763 max_norm=0.00345337061 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529197792 max_abs=0.257820129 max_norm=0.00502229588 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.86218389e-07 max_abs=6.1776489e-05 max_norm=1.71718183e-06 pass=1
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=0 ms=24.553061
+TIME graph=roadNet-CA method=original kernel rep=0 ms=94.748020
+TIME graph=roadNet-CA method=original_nozero kernel rep=0 ms=13.711929
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=0 ms=16.018867
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=0 ms=18.507004
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=0 ms=13.314009
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=0 ms=14.747858
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=0 ms=13.301849
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=0 ms=14.706850
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=0 ms=13.388872
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=0 ms=14.672995
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=0 ms=13.314962
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=0 ms=14.674902
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=0 ms=13.463974
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=0 ms=14.760017
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=0 ms=13.320923
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=0 ms=14.728069
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=0 ms=24.865150
+TIME graph=roadNet-CA method=original kernel rep=1 ms=94.974995
+TIME graph=roadNet-CA method=original_nozero kernel rep=1 ms=13.679981
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=1 ms=16.000032
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=1 ms=18.604994
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=1 ms=13.394833
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=1 ms=14.678955
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=1 ms=13.436079
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=1 ms=14.661789
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=1 ms=13.305902
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=1 ms=14.770985
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=1 ms=13.310194
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=1 ms=14.739990
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=1 ms=13.467073
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=1 ms=14.708996
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=1 ms=13.330936
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=1 ms=14.678001
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=1 ms=24.767160
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=1 ms=24.904966
+TIME graph=roadNet-CA method=original_nozero kernel rep=2 ms=14.513969
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=2 ms=16.269922
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=2 ms=18.607855
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=2 ms=13.376951
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=2 ms=14.590979
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=2 ms=13.346910
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=2 ms=14.654160
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=2 ms=13.312101
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=2 ms=14.751911
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=2 ms=13.594866
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=2 ms=14.850855
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=2 ms=13.679028
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=2 ms=15.167952
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=2 ms=14.014006
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=2 ms=15.326977
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=2 ms=24.924040
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=2 ms=24.755955
+TIME graph=roadNet-CA method=original kernel rep=2 ms=102.931023
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=3 ms=15.942097
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=3 ms=18.482924
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=3 ms=13.287067
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=3 ms=14.644861
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=3 ms=13.417959
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=3 ms=14.720917
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=3 ms=13.270140
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=3 ms=14.669895
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=3 ms=13.267040
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=3 ms=14.758825
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=3 ms=13.295889
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=3 ms=14.747143
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=3 ms=13.488054
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=3 ms=14.814138
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=3 ms=24.605036
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=3 ms=24.834871
+TIME graph=roadNet-CA method=original kernel rep=3 ms=97.451925
+TIME graph=roadNet-CA method=original_nozero kernel rep=3 ms=13.689041
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=4 ms=18.651962
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=4 ms=13.288975
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=4 ms=14.760017
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=4 ms=13.312817
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=4 ms=14.740944
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=4 ms=13.358116
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=4 ms=14.684916
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=4 ms=13.433933
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=4 ms=14.987946
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=4 ms=13.585091
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=4 ms=15.109062
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=4 ms=14.023066
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=4 ms=15.460968
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=4 ms=25.202036
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=4 ms=25.279045
+TIME graph=roadNet-CA method=original kernel rep=4 ms=106.882811
+TIME graph=roadNet-CA method=original_nozero kernel rep=4 ms=13.707161
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=4 ms=15.938997
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=5 ms=13.355970
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=5 ms=14.853954
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=5 ms=13.319016
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=5 ms=14.692068
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=5 ms=13.422966
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=5 ms=14.741898
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=5 ms=13.315201
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=5 ms=14.676094
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=5 ms=13.441086
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=5 ms=14.759064
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=5 ms=13.365030
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=5 ms=14.667988
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=5 ms=24.854898
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=5 ms=24.777889
+TIME graph=roadNet-CA method=original kernel rep=5 ms=95.096111
+TIME graph=roadNet-CA method=original_nozero kernel rep=5 ms=13.683796
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=5 ms=16.058922
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=5 ms=18.513918
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=6 ms=14.602900
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=6 ms=13.375998
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=6 ms=14.603853
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=6 ms=13.252974
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=6 ms=14.750004
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=6 ms=13.279915
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=6 ms=14.900923
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=6 ms=13.605118
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=6 ms=14.964104
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=6 ms=13.787031
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=6 ms=15.125036
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=6 ms=32.465935
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=6 ms=25.072098
+TIME graph=roadNet-CA method=original kernel rep=6 ms=96.894026
+TIME graph=roadNet-CA method=original_nozero kernel rep=6 ms=13.700962
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=6 ms=16.010046
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=6 ms=18.506050
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=6 ms=13.360977
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=7 ms=13.298988
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=7 ms=14.685869
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=7 ms=13.298988
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=7 ms=14.701843
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=7 ms=13.286829
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=7 ms=14.953852
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=7 ms=13.604879
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=7 ms=14.957190
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=7 ms=13.844967
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=7 ms=15.145063
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=7 ms=24.681091
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=7 ms=24.722099
+TIME graph=roadNet-CA method=original kernel rep=7 ms=99.246979
+TIME graph=roadNet-CA method=original_nozero kernel rep=7 ms=13.689995
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=7 ms=16.048193
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=7 ms=18.495083
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=7 ms=13.288975
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=7 ms=14.629126
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=8 ms=14.758110
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=8 ms=13.242006
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=8 ms=14.741182
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=8 ms=13.283968
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=8 ms=14.898062
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=8 ms=13.601065
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=8 ms=15.018940
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=8 ms=13.821125
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=8 ms=15.335083
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=8 ms=24.914980
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=8 ms=24.739027
+TIME graph=roadNet-CA method=original kernel rep=8 ms=100.329876
+TIME graph=roadNet-CA method=original_nozero kernel rep=8 ms=13.685942
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=8 ms=16.009808
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=8 ms=18.532991
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=8 ms=13.309002
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=8 ms=14.739990
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=8 ms=13.268948
+TIME graph=roadNet-CA method=shared_b16_fast_nozero kernel rep=9 ms=13.422012
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero kernel rep=9 ms=14.763832
+TIME graph=roadNet-CA method=shared_b32_fast_nozero kernel rep=9 ms=13.207912
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero kernel rep=9 ms=14.790058
+TIME graph=roadNet-CA method=shared_b64_fast_nozero kernel rep=9 ms=13.263941
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero kernel rep=9 ms=14.971018
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero kernel rep=9 ms=13.895988
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero kernel rep=9 ms=15.221119
+TIME graph=roadNet-CA method=mkl_fp32 kernel rep=9 ms=24.945021
+TIME graph=roadNet-CA method=mkl_bf16_inputs kernel rep=9 ms=24.722099
+TIME graph=roadNet-CA method=original kernel rep=9 ms=105.506182
+TIME graph=roadNet-CA method=original_nozero kernel rep=9 ms=13.700962
+TIME graph=roadNet-CA method=shared_b2_fast_nozero kernel rep=9 ms=15.914917
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero kernel rep=9 ms=18.582821
+TIME graph=roadNet-CA method=shared_b4_fast_nozero kernel rep=9 ms=13.321877
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero kernel rep=9 ms=14.617920
+TIME graph=roadNet-CA method=shared_b8_fast_nozero kernel rep=9 ms=13.363838
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero kernel rep=9 ms=14.770031
+CORRECT graph=roadNet-CA method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00208867053 max_abs=0.107414246 max_norm=0.0021029745 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.27820737e-07 max_abs=2.0980835e-05 max_norm=4.10766381e-07 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275499144 max_abs=0.136161804 max_norm=0.00266579913 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.22316431e-07 max_abs=2.28881836e-05 max_norm=4.48108779e-07 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275997634 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.22541866e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275997546 max_abs=0.150917053 max_norm=0.00295467992 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.22541628e-07 max_abs=6.48498535e-05 max_norm=1.26964154e-06 pass=1
+CORRECT graph=roadNet-CA method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0105355563 max_abs=7.92712402 max_norm=0.0105196928 pass=1
+CORRECT graph=roadNet-CA method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=roadNet-CA method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293205 max_abs=7.92712402 max_norm=0.0104101809 pass=1
+CORRECT graph=roadNet-CA method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.50170011e-05 max_abs=0.125022888 max_norm=0.000165911669 pass=1
+CORRECT graph=roadNet-CA method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293188 max_abs=7.92718506 max_norm=0.0104102611 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.50170011e-05 max_abs=0.125022888 max_norm=0.000165911669 pass=1
+CORRECT graph=roadNet-CA method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293188 max_abs=7.92718506 max_norm=0.0104102611 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00354941025 max_abs=2.97991943 max_norm=0.00395450317 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.013084104 max_abs=10.9070435 max_norm=0.014323517 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.51123324e-05 max_abs=0.231937408 max_norm=0.000307792622 pass=1
+CORRECT graph=roadNet-CA method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293221 max_abs=7.92724609 max_norm=0.0104103412 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00509138546 max_abs=3.61962891 max_norm=0.00480342985 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0147157326 max_abs=10.9699707 max_norm=0.0144061553 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.5189846e-05 max_abs=0.125106812 max_norm=0.00016602304 pass=1
+CORRECT graph=roadNet-CA method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293436 max_abs=7.92724609 max_norm=0.0104103412 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00511208722 max_abs=4.18347168 max_norm=0.00555167761 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0147373381 max_abs=10.9608765 max_norm=0.0143942124 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.51364168e-05 max_abs=0.125106812 max_norm=0.00016602304 pass=1
+CORRECT graph=roadNet-CA method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293451 max_abs=7.92724609 max_norm=0.0104103412 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00511208945 max_abs=4.18347168 max_norm=0.00555167761 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0147373402 max_abs=11.2445679 max_norm=0.014766766 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.51364163e-05 max_abs=0.125106812 max_norm=0.00016602304 pass=1
+CORRECT graph=roadNet-CA method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293451 max_abs=7.92718506 max_norm=0.0104102611 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00511208945 max_abs=4.18347168 max_norm=0.00555167761 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0147373402 max_abs=11.2445679 max_norm=0.014766766 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.51364163e-05 max_abs=0.125106812 max_norm=0.00016602304 pass=1
+CORRECT graph=roadNet-CA method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293451 max_abs=7.92718506 max_norm=0.0104102611 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00511208945 max_abs=4.18347168 max_norm=0.00555167761 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0147373402 max_abs=11.2445679 max_norm=0.014766766 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.51364163e-05 max_abs=0.125106812 max_norm=0.00016602304 pass=1
+CORRECT graph=roadNet-CA method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293451 max_abs=7.92718506 max_norm=0.0104102611 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00511208945 max_abs=4.18347168 max_norm=0.00555167761 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0147373402 max_abs=11.2445679 max_norm=0.014766766 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.51364163e-05 max_abs=0.125106812 max_norm=0.00016602304 pass=1
+CORRECT graph=roadNet-CA method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0104293451 max_abs=7.92718506 max_norm=0.0104102611 pass=1
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=0 ms=60.174942 L1=24.614811 act_convert=10.662079 L2=24.898052
+TIME graph=roadNet-CA method=original e2e rep=0 ms=194.216013 L1=93.333960 act_convert=7.183075 L2=93.698978
+TIME graph=roadNet-CA method=original_nozero e2e rep=0 ms=35.100937 L1=13.696909 act_convert=7.157087 L2=14.246941
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=0 ms=39.855957 L1=16.246080 act_convert=7.188082 L2=16.421795
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=0 ms=44.984818 L1=18.811941 act_convert=7.251024 L2=18.921852
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=0 ms=34.739971 L1=13.484001 act_convert=7.322073 L2=13.933897
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=0 ms=37.385941 L1=14.980078 act_convert=7.225990 L2=15.179873
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=0 ms=34.598827 L1=13.388872 act_convert=7.273912 L2=13.936043
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=0 ms=37.701845 L1=14.953852 act_convert=7.233143 L2=15.514851
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=0 ms=35.228968 L1=13.747931 act_convert=7.510185 L2=13.970852
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=0 ms=37.506104 L1=14.951229 act_convert=7.213831 L2=15.341043
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=0 ms=34.795046 L1=13.542175 act_convert=7.261992 L2=13.990879
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=0 ms=37.566900 L1=15.083790 act_convert=7.117033 L2=15.366077
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=0 ms=35.300016 L1=13.886929 act_convert=7.205963 L2=14.207125
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=0 ms=37.979126 L1=15.258074 act_convert=7.194996 L2=15.526056
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=0 ms=35.588026 L1=14.050007 act_convert=7.165909 L2=14.372110
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=0 ms=38.905144 L1=15.640020 act_convert=7.318020 L2=15.947104
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=0 ms=53.804159 L1=25.284052 act_convert=3.512144 L2=25.007963
+TIME graph=roadNet-CA method=original e2e rep=1 ms=209.299803 L1=107.402802 act_convert=7.202148 L2=94.694853
+TIME graph=roadNet-CA method=original_nozero e2e rep=1 ms=35.117865 L1=13.699055 act_convert=7.164955 L2=14.253855
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=1 ms=40.230036 L1=16.241074 act_convert=7.261992 L2=16.726971
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=1 ms=45.447826 L1=18.945932 act_convert=7.234097 L2=19.267797
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=1 ms=35.120964 L1=13.702869 act_convert=7.256985 L2=14.161110
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=1 ms=37.441015 L1=15.086174 act_convert=7.272959 L2=15.081882
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=1 ms=34.703970 L1=13.438940 act_convert=7.194996 L2=14.070034
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=1 ms=37.831068 L1=15.030146 act_convert=7.289886 L2=15.511036
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=1 ms=34.904957 L1=13.715982 act_convert=7.143021 L2=14.045954
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=1 ms=37.490845 L1=14.924049 act_convert=7.242918 L2=15.323877
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=1 ms=34.798861 L1=13.512850 act_convert=7.222176 L2=14.063835
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=1 ms=37.543058 L1=14.992952 act_convert=7.219076 L2=15.331030
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=1 ms=34.868956 L1=13.646126 act_convert=7.239819 L2=13.983011
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=1 ms=37.691116 L1=14.952183 act_convert=7.333994 L2=15.404940
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=1 ms=35.325050 L1=13.783932 act_convert=7.224083 L2=14.317036
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=1 ms=37.642956 L1=15.160084 act_convert=7.187843 L2=15.295029
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=1 ms=53.092957 L1=25.092840 act_convert=3.204107 L2=24.796009
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=1 ms=60.639143 L1=25.002003 act_convert=10.591030 L2=25.046110
+TIME graph=roadNet-CA method=original_nozero e2e rep=2 ms=37.440062 L1=15.010834 act_convert=7.453203 L2=14.976025
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=2 ms=41.763783 L1=17.012835 act_convert=7.595062 L2=17.155886
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=2 ms=46.501160 L1=19.600153 act_convert=7.359028 L2=19.541979
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=2 ms=35.686970 L1=14.099836 act_convert=7.224083 L2=14.363050
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=2 ms=38.319111 L1=15.429974 act_convert=7.241011 L2=15.648127
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=2 ms=35.777092 L1=14.133930 act_convert=7.251978 L2=14.391184
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=2 ms=38.428068 L1=15.521049 act_convert=7.194996 L2=15.712023
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=2 ms=35.735846 L1=14.081955 act_convert=7.217884 L2=14.436007
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=2 ms=37.689209 L1=15.241146 act_convert=7.205963 L2=15.242100
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=2 ms=34.986973 L1=13.553143 act_convert=7.189989 L2=14.243841
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=2 ms=37.873030 L1=15.096903 act_convert=7.242203 L2=15.533924
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=2 ms=35.197973 L1=13.756037 act_convert=7.228136 L2=14.213800
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=2 ms=37.882090 L1=15.134096 act_convert=7.228851 L2=15.519142
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=2 ms=35.545111 L1=13.993979 act_convert=7.212162 L2=14.338970
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=2 ms=37.854910 L1=15.290976 act_convert=7.197857 L2=15.366077
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=2 ms=53.158998 L1=24.815798 act_convert=3.478050 L2=24.865150
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=2 ms=62.158108 L1=24.996042 act_convert=11.677980 L2=25.484085
+TIME graph=roadNet-CA method=original e2e rep=2 ms=216.315985 L1=115.180016 act_convert=7.133007 L2=94.002962
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=3 ms=39.747000 L1=16.095877 act_convert=7.184029 L2=16.467094
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=3 ms=45.019865 L1=18.834829 act_convert=7.189989 L2=18.995047
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=3 ms=34.703970 L1=13.437033 act_convert=7.211924 L2=14.055014
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=3 ms=37.692785 L1=15.074968 act_convert=7.251024 L2=15.366793
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=3 ms=35.218000 L1=13.696909 act_convert=7.221222 L2=14.299870
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=3 ms=37.528992 L1=15.140057 act_convert=7.185936 L2=15.202999
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=3 ms=35.031080 L1=13.574123 act_convert=7.202864 L2=14.254093
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=3 ms=37.802935 L1=15.136003 act_convert=7.216930 L2=15.450001
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=3 ms=35.356045 L1=13.698101 act_convert=7.272959 L2=14.384985
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=3 ms=37.866831 L1=15.153885 act_convert=7.204056 L2=15.508890
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=3 ms=35.224915 L1=13.762951 act_convert=7.238865 L2=14.223099
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=3 ms=38.061142 L1=15.089035 act_convert=7.260084 L2=15.712023
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=3 ms=35.722017 L1=14.000177 act_convert=7.213831 L2=14.508009
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=3 ms=37.889957 L1=15.310049 act_convert=7.220030 L2=15.359879
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=3 ms=53.277016 L1=25.058031 act_convert=3.407001 L2=24.811983
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=3 ms=60.797215 L1=24.909019 act_convert=10.945082 L2=24.943113
+TIME graph=roadNet-CA method=original e2e rep=3 ms=199.087143 L1=95.546007 act_convert=9.891987 L2=93.649149
+TIME graph=roadNet-CA method=original_nozero e2e rep=3 ms=38.259983 L1=13.710022 act_convert=10.408163 L2=14.141798
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=4 ms=48.144102 L1=18.721104 act_convert=10.391951 L2=19.031048
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=4 ms=37.973881 L1=13.455868 act_convert=10.524988 L2=13.993025
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=4 ms=40.651083 L1=14.923096 act_convert=10.390997 L2=15.336990
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=4 ms=38.190126 L1=13.589144 act_convert=10.535955 L2=14.065027
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=4 ms=40.892124 L1=15.119076 act_convert=10.366917 L2=15.406132
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=4 ms=38.182020 L1=13.622046 act_convert=10.483027 L2=14.076948
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=4 ms=40.679932 L1=14.998913 act_convert=10.387182 L2=15.293837
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=4 ms=38.185835 L1=13.588905 act_convert=10.380030 L2=14.216900
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=4 ms=41.020155 L1=15.195131 act_convert=10.382891 L2=15.442133
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=4 ms=38.542986 L1=13.800144 act_convert=10.440826 L2=14.302015
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=4 ms=41.115046 L1=15.128136 act_convert=10.388851 L2=15.598059
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=4 ms=38.501024 L1=13.837099 act_convert=10.382891 L2=14.281034
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=4 ms=41.052103 L1=15.144110 act_convert=10.379076 L2=15.528917
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=4 ms=53.253889 L1=24.828911 act_convert=3.522873 L2=24.902105
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=4 ms=60.605049 L1=24.904013 act_convert=10.667086 L2=25.033951
+TIME graph=roadNet-CA method=original e2e rep=4 ms=206.250906 L1=105.185032 act_convert=7.154942 L2=93.910933
+TIME graph=roadNet-CA method=original_nozero e2e rep=4 ms=35.099030 L1=13.717175 act_convert=7.164955 L2=14.216900
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=4 ms=39.775848 L1=16.275883 act_convert=7.202148 L2=16.297817
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=5 ms=34.689903 L1=13.509989 act_convert=7.277966 L2=13.901949
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=5 ms=37.941933 L1=15.020132 act_convert=7.238865 L2=15.682936
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=5 ms=35.068989 L1=13.796091 act_convert=7.200003 L2=14.072895
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=5 ms=37.584782 L1=14.955997 act_convert=7.281780 L2=15.347004
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=5 ms=35.053015 L1=13.572931 act_convert=7.286072 L2=14.194012
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=5 ms=37.745953 L1=15.130997 act_convert=7.186890 L2=15.428066
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=5 ms=35.310984 L1=13.742924 act_convert=7.268906 L2=14.299154
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=5 ms=37.954092 L1=15.145063 act_convert=7.253885 L2=15.555143
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=5 ms=35.356045 L1=13.720036 act_convert=7.227898 L2=14.408112
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=5 ms=37.754059 L1=15.244961 act_convert=7.174015 L2=15.335083
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=5 ms=35.046101 L1=13.544083 act_convert=7.266998 L2=14.235020
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=5 ms=37.898064 L1=15.095949 act_convert=7.230997 L2=15.571117
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=5 ms=53.341150 L1=24.883986 act_convert=3.540039 L2=24.917126
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=5 ms=61.109066 L1=25.160074 act_convert=10.689020 L2=25.259972
+TIME graph=roadNet-CA method=original e2e rep=5 ms=209.936142 L1=108.801126 act_convert=7.220030 L2=93.914986
+TIME graph=roadNet-CA method=original_nozero e2e rep=5 ms=35.133839 L1=13.703823 act_convert=7.150173 L2=14.279842
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=5 ms=40.185928 L1=16.310930 act_convert=7.275105 L2=16.599894
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=5 ms=45.196056 L1=18.842936 act_convert=7.205963 L2=19.147158
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=6 ms=37.698030 L1=14.975071 act_convert=7.286072 L2=15.436888
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=6 ms=34.790039 L1=13.650894 act_convert=7.179976 L2=13.959169
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=6 ms=37.528992 L1=14.890909 act_convert=7.218122 L2=15.419960
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=6 ms=35.112143 L1=13.624191 act_convert=7.183790 L2=14.304161
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=6 ms=37.893057 L1=15.170097 act_convert=7.243872 L2=15.479088
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=6 ms=34.803152 L1=13.657093 act_convert=7.205009 L2=13.941050
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=6 ms=37.496090 L1=14.980078 act_convert=7.236004 L2=15.280008
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=6 ms=34.942150 L1=13.529062 act_convert=7.246017 L2=14.167070
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=6 ms=38.049936 L1=15.192032 act_convert=7.153988 L2=15.703917
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=6 ms=35.027981 L1=13.821840 act_convert=7.210016 L2=13.996124
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=6 ms=37.621021 L1=14.976025 act_convert=7.271051 L2=15.373945
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=6 ms=53.228140 L1=25.030136 act_convert=3.232002 L2=24.966002
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=6 ms=60.811996 L1=24.824142 act_convert=10.944843 L2=25.043011
+TIME graph=roadNet-CA method=original e2e rep=6 ms=208.467007 L1=105.067015 act_convert=7.192135 L2=96.207857
+TIME graph=roadNet-CA method=original_nozero e2e rep=6 ms=35.127163 L1=13.709068 act_convert=7.179976 L2=14.238119
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=6 ms=40.303946 L1=16.283989 act_convert=7.255077 L2=16.764879
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=6 ms=45.482874 L1=18.934011 act_convert=7.210016 L2=19.338846
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=6 ms=35.218000 L1=13.681889 act_convert=7.340908 L2=14.195204
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=7 ms=34.929037 L1=13.730049 act_convert=7.216930 L2=13.982058
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=7 ms=40.774107 L1=14.887094 act_convert=10.380983 L2=15.506029
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=7 ms=38.252115 L1=13.756037 act_convert=10.385990 L2=14.110088
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=7 ms=41.054964 L1=15.187025 act_convert=10.376930 L2=15.491009
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=7 ms=38.460016 L1=13.745070 act_convert=10.532856 L2=14.182091
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=7 ms=41.023970 L1=15.182972 act_convert=10.375977 L2=15.465021
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=7 ms=38.516045 L1=13.710976 act_convert=10.534048 L2=14.271021
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=7 ms=40.969133 L1=15.088081 act_convert=10.402918 L2=15.478134
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=7 ms=38.312912 L1=13.746977 act_convert=10.375977 L2=14.189959
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=7 ms=40.953875 L1=15.015841 act_convert=10.480165 L2=15.457869
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=7 ms=53.237915 L1=24.897814 act_convert=3.430128 L2=24.909973
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=7 ms=60.606003 L1=24.953127 act_convert=10.632992 L2=25.019884
+TIME graph=roadNet-CA method=original e2e rep=7 ms=197.301149 L1=96.156120 act_convert=7.235050 L2=93.909979
+TIME graph=roadNet-CA method=original_nozero e2e rep=7 ms=35.109997 L1=13.699055 act_convert=7.188082 L2=14.222860
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=7 ms=39.720058 L1=16.258955 act_convert=7.157087 L2=16.304016
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=7 ms=44.841051 L1=18.665075 act_convert=7.173061 L2=19.002914
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=7 ms=34.737825 L1=13.549805 act_convert=7.215023 L2=13.972998
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=7 ms=37.643909 L1=14.976978 act_convert=7.228851 L2=15.438080
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=8 ms=37.872076 L1=15.091181 act_convert=7.283926 L2=15.496969
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=8 ms=34.731150 L1=13.556004 act_convert=7.283211 L2=13.891935
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=8 ms=37.317038 L1=14.863014 act_convert=7.254124 L2=15.199900
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=8 ms=34.751177 L1=13.495207 act_convert=7.253885 L2=14.002085
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=8 ms=37.504911 L1=14.972925 act_convert=7.198095 L2=15.333891
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=8 ms=34.874201 L1=13.709068 act_convert=7.183075 L2=13.982058
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=8 ms=37.999868 L1=15.230894 act_convert=7.236958 L2=15.532017
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=8 ms=35.629034 L1=13.978004 act_convert=7.205963 L2=14.445066
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=8 ms=38.643122 L1=15.529156 act_convert=7.250786 L2=15.863180
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=8 ms=53.781033 L1=25.362015 act_convert=3.473997 L2=24.945021
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=8 ms=62.440872 L1=25.339842 act_convert=11.051178 L2=26.049852
+TIME graph=roadNet-CA method=original e2e rep=8 ms=214.357138 L1=113.262177 act_convert=7.138014 L2=93.956947
+TIME graph=roadNet-CA method=original_nozero e2e rep=8 ms=35.365105 L1=13.725996 act_convert=7.112026 L2=14.527082
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=8 ms=40.350199 L1=16.447067 act_convert=7.262945 L2=16.640186
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=8 ms=45.358896 L1=18.935919 act_convert=7.189989 L2=19.232988
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=8 ms=35.147905 L1=13.694048 act_convert=7.256031 L2=14.197826
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=8 ms=38.069963 L1=15.164852 act_convert=7.302046 L2=15.603065
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=8 ms=34.933090 L1=13.765097 act_convert=7.204771 L2=13.963223
+TIME graph=roadNet-CA method=shared_b16_fast_nozero e2e rep=9 ms=35.070896 L1=13.558865 act_convert=7.248163 L2=14.263868
+TIME graph=roadNet-CA method=shared_b16_accurate_nozero e2e rep=9 ms=37.792921 L1=15.133858 act_convert=7.170916 L2=15.488148
+TIME graph=roadNet-CA method=shared_b32_fast_nozero e2e rep=9 ms=34.849167 L1=13.775110 act_convert=7.125854 L2=13.948202
+TIME graph=roadNet-CA method=shared_b32_accurate_nozero e2e rep=9 ms=37.756920 L1=14.918089 act_convert=7.215977 L2=15.622854
+TIME graph=roadNet-CA method=shared_b64_fast_nozero e2e rep=9 ms=35.289049 L1=13.842106 act_convert=7.143974 L2=14.302969
+TIME graph=roadNet-CA method=shared_b64_accurate_nozero e2e rep=9 ms=37.618160 L1=15.170097 act_convert=7.134914 L2=15.313148
+TIME graph=roadNet-CA method=shared_bfull_fast_nozero e2e rep=9 ms=35.023928 L1=13.592005 act_convert=7.259846 L2=14.172077
+TIME graph=roadNet-CA method=shared_bfull_accurate_nozero e2e rep=9 ms=37.824154 L1=15.097141 act_convert=7.179022 L2=15.547991
+TIME graph=roadNet-CA method=mkl_fp32 e2e rep=9 ms=53.205967 L1=24.888039 act_convert=3.479958 L2=24.837971
+TIME graph=roadNet-CA method=mkl_bf16_inputs e2e rep=9 ms=60.688019 L1=24.845123 act_convert=10.851860 L2=24.991035
+TIME graph=roadNet-CA method=original e2e rep=9 ms=199.260950 L1=97.661972 act_convert=7.252932 L2=94.346046
+TIME graph=roadNet-CA method=original_nozero e2e rep=9 ms=35.109043 L1=13.710022 act_convert=7.154942 L2=14.244080
+TIME graph=roadNet-CA method=shared_b2_fast_nozero e2e rep=9 ms=39.874077 L1=16.278028 act_convert=7.164001 L2=16.432047
+TIME graph=roadNet-CA method=shared_b2_accurate_nozero e2e rep=9 ms=44.996977 L1=18.798828 act_convert=7.186174 L2=19.011974
+TIME graph=roadNet-CA method=shared_b4_fast_nozero e2e rep=9 ms=34.735918 L1=13.531923 act_convert=7.233143 L2=13.970852
+TIME graph=roadNet-CA method=shared_b4_accurate_nozero e2e rep=9 ms=37.644863 L1=14.997005 act_convert=7.219791 L2=15.428066
+TIME graph=roadNet-CA method=shared_b8_fast_nozero e2e rep=9 ms=35.260916 L1=13.707876 act_convert=7.248163 L2=14.304876
+TIME graph=roadNet-CA method=shared_b8_accurate_nozero e2e rep=9 ms=37.482023 L1=15.082836 act_convert=7.143974 L2=15.255213
+COMPLETE graph=roadNet-CA status=PASS max_rss_kib=9055164

@@ -1,0 +1,471 @@
+GRAPH_VALUES name=web-Google checked=5105039 nonunit=0 implicit_ones=0
+CORRECT graph=web-Google method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.96486515e-07 max_abs=7.3146075e-05 max_norm=2.68544771e-07 pass=1
+CONFIG graph=web-Google N=916428 E=5105039 threads=32 R=64 D=128 F=128 repeats=10 warmups=1
+CORRECT graph=web-Google method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00533323105 max_abs=1.20358276 max_norm=0.0044187717 pass=1
+CORRECT graph=web-Google method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00524425629 max_abs=1.20362625 max_norm=0.00441893204 pass=1
+CORRECT graph=web-Google method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530735962 max_abs=1.20358276 max_norm=0.00439933205 pass=1
+CORRECT graph=web-Google method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.96486515e-07 max_abs=7.3146075e-05 max_norm=2.68544771e-07 pass=1
+CORRECT graph=web-Google method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.08348743e-07 max_abs=0.000274658203 max_norm=1.00836596e-06 pass=1
+CORRECT graph=web-Google method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.0053073597 max_abs=1.20379639 max_norm=0.00440011289 pass=1
+CORRECT graph=web-Google method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=5.60975512e-07 max_abs=0.000259973109 max_norm=9.54452018e-07 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.08348743e-07 max_abs=0.000274658203 max_norm=1.00836596e-06 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0053073597 max_abs=1.20379639 max_norm=0.00440011289 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=5.60975512e-07 max_abs=0.000259973109 max_norm=9.54452018e-07 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00229203401 max_abs=0.643112183 max_norm=0.00236108891 pass=1
+CORRECT graph=web-Google method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0069896123 max_abs=1.71713257 max_norm=0.00627645773 pass=1
+CORRECT graph=web-Google method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00239448636 max_abs=0.643092655 max_norm=0.00236101759 pass=1
+CORRECT graph=web-Google method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.0918401e-07 max_abs=0.000259399414 max_norm=9.52345633e-07 pass=1
+CORRECT graph=web-Google method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530735967 max_abs=1.20346069 max_norm=0.00439888586 pass=1
+CORRECT graph=web-Google method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=6.02176128e-07 max_abs=0.000265792012 max_norm=9.75815244e-07 pass=1
+CORRECT graph=web-Google method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00285723085 max_abs=0.813293457 max_norm=0.00298588366 pass=1
+CORRECT graph=web-Google method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0075948929 max_abs=2.01687622 max_norm=0.00737207982 pass=1
+CORRECT graph=web-Google method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00297867884 max_abs=0.813249975 max_norm=0.0029857245 pass=1
+CORRECT graph=web-Google method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.90649239e-07 max_abs=0.000305175781 max_norm=1.12040663e-06 pass=1
+CORRECT graph=web-Google method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530735962 max_abs=1.20367432 max_norm=0.0043996667 pass=1
+CORRECT graph=web-Google method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.06572548e-07 max_abs=0.000280626118 max_norm=1.03027642e-06 pass=1
+CORRECT graph=web-Google method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.0030308976 max_abs=1.04483032 max_norm=0.00383593617 pass=1
+CORRECT graph=web-Google method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00780353754 max_abs=2.24841309 max_norm=0.00821839266 pass=1
+CORRECT graph=web-Google method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322044981 max_abs=1.04478684 max_norm=0.00383577714 pass=1
+CORRECT graph=web-Google method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=5.0151557e-07 max_abs=0.000198364258 max_norm=7.28264308e-07 pass=1
+CORRECT graph=web-Google method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530737401 max_abs=1.20373535 max_norm=0.00439988979 pass=1
+CORRECT graph=web-Google method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=6.52012918e-07 max_abs=0.000175490975 max_norm=6.44288621e-07 pass=1
+CORRECT graph=web-Google method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00311768151 max_abs=0.872619629 max_norm=0.00320369071 pass=1
+CORRECT graph=web-Google method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00790066246 max_abs=2.07620239 max_norm=0.00758892866 pass=1
+CORRECT graph=web-Google method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00326192443 max_abs=0.872576147 max_norm=0.00320353158 pass=1
+CORRECT graph=web-Google method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.28051497e-06 max_abs=0.000480651855 max_norm=1.76464044e-06 pass=1
+CORRECT graph=web-Google method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530747369 max_abs=1.20394897 max_norm=0.00440067063 pass=1
+CORRECT graph=web-Google method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.85753974e-06 max_abs=0.000485293567 max_norm=1.78168206e-06 pass=1
+CORRECT graph=web-Google method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00313371339 max_abs=0.873443604 max_norm=0.00320671581 pass=1
+CORRECT graph=web-Google method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00792036297 max_abs=2.07702637 max_norm=0.00759194045 pass=1
+CORRECT graph=web-Google method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322223872 max_abs=0.873400122 max_norm=0.00320655668 pass=1
+CORRECT graph=web-Google method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.60881106e-06 max_abs=0.00102996826 max_norm=3.78137237e-06 pass=1
+CORRECT graph=web-Google method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530754272 max_abs=1.20446777 max_norm=0.00440256694 pass=1
+CORRECT graph=web-Google method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.60823902e-06 max_abs=0.00103203952 max_norm=3.78897729e-06 pass=1
+CORRECT graph=web-Google method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00313491462 max_abs=0.76663208 max_norm=0.00281457349 pass=1
+CORRECT graph=web-Google method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00792167965 max_abs=1.95266724 max_norm=0.00713738333 pass=1
+CORRECT graph=web-Google method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.0033241872 max_abs=0.76663655 max_norm=0.00281459035 pass=1
+CORRECT graph=web-Google method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.72523877e-06 max_abs=0.00137042999 max_norm=5.03132601e-06 pass=1
+CORRECT graph=web-Google method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530757148 max_abs=1.20440674 max_norm=0.00440234384 pass=1
+CORRECT graph=web-Google method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=5.63222627e-06 max_abs=0.00137460232 max_norm=5.04664487e-06 pass=1
+CORRECT graph=web-Google method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00313508997 max_abs=1.04904175 max_norm=0.00385139778 pass=1
+CORRECT graph=web-Google method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00792192752 max_abs=2.19702148 max_norm=0.00803054624 pass=1
+CORRECT graph=web-Google method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.003414861 max_abs=1.04906366 max_norm=0.00385147886 pass=1
+CORRECT graph=web-Google method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.77445473e-06 max_abs=0.00201416016 max_norm=7.39468374e-06 pass=1
+CORRECT graph=web-Google method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530758408 max_abs=1.20431519 max_norm=0.0044020092 pass=1
+CORRECT graph=web-Google method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=7.9251113e-06 max_abs=0.00202413648 max_norm=7.4313115e-06 pass=1
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=0 ms=14.857054
+TIME graph=web-Google method=original kernel rep=0 ms=49.290895
+TIME graph=web-Google method=original_nozero kernel rep=0 ms=8.519888
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=0 ms=11.948824
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=0 ms=13.797998
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=0 ms=9.518862
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=0 ms=10.442019
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=0 ms=8.044958
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=0 ms=8.921146
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=0 ms=7.498980
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=0 ms=7.990837
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=0 ms=7.205963
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=0 ms=7.837057
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=0 ms=7.277012
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=0 ms=7.895947
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=0 ms=7.208109
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=0 ms=7.914066
+TIME graph=web-Google method=mkl_fp32 kernel rep=0 ms=15.480995
+TIME graph=web-Google method=original kernel rep=1 ms=48.226833
+TIME graph=web-Google method=original_nozero kernel rep=1 ms=8.718967
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=1 ms=11.909008
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=1 ms=13.463020
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=1 ms=9.251118
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=1 ms=10.512829
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=1 ms=8.204222
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=1 ms=8.755922
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=1 ms=7.431030
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=1 ms=8.008957
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=1 ms=7.247925
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=1 ms=7.925034
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=1 ms=7.146835
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=1 ms=8.062124
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=1 ms=7.240057
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=1 ms=7.838011
+TIME graph=web-Google method=mkl_fp32 kernel rep=1 ms=15.467167
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=1 ms=15.041113
+TIME graph=web-Google method=original_nozero kernel rep=2 ms=9.329081
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=2 ms=11.932135
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=2 ms=13.925076
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=2 ms=9.488106
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=2 ms=10.347843
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=2 ms=8.172035
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=2 ms=8.758068
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=2 ms=7.449865
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=2 ms=7.958889
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=2 ms=7.292032
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=2 ms=7.793903
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=2 ms=7.219076
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=2 ms=7.934093
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=2 ms=7.253885
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=2 ms=7.864952
+TIME graph=web-Google method=mkl_fp32 kernel rep=2 ms=15.474081
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=2 ms=15.125990
+TIME graph=web-Google method=original kernel rep=2 ms=48.354149
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=3 ms=11.743069
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=3 ms=13.942003
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=3 ms=9.402037
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=3 ms=10.576010
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=3 ms=8.147955
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=3 ms=8.723021
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=3 ms=7.397175
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=3 ms=7.994175
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=3 ms=7.399082
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=3 ms=7.848024
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=3 ms=7.317066
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=3 ms=7.982969
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=3 ms=7.251024
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=3 ms=7.817030
+TIME graph=web-Google method=mkl_fp32 kernel rep=3 ms=15.508175
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=3 ms=14.931917
+TIME graph=web-Google method=original kernel rep=3 ms=49.002171
+TIME graph=web-Google method=original_nozero kernel rep=3 ms=8.615971
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=4 ms=14.011145
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=4 ms=9.410143
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=4 ms=10.318041
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=4 ms=8.342028
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=4 ms=8.823156
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=4 ms=7.526159
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=4 ms=7.960081
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=4 ms=7.318020
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=4 ms=7.898808
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=4 ms=7.324934
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=4 ms=7.987976
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=4 ms=7.268906
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=4 ms=8.068085
+TIME graph=web-Google method=mkl_fp32 kernel rep=4 ms=15.666008
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=4 ms=15.474081
+TIME graph=web-Google method=original kernel rep=4 ms=49.243212
+TIME graph=web-Google method=original_nozero kernel rep=4 ms=8.695126
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=4 ms=11.939049
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=5 ms=9.506941
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=5 ms=10.668993
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=5 ms=8.171797
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=5 ms=8.954048
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=5 ms=7.444143
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=5 ms=7.902145
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=5 ms=7.333040
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=5 ms=7.886887
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=5 ms=7.189989
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=5 ms=7.790089
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=5 ms=7.329941
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=5 ms=7.988930
+TIME graph=web-Google method=mkl_fp32 kernel rep=5 ms=15.312910
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=5 ms=15.136003
+TIME graph=web-Google method=original kernel rep=5 ms=49.124956
+TIME graph=web-Google method=original_nozero kernel rep=5 ms=8.563042
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=5 ms=11.522055
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=5 ms=13.957977
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=6 ms=10.629892
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=6 ms=8.109093
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=6 ms=8.741856
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=6 ms=7.548094
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=6 ms=7.901907
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=6 ms=7.198095
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=6 ms=7.972002
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=6 ms=7.251978
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=6 ms=7.920027
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=6 ms=7.290125
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=6 ms=7.876873
+TIME graph=web-Google method=mkl_fp32 kernel rep=6 ms=15.305042
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=6 ms=15.106916
+TIME graph=web-Google method=original kernel rep=6 ms=49.242020
+TIME graph=web-Google method=original_nozero kernel rep=6 ms=8.518934
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=6 ms=11.496067
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=6 ms=13.798952
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=6 ms=9.256840
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=7 ms=8.121014
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=7 ms=8.984089
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=7 ms=7.426977
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=7 ms=8.141041
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=7 ms=7.272959
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=7 ms=7.878065
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=7 ms=7.260084
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=7 ms=8.830070
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=7 ms=7.209063
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=7 ms=7.884026
+TIME graph=web-Google method=mkl_fp32 kernel rep=7 ms=15.398979
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=7 ms=15.189886
+TIME graph=web-Google method=original kernel rep=7 ms=49.137831
+TIME graph=web-Google method=original_nozero kernel rep=7 ms=8.537054
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=7 ms=11.697054
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=7 ms=13.428926
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=7 ms=9.234905
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=7 ms=10.651827
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=8 ms=8.841038
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=8 ms=7.497072
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=8 ms=7.972956
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=8 ms=7.269859
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=8 ms=7.885933
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=8 ms=7.337093
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=8 ms=7.835865
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=8 ms=7.400036
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=8 ms=7.901907
+TIME graph=web-Google method=mkl_fp32 kernel rep=8 ms=15.010118
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=8 ms=15.285015
+TIME graph=web-Google method=original kernel rep=8 ms=50.457001
+TIME graph=web-Google method=original_nozero kernel rep=8 ms=8.641958
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=8 ms=11.600018
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=8 ms=13.611078
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=8 ms=9.387016
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=8 ms=10.470867
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=8 ms=8.197069
+TIME graph=web-Google method=shared_b16_fast_nozero kernel rep=9 ms=7.364988
+TIME graph=web-Google method=shared_b16_accurate_nozero kernel rep=9 ms=8.018017
+TIME graph=web-Google method=shared_b32_fast_nozero kernel rep=9 ms=7.149935
+TIME graph=web-Google method=shared_b32_accurate_nozero kernel rep=9 ms=7.759094
+TIME graph=web-Google method=shared_b64_fast_nozero kernel rep=9 ms=7.473946
+TIME graph=web-Google method=shared_b64_accurate_nozero kernel rep=9 ms=7.987976
+TIME graph=web-Google method=shared_bfull_fast_nozero kernel rep=9 ms=7.431030
+TIME graph=web-Google method=shared_bfull_accurate_nozero kernel rep=9 ms=8.030176
+TIME graph=web-Google method=mkl_fp32 kernel rep=9 ms=15.324116
+TIME graph=web-Google method=mkl_bf16_inputs kernel rep=9 ms=15.155077
+TIME graph=web-Google method=original kernel rep=9 ms=50.906181
+TIME graph=web-Google method=original_nozero kernel rep=9 ms=8.767128
+TIME graph=web-Google method=shared_b2_fast_nozero kernel rep=9 ms=11.707067
+TIME graph=web-Google method=shared_b2_accurate_nozero kernel rep=9 ms=13.931036
+TIME graph=web-Google method=shared_b4_fast_nozero kernel rep=9 ms=9.577990
+TIME graph=web-Google method=shared_b4_accurate_nozero kernel rep=9 ms=10.606050
+TIME graph=web-Google method=shared_b8_fast_nozero kernel rep=9 ms=8.180141
+TIME graph=web-Google method=shared_b8_accurate_nozero kernel rep=9 ms=8.764029
+CORRECT graph=web-Google method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00229203401 max_abs=0.643112183 max_norm=0.00236108891 pass=1
+CORRECT graph=web-Google method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.0918401e-07 max_abs=0.000259399414 max_norm=9.52345633e-07 pass=1
+CORRECT graph=web-Google method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00285723085 max_abs=0.813293457 max_norm=0.00298588366 pass=1
+CORRECT graph=web-Google method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.90649239e-07 max_abs=0.000305175781 max_norm=1.12040663e-06 pass=1
+CORRECT graph=web-Google method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.0030308976 max_abs=1.04483032 max_norm=0.00383593617 pass=1
+CORRECT graph=web-Google method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=5.0151557e-07 max_abs=0.000198364258 max_norm=7.28264308e-07 pass=1
+CORRECT graph=web-Google method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00311768151 max_abs=0.872619629 max_norm=0.00320369071 pass=1
+CORRECT graph=web-Google method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.28051497e-06 max_abs=0.000480651855 max_norm=1.76464044e-06 pass=1
+CORRECT graph=web-Google method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00313371339 max_abs=0.873443604 max_norm=0.00320671581 pass=1
+CORRECT graph=web-Google method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.60881106e-06 max_abs=0.00102996826 max_norm=3.78137237e-06 pass=1
+CORRECT graph=web-Google method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00313491462 max_abs=0.76663208 max_norm=0.00281457349 pass=1
+CORRECT graph=web-Google method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.72523877e-06 max_abs=0.00137042999 max_norm=5.03132601e-06 pass=1
+CORRECT graph=web-Google method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00313508997 max_abs=1.04904175 max_norm=0.00385139778 pass=1
+CORRECT graph=web-Google method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.77445473e-06 max_abs=0.00201416016 max_norm=7.39468374e-06 pass=1
+CORRECT graph=web-Google method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0103670108 max_abs=687.386719 max_norm=0.0107519254 pass=1
+CORRECT graph=web-Google method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=web-Google method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102635607 max_abs=687.386719 max_norm=0.0106375512 pass=1
+CORRECT graph=web-Google method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.36454618e-06 max_abs=0.624511719 max_norm=9.7684509e-06 pass=1
+CORRECT graph=web-Google method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.010263555 max_abs=687.378906 max_norm=0.0106374303 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.36454618e-06 max_abs=0.624511719 max_norm=9.7684509e-06 pass=1
+CORRECT graph=web-Google method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.010263555 max_abs=687.378906 max_norm=0.0106374303 pass=1
+CORRECT graph=web-Google method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00340781026 max_abs=211.789062 max_norm=0.00331274978 pass=1
+CORRECT graph=web-Google method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.013276805 max_abs=899.175781 max_norm=0.0139150615 pass=1
+CORRECT graph=web-Google method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.73931876e-06 max_abs=0.374389648 max_norm=5.85610612e-06 pass=1
+CORRECT graph=web-Google method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102635631 max_abs=687.402344 max_norm=0.010637793 pass=1
+CORRECT graph=web-Google method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00478348643 max_abs=275.316406 max_norm=0.00430642807 pass=1
+CORRECT graph=web-Google method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0146870076 max_abs=962.703125 max_norm=0.0148981695 pass=1
+CORRECT graph=web-Google method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.62263362e-06 max_abs=0.250244141 max_norm=3.91425417e-06 pass=1
+CORRECT graph=web-Google method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102635903 max_abs=687.359375 max_norm=0.0106371281 pass=1
+CORRECT graph=web-Google method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00537468883 max_abs=323.984375 max_norm=0.00506767986 pass=1
+CORRECT graph=web-Google method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.015266292 max_abs=1011.37109 max_norm=0.0156513234 pass=1
+CORRECT graph=web-Google method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.12105534e-05 max_abs=0.375610352 max_norm=5.87520004e-06 pass=1
+CORRECT graph=web-Google method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102636301 max_abs=687.339844 max_norm=0.0106368258 pass=1
+CORRECT graph=web-Google method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00568028223 max_abs=321.753906 max_norm=0.00503279144 pass=1
+CORRECT graph=web-Google method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0155306155 max_abs=1009.14062 max_norm=0.0156168061 pass=1
+CORRECT graph=web-Google method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.24286665e-05 max_abs=0.968933105 max_norm=1.51558012e-05 pass=1
+CORRECT graph=web-Google method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102640236 max_abs=687.210938 max_norm=0.010634831 pass=1
+CORRECT graph=web-Google method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00580557704 max_abs=322.019531 max_norm=0.00503694628 pass=1
+CORRECT graph=web-Google method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.015638218 max_abs=1000.96875 max_norm=0.0154903435 pass=1
+CORRECT graph=web-Google method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.71445566e-05 max_abs=0.976409912 max_norm=1.52727515e-05 pass=1
+CORRECT graph=web-Google method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102644049 max_abs=687.25 max_norm=0.0106354355 pass=1
+CORRECT graph=web-Google method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00582351985 max_abs=334.5 max_norm=0.00523216255 pass=1
+CORRECT graph=web-Google method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.015651811 max_abs=1021.88672 max_norm=0.0158140564 pass=1
+CORRECT graph=web-Google method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.89103221e-05 max_abs=0.976409912 max_norm=1.52727515e-05 pass=1
+CORRECT graph=web-Google method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102646298 max_abs=687.402344 max_norm=0.010637793 pass=1
+CORRECT graph=web-Google method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00583191891 max_abs=384.109375 max_norm=0.00600813957 pass=1
+CORRECT graph=web-Google method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156572249 max_abs=1071.49609 max_norm=0.0165817789 pass=1
+CORRECT graph=web-Google method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.88165741e-05 max_abs=0.976409912 max_norm=1.52727515e-05 pass=1
+CORRECT graph=web-Google method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0102647188 max_abs=687.5 max_norm=0.0106393043 pass=1
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=0 ms=35.065889 L1=14.716864 act_convert=5.074024 L2=15.275002
+TIME graph=web-Google method=original e2e rep=0 ms=98.695040 L1=48.352957 act_convert=3.334999 L2=47.007084
+TIME graph=web-Google method=original_nozero e2e rep=0 ms=21.098852 L1=8.702040 act_convert=3.335953 L2=9.060860
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=0 ms=27.731895 L1=12.356997 act_convert=3.347874 L2=12.027025
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=0 ms=31.701088 L1=14.175892 act_convert=3.394127 L2=14.131069
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=0 ms=23.389101 L1=9.896040 act_convert=3.370047 L2=10.123014
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=0 ms=25.605917 L1=10.993004 act_convert=3.418922 L2=11.193991
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=0 ms=21.153212 L1=8.626223 act_convert=3.448963 L2=9.078026
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=0 ms=22.454023 L1=9.613991 act_convert=3.427029 L2=9.413004
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=0 ms=19.342184 L1=7.964134 act_convert=3.442049 L2=7.936001
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=0 ms=20.716190 L1=8.410215 act_convert=3.470898 L2=8.835077
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=0 ms=19.109011 L1=7.889032 act_convert=3.439903 L2=7.780075
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=0 ms=20.248890 L1=8.329868 act_convert=3.323078 L2=8.595943
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=0 ms=19.068956 L1=7.714987 act_convert=3.392935 L2=7.961035
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=0 ms=20.327091 L1=8.373022 act_convert=3.319979 L2=8.634090
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=0 ms=19.068003 L1=7.931948 act_convert=3.329992 L2=7.806063
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=0 ms=20.373821 L1=8.407831 act_convert=3.435135 L2=8.530855
+TIME graph=web-Google method=mkl_fp32 e2e rep=0 ms=31.509161 L1=15.095949 act_convert=1.358032 L2=15.055180
+TIME graph=web-Google method=original e2e rep=1 ms=101.204157 L1=50.647020 act_convert=3.362179 L2=47.194958
+TIME graph=web-Google method=original_nozero e2e rep=1 ms=21.264076 L1=8.882046 act_convert=3.335953 L2=9.046078
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=1 ms=27.665138 L1=12.404919 act_convert=3.344059 L2=11.916161
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=1 ms=32.328844 L1=14.549971 act_convert=3.321886 L2=14.456987
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=1 ms=23.258924 L1=9.967804 act_convert=3.435135 L2=9.855986
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=1 ms=25.763988 L1=11.187077 act_convert=3.449917 L2=11.126995
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=1 ms=21.131039 L1=8.562088 act_convert=3.427982 L2=9.140968
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=1 ms=22.473812 L1=9.540796 act_convert=3.440142 L2=9.492874
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=1 ms=19.377947 L1=7.930994 act_convert=3.425121 L2=8.021832
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=1 ms=20.788193 L1=8.443117 act_convert=3.470898 L2=8.874178
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=1 ms=19.465923 L1=7.826805 act_convert=3.444195 L2=8.194923
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=1 ms=20.550966 L1=8.508921 act_convert=3.394127 L2=8.647919
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=1 ms=19.337177 L1=7.954121 act_convert=3.408909 L2=7.974148
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=1 ms=20.479918 L1=8.491993 act_convert=3.468990 L2=8.518934
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=1 ms=19.377947 L1=7.884026 act_convert=3.395081 L2=8.098841
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=1 ms=21.854877 L1=8.393764 act_convert=3.427029 L2=10.034084
+TIME graph=web-Google method=mkl_fp32 e2e rep=1 ms=31.630039 L1=14.812231 act_convert=1.338959 L2=15.478849
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=1 ms=35.555124 L1=15.290022 act_convert=4.962921 L2=15.302181
+TIME graph=web-Google method=original_nozero e2e rep=2 ms=21.414042 L1=9.139061 act_convert=3.314972 L2=8.960009
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=2 ms=27.761936 L1=12.222052 act_convert=3.381014 L2=12.158871
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=2 ms=32.062054 L1=13.936996 act_convert=3.344059 L2=14.780998
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=2 ms=23.161888 L1=9.977818 act_convert=3.416061 L2=9.768009
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=2 ms=25.808096 L1=11.001110 act_convert=3.454924 L2=11.352062
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=2 ms=21.257162 L1=8.742094 act_convert=3.444910 L2=9.070158
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=2 ms=22.796154 L1=9.459972 act_convert=3.446102 L2=9.890079
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=2 ms=19.744873 L1=8.286953 act_convert=3.427029 L2=8.030891
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=2 ms=21.000862 L1=8.568048 act_convert=3.473997 L2=8.958817
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=2 ms=19.464016 L1=7.907152 act_convert=3.439903 L2=8.116961
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=2 ms=20.426035 L1=8.610964 act_convert=3.415108 L2=8.399963
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=2 ms=19.304991 L1=7.751942 act_convert=3.460884 L2=8.092165
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=2 ms=20.360947 L1=8.575916 act_convert=3.416061 L2=8.368969
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=2 ms=19.180059 L1=7.785082 act_convert=3.459930 L2=7.935047
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=2 ms=20.384789 L1=8.429766 act_convert=3.446102 L2=8.508921
+TIME graph=web-Google method=mkl_fp32 e2e rep=2 ms=31.551838 L1=14.863014 act_convert=1.370907 L2=15.317917
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=2 ms=35.965919 L1=15.386105 act_convert=5.129814 L2=15.450001
+TIME graph=web-Google method=original e2e rep=2 ms=101.262093 L1=50.558090 act_convert=3.318787 L2=47.385216
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=3 ms=28.199911 L1=12.209892 act_convert=3.348112 L2=12.641907
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=3 ms=32.245159 L1=14.504194 act_convert=3.315926 L2=14.425039
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=3 ms=23.438931 L1=9.834051 act_convert=3.360987 L2=10.243893
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=3 ms=26.014090 L1=11.311054 act_convert=3.597021 L2=11.106014
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=3 ms=21.299839 L1=8.735895 act_convert=3.430128 L2=9.133816
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=3 ms=22.673845 L1=9.581804 act_convert=3.422022 L2=9.670019
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=3 ms=19.443989 L1=7.936001 act_convert=3.433943 L2=8.074045
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=3 ms=21.073103 L1=8.597136 act_convert=3.513813 L2=8.962154
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=3 ms=19.258022 L1=7.784128 act_convert=3.438950 L2=8.034945
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=3 ms=20.495892 L1=8.450031 act_convert=3.470898 L2=8.574963
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=3 ms=18.908024 L1=7.815123 act_convert=3.365040 L2=7.727861
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=3 ms=20.563126 L1=8.504152 act_convert=3.410816 L2=8.648157
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=3 ms=18.997908 L1=7.913113 act_convert=3.349781 L2=7.735014
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=3 ms=20.344973 L1=8.345127 act_convert=3.433943 L2=8.565903
+TIME graph=web-Google method=mkl_fp32 e2e rep=3 ms=31.594038 L1=15.115023 act_convert=1.353025 L2=15.125990
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=3 ms=35.578012 L1=15.255928 act_convert=4.964113 L2=15.357971
+TIME graph=web-Google method=original e2e rep=3 ms=98.696947 L1=49.642801 act_convert=3.323078 L2=45.731068
+TIME graph=web-Google method=original_nozero e2e rep=3 ms=21.240950 L1=8.823156 act_convert=3.341913 L2=9.075880
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=4 ms=32.088041 L1=14.214993 act_convert=3.329992 L2=14.543056
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=4 ms=23.524046 L1=9.929180 act_convert=3.423929 L2=10.170937
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=4 ms=25.366068 L1=10.982990 act_convert=3.450155 L2=10.932922
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=4 ms=20.667076 L1=8.645058 act_convert=3.443956 L2=8.578062
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=4 ms=22.536993 L1=9.299040 act_convert=3.448009 L2=9.789944
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=4 ms=19.507885 L1=8.083820 act_convert=3.447056 L2=7.977009
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=4 ms=20.887136 L1=8.748055 act_convert=3.479004 L2=8.660078
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=4 ms=19.193888 L1=7.776976 act_convert=3.469944 L2=7.946968
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=4 ms=20.617962 L1=8.590937 act_convert=3.481150 L2=8.545876
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=4 ms=19.295931 L1=7.741928 act_convert=3.376007 L2=8.177996
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=4 ms=20.642042 L1=8.594036 act_convert=3.453970 L2=8.594036
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=4 ms=19.121885 L1=7.920980 act_convert=3.356934 L2=7.843971
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=4 ms=20.462036 L1=8.503199 act_convert=3.437996 L2=8.520842
+TIME graph=web-Google method=mkl_fp32 e2e rep=4 ms=31.944036 L1=15.079021 act_convert=1.348972 L2=15.516043
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=4 ms=35.558939 L1=15.106916 act_convert=4.990101 L2=15.461922
+TIME graph=web-Google method=original e2e rep=4 ms=98.512888 L1=48.122883 act_convert=3.344059 L2=47.045946
+TIME graph=web-Google method=original_nozero e2e rep=4 ms=21.492958 L1=8.886814 act_convert=3.316164 L2=9.289980
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=4 ms=28.136015 L1=12.514830 act_convert=3.346205 L2=12.274981
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=5 ms=23.236990 L1=9.935856 act_convert=3.443003 L2=9.858131
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=5 ms=25.774956 L1=11.107922 act_convert=3.427029 L2=11.240005
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=5 ms=22.459984 L1=8.669853 act_convert=4.863977 L2=8.926153
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=5 ms=23.768902 L1=9.290934 act_convert=5.001068 L2=9.476900
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=5 ms=21.163940 L1=8.011103 act_convert=5.028009 L2=8.124828
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=5 ms=22.337914 L1=8.383036 act_convert=5.073786 L2=8.881092
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=5 ms=20.410061 L1=7.801056 act_convert=4.832983 L2=7.776022
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=5 ms=21.927118 L1=8.288145 act_convert=4.834890 L2=8.804083
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=5 ms=20.406961 L1=7.863998 act_convert=4.630804 L2=7.912159
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=5 ms=21.835089 L1=8.529902 act_convert=4.822969 L2=8.482218
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=5 ms=20.471096 L1=7.704973 act_convert=4.827023 L2=7.939100
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=5 ms=21.916866 L1=8.422852 act_convert=5.063057 L2=8.430958
+TIME graph=web-Google method=mkl_fp32 e2e rep=5 ms=31.672001 L1=15.249014 act_convert=1.358986 L2=15.064001
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=5 ms=35.784006 L1=15.318871 act_convert=5.093098 L2=15.372038
+TIME graph=web-Google method=original e2e rep=5 ms=97.139120 L1=46.909094 act_convert=3.339052 L2=46.890974
+TIME graph=web-Google method=original_nozero e2e rep=5 ms=21.290064 L1=8.777857 act_convert=3.333092 L2=9.179115
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=5 ms=28.170109 L1=12.552977 act_convert=3.456116 L2=12.161016
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=5 ms=32.157898 L1=14.431953 act_convert=3.346920 L2=14.379025
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=6 ms=25.683165 L1=10.926008 act_convert=3.460169 L2=11.296988
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=6 ms=20.936966 L1=8.524895 act_convert=3.460884 L2=8.951187
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=6 ms=22.367954 L1=9.531975 act_convert=3.449917 L2=9.386063
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=6 ms=19.686937 L1=8.031845 act_convert=3.461123 L2=8.193970
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=6 ms=20.746946 L1=8.619070 act_convert=3.451824 L2=8.676052
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=6 ms=19.401073 L1=7.838011 act_convert=3.326893 L2=8.236170
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=6 ms=20.378828 L1=8.423805 act_convert=3.422976 L2=8.532047
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=6 ms=19.284010 L1=7.862091 act_convert=3.369808 L2=8.052111
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=6 ms=20.383835 L1=8.436918 act_convert=3.438950 L2=8.507967
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=6 ms=19.330025 L1=7.838011 act_convert=3.352165 L2=8.139849
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=6 ms=20.262003 L1=8.456945 act_convert=3.437042 L2=8.368015
+TIME graph=web-Google method=mkl_fp32 e2e rep=6 ms=31.877041 L1=15.181065 act_convert=1.365900 L2=15.330076
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=6 ms=35.776138 L1=15.319109 act_convert=5.097866 L2=15.359163
+TIME graph=web-Google method=original e2e rep=6 ms=98.479986 L1=49.437046 act_convert=3.318071 L2=45.724869
+TIME graph=web-Google method=original_nozero e2e rep=6 ms=21.430016 L1=8.808136 act_convert=3.329992 L2=9.291887
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=6 ms=27.309179 L1=12.096167 act_convert=3.309011 L2=11.904001
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=6 ms=31.615019 L1=14.147997 act_convert=3.301859 L2=14.165163
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=6 ms=23.493052 L1=10.030031 act_convert=3.424168 L2=10.038853
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=7 ms=20.910025 L1=8.716106 act_convert=3.417969 L2=8.775949
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=7 ms=22.442102 L1=9.525061 act_convert=3.437996 L2=9.479046
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=7 ms=19.579887 L1=8.018970 act_convert=3.434896 L2=8.126020
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=7 ms=20.913839 L1=8.558035 act_convert=3.496885 L2=8.858919
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=7 ms=20.584106 L1=7.877111 act_convert=4.653931 L2=8.053064
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=7 ms=21.956205 L1=8.515120 act_convert=4.817963 L2=8.623123
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=7 ms=20.864010 L1=7.946968 act_convert=4.901886 L2=8.015156
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=7 ms=22.130966 L1=8.568048 act_convert=4.813910 L2=8.749008
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=7 ms=20.633936 L1=7.891893 act_convert=4.935980 L2=7.806063
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=7 ms=22.060871 L1=8.342028 act_convert=4.840851 L2=8.877993
+TIME graph=web-Google method=mkl_fp32 e2e rep=7 ms=31.553030 L1=15.057087 act_convert=1.369953 L2=15.125990
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=7 ms=35.761833 L1=15.374899 act_convert=5.083084 L2=15.303850
+TIME graph=web-Google method=original e2e rep=7 ms=98.429918 L1=48.038960 act_convert=3.329992 L2=47.060966
+TIME graph=web-Google method=original_nozero e2e rep=7 ms=21.189928 L1=8.652925 act_convert=3.344059 L2=9.192944
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=7 ms=27.492046 L1=12.175083 act_convert=3.421068 L2=11.895895
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=7 ms=32.148838 L1=14.351845 act_convert=3.319025 L2=14.477968
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=7 ms=24.862051 L1=10.036945 act_convert=4.826069 L2=9.999037
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=7 ms=26.765823 L1=10.736942 act_convert=4.844904 L2=11.183977
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=8 ms=23.653030 L1=9.469986 act_convert=4.821062 L2=9.361982
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=8 ms=20.817995 L1=7.848978 act_convert=5.030155 L2=7.938862
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=8 ms=22.462130 L1=8.520126 act_convert=5.061865 L2=8.880138
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=8 ms=20.358086 L1=7.743120 act_convert=4.892111 L2=7.722855
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=8 ms=21.927834 L1=8.319855 act_convert=4.822016 L2=8.785963
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=8 ms=20.724058 L1=7.941961 act_convert=4.888058 L2=7.894039
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=8 ms=21.907091 L1=8.380175 act_convert=4.815817 L2=8.711100
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=8 ms=20.890951 L1=7.818937 act_convert=4.920959 L2=8.151054
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=8 ms=21.972895 L1=8.584976 act_convert=4.808903 L2=8.579016
+TIME graph=web-Google method=mkl_fp32 e2e rep=8 ms=31.908989 L1=15.246153 act_convert=1.391888 L2=15.270948
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=8 ms=35.401106 L1=15.038013 act_convert=5.100012 L2=15.263081
+TIME graph=web-Google method=original e2e rep=8 ms=98.850965 L1=48.372984 act_convert=3.327131 L2=47.150850
+TIME graph=web-Google method=original_nozero e2e rep=8 ms=21.291971 L1=8.641958 act_convert=3.337145 L2=9.312868
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=8 ms=27.919054 L1=12.142181 act_convert=3.417969 L2=12.358904
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=8 ms=32.273054 L1=14.442921 act_convert=3.454208 L2=14.375925
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=8 ms=23.365021 L1=10.086060 act_convert=3.421068 L2=9.857893
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=8 ms=25.285959 L1=10.882139 act_convert=3.432989 L2=10.970831
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=8 ms=20.788908 L1=8.737803 act_convert=3.443003 L2=8.608103
+TIME graph=web-Google method=shared_b16_fast_nozero e2e rep=9 ms=19.459963 L1=7.905960 act_convert=3.445864 L2=8.108139
+TIME graph=web-Google method=shared_b16_accurate_nozero e2e rep=9 ms=20.931005 L1=8.749962 act_convert=3.475904 L2=8.705139
+TIME graph=web-Google method=shared_b32_fast_nozero e2e rep=9 ms=20.442009 L1=7.792950 act_convert=4.834890 L2=7.814169
+TIME graph=web-Google method=shared_b32_accurate_nozero e2e rep=9 ms=20.514965 L1=8.537054 act_convert=3.432035 L2=8.545876
+TIME graph=web-Google method=shared_b64_fast_nozero e2e rep=9 ms=19.187927 L1=7.729053 act_convert=3.383875 L2=8.074999
+TIME graph=web-Google method=shared_b64_accurate_nozero e2e rep=9 ms=20.373106 L1=8.496046 act_convert=3.422976 L2=8.454084
+TIME graph=web-Google method=shared_bfull_fast_nozero e2e rep=9 ms=19.303799 L1=7.838964 act_convert=3.324032 L2=8.140802
+TIME graph=web-Google method=shared_bfull_accurate_nozero e2e rep=9 ms=20.717144 L1=8.574963 act_convert=3.443956 L2=8.698225
+TIME graph=web-Google method=mkl_fp32 e2e rep=9 ms=31.858206 L1=15.082121 act_convert=1.357079 L2=15.419006
+TIME graph=web-Google method=mkl_bf16_inputs e2e rep=9 ms=35.603046 L1=15.333891 act_convert=4.965067 L2=15.304089
+TIME graph=web-Google method=original e2e rep=9 ms=98.747015 L1=48.284054 act_convert=3.340006 L2=47.122955
+TIME graph=web-Google method=original_nozero e2e rep=9 ms=21.126032 L1=8.628130 act_convert=3.359079 L2=9.138823
+TIME graph=web-Google method=shared_b2_fast_nozero e2e rep=9 ms=27.546883 L1=12.106895 act_convert=3.329039 L2=12.110949
+TIME graph=web-Google method=shared_b2_accurate_nozero e2e rep=9 ms=32.021046 L1=14.111042 act_convert=3.317833 L2=14.592171
+TIME graph=web-Google method=shared_b4_fast_nozero e2e rep=9 ms=23.150921 L1=9.665012 act_convert=3.330946 L2=10.154963
+TIME graph=web-Google method=shared_b4_accurate_nozero e2e rep=9 ms=25.578976 L1=11.019945 act_convert=3.412962 L2=11.146069
+TIME graph=web-Google method=shared_b8_fast_nozero e2e rep=9 ms=21.202087 L1=8.630037 act_convert=3.442049 L2=9.130001
+TIME graph=web-Google method=shared_b8_accurate_nozero e2e rep=9 ms=22.486925 L1=9.478807 act_convert=3.407001 L2=9.601116
+COMPLETE graph=web-Google status=PASS max_rss_kib=4271180

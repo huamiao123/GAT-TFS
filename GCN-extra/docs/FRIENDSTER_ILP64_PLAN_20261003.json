@@ -1,0 +1,16 @@
+{
+  "id": "decision-20261003-friendster-ilp64",
+  "kind": "decision",
+  "status": "READY",
+  "purpose": "Cover Friendster without invalid signed32 CSR offsets in MKL reference",
+  "evidence": "Friendster header E=3612134270 > INT32_MAX; installed mkl_types.h defines LP64 MKL_INT as int, ILP64 as MKL_INT64; ILP64 library found in current read-only module",
+  "implementation": "Build with MKL_ILP64 and explicit mkl_intel_ilp64 + mkl_intel_thread + mkl_core libraries. Only MKL index width changes, float precision remains FP32 and AMX BF16. Original source and AMX kernels remain unchanged",
+  "correctness": "build-20261003-211404 PASS, smoke-10862091 PASS across empty/tail/negative fixtures and Original_nozero bitwise identity",
+  "memory": "MKL copied colidx is8 bytes vs4; estimated budget425.7 GiB, allocation448 GiB; CPU32 cores single socket, memory interleaved across online CPU domains of both sockets identically for all paths",
+  "timing": "B2/4/8/16/32/64/Full Fast+Accurate nozero, Original and Original_nozero, FP32 and matched BF16 MKL; one warmup10 measured repetitions; full matrix+sample correctness and two-layer E2E",
+  "prior_batch": "formal-10862002 retains frozen LP64 binary; its Friendster attempt may fail on reference index limits. Preserve this outcome, then use isolated ILP64 run for valid comparison",
+  "authorization": "User requested as many graphs as possible. Up to2 exclusive jobs may run concurrently, below max5-node cap. Handoff appends now use advisory flock to serialize concurrent-job updates",
+  "issues": "MKL LP64 signed row-offset limitation; fixed via ILP64 build, real-large-graph validation pending",
+  "paper_eligible": false,
+  "next": "Collect isolated Friendster result and reconcile it with25-graph coverage, keeping failed LP64 evidence"
+}

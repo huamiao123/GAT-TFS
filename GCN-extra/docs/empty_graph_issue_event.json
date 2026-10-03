@@ -1,0 +1,14 @@
+{
+  "id": "issue-20261003-empty-mkl-csr",
+  "kind": "correctness_fix",
+  "status": "FIX_IMPLEMENTED_PENDING_GATE",
+  "affected_job": "10861414",
+  "symptom": "17-node all-empty CSR rejected by mkl_sparse_s_create_csr; job failed before this fixture's timing. Mixed-degree 37-node and regular 137-node q130 fixtures passed.",
+  "evidence": "runs/smoke-10861414/tail-n17-q0/stderr.log; tail-n137-q130/info.json; smoke/info.json",
+  "root_cause": "oneMKL create interface rejects zero nnz/empty indices; mathematical operator remains well defined",
+  "fix": "MKL adapter bypasses sparse handle for zero edges, zeros Z explicitly and retains ordinary SGEMM. Nonempty CSR path is unchanged.",
+  "prevention": "Permanent all-empty fixture before formal acceptance; numerical gate still compares full outputs and FP64 samples",
+  "source": "src/bench.cpp MKLGraph constructor/run",
+  "paper_eligible": false,
+  "next": "Rebuild and rerun meaningful smoke fixtures, then paired real-graph run"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "decision-20261003-original-zeroing-controls",
+  "kind": "performance_diagnosis",
+  "status": "CONTROL_IMPLEMENTED_PENDING_GATE",
+  "affected_job": "10861421",
+  "result": "Four graphs passed numerical gates and 5-repeat exclusive medians. Full local improves reddit E2E 292.841 to 150.660 ms; Pokec 221.242 to 210.465 ms. Original TFS underperforms MKL on reddit/Pokec, so paper baseline trend is not reproduced yet.",
+  "root_cause_evidence": "soc-Pokec/profiles.csv: original serial output_zero=65.504 ms, original uninstrumented kernel median=110.746 ms; same zero in local kernel=65.763 ms, kernel median=101.821 ms",
+  "source_proof": "Original loop writes all 128 columns of every destination row, including zero-degree rows; full C clear is redundant. New shared local kernel skips all-empty tiles, so owner-thread zeroing is needed there when global clear is removed.",
+  "decision": "Keep unchanged original and all first-run evidence. Add exact original function minus only global memset; add matching nozero local variants. NaN-prefill control outputs before correctness, check bitwise original equality, rerun before comparing algorithm gains.",
+  "precision": "Identical source-compatible BF16 inputs/weights and quantized MKL reference; Fast extra quantization remains explicit",
+  "paper_eligible": false,
+  "next": "Build/nozero correctness gate; paired exclusive run including both old and zero-free paths"
+}

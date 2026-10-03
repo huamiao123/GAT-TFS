@@ -1,0 +1,179 @@
+GRAPH_VALUES name=reddit checked=114615892 nonunit=0 implicit_ones=0
+CORRECT graph=reddit method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.06391571e-07 max_abs=0.00117906183 max_norm=4.22192319e-07 pass=1
+CONFIG graph=reddit N=232965 E=114615892 threads=32 R=64 D=128 F=128 repeats=5 warmups=1
+CORRECT graph=reddit method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00507558759 max_abs=11.114502 max_norm=0.00397982332 pass=1
+CORRECT graph=reddit method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00402455047 max_abs=11.1139298 max_norm=0.00397961809 pass=1
+CORRECT graph=reddit method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00505263978 max_abs=11.114502 max_norm=0.00397221396 pass=1
+CORRECT graph=reddit method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.06391571e-07 max_abs=0.00117906183 max_norm=4.22192319e-07 pass=1
+CORRECT graph=reddit method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.60239859e-06 max_abs=0.0212402344 max_norm=7.60559317e-06 pass=1
+CORRECT graph=reddit method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.00505264515 max_abs=11.112793 max_norm=0.00397160319 pass=1
+CORRECT graph=reddit method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.46491663e-06 max_abs=0.0214852765 max_norm=7.69333591e-06 pass=1
+CORRECT graph=reddit method=shared_bfull_fast boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=shared_bfull_fast boundary=kernel_full reference=mkl_fp32 rel_l2=0.00785561 max_abs=16.6245117 max_norm=0.00594143739 pass=1
+CORRECT graph=reddit method=shared_bfull_fast boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00341118335 max_abs=9.60726015 max_norm=0.00344011768 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate boundary=kernel_full reference=mkl_bf16_inputs rel_l2=8.82324102e-06 max_abs=0.0272216797 max_norm=9.74739814e-06 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate boundary=kernel_full reference=mkl_fp32 rel_l2=0.00505799661 max_abs=11.1306152 max_norm=0.00397797269 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.0012595e-05 max_abs=0.0260673538 max_norm=9.33406228e-06 pass=1
+CORRECT graph=reddit method=replay_bfull_fast boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=replay_bfull_fast boundary=kernel_full reference=mkl_fp32 rel_l2=0.00785561 max_abs=16.6245117 max_norm=0.00594143739 pass=1
+CORRECT graph=reddit method=replay_bfull_fast boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00341118335 max_abs=9.60726015 max_norm=0.00344011768 pass=1
+CORRECT graph=reddit method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.60239859e-06 max_abs=0.0212402344 max_norm=7.60559317e-06 pass=1
+CORRECT graph=reddit method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00505264515 max_abs=11.112793 max_norm=0.00397160319 pass=1
+CORRECT graph=reddit method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.46491663e-06 max_abs=0.0214852765 max_norm=7.69333591e-06 pass=1
+CORRECT graph=reddit method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00785561 max_abs=16.6245117 max_norm=0.00594143739 pass=1
+CORRECT graph=reddit method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00341118335 max_abs=9.60726015 max_norm=0.00344011768 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=8.82324102e-06 max_abs=0.0272216797 max_norm=9.74739814e-06 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00505799661 max_abs=11.1306152 max_norm=0.00397797269 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.0012595e-05 max_abs=0.0260673538 max_norm=9.33406228e-06 pass=1
+CORRECT graph=reddit method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00323087993 max_abs=8.24023438 max_norm=0.00295062047 pass=1
+CORRECT graph=reddit method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00780492194 max_abs=16.9008789 max_norm=0.00604020832 pass=1
+CORRECT graph=reddit method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.0029823747 max_abs=8.24048071 max_norm=0.00295070842 pass=1
+CORRECT graph=reddit method=replay_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=replay_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00785561 max_abs=16.6245117 max_norm=0.00594143739 pass=1
+CORRECT graph=reddit method=replay_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00341118335 max_abs=9.60726015 max_norm=0.00344011768 pass=1
+TIME graph=reddit method=mkl_bf16_inputs kernel rep=0 ms=101.444960
+TIME graph=reddit method=original kernel rep=0 ms=158.754110
+TIME graph=reddit method=shared_bfull_fast kernel rep=0 ms=68.301916
+TIME graph=reddit method=shared_bfull_accurate kernel rep=0 ms=71.866989
+TIME graph=reddit method=replay_bfull_fast kernel rep=0 ms=129.343033
+TIME graph=reddit method=original_nozero kernel rep=0 ms=133.284092
+TIME graph=reddit method=shared_bfull_fast_nozero kernel rep=0 ms=65.203190
+TIME graph=reddit method=shared_bfull_accurate_nozero kernel rep=0 ms=67.094088
+TIME graph=reddit method=shared_b32_fast_nozero kernel rep=0 ms=60.945988
+TIME graph=reddit method=replay_bfull_fast_nozero kernel rep=0 ms=121.657133
+TIME graph=reddit method=mkl_fp32 kernel rep=0 ms=103.848934
+TIME graph=reddit method=original kernel rep=1 ms=156.381845
+TIME graph=reddit method=shared_bfull_fast kernel rep=1 ms=72.834015
+TIME graph=reddit method=shared_bfull_accurate kernel rep=1 ms=72.959900
+TIME graph=reddit method=replay_bfull_fast kernel rep=1 ms=127.264977
+TIME graph=reddit method=original_nozero kernel rep=1 ms=148.844957
+TIME graph=reddit method=shared_bfull_fast_nozero kernel rep=1 ms=65.537214
+TIME graph=reddit method=shared_bfull_accurate_nozero kernel rep=1 ms=61.816931
+TIME graph=reddit method=shared_b32_fast_nozero kernel rep=1 ms=61.189175
+TIME graph=reddit method=replay_bfull_fast_nozero kernel rep=1 ms=125.261068
+TIME graph=reddit method=mkl_fp32 kernel rep=1 ms=104.816914
+TIME graph=reddit method=mkl_bf16_inputs kernel rep=1 ms=103.099823
+TIME graph=reddit method=shared_bfull_fast kernel rep=2 ms=77.335119
+TIME graph=reddit method=shared_bfull_accurate kernel rep=2 ms=68.341017
+TIME graph=reddit method=replay_bfull_fast kernel rep=2 ms=131.407976
+TIME graph=reddit method=original_nozero kernel rep=2 ms=146.007061
+TIME graph=reddit method=shared_bfull_fast_nozero kernel rep=2 ms=63.614845
+TIME graph=reddit method=shared_bfull_accurate_nozero kernel rep=2 ms=60.981035
+TIME graph=reddit method=shared_b32_fast_nozero kernel rep=2 ms=64.027071
+TIME graph=reddit method=replay_bfull_fast_nozero kernel rep=2 ms=124.433041
+TIME graph=reddit method=mkl_fp32 kernel rep=2 ms=103.977919
+TIME graph=reddit method=mkl_bf16_inputs kernel rep=2 ms=103.621006
+TIME graph=reddit method=original kernel rep=2 ms=151.926994
+TIME graph=reddit method=shared_bfull_accurate kernel rep=3 ms=74.640036
+TIME graph=reddit method=replay_bfull_fast kernel rep=3 ms=127.479076
+TIME graph=reddit method=original_nozero kernel rep=3 ms=150.133133
+TIME graph=reddit method=shared_bfull_fast_nozero kernel rep=3 ms=59.594870
+TIME graph=reddit method=shared_bfull_accurate_nozero kernel rep=3 ms=60.705900
+TIME graph=reddit method=shared_b32_fast_nozero kernel rep=3 ms=66.777945
+TIME graph=reddit method=replay_bfull_fast_nozero kernel rep=3 ms=120.353937
+TIME graph=reddit method=mkl_fp32 kernel rep=3 ms=103.685856
+TIME graph=reddit method=mkl_bf16_inputs kernel rep=3 ms=104.226828
+TIME graph=reddit method=original kernel rep=3 ms=148.046017
+TIME graph=reddit method=shared_bfull_fast kernel rep=3 ms=71.977854
+TIME graph=reddit method=replay_bfull_fast kernel rep=4 ms=133.708000
+TIME graph=reddit method=original_nozero kernel rep=4 ms=130.721092
+TIME graph=reddit method=shared_bfull_fast_nozero kernel rep=4 ms=66.040993
+TIME graph=reddit method=shared_bfull_accurate_nozero kernel rep=4 ms=64.570904
+TIME graph=reddit method=shared_b32_fast_nozero kernel rep=4 ms=60.608149
+TIME graph=reddit method=replay_bfull_fast_nozero kernel rep=4 ms=124.040842
+TIME graph=reddit method=mkl_fp32 kernel rep=4 ms=103.346109
+TIME graph=reddit method=mkl_bf16_inputs kernel rep=4 ms=104.020119
+TIME graph=reddit method=original kernel rep=4 ms=148.483038
+TIME graph=reddit method=shared_bfull_fast kernel rep=4 ms=75.294971
+TIME graph=reddit method=shared_bfull_accurate kernel rep=4 ms=72.138071
+CORRECT graph=reddit method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=shared_bfull_fast boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=8.82324102e-06 max_abs=0.0272216797 max_norm=9.74739814e-06 pass=1
+CORRECT graph=reddit method=replay_bfull_fast boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=8.82324102e-06 max_abs=0.0272216797 max_norm=9.74739814e-06 pass=1
+CORRECT graph=reddit method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00323087993 max_abs=8.24023438 max_norm=0.00295062047 pass=1
+CORRECT graph=reddit method=replay_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00331306306 max_abs=9.60754395 max_norm=0.0034402196 pass=1
+CORRECT graph=reddit method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00937519086 max_abs=293962 max_norm=0.0091417806 pass=1
+CORRECT graph=reddit method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=reddit method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00929017633 max_abs=293962 max_norm=0.00905896553 pass=1
+CORRECT graph=reddit method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=3.42457385e-06 max_abs=286 max_norm=8.89417425e-06 pass=1
+CORRECT graph=reddit method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00929018376 max_abs=294006 max_norm=0.00906032146 pass=1
+CORRECT graph=reddit method=shared_bfull_fast boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0058371565 max_abs=194332 max_norm=0.00604343591 pass=1
+CORRECT graph=reddit method=shared_bfull_fast boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.014860184 max_abs=480254 max_norm=0.0147998872 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.62541284e-05 max_abs=536 max_norm=1.66688021e-05 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00930351607 max_abs=294372 max_norm=0.00907160041 pass=1
+CORRECT graph=reddit method=replay_bfull_fast boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0058371565 max_abs=194332 max_norm=0.00604343591 pass=1
+CORRECT graph=reddit method=replay_bfull_fast boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.014860184 max_abs=480254 max_norm=0.0147998872 pass=1
+CORRECT graph=reddit method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=3.42457385e-06 max_abs=286 max_norm=8.89417425e-06 pass=1
+CORRECT graph=reddit method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00929018376 max_abs=294006 max_norm=0.00906032146 pass=1
+CORRECT graph=reddit method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0058371565 max_abs=194332 max_norm=0.00604343591 pass=1
+CORRECT graph=reddit method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.014860184 max_abs=480254 max_norm=0.0147998872 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.62541284e-05 max_abs=536 max_norm=1.66688021e-05 pass=1
+CORRECT graph=reddit method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00930351607 max_abs=294372 max_norm=0.00907160041 pass=1
+CORRECT graph=reddit method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00558992932 max_abs=178872 max_norm=0.00556265293 pass=1
+CORRECT graph=reddit method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.014742346 max_abs=472834 max_norm=0.0145712266 pass=1
+CORRECT graph=reddit method=replay_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0058371565 max_abs=194332 max_norm=0.00604343591 pass=1
+CORRECT graph=reddit method=replay_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.014860184 max_abs=480254 max_norm=0.0147998872 pass=1
+TIME graph=reddit method=mkl_bf16_inputs e2e rep=0 ms=206.654072 L1=102.416992 act_convert=1.404047 L2=102.833033
+TIME graph=reddit method=original e2e rep=0 ms=299.149990 L1=149.258852 act_convert=0.945091 L2=148.946047
+TIME graph=reddit method=shared_bfull_fast e2e rep=0 ms=143.407822 L1=70.681810 act_convert=0.847101 L2=71.878910
+TIME graph=reddit method=shared_bfull_accurate e2e rep=0 ms=155.066013 L1=75.457096 act_convert=0.867128 L2=78.741789
+TIME graph=reddit method=replay_bfull_fast e2e rep=0 ms=255.917072 L1=126.970053 act_convert=0.832796 L2=128.114223
+TIME graph=reddit method=original_nozero e2e rep=0 ms=275.749922 L1=139.092922 act_convert=0.848055 L2=135.808945
+TIME graph=reddit method=shared_bfull_fast_nozero e2e rep=0 ms=130.254984 L1=64.301014 act_convert=0.853777 L2=65.100193
+TIME graph=reddit method=shared_bfull_accurate_nozero e2e rep=0 ms=131.459951 L1=65.707922 act_convert=0.867128 L2=64.884901
+TIME graph=reddit method=shared_b32_fast_nozero e2e rep=0 ms=129.287004 L1=61.964035 act_convert=0.880957 L2=66.442013
+TIME graph=reddit method=replay_bfull_fast_nozero e2e rep=0 ms=232.973099 L1=120.920897 act_convert=0.854015 L2=111.198187
+TIME graph=reddit method=mkl_fp32 e2e rep=0 ms=210.850954 L1=104.717970 act_convert=1.096010 L2=105.036974
+TIME graph=reddit method=original e2e rep=1 ms=311.507940 L1=162.671089 act_convert=0.858068 L2=147.978783
+TIME graph=reddit method=shared_bfull_fast e2e rep=1 ms=146.965981 L1=73.187828 act_convert=0.874996 L2=72.903156
+TIME graph=reddit method=shared_bfull_accurate e2e rep=1 ms=149.709940 L1=74.965000 act_convert=0.854969 L2=73.889971
+TIME graph=reddit method=replay_bfull_fast e2e rep=1 ms=261.147976 L1=133.397818 act_convert=0.832081 L2=126.918077
+TIME graph=reddit method=original_nozero e2e rep=1 ms=275.854111 L1=140.470028 act_convert=0.857115 L2=134.526968
+TIME graph=reddit method=shared_bfull_fast_nozero e2e rep=1 ms=131.201029 L1=65.387011 act_convert=0.864983 L2=64.949036
+TIME graph=reddit method=shared_bfull_accurate_nozero e2e rep=1 ms=131.796122 L1=64.285040 act_convert=0.869989 L2=66.641092
+TIME graph=reddit method=shared_b32_fast_nozero e2e rep=1 ms=127.717018 L1=63.740969 act_convert=0.845909 L2=63.130140
+TIME graph=reddit method=replay_bfull_fast_nozero e2e rep=1 ms=253.154039 L1=126.748085 act_convert=0.854969 L2=125.550985
+TIME graph=reddit method=mkl_fp32 e2e rep=1 ms=208.266973 L1=102.154970 act_convert=1.103878 L2=105.008125
+TIME graph=reddit method=mkl_bf16_inputs e2e rep=1 ms=207.735062 L1=104.259968 act_convert=1.338959 L2=102.136135
+TIME graph=reddit method=shared_bfull_fast e2e rep=2 ms=150.332928 L1=74.553967 act_convert=0.854015 L2=74.924946
+TIME graph=reddit method=shared_bfull_accurate e2e rep=2 ms=150.430918 L1=74.414015 act_convert=0.859976 L2=75.156927
+TIME graph=reddit method=replay_bfull_fast e2e rep=2 ms=258.936167 L1=125.241995 act_convert=0.840187 L2=132.853985
+TIME graph=reddit method=original_nozero e2e rep=2 ms=279.663086 L1=137.733936 act_convert=0.859976 L2=141.069174
+TIME graph=reddit method=shared_bfull_fast_nozero e2e rep=2 ms=127.135992 L1=62.287807 act_convert=0.864029 L2=63.984156
+TIME graph=reddit method=shared_bfull_accurate_nozero e2e rep=2 ms=134.200096 L1=66.657066 act_convert=0.870943 L2=66.672087
+TIME graph=reddit method=shared_b32_fast_nozero e2e rep=2 ms=133.870125 L1=65.391064 act_convert=0.853062 L2=67.625999
+TIME graph=reddit method=replay_bfull_fast_nozero e2e rep=2 ms=238.371134 L1=117.857933 act_convert=0.854015 L2=119.659185
+TIME graph=reddit method=mkl_fp32 e2e rep=2 ms=209.553957 L1=103.428841 act_convert=1.104116 L2=105.021000
+TIME graph=reddit method=mkl_bf16_inputs e2e rep=2 ms=207.587004 L1=104.392052 act_convert=1.336098 L2=101.858854
+TIME graph=reddit method=original e2e rep=2 ms=308.468819 L1=157.243967 act_convert=0.861883 L2=150.362968
+TIME graph=reddit method=shared_bfull_accurate e2e rep=3 ms=144.396067 L1=70.423126 act_convert=0.864029 L2=73.108912
+TIME graph=reddit method=replay_bfull_fast e2e rep=3 ms=263.118982 L1=126.610041 act_convert=0.840902 L2=135.668039
+TIME graph=reddit method=original_nozero e2e rep=3 ms=280.972958 L1=145.041943 act_convert=0.864029 L2=135.066986
+TIME graph=reddit method=shared_bfull_fast_nozero e2e rep=3 ms=135.400057 L1=64.754009 act_convert=0.855923 L2=69.790125
+TIME graph=reddit method=shared_bfull_accurate_nozero e2e rep=3 ms=133.471966 L1=64.928055 act_convert=0.862837 L2=67.681074
+TIME graph=reddit method=shared_b32_fast_nozero e2e rep=3 ms=126.091957 L1=61.641932 act_convert=0.885963 L2=63.564062
+TIME graph=reddit method=replay_bfull_fast_nozero e2e rep=3 ms=240.800142 L1=118.202209 act_convert=0.851870 L2=121.746063
+TIME graph=reddit method=mkl_fp32 e2e rep=3 ms=209.014893 L1=102.833986 act_convert=1.109838 L2=105.071068
+TIME graph=reddit method=mkl_bf16_inputs e2e rep=3 ms=208.104134 L1=104.508162 act_convert=1.365900 L2=102.230072
+TIME graph=reddit method=original e2e rep=3 ms=302.489996 L1=156.904936 act_convert=0.856161 L2=144.728899
+TIME graph=reddit method=shared_bfull_fast e2e rep=3 ms=149.960041 L1=73.508978 act_convert=0.859022 L2=75.592041
+TIME graph=reddit method=replay_bfull_fast e2e rep=4 ms=259.972811 L1=130.332947 act_convert=0.845909 L2=128.793955
+TIME graph=reddit method=original_nozero e2e rep=4 ms=276.087046 L1=137.322187 act_convert=0.850916 L2=137.913942
+TIME graph=reddit method=shared_bfull_fast_nozero e2e rep=4 ms=131.146908 L1=65.221071 act_convert=0.865936 L2=65.059900
+TIME graph=reddit method=shared_bfull_accurate_nozero e2e rep=4 ms=136.477947 L1=67.636013 act_convert=0.859976 L2=67.981958
+TIME graph=reddit method=shared_b32_fast_nozero e2e rep=4 ms=128.309965 L1=65.500975 act_convert=0.838995 L2=61.969995
+TIME graph=reddit method=replay_bfull_fast_nozero e2e rep=4 ms=238.796949 L1=120.752096 act_convert=0.842810 L2=117.202044
+TIME graph=reddit method=mkl_fp32 e2e rep=4 ms=209.776163 L1=103.628159 act_convert=1.068830 L2=105.079174
+TIME graph=reddit method=mkl_bf16_inputs e2e rep=4 ms=240.030050 L1=104.196072 act_convert=1.351833 L2=134.482145
+TIME graph=reddit method=original e2e rep=4 ms=288.280964 L1=142.183065 act_convert=0.848055 L2=145.249844
+TIME graph=reddit method=shared_bfull_fast e2e rep=4 ms=145.797014 L1=73.110104 act_convert=0.867128 L2=71.819782
+TIME graph=reddit method=shared_bfull_accurate e2e rep=4 ms=149.873018 L1=75.196028 act_convert=0.853062 L2=73.823929
+COMPLETE graph=reddit status=PASS max_rss_kib=3670412

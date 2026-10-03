@@ -1,0 +1,12 @@
+{
+  "id": "decision-20261003-numa-and-tail-gates",
+  "kind": "implementation_decision",
+  "status": "PASS",
+  "evidence": "runs/smoke-10861412/lscpu.txt, numa_hardware.txt, smoke/correctness.csv",
+  "findings": "37-node mixed-degree fixture passed. B=1 shared_fast is bitwise identical to unchanged Original TFS. Instrumented original matches unchanged original. Node qhcn006 is Xeon Max 9462, 2 sockets x 32 cores, 8 CPU NUMA domains.",
+  "decision": "Use process-local interleaving across allocated socket NUMA domains for all methods. Add 137-node q130 fixture to exercise multiple B64 chunks and destination tails, plus all-empty 17-node fixture. These unresolved edge cases justify additional correctness testing before formal runs.",
+  "scope": "Policy is per benchmark process; no shared configuration changes. All artifacts remain under GCN-extra.",
+  "paper_eligible": false,
+  "issues": "32 physical cores cannot occupy a single CPU NUMA domain on these SNC4 nodes; literal plan assumption adjusted with topology evidence.",
+  "next": "Tail and empty correctness gates, then exclusive paired benchmark"
+}

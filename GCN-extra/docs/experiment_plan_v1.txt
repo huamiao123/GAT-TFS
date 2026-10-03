@@ -1,0 +1,218 @@
+TFS 推理阶段计算冗余消减
+实验方案与实现路线
+
+研究对象：GCN SpMM–GeMM Tile-Aware Fusion on Intel AMX
+目标：验证并缓解 Original TFS 的 useful-compute redundancy
+
+核心问题  当 DegreeSort 已经将 tile padding 压低、tile efficiency 较高时，Original TFS 仍然对每个真实邻居执行 H_j W。我们要判断：随着 Average Degree 增大，这部分“有效但代数上可合并”的计算是否成为新的性能瓶颈，并寻找最优的计算量—数据移动折中点。
+
+版本：v1.0  |  2026-10-03
+
+# 0. 一页结论
+
+实验主线  不要只做“一个新 kernel vs Original TFS”。先用可控 synthetic graph 把 Average Degree 与 Degree Ratio 解耦，再做 B = 1/2/4/8/16/32/64/Full 的邻居块归约 sweep，最后回到原论文 25 个真实图验证。
+
+核心自变量：Average Degree q、Degree Ratio、Feature Dimension K、Neighbor Block Size B。
+核心因变量：kernel time、E2E time、TFS/MKL speedup、New/Original TFS speedup、AMX executed work、memory traffic、cache miss、tile efficiency η。
+核心假设：固定 Degree Ratio≈1 后，q 越大，Original TFS 的 edge-level H_jW 重复越严重；适度增大 B 应减少 projection 次数并在高 degree 图上带来更大收益，但 B 过大可能重新暴露 sparse gather / aggregation 的 memory-bound 瓶颈。
+
+# 1. 背景与原论文事实
+
+## 1.1 标准 two-step 与 Original TFS
+标准 oneMKL 基线采用两阶段执行：
+Z = A H    →    C = Z W
+第一阶段用稀疏 SpMM 聚合邻居特征，第二阶段用 GeMM 做线性变换。中间矩阵 Z ∈ R^(N×K) 被完整写回并再次读取。原 TFS 的核心是避免这个全局中间矩阵，将每个邻居的特征 H_j 直接与 W 做 AMX 矩阵乘，并把结果累加到 tile accumulator 中。
+C_i = ( Σ_j H_j ) W = Σ_j ( H_j W )
+因此 Original TFS 通过分配律把 node-level 的一次 W 投影展开到了 neighbor / edge level。数学结果等价，但执行的 dense projection 次数显著增加。
+
+## 1.2 原论文对 Average Degree 与 Degree Ratio 的结论
+指标                                     | 原论文结论                                                                                                          | 本实验关注点                                            
+---------------------------------------+----------------------------------------------------------------------------------------------------------------+---------------------------------------------------
+Average Degree                         | 中高平均度数通常有利于摊薄 gather / tile setup 开销，并让 AMX tile 有更多工作可做；但论文未将其定义为 speedup 的单调 predictor。                      | 高 q 同时意味着更多真实 H_jW，可能放大 useful-compute redundancy。
+Degree Ratio = max degree / avg degree | 论文明确称 degree skew / degree ratio 为 TFS 性能的主要结构性 predictor。高 ratio 会导致同一 16-row tile 内大量 padding / idle cycles。 | 必须与 Average Degree 解耦，否则无法判断性能下降究竟来自 skew 还是重复计算。 
+Tile efficiency η                      | DegreeSort 将 25 个矩阵上的平均 η 提升到约 0.96，主要消除 padding overhead。                                                     | η 高并不代表计算量最小：AMX 仍可能在高效执行大量真实但可代数合并的 H_jW。        
+
+原论文实验默认使用 Intel Xeon Max 9462、32 个 OpenMP 线程（单 socket）和 K=128；另外测试 K∈{32,64,128,256}，并区分 kernel-level 与两层 GCN E2E。这些设置应尽量沿用，以确保新实验与原论文可比。
+证据边界  “Degree Ratio 是 primary predictor”“Average Degree 较高有助于摊薄 gather 开销”“DegreeSort 将 η 提升到约 0.96”均来自原 TFS 论文。“高 Average Degree 可能暴露 useful-compute redundancy”是本文要验证的新假设，不应预先当成结论。
+
+# 2. 研究问题与假设
+
+RQ1：当 Degree Ratio≈1、tile padding 基本消失时，Average Degree 增大会不会使 Original TFS 的相对性能下降或收益饱和？
+RQ2：将若干邻居先局部聚合，再执行一次 W，能否显著减少 AMX projection work，并转化为真实 wall-time speedup？
+RQ3：最优 Block Size B 是否随 Average Degree、Feature Dimension K、tile efficiency η 改变？
+RQ4：减少计算后，瓶颈是否从 AMX compute 转移回 sparse gather / memory bandwidth？
+RQ5：在真实图上，新的 compute-reduction 路径能否提升 reddit、mycielskian19、hollywood-2009 等高平均度数图，同时不显著伤害 ogbn-products、soc-Pokec 等 Original TFS 强项？
+
+## 2.1 主要假设
+Original TFS work  ≈  O(E D F)
+Two-step minimum algebraic work  ≈  O(E D + N D F)
+R_compute ≈ (E D F) / (E D + N D F) = (q F) / (q + F),  q = E/N
+当 q 增大时，Original TFS 相对最小代数工作量的冗余会迅速增大并最终趋近 F。但 wall time 不一定按 FLOPs 同比例下降，因为减少计算后可能重新暴露不规则 gather、L1/L2/LLC miss 与内存带宽瓶颈。
+
+# 3. 新方法：Neighbor-Block Reduction TFS
+
+引入邻居块大小 B。对每个 destination 节点，将 B 个邻居的 H 先做局部归约，再与 W 相乘：
+P_(i,b) = Σ_(j in block b) H_j
+C_i = Σ_b P_(i,b) W
+不同 B 构成一条连续谱：
+配置             | 含义                     | 每节点 W 次数（约） | 全局 AH 是否物化
+---------------+------------------------+-------------+-----------
+B=1            | Original TFS           | q           | 否         
+B=4/8/16/32/64 | 局部邻居块归约后再投影            | ceil(q/B)   | 否         
+B=Full         | 当前 tile/row 的全部邻居先局部归约 | 1           | 否         
+oneMKL         | 全图 AH 后再 PW            | 1           | 是         
+
+关键原则  B=Full 仍然不能退化成“先生成全局 AH”。只能维护当前 16 个 destination 的 thread-local P_tile，完成 P_tile W 后立即丢弃 P_tile，从而保留 TFS 的“无全局中间矩阵”属性。
+
+## 3.1 精度路径
+局部归约改变了浮点运算顺序。建议同时实现两种路径：
+
+• Fast：P_FP32 → BF16(P) → AMX × W。
+• Accurate：P_hi = BF16(P)，P_lo = BF16(P − FP32(P_hi))，再执行 P_hi W + P_lo W。
+Accurate 路径虽然需要两次 AMX projection，但当 q≫2 时仍远少于 Original TFS 的 q 次 projection，可用于判断性能与精度的 Pareto 边界。
+
+# 4. 实验基线与统一设置
+
+编号 | 方法                       | 数据流                               | 目的                    
+---+--------------------------+-----------------------------------+-----------------------
+B0 | oneMKL FP32 two-step     | AH → Z → ZW                       | 标准强基线                 
+B1 | Original AMX TFS         | 每 neighbor: H_jW → TMM accumulate | 原论文核心实现               
+B2 | Block-Reduction TFS      | B 个邻居归约 → P_block W               | 核心新方法                 
+B3 | Full Local-Reduction TFS | 当前 row/tile 全邻居归约 → P_tile W      | 最小 dense projection 次数
+B4 | AVX-512 TFS（可选）          | 同 TFS 逻辑，替换 AMX                   | 隔离 AMX 硬件贡献           
+
+第一轮固定：K=D=F=128，32 个物理核，单 socket / 单 NUMA 绑定，同一编译器与编译参数，同一 DegreeSort 结果，同一 BF16 H 与同一 VNNI-packed W。预处理不计入 kernel time，但单独记录。
+
+# 5. 实验一：纯 Average Degree 机制实验
+
+## 5.1 目的
+在几乎没有 degree skew 的条件下，只改变 Average Degree，回答 RQ1。
+Degree Ratio ≈ 1,   η ≈ 1
+
+## 5.2 Synthetic Graph 设置
+参数                  | 设置                                              
+--------------------+-------------------------------------------------
+N                   | 固定一个足够大的 N，确保工作集超过缓存并能稳定计时；建议至少同时测试一个中等 N 与一个大 N
+Average Degree q    | {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024}      
+Degree distribution | regular 或近似 regular；每行 degree 相同或差异≤1           
+Degree Ratio        | ≈1                                              
+K=D=F               | 128                                             
+B                   | {1, 2, 4, 8, 16, 32, 64, Full}                  
+
+## 5.3 必画曲线
+图 A：x=Average Degree，y=Original TFS / MKL speedup。
+图 B：x=Average Degree，y=New TFS / Original TFS speedup；每条线对应一个 B。
+图 C：x=Average Degree，y=AMX projection count 或 executed AMX work。
+图 D：x=Average Degree，y=memory bandwidth / LLC miss / memory-bound 指标。
+判定标准  若固定 Degree Ratio≈1 后，随着 q 增大，较大 B 的相对收益显著上升，并伴随 AMX projection work 显著下降，则可以较强地支持“high-degree useful-compute redundancy”假设。
+
+# 6. 实验二：Average Degree × Degree Ratio 二维解耦
+
+原论文主要解决 degree skew；本实验要把 skew 与 useful-compute redundancy 拆开。
+Avg Degree \ Ratio | 1 | 10 | 100 | 1000
+-------------------+---+----+-----+-----
+4                  | ✓ | ✓  | ✓   | ✓   
+16                 | ✓ | ✓  | ✓   | ✓   
+64                 | ✓ | ✓  | ✓   | ✓   
+256                | ✓ | ✓  | ✓   | ✓   
+1024               | ✓ | ✓  | ✓   | ✓   
+
+每个 cell 至少跑 B∈{1,8,32,Full}。目标是观察两个方向：
+• 固定 q，提高 Degree Ratio：主要暴露 padding / tile imbalance。
+• 固定 Degree Ratio，提高 q：主要暴露真实 edge 对应的 repeated H_jW。
+如果两类退化能够被清晰区分，就可以把原论文的“wasted tile work”和本文的“useful but redundant work”建立成两个独立维度。
+
+# 7. 实验三：原论文真实图验证
+
+最终应复用原论文 25 个矩阵；第一阶段可先做代表性子集。
+类别                      | 代表图                                | Avg Degree      | Degree Ratio     | 验证目的                        
+------------------------+------------------------------------+-----------------+------------------+-----------------------------
+高 degree、低/中 skew       | reddit                             | 492             | 44               | 最关键：高 q，但 skew 不极端          
+高 degree、低/中 skew       | mycielskian19                      | 2297            | 86               | 极高 q，测试 compute reduction 上限
+高 degree、低/中 skew       | hollywood-2009                     | 99.9            | 115              | 较高 q，Original TFS speedup 一般
+中 degree、Original TFS 强 | ogbn-products                      | 50.5            | 346              | 检查是否破坏原 TFS 强项              
+中 degree、Original TFS 强 | soc-Pokec                          | 18.8            | 467              | 对照组                         
+低 degree                | roadNet-CA / road_usa / web-Google | 2.8 / 2.4 / 5.6 | 低到中              | 验证大 B 是否收益有限                
+极端 skew                 | wiki-Talk / FullChip               | 2.1 / 8.9       | 47,694 / 259,463 | 验证新方法不能替代 skew handling     
+
+# 8. 必须记录的指标
+
+类别      | 指标                                                                             
+--------+--------------------------------------------------------------------------------
+性能      | kernel latency、two-layer E2E latency、speedup over MKL、speedup over Original TFS
+算法工作量   | E、q、理论 projection 次数、理论 useful FLOPs、B 对 projection 次数的 reduction ratio        
+物理计算    | AMX/TMUL executed work（按可获得 counter 记录）、instructions、cycles                    
+内存/缓存   | DRAM bandwidth、L1/L2/LLC miss、cache references、memory-bound / stall 指标         
+Tile 行为 | η、每 batch max degree、padding work、active rows 分布                               
+精度      | relative L2 error、max absolute error；最终加真实 checkpoint accuracy                 
+
+## 8.1 建议新增的两个指标
+R_compute = Physical AMX Work / Minimum Algebraic Work
+用于衡量实际执行计算相对 AH→PW 最小代数工作量的放大程度。
+ρ = AMX projection work / neighbor-feature bytes
+用于刻画“每搬运一单位 H，配套多少 dense AMX compute”。B 增大时 ρ 应下降；若运行时间先下降后上升，则可直接观察 compute-bound → memory-bound 的交叉点。
+
+# 9. 计时与可复现性规范
+
+• 固定 CPU frequency / governor；关闭不必要的系统负载。
+• 固定 OpenMP thread 数、线程绑核与 NUMA/memory policy；优先保持原论文 32 physical cores / single socket。
+• 每个配置先 warmup，再至少运行 5 次；报告 median，并保留 min、P25、P75 或完整原始记录。
+• 所有 B 配置必须使用同一个 graph、同一 DegreeSort permutation、同一 H/W、同一精度路径。
+• preprocess、degree sort、VNNI packing、BF16 conversion 单独计时；kernel-only 与 E2E 严格分开。
+• 每次修改 kernel 后先做 correctness check，再做 performance run；避免把错误结果当作加速。
+
+# 10. 结果判读：什么结果说明方向成立？
+
+观察结果                   | 解释                                               | 下一步                                    
+-----------------------+--------------------------------------------------+----------------------------------------
+高 q、低 ratio 下 B 增大显著加速 | 直接支持 useful-compute redundancy 假设                | 设计 degree-aware B selector             
+FLOPs 大降但时间几乎不降        | kernel 已转为 gather / memory bound                 | 优化局部聚合、prefetch、cache locality         
+小 q 上 B>1 反而变慢         | Original TFS 的 AMX compute 正在有效隐藏 gather         | 低 degree 保留 B=1                        
+Full 最快                | 局部 AH materialization 比 edge-level projection 更优 | 重点优化 P_tile 的寄存器/L1 驻留                 
+某个中间 B 最快              | 存在明确 compute-memory sweet spot                   | 建立 B*=f(q,K,η) 模型                      
+高 ratio 下所有 B 都差       | 主瓶颈仍是 skew / padding                             | 与 DegreeSort / skew-aware scheduling 联合
+
+# 11. 最终方法形态（若假设成立）
+
+最终不应固定一个 B，而应做自适应选择：
+B* = f(q, K, F, η, cache behavior)
+概念上可形成：
+low degree / high compute amortization:
+    B = 1   (Original TFS)
+
+medium degree:
+    B = 4 / 8 / 16
+
+high degree, low skew:
+    B = 32 / 64 / Full local reduction
+
+extreme skew:
+    separate skew-aware fallback / DegreeSort policy
+论文叙事  Original TFS 主要消除 padding / idle tile work，并用 AMX 高吞吐承受额外计算；本工作进一步识别并减少“真实 edge 对应、tile utilization 很高、但代数上仍可合并”的 useful redundant work。目标不是否定 TFS，而是让 fusion 强度随 graph structure 自适应。
+
+# 12. 实施顺序与里程碑
+
+阶段 | 任务                                      | 输出                       | Go/No-Go                
+---+-----------------------------------------+--------------------------+-------------------------
+S0 | 复现 Original TFS / MKL，确认当前计时与论文趋势一致     | baseline 表 + correctness | 必须稳定                    
+S1 | 实现 B=Full 的最简单 local-reduction oracle   | Original vs Full         | 高 q 图若完全无收益，先分析 counters
+S2 | 实现 B=4/8/16/32/64 sweep                 | B–runtime 曲线             | 寻找 sweet spot           
+S3 | regular synthetic：q sweep               | Average Degree 机制图       | 验证核心假设                  
+S4 | Avg Degree × Degree Ratio 二维 synthetic  | 二维热图                     | 解耦 skew 与 redundancy    
+S5 | 代表性真实图                                  | reddit/products 等对照      | 确认外部有效性                 
+S6 | 25 图全量 + K sensitivity + E2E + accuracy | 论文级完整评测                  | 形成最终方法                  
+
+# 13. 实验记录模板
+
+Graph | N | E | AvgDeg | DegRatio | K | B | η | Kernel ms | Speedup vs B1
+------+---+---+--------+----------+---+---+---+-----------+--------------
+      |   |   |        |          |   |   |   |           |              
+
+B | Proj.Count | AMX Work | Cycles | DRAM BW | LLC Miss | rel-L2 | max-abs
+--+------------+----------+--------+---------+----------+--------+--------
+  |            |          |        |         |          |        |        
+
+# 14. 来源与说明
+
+本实验方案的“原论文事实”基于用户提供的《TFS: Tile-Aware SpMM–GeMM Fusion for Accelerating GNN Inference on Intel AMX》：包括 two-step 数据流、DegreeSort、tile efficiency η、25 个矩阵、K/线程实验设置、Figure 6 对 degree ratio 的结论以及 AMX isolation。
+Block-Reduction TFS、B sweep、Average Degree × Degree Ratio 二维 synthetic、R_compute、ρ 与自适应 B* 均属于本方案提出的实验设计与待验证假设，不是原论文已有结论。

@@ -1,0 +1,471 @@
+GRAPH_VALUES name=email-Enron checked=367662 nonunit=0 implicit_ones=0
+CORRECT graph=email-Enron method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.05882048e-07 max_abs=0.000316698104 max_norm=5.56777948e-07 pass=1
+CONFIG graph=email-Enron N=36692 E=367662 threads=32 R=64 D=128 F=128 repeats=10 warmups=1
+CORRECT graph=email-Enron method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00531534213 max_abs=2.56680298 max_norm=0.00451262095 pass=1
+CORRECT graph=email-Enron method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00525311568 max_abs=2.56690355 max_norm=0.00451280028 pass=1
+CORRECT graph=email-Enron method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00528962303 max_abs=2.56680298 max_norm=0.00449470494 pass=1
+CORRECT graph=email-Enron method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.05882048e-07 max_abs=0.000316698104 max_norm=5.56777948e-07 pass=1
+CORRECT graph=email-Enron method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.67737086e-07 max_abs=0.00134277344 max_norm=2.36069055e-06 pass=1
+CORRECT graph=email-Enron method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052896233 max_abs=2.56723022 max_norm=0.00449545309 pass=1
+CORRECT graph=email-Enron method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.04245561e-06 max_abs=0.00104868785 max_norm=1.84366834e-06 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.67737086e-07 max_abs=0.00134277344 max_norm=2.36069055e-06 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052896233 max_abs=2.56723022 max_norm=0.00449545309 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.04245561e-06 max_abs=0.00104868785 max_norm=1.84366834e-06 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00230855381 max_abs=1.2286377 max_norm=0.00216003186 pass=1
+CORRECT graph=email-Enron method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00700508421 max_abs=3.59976196 max_norm=0.00630350986 pass=1
+CORRECT graph=email-Enron method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00232287608 max_abs=1.228321 max_norm=0.00215947628 pass=1
+CORRECT graph=email-Enron method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.69962118e-07 max_abs=0.00106811523 max_norm=1.87782203e-06 pass=1
+CORRECT graph=email-Enron method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00528962329 max_abs=2.56741333 max_norm=0.00449577372 pass=1
+CORRECT graph=email-Enron method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.05403581e-06 max_abs=0.00107443705 max_norm=1.88893728e-06 pass=1
+CORRECT graph=email-Enron method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00289897212 max_abs=1.53179932 max_norm=0.0026930114 pass=1
+CORRECT graph=email-Enron method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00763147358 max_abs=3.79907227 max_norm=0.00665252028 pass=1
+CORRECT graph=email-Enron method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00303279487 max_abs=1.53148262 max_norm=0.00269245612 pass=1
+CORRECT graph=email-Enron method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=3.58557681e-07 max_abs=0.000640869141 max_norm=1.12669322e-06 pass=1
+CORRECT graph=email-Enron method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00528962174 max_abs=2.56671143 max_norm=0.00449454462 pass=1
+CORRECT graph=email-Enron method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=7.56531311e-07 max_abs=0.000666350126 max_norm=1.17149124e-06 pass=1
+CORRECT graph=email-Enron method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.0030539002 max_abs=1.78094482 max_norm=0.0031310268 pass=1
+CORRECT graph=email-Enron method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00782222226 max_abs=4.04821777 max_norm=0.00708879667 pass=1
+CORRECT graph=email-Enron method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00308477515 max_abs=1.78062813 max_norm=0.00313047177 pass=1
+CORRECT graph=email-Enron method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=5.81083212e-07 max_abs=0.00048828125 max_norm=8.58432929e-07 pass=1
+CORRECT graph=email-Enron method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00528964102 max_abs=2.5668335 max_norm=0.00449475838 pass=1
+CORRECT graph=email-Enron method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=8.03671488e-07 max_abs=0.000494603068 max_norm=8.69547615e-07 pass=1
+CORRECT graph=email-Enron method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00314897665 max_abs=1.55548096 max_norm=0.0027346454 pass=1
+CORRECT graph=email-Enron method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00792449002 max_abs=3.82275391 max_norm=0.00669398898 pass=1
+CORRECT graph=email-Enron method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00324892286 max_abs=1.55516426 max_norm=0.00273409014 pass=1
+CORRECT graph=email-Enron method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.59454431e-06 max_abs=0.00122070312 max_norm=2.14608232e-06 pass=1
+CORRECT graph=email-Enron method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00528980677 max_abs=2.5668335 max_norm=0.00449475838 pass=1
+CORRECT graph=email-Enron method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.94669924e-06 max_abs=0.00109853595 max_norm=1.93130488e-06 pass=1
+CORRECT graph=email-Enron method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00315851686 max_abs=1.65759277 max_norm=0.00291416518 pass=1
+CORRECT graph=email-Enron method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00793566235 max_abs=3.92486572 max_norm=0.00687279604 pass=1
+CORRECT graph=email-Enron method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00326465887 max_abs=1.65727608 max_norm=0.00291361003 pass=1
+CORRECT graph=email-Enron method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.8695755e-06 max_abs=0.00172424316 max_norm=3.03134128e-06 pass=1
+CORRECT graph=email-Enron method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529023099 max_abs=2.56784058 max_norm=0.00449652187 pass=1
+CORRECT graph=email-Enron method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.59801862e-06 max_abs=0.001747109 max_norm=3.07154274e-06 pass=1
+CORRECT graph=email-Enron method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00317130446 max_abs=1.75445557 max_norm=0.00308445682 pass=1
+CORRECT graph=email-Enron method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00794630106 max_abs=4.02172852 max_norm=0.00704241158 pass=1
+CORRECT graph=email-Enron method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00324047867 max_abs=1.75413887 max_norm=0.00308390176 pass=1
+CORRECT graph=email-Enron method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.17271293e-06 max_abs=0.0026550293 max_norm=4.66772905e-06 pass=1
+CORRECT graph=email-Enron method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529089181 max_abs=2.56719971 max_norm=0.00449539965 pass=1
+CORRECT graph=email-Enron method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=5.5349007e-06 max_abs=0.00264537334 max_norm=4.65075579e-06 pass=1
+CORRECT graph=email-Enron method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00317852704 max_abs=1.92999268 max_norm=0.00339306345 pass=1
+CORRECT graph=email-Enron method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00795202808 max_abs=3.7427063 max_norm=0.00655381836 pass=1
+CORRECT graph=email-Enron method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00327769997 max_abs=1.93007587 max_norm=0.0033932116 pass=1
+CORRECT graph=email-Enron method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=5.41785254e-06 max_abs=0.00506591797 max_norm=8.90624163e-06 pass=1
+CORRECT graph=email-Enron method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00529173801 max_abs=2.57150269 max_norm=0.00450293455 pass=1
+CORRECT graph=email-Enron method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=8.75640985e-06 max_abs=0.00514911115 max_norm=9.05250617e-06 pass=1
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=0 ms=0.643969
+TIME graph=email-Enron method=original kernel rep=0 ms=2.919912
+TIME graph=email-Enron method=original_nozero kernel rep=0 ms=0.985861
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=0 ms=1.441002
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=0 ms=2.242088
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=0 ms=1.019001
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=0 ms=1.293182
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=0 ms=0.655890
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=0 ms=0.854969
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=0 ms=0.761032
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=0 ms=0.766039
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=0 ms=0.594139
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=0 ms=0.542879
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=0 ms=0.469923
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=0 ms=0.488043
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=0 ms=0.380039
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=0 ms=0.418901
+TIME graph=email-Enron method=mkl_fp32 kernel rep=0 ms=0.620127
+TIME graph=email-Enron method=original kernel rep=1 ms=2.983093
+TIME graph=email-Enron method=original_nozero kernel rep=1 ms=0.975132
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=1 ms=1.450062
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=1 ms=2.237082
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=1 ms=0.977993
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=1 ms=1.318932
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=1 ms=0.699043
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=1 ms=0.854969
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=1 ms=0.542164
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=1 ms=0.674963
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=1 ms=0.470161
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=1 ms=0.506878
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=1 ms=0.432968
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=1 ms=0.460148
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=1 ms=0.419855
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=1 ms=0.432014
+TIME graph=email-Enron method=mkl_fp32 kernel rep=1 ms=0.638008
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=1 ms=0.643969
+TIME graph=email-Enron method=original_nozero kernel rep=2 ms=1.137972
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=2 ms=1.459122
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=2 ms=2.247095
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=2 ms=0.996828
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=2 ms=1.307964
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=2 ms=0.684023
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=2 ms=0.881910
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=2 ms=0.583172
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=2 ms=0.650167
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=2 ms=0.458002
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=2 ms=0.493050
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=2 ms=0.432968
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=2 ms=0.483036
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=2 ms=0.414133
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=2 ms=0.437021
+TIME graph=email-Enron method=mkl_fp32 kernel rep=2 ms=0.622034
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=2 ms=0.643015
+TIME graph=email-Enron method=original kernel rep=2 ms=3.008127
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=3 ms=1.450062
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=3 ms=2.223969
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=3 ms=0.976086
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=3 ms=1.420021
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=3 ms=0.708103
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=3 ms=0.849962
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=3 ms=0.529051
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=3 ms=0.608921
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=3 ms=0.475883
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=3 ms=0.508070
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=3 ms=0.459194
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=3 ms=0.502110
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=3 ms=0.429153
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=3 ms=0.434875
+TIME graph=email-Enron method=mkl_fp32 kernel rep=3 ms=0.624180
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=3 ms=0.642061
+TIME graph=email-Enron method=original kernel rep=3 ms=2.968073
+TIME graph=email-Enron method=original_nozero kernel rep=3 ms=0.973940
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=4 ms=2.265930
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=4 ms=0.964165
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=4 ms=1.361847
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=4 ms=0.685930
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=4 ms=0.854969
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=4 ms=0.547171
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=4 ms=0.605822
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=4 ms=0.511885
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=4 ms=0.518084
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=4 ms=0.429153
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=4 ms=0.450850
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=4 ms=0.411034
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=4 ms=0.450850
+TIME graph=email-Enron method=mkl_fp32 kernel rep=4 ms=0.581980
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=4 ms=0.657082
+TIME graph=email-Enron method=original kernel rep=4 ms=2.969980
+TIME graph=email-Enron method=original_nozero kernel rep=4 ms=1.007080
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=4 ms=1.440048
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=5 ms=0.988007
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=5 ms=1.337051
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=5 ms=0.665903
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=5 ms=0.859022
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=5 ms=0.509024
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=5 ms=0.581026
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=5 ms=0.458956
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=5 ms=0.514984
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=5 ms=0.425816
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=5 ms=0.468969
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=5 ms=0.424147
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=5 ms=0.447035
+TIME graph=email-Enron method=mkl_fp32 kernel rep=5 ms=0.581980
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=5 ms=0.594854
+TIME graph=email-Enron method=original kernel rep=5 ms=2.974987
+TIME graph=email-Enron method=original_nozero kernel rep=5 ms=1.004219
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=5 ms=1.433849
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=5 ms=2.240181
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=6 ms=1.379013
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=6 ms=0.679970
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=6 ms=0.853062
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=6 ms=0.505924
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=6 ms=0.615835
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=6 ms=0.466824
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=6 ms=0.526905
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=6 ms=0.446081
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=6 ms=0.478029
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=6 ms=0.391006
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=6 ms=0.435829
+TIME graph=email-Enron method=mkl_fp32 kernel rep=6 ms=0.590086
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=6 ms=0.597954
+TIME graph=email-Enron method=original kernel rep=6 ms=2.959967
+TIME graph=email-Enron method=original_nozero kernel rep=6 ms=1.003981
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=6 ms=1.410961
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=6 ms=2.279043
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=6 ms=1.033068
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=7 ms=0.685930
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=7 ms=0.845909
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=7 ms=0.512123
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=7 ms=0.608921
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=7 ms=0.528097
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=7 ms=0.556231
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=7 ms=0.435114
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=7 ms=0.442982
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=7 ms=0.391960
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=7 ms=0.448942
+TIME graph=email-Enron method=mkl_fp32 kernel rep=7 ms=0.588179
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=7 ms=0.593901
+TIME graph=email-Enron method=original kernel rep=7 ms=2.963066
+TIME graph=email-Enron method=original_nozero kernel rep=7 ms=0.985861
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=7 ms=1.436949
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=7 ms=2.267122
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=7 ms=1.009941
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=7 ms=1.269102
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=8 ms=0.867128
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=8 ms=0.519991
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=8 ms=0.597954
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=8 ms=0.499964
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=8 ms=0.510216
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=8 ms=0.413895
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=8 ms=0.461102
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=8 ms=0.393867
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=8 ms=0.437975
+TIME graph=email-Enron method=mkl_fp32 kernel rep=8 ms=0.585079
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=8 ms=0.619888
+TIME graph=email-Enron method=original kernel rep=8 ms=2.977848
+TIME graph=email-Enron method=original_nozero kernel rep=8 ms=0.995874
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=8 ms=1.441002
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=8 ms=2.365112
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=8 ms=1.018047
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=8 ms=1.340866
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=8 ms=0.683069
+TIME graph=email-Enron method=shared_b16_fast_nozero kernel rep=9 ms=0.589848
+TIME graph=email-Enron method=shared_b16_accurate_nozero kernel rep=9 ms=0.787973
+TIME graph=email-Enron method=shared_b32_fast_nozero kernel rep=9 ms=0.530005
+TIME graph=email-Enron method=shared_b32_accurate_nozero kernel rep=9 ms=0.549078
+TIME graph=email-Enron method=shared_b64_fast_nozero kernel rep=9 ms=0.404835
+TIME graph=email-Enron method=shared_b64_accurate_nozero kernel rep=9 ms=0.452995
+TIME graph=email-Enron method=shared_bfull_fast_nozero kernel rep=9 ms=0.411034
+TIME graph=email-Enron method=shared_bfull_accurate_nozero kernel rep=9 ms=0.442028
+TIME graph=email-Enron method=mkl_fp32 kernel rep=9 ms=0.583887
+TIME graph=email-Enron method=mkl_bf16_inputs kernel rep=9 ms=0.651121
+TIME graph=email-Enron method=original kernel rep=9 ms=2.951145
+TIME graph=email-Enron method=original_nozero kernel rep=9 ms=1.020908
+TIME graph=email-Enron method=shared_b2_fast_nozero kernel rep=9 ms=1.446962
+TIME graph=email-Enron method=shared_b2_accurate_nozero kernel rep=9 ms=2.280951
+TIME graph=email-Enron method=shared_b4_fast_nozero kernel rep=9 ms=0.939131
+TIME graph=email-Enron method=shared_b4_accurate_nozero kernel rep=9 ms=1.299858
+TIME graph=email-Enron method=shared_b8_fast_nozero kernel rep=9 ms=0.659943
+TIME graph=email-Enron method=shared_b8_accurate_nozero kernel rep=9 ms=0.848055
+CORRECT graph=email-Enron method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00230855381 max_abs=1.2286377 max_norm=0.00216003186 pass=1
+CORRECT graph=email-Enron method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=4.69962118e-07 max_abs=0.00106811523 max_norm=1.87782203e-06 pass=1
+CORRECT graph=email-Enron method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00289897212 max_abs=1.53179932 max_norm=0.0026930114 pass=1
+CORRECT graph=email-Enron method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=3.58557681e-07 max_abs=0.000640869141 max_norm=1.12669322e-06 pass=1
+CORRECT graph=email-Enron method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.0030539002 max_abs=1.78094482 max_norm=0.0031310268 pass=1
+CORRECT graph=email-Enron method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=5.81083212e-07 max_abs=0.00048828125 max_norm=8.58432929e-07 pass=1
+CORRECT graph=email-Enron method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00314897665 max_abs=1.55548096 max_norm=0.0027346454 pass=1
+CORRECT graph=email-Enron method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.59454431e-06 max_abs=0.00122070312 max_norm=2.14608232e-06 pass=1
+CORRECT graph=email-Enron method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00315851686 max_abs=1.65759277 max_norm=0.00291416518 pass=1
+CORRECT graph=email-Enron method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.8695755e-06 max_abs=0.00172424316 max_norm=3.03134128e-06 pass=1
+CORRECT graph=email-Enron method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00317130446 max_abs=1.75445557 max_norm=0.00308445682 pass=1
+CORRECT graph=email-Enron method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=4.17271293e-06 max_abs=0.0026550293 max_norm=4.66772905e-06 pass=1
+CORRECT graph=email-Enron method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00317852704 max_abs=1.92999268 max_norm=0.00339306345 pass=1
+CORRECT graph=email-Enron method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=5.41785254e-06 max_abs=0.00506591797 max_norm=8.90624163e-06 pass=1
+CORRECT graph=email-Enron method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0104095705 max_abs=2156.51562 max_norm=0.00960049004 pass=1
+CORRECT graph=email-Enron method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=email-Enron method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103044797 max_abs=2156.51562 max_norm=0.00950919709 pass=1
+CORRECT graph=email-Enron method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=9.15440543e-06 max_abs=3.046875 max_norm=1.35642389e-05 pass=1
+CORRECT graph=email-Enron method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103045046 max_abs=2157.28125 max_norm=0.00951257312 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=9.15440543e-06 max_abs=3.046875 max_norm=1.35642389e-05 pass=1
+CORRECT graph=email-Enron method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103045046 max_abs=2157.28125 max_norm=0.00951257312 pass=1
+CORRECT graph=email-Enron method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00316447553 max_abs=649.375 max_norm=0.00289092189 pass=1
+CORRECT graph=email-Enron method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0132942347 max_abs=2779.90625 max_norm=0.01225805 pass=1
+CORRECT graph=email-Enron method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.06539447e-06 max_abs=0.84765625 max_norm=3.77364082e-06 pass=1
+CORRECT graph=email-Enron method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103047097 max_abs=2156.96875 max_norm=0.00951119515 pass=1
+CORRECT graph=email-Enron method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00471599943 max_abs=1032.34375 max_norm=0.00459584237 pass=1
+CORRECT graph=email-Enron method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0148402762 max_abs=3188.85938 max_norm=0.0140613367 pass=1
+CORRECT graph=email-Enron method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.74167291e-06 max_abs=0.94921875 max_norm=4.22578211e-06 pass=1
+CORRECT graph=email-Enron method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103046991 max_abs=2156.76562 max_norm=0.00951029947 pass=1
+CORRECT graph=email-Enron method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00530269076 max_abs=1186.71875 max_norm=0.00528309714 pass=1
+CORRECT graph=email-Enron method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0154210761 max_abs=3343.23438 max_norm=0.0147420562 pass=1
+CORRECT graph=email-Enron method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.26988487e-05 max_abs=1.4375 max_norm=6.39953834e-06 pass=1
+CORRECT graph=email-Enron method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103043294 max_abs=2156.89062 max_norm=0.00951085066 pass=1
+CORRECT graph=email-Enron method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00555174505 max_abs=1251.21875 max_norm=0.00557024165 pass=1
+CORRECT graph=email-Enron method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156561396 max_abs=3407.73438 max_norm=0.0150264702 pass=1
+CORRECT graph=email-Enron method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.8965353e-05 max_abs=1.85742188 max_norm=8.2689687e-06 pass=1
+CORRECT graph=email-Enron method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103056775 max_abs=2157.65625 max_norm=0.00951422669 pass=1
+CORRECT graph=email-Enron method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00566434074 max_abs=1291.01562 max_norm=0.00574741147 pass=1
+CORRECT graph=email-Enron method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0157490146 max_abs=3447.53125 max_norm=0.0152019553 pass=1
+CORRECT graph=email-Enron method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.18295713e-05 max_abs=2.625 max_norm=1.16861135e-05 pass=1
+CORRECT graph=email-Enron method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103066097 max_abs=2158.57812 max_norm=0.00951829172 pass=1
+CORRECT graph=email-Enron method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0057257894 max_abs=1307.64062 max_norm=0.00582142353 pass=1
+CORRECT graph=email-Enron method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0157804679 max_abs=3464.15625 max_norm=0.0152752635 pass=1
+CORRECT graph=email-Enron method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.36590199e-05 max_abs=2.796875 max_norm=1.24512757e-05 pass=1
+CORRECT graph=email-Enron method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103093725 max_abs=2158.8125 max_norm=0.0095193252 pass=1
+CORRECT graph=email-Enron method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00589329416 max_abs=1356.9375 max_norm=0.00604088595 pass=1
+CORRECT graph=email-Enron method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0158546212 max_abs=3495.54688 max_norm=0.0154136811 pass=1
+CORRECT graph=email-Enron method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=4.03769865e-05 max_abs=4.1484375 max_norm=1.84682329e-05 pass=1
+CORRECT graph=email-Enron method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103161672 max_abs=2158.51562 max_norm=0.00951801612 pass=1
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=0 ms=1.567841 L1=0.643015 act_convert=0.284910 L2=0.639915
+TIME graph=email-Enron method=original e2e rep=0 ms=4.470825 L1=1.960993 act_convert=0.133991 L2=2.375841
+TIME graph=email-Enron method=original_nozero e2e rep=0 ms=2.254009 L1=1.041174 act_convert=0.181913 L2=1.030922
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=0 ms=3.168106 L1=1.467943 act_convert=0.183105 L2=1.517057
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=0 ms=4.792929 L1=2.321005 act_convert=0.170946 L2=2.300978
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=0 ms=2.147913 L1=0.969887 act_convert=0.171185 L2=1.006842
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=0 ms=2.928019 L1=1.393080 act_convert=0.174046 L2=1.360893
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=0 ms=1.668930 L1=0.716925 act_convert=0.174046 L2=0.777960
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=0 ms=1.960993 L1=0.895977 act_convert=0.174999 L2=0.890017
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=0 ms=1.591921 L1=0.560045 act_convert=0.171900 L2=0.859976
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=0 ms=1.469135 L1=0.635147 act_convert=0.172853 L2=0.661135
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=0 ms=1.269102 L1=0.570059 act_convert=0.185013 L2=0.514030
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=0 ms=1.335859 L1=0.623941 act_convert=0.174999 L2=0.536919
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=0 ms=1.242161 L1=0.534058 act_convert=0.170946 L2=0.537157
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=0 ms=1.209021 L1=0.501156 act_convert=0.176907 L2=0.530958
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=0 ms=1.079082 L1=0.443935 act_convert=0.188112 L2=0.447035
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=0 ms=1.097918 L1=0.430107 act_convert=0.190973 L2=0.476837
+TIME graph=email-Enron method=mkl_fp32 e2e rep=0 ms=1.317024 L1=0.662088 act_convert=0.020981 L2=0.633955
+TIME graph=email-Enron method=original e2e rep=1 ms=5.115032 L1=2.839088 act_convert=0.159025 L2=2.116919
+TIME graph=email-Enron method=original_nozero e2e rep=1 ms=2.233028 L1=1.029015 act_convert=0.180006 L2=1.024008
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=1 ms=3.069878 L1=1.427889 act_convert=0.176907 L2=1.465082
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=1 ms=4.767895 L1=2.295971 act_convert=0.171900 L2=2.300024
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=1 ms=2.137899 L1=0.962019 act_convert=0.171900 L2=1.003981
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=1 ms=2.960920 L1=1.409054 act_convert=0.174046 L2=1.377821
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=1 ms=1.595020 L1=0.715971 act_convert=0.172138 L2=0.706911
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=1 ms=1.944065 L1=0.891924 act_convert=0.179052 L2=0.873089
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=1 ms=1.332998 L1=0.576973 act_convert=0.176191 L2=0.579834
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=1 ms=1.462936 L1=0.616074 act_convert=0.180960 L2=0.665903
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=1 ms=1.200914 L1=0.499010 act_convert=0.176907 L2=0.524998
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=1 ms=1.260042 L1=0.518084 act_convert=0.171900 L2=0.570059
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=1 ms=1.087904 L1=0.437021 act_convert=0.174046 L2=0.476837
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=1 ms=1.185894 L1=0.509024 act_convert=0.181913 L2=0.494957
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=1 ms=1.070976 L1=0.437021 act_convert=0.191927 L2=0.442028
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=1 ms=1.112938 L1=0.468969 act_convert=0.177145 L2=0.466824
+TIME graph=email-Enron method=mkl_fp32 e2e rep=1 ms=1.315117 L1=0.653982 act_convert=0.020027 L2=0.641108
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=1 ms=1.606941 L1=0.693083 act_convert=0.227928 L2=0.685930
+TIME graph=email-Enron method=original_nozero e2e rep=2 ms=2.239943 L1=1.075983 act_convert=0.138998 L2=1.024961
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=2 ms=3.161907 L1=1.471996 act_convert=0.182867 L2=1.507044
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=2 ms=4.814148 L1=2.346992 act_convert=0.169039 L2=2.298117
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=2 ms=2.146006 L1=0.986099 act_convert=0.168085 L2=0.991821
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=2 ms=2.939939 L1=1.394987 act_convert=0.177145 L2=1.367807
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=2 ms=1.595020 L1=0.689983 act_convert=0.178099 L2=0.726938
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=2 ms=1.945019 L1=0.888109 act_convert=0.173092 L2=0.883818
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=2 ms=1.332998 L1=0.554085 act_convert=0.173807 L2=0.605106
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=2 ms=1.707792 L1=0.705957 act_convert=0.175953 L2=0.825882
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=2 ms=1.181126 L1=0.497103 act_convert=0.177860 L2=0.506163
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=2 ms=1.272202 L1=0.528097 act_convert=0.179052 L2=0.565052
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=2 ms=1.139164 L1=0.482082 act_convert=0.176907 L2=0.480175
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=2 ms=1.218081 L1=0.534058 act_convert=0.180960 L2=0.503063
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=2 ms=1.065016 L1=0.425100 act_convert=0.175953 L2=0.463963
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=2 ms=1.126051 L1=0.471115 act_convert=0.178814 L2=0.476122
+TIME graph=email-Enron method=mkl_fp32 e2e rep=2 ms=1.344919 L1=0.684023 act_convert=0.021935 L2=0.638962
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=2 ms=1.604080 L1=0.691891 act_convert=0.241041 L2=0.671148
+TIME graph=email-Enron method=original e2e rep=2 ms=4.341841 L1=1.991034 act_convert=0.135899 L2=2.214909
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=3 ms=3.202915 L1=1.479864 act_convert=0.180006 L2=1.543045
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=3 ms=4.827023 L1=2.330065 act_convert=0.169992 L2=2.326965
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=3 ms=2.276897 L1=1.085997 act_convert=0.173092 L2=1.017809
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=3 ms=2.905130 L1=1.327991 act_convert=0.219107 L2=1.358032
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=3 ms=1.613140 L1=0.699997 act_convert=0.174046 L2=0.739098
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=3 ms=1.961946 L1=0.911951 act_convert=0.174046 L2=0.875950
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=3 ms=1.664877 L1=0.889778 act_convert=0.181198 L2=0.593901
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=3 ms=1.466990 L1=0.633955 act_convert=0.174046 L2=0.658989
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=3 ms=1.195908 L1=0.469923 act_convert=0.174999 L2=0.550985
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=3 ms=1.255989 L1=0.536919 act_convert=0.178099 L2=0.540972
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=3 ms=1.090050 L1=0.446081 act_convert=0.173092 L2=0.470877
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=3 ms=1.178026 L1=0.488043 act_convert=0.175953 L2=0.514030
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=3 ms=1.066208 L1=0.423193 act_convert=0.174999 L2=0.468016
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=3 ms=1.100779 L1=0.440836 act_convert=0.179052 L2=0.480890
+TIME graph=email-Enron method=mkl_fp32 e2e rep=3 ms=1.280069 L1=0.620127 act_convert=0.016928 L2=0.643015
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=3 ms=1.636982 L1=0.726938 act_convert=0.228167 L2=0.681877
+TIME graph=email-Enron method=original e2e rep=3 ms=4.371166 L1=2.012014 act_convert=0.138044 L2=2.221107
+TIME graph=email-Enron method=original_nozero e2e rep=3 ms=2.241850 L1=1.019001 act_convert=0.183821 L2=1.039028
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=4 ms=4.896164 L1=2.343178 act_convert=0.185966 L2=2.367020
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=4 ms=2.116919 L1=0.966072 act_convert=0.170946 L2=0.979900
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=4 ms=2.899885 L1=1.374960 act_convert=0.169992 L2=1.354933
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=4 ms=1.681805 L1=0.724792 act_convert=0.174999 L2=0.782013
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=4 ms=1.914024 L1=0.864983 act_convert=0.174999 L2=0.874043
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=4 ms=1.359940 L1=0.578880 act_convert=0.172138 L2=0.608921
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=4 ms=1.517057 L1=0.646114 act_convert=0.183821 L2=0.687122
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=4 ms=1.185894 L1=0.490904 act_convert=0.181913 L2=0.513077
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=4 ms=1.247883 L1=0.526905 act_convert=0.175953 L2=0.545025
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=4 ms=1.070023 L1=0.442982 act_convert=0.171900 L2=0.455141
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=4 ms=1.214981 L1=0.544786 act_convert=0.174046 L2=0.496149
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=4 ms=1.071930 L1=0.437021 act_convert=0.178099 L2=0.456810
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=4 ms=1.127958 L1=0.462055 act_convert=0.190973 L2=0.474930
+TIME graph=email-Enron method=mkl_fp32 e2e rep=4 ms=1.340866 L1=0.686884 act_convert=0.020981 L2=0.633001
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=4 ms=1.610041 L1=0.705957 act_convert=0.226974 L2=0.677109
+TIME graph=email-Enron method=original e2e rep=4 ms=4.317045 L1=1.989126 act_convert=0.137806 L2=2.190113
+TIME graph=email-Enron method=original_nozero e2e rep=4 ms=2.236128 L1=1.022100 act_convert=0.179052 L2=1.034975
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=4 ms=3.182173 L1=1.510143 act_convert=0.181913 L2=1.490116
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=5 ms=2.166986 L1=0.988960 act_convert=0.174046 L2=1.003981
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=5 ms=2.881050 L1=1.363039 act_convert=0.171900 L2=1.346111
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=5 ms=1.611948 L1=0.699997 act_convert=0.180960 L2=0.730991
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=5 ms=1.925945 L1=0.867844 act_convert=0.174999 L2=0.883102
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=5 ms=1.411915 L1=0.553846 act_convert=0.182152 L2=0.675917
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=5 ms=1.470089 L1=0.632048 act_convert=0.187874 L2=0.650167
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=5 ms=1.343966 L1=0.599861 act_convert=0.174046 L2=0.570059
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=5 ms=1.331091 L1=0.602007 act_convert=0.173092 L2=0.555992
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=5 ms=1.124859 L1=0.476837 act_convert=0.183105 L2=0.464916
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=5 ms=1.181841 L1=0.493050 act_convert=0.171900 L2=0.516891
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=5 ms=1.110077 L1=0.479937 act_convert=0.173092 L2=0.457048
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=5 ms=1.118898 L1=0.468969 act_convert=0.174046 L2=0.475883
+TIME graph=email-Enron method=mkl_fp32 e2e rep=5 ms=1.309872 L1=0.662804 act_convert=0.020981 L2=0.626087
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=5 ms=1.600981 L1=0.695944 act_convert=0.229120 L2=0.675917
+TIME graph=email-Enron method=original e2e rep=5 ms=4.344940 L1=1.993895 act_convert=0.138998 L2=2.212048
+TIME graph=email-Enron method=original_nozero e2e rep=5 ms=2.218008 L1=1.012087 act_convert=0.180960 L2=1.024961
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=5 ms=3.144026 L1=1.478195 act_convert=0.181913 L2=1.483917
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=5 ms=4.865170 L1=2.329111 act_convert=0.171900 L2=2.364159
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=6 ms=2.891779 L1=1.339912 act_convert=0.174046 L2=1.377821
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=6 ms=1.655102 L1=0.729084 act_convert=0.172853 L2=0.753164
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=6 ms=1.941919 L1=0.899076 act_convert=0.172853 L2=0.869989
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=6 ms=1.622915 L1=0.791073 act_convert=0.181913 L2=0.649929
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=6 ms=1.450062 L1=0.622034 act_convert=0.175953 L2=0.652075
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=6 ms=1.197100 L1=0.492096 act_convert=0.173807 L2=0.531197
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=6 ms=1.268864 L1=0.548840 act_convert=0.172138 L2=0.547886
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=6 ms=1.106024 L1=0.458956 act_convert=0.174999 L2=0.472069
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=6 ms=1.153946 L1=0.478983 act_convert=0.174046 L2=0.500917
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=6 ms=1.103878 L1=0.470877 act_convert=0.180006 L2=0.452995
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=6 ms=1.095057 L1=0.436068 act_convert=0.176907 L2=0.482082
+TIME graph=email-Enron method=mkl_fp32 e2e rep=6 ms=1.307964 L1=0.655890 act_convert=0.020027 L2=0.632048
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=6 ms=1.597881 L1=0.692844 act_convert=0.231981 L2=0.673056
+TIME graph=email-Enron method=original e2e rep=6 ms=4.413128 L1=2.029181 act_convert=0.136852 L2=2.247095
+TIME graph=email-Enron method=original_nozero e2e rep=6 ms=2.238035 L1=1.021147 act_convert=0.178814 L2=1.038074
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=6 ms=3.151178 L1=1.451969 act_convert=0.177145 L2=1.522064
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=6 ms=4.770041 L1=2.287865 act_convert=0.172138 L2=2.310038
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=6 ms=2.203941 L1=1.015902 act_convert=0.174999 L2=1.013041
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=7 ms=1.633883 L1=0.729084 act_convert=0.177860 L2=0.726938
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=7 ms=1.908779 L1=0.853777 act_convert=0.172138 L2=0.882864
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=7 ms=1.436949 L1=0.598907 act_convert=0.173092 L2=0.664949
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=7 ms=1.447916 L1=0.625849 act_convert=0.172138 L2=0.649929
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=7 ms=1.168013 L1=0.502110 act_convert=0.171900 L2=0.494003
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=7 ms=1.273870 L1=0.548840 act_convert=0.173092 L2=0.551939
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=7 ms=1.086950 L1=0.452042 act_convert=0.172853 L2=0.462055
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=7 ms=1.197100 L1=0.499010 act_convert=0.174046 L2=0.524044
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=7 ms=1.063824 L1=0.440836 act_convert=0.174999 L2=0.447989
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=7 ms=1.140118 L1=0.458956 act_convert=0.198126 L2=0.483036
+TIME graph=email-Enron method=mkl_fp32 e2e rep=7 ms=1.332998 L1=0.683069 act_convert=0.020027 L2=0.629902
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=7 ms=1.610994 L1=0.702143 act_convert=0.231028 L2=0.677824
+TIME graph=email-Enron method=original e2e rep=7 ms=4.321814 L1=1.979828 act_convert=0.137091 L2=2.204895
+TIME graph=email-Enron method=original_nozero e2e rep=7 ms=2.258062 L1=1.009941 act_convert=0.188112 L2=1.060009
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=7 ms=3.214836 L1=1.568794 act_convert=0.183105 L2=1.462936
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=7 ms=4.781961 L1=2.308130 act_convert=0.170946 L2=2.302885
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=7 ms=2.154112 L1=0.962973 act_convert=0.169039 L2=1.022100
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=7 ms=2.943993 L1=1.408100 act_convert=0.174046 L2=1.361847
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=8 ms=1.987934 L1=0.899076 act_convert=0.177860 L2=0.910997
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=8 ms=1.363993 L1=0.607014 act_convert=0.177145 L2=0.579834
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=8 ms=1.479149 L1=0.647068 act_convert=0.177860 L2=0.654221
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=8 ms=1.240015 L1=0.492096 act_convert=0.171900 L2=0.576019
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=8 ms=1.259089 L1=0.541210 act_convert=0.175953 L2=0.541925
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=8 ms=1.121998 L1=0.475883 act_convert=0.171185 L2=0.474930
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=8 ms=1.199961 L1=0.520945 act_convert=0.174999 L2=0.504017
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=8 ms=1.037836 L1=0.408888 act_convert=0.178099 L2=0.450850
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=8 ms=1.087189 L1=0.436068 act_convert=0.178099 L2=0.473022
+TIME graph=email-Enron method=mkl_fp32 e2e rep=8 ms=1.287937 L1=0.656843 act_convert=0.018120 L2=0.612974
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=8 ms=1.603842 L1=0.697851 act_convert=0.230074 L2=0.675917
+TIME graph=email-Enron method=original e2e rep=8 ms=4.346848 L1=1.998901 act_convert=0.134945 L2=2.213001
+TIME graph=email-Enron method=original_nozero e2e rep=8 ms=2.321959 L1=1.039028 act_convert=0.174999 L2=1.107931
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=8 ms=3.082037 L1=1.469851 act_convert=0.183105 L2=1.429081
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=8 ms=4.824162 L1=2.339125 act_convert=0.169992 L2=2.315044
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=8 ms=2.232790 L1=1.068830 act_convert=0.174999 L2=0.988960
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=8 ms=2.882004 L1=1.317024 act_convert=0.173092 L2=1.391888
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=8 ms=1.616955 L1=0.680923 act_convert=0.176191 L2=0.759840
+TIME graph=email-Enron method=shared_b16_fast_nozero e2e rep=9 ms=1.296997 L1=0.542164 act_convert=0.173807 L2=0.581026
+TIME graph=email-Enron method=shared_b16_accurate_nozero e2e rep=9 ms=1.443148 L1=0.631094 act_convert=0.179052 L2=0.633001
+TIME graph=email-Enron method=shared_b32_fast_nozero e2e rep=9 ms=1.183987 L1=0.478029 act_convert=0.185013 L2=0.520945
+TIME graph=email-Enron method=shared_b32_accurate_nozero e2e rep=9 ms=1.245022 L1=0.530005 act_convert=0.174999 L2=0.540018
+TIME graph=email-Enron method=shared_b64_fast_nozero e2e rep=9 ms=1.082182 L1=0.445127 act_convert=0.169039 L2=0.468016
+TIME graph=email-Enron method=shared_b64_accurate_nozero e2e rep=9 ms=1.183987 L1=0.489950 act_convert=0.174999 L2=0.519037
+TIME graph=email-Enron method=shared_bfull_fast_nozero e2e rep=9 ms=1.030922 L1=0.413895 act_convert=0.177145 L2=0.439882
+TIME graph=email-Enron method=shared_bfull_accurate_nozero e2e rep=9 ms=1.132965 L1=0.468016 act_convert=0.175953 L2=0.488997
+TIME graph=email-Enron method=mkl_fp32 e2e rep=9 ms=1.317978 L1=0.658989 act_convert=0.020027 L2=0.638962
+TIME graph=email-Enron method=mkl_bf16_inputs e2e rep=9 ms=1.636028 L1=0.734091 act_convert=0.228882 L2=0.673056
+TIME graph=email-Enron method=original e2e rep=9 ms=4.390955 L1=2.036095 act_convert=0.136852 L2=2.218008
+TIME graph=email-Enron method=original_nozero e2e rep=9 ms=2.269983 L1=1.053810 act_convert=0.183105 L2=1.033068
+TIME graph=email-Enron method=shared_b2_fast_nozero e2e rep=9 ms=3.118992 L1=1.472950 act_convert=0.179052 L2=1.466990
+TIME graph=email-Enron method=shared_b2_accurate_nozero e2e rep=9 ms=4.811049 L1=2.346039 act_convert=0.170946 L2=2.294064
+TIME graph=email-Enron method=shared_b4_fast_nozero e2e rep=9 ms=2.136946 L1=0.996113 act_convert=0.172853 L2=0.967979
+TIME graph=email-Enron method=shared_b4_accurate_nozero e2e rep=9 ms=2.903938 L1=1.368046 act_convert=0.171900 L2=1.363993
+TIME graph=email-Enron method=shared_b8_fast_nozero e2e rep=9 ms=1.606941 L1=0.714064 act_convert=0.180006 L2=0.712872
+TIME graph=email-Enron method=shared_b8_accurate_nozero e2e rep=9 ms=1.950026 L1=0.887871 act_convert=0.173092 L2=0.889063
+COMPLETE graph=email-Enron status=PASS max_rss_kib=201332

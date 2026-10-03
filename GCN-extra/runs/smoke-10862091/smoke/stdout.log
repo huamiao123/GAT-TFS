@@ -1,0 +1,233 @@
+CORRECT graph=smoke method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.51780288e-07 max_abs=1.50948763e-05 max_norm=2.46415246e-07 pass=1
+CONFIG graph=smoke N=37 E=538 threads=8 R=64 D=128 F=128 repeats=2 warmups=1
+CORRECT graph=smoke method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00567199419 max_abs=0.338569641 max_norm=0.0055269561 pass=1
+CORRECT graph=smoke method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00567197323 max_abs=0.338571601 max_norm=0.00552698827 pass=1
+CORRECT graph=smoke method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564222545 max_abs=0.338569641 max_norm=0.00549657676 pass=1
+CORRECT graph=smoke method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.51780288e-07 max_abs=1.50948763e-05 max_norm=2.46415246e-07 pass=1
+CORRECT graph=smoke method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.29735094e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564218379 max_abs=0.338562012 max_norm=0.0054964529 pass=1
+CORRECT graph=smoke method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.76642657e-07 max_abs=2.13235617e-05 max_norm=3.48094982e-07 pass=1
+CORRECT graph=smoke method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.29735094e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564218379 max_abs=0.338562012 max_norm=0.0054964529 pass=1
+CORRECT graph=smoke method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.76642657e-07 max_abs=2.13235617e-05 max_norm=3.48094982e-07 pass=1
+CORRECT graph=smoke method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.29735094e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564218379 max_abs=0.338562012 max_norm=0.0054964529 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.76642657e-07 max_abs=2.13235617e-05 max_norm=3.48094982e-07 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=b1_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=shared_b1_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.29735094e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b1_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564218379 max_abs=0.338562012 max_norm=0.0054964529 pass=1
+CORRECT graph=smoke method=shared_b1_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.76642657e-07 max_abs=2.13235617e-05 max_norm=3.48094982e-07 pass=1
+CORRECT graph=smoke method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00215221785 max_abs=0.129177094 max_norm=0.0021087423 pass=1
+CORRECT graph=smoke method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00715605863 max_abs=0.454154968 max_norm=0.00737306994 pass=1
+CORRECT graph=smoke method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00215222912 max_abs=0.129187979 max_norm=0.00210892007 pass=1
+CORRECT graph=smoke method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.31147804e-07 max_abs=2.67028809e-05 max_norm=4.35909285e-07 pass=1
+CORRECT graph=smoke method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564220574 max_abs=0.338565826 max_norm=0.00549651483 pass=1
+CORRECT graph=smoke method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.762574e-07 max_abs=1.69575214e-05 max_norm=2.76821865e-07 pass=1
+CORRECT graph=smoke method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00293297524 max_abs=0.201480865 max_norm=0.0032890601 pass=1
+CORRECT graph=smoke method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0080307955 max_abs=0.52645874 max_norm=0.00854690004 pass=1
+CORRECT graph=smoke method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00293298917 max_abs=0.201491751 max_norm=0.0032892379 pass=1
+CORRECT graph=smoke method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.02526772e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564220538 max_abs=0.338569641 max_norm=0.00549657676 pass=1
+CORRECT graph=smoke method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.34183474e-07 max_abs=1.37165189e-05 max_norm=2.23914347e-07 pass=1
+CORRECT graph=smoke method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00309558403 max_abs=0.179656982 max_norm=0.00293279767 pass=1
+CORRECT graph=smoke method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00822572606 max_abs=0.518226624 max_norm=0.00841325409 pass=1
+CORRECT graph=smoke method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00309560047 max_abs=0.179655023 max_norm=0.00293276578 pass=1
+CORRECT graph=smoke method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.90529065e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564220252 max_abs=0.338569641 max_norm=0.00549657676 pass=1
+CORRECT graph=smoke method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.09769295e-07 max_abs=1.4603138e-05 max_norm=2.38387898e-07 pass=1
+CORRECT graph=smoke method=replay_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00309558403 max_abs=0.179656982 max_norm=0.00293279767 pass=1
+CORRECT graph=smoke method=replay_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00822572606 max_abs=0.518226624 max_norm=0.00841325409 pass=1
+CORRECT graph=smoke method=replay_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00309560047 max_abs=0.179655023 max_norm=0.00293276578 pass=1
+CORRECT graph=smoke method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00322173388 max_abs=0.174472809 max_norm=0.002848169 pass=1
+CORRECT graph=smoke method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00834816701 max_abs=0.507091522 max_norm=0.00823247905 pass=1
+CORRECT graph=smoke method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322174891 max_abs=0.174471021 max_norm=0.0028481399 pass=1
+CORRECT graph=smoke method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.62024589e-06 max_abs=0.000118255615 max_norm=1.93045541e-06 pass=1
+CORRECT graph=smoke method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564243569 max_abs=0.338565826 max_norm=0.00549651483 pass=1
+CORRECT graph=smoke method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.61567765e-06 max_abs=0.00011651963 max_norm=1.9021165e-06 pass=1
+CORRECT graph=smoke method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.0033126055 max_abs=0.209197998 max_norm=0.00341503789 pass=1
+CORRECT graph=smoke method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00841704743 max_abs=0.534797668 max_norm=0.00868228004 pass=1
+CORRECT graph=smoke method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00331262041 max_abs=0.209204443 max_norm=0.0034151432 pass=1
+CORRECT graph=smoke method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=3.10210808e-06 max_abs=0.00023651123 max_norm=3.86091081e-06 pass=1
+CORRECT graph=smoke method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564285452 max_abs=0.338569641 max_norm=0.00549657676 pass=1
+CORRECT graph=smoke method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.10145679e-06 max_abs=0.000234618783 max_norm=3.83001781e-06 pass=1
+CORRECT graph=smoke method=replay_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.0033126055 max_abs=0.209197998 max_norm=0.00341503789 pass=1
+CORRECT graph=smoke method=replay_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00841704743 max_abs=0.534797668 max_norm=0.00868228004 pass=1
+CORRECT graph=smoke method=replay_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00331262041 max_abs=0.209204443 max_norm=0.0034151432 pass=1
+CORRECT graph=smoke method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00333095906 max_abs=0.20003891 max_norm=0.003265521 pass=1
+CORRECT graph=smoke method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00845348715 max_abs=0.52563858 max_norm=0.00853358499 pass=1
+CORRECT graph=smoke method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00333097346 max_abs=0.200045355 max_norm=0.00326562631 pass=1
+CORRECT graph=smoke method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.00685997e-06 max_abs=0.000287055969 max_norm=4.68602482e-06 pass=1
+CORRECT graph=smoke method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564327591 max_abs=0.338569641 max_norm=0.00549657676 pass=1
+CORRECT graph=smoke method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.01165417e-06 max_abs=0.000286951661 max_norm=4.6843222e-06 pass=1
+CORRECT graph=smoke method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00333095906 max_abs=0.20003891 max_norm=0.003265521 pass=1
+CORRECT graph=smoke method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00845348715 max_abs=0.52563858 max_norm=0.00853358499 pass=1
+CORRECT graph=smoke method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00333097346 max_abs=0.200045355 max_norm=0.00326562631 pass=1
+CORRECT graph=smoke method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.00685997e-06 max_abs=0.000287055969 max_norm=4.68602482e-06 pass=1
+CORRECT graph=smoke method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00564327591 max_abs=0.338569641 max_norm=0.00549657676 pass=1
+CORRECT graph=smoke method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.01165417e-06 max_abs=0.000286951661 max_norm=4.6843222e-06 pass=1
+CORRECT graph=smoke method=replay_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00333095906 max_abs=0.20003891 max_norm=0.003265521 pass=1
+CORRECT graph=smoke method=replay_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00845348715 max_abs=0.52563858 max_norm=0.00853358499 pass=1
+CORRECT graph=smoke method=replay_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00333097346 max_abs=0.200045355 max_norm=0.00326562631 pass=1
+TIME graph=smoke method=mkl_bf16_inputs kernel rep=0 ms=0.020981
+TIME graph=smoke method=original kernel rep=0 ms=0.041962
+TIME graph=smoke method=original_nozero kernel rep=0 ms=0.036001
+TIME graph=smoke method=shared_b1_fast_nozero kernel rep=0 ms=0.059128
+TIME graph=smoke method=shared_b1_accurate_nozero kernel rep=0 ms=0.127792
+TIME graph=smoke method=shared_b2_fast_nozero kernel rep=0 ms=0.042915
+TIME graph=smoke method=shared_b2_accurate_nozero kernel rep=0 ms=0.062943
+TIME graph=smoke method=shared_b4_fast_nozero kernel rep=0 ms=0.036955
+TIME graph=smoke method=shared_b4_accurate_nozero kernel rep=0 ms=0.043869
+TIME graph=smoke method=shared_b8_fast_nozero kernel rep=0 ms=0.020027
+TIME graph=smoke method=shared_b8_accurate_nozero kernel rep=0 ms=0.025034
+TIME graph=smoke method=replay_b8_fast_nozero kernel rep=0 ms=0.025988
+TIME graph=smoke method=shared_b16_fast_nozero kernel rep=0 ms=0.015020
+TIME graph=smoke method=shared_b16_accurate_nozero kernel rep=0 ms=0.019073
+TIME graph=smoke method=shared_b32_fast_nozero kernel rep=0 ms=0.014067
+TIME graph=smoke method=shared_b32_accurate_nozero kernel rep=0 ms=0.023127
+TIME graph=smoke method=replay_b32_fast_nozero kernel rep=0 ms=0.020027
+TIME graph=smoke method=shared_b64_fast_nozero kernel rep=0 ms=0.013828
+TIME graph=smoke method=shared_b64_accurate_nozero kernel rep=0 ms=0.013828
+TIME graph=smoke method=shared_bfull_fast_nozero kernel rep=0 ms=0.008821
+TIME graph=smoke method=shared_bfull_accurate_nozero kernel rep=0 ms=0.013828
+TIME graph=smoke method=replay_bfull_fast_nozero kernel rep=0 ms=0.017881
+TIME graph=smoke method=mkl_fp32 kernel rep=0 ms=0.025034
+TIME graph=smoke method=original kernel rep=1 ms=0.041008
+TIME graph=smoke method=original_nozero kernel rep=1 ms=0.033140
+TIME graph=smoke method=shared_b1_fast_nozero kernel rep=1 ms=0.062943
+TIME graph=smoke method=shared_b1_accurate_nozero kernel rep=1 ms=0.108957
+TIME graph=smoke method=shared_b2_fast_nozero kernel rep=1 ms=0.043869
+TIME graph=smoke method=shared_b2_accurate_nozero kernel rep=1 ms=0.063896
+TIME graph=smoke method=shared_b4_fast_nozero kernel rep=1 ms=0.032902
+TIME graph=smoke method=shared_b4_accurate_nozero kernel rep=1 ms=0.040054
+TIME graph=smoke method=shared_b8_fast_nozero kernel rep=1 ms=0.021935
+TIME graph=smoke method=shared_b8_accurate_nozero kernel rep=1 ms=0.028133
+TIME graph=smoke method=replay_b8_fast_nozero kernel rep=1 ms=0.025034
+TIME graph=smoke method=shared_b16_fast_nozero kernel rep=1 ms=0.015974
+TIME graph=smoke method=shared_b16_accurate_nozero kernel rep=1 ms=0.018835
+TIME graph=smoke method=shared_b32_fast_nozero kernel rep=1 ms=0.015020
+TIME graph=smoke method=shared_b32_accurate_nozero kernel rep=1 ms=0.015974
+TIME graph=smoke method=replay_b32_fast_nozero kernel rep=1 ms=0.019789
+TIME graph=smoke method=shared_b64_fast_nozero kernel rep=1 ms=0.013113
+TIME graph=smoke method=shared_b64_accurate_nozero kernel rep=1 ms=0.015020
+TIME graph=smoke method=shared_bfull_fast_nozero kernel rep=1 ms=0.014067
+TIME graph=smoke method=shared_bfull_accurate_nozero kernel rep=1 ms=0.014067
+TIME graph=smoke method=replay_bfull_fast_nozero kernel rep=1 ms=0.019073
+TIME graph=smoke method=mkl_fp32 kernel rep=1 ms=0.019073
+TIME graph=smoke method=mkl_bf16_inputs kernel rep=1 ms=0.009060
+CORRECT graph=smoke method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.29735094e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b1_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.29735094e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00215221785 max_abs=0.129177094 max_norm=0.0021087423 pass=1
+CORRECT graph=smoke method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.31147804e-07 max_abs=2.67028809e-05 max_norm=4.35909285e-07 pass=1
+CORRECT graph=smoke method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00293297524 max_abs=0.201480865 max_norm=0.0032890601 pass=1
+CORRECT graph=smoke method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.02526772e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00309558403 max_abs=0.179656982 max_norm=0.00293279767 pass=1
+CORRECT graph=smoke method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.90529065e-07 max_abs=2.28881836e-05 max_norm=3.7363653e-07 pass=1
+CORRECT graph=smoke method=replay_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00309558403 max_abs=0.179656982 max_norm=0.00293279767 pass=1
+CORRECT graph=smoke method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00322173388 max_abs=0.174472809 max_norm=0.002848169 pass=1
+CORRECT graph=smoke method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.62024589e-06 max_abs=0.000118255615 max_norm=1.93045541e-06 pass=1
+CORRECT graph=smoke method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.0033126055 max_abs=0.209197998 max_norm=0.00341503789 pass=1
+CORRECT graph=smoke method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=3.10210808e-06 max_abs=0.00023651123 max_norm=3.86091081e-06 pass=1
+CORRECT graph=smoke method=replay_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.0033126055 max_abs=0.209197998 max_norm=0.00341503789 pass=1
+CORRECT graph=smoke method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00333095906 max_abs=0.20003891 max_norm=0.003265521 pass=1
+CORRECT graph=smoke method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=4.00685997e-06 max_abs=0.000287055969 max_norm=4.68602482e-06 pass=1
+CORRECT graph=smoke method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00333095906 max_abs=0.20003891 max_norm=0.003265521 pass=1
+CORRECT graph=smoke method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=4.00685997e-06 max_abs=0.000287055969 max_norm=4.68602482e-06 pass=1
+CORRECT graph=smoke method=replay_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00333095906 max_abs=0.20003891 max_norm=0.003265521 pass=1
+CORRECT graph=smoke method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0109471572 max_abs=35.5717773 max_norm=0.0102799516 pass=1
+CORRECT graph=smoke method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=smoke method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108312981 max_abs=35.5717773 max_norm=0.0101791229 pass=1
+CORRECT graph=smoke method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.5192273e-07 max_abs=0.00170898438 max_norm=4.93882454e-07 pass=1
+CORRECT graph=smoke method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108313035 max_abs=35.5715332 max_norm=0.010179053 pass=1
+CORRECT graph=smoke method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.5192273e-07 max_abs=0.00170898438 max_norm=4.93882454e-07 pass=1
+CORRECT graph=smoke method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108313035 max_abs=35.5715332 max_norm=0.010179053 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.5192273e-07 max_abs=0.00170898438 max_norm=4.93882454e-07 pass=1
+CORRECT graph=smoke method=shared_b1_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108313035 max_abs=35.5715332 max_norm=0.010179053 pass=1
+CORRECT graph=smoke method=shared_b1_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.5192273e-07 max_abs=0.00170898438 max_norm=4.93882454e-07 pass=1
+CORRECT graph=smoke method=shared_b1_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108313035 max_abs=35.5715332 max_norm=0.010179053 pass=1
+CORRECT graph=smoke method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00280676469 max_abs=10.7919922 max_norm=0.00311879715 pass=1
+CORRECT graph=smoke method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0134144563 max_abs=45.0305176 max_norm=0.0128858102 pass=1
+CORRECT graph=smoke method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=6.17361582e-05 max_abs=0.124511719 max_norm=3.59828645e-05 pass=1
+CORRECT graph=smoke method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108288961 max_abs=35.652832 max_norm=0.0102023172 pass=1
+CORRECT graph=smoke method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00458387544 max_abs=16.6796875 max_norm=0.00482029276 pass=1
+CORRECT graph=smoke method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0152045864 max_abs=51.5847168 max_norm=0.014761342 pass=1
+CORRECT graph=smoke method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=3.50097629e-07 max_abs=0.00219726562 max_norm=6.34991727e-07 pass=1
+CORRECT graph=smoke method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108313336 max_abs=35.5725098 max_norm=0.0101793324 pass=1
+CORRECT graph=smoke method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00507632017 max_abs=19.0864258 max_norm=0.00551582036 pass=1
+CORRECT graph=smoke method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156596924 max_abs=53.9912109 max_norm=0.0154499778 pass=1
+CORRECT graph=smoke method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=7.60296307e-07 max_abs=0.00317382812 max_norm=9.17210273e-07 pass=1
+CORRECT graph=smoke method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108314527 max_abs=35.5739746 max_norm=0.0101797516 pass=1
+CORRECT graph=smoke method=replay_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00507632017 max_abs=19.0864258 max_norm=0.00551582036 pass=1
+CORRECT graph=smoke method=replay_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156596924 max_abs=53.9912109 max_norm=0.0154499778 pass=1
+CORRECT graph=smoke method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00525006054 max_abs=20.9121094 max_norm=0.00604342793 pass=1
+CORRECT graph=smoke method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0157887919 max_abs=55.1877441 max_norm=0.0157923745 pass=1
+CORRECT graph=smoke method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.13666237e-06 max_abs=0.0119628906 max_norm=3.45717718e-06 pass=1
+CORRECT graph=smoke method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.010832026 max_abs=35.572998 max_norm=0.0101794722 pass=1
+CORRECT graph=smoke method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00542281569 max_abs=21.8569336 max_norm=0.00631647437 pass=1
+CORRECT graph=smoke method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0159376269 max_abs=55.2978516 max_norm=0.0158238825 pass=1
+CORRECT graph=smoke method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=6.18320237e-05 max_abs=0.143554688 max_norm=4.14861262e-05 pass=1
+CORRECT graph=smoke method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108313629 max_abs=35.6728516 max_norm=0.010208046 pass=1
+CORRECT graph=smoke method=replay_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00542281569 max_abs=21.8569336 max_norm=0.00631647437 pass=1
+CORRECT graph=smoke method=replay_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0159376269 max_abs=55.2978516 max_norm=0.0158238825 pass=1
+CORRECT graph=smoke method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00528057402 max_abs=19.2519531 max_norm=0.0055636564 pass=1
+CORRECT graph=smoke method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0157769957 max_abs=51.8601074 max_norm=0.014840147 pass=1
+CORRECT graph=smoke method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=6.18425288e-05 max_abs=0.144287109 max_norm=4.16977901e-05 pass=1
+CORRECT graph=smoke method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108316671 max_abs=35.6689453 max_norm=0.0102069282 pass=1
+CORRECT graph=smoke method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00528057402 max_abs=19.2519531 max_norm=0.0055636564 pass=1
+CORRECT graph=smoke method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0157769957 max_abs=51.8601074 max_norm=0.014840147 pass=1
+CORRECT graph=smoke method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=6.18425288e-05 max_abs=0.144287109 max_norm=4.16977901e-05 pass=1
+CORRECT graph=smoke method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0108316671 max_abs=35.6689453 max_norm=0.0102069282 pass=1
+CORRECT graph=smoke method=replay_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00528057402 max_abs=19.2519531 max_norm=0.0055636564 pass=1
+CORRECT graph=smoke method=replay_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0157769957 max_abs=51.8601074 max_norm=0.014840147 pass=1
+TIME graph=smoke method=mkl_bf16_inputs e2e rep=0 ms=0.027895 L1=0.015020 act_convert=0.003815 L2=0.009060
+TIME graph=smoke method=original e2e rep=0 ms=0.067949 L1=0.031948 act_convert=0.001907 L2=0.034094
+TIME graph=smoke method=original_nozero e2e rep=0 ms=0.056028 L1=0.030041 act_convert=0.001907 L2=0.024080
+TIME graph=smoke method=shared_b1_fast_nozero e2e rep=0 ms=0.121832 L1=0.056028 act_convert=0.003815 L2=0.061989
+TIME graph=smoke method=shared_b1_accurate_nozero e2e rep=0 ms=0.229120 L1=0.109196 act_convert=0.003815 L2=0.116110
+TIME graph=smoke method=shared_b2_fast_nozero e2e rep=0 ms=0.086069 L1=0.041962 act_convert=0.003099 L2=0.041008
+TIME graph=smoke method=shared_b2_accurate_nozero e2e rep=0 ms=0.125170 L1=0.063181 act_convert=0.002861 L2=0.059128
+TIME graph=smoke method=shared_b4_fast_nozero e2e rep=0 ms=0.059128 L1=0.030041 act_convert=0.003099 L2=0.025988
+TIME graph=smoke method=shared_b4_accurate_nozero e2e rep=0 ms=0.075102 L1=0.038147 act_convert=0.002861 L2=0.034094
+TIME graph=smoke method=shared_b8_fast_nozero e2e rep=0 ms=0.035048 L1=0.016928 act_convert=0.003099 L2=0.015020
+TIME graph=smoke method=shared_b8_accurate_nozero e2e rep=0 ms=0.054836 L1=0.025988 act_convert=0.002861 L2=0.025988
+TIME graph=smoke method=replay_b8_fast_nozero e2e rep=0 ms=0.041962 L1=0.020027 act_convert=0.001907 L2=0.020027
+TIME graph=smoke method=shared_b16_fast_nozero e2e rep=0 ms=0.031948 L1=0.011921 act_convert=0.003099 L2=0.016928
+TIME graph=smoke method=shared_b16_accurate_nozero e2e rep=0 ms=0.034094 L1=0.015974 act_convert=0.003099 L2=0.015020
+TIME graph=smoke method=shared_b32_fast_nozero e2e rep=0 ms=0.033855 L1=0.015974 act_convert=0.002861 L2=0.015020
+TIME graph=smoke method=shared_b32_accurate_nozero e2e rep=0 ms=0.030994 L1=0.011921 act_convert=0.003099 L2=0.015974
+TIME graph=smoke method=replay_b32_fast_nozero e2e rep=0 ms=0.033855 L1=0.013828 act_convert=0.003099 L2=0.016928
+TIME graph=smoke method=shared_b64_fast_nozero e2e rep=0 ms=0.022888 L1=0.008821 act_convert=0.002146 L2=0.011921
+TIME graph=smoke method=shared_b64_accurate_nozero e2e rep=0 ms=0.027895 L1=0.012875 act_convert=0.002146 L2=0.012875
+TIME graph=smoke method=shared_bfull_fast_nozero e2e rep=0 ms=0.020981 L1=0.010014 act_convert=0.001907 L2=0.009060
+TIME graph=smoke method=shared_bfull_accurate_nozero e2e rep=0 ms=0.026941 L1=0.015020 act_convert=0.002861 L2=0.009060
+TIME graph=smoke method=replay_bfull_fast_nozero e2e rep=0 ms=0.034094 L1=0.012875 act_convert=0.003099 L2=0.018120
+TIME graph=smoke method=mkl_fp32 e2e rep=0 ms=0.025034 L1=0.015020 act_convert=0.002146 L2=0.007868
+TIME graph=smoke method=original e2e rep=1 ms=0.069857 L1=0.034809 act_convert=0.003099 L2=0.031948
+TIME graph=smoke method=original_nozero e2e rep=1 ms=0.054121 L1=0.026941 act_convert=0.004053 L2=0.023127
+TIME graph=smoke method=shared_b1_fast_nozero e2e rep=1 ms=0.130892 L1=0.069857 act_convert=0.004053 L2=0.056982
+TIME graph=smoke method=shared_b1_accurate_nozero e2e rep=1 ms=0.244856 L1=0.109911 act_convert=0.004053 L2=0.130892
+TIME graph=smoke method=shared_b2_fast_nozero e2e rep=1 ms=0.090122 L1=0.043154 act_convert=0.005007 L2=0.041962
+TIME graph=smoke method=shared_b2_accurate_nozero e2e rep=1 ms=0.149012 L1=0.075102 act_convert=0.004053 L2=0.069857
+TIME graph=smoke method=shared_b4_fast_nozero e2e rep=1 ms=0.057936 L1=0.030041 act_convert=0.002861 L2=0.025034
+TIME graph=smoke method=shared_b4_accurate_nozero e2e rep=1 ms=0.077009 L1=0.040054 act_convert=0.003099 L2=0.033855
+TIME graph=smoke method=shared_b8_fast_nozero e2e rep=1 ms=0.042200 L1=0.020027 act_convert=0.002146 L2=0.020027
+TIME graph=smoke method=shared_b8_accurate_nozero e2e rep=1 ms=0.062943 L1=0.034809 act_convert=0.003099 L2=0.025034
+TIME graph=smoke method=replay_b8_fast_nozero e2e rep=1 ms=0.051975 L1=0.023842 act_convert=0.003099 L2=0.025034
+TIME graph=smoke method=shared_b16_fast_nozero e2e rep=1 ms=0.027180 L1=0.012159 act_convert=0.001907 L2=0.013113
+TIME graph=smoke method=shared_b16_accurate_nozero e2e rep=1 ms=0.044107 L1=0.021219 act_convert=0.001907 L2=0.020981
+TIME graph=smoke method=shared_b32_fast_nozero e2e rep=1 ms=0.030041 L1=0.015020 act_convert=0.002861 L2=0.012159
+TIME graph=smoke method=shared_b32_accurate_nozero e2e rep=1 ms=0.034094 L1=0.020027 act_convert=0.003099 L2=0.010967
+TIME graph=smoke method=replay_b32_fast_nozero e2e rep=1 ms=0.032902 L1=0.017881 act_convert=0.002146 L2=0.012875
+TIME graph=smoke method=shared_b64_fast_nozero e2e rep=1 ms=0.025988 L1=0.013113 act_convert=0.002861 L2=0.010014
+TIME graph=smoke method=shared_b64_accurate_nozero e2e rep=1 ms=0.031948 L1=0.018835 act_convert=0.003099 L2=0.010014
+TIME graph=smoke method=shared_bfull_fast_nozero e2e rep=1 ms=0.024080 L1=0.013113 act_convert=0.002861 L2=0.008106
+TIME graph=smoke method=shared_bfull_accurate_nozero e2e rep=1 ms=0.026941 L1=0.014067 act_convert=0.002861 L2=0.010014
+TIME graph=smoke method=replay_bfull_fast_nozero e2e rep=1 ms=0.033855 L1=0.012875 act_convert=0.003099 L2=0.017881
+TIME graph=smoke method=mkl_fp32 e2e rep=1 ms=0.036001 L1=0.025034 act_convert=0.002146 L2=0.008821
+TIME graph=smoke method=mkl_bf16_inputs e2e rep=1 ms=0.024080 L1=0.010014 act_convert=0.004053 L2=0.010014
+COMPLETE graph=smoke status=PASS max_rss_kib=26976

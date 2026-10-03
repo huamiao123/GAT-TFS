@@ -1,0 +1,13 @@
+{
+  "id": "decision-20261003-road-ilp64-recovery",
+  "kind": "decision",
+  "status": "READY",
+  "purpose": "Recover road_usa failure without attributing a preparation crash to an algorithm slowdown",
+  "evidence": "formal-10862002/road_usa/status.json: exit_code=-11, unitvalues scan passed, stdout stops before CONFIG. N=23947347 and N*128=3065260416 exceed INT32_MAX; no numerical or timing result accepted",
+  "hypothesis": "MKL LP64 internal dense-element index boundary in reference/preparation; suspected, not yet proven because no stacktrace",
+  "recovery": "Use existing ILP64 build-20261003-211404 after smoke-10862091. Same original AMX and local kernels, FP32/BF16 math, inputs, B2/4/8/16/32/64/Full,1warmup10measured repeats, full checks and two-layer timing",
+  "resource": "one exclusive node32physical cores,448GiB job allocation (estimated memory135GiB),2h maximum, normal socket CPU-NUMA interleave. Max3jobs including other current attempts, below5nodes",
+  "issues": "road_usa LP64 preparation segmentation fault; preserve failure, validate ILP64 recovery before claiming root cause resolved",
+  "paper_eligible": false,
+  "next": "Collect isolated recovery and include only a validated complete run in coverage summary"
+}

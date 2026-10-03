@@ -1,0 +1,471 @@
+GRAPH_VALUES name=com-Youtube checked=5975248 nonunit=0 implicit_ones=0
+CORRECT graph=com-Youtube method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.1583548e-07 max_abs=0.00126194954 max_norm=3.93631238e-07 pass=1
+CONFIG graph=com-Youtube N=1134890 E=5975248 threads=32 R=64 D=128 F=128 repeats=10 warmups=1
+CORRECT graph=com-Youtube method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00524638397 max_abs=12.4609375 max_norm=0.00388685535 pass=1
+CORRECT graph=com-Youtube method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00440544579 max_abs=12.4604756 max_norm=0.00388671044 pass=1
+CORRECT graph=com-Youtube method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522149463 max_abs=12.4609375 max_norm=0.00387607996 pass=1
+CORRECT graph=com-Youtube method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.1583548e-07 max_abs=0.00126194954 max_norm=3.93631238e-07 pass=1
+CORRECT graph=com-Youtube method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.12146189e-07 max_abs=0.0249023438 max_norm=7.76761844e-06 pass=1
+CORRECT graph=com-Youtube method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052214966 max_abs=12.4504395 max_norm=0.00387281446 pass=1
+CORRECT graph=com-Youtube method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.34056807e-06 max_abs=0.0255960263 max_norm=7.9839924e-06 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.12146189e-07 max_abs=0.0249023438 max_norm=7.76761844e-06 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052214966 max_abs=12.4504395 max_norm=0.00387281446 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.34056807e-06 max_abs=0.0255960263 max_norm=7.9839924e-06 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00220178854 max_abs=5.14794922 max_norm=0.00160576473 pass=1
+CORRECT graph=com-Youtube method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00680256136 max_abs=16.2490234 max_norm=0.00505439612 pass=1
+CORRECT graph=com-Youtube method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00210435888 max_abs=5.14727255 max_norm=0.00160555331 pass=1
+CORRECT graph=com-Youtube method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.50616387e-07 max_abs=0.0205078125 max_norm=6.39686225e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522150206 max_abs=12.4814453 max_norm=0.00388245909 pass=1
+CORRECT graph=com-Youtube method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.52773254e-06 max_abs=0.0209696628 max_norm=6.54092265e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00275002801 max_abs=9.88085938 max_norm=0.00308206915 pass=1
+CORRECT graph=com-Youtube method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00737191171 max_abs=18.7932129 max_norm=0.00584578776 pass=1
+CORRECT graph=com-Youtube method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00275977095 max_abs=9.88155306 max_norm=0.00308228486 pass=1
+CORRECT graph=com-Youtube method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=6.89703592e-07 max_abs=0.0150146484 max_norm=4.683417e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522149373 max_abs=12.4545898 max_norm=0.00387410547 pass=1
+CORRECT graph=com-Youtube method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.48532054e-06 max_abs=0.0148650892 max_norm=4.63676501e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00290522438 max_abs=7.63647461 max_norm=0.0023819935 pass=1
+CORRECT graph=com-Youtube method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00755252875 max_abs=19.3552246 max_norm=0.00602060626 pass=1
+CORRECT graph=com-Youtube method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00288851929 max_abs=7.63715777 max_norm=0.00238220608 pass=1
+CORRECT graph=com-Youtube method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=6.87116593e-07 max_abs=0.0114746094 max_norm=3.57919673e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522151329 max_abs=12.4606934 max_norm=0.00387600402 pass=1
+CORRECT graph=com-Youtube method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.82235761e-06 max_abs=0.012168292 max_norm=3.79557159e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00298800723 max_abs=8.83520508 max_norm=0.00275590533 pass=1
+CORRECT graph=com-Youtube method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00763992821 max_abs=20.8339844 max_norm=0.00648058698 pass=1
+CORRECT graph=com-Youtube method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00311687698 max_abs=8.83440479 max_norm=0.00275565511 pass=1
+CORRECT graph=com-Youtube method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.48053648e-06 max_abs=0.00817871094 max_norm=2.55112959e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522164643 max_abs=12.4572754 max_norm=0.00387494083 pass=1
+CORRECT graph=com-Youtube method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.00194775e-06 max_abs=0.00831500813 max_norm=2.59364328e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00300124461 max_abs=9.87988281 max_norm=0.00308176454 pass=1
+CORRECT graph=com-Youtube method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00765565801 max_abs=20.8503418 max_norm=0.0064856751 pass=1
+CORRECT graph=com-Youtube method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00313950173 max_abs=9.87908252 max_norm=0.00308151425 pass=1
+CORRECT graph=com-Youtube method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.60342825e-06 max_abs=0.00830078125 max_norm=2.58920615e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522200123 max_abs=12.4638672 max_norm=0.00387699127 pass=1
+CORRECT graph=com-Youtube method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.98631374e-06 max_abs=0.00898394361 max_norm=2.80229972e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00300817549 max_abs=8.84960938 max_norm=0.00276039837 pass=1
+CORRECT graph=com-Youtube method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00766290697 max_abs=19.9020996 max_norm=0.00619071635 pass=1
+CORRECT graph=com-Youtube method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00304649245 max_abs=8.84880909 max_norm=0.00276014814 pass=1
+CORRECT graph=com-Youtube method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=3.76506635e-06 max_abs=0.009765625 max_norm=3.04612488e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0052225575 max_abs=12.4665527 max_norm=0.00387782663 pass=1
+CORRECT graph=com-Youtube method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.64836558e-06 max_abs=0.00905394554 max_norm=2.82413494e-06 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00302745724 max_abs=10.4924316 max_norm=0.00327283272 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00766854549 max_abs=18.5668945 max_norm=0.00577538952 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00324285739 max_abs=10.4916314 max_norm=0.00327258239 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=5.25401385e-06 max_abs=0.0251464844 max_norm=7.84377157e-06 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00522339052 max_abs=12.4824219 max_norm=0.00388276286 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=8.99317965e-06 max_abs=0.0249525532 max_norm=7.78327826e-06 pass=1
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=0 ms=19.329071
+TIME graph=com-Youtube method=original kernel rep=0 ms=69.012880
+TIME graph=com-Youtube method=original_nozero kernel rep=0 ms=20.789146
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=0 ms=30.903816
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=0 ms=40.011883
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=0 ms=21.384954
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=0 ms=27.258873
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=0 ms=16.255140
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=0 ms=20.539045
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=0 ms=14.451981
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=0 ms=16.927958
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=0 ms=13.314009
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=0 ms=14.142990
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=0 ms=12.277126
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=0 ms=14.005899
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=0 ms=12.497187
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=0 ms=12.564898
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=0 ms=20.219088
+TIME graph=com-Youtube method=original kernel rep=1 ms=68.078041
+TIME graph=com-Youtube method=original_nozero kernel rep=1 ms=21.344900
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=1 ms=29.107094
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=1 ms=41.864872
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=1 ms=22.330999
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=1 ms=26.643038
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=1 ms=17.219067
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=1 ms=20.523071
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=1 ms=14.528990
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=1 ms=16.591072
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=1 ms=13.618946
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=1 ms=14.972925
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=1 ms=12.355089
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=1 ms=12.980938
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=1 ms=12.300968
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=1 ms=12.552977
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=1 ms=19.383192
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=1 ms=19.362926
+TIME graph=com-Youtube method=original_nozero kernel rep=2 ms=21.778822
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=2 ms=30.342102
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=2 ms=42.119026
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=2 ms=22.099018
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=2 ms=27.084112
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=2 ms=17.492056
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=2 ms=19.334078
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=2 ms=15.112877
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=2 ms=16.196012
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=2 ms=13.432980
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=2 ms=14.987946
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=2 ms=12.838125
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=2 ms=13.590813
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=2 ms=11.725187
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=2 ms=12.955904
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=2 ms=19.414902
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=2 ms=19.359827
+TIME graph=com-Youtube method=original kernel rep=2 ms=69.016933
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=3 ms=29.168844
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=3 ms=41.787148
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=3 ms=20.182133
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=3 ms=25.847912
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=3 ms=16.339064
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=3 ms=19.485950
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=3 ms=14.913082
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=3 ms=16.108036
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=3 ms=13.244867
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=3 ms=14.553070
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=3 ms=12.672186
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=3 ms=13.701916
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=3 ms=12.313843
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=3 ms=13.004780
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=3 ms=19.681931
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=3 ms=19.402027
+TIME graph=com-Youtube method=original kernel rep=3 ms=69.277763
+TIME graph=com-Youtube method=original_nozero kernel rep=3 ms=21.201134
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=4 ms=41.838884
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=4 ms=21.467924
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=4 ms=27.281046
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=4 ms=17.619133
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=4 ms=20.503998
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=4 ms=15.099049
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=4 ms=16.758204
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=4 ms=13.439178
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=4 ms=15.089035
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=4 ms=12.918949
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=4 ms=13.782978
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=4 ms=12.418985
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=4 ms=13.209105
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=4 ms=19.379854
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=4 ms=19.376993
+TIME graph=com-Youtube method=original kernel rep=4 ms=69.051981
+TIME graph=com-Youtube method=original_nozero kernel rep=4 ms=20.956039
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=4 ms=29.005051
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=5 ms=21.414042
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=5 ms=26.129961
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=5 ms=17.702818
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=5 ms=20.261049
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=5 ms=13.998032
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=5 ms=16.118050
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=5 ms=12.896061
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=5 ms=13.772964
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=5 ms=12.316942
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=5 ms=13.792992
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=5 ms=12.041807
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=5 ms=12.861013
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=5 ms=19.397020
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=5 ms=19.403934
+TIME graph=com-Youtube method=original kernel rep=5 ms=69.613934
+TIME graph=com-Youtube method=original_nozero kernel rep=5 ms=20.972967
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=5 ms=30.654907
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=5 ms=41.109085
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=6 ms=26.460886
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=6 ms=17.756939
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=6 ms=20.068884
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=6 ms=14.439106
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=6 ms=16.600847
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=6 ms=13.372183
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=6 ms=14.551163
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=6 ms=12.773991
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=6 ms=13.648033
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=6 ms=11.977911
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=6 ms=12.463808
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=6 ms=19.410133
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=6 ms=19.448042
+TIME graph=com-Youtube method=original kernel rep=6 ms=69.222927
+TIME graph=com-Youtube method=original_nozero kernel rep=6 ms=20.814896
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=6 ms=30.294895
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=6 ms=39.410114
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=6 ms=21.006107
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=7 ms=15.737057
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=7 ms=20.483017
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=7 ms=14.132977
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=7 ms=16.182899
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=7 ms=13.772011
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=7 ms=14.673948
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=7 ms=13.121128
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=7 ms=13.833046
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=7 ms=12.125015
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=7 ms=12.873888
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=7 ms=19.400120
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=7 ms=19.451857
+TIME graph=com-Youtube method=original kernel rep=7 ms=69.179058
+TIME graph=com-Youtube method=original_nozero kernel rep=7 ms=21.298885
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=7 ms=31.112909
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=7 ms=40.199041
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=7 ms=21.271944
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=7 ms=26.024103
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=8 ms=20.501852
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=8 ms=15.162945
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=8 ms=16.752958
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=8 ms=13.516903
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=8 ms=14.874935
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=8 ms=12.840033
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=8 ms=13.799906
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=8 ms=12.210131
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=8 ms=12.560844
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=8 ms=19.387960
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=8 ms=19.340992
+TIME graph=com-Youtube method=original kernel rep=8 ms=70.175886
+TIME graph=com-Youtube method=original_nozero kernel rep=8 ms=20.917892
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=8 ms=30.248165
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=8 ms=40.158987
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=8 ms=21.958113
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=8 ms=27.726173
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=8 ms=16.815186
+TIME graph=com-Youtube method=shared_b16_fast_nozero kernel rep=9 ms=14.728069
+TIME graph=com-Youtube method=shared_b16_accurate_nozero kernel rep=9 ms=16.481161
+TIME graph=com-Youtube method=shared_b32_fast_nozero kernel rep=9 ms=13.123989
+TIME graph=com-Youtube method=shared_b32_accurate_nozero kernel rep=9 ms=15.098095
+TIME graph=com-Youtube method=shared_b64_fast_nozero kernel rep=9 ms=13.040066
+TIME graph=com-Youtube method=shared_b64_accurate_nozero kernel rep=9 ms=13.959169
+TIME graph=com-Youtube method=shared_bfull_fast_nozero kernel rep=9 ms=12.242794
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero kernel rep=9 ms=12.555122
+TIME graph=com-Youtube method=mkl_fp32 kernel rep=9 ms=19.378901
+TIME graph=com-Youtube method=mkl_bf16_inputs kernel rep=9 ms=19.352913
+TIME graph=com-Youtube method=original kernel rep=9 ms=68.860054
+TIME graph=com-Youtube method=original_nozero kernel rep=9 ms=21.416903
+TIME graph=com-Youtube method=shared_b2_fast_nozero kernel rep=9 ms=29.814005
+TIME graph=com-Youtube method=shared_b2_accurate_nozero kernel rep=9 ms=42.002916
+TIME graph=com-Youtube method=shared_b4_fast_nozero kernel rep=9 ms=20.730019
+TIME graph=com-Youtube method=shared_b4_accurate_nozero kernel rep=9 ms=27.241945
+TIME graph=com-Youtube method=shared_b8_fast_nozero kernel rep=9 ms=17.320871
+TIME graph=com-Youtube method=shared_b8_accurate_nozero kernel rep=9 ms=20.066977
+CORRECT graph=com-Youtube method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00220178854 max_abs=5.14794922 max_norm=0.00160576473 pass=1
+CORRECT graph=com-Youtube method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=9.50616387e-07 max_abs=0.0205078125 max_norm=6.39686225e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00275002801 max_abs=9.88085938 max_norm=0.00308206915 pass=1
+CORRECT graph=com-Youtube method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=6.89703592e-07 max_abs=0.0150146484 max_norm=4.683417e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00290522438 max_abs=7.63647461 max_norm=0.0023819935 pass=1
+CORRECT graph=com-Youtube method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=6.87116593e-07 max_abs=0.0114746094 max_norm=3.57919673e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00298800723 max_abs=8.83520508 max_norm=0.00275590533 pass=1
+CORRECT graph=com-Youtube method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.48053648e-06 max_abs=0.00817871094 max_norm=2.55112959e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00300124461 max_abs=9.87988281 max_norm=0.00308176454 pass=1
+CORRECT graph=com-Youtube method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.60342825e-06 max_abs=0.00830078125 max_norm=2.58920615e-06 pass=1
+CORRECT graph=com-Youtube method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00300817549 max_abs=8.84960938 max_norm=0.00276039837 pass=1
+CORRECT graph=com-Youtube method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=3.76506635e-06 max_abs=0.009765625 max_norm=3.04612488e-06 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00302745724 max_abs=10.4924316 max_norm=0.00327283272 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=5.25401385e-06 max_abs=0.0251464844 max_norm=7.84377157e-06 pass=1
+CORRECT graph=com-Youtube method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00990836478 max_abs=31867.75 max_norm=0.00967533718 pass=1
+CORRECT graph=com-Youtube method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=com-Youtube method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981372073 max_abs=31867.75 max_norm=0.00958746544 pass=1
+CORRECT graph=com-Youtube method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.46835388e-05 max_abs=179 max_norm=5.43460193e-05 pass=1
+CORRECT graph=com-Youtube method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981469962 max_abs=32046.75 max_norm=0.00964131788 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.46835388e-05 max_abs=179 max_norm=5.43460193e-05 pass=1
+CORRECT graph=com-Youtube method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981469962 max_abs=32046.75 max_norm=0.00964131788 pass=1
+CORRECT graph=com-Youtube method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0032763714 max_abs=9621.25 max_norm=0.00292109854 pass=1
+CORRECT graph=com-Youtube method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0127566586 max_abs=40378 max_norm=0.0121477883 pass=1
+CORRECT graph=com-Youtube method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.57374648e-05 max_abs=312 max_norm=9.47260224e-05 pass=1
+CORRECT graph=com-Youtube method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981676221 max_abs=32179.75 max_norm=0.00968133115 pass=1
+CORRECT graph=com-Youtube method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00488127227 max_abs=14703.5 max_norm=0.00446411561 pass=1
+CORRECT graph=com-Youtube method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0143714701 max_abs=44891.25 max_norm=0.013505607 pass=1
+CORRECT graph=com-Youtube method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.21683735e-06 max_abs=58.46875 max_norm=1.77516414e-05 pass=1
+CORRECT graph=com-Youtube method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981372962 max_abs=31887 max_norm=0.00959325683 pass=1
+CORRECT graph=com-Youtube method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00530844362 max_abs=16905 max_norm=0.00513251093 pass=1
+CORRECT graph=com-Youtube method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0148295305 max_abs=47092.75 max_norm=0.0141679319 pass=1
+CORRECT graph=com-Youtube method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=8.67568294e-06 max_abs=57.4375 max_norm=1.74385446e-05 pass=1
+CORRECT graph=com-Youtube method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981387268 max_abs=31873.75 max_norm=0.00958927055 pass=1
+CORRECT graph=com-Youtube method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0056255827 max_abs=17706.75 max_norm=0.00537592948 pass=1
+CORRECT graph=com-Youtube method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0151347575 max_abs=47894.5 max_norm=0.0144091398 pass=1
+CORRECT graph=com-Youtube method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.10104059e-05 max_abs=58.203125 max_norm=1.76709953e-05 pass=1
+CORRECT graph=com-Youtube method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981472734 max_abs=31894.75 max_norm=0.00959558843 pass=1
+CORRECT graph=com-Youtube method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00570666244 max_abs=17930 max_norm=0.0054437102 pass=1
+CORRECT graph=com-Youtube method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0151939766 max_abs=48117.75 max_norm=0.0144763049 pass=1
+CORRECT graph=com-Youtube method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.57240746e-05 max_abs=59.53125 max_norm=1.8074226e-05 pass=1
+CORRECT graph=com-Youtube method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981656167 max_abs=31896.75 max_norm=0.00959619013 pass=1
+CORRECT graph=com-Youtube method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00576863246 max_abs=18043.75 max_norm=0.00547824573 pass=1
+CORRECT graph=com-Youtube method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0152455675 max_abs=48231.5 max_norm=0.0145105268 pass=1
+CORRECT graph=com-Youtube method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=2.09621186e-05 max_abs=61.6875 max_norm=1.8728883e-05 pass=1
+CORRECT graph=com-Youtube method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00981907244 max_abs=31908.75 max_norm=0.00959980035 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00589889248 max_abs=17782.75 max_norm=0.00539900377 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0152559324 max_abs=49526.25 max_norm=0.0149000544 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=3.22701822e-05 max_abs=33.5 max_norm=1.01709031e-05 pass=1
+CORRECT graph=com-Youtube method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00982149512 max_abs=31890 max_norm=0.00959415939 pass=1
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=0 ms=44.865131 L1=19.230127 act_convert=6.108046 L2=19.526958
+TIME graph=com-Youtube method=original e2e rep=0 ms=139.141083 L1=67.810059 act_convert=4.179955 L2=67.151070
+TIME graph=com-Youtube method=original_nozero e2e rep=0 ms=45.660973 L1=20.390987 act_convert=4.130840 L2=21.139145
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=0 ms=66.849947 L1=32.382011 act_convert=4.142046 L2=30.325890
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=0 ms=90.341091 L1=42.778015 act_convert=4.166126 L2=43.396950
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=0 ms=49.662113 L1=22.167921 act_convert=4.148006 L2=23.346186
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=0 ms=60.376167 L1=28.100967 act_convert=4.148006 L2=28.127193
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=0 ms=39.955139 L1=17.232180 act_convert=4.138947 L2=18.584013
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=0 ms=46.275854 L1=20.884991 act_convert=4.154921 L2=21.235943
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=0 ms=35.761118 L1=15.673161 act_convert=4.201889 L2=15.886068
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=0 ms=38.655996 L1=17.361164 act_convert=4.159927 L2=17.134905
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=0 ms=33.097029 L1=14.335155 act_convert=4.215002 L2=14.546871
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=0 ms=34.841061 L1=15.002012 act_convert=4.160166 L2=15.678883
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=0 ms=31.838179 L1=13.934135 act_convert=4.137039 L2=13.767004
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=0 ms=33.334970 L1=14.031887 act_convert=4.222155 L2=15.080929
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=0 ms=29.799938 L1=12.467146 act_convert=4.166842 L2=13.165951
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=0 ms=32.135963 L1=13.779879 act_convert=4.131079 L2=14.225006
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=0 ms=41.101933 L1=19.494057 act_convert=1.839876 L2=19.768000
+TIME graph=com-Youtube method=original e2e rep=1 ms=140.455008 L1=68.958044 act_convert=4.132032 L2=67.364931
+TIME graph=com-Youtube method=original_nozero e2e rep=1 ms=45.411825 L1=20.558834 act_convert=4.127979 L2=20.725012
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=1 ms=67.023993 L1=31.157970 act_convert=4.149914 L2=31.716108
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=1 ms=87.634087 L1=42.149067 act_convert=4.158020 L2=41.327000
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=1 ms=50.114155 L1=22.471189 act_convert=4.148960 L2=23.494005
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=1 ms=59.403181 L1=27.042150 act_convert=4.143953 L2=28.217077
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=1 ms=40.889978 L1=18.530846 act_convert=4.154205 L2=18.204927
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=1 ms=45.320988 L1=20.181894 act_convert=4.162073 L2=20.977020
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=1 ms=34.632921 L1=15.018940 act_convert=4.155159 L2=15.458822
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=1 ms=39.026022 L1=17.039061 act_convert=4.150152 L2=17.836809
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=1 ms=32.073021 L1=13.530016 act_convert=4.191875 L2=14.351130
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=1 ms=35.235882 L1=15.577793 act_convert=4.150152 L2=15.507936
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=1 ms=31.546831 L1=13.465881 act_convert=4.245996 L2=13.834953
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=1 ms=33.127069 L1=14.181137 act_convert=4.216909 L2=14.729023
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=1 ms=30.072927 L1=13.196945 act_convert=4.151106 L2=12.724876
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=1 ms=31.731844 L1=13.845921 act_convert=4.131079 L2=13.754845
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=1 ms=40.762901 L1=19.364834 act_convert=1.754999 L2=19.643068
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=1 ms=44.920921 L1=19.399881 act_convert=6.165028 L2=19.356012
+TIME graph=com-Youtube method=original_nozero e2e rep=2 ms=47.329903 L1=20.905972 act_convert=4.176855 L2=22.247076
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=2 ms=65.770149 L1=31.212091 act_convert=4.152060 L2=30.405998
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=2 ms=89.452028 L1=42.747974 act_convert=5.695105 L2=41.008949
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=2 ms=51.025152 L1=22.158146 act_convert=5.966902 L2=22.900105
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=2 ms=59.362173 L1=26.829958 act_convert=4.160166 L2=28.372049
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=2 ms=40.580988 L1=18.191099 act_convert=4.252911 L2=18.136978
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=2 ms=45.552015 L1=20.666122 act_convert=4.154921 L2=20.730972
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=2 ms=34.824133 L1=15.565157 act_convert=4.154921 L2=15.104055
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=2 ms=39.526939 L1=17.670870 act_convert=4.159212 L2=17.696857
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=2 ms=32.755136 L1=14.474154 act_convert=4.272938 L2=14.008045
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=2 ms=35.856962 L1=15.919924 act_convert=4.145145 L2=15.791893
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=2 ms=31.275988 L1=13.320923 act_convert=4.230022 L2=13.725042
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=2 ms=34.181118 L1=15.034199 act_convert=4.246950 L2=14.899969
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=2 ms=30.115128 L1=12.956142 act_convert=4.163027 L2=12.995958
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=2 ms=30.910969 L1=13.249874 act_convert=4.117012 L2=13.544083
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=2 ms=40.894985 L1=19.351006 act_convert=1.739025 L2=19.804955
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=2 ms=45.241833 L1=19.362926 act_convert=6.286860 L2=19.592047
+TIME graph=com-Youtube method=original e2e rep=2 ms=140.648127 L1=68.431139 act_convert=4.160881 L2=68.056107
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=3 ms=65.311909 L1=31.167984 act_convert=4.153013 L2=29.990911
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=3 ms=89.093924 L1=42.922974 act_convert=4.166842 L2=42.004108
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=3 ms=48.881054 L1=22.352934 act_convert=4.168034 L2=22.360086
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=3 ms=58.868885 L1=27.606964 act_convert=4.146099 L2=27.115822
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=3 ms=40.904045 L1=17.615080 act_convert=4.177809 L2=19.111156
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=3 ms=46.658993 L1=21.188974 act_convert=4.154921 L2=21.315098
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=3 ms=35.022020 L1=14.969110 act_convert=4.115820 L2=15.937090
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=3 ms=40.324926 L1=18.222094 act_convert=4.151821 L2=17.951012
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=3 ms=32.336950 L1=14.095068 act_convert=4.216909 L2=14.024973
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=3 ms=34.796953 L1=15.352011 act_convert=4.158974 L2=15.285969
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=3 ms=31.668901 L1=13.648987 act_convert=4.245043 L2=13.774872
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=3 ms=32.691956 L1=14.216900 act_convert=4.149914 L2=14.325142
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=3 ms=29.376984 L1=12.470961 act_convert=4.162073 L2=12.743950
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=3 ms=31.986952 L1=13.566017 act_convert=4.124880 L2=14.296055
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=3 ms=41.135073 L1=19.457102 act_convert=1.901865 L2=19.776106
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=3 ms=45.097113 L1=19.334078 act_convert=6.301880 L2=19.461155
+TIME graph=com-Youtube method=original e2e rep=3 ms=139.356136 L1=67.586184 act_convert=4.149914 L2=67.620039
+TIME graph=com-Youtube method=original_nozero e2e rep=3 ms=46.191931 L1=20.608902 act_convert=4.157066 L2=21.425962
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=4 ms=87.803841 L1=42.373896 act_convert=4.137993 L2=41.291952
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=4 ms=48.966885 L1=22.876978 act_convert=4.151106 L2=21.938801
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=4 ms=58.841944 L1=27.024031 act_convert=4.156828 L2=27.661085
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=4 ms=40.169954 L1=18.039942 act_convert=4.161119 L2=17.968893
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=4 ms=45.597076 L1=20.864964 act_convert=4.158020 L2=20.574093
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=4 ms=34.857035 L1=15.433073 act_convert=4.150867 L2=15.273094
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=4 ms=39.021969 L1=16.871929 act_convert=4.150152 L2=17.999887
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=4 ms=32.222033 L1=14.510155 act_convert=4.238844 L2=13.473034
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=4 ms=35.874128 L1=15.779972 act_convert=4.170179 L2=15.923977
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=4 ms=31.148911 L1=13.528109 act_convert=4.174948 L2=13.445854
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=4 ms=32.606840 L1=14.075994 act_convert=4.251003 L2=14.279842
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=4 ms=30.206203 L1=13.011217 act_convert=4.108906 L2=13.086081
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=4 ms=31.073093 L1=14.000177 act_convert=4.161835 L2=12.911081
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=4 ms=40.881872 L1=19.397020 act_convert=1.734972 L2=19.749880
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=4 ms=47.369003 L1=21.718025 act_convert=6.271839 L2=19.379139
+TIME graph=com-Youtube method=original e2e rep=4 ms=138.785124 L1=67.615032 act_convert=4.167080 L2=67.003012
+TIME graph=com-Youtube method=original_nozero e2e rep=4 ms=46.267033 L1=20.987988 act_convert=4.131079 L2=21.147966
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=4 ms=66.398144 L1=30.318022 act_convert=4.137039 L2=31.943083
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=5 ms=48.048019 L1=21.968842 act_convert=4.152060 L2=21.927118
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=5 ms=60.128927 L1=27.291775 act_convert=4.144192 L2=28.692961
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=5 ms=39.403915 L1=16.758919 act_convert=4.163980 L2=18.481016
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=5 ms=45.464039 L1=20.481110 act_convert=4.151821 L2=20.831108
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=5 ms=34.851074 L1=15.100002 act_convert=4.202127 L2=15.548944
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=5 ms=38.918972 L1=16.875029 act_convert=4.137993 L2=17.905951
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=5 ms=32.679081 L1=14.086962 act_convert=4.923105 L2=13.669014
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=5 ms=36.010981 L1=15.504837 act_convert=4.146099 L2=16.360044
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=5 ms=31.777143 L1=13.611078 act_convert=4.251957 L2=13.914108
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=5 ms=33.233881 L1=14.137983 act_convert=4.545927 L2=14.549971
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=5 ms=29.719114 L1=12.378931 act_convert=4.116058 L2=13.224125
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=5 ms=32.099009 L1=13.635874 act_convert=4.124165 L2=14.338970
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=5 ms=41.120052 L1=19.433975 act_convert=1.855135 L2=19.830942
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=5 ms=45.498848 L1=19.337893 act_convert=6.386042 L2=19.774914
+TIME graph=com-Youtube method=original e2e rep=5 ms=139.714956 L1=67.532063 act_convert=4.142046 L2=68.040848
+TIME graph=com-Youtube method=original_nozero e2e rep=5 ms=46.428919 L1=20.885944 act_convert=4.125118 L2=21.417856
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=5 ms=69.676161 L1=32.643080 act_convert=4.153967 L2=32.879114
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=5 ms=89.303017 L1=41.559935 act_convert=4.163027 L2=43.580055
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=6 ms=58.289051 L1=27.287006 act_convert=4.152060 L2=26.849985
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=6 ms=40.279150 L1=17.632961 act_convert=4.159212 L2=18.486977
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=6 ms=46.112061 L1=20.812035 act_convert=4.160881 L2=21.139145
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=6 ms=35.268068 L1=15.547037 act_convert=4.148960 L2=15.572071
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=6 ms=38.708210 L1=16.577005 act_convert=4.148006 L2=17.983198
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=6 ms=32.892942 L1=14.195919 act_convert=4.221916 L2=14.475107
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=6 ms=34.487963 L1=15.013933 act_convert=4.166126 L2=15.307903
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=6 ms=31.929016 L1=13.845921 act_convert=4.161119 L2=13.921976
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=6 ms=33.452034 L1=14.535189 act_convert=4.253864 L2=14.662981
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=6 ms=30.102968 L1=12.998104 act_convert=4.131079 L2=12.973785
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=6 ms=31.778812 L1=13.154984 act_convert=4.148006 L2=14.475822
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=6 ms=41.145086 L1=19.428015 act_convert=2.258062 L2=19.459009
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=6 ms=45.258999 L1=19.524097 act_convert=6.247044 L2=19.487858
+TIME graph=com-Youtube method=original e2e rep=6 ms=138.571978 L1=66.535950 act_convert=4.133940 L2=67.902088
+TIME graph=com-Youtube method=original_nozero e2e rep=6 ms=47.601938 L1=21.631956 act_convert=4.148960 L2=21.821022
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=6 ms=67.168951 L1=31.397820 act_convert=4.158020 L2=31.613111
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=6 ms=88.406086 L1=41.281939 act_convert=4.156113 L2=42.968035
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=6 ms=49.245119 L1=22.267103 act_convert=4.150867 L2=22.827148
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=7 ms=40.036917 L1=16.861916 act_convert=4.158020 L2=19.016981
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=7 ms=46.782970 L1=20.838976 act_convert=4.161835 L2=21.782160
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=7 ms=34.490108 L1=15.233040 act_convert=4.145861 L2=15.111208
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=7 ms=39.437056 L1=17.673016 act_convert=4.148960 L2=17.615080
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=7 ms=33.195972 L1=14.113903 act_convert=4.225969 L2=14.856100
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=7 ms=35.633087 L1=15.972137 act_convert=4.149914 L2=15.511036
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=7 ms=31.780005 L1=13.506889 act_convert=4.148006 L2=14.125109
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=7 ms=34.151077 L1=14.825106 act_convert=4.252911 L2=15.073061
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=7 ms=30.095100 L1=12.912035 act_convert=4.122019 L2=13.061047
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=7 ms=31.126976 L1=13.252020 act_convert=4.133940 L2=13.741016
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=7 ms=40.889025 L1=19.361973 act_convert=1.862049 L2=19.665003
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=7 ms=45.342922 L1=19.585848 act_convert=6.339073 L2=19.418001
+TIME graph=com-Youtube method=original e2e rep=7 ms=138.396025 L1=68.156004 act_convert=4.115105 L2=66.124916
+TIME graph=com-Youtube method=original_nozero e2e rep=7 ms=47.740936 L1=21.304846 act_convert=5.460978 L2=20.975113
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=7 ms=68.563938 L1=31.377077 act_convert=5.986929 L2=31.199932
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=7 ms=90.159893 L1=43.123960 act_convert=5.981922 L2=41.054010
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=7 ms=49.721003 L1=20.992041 act_convert=5.979776 L2=22.749186
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=7 ms=62.111855 L1=27.495861 act_convert=5.994081 L2=28.621912
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=8 ms=47.405958 L1=20.853996 act_convert=5.986929 L2=20.565033
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=8 ms=36.715031 L1=15.391111 act_convert=5.980968 L2=15.342951
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=8 ms=40.118217 L1=17.328024 act_convert=5.985022 L2=16.805172
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=8 ms=33.982992 L1=13.772011 act_convert=5.967855 L2=14.243126
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=8 ms=37.272930 L1=14.966965 act_convert=5.975008 L2=16.330957
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=8 ms=32.989979 L1=13.455868 act_convert=5.968094 L2=13.566017
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=8 ms=35.478115 L1=14.827013 act_convert=5.973101 L2=14.678001
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=8 ms=31.098127 L1=12.831211 act_convert=5.954981 L2=12.311935
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=8 ms=33.091068 L1=13.731956 act_convert=5.982876 L2=13.376236
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=8 ms=41.035891 L1=19.563913 act_convert=1.744986 L2=19.726992
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=8 ms=45.246840 L1=19.392014 act_convert=6.276846 L2=19.577980
+TIME graph=com-Youtube method=original e2e rep=8 ms=138.499975 L1=67.217112 act_convert=4.161835 L2=67.121029
+TIME graph=com-Youtube method=original_nozero e2e rep=8 ms=47.247887 L1=21.651030 act_convert=4.124880 L2=21.471977
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=8 ms=67.188978 L1=31.564951 act_convert=4.148960 L2=31.475067
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=8 ms=85.863113 L1=41.248083 act_convert=4.158020 L2=40.457010
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=8 ms=49.556017 L1=22.413969 act_convert=4.147053 L2=22.994995
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=8 ms=58.406830 L1=25.902987 act_convert=4.153967 L2=28.349876
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=8 ms=40.505886 L1=17.874002 act_convert=4.153967 L2=18.477917
+TIME graph=com-Youtube method=shared_b16_fast_nozero e2e rep=9 ms=35.528898 L1=15.858889 act_convert=4.189968 L2=15.480042
+TIME graph=com-Youtube method=shared_b16_accurate_nozero e2e rep=9 ms=39.793015 L1=17.632008 act_convert=4.168034 L2=17.992973
+TIME graph=com-Youtube method=shared_b32_fast_nozero e2e rep=9 ms=31.709909 L1=13.355970 act_convert=4.225016 L2=14.128923
+TIME graph=com-Youtube method=shared_b32_accurate_nozero e2e rep=9 ms=34.255981 L1=15.510082 act_convert=4.156828 L2=14.589071
+TIME graph=com-Youtube method=shared_b64_fast_nozero e2e rep=9 ms=31.860113 L1=14.029026 act_convert=4.162073 L2=13.669014
+TIME graph=com-Youtube method=shared_b64_accurate_nozero e2e rep=9 ms=33.089161 L1=14.019966 act_convert=4.211187 L2=14.858007
+TIME graph=com-Youtube method=shared_bfull_fast_nozero e2e rep=9 ms=30.178070 L1=13.145924 act_convert=4.168987 L2=12.863159
+TIME graph=com-Youtube method=shared_bfull_accurate_nozero e2e rep=9 ms=30.533075 L1=13.235092 act_convert=4.117966 L2=13.180017
+TIME graph=com-Youtube method=mkl_fp32 e2e rep=9 ms=40.720940 L1=19.486904 act_convert=1.739979 L2=19.494057
+TIME graph=com-Youtube method=mkl_bf16_inputs e2e rep=9 ms=45.425892 L1=19.468069 act_convert=6.363869 L2=19.593954
+TIME graph=com-Youtube method=original e2e rep=9 ms=137.964010 L1=66.262960 act_convert=4.132032 L2=67.569017
+TIME graph=com-Youtube method=original_nozero e2e rep=9 ms=45.572042 L1=20.633936 act_convert=4.138947 L2=20.799160
+TIME graph=com-Youtube method=shared_b2_fast_nozero e2e rep=9 ms=67.014933 L1=30.894995 act_convert=4.153967 L2=31.965971
+TIME graph=com-Youtube method=shared_b2_accurate_nozero e2e rep=9 ms=87.881088 L1=41.879892 act_convert=4.146099 L2=41.855097
+TIME graph=com-Youtube method=shared_b4_fast_nozero e2e rep=9 ms=49.262047 L1=21.790981 act_convert=4.169941 L2=23.301125
+TIME graph=com-Youtube method=shared_b4_accurate_nozero e2e rep=9 ms=59.275866 L1=26.964903 act_convert=4.167080 L2=28.143883
+TIME graph=com-Youtube method=shared_b8_fast_nozero e2e rep=9 ms=40.039062 L1=18.378973 act_convert=4.154205 L2=17.505884
+TIME graph=com-Youtube method=shared_b8_accurate_nozero e2e rep=9 ms=45.838833 L1=21.083832 act_convert=4.136086 L2=20.618916
+COMPLETE graph=com-Youtube status=PASS max_rss_kib=5277652

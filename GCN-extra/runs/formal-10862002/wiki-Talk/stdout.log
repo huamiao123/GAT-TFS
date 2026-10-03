@@ -1,0 +1,471 @@
+GRAPH_VALUES name=wiki-Talk checked=5021410 nonunit=0 implicit_ones=0
+CORRECT graph=wiki-Talk method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.88577962e-07 max_abs=0.0026640445 max_norm=2.75177348e-07 pass=1
+CONFIG graph=wiki-Talk N=2394385 E=5021410 threads=32 R=64 D=128 F=128 repeats=10 warmups=1
+CORRECT graph=wiki-Talk method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00473217 max_abs=27.8481445 max_norm=0.0028765204 pass=1
+CORRECT graph=wiki-Talk method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00370584376 max_abs=27.8489424 max_norm=0.00287660289 pass=1
+CORRECT graph=wiki-Talk method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471242659 max_abs=27.8481445 max_norm=0.0028684384 pass=1
+CORRECT graph=wiki-Talk method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.88577962e-07 max_abs=0.0026640445 max_norm=2.75177348e-07 pass=1
+CORRECT graph=wiki-Talk method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=3.92257639e-06 max_abs=0.138183594 max_norm=1.42734079e-05 pass=1
+CORRECT graph=wiki-Talk method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471249389 max_abs=27.8393555 max_norm=0.0028675331 pass=1
+CORRECT graph=wiki-Talk method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=7.10614241e-06 max_abs=0.138185278 max_norm=1.42735822e-05 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=3.92257639e-06 max_abs=0.138183594 max_norm=1.42734079e-05 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471249389 max_abs=27.8393555 max_norm=0.0028675331 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=7.10614241e-06 max_abs=0.138185278 max_norm=1.42735822e-05 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00216367358 max_abs=16.6933594 max_norm=0.00172430837 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00639639934 max_abs=41.9550781 max_norm=0.00432149283 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00186068422 max_abs=16.6949218 max_norm=0.00172446981 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.47684481e-06 max_abs=0.134765625 max_norm=1.39203554e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471259515 max_abs=27.8496094 max_norm=0.00286858928 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=8.22533031e-06 max_abs=0.134101301 max_norm=1.38517358e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00281943946 max_abs=24.3095703 max_norm=0.00251101019 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0070631368 max_abs=51.5869141 max_norm=0.00531359943 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.0026290842 max_abs=24.3092949 max_norm=0.00251098182 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.65819491e-06 max_abs=0.0966796875 max_norm=9.98634191e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471248908 max_abs=27.8408203 max_norm=0.00286768398 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.76775279e-06 max_abs=0.0966780037 max_norm=9.98616827e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00299988558 max_abs=25.7607422 max_norm=0.00266090619 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00726664281 max_abs=53.0380859 max_norm=0.00546307428 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00280823087 max_abs=25.7604668 max_norm=0.00266087783 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.32257245e-06 max_abs=0.099609375 max_norm=1.02889583e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471251152 max_abs=27.8676758 max_norm=0.00287045017 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=4.19867865e-06 max_abs=0.0993339978 max_norm=1.02605141e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00310870985 max_abs=29.9492188 max_norm=0.00309354681 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00737733439 max_abs=57.2265625 max_norm=0.00589449933 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.0029437917 max_abs=29.9489434 max_norm=0.00309351845 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=2.1379732e-06 max_abs=0.046875 max_norm=4.84186275e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471262889 max_abs=27.8671875 max_norm=0.00287039988 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.84061555e-06 max_abs=0.0471019484 max_norm=4.86530508e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00312547593 max_abs=29.4306641 max_norm=0.0030399837 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00739829586 max_abs=56.7080078 max_norm=0.00584108671 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00293689834 max_abs=29.4303887 max_norm=0.00303995534 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=3.16189659e-06 max_abs=0.02734375 max_norm=2.82441993e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.0047133309 max_abs=27.8461914 max_norm=0.00286823722 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=2.60574838e-06 max_abs=0.0268782191 max_norm=2.7763339e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.0031175283 max_abs=26.0019531 max_norm=0.00268582161 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00738633708 max_abs=53.2792969 max_norm=0.0054879197 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00288623825 max_abs=26.0016777 max_norm=0.00268579325 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=4.81548885e-06 max_abs=0.0498046875 max_norm=5.14447917e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471454983 max_abs=27.8515625 max_norm=0.00286879046 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.90975661e-06 max_abs=0.0511140525 max_norm=5.27972765e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00326127281 max_abs=26.7998047 max_norm=0.00276823415 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00746877222 max_abs=51.4414062 max_norm=0.00529861171 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00325603247 max_abs=26.7995777 max_norm=0.00276821079 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=8.76321488e-06 max_abs=0.0927734375 max_norm=9.58285335e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00471753385 max_abs=27.9125977 max_norm=0.00287507725 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=9.8660311e-06 max_abs=0.0942660086 max_norm=9.73702588e-06 pass=1
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=0 ms=35.883188
+TIME graph=wiki-Talk method=original kernel rep=0 ms=149.565935
+TIME graph=wiki-Talk method=original_nozero kernel rep=0 ms=51.920891
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=0 ms=74.376822
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=0 ms=106.906176
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=0 ms=48.306942
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=0 ms=60.806036
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=0 ms=31.312227
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=0 ms=38.971186
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=0 ms=24.683952
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=0 ms=27.858973
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=0 ms=20.827055
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=0 ms=21.632910
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=0 ms=19.544125
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=0 ms=20.294905
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=0 ms=17.857075
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=0 ms=17.803907
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=0 ms=36.231995
+TIME graph=wiki-Talk method=original kernel rep=1 ms=150.354862
+TIME graph=wiki-Talk method=original_nozero kernel rep=1 ms=54.104090
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=1 ms=76.775074
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=1 ms=104.057074
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=1 ms=47.915936
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=1 ms=62.371969
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=1 ms=30.930996
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=1 ms=38.353920
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=1 ms=25.654078
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=1 ms=28.411865
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=1 ms=20.801067
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=1 ms=23.546934
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=1 ms=18.978119
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=1 ms=20.565033
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=1 ms=18.558979
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=1 ms=20.003080
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=1 ms=36.062956
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=1 ms=36.453009
+TIME graph=wiki-Talk method=original_nozero kernel rep=2 ms=51.589966
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=2 ms=73.391199
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=2 ms=103.618860
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=2 ms=48.281908
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=2 ms=60.557127
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=2 ms=31.140089
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=2 ms=37.847996
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=2 ms=24.441004
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=2 ms=27.234077
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=2 ms=21.036148
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=2 ms=23.160934
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=2 ms=19.147873
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=2 ms=20.608902
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=2 ms=18.342972
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=2 ms=19.768000
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=2 ms=36.232233
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=2 ms=36.491871
+TIME graph=wiki-Talk method=original kernel rep=2 ms=149.188995
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=3 ms=73.834896
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=3 ms=103.900194
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=3 ms=48.803806
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=3 ms=62.669992
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=3 ms=32.225847
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=3 ms=37.890196
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=3 ms=24.208069
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=3 ms=29.181004
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=3 ms=21.304846
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=3 ms=21.671057
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=3 ms=20.545959
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=3 ms=21.346092
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=3 ms=18.337011
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=3 ms=18.729210
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=3 ms=36.182880
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=3 ms=36.315918
+TIME graph=wiki-Talk method=original kernel rep=3 ms=151.823044
+TIME graph=wiki-Talk method=original_nozero kernel rep=3 ms=52.762985
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=4 ms=106.499910
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=4 ms=46.970129
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=4 ms=61.522961
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=4 ms=30.786037
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=4 ms=39.072990
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=4 ms=25.830030
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=4 ms=29.042006
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=4 ms=19.342899
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=4 ms=21.876097
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=4 ms=19.860029
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=4 ms=20.617962
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=4 ms=17.385006
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=4 ms=19.577026
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=4 ms=36.126852
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=4 ms=36.470890
+TIME graph=wiki-Talk method=original kernel rep=4 ms=150.669098
+TIME graph=wiki-Talk method=original_nozero kernel rep=4 ms=53.560019
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=4 ms=73.997974
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=5 ms=46.303988
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=5 ms=59.247017
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=5 ms=32.029867
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=5 ms=40.172100
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=5 ms=24.870872
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=5 ms=29.662132
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=5 ms=21.484137
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=5 ms=21.777153
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=5 ms=19.300938
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=5 ms=20.066023
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=5 ms=19.838095
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=5 ms=18.840075
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=5 ms=36.247969
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=5 ms=36.331892
+TIME graph=wiki-Talk method=original kernel rep=5 ms=149.663925
+TIME graph=wiki-Talk method=original_nozero kernel rep=5 ms=52.556992
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=5 ms=75.477839
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=5 ms=103.605986
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=6 ms=60.791016
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=6 ms=32.266855
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=6 ms=39.216042
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=6 ms=24.565935
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=6 ms=27.341127
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=6 ms=19.886971
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=6 ms=21.935940
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=6 ms=19.923210
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=6 ms=19.222975
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=6 ms=19.605875
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=6 ms=19.169092
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=6 ms=36.207914
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=6 ms=36.512852
+TIME graph=wiki-Talk method=original kernel rep=6 ms=149.060011
+TIME graph=wiki-Talk method=original_nozero kernel rep=6 ms=52.424908
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=6 ms=74.923038
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=6 ms=106.791019
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=6 ms=47.878981
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=7 ms=32.877922
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=7 ms=40.148973
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=7 ms=25.280952
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=7 ms=28.439999
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=7 ms=21.537066
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=7 ms=21.817923
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=7 ms=20.336151
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=7 ms=19.980907
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=7 ms=18.801928
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=7 ms=19.306898
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=7 ms=36.193132
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=7 ms=36.451101
+TIME graph=wiki-Talk method=original kernel rep=7 ms=148.730040
+TIME graph=wiki-Talk method=original_nozero kernel rep=7 ms=52.564144
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=7 ms=76.576948
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=7 ms=106.594086
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=7 ms=46.272993
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=7 ms=63.174963
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=8 ms=40.086985
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=8 ms=24.110079
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=8 ms=29.770136
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=8 ms=20.945072
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=8 ms=22.971869
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=8 ms=20.540953
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=8 ms=21.368027
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=8 ms=17.622948
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=8 ms=18.933058
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=8 ms=36.183834
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=8 ms=36.460876
+TIME graph=wiki-Talk method=original kernel rep=8 ms=149.307013
+TIME graph=wiki-Talk method=original_nozero kernel rep=8 ms=53.323984
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=8 ms=76.192141
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=8 ms=108.790874
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=8 ms=46.653032
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=8 ms=59.335947
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=8 ms=33.112049
+TIME graph=wiki-Talk method=shared_b16_fast_nozero kernel rep=9 ms=23.601055
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero kernel rep=9 ms=27.139902
+TIME graph=wiki-Talk method=shared_b32_fast_nozero kernel rep=9 ms=21.246195
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero kernel rep=9 ms=22.004128
+TIME graph=wiki-Talk method=shared_b64_fast_nozero kernel rep=9 ms=18.486977
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero kernel rep=9 ms=20.853996
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero kernel rep=9 ms=18.265009
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero kernel rep=9 ms=19.226789
+TIME graph=wiki-Talk method=mkl_fp32 kernel rep=9 ms=36.178112
+TIME graph=wiki-Talk method=mkl_bf16_inputs kernel rep=9 ms=36.447048
+TIME graph=wiki-Talk method=original kernel rep=9 ms=149.659157
+TIME graph=wiki-Talk method=original_nozero kernel rep=9 ms=51.321030
+TIME graph=wiki-Talk method=shared_b2_fast_nozero kernel rep=9 ms=72.822094
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero kernel rep=9 ms=106.793880
+TIME graph=wiki-Talk method=shared_b4_fast_nozero kernel rep=9 ms=48.043013
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero kernel rep=9 ms=61.920881
+TIME graph=wiki-Talk method=shared_b8_fast_nozero kernel rep=9 ms=32.147169
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero kernel rep=9 ms=40.560961
+CORRECT graph=wiki-Talk method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00216367358 max_abs=16.6933594 max_norm=0.00172430837 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=4.47684481e-06 max_abs=0.134765625 max_norm=1.39203554e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00281943946 max_abs=24.3095703 max_norm=0.00251101019 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.65819491e-06 max_abs=0.0966796875 max_norm=9.98634191e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00299988558 max_abs=25.7607422 max_norm=0.00266090619 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.32257245e-06 max_abs=0.099609375 max_norm=1.02889583e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00310870985 max_abs=29.9492188 max_norm=0.00309354681 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=2.1379732e-06 max_abs=0.046875 max_norm=4.84186275e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00312547593 max_abs=29.4306641 max_norm=0.0030399837 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=3.16189659e-06 max_abs=0.02734375 max_norm=2.82441993e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.0031175283 max_abs=26.0019531 max_norm=0.00268582161 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=4.81548885e-06 max_abs=0.0498046875 max_norm=5.14447917e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00326127281 max_abs=26.7998047 max_norm=0.00276823415 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=8.76321488e-06 max_abs=0.0927734375 max_norm=9.58285335e-06 pass=1
+CORRECT graph=wiki-Talk method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00951008824 max_abs=44445 max_norm=0.00985112052 pass=1
+CORRECT graph=wiki-Talk method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=wiki-Talk method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942209282 max_abs=44445 max_norm=0.00975502262 pass=1
+CORRECT graph=wiki-Talk method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=9.82399409e-06 max_abs=51.625 max_norm=1.14425491e-05 pass=1
+CORRECT graph=wiki-Talk method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942188415 max_abs=44447 max_norm=0.00975546159 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=9.82399409e-06 max_abs=51.625 max_norm=1.14425491e-05 pass=1
+CORRECT graph=wiki-Talk method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942188415 max_abs=44447 max_norm=0.00975546159 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00309127682 max_abs=13369.5 max_norm=0.00296331546 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0123897428 max_abs=57814.5 max_norm=0.0126894309 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.20107654e-05 max_abs=117.5 max_norm=2.60435743e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942286941 max_abs=44562.5 max_norm=0.00978081214 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00473425321 max_abs=20987 max_norm=0.00465171485 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0140154716 max_abs=65432 max_norm=0.0143613599 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=7.86267683e-06 max_abs=36.5 max_norm=8.0901316e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942226418 max_abs=44475 max_norm=0.00976160718 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00531904337 max_abs=23539.5 max_norm=0.00521746994 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0146025663 max_abs=67984.5 max_norm=0.014921596 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=9.96472097e-06 max_abs=30 max_norm=6.64942323e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0094232135 max_abs=44475 max_norm=0.00976160718 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00556677171 max_abs=24704.5 max_norm=0.00547568921 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0148464822 max_abs=69149.5 max_norm=0.0151772964 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=9.94850794e-06 max_abs=23 max_norm=5.09789115e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942360913 max_abs=44468 max_norm=0.00976007078 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00559287809 max_abs=24879.5 max_norm=0.00551447751 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0148647494 max_abs=69324.5 max_norm=0.0152157063 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.72276248e-05 max_abs=30 max_norm=6.64942323e-06 pass=1
+CORRECT graph=wiki-Talk method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00942678347 max_abs=44475 max_norm=0.00976160718 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00565669798 max_abs=25217 max_norm=0.00558928352 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0149128978 max_abs=69662 max_norm=0.0152897826 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.7072578e-05 max_abs=49.5 max_norm=1.09715483e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0094297231 max_abs=44494.5 max_norm=0.00976588714 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00581783319 max_abs=27231.5 max_norm=0.00603579229 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0149820558 max_abs=71676.5 max_norm=0.0157319356 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=3.08136995e-05 max_abs=56.75 max_norm=1.25784923e-05 pass=1
+CORRECT graph=wiki-Talk method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.00943603766 max_abs=44499 max_norm=0.00976687482 pass=1
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=0 ms=85.510969 L1=36.195993 act_convert=12.895107 L2=36.419868
+TIME graph=wiki-Talk method=original e2e rep=0 ms=304.533958 L1=147.585869 act_convert=8.596182 L2=148.351908
+TIME graph=wiki-Talk method=original_nozero e2e rep=0 ms=112.871170 L1=52.344084 act_convert=8.615017 L2=51.912069
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=0 ms=163.166046 L1=77.717066 act_convert=8.610010 L2=76.838970
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=0 ms=217.679024 L1=104.547977 act_convert=8.615017 L2=104.516029
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=0 ms=105.005980 L1=48.629999 act_convert=8.725882 L2=47.650099
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=0 ms=137.305021 L1=65.727949 act_convert=8.638859 L2=62.938213
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=0 ms=74.548960 L1=32.560825 act_convert=8.674145 L2=33.313990
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=0 ms=87.934017 L1=40.135860 act_convert=8.597136 L2=39.201021
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=0 ms=58.507204 L1=24.715185 act_convert=8.631945 L2=25.160074
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=0 ms=66.714048 L1=29.200077 act_convert=8.675814 L2=28.838158
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=0 ms=51.447868 L1=20.583868 act_convert=8.614063 L2=22.249937
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=0 ms=57.329893 L1=24.281025 act_convert=8.740902 L2=24.307966
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=0 ms=48.495054 L1=19.362926 act_convert=8.621931 L2=20.510197
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=0 ms=52.042961 L1=21.445036 act_convert=8.606911 L2=21.991014
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=0 ms=47.337055 L1=19.740105 act_convert=8.644819 L2=18.952131
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=0 ms=48.420191 L1=19.409180 act_convert=8.637905 L2=20.373106
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=0 ms=76.550961 L1=36.390066 act_convert=3.685951 L2=36.474943
+TIME graph=wiki-Talk method=original e2e rep=1 ms=305.455923 L1=149.788857 act_convert=8.688211 L2=146.978855
+TIME graph=wiki-Talk method=original_nozero e2e rep=1 ms=112.712145 L1=53.040028 act_convert=8.610964 L2=51.061153
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=1 ms=160.420179 L1=73.976994 act_convert=8.594990 L2=77.848196
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=1 ms=224.530935 L1=107.804060 act_convert=8.643866 L2=108.083010
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=1 ms=103.653908 L1=48.795938 act_convert=8.601904 L2=46.256065
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=1 ms=132.435083 L1=63.048124 act_convert=8.615971 L2=60.770988
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=1 ms=72.208881 L1=31.475067 act_convert=8.621931 L2=32.111883
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=1 ms=87.294817 L1=38.564920 act_convert=8.600950 L2=40.128946
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=1 ms=58.748007 L1=24.374962 act_convert=8.629084 L2=25.743961
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=1 ms=66.379070 L1=29.906034 act_convert=8.760929 L2=27.712107
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=1 ms=52.850962 L1=22.411108 act_convert=8.615017 L2=21.824837
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=1 ms=54.399014 L1=21.908998 act_convert=8.628130 L2=23.861885
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=1 ms=47.866821 L1=19.181967 act_convert=8.628845 L2=20.056009
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=1 ms=51.110983 L1=20.421028 act_convert=8.682966 L2=22.006989
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=1 ms=48.475981 L1=20.115852 act_convert=8.630991 L2=19.729137
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=1 ms=49.247026 L1=20.543098 act_convert=8.606911 L2=20.097017
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=1 ms=75.940132 L1=36.286116 act_convert=3.568888 L2=36.085129
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=1 ms=85.844994 L1=36.705017 act_convert=12.890816 L2=36.249161
+TIME graph=wiki-Talk method=original_nozero e2e rep=2 ms=114.565134 L1=53.743124 act_convert=8.665085 L2=52.156925
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=2 ms=157.632113 L1=74.839115 act_convert=8.605003 L2=74.187994
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=2 ms=218.461037 L1=104.171038 act_convert=8.612156 L2=105.677843
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=2 ms=104.142904 L1=49.178839 act_convert=8.610964 L2=46.353102
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=2 ms=133.627892 L1=62.383890 act_convert=8.625984 L2=62.618017
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=2 ms=74.285030 L1=31.497955 act_convert=8.603096 L2=34.183979
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=2 ms=88.329077 L1=40.299177 act_convert=8.611917 L2=39.417982
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=2 ms=59.809923 L1=24.446964 act_convert=8.620977 L2=26.741982
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=2 ms=66.167116 L1=29.414177 act_convert=8.626938 L2=28.126001
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=2 ms=52.543163 L1=20.903111 act_convert=8.620024 L2=23.020029
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=2 ms=55.576086 L1=22.753954 act_convert=8.696079 L2=24.126053
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=2 ms=48.304081 L1=20.450115 act_convert=8.642912 L2=19.211054
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=2 ms=51.556110 L1=21.219015 act_convert=8.620024 L2=21.717072
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=2 ms=49.329042 L1=20.005941 act_convert=8.616924 L2=20.706177
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=2 ms=48.666000 L1=19.492865 act_convert=8.606195 L2=20.566940
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=2 ms=75.981140 L1=36.401987 act_convert=3.605127 L2=35.974026
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=2 ms=86.147070 L1=36.571026 act_convert=13.226986 L2=36.349058
+TIME graph=wiki-Talk method=original e2e rep=2 ms=305.627108 L1=147.860050 act_convert=8.620024 L2=149.147034
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=3 ms=159.690857 L1=77.128887 act_convert=8.596182 L2=73.965788
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=3 ms=216.134071 L1=105.180979 act_convert=8.615017 L2=102.338076
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=3 ms=102.533102 L1=47.719955 act_convert=8.642197 L2=46.170950
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=3 ms=135.614157 L1=63.917160 act_convert=8.615971 L2=63.081026
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=3 ms=77.043056 L1=34.060955 act_convert=8.686066 L2=34.296036
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=3 ms=87.855816 L1=41.023970 act_convert=8.610010 L2=38.221836
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=3 ms=57.703018 L1=24.268866 act_convert=8.635044 L2=24.799109
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=3 ms=67.244053 L1=30.153036 act_convert=8.621931 L2=28.469086
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=3 ms=52.112103 L1=21.837950 act_convert=8.674145 L2=21.600008
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=3 ms=54.081917 L1=21.919966 act_convert=8.720160 L2=23.441792
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=3 ms=49.685001 L1=20.555019 act_convert=8.682966 L2=20.447016
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=3 ms=50.692081 L1=20.827055 act_convert=8.665085 L2=21.199942
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=3 ms=48.807144 L1=19.457102 act_convert=8.654118 L2=20.695925
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=3 ms=49.785137 L1=20.138025 act_convert=8.610964 L2=21.036148
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=3 ms=75.946808 L1=36.420822 act_convert=3.589153 L2=35.936832
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=3 ms=86.256027 L1=36.527157 act_convert=13.206005 L2=36.522865
+TIME graph=wiki-Talk method=original e2e rep=3 ms=304.912090 L1=147.319078 act_convert=8.941889 L2=148.651123
+TIME graph=wiki-Talk method=original_nozero e2e rep=3 ms=113.356829 L1=53.798914 act_convert=8.621931 L2=50.935984
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=4 ms=222.573042 L1=110.294104 act_convert=8.682966 L2=103.595972
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=4 ms=104.968071 L1=47.919989 act_convert=8.624077 L2=48.424006
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=4 ms=136.989117 L1=64.313173 act_convert=8.616924 L2=64.059019
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=4 ms=74.995995 L1=32.830954 act_convert=8.625984 L2=33.539057
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=4 ms=90.950966 L1=41.656017 act_convert=8.603096 L2=40.691853
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=4 ms=60.606956 L1=26.337862 act_convert=8.686066 L2=25.583029
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=4 ms=68.564177 L1=30.037165 act_convert=8.677006 L2=29.850006
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=4 ms=52.488089 L1=22.262096 act_convert=8.616924 L2=21.609068
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=4 ms=56.146145 L1=23.125172 act_convert=8.669853 L2=24.351120
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=4 ms=50.832033 L1=20.231009 act_convert=8.585930 L2=22.015095
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=4 ms=49.836874 L1=19.803047 act_convert=8.626938 L2=21.406889
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=4 ms=48.553944 L1=20.196915 act_convert=8.618116 L2=19.738913
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=4 ms=47.998905 L1=20.092964 act_convert=8.625031 L2=19.280910
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=4 ms=76.004982 L1=36.478043 act_convert=3.575087 L2=35.951853
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=4 ms=86.147070 L1=36.692142 act_convert=12.905836 L2=36.549091
+TIME graph=wiki-Talk method=original e2e rep=4 ms=302.500010 L1=147.234917 act_convert=8.614063 L2=146.651030
+TIME graph=wiki-Talk method=original_nozero e2e rep=4 ms=111.953020 L1=52.224159 act_convert=8.584976 L2=51.143885
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=4 ms=156.157017 L1=73.641062 act_convert=8.616924 L2=73.899031
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=5 ms=105.324030 L1=49.532890 act_convert=8.618116 L2=47.173023
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=5 ms=131.892920 L1=60.670137 act_convert=8.613825 L2=62.608957
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=5 ms=74.519873 L1=32.114029 act_convert=8.633852 L2=33.771992
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=5 ms=87.131977 L1=40.071011 act_convert=8.692980 L2=38.367987
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=5 ms=57.755947 L1=24.347067 act_convert=8.615017 L2=24.793863
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=5 ms=64.875841 L1=28.335810 act_convert=8.591175 L2=27.948856
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=5 ms=53.627968 L1=22.864819 act_convert=8.634090 L2=22.129059
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=5 ms=56.694031 L1=24.034023 act_convert=8.602858 L2=24.057150
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=5 ms=51.639080 L1=20.946980 act_convert=8.631945 L2=22.060156
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=5 ms=49.860001 L1=20.398855 act_convert=8.610010 L2=20.851135
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=5 ms=47.642946 L1=19.839048 act_convert=8.616924 L2=19.186974
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=5 ms=48.023939 L1=19.138098 act_convert=8.610964 L2=20.274878
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=5 ms=76.127052 L1=36.390066 act_convert=3.552914 L2=36.184072
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=5 ms=86.010933 L1=36.846161 act_convert=12.875795 L2=36.288977
+TIME graph=wiki-Talk method=original e2e rep=5 ms=305.358887 L1=149.281025 act_convert=8.607864 L2=147.469997
+TIME graph=wiki-Talk method=original_nozero e2e rep=5 ms=114.659071 L1=53.811073 act_convert=8.596897 L2=52.251101
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=5 ms=163.470030 L1=76.396942 act_convert=8.604050 L2=78.469038
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=5 ms=220.555067 L1=107.774973 act_convert=8.656979 L2=104.123116
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=6 ms=130.403996 L1=61.476946 act_convert=8.637905 L2=60.289145
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=6 ms=74.434996 L1=33.098936 act_convert=8.648157 L2=32.687902
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=6 ms=88.361979 L1=39.154053 act_convert=8.664846 L2=40.543079
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=6 ms=58.644056 L1=25.253057 act_convert=8.659124 L2=24.731874
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=6 ms=68.329811 L1=29.667854 act_convert=8.597136 L2=30.064821
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=6 ms=53.119898 L1=22.284031 act_convert=8.597851 L2=22.238016
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=6 ms=55.139065 L1=24.142981 act_convert=8.647203 L2=22.348881
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=6 ms=49.167871 L1=19.476891 act_convert=8.682966 L2=21.008015
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=6 ms=51.944017 L1=20.778894 act_convert=8.614063 L2=22.551060
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=6 ms=47.648907 L1=19.161940 act_convert=8.641958 L2=19.845009
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=6 ms=49.237013 L1=20.490885 act_convert=8.615971 L2=20.130157
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=6 ms=75.991154 L1=36.450148 act_convert=3.595829 L2=35.945177
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=6 ms=86.335897 L1=36.489964 act_convert=13.507843 L2=36.338091
+TIME graph=wiki-Talk method=original e2e rep=6 ms=305.907011 L1=149.791956 act_convert=8.683920 L2=147.431135
+TIME graph=wiki-Talk method=original_nozero e2e rep=6 ms=112.225771 L1=52.621841 act_convert=8.605003 L2=50.998926
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=6 ms=160.648108 L1=77.248096 act_convert=8.610964 L2=74.789047
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=6 ms=217.921972 L1=106.758833 act_convert=8.620024 L2=102.543116
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=6 ms=108.690977 L1=48.779011 act_convert=12.558937 L2=47.353029
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=7 ms=77.658892 L1=32.240868 act_convert=12.573004 L2=32.845020
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=7 ms=93.224049 L1=41.031122 act_convert=12.598991 L2=39.593935
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=7 ms=62.688828 L1=24.358988 act_convert=12.570858 L2=25.758982
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=7 ms=70.823908 L1=30.383825 act_convert=12.678146 L2=27.761936
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=7 ms=54.034948 L1=20.165920 act_convert=12.574911 L2=21.294117
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=7 ms=60.606956 L1=23.869038 act_convert=12.568951 L2=24.168968
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=7 ms=53.102970 L1=20.873070 act_convert=12.576103 L2=19.653797
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=7 ms=53.282976 L1=20.153999 act_convert=12.567043 L2=20.561934
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=7 ms=52.225828 L1=20.050049 act_convert=12.560844 L2=19.614935
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=7 ms=52.160978 L1=20.824909 act_convert=12.571096 L2=18.764973
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=7 ms=76.013088 L1=36.353111 act_convert=3.609896 L2=36.050081
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=7 ms=85.900784 L1=36.703825 act_convert=12.868166 L2=36.328793
+TIME graph=wiki-Talk method=original e2e rep=7 ms=303.981066 L1=148.245096 act_convert=8.697987 L2=147.037983
+TIME graph=wiki-Talk method=original_nozero e2e rep=7 ms=111.059189 L1=51.882029 act_convert=8.617163 L2=50.559998
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=7 ms=156.708956 L1=75.048923 act_convert=8.584976 L2=73.075056
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=7 ms=219.846010 L1=104.328871 act_convert=8.604050 L2=106.913090
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=7 ms=105.618000 L1=49.509048 act_convert=8.638859 L2=47.470093
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=7 ms=130.966902 L1=60.743809 act_convert=8.615017 L2=61.608076
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=8 ms=85.693836 L1=38.200855 act_convert=8.656979 L2=38.836002
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=8 ms=58.299065 L1=24.587154 act_convert=8.616924 L2=25.094986
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=8 ms=67.444086 L1=28.136015 act_convert=8.582115 L2=30.725956
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=8 ms=51.309109 L1=20.627022 act_convert=8.617163 L2=22.064924
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=8 ms=53.369045 L1=22.497177 act_convert=8.626938 L2=22.244930
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=8 ms=50.072193 L1=20.828009 act_convert=8.633137 L2=20.611048
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=8 ms=49.964905 L1=20.577908 act_convert=8.673191 L2=20.713806
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=8 ms=49.368858 L1=19.962072 act_convert=8.614779 L2=20.792007
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=8 ms=47.902107 L1=18.896103 act_convert=8.753061 L2=20.252943
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=8 ms=76.009035 L1=36.458015 act_convert=3.537178 L2=36.013842
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=8 ms=86.044073 L1=36.746025 act_convert=12.900114 L2=36.397934
+TIME graph=wiki-Talk method=original e2e rep=8 ms=306.190968 L1=148.538828 act_convert=8.609056 L2=149.043083
+TIME graph=wiki-Talk method=original_nozero e2e rep=8 ms=112.977028 L1=52.224874 act_convert=8.629084 L2=52.123070
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=8 ms=164.431095 L1=77.643156 act_convert=8.639812 L2=78.148127
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=8 ms=223.308086 L1=109.592915 act_convert=8.616209 L2=105.098963
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=8 ms=104.165077 L1=47.706127 act_convert=8.606911 L2=47.852039
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=8 ms=134.519100 L1=63.982964 act_convert=8.633137 L2=61.903000
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=8 ms=74.913025 L1=33.428192 act_convert=8.643866 L2=32.840967
+TIME graph=wiki-Talk method=shared_b16_fast_nozero e2e rep=9 ms=58.926821 L1=24.698973 act_convert=8.625031 L2=25.602818
+TIME graph=wiki-Talk method=shared_b16_accurate_nozero e2e rep=9 ms=68.046808 L1=29.341936 act_convert=8.710861 L2=29.994011
+TIME graph=wiki-Talk method=shared_b32_fast_nozero e2e rep=9 ms=51.750898 L1=21.876097 act_convert=8.602858 L2=21.271944
+TIME graph=wiki-Talk method=shared_b32_accurate_nozero e2e rep=9 ms=56.864977 L1=24.187088 act_convert=8.673906 L2=24.003983
+TIME graph=wiki-Talk method=shared_b64_fast_nozero e2e rep=9 ms=51.219940 L1=20.534992 act_convert=8.682013 L2=22.002935
+TIME graph=wiki-Talk method=shared_b64_accurate_nozero e2e rep=9 ms=51.492929 L1=20.499945 act_convert=8.635044 L2=22.357941
+TIME graph=wiki-Talk method=shared_bfull_fast_nozero e2e rep=9 ms=47.258139 L1=19.805193 act_convert=8.608818 L2=18.844128
+TIME graph=wiki-Talk method=shared_bfull_accurate_nozero e2e rep=9 ms=48.841000 L1=20.488024 act_convert=8.636951 L2=19.716024
+TIME graph=wiki-Talk method=mkl_fp32 e2e rep=9 ms=76.062918 L1=36.506891 act_convert=3.577948 L2=35.978079
+TIME graph=wiki-Talk method=mkl_bf16_inputs e2e rep=9 ms=85.952997 L1=36.743879 act_convert=12.913942 L2=36.295176
+TIME graph=wiki-Talk method=original e2e rep=9 ms=303.968191 L1=147.576094 act_convert=8.692026 L2=147.700071
+TIME graph=wiki-Talk method=original_nozero e2e rep=9 ms=112.617016 L1=51.122189 act_convert=8.613825 L2=52.881002
+TIME graph=wiki-Talk method=shared_b2_fast_nozero e2e rep=9 ms=162.561893 L1=79.507828 act_convert=8.592129 L2=74.461937
+TIME graph=wiki-Talk method=shared_b2_accurate_nozero e2e rep=9 ms=217.563152 L1=104.667187 act_convert=8.620024 L2=104.275942
+TIME graph=wiki-Talk method=shared_b4_fast_nozero e2e rep=9 ms=105.139017 L1=46.943903 act_convert=8.705139 L2=49.489975
+TIME graph=wiki-Talk method=shared_b4_accurate_nozero e2e rep=9 ms=133.070946 L1=63.441038 act_convert=8.618832 L2=61.011076
+TIME graph=wiki-Talk method=shared_b8_fast_nozero e2e rep=9 ms=74.037790 L1=33.640862 act_convert=8.710146 L2=31.686783
+TIME graph=wiki-Talk method=shared_b8_accurate_nozero e2e rep=9 ms=86.876869 L1=38.970947 act_convert=8.613110 L2=39.292812
+COMPLETE graph=wiki-Talk status=PASS max_rss_kib=10948400

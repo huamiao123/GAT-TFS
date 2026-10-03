@@ -1,0 +1,471 @@
+GRAPH_VALUES name=amazon0601 checked=3387388 nonunit=0 implicit_ones=0
+CORRECT graph=amazon0601 method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.52174322e-07 max_abs=1.26585364e-05 max_norm=2.77392715e-07 pass=1
+CONFIG graph=amazon0601 N=403394 E=3387388 threads=32 R=64 D=128 F=128 repeats=10 warmups=1
+CORRECT graph=amazon0601 method=mkl_fp32 boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00533075754 max_abs=0.3697052 max_norm=0.00529744536 pass=1
+CORRECT graph=amazon0601 method=mkl_fp32 boundary=kernel_full reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=mkl_fp32 boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00538188396 max_abs=0.228690207 max_norm=0.00501140063 pass=1
+CORRECT graph=amazon0601 method=mkl_bf16_inputs boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=mkl_bf16_inputs boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530490798 max_abs=0.3697052 max_norm=0.00527529328 pass=1
+CORRECT graph=amazon0601 method=mkl_bf16_inputs boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.52174322e-07 max_abs=1.26585364e-05 max_norm=2.77392715e-07 pass=1
+CORRECT graph=amazon0601 method=original boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.91865308e-07 max_abs=3.81469727e-05 max_norm=5.46601733e-07 pass=1
+CORRECT graph=amazon0601 method=original boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530490797 max_abs=0.36971283 max_norm=0.00527540214 pass=1
+CORRECT graph=amazon0601 method=original boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.19451485e-07 max_abs=9.53674316e-06 max_norm=2.08983329e-07 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.91865308e-07 max_abs=3.81469727e-05 max_norm=5.46601733e-07 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530490797 max_abs=0.36971283 max_norm=0.00527540214 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.19451485e-07 max_abs=9.53674316e-06 max_norm=2.08983329e-07 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=nozero_identity reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00236310562 max_abs=0.164821625 max_norm=0.00236170211 pass=1
+CORRECT graph=amazon0601 method=shared_b2_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00708014884 max_abs=0.469398499 max_norm=0.0066978088 pass=1
+CORRECT graph=amazon0601 method=shared_b2_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00239446281 max_abs=0.0977427512 max_norm=0.00214188483 pass=1
+CORRECT graph=amazon0601 method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.92472052e-07 max_abs=4.57763672e-05 max_norm=6.5592208e-07 pass=1
+CORRECT graph=amazon0601 method=shared_b2_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530490792 max_abs=0.3697052 max_norm=0.00527529328 pass=1
+CORRECT graph=amazon0601 method=shared_b2_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.21663273e-07 max_abs=1.08070672e-05 max_norm=2.36820561e-07 pass=1
+CORRECT graph=amazon0601 method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00286867596 max_abs=0.192527771 max_norm=0.00275869895 pass=1
+CORRECT graph=amazon0601 method=shared_b4_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00761829143 max_abs=0.555557251 max_norm=0.007927201 pass=1
+CORRECT graph=amazon0601 method=shared_b4_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00288541365 max_abs=0.143546656 max_norm=0.00314560825 pass=1
+CORRECT graph=amazon0601 method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=1.82317174e-07 max_abs=4.19616699e-05 max_norm=6.01261907e-07 pass=1
+CORRECT graph=amazon0601 method=shared_b4_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530490794 max_abs=0.369697571 max_norm=0.00527518441 pass=1
+CORRECT graph=amazon0601 method=shared_b4_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.03843311e-07 max_abs=7.37607479e-06 max_norm=1.61635543e-07 pass=1
+CORRECT graph=amazon0601 method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00302565155 max_abs=0.217834473 max_norm=0.00312131454 pass=1
+CORRECT graph=amazon0601 method=shared_b8_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00780370917 max_abs=0.526039124 max_norm=0.00750600925 pass=1
+CORRECT graph=amazon0601 method=shared_b8_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00303898296 max_abs=0.142968833 max_norm=0.00313294614 pass=1
+CORRECT graph=amazon0601 method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=5.41029924e-07 max_abs=0.00016784668 max_norm=2.40504763e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b8_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530492491 max_abs=0.3697052 max_norm=0.00527529328 pass=1
+CORRECT graph=amazon0601 method=shared_b8_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=3.70846872e-07 max_abs=6.15417957e-05 max_norm=1.34859554e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_b16_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00799054781 max_abs=0.587814331 max_norm=0.00838747463 pass=1
+CORRECT graph=amazon0601 method=shared_b16_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322771125 max_abs=0.148505762 max_norm=0.00325427958 pass=1
+CORRECT graph=amazon0601 method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b16_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530496511 max_abs=0.369735718 max_norm=0.00527572873 pass=1
+CORRECT graph=amazon0601 method=shared_b16_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.02740656e-06 max_abs=0.000114507973 max_norm=2.50926936e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_b32_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00799054781 max_abs=0.587814331 max_norm=0.00838747463 pass=1
+CORRECT graph=amazon0601 method=shared_b32_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322771125 max_abs=0.148505762 max_norm=0.00325427958 pass=1
+CORRECT graph=amazon0601 method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b32_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530496511 max_abs=0.369735718 max_norm=0.00527572873 pass=1
+CORRECT graph=amazon0601 method=shared_b32_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.02740656e-06 max_abs=0.000114507973 max_norm=2.50926936e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_b64_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00799054781 max_abs=0.587814331 max_norm=0.00838747463 pass=1
+CORRECT graph=amazon0601 method=shared_b64_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322771125 max_abs=0.148505762 max_norm=0.00325427958 pass=1
+CORRECT graph=amazon0601 method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b64_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530496511 max_abs=0.369735718 max_norm=0.00527572873 pass=1
+CORRECT graph=amazon0601 method=shared_b64_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.02740656e-06 max_abs=0.000114507973 max_norm=2.50926936e-06 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_fast_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00799054781 max_abs=0.587814331 max_norm=0.00838747463 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_fast_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=0.00322771125 max_abs=0.148505762 max_norm=0.00325427958 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_accurate_nozero boundary=kernel_full reference=mkl_fp32 rel_l2=0.00530496511 max_abs=0.369735718 max_norm=0.00527572873 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_accurate_nozero boundary=kernel_sample reference=fp64_bf16_inputs rel_l2=1.02740656e-06 max_abs=0.000114507973 max_norm=2.50926936e-06 pass=1
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=0 ms=7.807970
+TIME graph=amazon0601 method=original kernel rep=0 ms=23.895025
+TIME graph=amazon0601 method=original_nozero kernel rep=0 ms=4.602194
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=0 ms=6.073952
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=0 ms=7.337809
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=0 ms=4.860878
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=0 ms=5.590916
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=0 ms=4.232883
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=0 ms=4.667044
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=0 ms=3.700972
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=0 ms=3.991842
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=0 ms=3.664970
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=0 ms=4.045963
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=0 ms=3.706932
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=0 ms=3.995180
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=0 ms=3.713846
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=0 ms=3.978014
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=0 ms=7.840872
+TIME graph=amazon0601 method=original kernel rep=1 ms=23.996830
+TIME graph=amazon0601 method=original_nozero kernel rep=1 ms=4.597187
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=1 ms=6.091118
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=1 ms=7.364988
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=1 ms=4.860163
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=1 ms=5.620003
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=1 ms=4.301071
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=1 ms=4.692078
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=1 ms=3.710985
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=1 ms=3.967047
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=1 ms=3.750086
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=1 ms=3.995895
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=1 ms=3.707170
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=1 ms=3.991842
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=1 ms=3.701210
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=1 ms=4.021883
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=1 ms=7.898092
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=1 ms=7.803202
+TIME graph=amazon0601 method=original_nozero kernel rep=2 ms=4.914999
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=2 ms=6.186008
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=2 ms=7.466793
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=2 ms=4.958153
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=2 ms=5.664825
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=2 ms=4.278898
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=2 ms=4.675865
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=2 ms=3.710985
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=2 ms=4.014015
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=2 ms=3.697872
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=2 ms=4.011154
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=2 ms=3.699780
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=2 ms=3.999949
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=2 ms=3.701925
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=2 ms=3.977060
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=2 ms=8.093119
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=2 ms=7.637978
+TIME graph=amazon0601 method=original kernel rep=2 ms=23.881912
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=3 ms=6.104946
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=3 ms=7.377863
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=3 ms=4.864931
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=3 ms=5.584955
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=3 ms=4.240990
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=3 ms=4.675865
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=3 ms=3.693104
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=3 ms=4.019022
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=3 ms=3.690958
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=3 ms=3.989935
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=3 ms=3.755093
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=3 ms=3.976107
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=3 ms=3.737926
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=3 ms=3.986120
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=3 ms=7.866859
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=3 ms=7.799864
+TIME graph=amazon0601 method=original kernel rep=3 ms=23.931980
+TIME graph=amazon0601 method=original_nozero kernel rep=3 ms=4.593849
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=4 ms=7.441044
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=4 ms=4.853010
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=4 ms=5.574942
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=4 ms=4.247904
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=4 ms=4.701853
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=4 ms=3.676176
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=4 ms=3.985882
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=4 ms=3.699064
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=4 ms=3.985882
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=4 ms=3.714085
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=4 ms=3.984928
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=4 ms=3.714085
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=4 ms=3.988028
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=4 ms=7.827044
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=4 ms=7.820845
+TIME graph=amazon0601 method=original kernel rep=4 ms=23.986816
+TIME graph=amazon0601 method=original_nozero kernel rep=4 ms=4.614115
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=4 ms=6.084204
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=5 ms=4.832983
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=5 ms=5.579948
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=5 ms=4.266977
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=5 ms=4.710913
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=5 ms=3.682137
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=5 ms=4.005909
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=5 ms=3.709078
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=5 ms=4.009962
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=5 ms=3.714085
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=5 ms=4.005909
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=5 ms=3.690958
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=5 ms=4.012108
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=5 ms=7.882833
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=5 ms=7.822990
+TIME graph=amazon0601 method=original kernel rep=5 ms=23.954868
+TIME graph=amazon0601 method=original_nozero kernel rep=5 ms=4.605055
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=5 ms=6.090164
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=5 ms=7.377148
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=6 ms=5.640030
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=6 ms=4.261971
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=6 ms=4.675150
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=6 ms=3.837109
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=6 ms=4.113197
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=6 ms=3.789902
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=6 ms=4.043818
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=6 ms=3.770828
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=6 ms=4.081011
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=6 ms=3.753901
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=6 ms=4.128933
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=6 ms=7.861853
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=6 ms=7.906914
+TIME graph=amazon0601 method=original kernel rep=6 ms=23.976088
+TIME graph=amazon0601 method=original_nozero kernel rep=6 ms=4.613876
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=6 ms=6.100893
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=6 ms=7.346153
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=6 ms=4.882097
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=7 ms=4.256010
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=7 ms=4.676104
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=7 ms=3.710032
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=7 ms=3.973007
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=7 ms=3.709078
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=7 ms=3.970861
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=7 ms=3.716946
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=7 ms=3.986120
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=7 ms=3.740072
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=7 ms=3.978014
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=7 ms=7.894039
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=7 ms=7.781029
+TIME graph=amazon0601 method=original kernel rep=7 ms=23.965836
+TIME graph=amazon0601 method=original_nozero kernel rep=7 ms=4.601002
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=7 ms=6.091833
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=7 ms=7.359028
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=7 ms=4.873037
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=7 ms=5.573034
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=8 ms=4.761934
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=8 ms=3.699064
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=8 ms=4.004002
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=8 ms=3.714085
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=8 ms=3.994942
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=8 ms=3.727198
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=8 ms=3.989935
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=8 ms=3.709078
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=8 ms=4.030943
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=8 ms=7.788897
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=8 ms=7.771015
+TIME graph=amazon0601 method=original kernel rep=8 ms=24.044991
+TIME graph=amazon0601 method=original_nozero kernel rep=8 ms=4.603863
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=8 ms=6.083012
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=8 ms=7.343054
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=8 ms=4.872084
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=8 ms=5.614042
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=8 ms=4.239082
+TIME graph=amazon0601 method=shared_b16_fast_nozero kernel rep=9 ms=3.655910
+TIME graph=amazon0601 method=shared_b16_accurate_nozero kernel rep=9 ms=4.004002
+TIME graph=amazon0601 method=shared_b32_fast_nozero kernel rep=9 ms=3.720999
+TIME graph=amazon0601 method=shared_b32_accurate_nozero kernel rep=9 ms=4.013062
+TIME graph=amazon0601 method=shared_b64_fast_nozero kernel rep=9 ms=3.715992
+TIME graph=amazon0601 method=shared_b64_accurate_nozero kernel rep=9 ms=3.977060
+TIME graph=amazon0601 method=shared_bfull_fast_nozero kernel rep=9 ms=3.753901
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero kernel rep=9 ms=3.976107
+TIME graph=amazon0601 method=mkl_fp32 kernel rep=9 ms=7.803917
+TIME graph=amazon0601 method=mkl_bf16_inputs kernel rep=9 ms=7.925987
+TIME graph=amazon0601 method=original kernel rep=9 ms=24.466038
+TIME graph=amazon0601 method=original_nozero kernel rep=9 ms=4.663944
+TIME graph=amazon0601 method=shared_b2_fast_nozero kernel rep=9 ms=6.103039
+TIME graph=amazon0601 method=shared_b2_accurate_nozero kernel rep=9 ms=7.400990
+TIME graph=amazon0601 method=shared_b4_fast_nozero kernel rep=9 ms=4.858017
+TIME graph=amazon0601 method=shared_b4_accurate_nozero kernel rep=9 ms=5.592823
+TIME graph=amazon0601 method=shared_b8_fast_nozero kernel rep=9 ms=4.256010
+TIME graph=amazon0601 method=shared_b8_accurate_nozero kernel rep=9 ms=4.668951
+CORRECT graph=amazon0601 method=original boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=instrumented_kernel reference=unchanged_original rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=shared_b2_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00236310562 max_abs=0.164821625 max_norm=0.00236170211 pass=1
+CORRECT graph=amazon0601 method=shared_b2_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.92472052e-07 max_abs=4.57763672e-05 max_norm=6.5592208e-07 pass=1
+CORRECT graph=amazon0601 method=shared_b4_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00286867596 max_abs=0.192527771 max_norm=0.00275869895 pass=1
+CORRECT graph=amazon0601 method=shared_b4_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=1.82317174e-07 max_abs=4.19616699e-05 max_norm=6.01261907e-07 pass=1
+CORRECT graph=amazon0601 method=shared_b8_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00302565155 max_abs=0.217834473 max_norm=0.00312131454 pass=1
+CORRECT graph=amazon0601 method=shared_b8_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=5.41029924e-07 max_abs=0.00016784668 max_norm=2.40504763e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b16_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_b16_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b32_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_b32_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_b64_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_b64_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_fast_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=0.00318734244 max_abs=0.23324585 max_norm=0.00334214164 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_accurate_nozero boundary=instrumented_kernel reference=mkl_bf16_inputs rel_l2=9.35987303e-07 max_abs=0.000183105469 max_norm=2.62368832e-06 pass=1
+CORRECT graph=amazon0601 method=mkl_fp32 boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.0104109155 max_abs=27.2385254 max_norm=0.0105071564 pass=1
+CORRECT graph=amazon0601 method=mkl_fp32 boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0 max_abs=0 max_norm=0 pass=1
+CORRECT graph=amazon0601 method=mkl_bf16_inputs boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103064947 max_abs=27.2385254 max_norm=0.010397904 pass=1
+CORRECT graph=amazon0601 method=original boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.26868295e-05 max_abs=0.25 max_norm=9.64365381e-05 pass=1
+CORRECT graph=amazon0601 method=original boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103065006 max_abs=27.2385254 max_norm=0.010397904 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.26868295e-05 max_abs=0.25 max_norm=9.64365381e-05 pass=1
+CORRECT graph=amazon0601 method=original_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103065006 max_abs=27.2385254 max_norm=0.010397904 pass=1
+CORRECT graph=amazon0601 method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00360637092 max_abs=9.17541504 max_norm=0.00353938105 pass=1
+CORRECT graph=amazon0601 method=shared_b2_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0134437552 max_abs=35.1308594 max_norm=0.0134106857 pass=1
+CORRECT graph=amazon0601 method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.26044002e-05 max_abs=0.250061035 max_norm=9.64600821e-05 pass=1
+CORRECT graph=amazon0601 method=shared_b2_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103064926 max_abs=27.2390137 max_norm=0.0103980904 pass=1
+CORRECT graph=amazon0601 method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00479242363 max_abs=12.8060303 max_norm=0.0049398769 pass=1
+CORRECT graph=amazon0601 method=shared_b4_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0146586973 max_abs=38.0109863 max_norm=0.0145101315 pass=1
+CORRECT graph=amazon0601 method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.20173859e-05 max_abs=0.250061035 max_norm=9.64600821e-05 pass=1
+CORRECT graph=amazon0601 method=shared_b4_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103065242 max_abs=27.2387695 max_norm=0.0103979972 pass=1
+CORRECT graph=amazon0601 method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00533448072 max_abs=14.2355957 max_norm=0.00549132627 pass=1
+CORRECT graph=amazon0601 method=shared_b8_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0151696863 max_abs=40.9731445 max_norm=0.0156408916 pass=1
+CORRECT graph=amazon0601 method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.40572383e-05 max_abs=0.287857056 max_norm=0.000111039752 pass=1
+CORRECT graph=amazon0601 method=shared_b8_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103066189 max_abs=27.2387695 max_norm=0.0103979972 pass=1
+CORRECT graph=amazon0601 method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00581922945 max_abs=16.1550293 max_norm=0.00623174039 pass=1
+CORRECT graph=amazon0601 method=shared_b16_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156335962 max_abs=42.5737305 max_norm=0.0162518916 pass=1
+CORRECT graph=amazon0601 method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.94481352e-05 max_abs=0.257720947 max_norm=9.94148638e-05 pass=1
+CORRECT graph=amazon0601 method=shared_b16_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103067786 max_abs=27.2390137 max_norm=0.0103980904 pass=1
+CORRECT graph=amazon0601 method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00581922945 max_abs=16.1550293 max_norm=0.00623174039 pass=1
+CORRECT graph=amazon0601 method=shared_b32_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156335962 max_abs=42.5737305 max_norm=0.0162518916 pass=1
+CORRECT graph=amazon0601 method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.94481352e-05 max_abs=0.257720947 max_norm=9.94148638e-05 pass=1
+CORRECT graph=amazon0601 method=shared_b32_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103067786 max_abs=27.2390137 max_norm=0.0103980904 pass=1
+CORRECT graph=amazon0601 method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00581922945 max_abs=16.1550293 max_norm=0.00623174039 pass=1
+CORRECT graph=amazon0601 method=shared_b64_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156335962 max_abs=42.5737305 max_norm=0.0162518916 pass=1
+CORRECT graph=amazon0601 method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.94481352e-05 max_abs=0.257720947 max_norm=9.94148638e-05 pass=1
+CORRECT graph=amazon0601 method=shared_b64_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103067786 max_abs=27.2390137 max_norm=0.0103980904 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=0.00581922945 max_abs=16.1550293 max_norm=0.00623174039 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_fast_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0156335962 max_abs=42.5737305 max_norm=0.0162518916 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_bf16_inputs rel_l2=1.94481352e-05 max_abs=0.257720947 max_norm=9.94148638e-05 pass=1
+CORRECT graph=amazon0601 method=shared_bfull_accurate_nozero boundary=two_layer_e2e reference=mkl_fp32 rel_l2=0.0103067786 max_abs=27.2390137 max_norm=0.0103980904 pass=1
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=0 ms=17.736912 L1=7.704973 act_convert=2.285957 L2=7.745981
+TIME graph=amazon0601 method=original e2e rep=0 ms=45.264959 L1=21.651030 act_convert=1.492023 L2=22.121906
+TIME graph=amazon0601 method=original_nozero e2e rep=0 ms=11.333942 L1=4.791975 act_convert=1.514912 L2=5.027056
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=0 ms=14.788866 L1=6.680012 act_convert=1.531839 L2=6.577015
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=0 ms=17.513990 L1=7.868052 act_convert=1.532793 L2=8.113146
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=0 ms=12.390137 L1=5.420923 act_convert=1.542091 L2=5.427122
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=0 ms=13.888121 L1=6.123066 act_convert=1.529932 L2=6.235123
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=0 ms=11.117935 L1=4.799843 act_convert=1.533031 L2=4.785061
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=0 ms=11.900902 L1=5.087852 act_convert=1.532078 L2=5.280972
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=0 ms=10.066986 L1=4.222155 act_convert=1.541853 L2=4.302979
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=0 ms=10.735035 L1=4.576921 act_convert=1.523972 L2=4.634142
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=0 ms=10.079145 L1=4.117012 act_convert=1.531124 L2=4.431009
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=0 ms=10.715961 L1=4.547119 act_convert=1.517773 L2=4.651070
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=0 ms=10.158062 L1=4.091978 act_convert=1.516104 L2=4.549980
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=0 ms=10.554075 L1=4.487991 act_convert=1.510143 L2=4.555941
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=0 ms=10.183811 L1=4.185915 act_convert=1.518011 L2=4.479885
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=0 ms=10.833025 L1=4.623175 act_convert=1.528978 L2=4.680872
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=0 ms=16.330004 L1=7.977009 act_convert=0.598907 L2=7.754087
+TIME graph=amazon0601 method=original e2e rep=1 ms=45.798063 L1=22.706985 act_convert=1.473904 L2=21.617174
+TIME graph=amazon0601 method=original_nozero e2e rep=1 ms=11.243105 L1=4.723072 act_convert=1.523972 L2=4.996061
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=1 ms=14.817953 L1=6.694078 act_convert=1.523018 L2=6.600857
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=1 ms=17.369986 L1=7.889032 act_convert=1.482010 L2=7.998943
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=1 ms=12.403011 L1=5.462170 act_convert=1.522064 L2=5.418777
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=1 ms=13.936996 L1=6.160021 act_convert=1.513004 L2=6.263971
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=1 ms=11.023998 L1=4.699945 act_convert=1.543999 L2=4.780054
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=1 ms=11.776209 L1=5.102158 act_convert=1.518965 L2=5.155087
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=1 ms=10.297060 L1=4.090071 act_convert=1.529932 L2=4.677057
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=1 ms=10.665894 L1=4.534006 act_convert=1.528025 L2=4.603863
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=1 ms=10.166883 L1=4.218817 act_convert=1.513004 L2=4.435062
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=1 ms=10.754824 L1=4.587889 act_convert=1.533031 L2=4.633904
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=1 ms=10.127068 L1=4.147053 act_convert=1.516819 L2=4.463196
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=1 ms=10.623932 L1=4.570007 act_convert=1.538038 L2=4.515886
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=1 ms=10.178089 L1=4.168987 act_convert=1.518965 L2=4.490137
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=1 ms=10.825157 L1=4.655123 act_convert=1.523972 L2=4.646063
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=1 ms=16.170979 L1=7.978201 act_convert=0.592947 L2=7.599831
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=1 ms=17.964125 L1=7.707119 act_convert=2.300978 L2=7.956028
+TIME graph=amazon0601 method=original_nozero e2e rep=2 ms=11.408091 L1=4.871130 act_convert=1.522064 L2=5.014896
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=2 ms=14.830828 L1=6.690979 act_convert=1.512051 L2=6.627798
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=2 ms=17.385006 L1=7.939100 act_convert=1.488924 L2=7.956982
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=2 ms=12.514114 L1=5.451202 act_convert=1.514912 L2=5.548000
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=2 ms=14.059067 L1=6.244898 act_convert=1.541138 L2=6.273031
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=2 ms=11.168957 L1=4.794121 act_convert=1.540899 L2=4.833937
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=2 ms=12.019873 L1=5.195856 act_convert=1.535177 L2=5.288839
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=2 ms=10.166883 L1=4.230022 act_convert=1.535892 L2=4.400969
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=2 ms=10.715008 L1=4.557133 act_convert=1.525879 L2=4.631996
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=2 ms=10.259151 L1=4.239082 act_convert=1.528025 L2=4.492044
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=2 ms=10.662079 L1=4.570961 act_convert=1.526117 L2=4.565001
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=2 ms=10.442972 L1=4.333019 act_convert=1.545906 L2=4.564047
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=2 ms=10.776997 L1=4.606009 act_convert=1.538038 L2=4.632950
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=2 ms=10.418177 L1=4.324198 act_convert=1.525879 L2=4.568100
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=2 ms=10.953188 L1=4.769087 act_convert=1.523972 L2=4.660130
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=2 ms=16.144037 L1=7.761002 act_convert=0.618219 L2=7.764816
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=2 ms=18.258095 L1=7.812023 act_convert=2.616167 L2=7.829905
+TIME graph=amazon0601 method=original e2e rep=2 ms=47.877789 L1=22.831917 act_convert=1.496077 L2=23.549795
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=3 ms=15.065908 L1=6.825924 act_convert=1.521111 L2=6.718874
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=3 ms=17.426968 L1=7.962942 act_convert=1.518965 L2=7.945061
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=3 ms=12.341976 L1=5.357027 act_convert=1.531839 L2=5.453110
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=3 ms=13.923883 L1=6.161928 act_convert=1.531124 L2=6.230831
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=3 ms=10.906935 L1=4.678011 act_convert=1.534939 L2=4.693985
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=3 ms=11.919022 L1=5.125046 act_convert=1.534939 L2=5.259037
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=3 ms=11.200190 L1=4.196167 act_convert=1.528978 L2=5.475044
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=3 ms=10.663986 L1=4.544973 act_convert=1.512051 L2=4.606962
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=3 ms=10.035992 L1=4.166126 act_convert=1.517773 L2=4.352093
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=3 ms=10.789871 L1=4.628897 act_convert=1.538038 L2=4.622936
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=3 ms=10.303974 L1=4.209995 act_convert=1.518011 L2=4.575968
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=3 ms=10.768890 L1=4.551888 act_convert=1.520157 L2=4.696846
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=3 ms=10.387897 L1=4.306078 act_convert=1.539946 L2=4.541874
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=3 ms=10.837793 L1=4.631996 act_convert=1.520872 L2=4.684925
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=3 ms=16.013861 L1=7.708073 act_convert=0.586987 L2=7.718801
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=3 ms=18.095970 L1=7.884026 act_convert=2.285004 L2=7.926941
+TIME graph=amazon0601 method=original e2e rep=3 ms=45.295954 L1=22.060871 act_convert=1.481056 L2=21.754026
+TIME graph=amazon0601 method=original_nozero e2e rep=3 ms=11.380911 L1=4.853010 act_convert=1.537085 L2=4.990816
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=4 ms=17.416954 L1=7.972956 act_convert=1.481056 L2=7.962942
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=4 ms=12.327909 L1=5.388975 act_convert=1.523018 L2=5.415916
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=4 ms=13.978958 L1=6.056786 act_convert=1.509190 L2=6.412983
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=4 ms=11.063099 L1=4.738092 act_convert=1.537800 L2=4.787207
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=4 ms=12.068987 L1=5.193949 act_convert=1.598120 L2=5.276918
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=4 ms=10.185957 L1=4.289865 act_convert=1.528978 L2=4.367113
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=4 ms=10.671139 L1=4.573107 act_convert=1.514912 L2=4.583120
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=4 ms=10.548115 L1=4.250050 act_convert=1.526117 L2=4.771948
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=4 ms=10.969162 L1=4.712105 act_convert=1.534939 L2=4.722118
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=4 ms=10.541916 L1=4.434109 act_convert=1.539946 L2=4.567862
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=4 ms=10.982037 L1=4.779100 act_convert=1.517057 L2=4.685879
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=4 ms=10.359049 L1=4.390001 act_convert=1.531124 L2=4.437923
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=4 ms=10.787964 L1=4.555941 act_convert=1.549959 L2=4.682064
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=4 ms=16.321182 L1=7.918119 act_convert=0.618935 L2=7.784128
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=4 ms=17.966986 L1=7.835150 act_convert=2.297878 L2=7.833958
+TIME graph=amazon0601 method=original e2e rep=4 ms=46.374083 L1=22.580147 act_convert=1.503944 L2=22.289991
+TIME graph=amazon0601 method=original_nozero e2e rep=4 ms=11.281013 L1=4.791021 act_convert=1.520157 L2=4.969835
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=4 ms=14.712095 L1=6.603003 act_convert=1.499176 L2=6.609917
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=5 ms=12.314081 L1=5.362988 act_convert=1.535177 L2=5.415916
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=5 ms=13.820887 L1=6.012917 act_convert=1.549006 L2=6.258965
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=5 ms=11.064053 L1=4.765987 act_convert=1.533985 L2=4.764080
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=5 ms=11.818171 L1=5.084991 act_convert=1.530170 L2=5.203009
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=5 ms=10.231018 L1=4.099131 act_convert=1.543045 L2=4.588842
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=5 ms=10.693073 L1=4.558086 act_convert=1.542807 L2=4.592180
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=5 ms=10.244131 L1=4.183054 act_convert=1.535892 L2=4.525185
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=5 ms=10.596991 L1=4.514933 act_convert=1.527071 L2=4.554987
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=5 ms=10.195971 L1=4.210949 act_convert=1.523972 L2=4.461050
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=5 ms=10.663033 L1=4.547119 act_convert=1.522064 L2=4.593849
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=5 ms=10.281086 L1=4.271030 act_convert=1.536131 L2=4.473925
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=5 ms=10.833979 L1=4.681826 act_convert=1.513004 L2=4.639149
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=5 ms=15.988827 L1=7.694960 act_convert=0.593901 L2=7.699966
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=5 ms=18.115044 L1=7.779121 act_convert=2.277851 L2=8.058071
+TIME graph=amazon0601 method=original e2e rep=5 ms=46.917915 L1=22.603035 act_convert=1.481056 L2=22.833824
+TIME graph=amazon0601 method=original_nozero e2e rep=5 ms=11.400938 L1=4.886866 act_convert=1.529932 L2=4.984140
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=5 ms=14.825106 L1=6.684065 act_convert=1.513958 L2=6.627083
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=5 ms=17.550945 L1=7.880926 act_convert=1.553059 L2=8.116961
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=6 ms=13.900042 L1=6.186008 act_convert=1.533031 L2=6.181002
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=6 ms=10.915995 L1=4.668951 act_convert=1.533985 L2=4.713058
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=6 ms=11.820078 L1=5.079031 act_convert=1.528025 L2=5.213022
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=6 ms=9.998798 L1=4.150867 act_convert=1.528025 L2=4.319906
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=6 ms=10.746956 L1=4.566908 act_convert=1.533985 L2=4.646063
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=6 ms=10.075808 L1=4.167795 act_convert=1.507044 L2=4.400969
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=6 ms=10.808945 L1=4.650116 act_convert=1.536846 L2=4.621983
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=6 ms=10.262966 L1=4.269838 act_convert=1.515150 L2=4.477978
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=6 ms=10.836124 L1=4.618168 act_convert=1.529932 L2=4.688025
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=6 ms=10.293961 L1=4.238844 act_convert=1.532078 L2=4.523039
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=6 ms=10.849953 L1=4.677057 act_convert=1.521111 L2=4.651785
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=6 ms=16.019106 L1=7.683039 act_convert=0.592947 L2=7.743120
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=6 ms=18.085003 L1=7.851124 act_convert=2.277851 L2=7.956028
+TIME graph=amazon0601 method=original e2e rep=6 ms=47.919989 L1=22.848129 act_convert=1.487017 L2=23.584843
+TIME graph=amazon0601 method=original_nozero e2e rep=6 ms=11.528969 L1=4.951000 act_convert=1.516819 L2=5.061150
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=6 ms=14.841795 L1=6.706953 act_convert=1.526833 L2=6.608009
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=6 ms=17.323017 L1=7.895947 act_convert=1.509905 L2=7.917166
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=6 ms=12.381077 L1=5.386114 act_convert=1.536846 L2=5.458117
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=7 ms=10.965824 L1=4.729986 act_convert=1.513958 L2=4.721880
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=7 ms=12.130976 L1=5.081892 act_convert=1.536131 L2=5.512953
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=7 ms=10.046959 L1=4.232883 act_convert=1.523972 L2=4.290104
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=7 ms=10.559082 L1=4.476070 act_convert=1.528025 L2=4.554987
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=7 ms=10.045052 L1=4.093170 act_convert=1.542807 L2=4.409075
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=7 ms=10.674000 L1=4.547834 act_convert=1.518965 L2=4.607201
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=7 ms=10.167122 L1=4.185200 act_convert=1.513004 L2=4.468918
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=7 ms=10.843992 L1=4.611969 act_convert=1.515865 L2=4.716158
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=7 ms=10.288954 L1=4.206896 act_convert=1.528978 L2=4.553080
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=7 ms=11.444807 L1=5.130768 act_convert=1.602173 L2=4.711866
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=7 ms=15.938044 L1=7.622004 act_convert=0.607014 L2=7.709026
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=7 ms=18.007040 L1=7.807970 act_convert=2.306938 L2=7.892132
+TIME graph=amazon0601 method=original e2e rep=7 ms=45.409918 L1=22.141933 act_convert=1.477957 L2=21.790028
+TIME graph=amazon0601 method=original_nozero e2e rep=7 ms=11.245966 L1=4.742146 act_convert=1.519918 L2=4.983902
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=7 ms=14.773130 L1=6.662130 act_convert=1.513958 L2=6.597042
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=7 ms=17.326117 L1=7.853985 act_convert=1.480103 L2=7.992029
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=7 ms=12.444973 L1=5.449057 act_convert=1.522064 L2=5.473852
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=7 ms=14.008999 L1=6.211042 act_convert=1.545906 L2=6.252050
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=8 ms=12.050867 L1=5.245924 act_convert=1.543999 L2=5.260944
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=8 ms=9.947062 L1=4.178047 act_convert=1.534939 L2=4.234076
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=8 ms=10.645866 L1=4.518986 act_convert=1.523018 L2=4.603863
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=8 ms=10.186911 L1=4.195929 act_convert=1.522064 L2=4.468918
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=8 ms=10.550022 L1=4.503012 act_convert=1.532078 L2=4.514933
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=8 ms=10.205984 L1=4.212856 act_convert=1.523018 L2=4.470110
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=8 ms=10.871172 L1=4.666090 act_convert=1.529932 L2=4.675150
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=8 ms=10.416031 L1=4.286051 act_convert=1.523972 L2=4.606009
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=8 ms=11.014938 L1=4.745960 act_convert=1.524925 L2=4.744053
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=8 ms=16.131878 L1=7.769823 act_convert=0.616074 L2=7.745981
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=8 ms=18.105984 L1=7.826090 act_convert=2.295971 L2=7.983923
+TIME graph=amazon0601 method=original e2e rep=8 ms=47.272921 L1=22.851944 act_convert=1.518965 L2=22.902012
+TIME graph=amazon0601 method=original_nozero e2e rep=8 ms=11.590004 L1=4.929066 act_convert=1.523018 L2=5.137920
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=8 ms=15.476942 L1=6.674051 act_convert=2.171993 L2=6.630898
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=8 ms=18.172026 L1=7.874012 act_convert=2.137899 L2=8.160114
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=8 ms=13.221979 L1=5.533934 act_convert=2.126932 L2=5.561113
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=8 ms=14.569998 L1=6.155968 act_convert=2.207994 L2=6.206036
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=8 ms=11.641026 L1=4.689932 act_convert=2.209902 L2=4.741192
+TIME graph=amazon0601 method=shared_b16_fast_nozero e2e rep=9 ms=10.550022 L1=4.086971 act_convert=2.124071 L2=4.338980
+TIME graph=amazon0601 method=shared_b16_accurate_nozero e2e rep=9 ms=11.265993 L1=4.501104 act_convert=2.122879 L2=4.642010
+TIME graph=amazon0601 method=shared_b32_fast_nozero e2e rep=9 ms=10.982990 L1=4.173994 act_convert=2.138138 L2=4.670858
+TIME graph=amazon0601 method=shared_b32_accurate_nozero e2e rep=9 ms=11.453867 L1=4.544973 act_convert=2.265930 L2=4.642963
+TIME graph=amazon0601 method=shared_b64_fast_nozero e2e rep=9 ms=10.692120 L1=4.178047 act_convert=2.131939 L2=4.382133
+TIME graph=amazon0601 method=shared_b64_accurate_nozero e2e rep=9 ms=11.197090 L1=4.459143 act_convert=2.122879 L2=4.615068
+TIME graph=amazon0601 method=shared_bfull_fast_nozero e2e rep=9 ms=10.691881 L1=4.173994 act_convert=2.127886 L2=4.390001
+TIME graph=amazon0601 method=shared_bfull_accurate_nozero e2e rep=9 ms=11.518002 L1=4.450083 act_convert=2.135992 L2=4.931927
+TIME graph=amazon0601 method=mkl_fp32 e2e rep=9 ms=15.919209 L1=7.632017 act_convert=0.586987 L2=7.700205
+TIME graph=amazon0601 method=mkl_bf16_inputs e2e rep=9 ms=17.987967 L1=7.768154 act_convert=2.285004 L2=7.934809
+TIME graph=amazon0601 method=original e2e rep=9 ms=45.288086 L1=22.063971 act_convert=1.497984 L2=21.726131
+TIME graph=amazon0601 method=original_nozero e2e rep=9 ms=11.400938 L1=4.869938 act_convert=1.533031 L2=4.997969
+TIME graph=amazon0601 method=shared_b2_fast_nozero e2e rep=9 ms=14.835119 L1=6.664991 act_convert=1.528025 L2=6.642103
+TIME graph=amazon0601 method=shared_b2_accurate_nozero e2e rep=9 ms=17.399073 L1=7.910967 act_convert=1.492977 L2=7.995129
+TIME graph=amazon0601 method=shared_b4_fast_nozero e2e rep=9 ms=12.412071 L1=5.439043 act_convert=1.516104 L2=5.456924
+TIME graph=amazon0601 method=shared_b4_accurate_nozero e2e rep=9 ms=13.875961 L1=6.125927 act_convert=1.521111 L2=6.228924
+TIME graph=amazon0601 method=shared_b8_fast_nozero e2e rep=9 ms=11.032104 L1=4.743099 act_convert=1.551867 L2=4.737139
+TIME graph=amazon0601 method=shared_b8_accurate_nozero e2e rep=9 ms=12.114048 L1=5.139112 act_convert=1.526833 L2=5.448103
+COMPLETE graph=amazon0601 status=PASS max_rss_kib=1921024

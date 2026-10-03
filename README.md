@@ -1,5 +1,11 @@
 # Multi-Head GAT / TFS-Online 实验归档
 
+## 当前分支：GCN-extra 邻居归约实验（2026-10-03）
+
+`gcn-extra-experiments-20261003` 分支新增[完整实验快照与导航](GCN-extra/docs/PUBLICATION_SNAPSHOT_20261003.md)、[源码](GCN-extra/src/bench.cpp)、[25图结果报告](GCN-extra/docs/GRAPH_SUITE_RESULTS_20261003.md)、[原始运行记录](GCN-extra/runs/)及[过程与状态](GCN-extra/docs/handoff/)。沿用 DegreeSort、TR16、局部 AMX 融合，比较邻居分组 B=2/4/8/16/32/64/Full 的 Fast/Accurate 推理计算流。25张图已尝试，19张完成、2028条数值校验全部通过，6张非单位边权输入未纳入对照。事后最佳Fast的两层几何平均加速比1.350×，固定Full Fast为1.290×，基线为去冗余清零的原TFS。当前仍是固定128维随机H/W算子实验，真实模型任务精度未验证。所有失败、取消、补测、源码快照与完整证据压缩包一并保留。
+
+## 已有 GAT 归档
+
 本仓库保存三层 Vanilla GAT 的 Online Softmax 与 TFS 前向计算实验，以及原 TFS 论文、源码和技术交接文档。归档起始时间：2026-09-29。
 
 2026-10-02 新结果：[保留 DegreeSort/TR16 的跨 head PH 融合与混合调度](baseline/docs/ICPP_TFS_HYBRID_RESULTS_20261002.md)、[前两层 TFS + 第三层标准 GAT 的同场实验](baseline/docs/ICPP_TFS_ADAPTIVE_RESULTS_20261002.md)。products 上混合路径三层 3411 ms，强 B0 BF16 3845 ms，探索性加速 1.127×；完整三层 TFS 4033 ms。arxiv 上混合路径仍慢于 B0（105 ms 对 68 ms）。这是明确标记的混合数据流；L2 的 8× 稀疏宽度放大未消除。随机权重的原始精度门槛和训练任务精度尚未验收。
