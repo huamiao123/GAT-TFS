@@ -3784,3 +3784,22 @@ Claims remain UNVERIFIED until qualified evidence is available.
   "date": "2026-10-04T06:04:15.944564+00:00"
 }
 ```
+
+## paper-method-publication-20261004
+
+```json
+{
+  "id": "paper-method-publication-20261004",
+  "kind": "controlled_methods_github_publication",
+  "status": "PUBLISHED_VERIFIED",
+  "source_evidence_commit": "0b20cc0ae1cc4749c7a24a256dae02dc8f78b54f",
+  "branch": "gcn-extra-experiments-20261003",
+  "repository": "https://github.com/huamiao123/GAT-TFS",
+  "archive_sha256": "af7b17e5403f7f22e7baef1c4fc306525b68c7214f55565cee9e392d195556f4",
+  "paper_eligible": true,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-method-publication-20261004",
+  "issues": "17 graphs, original paper v3/source MKL, both measurement orders, fixed gates and negative results published; archive captures pre-publication handoff snapshot and publication is a subsequent history event",
+  "next": "Controlled remeasurement complete; future mechanism/PMU/shape/checkpoint experiments remain separate scope",
+  "date": "2026-10-04T06:07:27.811518+00:00"
+}
+```
