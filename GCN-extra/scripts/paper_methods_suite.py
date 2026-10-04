@@ -75,16 +75,16 @@ if mode=='smoke':
    f.write(struct.pack('<IIIQQQ',0,0,2,n,n,len(col)));f.write(struct.pack('<'+'I'*len(row),*row));f.write(struct.pack('<'+'I'*len(col),*col));f.write(struct.pack('<'+'f'*len(col),*([1.]*len(col))))
   graphs.append(dict(graph=name,path=str(path),N=n,E=len(col),avg_degree=len(col)/n))
 else:
- allgraphs=json.loads((root/'runs/formal-10862002/graph_list.json').read_text());mapping={x['graph']:x for x in allgraphs}
+ allgraphs=json.loads((root/'docs/CURRENT_GRAPH_INVENTORY_20261004.json').read_text());mapping={x['graph']:x for x in allgraphs}
  graphs=[mapping[x] for x in parts[mode]]
- known={x['graph']:x for x in json.loads((root/'runs/formal-10862002/suite_status.json').read_text())}
+ known={x['graph']:x for x in json.loads((root/'docs/CURRENT_GRAPH_INVENTORY_20261004.json').read_text())}
 save(run/'graph_list.json',graphs);states=[];allrows=[];allchecks=[];failures=0
 for g in graphs:
  folder=run/g['graph'];folder.mkdir();state=dict(g)
  try:
   print('METHOD_START',g['graph'],flush=True);start=time.time();path=pathlib.Path(g['path']);state['input_sha256']=sha(path)
   if mode!='smoke':
-   assert state['input_sha256']==known[g['graph']]['dataset_sha256'];assert g['E']<=2147483647 and g['N']*128<=2147483648
+   assert state['input_sha256']==known[g['graph']]['input_sha256'];assert g['E']<=2147483647 and g['N']*128<=2147483648
   data=path.parent.parent
   anchor=baseline(invoke(folder,'original_raw',[build/'paper_original',data,g['graph']]))
   log=invoke(folder,'methods',[build/'paper_methods',data,g['graph']]);sums,checks,audit=parse(folder,log,anchor)

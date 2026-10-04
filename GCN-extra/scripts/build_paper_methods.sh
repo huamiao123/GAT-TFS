@@ -16,7 +16,7 @@ PY
 trap finish EXIT
 source "$ROOT/scripts/preflight.sh" "$RUN"
 cp "$ROOT/docs/PAPER_METHODS_PROTOCOL_20261004.md" "$RUN/protocol.read.md"
-cp "$ROOT/src/paper_methods_runtime.hpp" "$ROOT/src/source_protocol_kernels.hpp" "$ROOT/original/gcn_e2e_v3.cpp" "$ROOT/scripts/generate_paper_methods.py" "$ROOT/scripts/build_paper_methods.sh" "$RUN/source_snapshot/"
+cp "$ROOT/src/paper_methods_runtime.hpp" "$ROOT/src/paper_methods_kernels.hpp" "$ROOT/original/gcn_e2e_v3.cpp" "$ROOT/scripts/generate_paper_methods.py" "$ROOT/scripts/build_paper_methods.sh" "$RUN/source_snapshot/"
 cmp "$RUN/source_snapshot/gcn_e2e_v3.cpp" /home/huangjianqiang_group/hdacp1/data/yx/TFS/code/gcn_e2e_v3.cpp
 python3 "$ROOT/scripts/generate_paper_methods.py" "$RUN/source_snapshot" > "$RUN/generation.json"
 FLAGS=(-O3 -march=sapphirerapids -mamx-bf16 -mamx-tile -mavx512bf16 -qopenmp -qmkl=parallel)

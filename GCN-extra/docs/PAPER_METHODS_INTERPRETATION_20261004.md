@@ -1,6 +1,6 @@
 # 受控复测的实现解释与证据边界
 
-本轮针对 GCN-extra 推理计算流，使用与论文表格对应的 `gcn_e2e_v3.cpp`。旧版本、此前显式 NUMA interleave 的实验和本轮结果分别保存。主结果见 `PAPER_METHODS_RESULTS_20261004.md`；连续测量的执行顺序对照见 `PAPER_CACHE_CONTROL_RESULTS_20261004.md`。
+本轮针对 GCN-extra 推理计算流，使用与论文表格对应的 `gcn_e2e_v3.cpp`。此前不符合本轮控制变量的实验已按用户要求删除；仅保留本轮受控结果。主结果见 `PAPER_METHODS_RESULTS_20261004.md`；连续测量的执行顺序对照见 `PAPER_CACHE_CONTROL_RESULTS_20261004.md`。
 
 ## 实际保留了什么
 
