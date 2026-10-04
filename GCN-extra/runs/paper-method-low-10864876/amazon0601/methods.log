@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/amazon0601/amazon0601.csrbin
+Matrix: amazon0601  N=403394  NNZ=3387388  avg_deg=8.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 12.41 ms
+  run 1: 12.71 ms
+  run 2: 12.79 ms
+  run 3: 12.84 ms
+  run 4: 12.93 ms
+  TFS V3 E2E BEST: 12.41 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 25.80 ms
+  run 1: 26.12 ms
+  run 2: 25.94 ms
+  run 3: 26.40 ms
+  run 4: 25.40 ms
+  MKL E2E BEST: 25.40 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 12.41 ms
+  MKL (FP32):      25.40 ms
+  E2E Speedup:     2.05×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010476  RMSE=3.7819e+00
+First 8:
+  TFS: -47.33 -392.40 -490.73 -280.81 36.58 -167.26 -633.67 -190.92 
+  MKL: -47.51 -397.24 -496.00 -284.70 36.34 -169.30 -641.07 -192.56 
+METHOD_CONFIG graph=amazon0601 N=403394 E=3387388 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.5819906305 relative_L2=0.0131560059242 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.167236328125 mean_abs=0.0197805812611 relative_L2=0.00236607585324 normalized_max=0.0025734704082 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=9.69897460938 mean_abs=0.966202822738 relative_L2=0.00356416306194 normalized_max=0.00401015970383 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=0.963485774489 relative_L2=0.00440400306081 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=47.6721191406 mean_abs=4.43230402073 relative_L2=0.0162654858762 normalized_max=0.0195197032393 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=2.67028808594e-05 mean_abs=1.15388213608e-06 relative_L2=1.65670094165e-07 normalized_max=4.10909964813e-07 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.250030517578 mean_abs=0.000417750513465 relative_L2=1.19498945559e-05 normalized_max=0.00010337817622 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.000418949670732 relative_L2=7.69508533388e-05 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.5820009995 relative_L2=0.0131560121248 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.206192016602 mean_abs=0.023988922079 relative_L2=0.00286909512427 normalized_max=0.00317292934544 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=12.7661132812 mean_abs=1.28918882983 relative_L2=0.00474758460243 normalized_max=0.00527830570929 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.28541162678 relative_L2=0.00532130393873 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=49.8894042969 mean_abs=4.76642546792 relative_L2=0.0174690567009 normalized_max=0.0204275871142 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=2.67028808594e-05 mean_abs=1.08142613494e-06 relative_L2=1.54447863469e-07 normalized_max=4.10909964813e-07 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.247589111328 mean_abs=0.00043192611035 relative_L2=1.15994939431e-05 normalized_max=0.000102368746939 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.000433123003835 relative_L2=7.77892522278e-05 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58200845858 relative_L2=0.0131560542118 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.218906402588 mean_abs=0.0252661617756 relative_L2=0.00302525724631 normalized_max=0.00336858119012 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=14.4399414062 mean_abs=1.43501252052 relative_L2=0.00528645678336 normalized_max=0.00597037042421 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.43107628312 relative_L2=0.0057752294436 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=51.4755859375 mean_abs=4.90634833087 relative_L2=0.0179757054786 normalized_max=0.0210770609674 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00016450881958 mean_abs=1.75089303253e-06 relative_L2=5.29152365546e-07 normalized_max=2.53149889037e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.250030517578 mean_abs=0.000750695141722 relative_L2=1.38690561268e-05 normalized_max=0.00010337817622 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.000755262311164 relative_L2=0.000101676058315 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58203836865 relative_L2=0.0131561519532 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=amazon0601 methods=15 pass=1
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=kernel repeat=0 order=0 ms=5.24592399597
+METHOD_TIME graph=amazon0601 method=b2_fast kind=kernel repeat=0 order=1 ms=6.87479972839
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=kernel repeat=0 order=2 ms=8.17394256592
+METHOD_TIME graph=amazon0601 method=b4_fast kind=kernel repeat=0 order=3 ms=5.60593605042
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=kernel repeat=0 order=4 ms=6.38914108276
+METHOD_TIME graph=amazon0601 method=b8_fast kind=kernel repeat=0 order=5 ms=4.90283966064
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=kernel repeat=0 order=6 ms=5.36322593689
+METHOD_TIME graph=amazon0601 method=b16_fast kind=kernel repeat=0 order=7 ms=4.40192222595
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=kernel repeat=0 order=8 ms=4.69303131104
+METHOD_TIME graph=amazon0601 method=b32_fast kind=kernel repeat=0 order=9 ms=4.36496734619
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=kernel repeat=0 order=10 ms=4.68492507935
+METHOD_TIME graph=amazon0601 method=b64_fast kind=kernel repeat=0 order=11 ms=4.3671131134
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=kernel repeat=0 order=12 ms=4.67205047607
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=kernel repeat=0 order=13 ms=4.36186790466
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=kernel repeat=0 order=14 ms=4.71091270447
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=16.1349773407
+METHOD_TIME graph=amazon0601 method=b2_fast kind=kernel repeat=1 order=0 ms=7.07101821899
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=kernel repeat=1 order=1 ms=8.21113586426
+METHOD_TIME graph=amazon0601 method=b4_fast kind=kernel repeat=1 order=2 ms=5.65814971924
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=kernel repeat=1 order=3 ms=6.45303726196
+METHOD_TIME graph=amazon0601 method=b8_fast kind=kernel repeat=1 order=4 ms=4.8999786377
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=kernel repeat=1 order=5 ms=5.38301467896
+METHOD_TIME graph=amazon0601 method=b16_fast kind=kernel repeat=1 order=6 ms=4.37903404236
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=kernel repeat=1 order=7 ms=4.71711158752
+METHOD_TIME graph=amazon0601 method=b32_fast kind=kernel repeat=1 order=8 ms=4.36782836914
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=kernel repeat=1 order=9 ms=4.71305847168
+METHOD_TIME graph=amazon0601 method=b64_fast kind=kernel repeat=1 order=10 ms=4.36806678772
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=kernel repeat=1 order=11 ms=4.70614433289
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=kernel repeat=1 order=12 ms=4.36520576477
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=kernel repeat=1 order=13 ms=4.66585159302
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=16.205072403
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=kernel repeat=1 order=15 ms=5.27191162109
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=kernel repeat=2 order=0 ms=8.28790664673
+METHOD_TIME graph=amazon0601 method=b4_fast kind=kernel repeat=2 order=1 ms=5.66816329956
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=kernel repeat=2 order=2 ms=6.41894340515
+METHOD_TIME graph=amazon0601 method=b8_fast kind=kernel repeat=2 order=3 ms=4.95409965515
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=kernel repeat=2 order=4 ms=5.39708137512
+METHOD_TIME graph=amazon0601 method=b16_fast kind=kernel repeat=2 order=5 ms=4.37593460083
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=kernel repeat=2 order=6 ms=4.67991828918
+METHOD_TIME graph=amazon0601 method=b32_fast kind=kernel repeat=2 order=7 ms=4.35090065002
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=kernel repeat=2 order=8 ms=4.68707084656
+METHOD_TIME graph=amazon0601 method=b64_fast kind=kernel repeat=2 order=9 ms=4.35900688171
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=kernel repeat=2 order=10 ms=4.70209121704
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=kernel repeat=2 order=11 ms=4.3740272522
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=kernel repeat=2 order=12 ms=4.67681884766
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=16.0970687866
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=kernel repeat=2 order=14 ms=5.56993484497
+METHOD_TIME graph=amazon0601 method=b2_fast kind=kernel repeat=2 order=15 ms=6.88219070435
+METHOD_TIME graph=amazon0601 method=b4_fast kind=kernel repeat=3 order=0 ms=5.70797920227
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=kernel repeat=3 order=1 ms=6.40392303467
+METHOD_TIME graph=amazon0601 method=b8_fast kind=kernel repeat=3 order=2 ms=4.98199462891
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=kernel repeat=3 order=3 ms=5.39779663086
+METHOD_TIME graph=amazon0601 method=b16_fast kind=kernel repeat=3 order=4 ms=4.37188148499
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=kernel repeat=3 order=5 ms=4.69207763672
+METHOD_TIME graph=amazon0601 method=b32_fast kind=kernel repeat=3 order=6 ms=4.38809394836
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=kernel repeat=3 order=7 ms=4.66394424438
+METHOD_TIME graph=amazon0601 method=b64_fast kind=kernel repeat=3 order=8 ms=4.38714027405
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=kernel repeat=3 order=9 ms=4.67085838318
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=kernel repeat=3 order=10 ms=4.38117980957
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=kernel repeat=3 order=11 ms=4.67705726624
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=16.1111354828
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=kernel repeat=3 order=13 ms=5.27095794678
+METHOD_TIME graph=amazon0601 method=b2_fast kind=kernel repeat=3 order=14 ms=6.8838596344
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=kernel repeat=3 order=15 ms=8.17799568176
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=kernel repeat=4 order=0 ms=6.39414787292
+METHOD_TIME graph=amazon0601 method=b8_fast kind=kernel repeat=4 order=1 ms=4.89902496338
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=kernel repeat=4 order=2 ms=5.36298751831
+METHOD_TIME graph=amazon0601 method=b16_fast kind=kernel repeat=4 order=3 ms=4.38690185547
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=kernel repeat=4 order=4 ms=4.70495223999
+METHOD_TIME graph=amazon0601 method=b32_fast kind=kernel repeat=4 order=5 ms=4.38117980957
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=kernel repeat=4 order=6 ms=4.66895103455
+METHOD_TIME graph=amazon0601 method=b64_fast kind=kernel repeat=4 order=7 ms=4.36305999756
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=kernel repeat=4 order=8 ms=4.70209121704
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=kernel repeat=4 order=9 ms=4.39310073853
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=kernel repeat=4 order=10 ms=4.68492507935
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=16.193151474
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=kernel repeat=4 order=12 ms=5.25593757629
+METHOD_TIME graph=amazon0601 method=b2_fast kind=kernel repeat=4 order=13 ms=6.84595108032
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=kernel repeat=4 order=14 ms=8.19301605225
+METHOD_TIME graph=amazon0601 method=b4_fast kind=kernel repeat=4 order=15 ms=5.66005706787
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=0 order=0 ms=12.5780105591
+METHOD_TIME graph=amazon0601 method=b2_fast kind=e2e repeat=0 order=1 ms=15.8929824829
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=e2e repeat=0 order=2 ms=18.5549259186
+METHOD_TIME graph=amazon0601 method=b4_fast kind=e2e repeat=0 order=3 ms=13.2110118866
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=e2e repeat=0 order=4 ms=14.7199630737
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=0 order=5 ms=11.9187831879
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=0 order=6 ms=12.845993042
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=0 order=7 ms=10.8950138092
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=0 order=8 ms=11.5849971771
+METHOD_TIME graph=amazon0601 method=b32_fast kind=e2e repeat=0 order=9 ms=11.5041732788
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=e2e repeat=0 order=10 ms=11.7921829224
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=0 order=11 ms=11.2111568451
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=0 order=12 ms=11.4440917969
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=0 order=13 ms=11.461019516
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=0 order=14 ms=12.0820999146
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=26.0770320892
+METHOD_TIME graph=amazon0601 method=b2_fast kind=e2e repeat=1 order=0 ms=15.8188343048
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=e2e repeat=1 order=1 ms=18.4881687164
+METHOD_TIME graph=amazon0601 method=b4_fast kind=e2e repeat=1 order=2 ms=13.6649608612
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=e2e repeat=1 order=3 ms=15.0928497314
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=1 order=4 ms=12.3219490051
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=1 order=5 ms=13.0488872528
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=1 order=6 ms=10.8728408813
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=1 order=7 ms=11.3468170166
+METHOD_TIME graph=amazon0601 method=b32_fast kind=e2e repeat=1 order=8 ms=11.027097702
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=e2e repeat=1 order=9 ms=11.5611553192
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=1 order=10 ms=11.4240646362
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=1 order=11 ms=11.6400718689
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=1 order=12 ms=11.0468864441
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=1 order=13 ms=11.4190578461
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=24.9478816986
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=1 order=15 ms=12.6941204071
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=e2e repeat=2 order=0 ms=18.5160636902
+METHOD_TIME graph=amazon0601 method=b4_fast kind=e2e repeat=2 order=1 ms=13.7040615082
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=e2e repeat=2 order=2 ms=15.0020122528
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=2 order=3 ms=11.8310451508
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=2 order=4 ms=13.0219459534
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=2 order=5 ms=11.4450454712
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=2 order=6 ms=11.5928649902
+METHOD_TIME graph=amazon0601 method=b32_fast kind=e2e repeat=2 order=7 ms=11.2829208374
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=e2e repeat=2 order=8 ms=11.9099617004
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=2 order=9 ms=11.1658573151
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=2 order=10 ms=11.726140976
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=2 order=11 ms=11.6450786591
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=2 order=12 ms=11.8319988251
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=25.2048969269
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=2 order=14 ms=12.4480724335
+METHOD_TIME graph=amazon0601 method=b2_fast kind=e2e repeat=2 order=15 ms=15.5639648438
+METHOD_TIME graph=amazon0601 method=b4_fast kind=e2e repeat=3 order=0 ms=13.3030414581
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=e2e repeat=3 order=1 ms=15.1660442352
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=3 order=2 ms=12.0449066162
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=3 order=3 ms=12.818813324
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=3 order=4 ms=11.0640525818
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=3 order=5 ms=11.9500160217
+METHOD_TIME graph=amazon0601 method=b32_fast kind=e2e repeat=3 order=6 ms=11.2471580505
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=e2e repeat=3 order=7 ms=11.7001533508
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=3 order=8 ms=11.5461349487
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=3 order=9 ms=11.8210315704
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=3 order=10 ms=11.2869739532
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=3 order=11 ms=11.6138458252
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=25.0310897827
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=3 order=13 ms=12.6368999481
+METHOD_TIME graph=amazon0601 method=b2_fast kind=e2e repeat=3 order=14 ms=15.5699253082
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=e2e repeat=3 order=15 ms=18.3429718018
+METHOD_TIME graph=amazon0601 method=b4_accurate kind=e2e repeat=4 order=0 ms=14.7459506989
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=4 order=1 ms=11.8370056152
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=4 order=2 ms=12.925863266
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=4 order=3 ms=11.5520954132
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=4 order=4 ms=11.6031169891
+METHOD_TIME graph=amazon0601 method=b32_fast kind=e2e repeat=4 order=5 ms=11.0840797424
+METHOD_TIME graph=amazon0601 method=b32_accurate kind=e2e repeat=4 order=6 ms=11.6109848022
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=4 order=7 ms=11.4920139313
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=4 order=8 ms=11.7430686951
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=4 order=9 ms=11.668920517
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=4 order=10 ms=12.0229721069
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=25.0391960144
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=4 order=12 ms=12.7949714661
+METHOD_TIME graph=amazon0601 method=b2_fast kind=e2e repeat=4 order=13 ms=16.0241127014
+METHOD_TIME graph=amazon0601 method=b2_accurate kind=e2e repeat=4 order=14 ms=18.7759399414
+METHOD_TIME graph=amazon0601 method=b4_fast kind=e2e repeat=4 order=15 ms=14.0249729156
+METHOD_STAGE graph=amazon0601 method=paper_tfs repeat=0 layer1_ms=5.64789772034 relu_ms=1.03902816772 interlayer_conversion_ms=1.1579990387 layer2_ms=5.12409210205 total_ms=12.9690170288
+METHOD_STAGE graph=amazon0601 method=paper_tfs repeat=1 layer1_ms=5.79118728638 relu_ms=1.21879577637 interlayer_conversion_ms=1.11222267151 layer2_ms=5.10191917419 total_ms=13.2241249084
+METHOD_STAGE graph=amazon0601 method=paper_tfs repeat=2 layer1_ms=5.96904754639 relu_ms=1.17993354797 interlayer_conversion_ms=1.16896629333 layer2_ms=5.18202781677 total_ms=13.4999752045
+METHOD_STAGE graph=amazon0601 method=b2_fast repeat=0 layer1_ms=7.46297836304 relu_ms=1.19209289551 interlayer_conversion_ms=1.13987922668 layer2_ms=6.5610408783 total_ms=16.3559913635
+METHOD_STAGE graph=amazon0601 method=b2_fast repeat=1 layer1_ms=7.33304023743 relu_ms=1.04713439941 interlayer_conversion_ms=1.11889839172 layer2_ms=6.50310516357 total_ms=16.0021781921
+METHOD_STAGE graph=amazon0601 method=b2_fast repeat=2 layer1_ms=7.40694999695 relu_ms=1.1830329895 interlayer_conversion_ms=1.13987922668 layer2_ms=6.5610408783 total_ms=16.2909030914
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.0250339508057 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.0300407409668 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=0.098705291748 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.459909439087 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.916719436646 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.632047653198 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0684261322021 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=tile_load sampled_thread_ms=0.418901443481 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=0.895500183105 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=tile_store sampled_thread_ms=0.0543594360352 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=0.108480453491 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 sampled_tiles=100 wall_ms=7.9231262207
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.023365020752 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=0.112533569336 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.487089157104 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.867128372192 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.669002532959 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0865459442139 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=tile_load sampled_thread_ms=0.404834747314 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=0.933647155762 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=tile_store sampled_thread_ms=0.0526905059814 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.0190734863281 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_PROFILE graph=amazon0601 method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0429153442383 sampled_tiles=100 wall_ms=7.19094276428
+METHOD_STAGE graph=amazon0601 method=b2_accurate repeat=0 layer1_ms=8.79096984863 relu_ms=1.24907493591 interlayer_conversion_ms=1.15299224854 layer2_ms=7.92908668518 total_ms=19.1221237183
+METHOD_STAGE graph=amazon0601 method=b2_accurate repeat=1 layer1_ms=8.69798660278 relu_ms=1.03807449341 interlayer_conversion_ms=1.07383728027 layer2_ms=7.80916213989 total_ms=18.6190605164
+METHOD_STAGE graph=amazon0601 method=b2_accurate repeat=2 layer1_ms=8.58688354492 relu_ms=0.884056091309 interlayer_conversion_ms=1.04093551636 layer2_ms=7.76410102844 total_ms=18.275976181
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0145435333252 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=0.108003616333 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.461578369141 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.816583633423 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.62894821167 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.104904174805 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=0.676155090332 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=1.07669830322 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=0.0519752502441 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0908374786377 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0267028808594 sampled_tiles=100 wall_ms=8.71086120605
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0262260437012 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0786781311035 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.491380691528 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.804662704468 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.621318817139 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.120878219604 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=0.656366348267 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=1.19566917419 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=0.0472068786621 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0145435333252 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_PROFILE graph=amazon0601 method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0364780426025 sampled_tiles=100 wall_ms=7.92098045349
+METHOD_STAGE graph=amazon0601 method=b4_fast repeat=0 layer1_ms=5.99908828735 relu_ms=0.89693069458 interlayer_conversion_ms=1.05714797974 layer2_ms=5.26881217957 total_ms=13.2219791412
+METHOD_STAGE graph=amazon0601 method=b4_fast repeat=1 layer1_ms=5.98287582397 relu_ms=0.852108001709 interlayer_conversion_ms=1.05595588684 layer2_ms=5.29193878174 total_ms=13.1828784943
+METHOD_STAGE graph=amazon0601 method=b4_fast repeat=2 layer1_ms=6.00290298462 relu_ms=0.895023345947 interlayer_conversion_ms=1.06906890869 layer2_ms=5.26595115662 total_ms=13.2329463959
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.0367164611816 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=0.0662803649902 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.509023666382 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.645875930786 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.519514083862 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0457763671875 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=tile_load sampled_thread_ms=0.283002853394 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=0.482082366943 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=tile_store sampled_thread_ms=0.0288486480713 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=0.0922679901123 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0407695770264 sampled_tiles=100 wall_ms=6.12497329712
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0.0255107879639 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=0.0755786895752 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.495433807373 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.706672668457 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.521898269653 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.046968460083 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=tile_load sampled_thread_ms=0.262260437012 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=0.511646270752 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=tile_store sampled_thread_ms=0.0207424163818 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0.0143051147461 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_PROFILE graph=amazon0601 method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0424385070801 sampled_tiles=100 wall_ms=5.40399551392
+METHOD_STAGE graph=amazon0601 method=b4_accurate repeat=0 layer1_ms=6.74700737 relu_ms=0.900030136108 interlayer_conversion_ms=1.06287002563 layer2_ms=6.20794296265 total_ms=14.9178504944
+METHOD_STAGE graph=amazon0601 method=b4_accurate repeat=1 layer1_ms=6.89291954041 relu_ms=0.986099243164 interlayer_conversion_ms=1.13701820374 layer2_ms=6.1399936676 total_ms=15.1560306549
+METHOD_STAGE graph=amazon0601 method=b4_accurate repeat=2 layer1_ms=6.81185722351 relu_ms=0.900983810425 interlayer_conversion_ms=1.1100769043 layer2_ms=6.0830116272 total_ms=14.9059295654
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0152587890625 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0500679016113 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.476837158203 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.683784484863 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.549077987671 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0810623168945 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=0.482320785522 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=0.686168670654 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=0.0255107879639 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0965595245361 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0400543212891 sampled_tiles=100 wall_ms=6.93702697754
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0.00119209289551 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0321865081787 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0865459442139 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.452995300293 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.669240951538 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.560522079468 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0984668731689 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=0.423669815063 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=0.682353973389 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=0.0245571136475 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0176429748535 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_PROFILE graph=amazon0601 method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.044584274292 sampled_tiles=100 wall_ms=6.16693496704
+METHOD_STAGE graph=amazon0601 method=b8_fast repeat=0 layer1_ms=5.27286529541 relu_ms=0.848054885864 interlayer_conversion_ms=1.04594230652 layer2_ms=4.61506843567 total_ms=11.7819309235
+METHOD_STAGE graph=amazon0601 method=b8_fast repeat=1 layer1_ms=5.25903701782 relu_ms=0.977039337158 interlayer_conversion_ms=0.998020172119 layer2_ms=4.5850276947 total_ms=11.8191242218
+METHOD_STAGE graph=amazon0601 method=b8_fast repeat=2 layer1_ms=5.32007217407 relu_ms=1.04689598083 interlayer_conversion_ms=1.12414360046 layer2_ms=4.72092628479 total_ms=12.2120380402
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.0243186950684 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=0.0491142272949 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.491619110107 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.646591186523 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.49877166748 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0379085540771 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=tile_load sampled_thread_ms=0.202178955078 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=0.394105911255 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=tile_store sampled_thread_ms=0.02121925354 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=0.106573104858 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0331401824951 sampled_tiles=100 wall_ms=5.49793243408
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.018835067749 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=0.0522136688232 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.509262084961 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.623941421509 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.515937805176 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0286102294922 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=tile_load sampled_thread_ms=0.225305557251 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=0.362634658813 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=tile_store sampled_thread_ms=0.0276565551758 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.0119209289551 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_PROFILE graph=amazon0601 method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0524520874023 sampled_tiles=100 wall_ms=4.80604171753
+METHOD_STAGE graph=amazon0601 method=b8_accurate repeat=0 layer1_ms=5.92803955078 relu_ms=1.12891197205 interlayer_conversion_ms=1.10006332397 layer2_ms=5.17082214355 total_ms=13.3278369904
+METHOD_STAGE graph=amazon0601 method=b8_accurate repeat=1 layer1_ms=5.91993331909 relu_ms=0.971078872681 interlayer_conversion_ms=1.15990638733 layer2_ms=5.24306297302 total_ms=13.2939815521
+METHOD_STAGE graph=amazon0601 method=b8_accurate repeat=2 layer1_ms=5.87010383606 relu_ms=0.943899154663 interlayer_conversion_ms=1.14607810974 layer2_ms=5.26785850525 total_ms=13.2279396057
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0221729278564 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0636577606201 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.499248504639 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.678539276123 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.500202178955 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0467300415039 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=0.359296798706 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=0.527858734131 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.0178813934326 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=0.10871887207 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=100 wall_ms=5.96690177917
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0236034393311 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0605583190918 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.486373901367 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.649213790894 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.503540039062 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0522136688232 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=0.364065170288 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=0.502109527588 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=0.0159740447998 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0154972076416 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_PROFILE graph=amazon0601 method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0462532043457 sampled_tiles=100 wall_ms=5.41496276855
+METHOD_STAGE graph=amazon0601 method=b16_fast repeat=0 layer1_ms=4.89497184753 relu_ms=0.967979431152 interlayer_conversion_ms=1.11889839172 layer2_ms=4.21094894409 total_ms=11.1927986145
+METHOD_STAGE graph=amazon0601 method=b16_fast repeat=1 layer1_ms=5.00106811523 relu_ms=1.06477737427 interlayer_conversion_ms=1.10220909119 layer2_ms=4.36997413635 total_ms=11.538028717
+METHOD_STAGE graph=amazon0601 method=b16_fast repeat=2 layer1_ms=4.97984886169 relu_ms=1.05619430542 interlayer_conversion_ms=1.1248588562 layer2_ms=4.46915626526 total_ms=11.6300582886
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0.0293254852295 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.0190734863281 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.454664230347 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.569820404053 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.473976135254 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0236034393311 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=tile_load sampled_thread_ms=0.141620635986 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=0.287294387817 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.0162124633789 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=0.108957290649 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0379085540771 sampled_tiles=100 wall_ms=5.14101982117
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.0214576721191 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.0438690185547 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.458240509033 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.607252120972 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.422477722168 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0221729278564 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=tile_load sampled_thread_ms=0.132322311401 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=0.256061553955 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.0131130218506 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.0150203704834 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_PROFILE graph=amazon0601 method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0491142272949 sampled_tiles=100 wall_ms=4.43601608276
+METHOD_STAGE graph=amazon0601 method=b16_accurate repeat=0 layer1_ms=5.25712966919 relu_ms=1.02281570435 interlayer_conversion_ms=1.10197067261 layer2_ms=4.48322296143 total_ms=11.8651390076
+METHOD_STAGE graph=amazon0601 method=b16_accurate repeat=1 layer1_ms=5.29289245605 relu_ms=1.17707252502 interlayer_conversion_ms=1.10101699829 layer2_ms=4.48799133301 total_ms=12.0589733124
+METHOD_STAGE graph=amazon0601 method=b16_accurate repeat=2 layer1_ms=5.2011013031 relu_ms=1.03497505188 interlayer_conversion_ms=1.1088848114 layer2_ms=4.46319580078 total_ms=11.8081569672
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0162124633789 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0340938568115 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.482082366943 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.613451004028 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.466346740723 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0293254852295 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=0.241994857788 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=0.411033630371 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.00786781311035 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=0.107288360596 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.03981590271 sampled_tiles=100 wall_ms=5.34701347351
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0200271606445 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0360012054443 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.476121902466 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.609636306763 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.446081161499 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0364780426025 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=0.223398208618 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=0.375032424927 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.0152587890625 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0197887420654 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_PROFILE graph=amazon0601 method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0355243682861 sampled_tiles=100 wall_ms=4.6079158783
+METHOD_STAGE graph=amazon0601 method=b32_fast repeat=0 layer1_ms=4.97698783875 relu_ms=1.03712081909 interlayer_conversion_ms=1.10507011414 layer2_ms=4.37998771667 total_ms=11.4991664886
+METHOD_STAGE graph=amazon0601 method=b32_fast repeat=1 layer1_ms=5.05995750427 relu_ms=1.02305412292 interlayer_conversion_ms=1.1088848114 layer2_ms=4.48107719421 total_ms=11.6729736328
+METHOD_STAGE graph=amazon0601 method=b32_fast repeat=2 layer1_ms=5.01394271851 relu_ms=1.06406211853 interlayer_conversion_ms=1.09910964966 layer2_ms=4.47392463684 total_ms=11.6510391235
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.0231266021729 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.035285949707 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.424385070801 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.612735748291 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.42200088501 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0228881835938 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=tile_load sampled_thread_ms=0.134229660034 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=0.274896621704 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.00977516174316 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=0.119686126709 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0488758087158 sampled_tiles=100 wall_ms=5.17201423645
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.016450881958 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.035285949707 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.430107116699 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.600337982178 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.431299209595 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0243186950684 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=tile_load sampled_thread_ms=0.141143798828 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=0.261783599854 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.0171661376953 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.0231266021729 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_PROFILE graph=amazon0601 method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0450611114502 sampled_tiles=100 wall_ms=4.41312789917
+METHOD_STAGE graph=amazon0601 method=b32_accurate repeat=0 layer1_ms=5.33199310303 relu_ms=1.06310844421 interlayer_conversion_ms=1.10697746277 layer2_ms=4.54711914062 total_ms=12.0491981506
+METHOD_STAGE graph=amazon0601 method=b32_accurate repeat=1 layer1_ms=5.26404380798 relu_ms=1.05905532837 interlayer_conversion_ms=1.06596946716 layer2_ms=4.4538974762 total_ms=11.8429660797
+METHOD_STAGE graph=amazon0601 method=b32_accurate repeat=2 layer1_ms=5.28407096863 relu_ms=1.0039806366 interlayer_conversion_ms=1.05214118958 layer2_ms=4.48203086853 total_ms=11.8222236633
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0190734863281 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0245571136475 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.47755241394 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.604152679443 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.483512878418 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.030517578125 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=0.257015228271 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=0.409603118896 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.018835067749 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=0.101804733276 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0486373901367 sampled_tiles=100 wall_ms=5.29384613037
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0274181365967 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0357627868652 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.543355941772 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.586271286011 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.460624694824 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0259876251221 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=0.23889541626 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=0.358104705811 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.00905990600586 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0231266021729 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_PROFILE graph=amazon0601 method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0364780426025 sampled_tiles=100 wall_ms=4.61411476135
+METHOD_STAGE graph=amazon0601 method=b64_fast repeat=0 layer1_ms=4.95290756226 relu_ms=1.0449886322 interlayer_conversion_ms=1.05023384094 layer2_ms=4.38094139099 total_ms=11.4290714264
+METHOD_STAGE graph=amazon0601 method=b64_fast repeat=1 layer1_ms=5.15484809875 relu_ms=1.16205215454 interlayer_conversion_ms=1.09314918518 layer2_ms=4.47797775269 total_ms=11.8880271912
+METHOD_STAGE graph=amazon0601 method=b64_fast repeat=2 layer1_ms=5.09595870972 relu_ms=1.03282928467 interlayer_conversion_ms=1.05810165405 layer2_ms=4.48989868164 total_ms=11.6767883301
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.0259876251221 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.0262260437012 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.440120697021 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.61821937561 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.446081161499 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0128746032715 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=tile_load sampled_thread_ms=0.146865844727 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=0.317811965942 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.0126361846924 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=0.11157989502 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=100 wall_ms=5.22184371948
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.0159740447998 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.0348091125488 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.4723072052 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.54407119751 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.471353530884 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0193119049072 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=tile_load sampled_thread_ms=0.136613845825 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=0.268220901489 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.0247955322266 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.0154972076416 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_PROFILE graph=amazon0601 method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0557899475098 sampled_tiles=100 wall_ms=4.41002845764
+METHOD_STAGE graph=amazon0601 method=b64_accurate repeat=0 layer1_ms=5.29479980469 relu_ms=0.922203063965 interlayer_conversion_ms=1.13487243652 layer2_ms=4.51397895813 total_ms=11.8658542633
+METHOD_STAGE graph=amazon0601 method=b64_accurate repeat=1 layer1_ms=5.3768157959 relu_ms=0.965118408203 interlayer_conversion_ms=1.05404853821 layer2_ms=4.52089309692 total_ms=11.9168758392
+METHOD_STAGE graph=amazon0601 method=b64_accurate repeat=2 layer1_ms=5.29217720032 relu_ms=0.950813293457 interlayer_conversion_ms=1.06811523438 layer2_ms=4.6010017395 total_ms=11.9121074677
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0157356262207 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0400543212891 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.507354736328 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.590801239014 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.481367111206 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0236034393311 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=0.220060348511 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=0.441074371338 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.0171661376953 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=0.114917755127 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0383853912354 sampled_tiles=100 wall_ms=5.35106658936
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0276565551758 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0298023223877 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.51212310791 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.619173049927 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.445604324341 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0255107879639 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=0.285387039185 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=0.362157821655 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.0183582305908 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0128746032715 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_PROFILE graph=amazon0601 method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0491142272949 sampled_tiles=100 wall_ms=4.64415550232
+METHOD_STAGE graph=amazon0601 method=bfull_fast repeat=0 layer1_ms=4.94909286499 relu_ms=0.88095664978 interlayer_conversion_ms=1.11699104309 layer2_ms=4.35304641724 total_ms=11.3000869751
+METHOD_STAGE graph=amazon0601 method=bfull_fast repeat=1 layer1_ms=5.07497787476 relu_ms=0.956058502197 interlayer_conversion_ms=1.13201141357 layer2_ms=4.49204444885 total_ms=11.6550922394
+METHOD_STAGE graph=amazon0601 method=bfull_fast repeat=2 layer1_ms=5.206823349 relu_ms=0.948190689087 interlayer_conversion_ms=1.10602378845 layer2_ms=4.47583198547 total_ms=11.736869812
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.0302791595459 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.0269412994385 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.49090385437 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.595331192017 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.416278839111 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0205039978027 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=0.138282775879 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=0.26798248291 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.016450881958 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=0.117778778076 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0333786010742 sampled_tiles=100 wall_ms=5.22780418396
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.0238418579102 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.0412464141846 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.491142272949 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.607013702393 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.386476516724 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0286102294922 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=0.12731552124 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=0.285625457764 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.016450881958 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.0226497650146 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_PROFILE graph=amazon0601 method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0596046447754 sampled_tiles=100 wall_ms=4.43696975708
+METHOD_STAGE graph=amazon0601 method=bfull_accurate repeat=0 layer1_ms=5.37490844727 relu_ms=0.869035720825 interlayer_conversion_ms=1.08909606934 layer2_ms=4.57692146301 total_ms=11.9099617004
+METHOD_STAGE graph=amazon0601 method=bfull_accurate repeat=1 layer1_ms=5.34701347351 relu_ms=0.947952270508 interlayer_conversion_ms=1.07598304749 layer2_ms=4.51397895813 total_ms=11.8849277496
+METHOD_STAGE graph=amazon0601 method=bfull_accurate repeat=2 layer1_ms=5.35106658936 relu_ms=1.00302696228 interlayer_conversion_ms=1.05905532837 layer2_ms=4.54688072205 total_ms=11.9600296021
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.014066696167 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0553131103516 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.488042831421 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.588417053223 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.49352645874 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0267028808594 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=0.252485275269 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=0.393390655518 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.0162124633789 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=0.10085105896 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0205039978027 sampled_tiles=100 wall_ms=5.31983375549
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0131130218506 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0443458557129 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.460386276245 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.628709793091 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.456094741821 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.023365020752 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=0.266790390015 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=0.370025634766 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.0112056732178 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0171661376953 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_PROFILE graph=amazon0601 method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0340938568115 sampled_tiles=100 wall_ms=4.64606285095
+METHOD_COMPLETE graph=amazon0601 methods=15 checks=60 pass=1 max_rss_kib=2120108

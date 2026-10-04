@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/as-Skitter/as-Skitter.csrbin
+Matrix: as-Skitter  N=1696415  NNZ=22190596  avg_deg=13.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 105.42 ms
+  run 1: 104.35 ms
+  run 2: 105.44 ms
+  run 3: 104.49 ms
+  run 4: 105.66 ms
+  TFS V3 E2E BEST: 104.35 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 164.13 ms
+  run 1: 163.72 ms
+  run 2: 164.15 ms
+  run 3: 164.05 ms
+  run 4: 163.52 ms
+  MKL E2E BEST: 163.52 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 104.35 ms
+  MKL (FP32):      163.52 ms
+  E2E Speedup:     1.57×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010795  RMSE=1.7434e+02
+First 8:
+  TFS: -4624.96 -24859.84 -17876.94 -5137.20 84.81 398.49 -13633.83 -20492.36 
+  MKL: -4643.98 -25083.39 -18068.94 -5190.35 76.51 388.86 -13794.22 -20682.04 
+METHOD_CONFIG graph=as-Skitter N=1696415 E=22190596 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.296742437 relative_L2=0.0115825632437 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=8.30126953125 mean_abs=0.0179046284721 relative_L2=0.00225482324335 normalized_max=0.00189296892485 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=20868.5 mean_abs=15.6791491598 relative_L2=0.00352892780936 normalized_max=0.00294154813939 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=15.6371669665 relative_L2=0.00443992552771 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=126690.5 mean_abs=63.548522543 relative_L2=0.0148878136328 normalized_max=0.0176650651882 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0625 mean_abs=1.79541313284e-06 relative_L2=2.74232784672e-06 normalized_max=1.42521041339e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=1058.5 mean_abs=0.126094797167 relative_L2=3.99400024691e-05 normalized_max=0.000149202324342 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.125389687031 relative_L2=0.000313044316827 normalized_max=0.00231481481481 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.3174056925 relative_L2=0.0115883329425 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=11.0871582031 mean_abs=0.02222417476 relative_L2=0.00285925158724 normalized_max=0.00252824533216 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=33035 mean_abs=21.8561041524 relative_L2=0.00498187692768 normalized_max=0.00465649389197 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=21.7969242266 relative_L2=0.00547418499778 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=126690.5 mean_abs=69.7754275261 relative_L2=0.0163046695095 normalized_max=0.0176650651882 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.060302734375 mean_abs=1.62392434855e-06 relative_L2=2.33951952847e-06 normalized_max=1.37510535979e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=155.5 mean_abs=0.131979634077 relative_L2=3.85235203836e-05 normalized_max=2.19187165189e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.131339827064 relative_L2=0.000309741926649 normalized_max=0.00115740740741 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.3166646506 relative_L2=0.0115874468321 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=11.982421875 mean_abs=0.0234653225435 relative_L2=0.00304953031939 normalized_max=0.00273239558942 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=37308 mean_abs=24.1472403914 relative_L2=0.00556254660663 normalized_max=0.00525880048802 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=24.0786532215 relative_L2=0.00596740337275 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=72.0711032923 relative_L2=0.0168777332741 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.04443359375 mean_abs=2.29921066266e-06 relative_L2=2.20114479824e-06 normalized_max=1.01323552827e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=97 mean_abs=0.128560007827 relative_L2=3.81990509849e-05 normalized_max=1.36727685037e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.127974044067 relative_L2=0.000308316946638 normalized_max=0.00115740740741 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.316902921 relative_L2=0.0115873663166 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=12.4223632812 mean_abs=0.0239922974647 relative_L2=0.00313874169423 normalized_max=0.00283271704117 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=38756.5 mean_abs=24.8296753954 relative_L2=0.00571218303949 normalized_max=0.00546297579913 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=24.7601353723 relative_L2=0.00610530435335 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=72.6571623948 relative_L2=0.0170026892077 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0419921875 mean_abs=6.26714470851e-06 relative_L2=2.54908241031e-06 normalized_max=9.57563246496e-06 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=110.5 mean_abs=0.122347899245 relative_L2=3.67013032601e-05 normalized_max=1.55756795842e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.121809692584 relative_L2=0.00031071640333 normalized_max=0.00115740740741 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.3249012388 relative_L2=0.0115884707651 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=12.6279296875 mean_abs=0.0240784841519 relative_L2=0.00315525670904 normalized_max=0.00287959310243 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=39734 mean_abs=25.1406410905 relative_L2=0.00581348281862 normalized_max=0.00560076065699 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=25.0699900147 relative_L2=0.00620554813107 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=72.8683128954 relative_L2=0.0170700577075 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.038330078125 mean_abs=1.0212229647e-05 relative_L2=3.40105359858e-06 normalized_max=8.74054823836e-06 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=98.5 mean_abs=0.145807476019 relative_L2=3.85948102342e-05 normalized_max=1.38842030682e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.145261462708 relative_L2=0.000322374939542 normalized_max=0.00115740740741 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.3293851112 relative_L2=0.0115902736847 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=12.7639160156 mean_abs=0.0241241709683 relative_L2=0.00317383389263 normalized_max=0.00291060256337 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=39717.5 mean_abs=25.447340191 relative_L2=0.00592238221834 normalized_max=0.00559843487678 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=25.374573895 relative_L2=0.00630847915001 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.1586083381 relative_L2=0.017168137754 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0478515625 mean_abs=1.26918311543e-05 relative_L2=4.43286143655e-06 normalized_max=1.09117672275e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=132 mean_abs=0.160743608146 relative_L2=3.98353491586e-05 normalized_max=1.86062416752e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.160524014425 relative_L2=0.000344394291288 normalized_max=0.00115740740741 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.3371451971 relative_L2=0.0115919883574 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.05859375 mean_abs=1.44155470569e-05 relative_L2=6.51587562234e-06 normalized_max=1.33613476255e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=174 mean_abs=0.247799351897 relative_L2=5.19874991689e-05 normalized_max=2.4526409481e-05 gate=0.001 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.246892729096 relative_L2=0.000383564387194 normalized_max=0.00115740740741 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.3575111018 relative_L2=0.0115952641068 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=as-Skitter methods=15 pass=1
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=kernel repeat=0 order=0 ms=49.1058826447
+METHOD_TIME graph=as-Skitter method=b2_fast kind=kernel repeat=0 order=1 ms=78.008890152
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=kernel repeat=0 order=2 ms=94.5551395416
+METHOD_TIME graph=as-Skitter method=b4_fast kind=kernel repeat=0 order=3 ms=54.3820858002
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=kernel repeat=0 order=4 ms=66.0231113434
+METHOD_TIME graph=as-Skitter method=b8_fast kind=kernel repeat=0 order=5 ms=48.3000278473
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=kernel repeat=0 order=6 ms=51.0358810425
+METHOD_TIME graph=as-Skitter method=b16_fast kind=kernel repeat=0 order=7 ms=38.8610363007
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=kernel repeat=0 order=8 ms=45.4370975494
+METHOD_TIME graph=as-Skitter method=b32_fast kind=kernel repeat=0 order=9 ms=39.7291183472
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=kernel repeat=0 order=10 ms=42.5071716309
+METHOD_TIME graph=as-Skitter method=b64_fast kind=kernel repeat=0 order=11 ms=38.7759208679
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=kernel repeat=0 order=12 ms=40.6110286713
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=kernel repeat=0 order=13 ms=37.9831790924
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=kernel repeat=0 order=14 ms=39.6339893341
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=114.469051361
+METHOD_TIME graph=as-Skitter method=b2_fast kind=kernel repeat=1 order=0 ms=78.6128044128
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=kernel repeat=1 order=1 ms=98.1919765472
+METHOD_TIME graph=as-Skitter method=b4_fast kind=kernel repeat=1 order=2 ms=56.8170547485
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=kernel repeat=1 order=3 ms=64.9259090424
+METHOD_TIME graph=as-Skitter method=b8_fast kind=kernel repeat=1 order=4 ms=44.7590351105
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=kernel repeat=1 order=5 ms=49.5510101318
+METHOD_TIME graph=as-Skitter method=b16_fast kind=kernel repeat=1 order=6 ms=40.4040813446
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=kernel repeat=1 order=7 ms=43.1571006775
+METHOD_TIME graph=as-Skitter method=b32_fast kind=kernel repeat=1 order=8 ms=39.4620895386
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=kernel repeat=1 order=9 ms=41.0971641541
+METHOD_TIME graph=as-Skitter method=b64_fast kind=kernel repeat=1 order=10 ms=38.0139350891
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=kernel repeat=1 order=11 ms=40.5769348145
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=kernel repeat=1 order=12 ms=37.8031730652
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=kernel repeat=1 order=13 ms=40.7099723816
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=114.274978638
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=kernel repeat=1 order=15 ms=50.1668453217
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=kernel repeat=2 order=0 ms=96.8520641327
+METHOD_TIME graph=as-Skitter method=b4_fast kind=kernel repeat=2 order=1 ms=51.7518520355
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=kernel repeat=2 order=2 ms=64.8968219757
+METHOD_TIME graph=as-Skitter method=b8_fast kind=kernel repeat=2 order=3 ms=47.5142002106
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=kernel repeat=2 order=4 ms=51.1808395386
+METHOD_TIME graph=as-Skitter method=b16_fast kind=kernel repeat=2 order=5 ms=39.6628379822
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=kernel repeat=2 order=6 ms=44.9321269989
+METHOD_TIME graph=as-Skitter method=b32_fast kind=kernel repeat=2 order=7 ms=39.5970344543
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=kernel repeat=2 order=8 ms=42.328119278
+METHOD_TIME graph=as-Skitter method=b64_fast kind=kernel repeat=2 order=9 ms=37.2428894043
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=kernel repeat=2 order=10 ms=42.2208309174
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=kernel repeat=2 order=11 ms=36.7228984833
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=kernel repeat=2 order=12 ms=38.596868515
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=114.167928696
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=kernel repeat=2 order=14 ms=51.2878894806
+METHOD_TIME graph=as-Skitter method=b2_fast kind=kernel repeat=2 order=15 ms=73.0741024017
+METHOD_TIME graph=as-Skitter method=b4_fast kind=kernel repeat=3 order=0 ms=51.4650344849
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=kernel repeat=3 order=1 ms=65.0038719177
+METHOD_TIME graph=as-Skitter method=b8_fast kind=kernel repeat=3 order=2 ms=46.1230278015
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=kernel repeat=3 order=3 ms=50.60505867
+METHOD_TIME graph=as-Skitter method=b16_fast kind=kernel repeat=3 order=4 ms=42.6599979401
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=kernel repeat=3 order=5 ms=42.6771640778
+METHOD_TIME graph=as-Skitter method=b32_fast kind=kernel repeat=3 order=6 ms=40.1980876923
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=kernel repeat=3 order=7 ms=41.7830944061
+METHOD_TIME graph=as-Skitter method=b64_fast kind=kernel repeat=3 order=8 ms=37.8661155701
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=kernel repeat=3 order=9 ms=39.959192276
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=kernel repeat=3 order=10 ms=38.6669635773
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=kernel repeat=3 order=11 ms=40.2090549469
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=115.150928497
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=kernel repeat=3 order=13 ms=49.0338802338
+METHOD_TIME graph=as-Skitter method=b2_fast kind=kernel repeat=3 order=14 ms=74.8410224915
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=kernel repeat=3 order=15 ms=96.6761112213
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=kernel repeat=4 order=0 ms=66.1728382111
+METHOD_TIME graph=as-Skitter method=b8_fast kind=kernel repeat=4 order=1 ms=46.5891361237
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=kernel repeat=4 order=2 ms=51.5739917755
+METHOD_TIME graph=as-Skitter method=b16_fast kind=kernel repeat=4 order=3 ms=41.8200492859
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=kernel repeat=4 order=4 ms=43.830871582
+METHOD_TIME graph=as-Skitter method=b32_fast kind=kernel repeat=4 order=5 ms=38.6230945587
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=kernel repeat=4 order=6 ms=42.4001216888
+METHOD_TIME graph=as-Skitter method=b64_fast kind=kernel repeat=4 order=7 ms=38.8369560242
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=kernel repeat=4 order=8 ms=39.5920276642
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=kernel repeat=4 order=9 ms=38.1181240082
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=kernel repeat=4 order=10 ms=39.4270420074
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=114.51792717
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=kernel repeat=4 order=12 ms=49.674987793
+METHOD_TIME graph=as-Skitter method=b2_fast kind=kernel repeat=4 order=13 ms=76.8837928772
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=kernel repeat=4 order=14 ms=96.8699455261
+METHOD_TIME graph=as-Skitter method=b4_fast kind=kernel repeat=4 order=15 ms=56.046962738
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=e2e repeat=0 order=0 ms=111.217021942
+METHOD_TIME graph=as-Skitter method=b2_fast kind=e2e repeat=0 order=1 ms=153.90920639
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=e2e repeat=0 order=2 ms=194.411039352
+METHOD_TIME graph=as-Skitter method=b4_fast kind=e2e repeat=0 order=3 ms=114.861965179
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=e2e repeat=0 order=4 ms=135.053157806
+METHOD_TIME graph=as-Skitter method=b8_fast kind=e2e repeat=0 order=5 ms=96.1120128632
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=e2e repeat=0 order=6 ms=104.403018951
+METHOD_TIME graph=as-Skitter method=b16_fast kind=e2e repeat=0 order=7 ms=86.6169929504
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=e2e repeat=0 order=8 ms=93.34897995
+METHOD_TIME graph=as-Skitter method=b32_fast kind=e2e repeat=0 order=9 ms=83.1890106201
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=e2e repeat=0 order=10 ms=86.3258838654
+METHOD_TIME graph=as-Skitter method=b64_fast kind=e2e repeat=0 order=11 ms=79.9360275269
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=e2e repeat=0 order=12 ms=84.4120979309
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=e2e repeat=0 order=13 ms=78.1729221344
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=e2e repeat=0 order=14 ms=81.4998149872
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=165.291070938
+METHOD_TIME graph=as-Skitter method=b2_fast kind=e2e repeat=1 order=0 ms=157.647132874
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=e2e repeat=1 order=1 ms=194.766044617
+METHOD_TIME graph=as-Skitter method=b4_fast kind=e2e repeat=1 order=2 ms=115.329027176
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=e2e repeat=1 order=3 ms=136.98887825
+METHOD_TIME graph=as-Skitter method=b8_fast kind=e2e repeat=1 order=4 ms=97.9509353638
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=e2e repeat=1 order=5 ms=108.263015747
+METHOD_TIME graph=as-Skitter method=b16_fast kind=e2e repeat=1 order=6 ms=89.3778800964
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=e2e repeat=1 order=7 ms=93.1489467621
+METHOD_TIME graph=as-Skitter method=b32_fast kind=e2e repeat=1 order=8 ms=82.4778079987
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=e2e repeat=1 order=9 ms=85.1349830627
+METHOD_TIME graph=as-Skitter method=b64_fast kind=e2e repeat=1 order=10 ms=80.2450180054
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=e2e repeat=1 order=11 ms=84.1648578644
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=e2e repeat=1 order=12 ms=81.7549228668
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=e2e repeat=1 order=13 ms=79.754114151
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=164.577960968
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=e2e repeat=1 order=15 ms=109.836816788
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=e2e repeat=2 order=0 ms=197.845935822
+METHOD_TIME graph=as-Skitter method=b4_fast kind=e2e repeat=2 order=1 ms=114.902019501
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=e2e repeat=2 order=2 ms=134.387016296
+METHOD_TIME graph=as-Skitter method=b8_fast kind=e2e repeat=2 order=3 ms=97.846031189
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=e2e repeat=2 order=4 ms=108.280897141
+METHOD_TIME graph=as-Skitter method=b16_fast kind=e2e repeat=2 order=5 ms=90.8739566803
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=e2e repeat=2 order=6 ms=90.7170772552
+METHOD_TIME graph=as-Skitter method=b32_fast kind=e2e repeat=2 order=7 ms=84.7120285034
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=e2e repeat=2 order=8 ms=87.4350070953
+METHOD_TIME graph=as-Skitter method=b64_fast kind=e2e repeat=2 order=9 ms=80.6531906128
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=e2e repeat=2 order=10 ms=84.3601226807
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=e2e repeat=2 order=11 ms=80.6300640106
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=e2e repeat=2 order=12 ms=84.2339992523
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=164.851903915
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=e2e repeat=2 order=14 ms=107.971906662
+METHOD_TIME graph=as-Skitter method=b2_fast kind=e2e repeat=2 order=15 ms=152.455091476
+METHOD_TIME graph=as-Skitter method=b4_fast kind=e2e repeat=3 order=0 ms=116.086006165
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=e2e repeat=3 order=1 ms=136.603116989
+METHOD_TIME graph=as-Skitter method=b8_fast kind=e2e repeat=3 order=2 ms=97.2120761871
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=e2e repeat=3 order=3 ms=109.95388031
+METHOD_TIME graph=as-Skitter method=b16_fast kind=e2e repeat=3 order=4 ms=88.6409282684
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=e2e repeat=3 order=5 ms=91.6028022766
+METHOD_TIME graph=as-Skitter method=b32_fast kind=e2e repeat=3 order=6 ms=81.0930728912
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=e2e repeat=3 order=7 ms=85.4508876801
+METHOD_TIME graph=as-Skitter method=b64_fast kind=e2e repeat=3 order=8 ms=81.237077713
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=e2e repeat=3 order=9 ms=83.2140445709
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=e2e repeat=3 order=10 ms=80.8818340302
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=e2e repeat=3 order=11 ms=83.8520526886
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=163.772106171
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=e2e repeat=3 order=13 ms=106.126070023
+METHOD_TIME graph=as-Skitter method=b2_fast kind=e2e repeat=3 order=14 ms=150.736093521
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=e2e repeat=3 order=15 ms=188.711166382
+METHOD_TIME graph=as-Skitter method=b4_accurate kind=e2e repeat=4 order=0 ms=133.805036545
+METHOD_TIME graph=as-Skitter method=b8_fast kind=e2e repeat=4 order=1 ms=96.3039398193
+METHOD_TIME graph=as-Skitter method=b8_accurate kind=e2e repeat=4 order=2 ms=107.439994812
+METHOD_TIME graph=as-Skitter method=b16_fast kind=e2e repeat=4 order=3 ms=90.1548862457
+METHOD_TIME graph=as-Skitter method=b16_accurate kind=e2e repeat=4 order=4 ms=94.4538116455
+METHOD_TIME graph=as-Skitter method=b32_fast kind=e2e repeat=4 order=5 ms=82.5741291046
+METHOD_TIME graph=as-Skitter method=b32_accurate kind=e2e repeat=4 order=6 ms=85.2589607239
+METHOD_TIME graph=as-Skitter method=b64_fast kind=e2e repeat=4 order=7 ms=80.8849334717
+METHOD_TIME graph=as-Skitter method=b64_accurate kind=e2e repeat=4 order=8 ms=86.2109661102
+METHOD_TIME graph=as-Skitter method=bfull_fast kind=e2e repeat=4 order=9 ms=79.3750286102
+METHOD_TIME graph=as-Skitter method=bfull_accurate kind=e2e repeat=4 order=10 ms=81.4030170441
+METHOD_TIME graph=as-Skitter method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=164.45684433
+METHOD_TIME graph=as-Skitter method=paper_tfs kind=e2e repeat=4 order=12 ms=109.894037247
+METHOD_TIME graph=as-Skitter method=b2_fast kind=e2e repeat=4 order=13 ms=153.989076614
+METHOD_TIME graph=as-Skitter method=b2_accurate kind=e2e repeat=4 order=14 ms=196.177959442
+METHOD_TIME graph=as-Skitter method=b4_fast kind=e2e repeat=4 order=15 ms=116.513967514
+METHOD_STAGE graph=as-Skitter method=paper_tfs repeat=0 layer1_ms=51.8720149994 relu_ms=3.10492515564 interlayer_conversion_ms=3.6289691925 layer2_ms=48.1650829315 total_ms=106.770992279
+METHOD_STAGE graph=as-Skitter method=paper_tfs repeat=1 layer1_ms=49.9889850616 relu_ms=3.16500663757 interlayer_conversion_ms=3.60512733459 layer2_ms=45.8629131317 total_ms=102.622032166
+METHOD_STAGE graph=as-Skitter method=paper_tfs repeat=2 layer1_ms=49.4821071625 relu_ms=3.13997268677 interlayer_conversion_ms=3.58295440674 layer2_ms=46.9760894775 total_ms=103.181123734
+METHOD_STAGE graph=as-Skitter method=b2_fast repeat=0 layer1_ms=69.2381858826 relu_ms=3.11684608459 interlayer_conversion_ms=3.60703468323 layer2_ms=72.3528862 total_ms=148.31495285
+METHOD_STAGE graph=as-Skitter method=b2_fast repeat=1 layer1_ms=78.0749320984 relu_ms=3.15594673157 interlayer_conversion_ms=3.57413291931 layer2_ms=67.5320625305 total_ms=152.33707428
+METHOD_STAGE graph=as-Skitter method=b2_fast repeat=2 layer1_ms=76.3640403748 relu_ms=3.13878059387 interlayer_conversion_ms=3.56221199036 layer2_ms=69.9388980865 total_ms=153.003931046
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.0238418579102 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.120639801025 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=3.28755378723 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=16.3924694061 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=21.3885307312 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=25.3567695618 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.9661655426 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=tile_load sampled_thread_ms=14.092206955 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=20.6401348114 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=tile_store sampled_thread_ms=2.02584266663 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=0.665664672852 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0169277191162 sampled_tiles=416 wall_ms=207.314968109
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.0894069671631 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=3.1898021698 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=16.4880752563 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=21.5964317322 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=24.4677066803 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=2.90489196777 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=tile_load sampled_thread_ms=14.1370296478 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=20.9403038025 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=tile_store sampled_thread_ms=2.05302238464 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.0557899475098 sampled_tiles=416 wall_ms=199.991941452
+METHOD_PROFILE graph=as-Skitter method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=416 wall_ms=199.991941452
+METHOD_STAGE graph=as-Skitter method=b2_accurate repeat=0 layer1_ms=88.3851051331 relu_ms=3.15308570862 interlayer_conversion_ms=3.57294082642 layer2_ms=93.985080719 total_ms=189.096212387
+METHOD_STAGE graph=as-Skitter method=b2_accurate repeat=1 layer1_ms=95.1809883118 relu_ms=3.07202339172 interlayer_conversion_ms=3.60488891602 layer2_ms=93.7309265137 total_ms=195.588827133
+METHOD_STAGE graph=as-Skitter method=b2_accurate repeat=2 layer1_ms=96.6908931732 relu_ms=3.11613082886 interlayer_conversion_ms=3.57985496521 layer2_ms=91.933965683 total_ms=195.32084465
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0929832458496 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=3.39436531067 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=16.4933204651 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=21.4660167694 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=24.2774486542 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=5.14554977417 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=25.3944396973 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=29.0622711182 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=1.81221961975 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=0.420808792114 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0238418579102 sampled_tiles=416 wall_ms=249.852895737
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.120162963867 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=3.26013565063 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=16.2441730499 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=20.7617282867 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=24.2695808411 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=5.19204139709 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=25.4182815552 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=28.2492637634 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=1.80721282959 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0760555267334 sampled_tiles=416 wall_ms=244.205951691
+METHOD_PROFILE graph=as-Skitter method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=416 wall_ms=244.205951691
+METHOD_STAGE graph=as-Skitter method=b4_fast repeat=0 layer1_ms=56.636095047 relu_ms=3.06296348572 interlayer_conversion_ms=3.64303588867 layer2_ms=52.7219772339 total_ms=116.064071655
+METHOD_STAGE graph=as-Skitter method=b4_fast repeat=1 layer1_ms=55.2470684052 relu_ms=3.14903259277 interlayer_conversion_ms=3.57699394226 layer2_ms=49.7119426727 total_ms=111.685037613
+METHOD_STAGE graph=as-Skitter method=b4_fast repeat=2 layer1_ms=56.9641590118 relu_ms=3.2069683075 interlayer_conversion_ms=3.6039352417 layer2_ms=52.8390407562 total_ms=116.614103317
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.146865844727 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=1.70183181763 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=15.6202316284 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=19.5505619049 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=19.5009708405 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.50942802429 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=tile_load sampled_thread_ms=7.82513618469 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=10.701417923 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=tile_store sampled_thread_ms=1.10459327698 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=0.439405441284 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0224113464355 sampled_tiles=416 wall_ms=154.008150101
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0.114440917969 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=1.80745124817 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=15.763759613 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=19.5951461792 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=19.5910930634 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.50895118713 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=tile_load sampled_thread_ms=7.92860984802 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=10.6880664825 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=tile_store sampled_thread_ms=1.03211402893 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0.0724792480469 sampled_tiles=416 wall_ms=154.417037964
+METHOD_PROFILE graph=as-Skitter method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0240802764893 sampled_tiles=416 wall_ms=154.417037964
+METHOD_STAGE graph=as-Skitter method=b4_accurate repeat=0 layer1_ms=67.8970813751 relu_ms=3.16095352173 interlayer_conversion_ms=3.57604026794 layer2_ms=64.7411346436 total_ms=139.375209808
+METHOD_STAGE graph=as-Skitter method=b4_accurate repeat=1 layer1_ms=65.5949115753 relu_ms=3.1840801239 interlayer_conversion_ms=3.56197357178 layer2_ms=63.2419586182 total_ms=135.582923889
+METHOD_STAGE graph=as-Skitter method=b4_accurate repeat=2 layer1_ms=61.3460540771 relu_ms=3.13401222229 interlayer_conversion_ms=3.5719871521 layer2_ms=64.1579627991 total_ms=132.210016251
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.114917755127 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=1.78384780884 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=15.5131816864 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=19.3138122559 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=19.6249485016 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.68316268921 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=13.7526988983 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=15.1925086975 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=0.920295715332 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=0.444412231445 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0185966491699 sampled_tiles=416 wall_ms=179.886102676
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.117063522339 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=1.72662734985 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=15.7186985016 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=19.223690033 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=19.3662643433 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=2.7277469635 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=13.427734375 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=14.7271156311 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=0.97393989563 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0829696655273 sampled_tiles=416 wall_ms=175.23598671
+METHOD_PROFILE graph=as-Skitter method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0174045562744 sampled_tiles=416 wall_ms=175.23598671
+METHOD_STAGE graph=as-Skitter method=b8_fast repeat=0 layer1_ms=45.4897880554 relu_ms=3.19814682007 interlayer_conversion_ms=3.54599952698 layer2_ms=43.6389446259 total_ms=95.8728790283
+METHOD_STAGE graph=as-Skitter method=b8_fast repeat=1 layer1_ms=46.7340946198 relu_ms=3.1430721283 interlayer_conversion_ms=3.58486175537 layer2_ms=42.5679683685 total_ms=96.0299968719
+METHOD_STAGE graph=as-Skitter method=b8_fast repeat=2 layer1_ms=46.5769767761 relu_ms=3.13806533813 interlayer_conversion_ms=3.59010696411 layer2_ms=43.4169769287 total_ms=96.7221260071
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.115394592285 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=0.94747543335 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=15.5186653137 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.7242031097 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=17.0402526855 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.816583633423 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=tile_load sampled_thread_ms=4.22668457031 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=5.91635704041 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=tile_store sampled_thread_ms=0.554800033569 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=0.451564788818 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0154972076416 sampled_tiles=416 wall_ms=132.815122604
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.115156173706 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=0.940322875977 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=15.6495571136 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=18.7046527863 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=17.0087814331 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.804424285889 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=tile_load sampled_thread_ms=4.35400009155 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=5.85222244263 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=tile_store sampled_thread_ms=0.539302825928 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.0731945037842 sampled_tiles=416 wall_ms=127.803087234
+METHOD_PROFILE graph=as-Skitter method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0221729278564 sampled_tiles=416 wall_ms=127.803087234
+METHOD_STAGE graph=as-Skitter method=b8_accurate repeat=0 layer1_ms=49.7279167175 relu_ms=3.8321018219 interlayer_conversion_ms=4.36496734619 layer2_ms=49.3879318237 total_ms=107.312917709
+METHOD_STAGE graph=as-Skitter method=b8_accurate repeat=1 layer1_ms=52.7591705322 relu_ms=3.07893753052 interlayer_conversion_ms=3.62205505371 layer2_ms=48.9029884338 total_ms=108.36315155
+METHOD_STAGE graph=as-Skitter method=b8_accurate repeat=2 layer1_ms=50.5928993225 relu_ms=3.07703018188 interlayer_conversion_ms=3.61299514771 layer2_ms=49.9861240387 total_ms=107.269048691
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0848770141602 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=0.888109207153 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=15.7442092896 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=18.6417102814 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=17.1258449554 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.40428543091 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=7.18379020691 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=8.66627693176 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.450611114502 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=0.456094741821 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0214576721191 sampled_tiles=416 wall_ms=145.169973373
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.109910964966 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=0.954627990723 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=15.8603191376 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=18.6505317688 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=17.0891284943 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.35016441345 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=7.1849822998 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=8.58449935913 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=0.472545623779 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0693798065186 sampled_tiles=416 wall_ms=140.554904938
+METHOD_PROFILE graph=as-Skitter method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0200271606445 sampled_tiles=416 wall_ms=140.554904938
+METHOD_STAGE graph=as-Skitter method=b16_fast repeat=0 layer1_ms=41.374206543 relu_ms=3.10587882996 interlayer_conversion_ms=3.61704826355 layer2_ms=40.9288406372 total_ms=89.0259742737
+METHOD_STAGE graph=as-Skitter method=b16_fast repeat=1 layer1_ms=41.6989326477 relu_ms=3.11207771301 interlayer_conversion_ms=3.60798835754 layer2_ms=38.0308628082 total_ms=86.4498615265
+METHOD_STAGE graph=as-Skitter method=b16_fast repeat=2 layer1_ms=42.2978401184 relu_ms=3.11398506165 interlayer_conversion_ms=3.59702110291 layer2_ms=39.4730567932 total_ms=88.4819030762
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0.134468078613 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.532865524292 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=15.5792236328 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.2075500488 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=15.7535076141 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.45371055603 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=tile_load sampled_thread_ms=2.5155544281 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=3.48448753357 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.28920173645 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=0.4723072052 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0174045562744 sampled_tiles=416 wall_ms=119.423151016
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.0927448272705 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.585079193115 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=15.4905319214 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=18.3823108673 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=15.8607959747 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.400066375732 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=tile_load sampled_thread_ms=2.49123573303 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=3.52025032043 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.304222106934 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.0629425048828 sampled_tiles=416 wall_ms=117.563962936
+METHOD_PROFILE graph=as-Skitter method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0214576721191 sampled_tiles=416 wall_ms=117.563962936
+METHOD_STAGE graph=as-Skitter method=b16_accurate repeat=0 layer1_ms=44.6820259094 relu_ms=3.11994552612 interlayer_conversion_ms=3.59511375427 layer2_ms=42.2918796539 total_ms=93.6889648438
+METHOD_STAGE graph=as-Skitter method=b16_accurate repeat=1 layer1_ms=44.9891090393 relu_ms=3.10301780701 interlayer_conversion_ms=3.60894203186 layer2_ms=43.2949066162 total_ms=94.9959754944
+METHOD_STAGE graph=as-Skitter method=b16_accurate repeat=2 layer1_ms=44.3248748779 relu_ms=3.09300422668 interlayer_conversion_ms=3.61204147339 layer2_ms=41.0680770874 total_ms=92.0979976654
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.109910964966 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.562191009521 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=15.8720016479 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=18.7401771545 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=15.7351493835 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.694990158081 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=4.20641899109 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=5.48243522644 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.259637832642 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=0.456809997559 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.016450881958 sampled_tiles=416 wall_ms=124.414920807
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.114917755127 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.532388687134 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=15.5715942383 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=18.5379981995 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=15.8302783966 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.742673873901 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=4.10962104797 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=5.21993637085 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.256299972534 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0791549682617 sampled_tiles=416 wall_ms=124.614953995
+METHOD_PROFILE graph=as-Skitter method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0190734863281 sampled_tiles=416 wall_ms=124.614953995
+METHOD_STAGE graph=as-Skitter method=b32_fast repeat=0 layer1_ms=38.8422012329 relu_ms=3.17287445068 interlayer_conversion_ms=3.57007980347 layer2_ms=38.2928848267 total_ms=83.8780403137
+METHOD_STAGE graph=as-Skitter method=b32_fast repeat=1 layer1_ms=39.5381450653 relu_ms=3.12185287476 interlayer_conversion_ms=3.60703468323 layer2_ms=36.1790657043 total_ms=82.4460983276
+METHOD_STAGE graph=as-Skitter method=b32_fast repeat=2 layer1_ms=40.4379367828 relu_ms=3.09300422668 interlayer_conversion_ms=3.61919403076 layer2_ms=36.584854126 total_ms=83.7349891663
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.125885009766 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.36358833313 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=15.4559612274 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.1498527527 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=15.13671875 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.295400619507 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=tile_load sampled_thread_ms=1.57141685486 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=2.27022171021 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.171899795532 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=0.44584274292 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0197887420654 sampled_tiles=416 wall_ms=114.603996277
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.110626220703 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.369787216187 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=15.4407024384 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=18.3095932007 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=15.0003433228 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.290393829346 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=tile_load sampled_thread_ms=1.56879425049 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=2.52771377563 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.175714492798 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.0741481781006 sampled_tiles=416 wall_ms=111.147165298
+METHOD_PROFILE graph=as-Skitter method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=416 wall_ms=111.147165298
+METHOD_STAGE graph=as-Skitter method=b32_accurate repeat=0 layer1_ms=41.9578552246 relu_ms=3.10611724854 interlayer_conversion_ms=3.59892845154 layer2_ms=39.2119884491 total_ms=87.8748893738
+METHOD_STAGE graph=as-Skitter method=b32_accurate repeat=1 layer1_ms=40.9111976624 relu_ms=3.10492515564 interlayer_conversion_ms=3.60608100891 layer2_ms=37.4338626862 total_ms=85.0560665131
+METHOD_STAGE graph=as-Skitter method=b32_accurate repeat=2 layer1_ms=41.2271022797 relu_ms=3.18598747253 interlayer_conversion_ms=3.57103347778 layer2_ms=38.6879444122 total_ms=86.6720676422
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.108480453491 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.31304359436 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=15.6142711639 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=18.0683135986 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=15.2885913849 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.405311584473 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=2.55680084229 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=3.57222557068 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.155687332153 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=0.470638275146 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0183582305908 sampled_tiles=416 wall_ms=116.100072861
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.102519989014 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.341415405273 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=15.4006481171 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=18.4183120728 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=15.1648521423 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.414848327637 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=2.65073776245 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=3.43441963196 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.162839889526 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0855922698975 sampled_tiles=416 wall_ms=115.591049194
+METHOD_PROFILE graph=as-Skitter method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0143051147461 sampled_tiles=416 wall_ms=115.591049194
+METHOD_STAGE graph=as-Skitter method=b64_fast repeat=0 layer1_ms=38.5210514069 relu_ms=3.16905975342 interlayer_conversion_ms=3.58700752258 layer2_ms=36.1139774323 total_ms=81.3910961151
+METHOD_STAGE graph=as-Skitter method=b64_fast repeat=1 layer1_ms=38.4819507599 relu_ms=3.13997268677 interlayer_conversion_ms=3.58319282532 layer2_ms=35.2568626404 total_ms=80.4619789124
+METHOD_STAGE graph=as-Skitter method=b64_fast repeat=2 layer1_ms=38.5060310364 relu_ms=3.1361579895 interlayer_conversion_ms=3.59797477722 layer2_ms=34.8799228668 total_ms=80.1200866699
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.126361846924 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.211000442505 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=15.2659416199 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.1741714478 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=14.5502090454 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.187158584595 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=tile_load sampled_thread_ms=1.0929107666 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=1.76787376404 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.109434127808 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=0.454187393188 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0209808349609 sampled_tiles=416 wall_ms=109.153032303
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.110149383545 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.224351882935 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=15.3102874756 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=18.0237293243 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=14.6315097809 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.173091888428 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=tile_load sampled_thread_ms=1.15418434143 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=1.83367729187 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.135660171509 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.0793933868408 sampled_tiles=416 wall_ms=107.744932175
+METHOD_PROFILE graph=as-Skitter method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0197887420654 sampled_tiles=416 wall_ms=107.744932175
+METHOD_STAGE graph=as-Skitter method=b64_accurate repeat=0 layer1_ms=37.9440784454 relu_ms=3.1750202179 interlayer_conversion_ms=3.56793403625 layer2_ms=37.0981693268 total_ms=81.7852020264
+METHOD_STAGE graph=as-Skitter method=b64_accurate repeat=1 layer1_ms=39.3598079681 relu_ms=3.14116477966 interlayer_conversion_ms=3.57604026794 layer2_ms=36.5328788757 total_ms=82.6098918915
+METHOD_STAGE graph=as-Skitter method=b64_accurate repeat=2 layer1_ms=38.7010574341 relu_ms=3.11613082886 interlayer_conversion_ms=3.58080863953 layer2_ms=36.7391109467 total_ms=82.1371078491
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.104904174805 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.242471694946 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=15.5711174011 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=18.275976181 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=14.7411823273 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.275611877441 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=1.76739692688 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=2.69818305969 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.110387802124 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=0.442743301392 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0228881835938 sampled_tiles=416 wall_ms=112.452030182
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.113964080811 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.25200843811 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=15.4981613159 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=18.1946754456 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=14.7535800934 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.300407409668 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=1.79266929626 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=2.52556800842 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.109434127808 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0686645507812 sampled_tiles=416 wall_ms=111.157894135
+METHOD_PROFILE graph=as-Skitter method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0224113464355 sampled_tiles=416 wall_ms=111.157894135
+METHOD_STAGE graph=as-Skitter method=bfull_fast repeat=0 layer1_ms=37.8251075745 relu_ms=3.07989120483 interlayer_conversion_ms=3.61609458923 layer2_ms=35.2170467377 total_ms=79.7381401062
+METHOD_STAGE graph=as-Skitter method=bfull_fast repeat=1 layer1_ms=38.1278991699 relu_ms=3.48615646362 interlayer_conversion_ms=4.52280044556 layer2_ms=34.2102050781 total_ms=80.3470611572
+METHOD_STAGE graph=as-Skitter method=bfull_fast repeat=2 layer1_ms=37.3539924622 relu_ms=3.09300422668 interlayer_conversion_ms=3.61204147339 layer2_ms=35.1269245148 total_ms=79.185962677
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.125646591187 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.127792358398 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=14.5444869995 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=17.1251296997 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=13.6885643005 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0839233398438 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=0.505685806274 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=1.22237205505 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.0567436218262 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=0.466585159302 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0197887420654 sampled_tiles=416 wall_ms=103.44004631
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.104188919067 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.165700912476 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=14.5223140717 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=17.1883106232 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=13.6985778809 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0700950622559 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=0.468969345093 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=1.30248069763 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.0619888305664 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.0872611999512 sampled_tiles=416 wall_ms=101.988077164
+METHOD_PROFILE graph=as-Skitter method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0145435333252 sampled_tiles=416 wall_ms=101.988077164
+METHOD_STAGE graph=as-Skitter method=bfull_accurate repeat=0 layer1_ms=39.204120636 relu_ms=3.08609008789 interlayer_conversion_ms=3.61585617065 layer2_ms=36.6661548615 total_ms=82.572221756
+METHOD_STAGE graph=as-Skitter method=bfull_accurate repeat=1 layer1_ms=39.8588180542 relu_ms=3.1681060791 interlayer_conversion_ms=3.55505943298 layer2_ms=35.9928607941 total_ms=82.5748443604
+METHOD_STAGE graph=as-Skitter method=bfull_accurate repeat=2 layer1_ms=38.5918617249 relu_ms=3.10206413269 interlayer_conversion_ms=3.61895561218 layer2_ms=36.17811203 total_ms=81.4909934998
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.106811523438 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.147104263306 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=14.7297382355 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=17.0378684998 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=13.7176513672 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.12731552124 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=0.855445861816 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=1.82008743286 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.0510215759277 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=0.462055206299 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0152587890625 sampled_tiles=416 wall_ms=102.012872696
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0989437103271 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.156879425049 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=14.4824981689 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=17.2426700592 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=13.8041973114 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.117301940918 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=0.916719436646 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=1.72758102417 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.0543594360352 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0824928283691 sampled_tiles=416 wall_ms=102.486848831
+METHOD_PROFILE graph=as-Skitter method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.018835067749 sampled_tiles=416 wall_ms=102.486848831
+METHOD_COMPLETE graph=as-Skitter methods=15 checks=60 pass=1 max_rss_kib=8977432

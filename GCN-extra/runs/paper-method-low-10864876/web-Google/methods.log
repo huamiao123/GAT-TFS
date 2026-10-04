@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/web-Google/web-Google.csrbin
+Matrix: web-Google  N=916428  NNZ=5105039  avg_deg=5.6
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 20.91 ms
+  run 1: 21.07 ms
+  run 2: 21.01 ms
+  run 3: 20.99 ms
+  run 4: 20.97 ms
+  TFS V3 E2E BEST: 20.91 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 47.47 ms
+  run 1: 47.53 ms
+  run 2: 47.39 ms
+  run 3: 47.83 ms
+  run 4: 47.41 ms
+  MKL E2E BEST: 47.39 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 20.91 ms
+  MKL (FP32):      47.39 ms
+  E2E Speedup:     2.27×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010098  RMSE=4.2428e+00
+First 8:
+  TFS: 1.26 -199.48 -333.10 5.93 33.54 46.40 -79.69 -134.20 
+  MKL: 1.78 -200.73 -336.73 6.12 33.62 46.02 -80.46 -135.35 
+METHOD_CONFIG graph=web-Google N=916428 E=5105039 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55826937075 relative_L2=0.0131663707239 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.658058166504 mean_abs=0.0122864588357 relative_L2=0.00229287389597 normalized_max=0.00258655093076 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=135.23046875 mean_abs=0.661050390754 relative_L2=0.00338539719708 normalized_max=0.00315300570636 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=128 mean_abs=0.659396168523 relative_L2=0.00428796548863 normalized_max=0.00299401197605 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=3.12795555852 relative_L2=0.0161596774736 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00048828125 mean_abs=7.17819848195e-07 relative_L2=1.9082321084e-07 normalized_max=1.91922900732e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.398498535156 mean_abs=0.000262296758178 relative_L2=9.32796138655e-06 normalized_max=9.29130962081e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32 mean_abs=0.000257206852272 relative_L2=7.4373577021e-05 normalized_max=0.000748502994012 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.5582703889 relative_L2=0.0131663398432 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.943222045898 mean_abs=0.0152105557656 relative_L2=0.00285754553086 normalized_max=0.00370741065899 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=196.80859375 mean_abs=0.916340641625 relative_L2=0.00475648428924 normalized_max=0.00458874856303 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.914070713448 relative_L2=0.00532655834908 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.39436821649 relative_L2=0.017558307016 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000579833984375 mean_abs=6.76258720331e-07 relative_L2=1.73655376324e-07 normalized_max=2.2790844462e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.398406982422 mean_abs=0.000271315015195 relative_L2=8.89250777697e-06 normalized_max=9.28917499614e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32 mean_abs=0.00027685410454 relative_L2=7.47733001087e-05 normalized_max=0.000748502994012 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.5582902995 relative_L2=0.0131664240948 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.73681640625 mean_abs=0.016078112766 relative_L2=0.00303171412016 normalized_max=0.00289611657205 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=216.0234375 mean_abs=1.0265639348 relative_L2=0.00534268996261 normalized_max=0.00503675789517 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.02375358426 relative_L2=0.00581097121152 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.50362405266 relative_L2=0.0181261946336 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00042724609375 mean_abs=1.03739500959e-06 relative_L2=4.94889597792e-07 normalized_max=1.67932538141e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.732421875 mean_abs=0.000465535535379 relative_L2=1.12716031291e-05 normalized_max=1.70769973119e-05 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=0.000456217805547 relative_L2=9.96686141611e-05 normalized_max=0.00149700598802 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55828132701 relative_L2=0.0131664102717 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.776458740234 mean_abs=0.0164501825122 relative_L2=0.00311731191419 normalized_max=0.00305193397708 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=242.40234375 mean_abs=1.08238516442 relative_L2=0.00566063393002 normalized_max=0.00565180303036 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.07934994097 relative_L2=0.00609524367497 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.55365605673 relative_L2=0.0184002828894 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000534057617188 mean_abs=3.09557521242e-06 relative_L2=1.28370012679e-06 normalized_max=2.09915672676e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.989379882812 mean_abs=0.00150525273105 relative_L2=2.13845752651e-05 normalized_max=2.30681772022e-05 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=0.00148549992828 relative_L2=0.000179254357361 normalized_max=0.00149700598802 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55834627226 relative_L2=0.0131668504434 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.803985595703 mean_abs=0.0165069892111 relative_L2=0.00313326419618 normalized_max=0.00316013051237 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=239.85546875 mean_abs=1.09550060619 relative_L2=0.00577645112726 normalized_max=0.00559242061837 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09230464021 relative_L2=0.00620433497249 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56490304137 relative_L2=0.0184970824593 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000785827636719 mean_abs=3.76241554535e-06 relative_L2=1.59874166122e-06 normalized_max=3.08875918366e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.989868164062 mean_abs=0.0021268120789 relative_L2=2.59792206344e-05 normalized_max=2.30795618671e-05 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=0.00212950650381 relative_L2=0.000206860560676 normalized_max=0.00149700598802 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55839032381 relative_L2=0.0131671938543 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.785339355469 mean_abs=0.0165102109181 relative_L2=0.00313470904496 normalized_max=0.00308683995465 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=250.734375 mean_abs=1.09735202262 relative_L2=0.00579343270334 normalized_max=0.00584607095178 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.0941678288 relative_L2=0.00621922114826 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56662743723 relative_L2=0.0185075073576 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00140380859375 mean_abs=3.8645378833e-06 relative_L2=1.72403873835e-06 normalized_max=5.51778339605e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.989868164062 mean_abs=0.0021598240435 relative_L2=2.70953680847e-05 normalized_max=2.30795618671e-05 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=0.00215816125157 relative_L2=0.00021223500033 normalized_max=0.00149700598802 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55840684614 relative_L2=0.0131674870155 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00238800048828 mean_abs=3.88771503757e-06 relative_L2=1.78155993192e-06 normalized_max=9.38622936394e-06 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.989868164062 mean_abs=0.00220585729248 relative_L2=2.85605374328e-05 normalized_max=2.30795618671e-05 gate=0.001 pass=1
+METHOD_CHECK graph=web-Google method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=0.00220057463454 relative_L2=0.000215257449702 normalized_max=0.00149700598802 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55842348191 relative_L2=0.0131676065531 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=web-Google methods=15 pass=1
+METHOD_TIME graph=web-Google method=paper_tfs kind=kernel repeat=0 order=0 ms=9.43088531494
+METHOD_TIME graph=web-Google method=b2_fast kind=kernel repeat=0 order=1 ms=13.5099887848
+METHOD_TIME graph=web-Google method=b2_accurate kind=kernel repeat=0 order=2 ms=15.3298377991
+METHOD_TIME graph=web-Google method=b4_fast kind=kernel repeat=0 order=3 ms=10.7550621033
+METHOD_TIME graph=web-Google method=b4_accurate kind=kernel repeat=0 order=4 ms=12.3269557953
+METHOD_TIME graph=web-Google method=b8_fast kind=kernel repeat=0 order=5 ms=9.9401473999
+METHOD_TIME graph=web-Google method=b8_accurate kind=kernel repeat=0 order=6 ms=10.6689929962
+METHOD_TIME graph=web-Google method=b16_fast kind=kernel repeat=0 order=7 ms=9.31906700134
+METHOD_TIME graph=web-Google method=b16_accurate kind=kernel repeat=0 order=8 ms=9.97996330261
+METHOD_TIME graph=web-Google method=b32_fast kind=kernel repeat=0 order=9 ms=9.24921035767
+METHOD_TIME graph=web-Google method=b32_accurate kind=kernel repeat=0 order=10 ms=9.65905189514
+METHOD_TIME graph=web-Google method=b64_fast kind=kernel repeat=0 order=11 ms=9.202003479
+METHOD_TIME graph=web-Google method=b64_accurate kind=kernel repeat=0 order=12 ms=9.70602035522
+METHOD_TIME graph=web-Google method=bfull_fast kind=kernel repeat=0 order=13 ms=9.11808013916
+METHOD_TIME graph=web-Google method=bfull_accurate kind=kernel repeat=0 order=14 ms=9.87100601196
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=29.8228263855
+METHOD_TIME graph=web-Google method=b2_fast kind=kernel repeat=1 order=0 ms=13.5779380798
+METHOD_TIME graph=web-Google method=b2_accurate kind=kernel repeat=1 order=1 ms=15.6269073486
+METHOD_TIME graph=web-Google method=b4_fast kind=kernel repeat=1 order=2 ms=10.8118057251
+METHOD_TIME graph=web-Google method=b4_accurate kind=kernel repeat=1 order=3 ms=11.962890625
+METHOD_TIME graph=web-Google method=b8_fast kind=kernel repeat=1 order=4 ms=9.83500480652
+METHOD_TIME graph=web-Google method=b8_accurate kind=kernel repeat=1 order=5 ms=10.8399391174
+METHOD_TIME graph=web-Google method=b16_fast kind=kernel repeat=1 order=6 ms=9.33194160461
+METHOD_TIME graph=web-Google method=b16_accurate kind=kernel repeat=1 order=7 ms=9.88006591797
+METHOD_TIME graph=web-Google method=b32_fast kind=kernel repeat=1 order=8 ms=9.24301147461
+METHOD_TIME graph=web-Google method=b32_accurate kind=kernel repeat=1 order=9 ms=9.64498519897
+METHOD_TIME graph=web-Google method=b64_fast kind=kernel repeat=1 order=10 ms=9.13119316101
+METHOD_TIME graph=web-Google method=b64_accurate kind=kernel repeat=1 order=11 ms=9.8021030426
+METHOD_TIME graph=web-Google method=bfull_fast kind=kernel repeat=1 order=12 ms=9.09996032715
+METHOD_TIME graph=web-Google method=bfull_accurate kind=kernel repeat=1 order=13 ms=9.71603393555
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=29.87408638
+METHOD_TIME graph=web-Google method=paper_tfs kind=kernel repeat=1 order=15 ms=9.23109054565
+METHOD_TIME graph=web-Google method=b2_accurate kind=kernel repeat=2 order=0 ms=15.2351856232
+METHOD_TIME graph=web-Google method=b4_fast kind=kernel repeat=2 order=1 ms=11.0890865326
+METHOD_TIME graph=web-Google method=b4_accurate kind=kernel repeat=2 order=2 ms=12.1250152588
+METHOD_TIME graph=web-Google method=b8_fast kind=kernel repeat=2 order=3 ms=9.94896888733
+METHOD_TIME graph=web-Google method=b8_accurate kind=kernel repeat=2 order=4 ms=10.6749534607
+METHOD_TIME graph=web-Google method=b16_fast kind=kernel repeat=2 order=5 ms=9.37294960022
+METHOD_TIME graph=web-Google method=b16_accurate kind=kernel repeat=2 order=6 ms=9.94515419006
+METHOD_TIME graph=web-Google method=b32_fast kind=kernel repeat=2 order=7 ms=9.19198989868
+METHOD_TIME graph=web-Google method=b32_accurate kind=kernel repeat=2 order=8 ms=9.7279548645
+METHOD_TIME graph=web-Google method=b64_fast kind=kernel repeat=2 order=9 ms=9.16695594788
+METHOD_TIME graph=web-Google method=b64_accurate kind=kernel repeat=2 order=10 ms=9.73105430603
+METHOD_TIME graph=web-Google method=bfull_fast kind=kernel repeat=2 order=11 ms=9.09781455994
+METHOD_TIME graph=web-Google method=bfull_accurate kind=kernel repeat=2 order=12 ms=9.76586341858
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=29.8080444336
+METHOD_TIME graph=web-Google method=paper_tfs kind=kernel repeat=2 order=14 ms=9.2499256134
+METHOD_TIME graph=web-Google method=b2_fast kind=kernel repeat=2 order=15 ms=13.4530067444
+METHOD_TIME graph=web-Google method=b4_fast kind=kernel repeat=3 order=0 ms=10.9331607819
+METHOD_TIME graph=web-Google method=b4_accurate kind=kernel repeat=3 order=1 ms=12.1138095856
+METHOD_TIME graph=web-Google method=b8_fast kind=kernel repeat=3 order=2 ms=9.90986824036
+METHOD_TIME graph=web-Google method=b8_accurate kind=kernel repeat=3 order=3 ms=10.5819702148
+METHOD_TIME graph=web-Google method=b16_fast kind=kernel repeat=3 order=4 ms=9.32312011719
+METHOD_TIME graph=web-Google method=b16_accurate kind=kernel repeat=3 order=5 ms=9.80806350708
+METHOD_TIME graph=web-Google method=b32_fast kind=kernel repeat=3 order=6 ms=9.10997390747
+METHOD_TIME graph=web-Google method=b32_accurate kind=kernel repeat=3 order=7 ms=9.67001914978
+METHOD_TIME graph=web-Google method=b64_fast kind=kernel repeat=3 order=8 ms=9.08613204956
+METHOD_TIME graph=web-Google method=b64_accurate kind=kernel repeat=3 order=9 ms=9.77396965027
+METHOD_TIME graph=web-Google method=bfull_fast kind=kernel repeat=3 order=10 ms=9.11903381348
+METHOD_TIME graph=web-Google method=bfull_accurate kind=kernel repeat=3 order=11 ms=9.71698760986
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=29.8459529877
+METHOD_TIME graph=web-Google method=paper_tfs kind=kernel repeat=3 order=13 ms=9.48596000671
+METHOD_TIME graph=web-Google method=b2_fast kind=kernel repeat=3 order=14 ms=13.2210254669
+METHOD_TIME graph=web-Google method=b2_accurate kind=kernel repeat=3 order=15 ms=15.5138969421
+METHOD_TIME graph=web-Google method=b4_accurate kind=kernel repeat=4 order=0 ms=12.2830867767
+METHOD_TIME graph=web-Google method=b8_fast kind=kernel repeat=4 order=1 ms=10.0588798523
+METHOD_TIME graph=web-Google method=b8_accurate kind=kernel repeat=4 order=2 ms=10.7781887054
+METHOD_TIME graph=web-Google method=b16_fast kind=kernel repeat=4 order=3 ms=9.41491127014
+METHOD_TIME graph=web-Google method=b16_accurate kind=kernel repeat=4 order=4 ms=9.86289978027
+METHOD_TIME graph=web-Google method=b32_fast kind=kernel repeat=4 order=5 ms=9.04297828674
+METHOD_TIME graph=web-Google method=b32_accurate kind=kernel repeat=4 order=6 ms=9.75298881531
+METHOD_TIME graph=web-Google method=b64_fast kind=kernel repeat=4 order=7 ms=9.10305976868
+METHOD_TIME graph=web-Google method=b64_accurate kind=kernel repeat=4 order=8 ms=9.68790054321
+METHOD_TIME graph=web-Google method=bfull_fast kind=kernel repeat=4 order=9 ms=9.20414924622
+METHOD_TIME graph=web-Google method=bfull_accurate kind=kernel repeat=4 order=10 ms=9.69815254211
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=29.8280715942
+METHOD_TIME graph=web-Google method=paper_tfs kind=kernel repeat=4 order=12 ms=9.34600830078
+METHOD_TIME graph=web-Google method=b2_fast kind=kernel repeat=4 order=13 ms=13.2110118866
+METHOD_TIME graph=web-Google method=b2_accurate kind=kernel repeat=4 order=14 ms=15.1188373566
+METHOD_TIME graph=web-Google method=b4_fast kind=kernel repeat=4 order=15 ms=10.9539031982
+METHOD_TIME graph=web-Google method=paper_tfs kind=e2e repeat=0 order=0 ms=21.4488506317
+METHOD_TIME graph=web-Google method=b2_fast kind=e2e repeat=0 order=1 ms=28.4659862518
+METHOD_TIME graph=web-Google method=b2_accurate kind=e2e repeat=0 order=2 ms=32.9148769379
+METHOD_TIME graph=web-Google method=b4_fast kind=e2e repeat=0 order=3 ms=24.4190692902
+METHOD_TIME graph=web-Google method=b4_accurate kind=e2e repeat=0 order=4 ms=26.9401073456
+METHOD_TIME graph=web-Google method=b8_fast kind=e2e repeat=0 order=5 ms=22.6788520813
+METHOD_TIME graph=web-Google method=b8_accurate kind=e2e repeat=0 order=6 ms=23.9520072937
+METHOD_TIME graph=web-Google method=b16_fast kind=e2e repeat=0 order=7 ms=21.2950706482
+METHOD_TIME graph=web-Google method=b16_accurate kind=e2e repeat=0 order=8 ms=22.4959850311
+METHOD_TIME graph=web-Google method=b32_fast kind=e2e repeat=0 order=9 ms=21.3198661804
+METHOD_TIME graph=web-Google method=b32_accurate kind=e2e repeat=0 order=10 ms=22.3000049591
+METHOD_TIME graph=web-Google method=b64_fast kind=e2e repeat=0 order=11 ms=21.7409133911
+METHOD_TIME graph=web-Google method=b64_accurate kind=e2e repeat=0 order=12 ms=22.1509933472
+METHOD_TIME graph=web-Google method=bfull_fast kind=e2e repeat=0 order=13 ms=21.4281082153
+METHOD_TIME graph=web-Google method=bfull_accurate kind=e2e repeat=0 order=14 ms=22.3751068115
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=46.4670658112
+METHOD_TIME graph=web-Google method=b2_fast kind=e2e repeat=1 order=0 ms=28.911113739
+METHOD_TIME graph=web-Google method=b2_accurate kind=e2e repeat=1 order=1 ms=33.2119464874
+METHOD_TIME graph=web-Google method=b4_fast kind=e2e repeat=1 order=2 ms=24.3718624115
+METHOD_TIME graph=web-Google method=b4_accurate kind=e2e repeat=1 order=3 ms=26.8120765686
+METHOD_TIME graph=web-Google method=b8_fast kind=e2e repeat=1 order=4 ms=22.3150253296
+METHOD_TIME graph=web-Google method=b8_accurate kind=e2e repeat=1 order=5 ms=23.6089229584
+METHOD_TIME graph=web-Google method=b16_fast kind=e2e repeat=1 order=6 ms=21.6269493103
+METHOD_TIME graph=web-Google method=b16_accurate kind=e2e repeat=1 order=7 ms=22.4549770355
+METHOD_TIME graph=web-Google method=b32_fast kind=e2e repeat=1 order=8 ms=21.2171077728
+METHOD_TIME graph=web-Google method=b32_accurate kind=e2e repeat=1 order=9 ms=22.4668979645
+METHOD_TIME graph=web-Google method=b64_fast kind=e2e repeat=1 order=10 ms=21.2919712067
+METHOD_TIME graph=web-Google method=b64_accurate kind=e2e repeat=1 order=11 ms=22.1319198608
+METHOD_TIME graph=web-Google method=bfull_fast kind=e2e repeat=1 order=12 ms=21.6171741486
+METHOD_TIME graph=web-Google method=bfull_accurate kind=e2e repeat=1 order=13 ms=22.2449302673
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=46.6771125793
+METHOD_TIME graph=web-Google method=paper_tfs kind=e2e repeat=1 order=15 ms=21.0499763489
+METHOD_TIME graph=web-Google method=b2_accurate kind=e2e repeat=2 order=0 ms=33.7619781494
+METHOD_TIME graph=web-Google method=b4_fast kind=e2e repeat=2 order=1 ms=24.3170261383
+METHOD_TIME graph=web-Google method=b4_accurate kind=e2e repeat=2 order=2 ms=27.1549224854
+METHOD_TIME graph=web-Google method=b8_fast kind=e2e repeat=2 order=3 ms=22.9909420013
+METHOD_TIME graph=web-Google method=b8_accurate kind=e2e repeat=2 order=4 ms=24.4889259338
+METHOD_TIME graph=web-Google method=b16_fast kind=e2e repeat=2 order=5 ms=21.4898586273
+METHOD_TIME graph=web-Google method=b16_accurate kind=e2e repeat=2 order=6 ms=22.0119953156
+METHOD_TIME graph=web-Google method=b32_fast kind=e2e repeat=2 order=7 ms=21.6028690338
+METHOD_TIME graph=web-Google method=b32_accurate kind=e2e repeat=2 order=8 ms=22.3641395569
+METHOD_TIME graph=web-Google method=b64_fast kind=e2e repeat=2 order=9 ms=21.7101573944
+METHOD_TIME graph=web-Google method=b64_accurate kind=e2e repeat=2 order=10 ms=22.4359035492
+METHOD_TIME graph=web-Google method=bfull_fast kind=e2e repeat=2 order=11 ms=21.176815033
+METHOD_TIME graph=web-Google method=bfull_accurate kind=e2e repeat=2 order=12 ms=22.3090648651
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=46.4758872986
+METHOD_TIME graph=web-Google method=paper_tfs kind=e2e repeat=2 order=14 ms=20.8039283752
+METHOD_TIME graph=web-Google method=b2_fast kind=e2e repeat=2 order=15 ms=28.804063797
+METHOD_TIME graph=web-Google method=b4_fast kind=e2e repeat=3 order=0 ms=24.717092514
+METHOD_TIME graph=web-Google method=b4_accurate kind=e2e repeat=3 order=1 ms=27.1649360657
+METHOD_TIME graph=web-Google method=b8_fast kind=e2e repeat=3 order=2 ms=22.9167938232
+METHOD_TIME graph=web-Google method=b8_accurate kind=e2e repeat=3 order=3 ms=24.0647792816
+METHOD_TIME graph=web-Google method=b16_fast kind=e2e repeat=3 order=4 ms=21.3429927826
+METHOD_TIME graph=web-Google method=b16_accurate kind=e2e repeat=3 order=5 ms=22.4719047546
+METHOD_TIME graph=web-Google method=b32_fast kind=e2e repeat=3 order=6 ms=21.6557979584
+METHOD_TIME graph=web-Google method=b32_accurate kind=e2e repeat=3 order=7 ms=22.4559307098
+METHOD_TIME graph=web-Google method=b64_fast kind=e2e repeat=3 order=8 ms=21.6131210327
+METHOD_TIME graph=web-Google method=b64_accurate kind=e2e repeat=3 order=9 ms=22.2120285034
+METHOD_TIME graph=web-Google method=bfull_fast kind=e2e repeat=3 order=10 ms=21.0437774658
+METHOD_TIME graph=web-Google method=bfull_accurate kind=e2e repeat=3 order=11 ms=22.2229957581
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=46.5261936188
+METHOD_TIME graph=web-Google method=paper_tfs kind=e2e repeat=3 order=13 ms=21.1188793182
+METHOD_TIME graph=web-Google method=b2_fast kind=e2e repeat=3 order=14 ms=28.3968448639
+METHOD_TIME graph=web-Google method=b2_accurate kind=e2e repeat=3 order=15 ms=33.371925354
+METHOD_TIME graph=web-Google method=b4_accurate kind=e2e repeat=4 order=0 ms=27.2009372711
+METHOD_TIME graph=web-Google method=b8_fast kind=e2e repeat=4 order=1 ms=22.8581428528
+METHOD_TIME graph=web-Google method=b8_accurate kind=e2e repeat=4 order=2 ms=24.0068435669
+METHOD_TIME graph=web-Google method=b16_fast kind=e2e repeat=4 order=3 ms=21.3949680328
+METHOD_TIME graph=web-Google method=b16_accurate kind=e2e repeat=4 order=4 ms=22.4750041962
+METHOD_TIME graph=web-Google method=b32_fast kind=e2e repeat=4 order=5 ms=21.8291282654
+METHOD_TIME graph=web-Google method=b32_accurate kind=e2e repeat=4 order=6 ms=22.3910808563
+METHOD_TIME graph=web-Google method=b64_fast kind=e2e repeat=4 order=7 ms=21.1100578308
+METHOD_TIME graph=web-Google method=b64_accurate kind=e2e repeat=4 order=8 ms=22.2520828247
+METHOD_TIME graph=web-Google method=bfull_fast kind=e2e repeat=4 order=9 ms=21.1958885193
+METHOD_TIME graph=web-Google method=bfull_accurate kind=e2e repeat=4 order=10 ms=22.4709510803
+METHOD_TIME graph=web-Google method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=46.6349124908
+METHOD_TIME graph=web-Google method=paper_tfs kind=e2e repeat=4 order=12 ms=20.9469795227
+METHOD_TIME graph=web-Google method=b2_fast kind=e2e repeat=4 order=13 ms=28.9471149445
+METHOD_TIME graph=web-Google method=b2_accurate kind=e2e repeat=4 order=14 ms=33.262014389
+METHOD_TIME graph=web-Google method=b4_fast kind=e2e repeat=4 order=15 ms=24.7161388397
+METHOD_STAGE graph=web-Google method=paper_tfs repeat=0 layer1_ms=9.14907455444 relu_ms=1.40690803528 interlayer_conversion_ms=1.71899795532 layer2_ms=8.22806358337 total_ms=20.5030441284
+METHOD_STAGE graph=web-Google method=paper_tfs repeat=1 layer1_ms=9.42397117615 relu_ms=1.4181137085 interlayer_conversion_ms=1.96290016174 layer2_ms=8.31890106201 total_ms=21.1238861084
+METHOD_STAGE graph=web-Google method=paper_tfs repeat=2 layer1_ms=9.4199180603 relu_ms=1.42288208008 interlayer_conversion_ms=1.72209739685 layer2_ms=8.28504562378 total_ms=20.849943161
+METHOD_STAGE graph=web-Google method=b2_fast repeat=0 layer1_ms=14.0299797058 relu_ms=1.41501426697 interlayer_conversion_ms=1.72400474548 layer2_ms=11.7659568787 total_ms=28.9349555969
+METHOD_STAGE graph=web-Google method=b2_fast repeat=1 layer1_ms=13.8299465179 relu_ms=1.41596794128 interlayer_conversion_ms=1.84988975525 layer2_ms=12.1641159058 total_ms=29.2599201202
+METHOD_STAGE graph=web-Google method=b2_fast repeat=2 layer1_ms=14.1289234161 relu_ms=1.40309333801 interlayer_conversion_ms=1.70111656189 layer2_ms=11.549949646 total_ms=28.783082962
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.028133392334 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.0717639923096 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=0.201463699341 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=1.08170509338 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.77955627441 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.1420249939 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.83122062683 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=tile_load sampled_thread_ms=0.77486038208 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=1.76501274109 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=tile_store sampled_thread_ms=0.107288360596 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=0.218152999878 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0307559967041 sampled_tiles=225 wall_ms=15.0229930878
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.0641345977783 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=0.177383422852 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=1.17683410645 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.70803070068 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.21068954468 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.155687332153 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=tile_load sampled_thread_ms=0.763654708862 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=1.62696838379 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=tile_store sampled_thread_ms=0.121593475342 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.0343322753906 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_PROFILE graph=web-Google method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0300407409668 sampled_tiles=225 wall_ms=13.4398937225
+METHOD_STAGE graph=web-Google method=b2_accurate repeat=0 layer1_ms=16.2620544434 relu_ms=1.42407417297 interlayer_conversion_ms=1.87802314758 layer2_ms=14.7879123688 total_ms=34.3520641327
+METHOD_STAGE graph=web-Google method=b2_accurate repeat=1 layer1_ms=16.2689685822 relu_ms=1.41906738281 interlayer_conversion_ms=1.87993049622 layer2_ms=14.1310691833 total_ms=33.6990356445
+METHOD_STAGE graph=web-Google method=b2_accurate repeat=2 layer1_ms=15.7561302185 relu_ms=1.42383575439 interlayer_conversion_ms=1.72305107117 layer2_ms=14.2951011658 total_ms=33.1981182098
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=0.187873840332 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=1.04069709778 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.71065330505 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.20735168457 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.223636627197 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=1.30796432495 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=2.19583511353 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=0.0896453857422 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=0.194072723389 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0267028808594 sampled_tiles=225 wall_ms=17.1160697937
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0672340393066 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=0.191211700439 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=1.16229057312 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.65605545044 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.20496749878 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.272750854492 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=1.35135650635 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=2.02989578247 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=0.0848770141602 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0321865081787 sampled_tiles=225 wall_ms=16.242980957
+METHOD_PROFILE graph=web-Google method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=225 wall_ms=16.242980957
+METHOD_STAGE graph=web-Google method=b4_fast repeat=0 layer1_ms=11.6181373596 relu_ms=1.41882896423 interlayer_conversion_ms=1.72901153564 layer2_ms=9.70602035522 total_ms=24.4719982147
+METHOD_STAGE graph=web-Google method=b4_fast repeat=1 layer1_ms=11.4409923553 relu_ms=1.39999389648 interlayer_conversion_ms=1.71709060669 layer2_ms=9.81211662292 total_ms=24.3701934814
+METHOD_STAGE graph=web-Google method=b4_fast repeat=2 layer1_ms=11.677980423 relu_ms=1.4169216156 interlayer_conversion_ms=1.87110900879 layer2_ms=10.0069046021 total_ms=24.9729156494
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.0545978546143 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=0.146627426147 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=1.00064277649 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.47557258606 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.00660324097 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.112056732178 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=tile_load sampled_thread_ms=0.500440597534 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=1.12152099609 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=tile_store sampled_thread_ms=0.0574588775635 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=0.225782394409 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0326633453369 sampled_tiles=225 wall_ms=12.8600597382
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0.0600814819336 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=0.123977661133 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=1.02543830872 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.41716003418 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.955581665039 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0817775726318 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=tile_load sampled_thread_ms=0.464916229248 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=1.08551979065 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=tile_store sampled_thread_ms=0.0567436218262 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0.0405311584473 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_PROFILE graph=web-Google method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0417232513428 sampled_tiles=225 wall_ms=11.4090442657
+METHOD_STAGE graph=web-Google method=b4_accurate repeat=0 layer1_ms=12.7930641174 relu_ms=1.43909454346 interlayer_conversion_ms=1.8630027771 layer2_ms=11.0728740692 total_ms=27.1680355072
+METHOD_STAGE graph=web-Google method=b4_accurate repeat=1 layer1_ms=12.7091407776 relu_ms=1.42502784729 interlayer_conversion_ms=1.71685218811 layer2_ms=11.1789703369 total_ms=27.0299911499
+METHOD_STAGE graph=web-Google method=b4_accurate repeat=2 layer1_ms=12.7599239349 relu_ms=1.42407417297 interlayer_conversion_ms=1.8630027771 layer2_ms=11.3458633423 total_ms=27.3928642273
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0529289245605 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=0.1380443573 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.987529754639 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.43241882324 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.00064277649 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.123739242554 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=0.875234603882 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=1.38139724731 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=0.0576972961426 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=0.223636627197 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 sampled_tiles=225 wall_ms=13.8299465179
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0612735748291 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=0.137567520142 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.972270965576 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.44290924072 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.983715057373 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.141620635986 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=0.84924697876 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=1.36780738831 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=0.0691413879395 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.044584274292 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_PROFILE graph=web-Google method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0350475311279 sampled_tiles=225 wall_ms=12.2239589691
+METHOD_STAGE graph=web-Google method=b8_fast repeat=0 layer1_ms=10.614156723 relu_ms=1.42002105713 interlayer_conversion_ms=1.87587738037 layer2_ms=9.08303260803 total_ms=22.9930877686
+METHOD_STAGE graph=web-Google method=b8_fast repeat=1 layer1_ms=10.7269287109 relu_ms=1.43504142761 interlayer_conversion_ms=1.69205665588 layer2_ms=8.9590549469 total_ms=22.8130817413
+METHOD_STAGE graph=web-Google method=b8_fast repeat=2 layer1_ms=10.5018615723 relu_ms=1.42002105713 interlayer_conversion_ms=1.72305107117 layer2_ms=8.87989997864 total_ms=22.5248336792
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.0677108764648 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=0.0913143157959 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.900983810425 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.20449066162 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.891208648682 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.070333480835 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=tile_load sampled_thread_ms=0.333547592163 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=0.775575637817 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=tile_store sampled_thread_ms=0.0371932983398 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=0.210285186768 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=225 wall_ms=11.2268924713
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.046968460083 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=0.102043151855 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.970125198364 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.26647949219 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.887870788574 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.068187713623 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=tile_load sampled_thread_ms=0.319480895996 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=0.846147537231 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=tile_store sampled_thread_ms=0.0350475311279 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.0290870666504 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_PROFILE graph=web-Google method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 sampled_tiles=225 wall_ms=9.9880695343
+METHOD_STAGE graph=web-Google method=b8_accurate repeat=0 layer1_ms=11.6691589355 relu_ms=1.43194198608 interlayer_conversion_ms=1.87397003174 layer2_ms=9.72008705139 total_ms=24.6951580048
+METHOD_STAGE graph=web-Google method=b8_accurate repeat=1 layer1_ms=11.8210315704 relu_ms=1.42693519592 interlayer_conversion_ms=1.71804428101 layer2_ms=9.4850063324 total_ms=24.4510173798
+METHOD_STAGE graph=web-Google method=b8_accurate repeat=2 layer1_ms=11.3120079041 relu_ms=1.40285491943 interlayer_conversion_ms=1.73020362854 layer2_ms=9.33885574341 total_ms=23.7839221954
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0591278076172 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0815391540527 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.949382781982 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.26481056213 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.878572463989 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0970363616943 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=0.613212585449 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=0.997543334961 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.0400543212891 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=0.211715698242 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0317096710205 sampled_tiles=225 wall_ms=11.8219852448
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0865459442139 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.944137573242 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.28746032715 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.877141952515 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.079870223999 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=0.643730163574 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=0.942945480347 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=0.0348091125488 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0.035285949707 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_PROFILE graph=web-Google method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=225 wall_ms=10.7100009918
+METHOD_STAGE graph=web-Google method=b16_fast repeat=0 layer1_ms=10.155916214 relu_ms=1.42812728882 interlayer_conversion_ms=1.72090530396 layer2_ms=8.1901550293 total_ms=21.4951038361
+METHOD_STAGE graph=web-Google method=b16_fast repeat=1 layer1_ms=9.78398323059 relu_ms=1.4169216156 interlayer_conversion_ms=1.85608863831 layer2_ms=8.61096382141 total_ms=21.6679573059
+METHOD_STAGE graph=web-Google method=b16_fast repeat=2 layer1_ms=10.057926178 relu_ms=1.44004821777 interlayer_conversion_ms=1.72209739685 layer2_ms=8.47601890564 total_ms=21.6960906982
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0.0677108764648 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.0677108764648 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.933170318604 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.18279457092 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.766515731812 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0464916229248 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=tile_load sampled_thread_ms=0.280618667603 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=0.624656677246 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.0288486480713 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=0.220537185669 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0252723693848 sampled_tiles=225 wall_ms=10.8389854431
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.0565052032471 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.0684261322021 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.986337661743 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.16062164307 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.796318054199 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0541210174561 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=tile_load sampled_thread_ms=0.273942947388 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=0.616550445557 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.0364780426025 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.0362396240234 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_PROFILE graph=web-Google method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0379085540771 sampled_tiles=225 wall_ms=8.95023345947
+METHOD_STAGE graph=web-Google method=b16_accurate repeat=0 layer1_ms=10.6310844421 relu_ms=1.43194198608 interlayer_conversion_ms=1.72209739685 layer2_ms=8.67986679077 total_ms=22.4649906158
+METHOD_STAGE graph=web-Google method=b16_accurate repeat=1 layer1_ms=10.5540752411 relu_ms=1.42908096313 interlayer_conversion_ms=1.87182426453 layer2_ms=8.95404815674 total_ms=22.8090286255
+METHOD_STAGE graph=web-Google method=b16_accurate repeat=2 layer1_ms=10.5080604553 relu_ms=1.41501426697 interlayer_conversion_ms=1.73306465149 layer2_ms=8.61597061157 total_ms=22.2721099854
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0579357147217 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0894069671631 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.944137573242 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.20377540588 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.825166702271 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0543594360352 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=0.492334365845 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=0.831842422485 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.0202655792236 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=0.210523605347 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.028133392334 sampled_tiles=225 wall_ms=11.3370418549
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.049352645874 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0779628753662 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.947237014771 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.20711326599 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.805139541626 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0619888305664 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=0.499725341797 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=0.809192657471 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.0283718109131 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0424385070801 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_PROFILE graph=web-Google method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0405311584473 sampled_tiles=225 wall_ms=9.67907905579
+METHOD_STAGE graph=web-Google method=b32_fast repeat=0 layer1_ms=9.98711585999 relu_ms=1.42097473145 interlayer_conversion_ms=1.86896324158 layer2_ms=8.54206085205 total_ms=21.8191146851
+METHOD_STAGE graph=web-Google method=b32_fast repeat=1 layer1_ms=9.93609428406 relu_ms=1.40500068665 interlayer_conversion_ms=1.85990333557 layer2_ms=8.50009918213 total_ms=21.7010974884
+METHOD_STAGE graph=web-Google method=b32_fast repeat=2 layer1_ms=9.81402397156 relu_ms=1.44791603088 interlayer_conversion_ms=1.88207626343 layer2_ms=8.50987434387 total_ms=21.6538906097
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.0839233398438 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.909566879272 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.1670589447 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.7643699646 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0395774841309 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=tile_load sampled_thread_ms=0.244855880737 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=0.543594360352 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.0293254852295 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=0.235080718994 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0278949737549 sampled_tiles=225 wall_ms=10.712146759
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.0839233398438 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.931978225708 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.09648704529 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.801801681519 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0476837158203 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=tile_load sampled_thread_ms=0.224113464355 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=0.637292861938 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.0264644622803 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.0374317169189 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_PROFILE graph=web-Google method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0364780426025 sampled_tiles=225 wall_ms=9.10496711731
+METHOD_STAGE graph=web-Google method=b32_accurate repeat=0 layer1_ms=10.6139183044 relu_ms=1.42002105713 interlayer_conversion_ms=1.73091888428 layer2_ms=8.55302810669 total_ms=22.3178863525
+METHOD_STAGE graph=web-Google method=b32_accurate repeat=1 layer1_ms=10.4920864105 relu_ms=1.42192840576 interlayer_conversion_ms=1.87516212463 layer2_ms=8.87989997864 total_ms=22.6690769196
+METHOD_STAGE graph=web-Google method=b32_accurate repeat=2 layer1_ms=10.4489326477 relu_ms=1.41310691833 interlayer_conversion_ms=1.72805786133 layer2_ms=8.67295265198 total_ms=22.2630500793
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0834465026855 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0913143157959 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.936031341553 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.17516517639 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.835180282593 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0429153442383 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=0.450134277344 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=0.78272819519 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.0226497650146 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=0.218152999878 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0951290130615 sampled_tiles=225 wall_ms=10.7550621033
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0689029693604 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.987529754639 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.16682052612 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.74577331543 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0641345977783 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=0.41937828064 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=0.787973403931 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.023365020752 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0426769256592 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_PROFILE graph=web-Google method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0314712524414 sampled_tiles=225 wall_ms=9.38582420349
+METHOD_STAGE graph=web-Google method=b64_fast repeat=0 layer1_ms=9.96494293213 relu_ms=1.41787528992 interlayer_conversion_ms=1.71804428101 layer2_ms=8.25500488281 total_ms=21.3558673859
+METHOD_STAGE graph=web-Google method=b64_fast repeat=1 layer1_ms=9.89198684692 relu_ms=1.41620635986 interlayer_conversion_ms=1.87492370605 layer2_ms=8.633852005 total_ms=21.8169689178
+METHOD_STAGE graph=web-Google method=b64_fast repeat=2 layer1_ms=10.0510120392 relu_ms=1.43098831177 interlayer_conversion_ms=1.708984375 layer2_ms=8.38208198547 total_ms=21.5730667114
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.0689029693604 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.0495910644531 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.891447067261 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.13034248352 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.750541687012 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0569820404053 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=tile_load sampled_thread_ms=0.246286392212 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=0.535011291504 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.0283718109131 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=0.218391418457 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0264644622803 sampled_tiles=225 wall_ms=10.2028846741
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.0734329223633 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.068187713623 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.89693069458 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.12438201904 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.75626373291 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0441074371338 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=tile_load sampled_thread_ms=0.229597091675 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=0.582456588745 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.0221729278564 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.0293254852295 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_PROFILE graph=web-Google method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0400543212891 sampled_tiles=225 wall_ms=9.10401344299
+METHOD_STAGE graph=web-Google method=b64_accurate repeat=0 layer1_ms=10.5910301208 relu_ms=1.41787528992 interlayer_conversion_ms=1.69610977173 layer2_ms=8.69798660278 total_ms=22.4030017853
+METHOD_STAGE graph=web-Google method=b64_accurate repeat=1 layer1_ms=10.3199481964 relu_ms=1.42908096313 interlayer_conversion_ms=1.71208381653 layer2_ms=8.51702690125 total_ms=21.9781398773
+METHOD_STAGE graph=web-Google method=b64_accurate repeat=2 layer1_ms=10.2348327637 relu_ms=1.44219398499 interlayer_conversion_ms=1.88088417053 layer2_ms=8.79311561584 total_ms=22.351026535
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0784397125244 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0863075256348 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.917673110962 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.18136405945 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.784873962402 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0541210174561 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=0.472068786621 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=0.767230987549 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.0264644622803 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=0.234603881836 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=225 wall_ms=11.0540390015
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.065803527832 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0627040863037 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.9446144104 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.14941596985 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.824451446533 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0507831573486 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=0.429630279541 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=0.720024108887 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.0185966491699 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0514984130859 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_PROFILE graph=web-Google method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0357627868652 sampled_tiles=225 wall_ms=9.30404663086
+METHOD_STAGE graph=web-Google method=bfull_fast repeat=0 layer1_ms=9.88793373108 relu_ms=1.41406059265 interlayer_conversion_ms=1.72805786133 layer2_ms=8.18777084351 total_ms=21.2178230286
+METHOD_STAGE graph=web-Google method=bfull_fast repeat=1 layer1_ms=9.88101959229 relu_ms=1.40619277954 interlayer_conversion_ms=1.72686576843 layer2_ms=8.23497772217 total_ms=21.2490558624
+METHOD_STAGE graph=web-Google method=bfull_fast repeat=2 layer1_ms=9.64212417603 relu_ms=1.41096115112 interlayer_conversion_ms=1.86800956726 layer2_ms=8.48698616028 total_ms=21.4080810547
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.0836849212646 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.0572204589844 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.846385955811 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=1.10387802124 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.738382339478 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0574588775635 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=0.210046768188 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=0.472784042358 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.0300407409668 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=0.227928161621 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0333786010742 sampled_tiles=225 wall_ms=10.2179050446
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.0784397125244 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.0672340393066 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.905513763428 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=1.14774703979 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.779390335083 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0503063201904 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=0.251293182373 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=0.577926635742 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.0252723693848 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.035285949707 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_PROFILE graph=web-Google method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.028133392334 sampled_tiles=225 wall_ms=9.06705856323
+METHOD_STAGE graph=web-Google method=bfull_accurate repeat=0 layer1_ms=10.6379985809 relu_ms=1.42598152161 interlayer_conversion_ms=1.68395042419 layer2_ms=8.70990753174 total_ms=22.4578380585
+METHOD_STAGE graph=web-Google method=bfull_accurate repeat=1 layer1_ms=10.381937027 relu_ms=1.43194198608 interlayer_conversion_ms=1.88302993774 layer2_ms=8.81505012512 total_ms=22.5119590759
+METHOD_STAGE graph=web-Google method=bfull_accurate repeat=2 layer1_ms=10.6518268585 relu_ms=1.41716003418 interlayer_conversion_ms=1.72090530396 layer2_ms=8.59594345093 total_ms=22.3858356476
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0569820404053 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0584125518799 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.965595245361 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=1.14440917969 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.794887542725 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0510215759277 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=0.423431396484 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=0.751256942749 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.0228881835938 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=0.231742858887 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0183582305908 sampled_tiles=225 wall_ms=10.7729434967
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0588893890381 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.925064086914 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=1.11103057861 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.789642333984 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.056266784668 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=0.369310379028 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=0.731229782104 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.0219345092773 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0488758087158 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_PROFILE graph=web-Google method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0340938568115 sampled_tiles=225 wall_ms=9.14788246155
+METHOD_COMPLETE graph=web-Google methods=15 checks=60 pass=1 max_rss_kib=4729288

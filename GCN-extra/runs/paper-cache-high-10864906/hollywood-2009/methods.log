@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/hollywood-2009/hollywood-2009.csrbin
+Matrix: hollywood-2009  N=1139905  NNZ=113891327  avg_deg=99.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 296.24 ms
+  run 1: 295.27 ms
+  run 2: 292.24 ms
+  run 3: 300.05 ms
+  run 4: 301.38 ms
+  TFS V3 E2E BEST: 292.24 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 385.02 ms
+  run 1: 385.91 ms
+  run 2: 385.78 ms
+  run 3: 386.28 ms
+  run 4: 385.93 ms
+  MKL E2E BEST: 385.02 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 292.24 ms
+  MKL (FP32):      385.02 ms
+  E2E Speedup:     1.32×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009100  RMSE=1.3300e+03
+First 8:
+  TFS: -109.29 -272.39 -461.88 -26.25 265.81 31.79 -482.19 -364.36 
+  MKL: -111.37 -274.80 -467.26 -26.29 268.55 32.86 -487.14 -367.36 
+METHOD_CONFIG graph=hollywood-2009 N=1139905 E=113891327 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=hollywood-2009 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=hollywood-2009 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=135670 mean_abs=328.748540249 relative_L2=0.012284731855 normalized_max=0.0121214103042 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=4.83483886719 mean_abs=0.0690814500662 relative_L2=0.00313357811696 normalized_max=0.00289416639904 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=60288 mean_abs=139.31559867 relative_L2=0.00525288577887 normalized_max=0.00543573764884 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=138.943627957 relative_L2=0.00565542558117 normalized_max=0.00591715976331 gate=0.02 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=189461 mean_abs=464.841030384 relative_L2=0.0173617985822 normalized_max=0.0169273569518 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0113525390625 mean_abs=1.51749494157e-05 relative_L2=1.30380572945e-06 normalized_max=6.79570467621e-06 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=154.25 mean_abs=0.144501951286 relative_L2=4.18504558672e-06 normalized_max=1.39076189678e-05 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=0.142028907812 relative_L2=0.000124917125477 normalized_max=0.00295857988166 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=135670 mean_abs=328.749936993 relative_L2=0.0122842326434 normalized_max=0.0121214103042 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.05993652344 mean_abs=0.0712728880752 relative_L2=0.00323657057417 normalized_max=0.00302891133907 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=62081 mean_abs=146.348362787 relative_L2=0.005472030499 normalized_max=0.0055973996314 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=145.870496695 relative_L2=0.00584705805162 normalized_max=0.00591715976331 gate=0.02 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=191195 mean_abs=471.676284897 relative_L2=0.0175745836262 normalized_max=0.0170822808515 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0106201171875 mean_abs=3.76053904623e-05 relative_L2=2.1311476026e-06 normalized_max=6.35727211646e-06 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=158.75 mean_abs=0.20509821925 relative_L2=5.14638162619e-06 normalized_max=1.4313351774e-05 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=0.203897226642 relative_L2=0.000132518898496 normalized_max=0.00295857988166 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=135670 mean_abs=328.770244831 relative_L2=0.0122849721723 normalized_max=0.0121214103042 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.35668945312 mean_abs=0.0720189606988 relative_L2=0.00327599238865 normalized_max=0.00320654959787 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=62954 mean_abs=150.087356643 relative_L2=0.0055820651573 normalized_max=0.0056761117958 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=149.706760795 relative_L2=0.00595497440904 normalized_max=0.00591715976331 gate=0.02 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=191195 mean_abs=474.725805987 relative_L2=0.0176778331721 normalized_max=0.0170822808515 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0123291015625 mean_abs=9.70584173903e-05 relative_L2=5.38491223282e-06 normalized_max=7.38028142255e-06 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=137.75 mean_abs=0.410268000075 relative_L2=9.69482129165e-06 normalized_max=1.24199320118e-05 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=0.404353601075 relative_L2=0.000185861313755 normalized_max=0.00295857988166 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=135670 mean_abs=328.905996849 relative_L2=0.0122894310308 normalized_max=0.0121214103042 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.36962890625 mean_abs=0.0721906003622 relative_L2=0.00330233041237 normalized_max=0.00321429523976 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=63238 mean_abs=155.674478996 relative_L2=0.00588085158172 normalized_max=0.00570171804401 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=155.418417367 relative_L2=0.006278850379 normalized_max=0.00591715976331 gate=0.02 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=195468 mean_abs=477.143287344 relative_L2=0.0178326776142 normalized_max=0.0174640512225 gate=0.03 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0201416015625 mean_abs=0.000125896911392 relative_L2=7.97482025252e-06 normalized_max=1.20568953933e-05 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=209 mean_abs=0.632018481625 relative_L2=1.80237551635e-05 normalized_max=1.88440347765e-05 gate=0.001 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=0.641630867684 relative_L2=0.000287666272361 normalized_max=0.00295857988166 gate=0.01 pass=1
+METHOD_CHECK graph=hollywood-2009 method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=135670 mean_abs=329.0756669 relative_L2=0.0122979298412 normalized_max=0.0121214103042 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=hollywood-2009 methods=9 pass=1
+METHOD_TIME graph=hollywood-2009 method=paper_tfs kind=e2e repeat=0 order=0 ms=313.609838486
+METHOD_TIME graph=hollywood-2009 method=paper_tfs kind=e2e repeat=1 order=0 ms=311.07711792
+METHOD_TIME graph=hollywood-2009 method=paper_tfs kind=e2e repeat=2 order=0 ms=308.022975922
+METHOD_TIME graph=hollywood-2009 method=paper_tfs kind=e2e repeat=3 order=0 ms=311.515808105
+METHOD_TIME graph=hollywood-2009 method=paper_tfs kind=e2e repeat=4 order=0 ms=310.495138168
+METHOD_TIME graph=hollywood-2009 method=b8_fast kind=e2e repeat=0 order=1 ms=217.388868332
+METHOD_TIME graph=hollywood-2009 method=b8_fast kind=e2e repeat=1 order=1 ms=218.679904938
+METHOD_TIME graph=hollywood-2009 method=b8_fast kind=e2e repeat=2 order=1 ms=215.839147568
+METHOD_TIME graph=hollywood-2009 method=b8_fast kind=e2e repeat=3 order=1 ms=219.614982605
+METHOD_TIME graph=hollywood-2009 method=b8_fast kind=e2e repeat=4 order=1 ms=219.464063644
+METHOD_TIME graph=hollywood-2009 method=b8_accurate kind=e2e repeat=0 order=2 ms=240.406036377
+METHOD_TIME graph=hollywood-2009 method=b8_accurate kind=e2e repeat=1 order=2 ms=237.034082413
+METHOD_TIME graph=hollywood-2009 method=b8_accurate kind=e2e repeat=2 order=2 ms=236.89198494
+METHOD_TIME graph=hollywood-2009 method=b8_accurate kind=e2e repeat=3 order=2 ms=241.997003555
+METHOD_TIME graph=hollywood-2009 method=b8_accurate kind=e2e repeat=4 order=2 ms=241.591930389
+METHOD_TIME graph=hollywood-2009 method=b16_fast kind=e2e repeat=0 order=3 ms=201.419115067
+METHOD_TIME graph=hollywood-2009 method=b16_fast kind=e2e repeat=1 order=3 ms=204.736948013
+METHOD_TIME graph=hollywood-2009 method=b16_fast kind=e2e repeat=2 order=3 ms=204.717874527
+METHOD_TIME graph=hollywood-2009 method=b16_fast kind=e2e repeat=3 order=3 ms=203.080892563
+METHOD_TIME graph=hollywood-2009 method=b16_fast kind=e2e repeat=4 order=3 ms=202.805042267
+METHOD_TIME graph=hollywood-2009 method=b16_accurate kind=e2e repeat=0 order=4 ms=208.645820618
+METHOD_TIME graph=hollywood-2009 method=b16_accurate kind=e2e repeat=1 order=4 ms=204.379081726
+METHOD_TIME graph=hollywood-2009 method=b16_accurate kind=e2e repeat=2 order=4 ms=207.950115204
+METHOD_TIME graph=hollywood-2009 method=b16_accurate kind=e2e repeat=3 order=4 ms=208.170890808
+METHOD_TIME graph=hollywood-2009 method=b16_accurate kind=e2e repeat=4 order=4 ms=210.848093033
+METHOD_TIME graph=hollywood-2009 method=b64_fast kind=e2e repeat=0 order=5 ms=203.397035599
+METHOD_TIME graph=hollywood-2009 method=b64_fast kind=e2e repeat=1 order=5 ms=197.259902954
+METHOD_TIME graph=hollywood-2009 method=b64_fast kind=e2e repeat=2 order=5 ms=198.567152023
+METHOD_TIME graph=hollywood-2009 method=b64_fast kind=e2e repeat=3 order=5 ms=198.759078979
+METHOD_TIME graph=hollywood-2009 method=b64_fast kind=e2e repeat=4 order=5 ms=201.184034348
+METHOD_TIME graph=hollywood-2009 method=b64_accurate kind=e2e repeat=0 order=6 ms=197.340011597
+METHOD_TIME graph=hollywood-2009 method=b64_accurate kind=e2e repeat=1 order=6 ms=205.245018005
+METHOD_TIME graph=hollywood-2009 method=b64_accurate kind=e2e repeat=2 order=6 ms=192.943096161
+METHOD_TIME graph=hollywood-2009 method=b64_accurate kind=e2e repeat=3 order=6 ms=203.239917755
+METHOD_TIME graph=hollywood-2009 method=b64_accurate kind=e2e repeat=4 order=6 ms=198.359012604
+METHOD_TIME graph=hollywood-2009 method=bfull_fast kind=e2e repeat=0 order=7 ms=196.654081345
+METHOD_TIME graph=hollywood-2009 method=bfull_fast kind=e2e repeat=1 order=7 ms=198.661088943
+METHOD_TIME graph=hollywood-2009 method=bfull_fast kind=e2e repeat=2 order=7 ms=204.494953156
+METHOD_TIME graph=hollywood-2009 method=bfull_fast kind=e2e repeat=3 order=7 ms=199.365854263
+METHOD_TIME graph=hollywood-2009 method=bfull_fast kind=e2e repeat=4 order=7 ms=197.262048721
+METHOD_TIME graph=hollywood-2009 method=bfull_accurate kind=e2e repeat=0 order=8 ms=202.14009285
+METHOD_TIME graph=hollywood-2009 method=bfull_accurate kind=e2e repeat=1 order=8 ms=201.179981232
+METHOD_TIME graph=hollywood-2009 method=bfull_accurate kind=e2e repeat=2 order=8 ms=199.169874191
+METHOD_TIME graph=hollywood-2009 method=bfull_accurate kind=e2e repeat=3 order=8 ms=201.299905777
+METHOD_TIME graph=hollywood-2009 method=bfull_accurate kind=e2e repeat=4 order=8 ms=202.315092087
+METHOD_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=387.105941772
+METHOD_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=386.327028275
+METHOD_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=386.104822159
+METHOD_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=386.980056763
+METHOD_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=385.77914238
+METHOD_COMPLETE graph=hollywood-2009 methods=9 checks=36 pass=1 max_rss_kib=0

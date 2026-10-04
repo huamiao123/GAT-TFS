@@ -1,0 +1,32 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/roadNet-CA/roadNet-CA.csrbin
+Matrix: roadNet-CA  N=1971281  NNZ=5533214  avg_deg=2.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 36.02 ms
+  run 1: 36.07 ms
+  run 2: 36.06 ms
+  run 3: 36.02 ms
+  run 4: 36.00 ms
+  TFS V3 E2E BEST: 36.00 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 65.85 ms
+  run 1: 65.64 ms
+  run 2: 64.95 ms
+  run 3: 65.63 ms
+  run 4: 65.73 ms
+  MKL E2E BEST: 64.95 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 36.00 ms
+  MKL (FP32):      64.95 ms
+  E2E Speedup:     1.80×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.011806  RMSE=8.0874e-01
+First 8:
+  TFS: 6.10 -52.73 -71.34 -1.16 36.92 -0.90 -104.09 -96.44 
+  MKL: 6.14 -53.15 -72.05 -1.12 37.09 -0.75 -105.36 -97.44 

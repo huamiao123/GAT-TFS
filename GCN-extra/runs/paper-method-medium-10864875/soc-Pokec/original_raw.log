@@ -1,0 +1,32 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/soc-Pokec/soc-Pokec.csrbin
+Matrix: soc-Pokec  N=1632803  NNZ=30622564  avg_deg=18.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 97.31 ms
+  run 1: 99.94 ms
+  run 2: 96.80 ms
+  run 3: 95.74 ms
+  run 4: 98.60 ms
+  TFS V3 E2E BEST: 95.74 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 335.67 ms
+  run 1: 335.14 ms
+  run 2: 336.73 ms
+  run 3: 334.32 ms
+  run 4: 334.98 ms
+  MKL E2E BEST: 334.32 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 95.74 ms
+  MKL (FP32):      334.32 ms
+  E2E Speedup:     3.49×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010972  RMSE=2.7145e+01
+First 8:
+  TFS: -258.68 -946.01 -929.20 54.90 375.05 90.65 -826.39 -423.82 
+  MKL: -260.59 -953.13 -938.85 57.47 378.51 90.48 -835.36 -427.99 

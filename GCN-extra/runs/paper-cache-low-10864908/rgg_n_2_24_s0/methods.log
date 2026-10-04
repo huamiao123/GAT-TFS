@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/rgg_n_2_24_s0/rgg_n_2_24_s0.csrbin
+Matrix: rgg_n_2_24_s0  N=16777216  NNZ=265114400  avg_deg=15.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 873.02 ms
+  run 1: 893.04 ms
+  run 2: 891.35 ms
+  run 3: 889.30 ms
+  run 4: 890.59 ms
+  TFS V3 E2E BEST: 873.02 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 2012.37 ms
+  run 1: 2016.35 ms
+  run 2: 2017.62 ms
+  run 3: 2016.25 ms
+  run 4: 2015.70 ms
+  MKL E2E BEST: 2012.37 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 873.02 ms
+  MKL (FP32):      2012.37 ms
+  E2E Speedup:     2.31×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010369  RMSE=9.9012e+00
+First 8:
+  TFS: -329.95 184.42 -277.82 196.40 384.66 29.22 0.64 -592.28 
+  MKL: -333.82 187.02 -280.50 197.71 388.10 29.61 -0.37 -597.81 
+METHOD_CONFIG graph=rgg_n_2_24_s0 N=16777216 E=265114400 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=190.588867188 mean_abs=9.43934433653 relative_L2=0.0131541738972 normalized_max=0.0151953371992 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.405860900879 mean_abs=0.0368046585405 relative_L2=0.00312659264514 normalized_max=0.00348752448043 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=71.52734375 mean_abs=3.86284021166 relative_L2=0.00538885106922 normalized_max=0.00576250704146 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=3.85202289729 relative_L2=0.00584415511611 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.1199218034 relative_L2=0.0182158762108 normalized_max=0.0202979520323 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000221252441406 mean_abs=3.27649631818e-06 relative_L2=5.66842591685e-07 normalized_max=1.90120138227e-06 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.49462890625 mean_abs=0.00214300135116 relative_L2=1.05352678459e-05 normalized_max=3.98491318947e-05 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32 mean_abs=0.00213634993143 relative_L2=0.000104835820776 normalized_max=0.00259067357513 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=190.588867188 mean_abs=9.43942492645 relative_L2=0.0131542817607 normalized_max=0.0151953371992 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.354034423828 mean_abs=0.0380479403785 relative_L2=0.00323220458387 normalized_max=0.0030421844463 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=70.63671875 mean_abs=4.09334863699 relative_L2=0.00569894476409 normalized_max=0.0056907550014 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.08187886662 relative_L2=0.00612615516426 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3122408338 relative_L2=0.0184681482099 normalized_max=0.0202979520323 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000375986099243 mean_abs=1.37958068562e-05 relative_L2=1.68399401361e-06 normalized_max=3.23081312482e-06 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.52734375 mean_abs=0.00763273843608 relative_L2=2.05884299946e-05 normalized_max=4.2484760559e-05 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32 mean_abs=0.00760725200068 relative_L2=0.000197113794832 normalized_max=0.00259067357513 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=190.588867188 mean_abs=9.43980349456 relative_L2=0.0131547992664 normalized_max=0.0151953371992 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000587463378906 mean_abs=1.75700264172e-05 relative_L2=2.06862955043e-06 normalized_max=5.04801746326e-06 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.678466796875 mean_abs=0.00969019326899 relative_L2=2.41550188253e-05 normalized_max=5.46597914785e-05 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32 mean_abs=0.00966458987456 relative_L2=0.000226961742922 normalized_max=0.00259067357513 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=190.588867188 mean_abs=9.44004502978 relative_L2=0.0131552288483 normalized_max=0.0151953371992 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000587463378906 mean_abs=1.75700264172e-05 relative_L2=2.06862955043e-06 normalized_max=5.04801746326e-06 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.678466796875 mean_abs=0.00969019326899 relative_L2=2.41550188253e-05 normalized_max=5.46597914785e-05 gate=0.001 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=32 mean_abs=0.00966458987456 relative_L2=0.000226961742922 normalized_max=0.00259067357513 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=190.588867188 mean_abs=9.44004502978 relative_L2=0.0131552288483 normalized_max=0.0151953371992 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=rgg_n_2_24_s0 methods=9 pass=1
+METHOD_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=e2e repeat=0 order=0 ms=894.340991974
+METHOD_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=e2e repeat=1 order=0 ms=894.657850266
+METHOD_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=e2e repeat=2 order=0 ms=893.583059311
+METHOD_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=e2e repeat=3 order=0 ms=894.114971161
+METHOD_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=e2e repeat=4 order=0 ms=893.037080765
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_fast kind=e2e repeat=0 order=1 ms=1057.55710602
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_fast kind=e2e repeat=1 order=1 ms=1056.81681633
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_fast kind=e2e repeat=2 order=1 ms=1056.56409264
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_fast kind=e2e repeat=3 order=1 ms=1057.25193024
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_fast kind=e2e repeat=4 order=1 ms=1058.97378922
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_accurate kind=e2e repeat=0 order=2 ms=1119.30179596
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_accurate kind=e2e repeat=1 order=2 ms=1121.05989456
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_accurate kind=e2e repeat=2 order=2 ms=1123.73590469
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_accurate kind=e2e repeat=3 order=2 ms=1122.59888649
+METHOD_TIME graph=rgg_n_2_24_s0 method=b8_accurate kind=e2e repeat=4 order=2 ms=1120.51701546
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_fast kind=e2e repeat=0 order=3 ms=951.482057571
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_fast kind=e2e repeat=1 order=3 ms=950.3428936
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_fast kind=e2e repeat=2 order=3 ms=951.737880707
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_fast kind=e2e repeat=3 order=3 ms=951.148033142
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_fast kind=e2e repeat=4 order=3 ms=950.365066528
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_accurate kind=e2e repeat=0 order=4 ms=1014.52493668
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_accurate kind=e2e repeat=1 order=4 ms=1013.08608055
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_accurate kind=e2e repeat=2 order=4 ms=1013.98611069
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_accurate kind=e2e repeat=3 order=4 ms=1012.26997375
+METHOD_TIME graph=rgg_n_2_24_s0 method=b16_accurate kind=e2e repeat=4 order=4 ms=1013.83495331
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_fast kind=e2e repeat=0 order=5 ms=917.15502739
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_fast kind=e2e repeat=1 order=5 ms=917.196035385
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_fast kind=e2e repeat=2 order=5 ms=916.51391983
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_fast kind=e2e repeat=3 order=5 ms=915.737867355
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_fast kind=e2e repeat=4 order=5 ms=917.354822159
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_accurate kind=e2e repeat=0 order=6 ms=972.770929337
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_accurate kind=e2e repeat=1 order=6 ms=970.268011093
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_accurate kind=e2e repeat=2 order=6 ms=970.615148544
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_accurate kind=e2e repeat=3 order=6 ms=971.138000488
+METHOD_TIME graph=rgg_n_2_24_s0 method=b64_accurate kind=e2e repeat=4 order=6 ms=969.947814941
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=e2e repeat=0 order=7 ms=916.660070419
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=e2e repeat=1 order=7 ms=915.546894073
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=e2e repeat=2 order=7 ms=916.719913483
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=e2e repeat=3 order=7 ms=916.795969009
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=e2e repeat=4 order=7 ms=916.943073273
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_accurate kind=e2e repeat=0 order=8 ms=971.096992493
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_accurate kind=e2e repeat=1 order=8 ms=970.384120941
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_accurate kind=e2e repeat=2 order=8 ms=971.471071243
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_accurate kind=e2e repeat=3 order=8 ms=972.322940826
+METHOD_TIME graph=rgg_n_2_24_s0 method=bfull_accurate kind=e2e repeat=4 order=8 ms=972.70488739
+METHOD_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=2017.73095131
+METHOD_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=2015.67721367
+METHOD_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=2014.57905769
+METHOD_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=2018.44120026
+METHOD_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=2017.82989502
+METHOD_COMPLETE graph=rgg_n_2_24_s0 methods=9 checks=36 pass=1 max_rss_kib=0

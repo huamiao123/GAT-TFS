@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/soc-LiveJournal1/soc-LiveJournal1.csrbin
+Matrix: soc-LiveJournal1  N=4847571  NNZ=68993773  avg_deg=14.2
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 258.72 ms
+  run 1: 260.95 ms
+  run 2: 248.70 ms
+  run 3: 262.65 ms
+  run 4: 257.28 ms
+  TFS V3 E2E BEST: 248.70 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 684.01 ms
+  run 1: 684.96 ms
+  run 2: 682.85 ms
+  run 3: 684.06 ms
+  run 4: 683.96 ms
+  MKL E2E BEST: 682.85 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 248.70 ms
+  MKL (FP32):      682.85 ms
+  E2E Speedup:     2.75×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010477  RMSE=4.7468e+01
+First 8:
+  TFS: -1141.54 -5977.87 -4698.88 -2085.13 -153.08 186.01 -3180.57 -4738.68 
+  MKL: -1152.32 -6034.86 -4747.99 -2104.23 -159.90 190.52 -3217.06 -4786.02 
+METHOD_CONFIG graph=soc-LiveJournal1 N=4847571 E=68993773 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=soc-LiveJournal1 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2248135724 relative_L2=0.0128773740708 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=4.95227050781 mean_abs=0.0180216921684 relative_L2=0.00234119919687 normalized_max=0.00212841014388 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=12993 mean_abs=3.24198422604 relative_L2=0.0030667341203 normalized_max=0.0028617845924 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=3.23303338654 relative_L2=0.00410817175438 normalized_max=0.0036231884058 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=16.1971697456 relative_L2=0.0157584564661 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0191650390625 mean_abs=1.88811626895e-06 relative_L2=5.59475736384e-07 normalized_max=8.23684075501e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=174 mean_abs=0.00441354226054 relative_L2=7.60358215865e-06 normalized_max=3.83245223641e-05 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.00443919643995 relative_L2=0.000129128960865 normalized_max=0.000452898550725 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2248997666 relative_L2=0.0128776238095 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.53344726562 mean_abs=0.0224053115351 relative_L2=0.00292769661415 normalized_max=0.00237819102818 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=20628 mean_abs=4.77417353611 relative_L2=0.00458763963452 normalized_max=0.00454343820303 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=4.7611590117 relative_L2=0.00516298207416 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=99028 mean_abs=17.758886755 relative_L2=0.0172863496832 normalized_max=0.0215829846887 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.015625 mean_abs=1.69562190065e-06 relative_L2=4.8387299978e-07 normalized_max=6.71538609325e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=39.25 mean_abs=0.00420151942702 relative_L2=7.21502288172e-06 normalized_max=8.64504311949e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.00419135627834 relative_L2=0.000131052848228 normalized_max=0.000905797101449 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2248711495 relative_L2=0.0128776989683 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=6.41796875 mean_abs=0.0236970636212 relative_L2=0.00310693662114 normalized_max=0.0027583448378 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=23832 mean_abs=5.44946227528 relative_L2=0.0052718104828 normalized_max=0.00524913802863 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=5.43398418865 relative_L2=0.00569346663903 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=99028 mean_abs=18.4344304165 relative_L2=0.0179520915421 normalized_max=0.0215829846887 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0143432617188 mean_abs=2.63716016217e-06 relative_L2=7.05428420466e-07 normalized_max=6.16451457779e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=31.75 mean_abs=0.00571930680102 relative_L2=7.59106729856e-06 normalized_max=6.99312405207e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.00566007948371 relative_L2=0.000130577748447 normalized_max=0.000452898550725 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2250541652 relative_L2=0.0128776378249 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=7.5146484375 mean_abs=0.0243214125626 relative_L2=0.00320363985244 normalized_max=0.00322968099922 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=25036 mean_abs=5.7353791992 relative_L2=0.00555811611081 normalized_max=0.00551432610292 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=5.72022877067 relative_L2=0.00594911172183 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=99028 mean_abs=18.7017401767 relative_L2=0.0182324245102 normalized_max=0.0215829846887 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0146484375 mean_abs=8.4330261422e-06 relative_L2=1.72908339088e-06 normalized_max=6.29567446243e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=35.5 mean_abs=0.0125423951968 relative_L2=1.11195702114e-05 normalized_max=7.81908358578e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.0124945787578 relative_L2=0.000174354569564 normalized_max=0.000905797101449 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2256951453 relative_L2=0.0128786373922 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=6.26721191406 mean_abs=0.0244318302082 relative_L2=0.00322094198921 normalized_max=0.00269355185479 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=25098 mean_abs=5.84203365507 relative_L2=0.00565587478659 normalized_max=0.00552798196721 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=5.82532605908 relative_L2=0.00603110598651 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=99028 mean_abs=18.7801999207 relative_L2=0.0183038872326 normalized_max=0.0215829846887 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.018310546875 mean_abs=1.48483526766e-05 relative_L2=3.06607587526e-06 normalized_max=7.86959307803e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=35.5 mean_abs=0.021001229059 relative_L2=1.71448757506e-05 normalized_max=7.81908358578e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.0209610570505 relative_L2=0.000217607702043 normalized_max=0.000452898550725 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2274564115 relative_L2=0.0128797766169 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=6.44287109375 mean_abs=0.0244987727338 relative_L2=0.00323585575574 normalized_max=0.00276904748439 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=25650 mean_abs=5.91146481266 relative_L2=0.00571259040755 normalized_max=0.00564956321057 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=5.89548085473 relative_L2=0.00609595795163 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=99028 mean_abs=18.8218154772 relative_L2=0.0183508870473 normalized_max=0.0215829846887 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.019775390625 mean_abs=1.92471797808e-05 relative_L2=4.29442241239e-06 normalized_max=8.49916052427e-06 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=53.5 mean_abs=0.0281621811556 relative_L2=2.33989743552e-05 normalized_max=1.17836893476e-05 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.0283399337012 relative_L2=0.000276295268994 normalized_max=0.000905797101449 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2300280477 relative_L2=0.0128835755375 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=7.9365234375 mean_abs=0.0245026906471 relative_L2=0.00323954448119 normalized_max=0.00341099642374 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=23714.5 mean_abs=5.98659947406 relative_L2=0.00588794429307 normalized_max=0.00522325796324 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=5.97030326947 relative_L2=0.00628301249673 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=99028 mean_abs=18.8515393465 relative_L2=0.0183946727007 normalized_max=0.0215829846887 gate=0.03 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0235595703125 mean_abs=2.12894958322e-05 relative_L2=5.2152487564e-06 normalized_max=1.01255430937e-05 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=65.75 mean_abs=0.0337082991272 relative_L2=2.77753994732e-05 normalized_max=1.44818238244e-05 gate=0.001 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.0336595410837 relative_L2=0.000307796730564 normalized_max=0.000905797101449 gate=0.01 pass=1
+METHOD_CHECK graph=soc-LiveJournal1 method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=66260 mean_abs=13.2322252229 relative_L2=0.0128878122324 normalized_max=0.0144412546499 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=soc-LiveJournal1 methods=15 pass=1
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=kernel repeat=0 order=0 ms=126.654863358
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=kernel repeat=0 order=1 ms=173.52604866
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=kernel repeat=0 order=2 ms=219.208955765
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=kernel repeat=0 order=3 ms=151.340007782
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=kernel repeat=0 order=4 ms=167.195796967
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=kernel repeat=0 order=5 ms=133.293867111
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=kernel repeat=0 order=6 ms=144.968986511
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=kernel repeat=0 order=7 ms=135.712862015
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=kernel repeat=0 order=8 ms=143.064022064
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=kernel repeat=0 order=9 ms=133.466005325
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=kernel repeat=0 order=10 ms=137.912988663
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=kernel repeat=0 order=11 ms=131.906032562
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=kernel repeat=0 order=12 ms=135.186910629
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=kernel repeat=0 order=13 ms=132.720947266
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=kernel repeat=0 order=14 ms=134.646892548
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=466.830968857
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=kernel repeat=1 order=0 ms=175.328969955
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=kernel repeat=1 order=1 ms=216.368913651
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=kernel repeat=1 order=2 ms=150.764226913
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=kernel repeat=1 order=3 ms=159.839868546
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=kernel repeat=1 order=4 ms=133.925914764
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=kernel repeat=1 order=5 ms=143.008947372
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=kernel repeat=1 order=6 ms=137.9570961
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=kernel repeat=1 order=7 ms=139.087915421
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=kernel repeat=1 order=8 ms=134.746074677
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=kernel repeat=1 order=9 ms=139.091014862
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=kernel repeat=1 order=10 ms=131.726026535
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=kernel repeat=1 order=11 ms=135.710954666
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=kernel repeat=1 order=12 ms=132.193088531
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=kernel repeat=1 order=13 ms=133.439064026
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=466.081142426
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=kernel repeat=1 order=15 ms=127.678871155
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=kernel repeat=2 order=0 ms=208.602905273
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=kernel repeat=2 order=1 ms=146.347045898
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=kernel repeat=2 order=2 ms=164.124965668
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=kernel repeat=2 order=3 ms=135.781049728
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=kernel repeat=2 order=4 ms=140.100002289
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=kernel repeat=2 order=5 ms=138.695001602
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=kernel repeat=2 order=6 ms=144.12689209
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=kernel repeat=2 order=7 ms=132.784843445
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=kernel repeat=2 order=8 ms=140.791893005
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=kernel repeat=2 order=9 ms=132.57598877
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=kernel repeat=2 order=10 ms=138.251066208
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=kernel repeat=2 order=11 ms=130.85103035
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=kernel repeat=2 order=12 ms=134.660005569
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=465.555906296
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=kernel repeat=2 order=14 ms=122.403860092
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=kernel repeat=2 order=15 ms=182.750940323
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=kernel repeat=3 order=0 ms=148.483037949
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=kernel repeat=3 order=1 ms=162.112951279
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=kernel repeat=3 order=2 ms=137.400865555
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=kernel repeat=3 order=3 ms=141.02101326
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=kernel repeat=3 order=4 ms=135.95199585
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=kernel repeat=3 order=5 ms=141.622066498
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=kernel repeat=3 order=6 ms=136.325836182
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=kernel repeat=3 order=7 ms=137.636184692
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=kernel repeat=3 order=8 ms=132.807970047
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=kernel repeat=3 order=9 ms=135.257005692
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=kernel repeat=3 order=10 ms=133.526086807
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=kernel repeat=3 order=11 ms=133.55588913
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=466.807842255
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=kernel repeat=3 order=13 ms=121.277093887
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=kernel repeat=3 order=14 ms=177.52289772
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=kernel repeat=3 order=15 ms=214.357852936
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=kernel repeat=4 order=0 ms=170.365095139
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=kernel repeat=4 order=1 ms=134.103775024
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=kernel repeat=4 order=2 ms=142.039060593
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=kernel repeat=4 order=3 ms=135.635137558
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=kernel repeat=4 order=4 ms=143.462896347
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=kernel repeat=4 order=5 ms=135.704994202
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=kernel repeat=4 order=6 ms=137.645959854
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=kernel repeat=4 order=7 ms=133.322954178
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=kernel repeat=4 order=8 ms=135.818958282
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=kernel repeat=4 order=9 ms=130.950927734
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=kernel repeat=4 order=10 ms=136.590957642
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=465.989112854
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=kernel repeat=4 order=12 ms=119.443893433
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=kernel repeat=4 order=13 ms=180.657863617
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=kernel repeat=4 order=14 ms=216.078996658
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=kernel repeat=4 order=15 ms=152.867794037
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=e2e repeat=0 order=0 ms=262.619018555
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=e2e repeat=0 order=1 ms=358.439922333
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=e2e repeat=0 order=2 ms=434.720039368
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=e2e repeat=0 order=3 ms=314.695835114
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=e2e repeat=0 order=4 ms=335.999965668
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=e2e repeat=0 order=5 ms=289.86120224
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=e2e repeat=0 order=6 ms=299.030065536
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=e2e repeat=0 order=7 ms=289.170026779
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=e2e repeat=0 order=8 ms=300.33493042
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=e2e repeat=0 order=9 ms=283.777952194
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=e2e repeat=0 order=10 ms=292.320966721
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=e2e repeat=0 order=11 ms=282.562017441
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=e2e repeat=0 order=12 ms=284.065008163
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=e2e repeat=0 order=13 ms=283.249139786
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=e2e repeat=0 order=14 ms=283.890008926
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=685.24813652
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=e2e repeat=1 order=0 ms=377.492189407
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=e2e repeat=1 order=1 ms=410.967111588
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=e2e repeat=1 order=2 ms=315.699100494
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=e2e repeat=1 order=3 ms=347.527980804
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=e2e repeat=1 order=4 ms=285.924911499
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=e2e repeat=1 order=5 ms=304.240942001
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=e2e repeat=1 order=6 ms=290.138959885
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=e2e repeat=1 order=7 ms=299.410820007
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=e2e repeat=1 order=8 ms=287.42480278
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=e2e repeat=1 order=9 ms=290.652990341
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=e2e repeat=1 order=10 ms=284.48677063
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=e2e repeat=1 order=11 ms=290.745973587
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=e2e repeat=1 order=12 ms=280.379772186
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=e2e repeat=1 order=13 ms=285.491943359
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=685.868024826
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=e2e repeat=1 order=15 ms=261.861085892
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=e2e repeat=2 order=0 ms=436.747074127
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=e2e repeat=2 order=1 ms=305.630922318
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=e2e repeat=2 order=2 ms=338.109016418
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=e2e repeat=2 order=3 ms=290.278911591
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=e2e repeat=2 order=4 ms=295.892953873
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=e2e repeat=2 order=5 ms=291.960954666
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=e2e repeat=2 order=6 ms=300.893068314
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=e2e repeat=2 order=7 ms=283.788204193
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=e2e repeat=2 order=8 ms=291.360139847
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=e2e repeat=2 order=9 ms=284.008026123
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=e2e repeat=2 order=10 ms=288.712978363
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=e2e repeat=2 order=11 ms=281.831979752
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=e2e repeat=2 order=12 ms=285.405874252
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=686.132907867
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=e2e repeat=2 order=14 ms=265.997171402
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=e2e repeat=2 order=15 ms=355.8781147
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=e2e repeat=3 order=0 ms=319.468975067
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=e2e repeat=3 order=1 ms=343.808889389
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=e2e repeat=3 order=2 ms=288.139104843
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=e2e repeat=3 order=3 ms=302.257061005
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=e2e repeat=3 order=4 ms=288.748025894
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=e2e repeat=3 order=5 ms=303.708076477
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=e2e repeat=3 order=6 ms=286.087036133
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=e2e repeat=3 order=7 ms=291.523933411
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=e2e repeat=3 order=8 ms=280.489206314
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=e2e repeat=3 order=9 ms=288.579940796
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=e2e repeat=3 order=10 ms=279.278039932
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=e2e repeat=3 order=11 ms=284.276008606
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=684.471845627
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=e2e repeat=3 order=13 ms=265.92707634
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=e2e repeat=3 order=14 ms=375.434875488
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=e2e repeat=3 order=15 ms=425.235033035
+METHOD_TIME graph=soc-LiveJournal1 method=b4_accurate kind=e2e repeat=4 order=0 ms=342.105150223
+METHOD_TIME graph=soc-LiveJournal1 method=b8_fast kind=e2e repeat=4 order=1 ms=293.031930923
+METHOD_TIME graph=soc-LiveJournal1 method=b8_accurate kind=e2e repeat=4 order=2 ms=293.967962265
+METHOD_TIME graph=soc-LiveJournal1 method=b16_fast kind=e2e repeat=4 order=3 ms=292.660951614
+METHOD_TIME graph=soc-LiveJournal1 method=b16_accurate kind=e2e repeat=4 order=4 ms=300.173044205
+METHOD_TIME graph=soc-LiveJournal1 method=b32_fast kind=e2e repeat=4 order=5 ms=285.301208496
+METHOD_TIME graph=soc-LiveJournal1 method=b32_accurate kind=e2e repeat=4 order=6 ms=293.250083923
+METHOD_TIME graph=soc-LiveJournal1 method=b64_fast kind=e2e repeat=4 order=7 ms=279.667854309
+METHOD_TIME graph=soc-LiveJournal1 method=b64_accurate kind=e2e repeat=4 order=8 ms=287.266016006
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_fast kind=e2e repeat=4 order=9 ms=281.839132309
+METHOD_TIME graph=soc-LiveJournal1 method=bfull_accurate kind=e2e repeat=4 order=10 ms=286.933898926
+METHOD_TIME graph=soc-LiveJournal1 method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=684.975862503
+METHOD_TIME graph=soc-LiveJournal1 method=paper_tfs kind=e2e repeat=4 order=12 ms=269.132137299
+METHOD_TIME graph=soc-LiveJournal1 method=b2_fast kind=e2e repeat=4 order=13 ms=355.012893677
+METHOD_TIME graph=soc-LiveJournal1 method=b2_accurate kind=e2e repeat=4 order=14 ms=432.463169098
+METHOD_TIME graph=soc-LiveJournal1 method=b4_fast kind=e2e repeat=4 order=15 ms=307.585000992
+METHOD_STAGE graph=soc-LiveJournal1 method=paper_tfs repeat=0 layer1_ms=129.812002182 relu_ms=8.68511199951 interlayer_conversion_ms=9.7029209137 layer2_ms=123.52013588 total_ms=271.720170975
+METHOD_STAGE graph=soc-LiveJournal1 method=paper_tfs repeat=1 layer1_ms=128.873109818 relu_ms=8.84795188904 interlayer_conversion_ms=9.6480846405 layer2_ms=118.350982666 total_ms=265.720129013
+METHOD_STAGE graph=soc-LiveJournal1 method=paper_tfs repeat=2 layer1_ms=129.372119904 relu_ms=8.67199897766 interlayer_conversion_ms=9.85097885132 layer2_ms=126.754999161 total_ms=274.650096893
+METHOD_STAGE graph=soc-LiveJournal1 method=b2_fast repeat=0 layer1_ms=174.674987793 relu_ms=9.04512405396 interlayer_conversion_ms=9.5489025116 layer2_ms=177.376031876 total_ms=370.645046234
+METHOD_STAGE graph=soc-LiveJournal1 method=b2_fast repeat=1 layer1_ms=180.079221725 relu_ms=9.05084609985 interlayer_conversion_ms=10.0140571594 layer2_ms=163.758993149 total_ms=362.903118134
+METHOD_STAGE graph=soc-LiveJournal1 method=b2_fast repeat=2 layer1_ms=186.738967896 relu_ms=9.03701782227 interlayer_conversion_ms=9.99712944031 layer2_ms=163.547039032 total_ms=369.32015419
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.0250339508057 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.455856323242 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=3.25417518616 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=13.2455825806 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=31.9516658783 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=16.233921051 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.83312797546 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=tile_load sampled_thread_ms=14.310836792 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=30.8165550232 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=tile_store sampled_thread_ms=1.86705589294 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=1.2218952179 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0309944152832 sampled_tiles=1185 wall_ms=217.721939087
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.368356704712 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=3.21197509766 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=13.2918357849 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=31.5284729004 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=16.4363384247 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=2.78067588806 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=tile_load sampled_thread_ms=14.1670703888 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=30.4307937622 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=tile_store sampled_thread_ms=1.94215774536 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.211000442505 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0381469726562 sampled_tiles=1185 wall_ms=209.927082062
+METHOD_STAGE graph=soc-LiveJournal1 method=b2_accurate repeat=0 layer1_ms=220.460891724 relu_ms=9.29594039917 interlayer_conversion_ms=10.6890201569 layer2_ms=203.237056732 total_ms=443.682909012
+METHOD_STAGE graph=soc-LiveJournal1 method=b2_accurate repeat=1 layer1_ms=200.631141663 relu_ms=8.89897346497 interlayer_conversion_ms=9.85407829285 layer2_ms=210.834980011 total_ms=430.219173431
+METHOD_STAGE graph=soc-LiveJournal1 method=b2_accurate repeat=2 layer1_ms=219.676017761 relu_ms=9.07397270203 interlayer_conversion_ms=9.94396209717 layer2_ms=192.092895508 total_ms=430.786848068
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.34761428833 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=3.47638130188 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=13.1235122681 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=31.0037136078 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=15.2699947357 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.95457649231 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=25.2120494843 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=35.3653430939 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=1.68085098267 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=1.17635726929 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0293254852295 sampled_tiles=1185 wall_ms=258.005857468
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.386714935303 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=3.40032577515 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=13.1273269653 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=30.8392047882 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=15.6679153442 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=5.00679016113 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=25.6910324097 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=37.4619960785 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=1.65247917175 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.216245651245 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_PROFILE graph=soc-LiveJournal1 method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.037670135498 sampled_tiles=1185 wall_ms=225.06403923
+METHOD_STAGE graph=soc-LiveJournal1 method=b4_fast repeat=0 layer1_ms=150.460958481 relu_ms=9.07516479492 interlayer_conversion_ms=9.83190536499 layer2_ms=144.974946976 total_ms=314.342975616
+METHOD_STAGE graph=soc-LiveJournal1 method=b4_fast repeat=1 layer1_ms=147.782802582 relu_ms=8.86297225952 interlayer_conversion_ms=9.40108299255 layer2_ms=145.518064499 total_ms=311.564922333
+METHOD_STAGE graph=soc-LiveJournal1 method=b4_fast repeat=2 layer1_ms=146.436929703 relu_ms=9.14406776428 interlayer_conversion_ms=9.52506065369 layer2_ms=144.356966019 total_ms=309.463024139
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.420808792114 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=1.76429748535 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=11.9156837463 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=23.70262146 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=13.0560398102 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.59573554993 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=tile_load sampled_thread_ms=8.29315185547 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=16.5460109711 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=tile_store sampled_thread_ms=0.993728637695 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=1.23453140259 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0383853912354 sampled_tiles=1185 wall_ms=176.135063171
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0.36358833313 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=1.81674957275 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=12.0720863342 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=23.0588912964 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=12.900352478 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.56211853027 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=tile_load sampled_thread_ms=8.22019577026 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=16.8387889862 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=tile_store sampled_thread_ms=1.07312202454 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0.20432472229 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0433921813965 sampled_tiles=1185 wall_ms=161.799907684
+METHOD_STAGE graph=soc-LiveJournal1 method=b4_accurate repeat=0 layer1_ms=172.595977783 relu_ms=8.85915756226 interlayer_conversion_ms=9.64283943176 layer2_ms=155.862092972 total_ms=346.960067749
+METHOD_STAGE graph=soc-LiveJournal1 method=b4_accurate repeat=1 layer1_ms=159.919023514 relu_ms=8.94594192505 interlayer_conversion_ms=9.62901115417 layer2_ms=162.003040314 total_ms=340.497016907
+METHOD_STAGE graph=soc-LiveJournal1 method=b4_accurate repeat=2 layer1_ms=160.904884338 relu_ms=8.82411003113 interlayer_conversion_ms=9.66382026672 layer2_ms=163.192033768 total_ms=342.584848404
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.386714935303 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=1.91307067871 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=11.9504928589 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=23.4282016754 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=12.8135681152 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.53462791443 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=14.0359401703 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=21.125793457 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=0.879287719727 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=1.24025344849 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=1185 wall_ms=195.605993271
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.375747680664 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=1.94549560547 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=11.9655132294 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=23.4682559967 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=13.1108760834 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=2.61855125427 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=14.7271156311 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=21.9292640686 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=0.881195068359 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.251770019531 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_PROFILE graph=soc-LiveJournal1 method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0314712524414 sampled_tiles=1185 wall_ms=169.43192482
+METHOD_STAGE graph=soc-LiveJournal1 method=b8_fast repeat=0 layer1_ms=138.904094696 relu_ms=8.88800621033 interlayer_conversion_ms=9.68194007874 layer2_ms=130.779981613 total_ms=288.254022598
+METHOD_STAGE graph=soc-LiveJournal1 method=b8_fast repeat=1 layer1_ms=136.012077332 relu_ms=9.13786888123 interlayer_conversion_ms=9.56320762634 layer2_ms=132.397890091 total_ms=287.11104393
+METHOD_STAGE graph=soc-LiveJournal1 method=b8_fast repeat=2 layer1_ms=137.364149094 relu_ms=8.868932724 interlayer_conversion_ms=9.4211101532 layer2_ms=135.231971741 total_ms=290.886163712
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0.00119209289551 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.43797492981 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=1.02663040161 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=11.5237236023 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=19.9127197266 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=10.9314918518 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.860691070557 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=tile_load sampled_thread_ms=4.9352645874 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=8.89134407043 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=tile_store sampled_thread_ms=0.568866729736 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=1.29103660583 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0293254852295 sampled_tiles=1185 wall_ms=156.157970428
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.350952148438 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=1.13964080811 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=11.4414691925 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=19.7899341583 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=10.7707977295 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.861883163452 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=tile_load sampled_thread_ms=4.90236282349 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=8.33535194397 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=tile_store sampled_thread_ms=0.591993331909 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.22029876709 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0371932983398 sampled_tiles=1185 wall_ms=141.176939011
+METHOD_STAGE graph=soc-LiveJournal1 method=b8_accurate repeat=0 layer1_ms=147.172927856 relu_ms=9.0000629425 interlayer_conversion_ms=9.5739364624 layer2_ms=140.194177628 total_ms=305.941104889
+METHOD_STAGE graph=soc-LiveJournal1 method=b8_accurate repeat=1 layer1_ms=145.491838455 relu_ms=8.93902778625 interlayer_conversion_ms=9.62805747986 layer2_ms=134.5911026 total_ms=298.650026321
+METHOD_STAGE graph=soc-LiveJournal1 method=b8_accurate repeat=2 layer1_ms=144.167900085 relu_ms=10.0240707397 interlayer_conversion_ms=9.42993164062 layer2_ms=134.139060974 total_ms=297.76096344
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.408411026001 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=1.10197067261 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=12.0160579681 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=19.4187164307 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=11.2988948822 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.36375427246 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=8.36873054504 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=12.542963028 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.55193901062 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=1.30248069763 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0391006469727 sampled_tiles=1185 wall_ms=160.260915756
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.405550003052 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=1.11794471741 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=11.7034912109 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=19.7038650513 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=11.3441944122 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.42621994019 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=8.47959518433 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=12.1874809265 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=0.515699386597 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0.267744064331 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_PROFILE graph=soc-LiveJournal1 method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=1185 wall_ms=151.932954788
+METHOD_STAGE graph=soc-LiveJournal1 method=b16_fast repeat=0 layer1_ms=135.554790497 relu_ms=9.05799865723 interlayer_conversion_ms=9.94920730591 layer2_ms=137.79592514 total_ms=292.3579216
+METHOD_STAGE graph=soc-LiveJournal1 method=b16_fast repeat=1 layer1_ms=134.902000427 relu_ms=8.92210006714 interlayer_conversion_ms=9.64689254761 layer2_ms=135.234117508 total_ms=288.70511055
+METHOD_STAGE graph=soc-LiveJournal1 method=b16_fast repeat=2 layer1_ms=138.521909714 relu_ms=8.98218154907 interlayer_conversion_ms=9.56797599792 layer2_ms=138.065814972 total_ms=295.137882233
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0.466585159302 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.65803527832 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=11.0940933228 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.9499855042 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.82356071472 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.534296035767 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=tile_load sampled_thread_ms=3.30448150635 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=5.55491447449 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.327587127686 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=1.34921073914 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0312328338623 sampled_tiles=1185 wall_ms=150.890827179
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.394582748413 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.691413879395 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=10.9961032867 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=19.8917388916 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.66095924377 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.540733337402 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=tile_load sampled_thread_ms=3.40294837952 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=5.51652908325 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.388383865356 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.232696533203 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0300407409668 sampled_tiles=1185 wall_ms=144.603967667
+METHOD_STAGE graph=soc-LiveJournal1 method=b16_accurate repeat=0 layer1_ms=143.752813339 relu_ms=10.0030899048 interlayer_conversion_ms=9.4199180603 layer2_ms=136.85798645 total_ms=300.033807755
+METHOD_STAGE graph=soc-LiveJournal1 method=b16_accurate repeat=1 layer1_ms=141.125917435 relu_ms=8.73208045959 interlayer_conversion_ms=9.39106941223 layer2_ms=141.518831253 total_ms=300.76789856
+METHOD_STAGE graph=soc-LiveJournal1 method=b16_accurate repeat=2 layer1_ms=142.50087738 relu_ms=8.97908210754 interlayer_conversion_ms=9.7599029541 layer2_ms=135.951042175 total_ms=297.190904617
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.398635864258 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.724077224731 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=11.2633705139 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=19.6359157562 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=10.4970932007 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.866174697876 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=5.61809539795 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=7.87019729614 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.316143035889 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=1.33371353149 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0314712524414 sampled_tiles=1185 wall_ms=152.129888535
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.377178192139 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.753164291382 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=11.3637447357 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=19.6695327759 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=10.1211071014 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.883340835571 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=5.6676864624 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=7.62414932251 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.345945358276 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.278949737549 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_PROFILE graph=soc-LiveJournal1 method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0336170196533 sampled_tiles=1185 wall_ms=153.605222702
+METHOD_STAGE graph=soc-LiveJournal1 method=b32_fast repeat=0 layer1_ms=133.00204277 relu_ms=9.00793075562 interlayer_conversion_ms=9.64593887329 layer2_ms=132.878065109 total_ms=284.533977509
+METHOD_STAGE graph=soc-LiveJournal1 method=b32_fast repeat=1 layer1_ms=135.894775391 relu_ms=9.08517837524 interlayer_conversion_ms=9.55581665039 layer2_ms=130.892038345 total_ms=285.427808762
+METHOD_STAGE graph=soc-LiveJournal1 method=b32_fast repeat=2 layer1_ms=135.535001755 relu_ms=8.84819030762 interlayer_conversion_ms=9.74702835083 layer2_ms=132.683992386 total_ms=286.814212799
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.513792037964 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.482797622681 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=10.8575820923 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=19.1824436188 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.38153266907 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.37407875061 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=tile_load sampled_thread_ms=2.69794464111 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=4.31871414185 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.247240066528 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=1.38831138611 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=1185 wall_ms=136.305093765
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.397443771362 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.59962272644 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=11.1467838287 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=20.0049877167 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.2236995697 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.3821849823 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=tile_load sampled_thread_ms=2.73966789246 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=3.9370059967 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.289440155029 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.256776809692 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0357627868652 sampled_tiles=1185 wall_ms=136.631965637
+METHOD_STAGE graph=soc-LiveJournal1 method=b32_accurate repeat=0 layer1_ms=139.240980148 relu_ms=8.94904136658 interlayer_conversion_ms=9.58800315857 layer2_ms=136.626958847 total_ms=294.404983521
+METHOD_STAGE graph=soc-LiveJournal1 method=b32_accurate repeat=1 layer1_ms=141.394138336 relu_ms=9.02485847473 interlayer_conversion_ms=9.79399681091 layer2_ms=133.177995682 total_ms=293.390989304
+METHOD_STAGE graph=soc-LiveJournal1 method=b32_accurate repeat=2 layer1_ms=139.302015305 relu_ms=9.06705856323 interlayer_conversion_ms=9.54508781433 layer2_ms=134.403944016 total_ms=292.318105698
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.36096572876 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.559568405151 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=11.2905502319 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=19.5844173431 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.52696800232 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.553607940674 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=4.37927246094 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=6.01816177368 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.211477279663 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=1.36566162109 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=1185 wall_ms=140.716075897
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.397682189941 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.577926635742 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=11.0030174255 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=19.0324783325 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.432554245 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.531196594238 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=4.09054756165 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=5.68413734436 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.251054763794 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.280380249023 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_PROFILE graph=soc-LiveJournal1 method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0293254852295 sampled_tiles=1185 wall_ms=147.754907608
+METHOD_STAGE graph=soc-LiveJournal1 method=b64_fast repeat=0 layer1_ms=134.506940842 relu_ms=8.98313522339 interlayer_conversion_ms=9.61685180664 layer2_ms=132.107019424 total_ms=285.213947296
+METHOD_STAGE graph=soc-LiveJournal1 method=b64_fast repeat=1 layer1_ms=132.339954376 relu_ms=8.89587402344 interlayer_conversion_ms=9.66596603394 layer2_ms=132.142066956 total_ms=283.043861389
+METHOD_STAGE graph=soc-LiveJournal1 method=b64_fast repeat=2 layer1_ms=134.164094925 relu_ms=8.87203216553 interlayer_conversion_ms=9.65881347656 layer2_ms=131.314992905 total_ms=284.009933472
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.484228134155 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.4563331604 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=10.8423233032 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.4550285339 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.19914245605 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.268459320068 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=tile_load sampled_thread_ms=2.04730033875 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=3.54790687561 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.189542770386 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=1.40428543091 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.037670135498 sampled_tiles=1185 wall_ms=144.046068192
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.389814376831 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.489711761475 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=11.0960006714 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=19.270658493 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.12046432495 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.324726104736 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=tile_load sampled_thread_ms=2.02393531799 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=3.31807136536 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.248670578003 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.278472900391 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0348091125488 sampled_tiles=1185 wall_ms=137.295007706
+METHOD_STAGE graph=soc-LiveJournal1 method=b64_accurate repeat=0 layer1_ms=137.779951096 relu_ms=8.79907608032 interlayer_conversion_ms=9.39989089966 layer2_ms=131.331205368 total_ms=287.310123444
+METHOD_STAGE graph=soc-LiveJournal1 method=b64_accurate repeat=1 layer1_ms=135.636091232 relu_ms=8.8849067688 interlayer_conversion_ms=9.67192649841 layer2_ms=130.031108856 total_ms=284.224033356
+METHOD_STAGE graph=soc-LiveJournal1 method=b64_accurate repeat=2 layer1_ms=138.163089752 relu_ms=9.05895233154 interlayer_conversion_ms=9.56106185913 layer2_ms=130.542993546 total_ms=287.326097488
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.409364700317 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.510215759277 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=10.9598636627 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=18.4469223022 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.39893722534 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.418424606323 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=3.13067436218 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=5.02490997314 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.167369842529 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=1.40476226807 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=1185 wall_ms=147.837877274
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.360727310181 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.503778457642 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=11.0847949982 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=19.223690033 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.32693481445 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.44846534729 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=3.64947319031 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=4.61769104004 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.21767616272 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.277042388916 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_PROFILE graph=soc-LiveJournal1 method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0264644622803 sampled_tiles=1185 wall_ms=130.881786346
+METHOD_STAGE graph=soc-LiveJournal1 method=bfull_fast repeat=0 layer1_ms=135.50901413 relu_ms=9.0057849884 interlayer_conversion_ms=9.94920730591 layer2_ms=128.47495079 total_ms=282.938957214
+METHOD_STAGE graph=soc-LiveJournal1 method=bfull_fast repeat=1 layer1_ms=131.610870361 relu_ms=8.95595550537 interlayer_conversion_ms=9.68909263611 layer2_ms=129.238128662 total_ms=279.494047165
+METHOD_STAGE graph=soc-LiveJournal1 method=bfull_fast repeat=2 layer1_ms=131.218910217 relu_ms=8.96692276001 interlayer_conversion_ms=9.60898399353 layer2_ms=131.381034851 total_ms=281.175851822
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.497102737427 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.350713729858 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=10.9922885895 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=18.4235572815 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=8.96763801575 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.234365463257 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=1.59358978271 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=3.2205581665 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.168085098267 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=1.4181137085 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0350475311279 sampled_tiles=1185 wall_ms=141.113996506
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.394582748413 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.377416610718 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=11.058807373 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=19.1338062286 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.06229019165 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.23627281189 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=1.55401229858 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=2.9411315918 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.182390213013 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.281572341919 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0340938568115 sampled_tiles=1185 wall_ms=127.857923508
+METHOD_STAGE graph=soc-LiveJournal1 method=bfull_accurate repeat=0 layer1_ms=135.230064392 relu_ms=9.00197029114 interlayer_conversion_ms=9.58490371704 layer2_ms=131.495952606 total_ms=285.312891006
+METHOD_STAGE graph=soc-LiveJournal1 method=bfull_accurate repeat=1 layer1_ms=135.669946671 relu_ms=8.99291038513 interlayer_conversion_ms=9.75012779236 layer2_ms=128.825902939 total_ms=283.238887787
+METHOD_STAGE graph=soc-LiveJournal1 method=bfull_accurate repeat=2 layer1_ms=136.171102524 relu_ms=8.88895988464 interlayer_conversion_ms=9.6549987793 layer2_ms=130.19990921 total_ms=284.914970398
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.450372695923 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.420808792114 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=11.091709137 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=18.4116363525 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.02414321899 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.305891036987 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=2.65717506409 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=4.62412834167 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.123262405396 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=1.39689445496 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=1185 wall_ms=145.622014999
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.40864944458 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.406980514526 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=10.9641551971 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=18.9151763916 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=9.11641120911 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.330209732056 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=2.73013114929 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=4.05550003052 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.144958496094 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0.319004058838 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_PROFILE graph=soc-LiveJournal1 method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0338554382324 sampled_tiles=1185 wall_ms=139.03594017
+METHOD_COMPLETE graph=soc-LiveJournal1 methods=15 checks=60 pass=1 max_rss_kib=25709296

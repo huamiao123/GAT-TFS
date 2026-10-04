@@ -1,0 +1,32 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/indochina-2004/indochina-2004.csrbin
+Matrix: indochina-2004  N=7414866  NNZ=194109311  avg_deg=26.2
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 344.59 ms
+  run 1: 348.07 ms
+  run 2: 349.58 ms
+  run 3: 348.14 ms
+  run 4: 352.66 ms
+  TFS V3 E2E BEST: 344.59 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 693.99 ms
+  run 1: 696.13 ms
+  run 2: 702.42 ms
+  run 3: 692.84 ms
+  run 4: 695.04 ms
+  MKL E2E BEST: 692.84 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 344.59 ms
+  MKL (FP32):      692.84 ms
+  E2E Speedup:     2.01×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008503  RMSE=3.9596e+03
+First 8:
+  TFS: -37.13 -33.93 -379.67 -25.18 -119.69 195.20 125.78 -160.26 
+  MKL: -37.65 -34.23 -383.59 -26.44 -120.64 197.34 126.60 -161.51 

@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/reddit/reddit.csrbin
+Matrix: reddit  N=232965  NNZ=114615892  avg_deg=492.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 299.52 ms
+  run 1: 300.74 ms
+  run 2: 293.98 ms
+  run 3: 304.27 ms
+  run 4: 315.08 ms
+  TFS V3 E2E BEST: 293.98 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 439.19 ms
+  run 1: 439.45 ms
+  run 2: 439.05 ms
+  run 3: 439.93 ms
+  run 4: 439.98 ms
+  MKL E2E BEST: 439.05 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 293.98 ms
+  MKL (FP32):      439.05 ms
+  E2E Speedup:     1.49×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009665  RMSE=5.6776e+03
+First 8:
+  TFS: -1817809.38 -1559857.00 -1456105.00 -168724.73 170550.45 229760.09 -1456822.00 -2919221.25 
+  MKL: -1835311.88 -1573869.62 -1469937.12 -176028.23 172793.00 233258.53 -1473026.62 -2942951.50 
+METHOD_CONFIG graph=reddit N=232965 E=114615892 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=reddit method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=388622 mean_abs=2831.50670601 relative_L2=0.0120236734565 normalized_max=0.0118142017636 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=7.30444335938 mean_abs=0.17547656736 relative_L2=0.00310936439682 normalized_max=0.00301245609667 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=174176 mean_abs=1252.61477917 relative_L2=0.00533694656691 normalized_max=0.00534666610921 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1248.67040861 relative_L2=0.00573921830409 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=586268 mean_abs=4064.6193583 relative_L2=0.0171985916742 normalized_max=0.0178226874432 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.026123046875 mean_abs=6.45483003752e-05 relative_L2=1.82045960821e-06 normalized_max=1.07735152359e-05 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=340 mean_abs=1.23928229085 relative_L2=4.24379595828e-06 normalized_max=1.04369515727e-05 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=131072 mean_abs=1.24330650506 relative_L2=0.000134434899556 normalized_max=0.00403225806452 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=388622 mean_abs=2831.56077553 relative_L2=0.0120234654311 normalized_max=0.0118142017636 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=8.00170898438 mean_abs=0.181136284824 relative_L2=0.00321132960693 normalized_max=0.00330001833511 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=179648 mean_abs=1300.03658737 relative_L2=0.00553878164369 normalized_max=0.0055146396357 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1295.99921694 relative_L2=0.00591661230987 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=586268 mean_abs=4111.38841824 relative_L2=0.0173990014391 normalized_max=0.0178226874432 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.021484375 mean_abs=0.000117687163825 relative_L2=2.42737484516e-06 normalized_max=8.8604611286e-06 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=380 mean_abs=1.30700280262 relative_L2=4.34830167854e-06 normalized_max=1.16648282283e-05 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=131072 mean_abs=1.30276937437 relative_L2=0.000132453119875 normalized_max=0.00403225806452 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=388622 mean_abs=2831.7359531 relative_L2=0.0120241536362 normalized_max=0.0118142017636 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=8.90112304688 mean_abs=0.183179182394 relative_L2=0.00324800577591 normalized_max=0.00367094945782 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=184064 mean_abs=1319.41411569 relative_L2=0.00560537092091 normalized_max=0.00565019721848 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1315.41576132 relative_L2=0.00598069542562 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=586268 mean_abs=4128.18090512 relative_L2=0.017462511111 normalized_max=0.0178226874432 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.02294921875 mean_abs=0.000304537084989 relative_L2=5.59899668835e-06 normalized_max=9.46458347828e-06 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=496 mean_abs=2.66414896839 relative_L2=9.54928019015e-06 normalized_max=1.52256705296e-05 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=131072 mean_abs=2.5931765422 relative_L2=0.000207617856266 normalized_max=0.00403225806452 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=388622 mean_abs=2833.21779173 relative_L2=0.0120306019082 normalized_max=0.0118142017636 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0323486328125 mean_abs=0.000453630676095 relative_L2=8.81336728147e-06 normalized_max=1.3341035222e-05 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=666 mean_abs=4.22007803125 relative_L2=1.57085826374e-05 normalized_max=2.0444146316e-05 gate=0.001 pass=1
+METHOD_CHECK graph=reddit method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=131072 mean_abs=4.12424953819 relative_L2=0.000267446882477 normalized_max=0.00403225806452 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=388622 mean_abs=2834.42342937 relative_L2=0.0120352424898 normalized_max=0.0118142017636 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=reddit methods=9 pass=1
+METHOD_TIME graph=reddit method=paper_tfs kind=e2e repeat=0 order=0 ms=311.370134354
+METHOD_TIME graph=reddit method=paper_tfs kind=e2e repeat=1 order=0 ms=300.799131393
+METHOD_TIME graph=reddit method=paper_tfs kind=e2e repeat=2 order=0 ms=310.501813889
+METHOD_TIME graph=reddit method=paper_tfs kind=e2e repeat=3 order=0 ms=309.225082397
+METHOD_TIME graph=reddit method=paper_tfs kind=e2e repeat=4 order=0 ms=316.313028336
+METHOD_TIME graph=reddit method=b8_fast kind=e2e repeat=0 order=1 ms=175.794124603
+METHOD_TIME graph=reddit method=b8_fast kind=e2e repeat=1 order=1 ms=168.081998825
+METHOD_TIME graph=reddit method=b8_fast kind=e2e repeat=2 order=1 ms=175.722122192
+METHOD_TIME graph=reddit method=b8_fast kind=e2e repeat=3 order=1 ms=173.051118851
+METHOD_TIME graph=reddit method=b8_fast kind=e2e repeat=4 order=1 ms=170.234203339
+METHOD_TIME graph=reddit method=b8_accurate kind=e2e repeat=0 order=2 ms=192.82412529
+METHOD_TIME graph=reddit method=b8_accurate kind=e2e repeat=1 order=2 ms=191.560029984
+METHOD_TIME graph=reddit method=b8_accurate kind=e2e repeat=2 order=2 ms=198.173046112
+METHOD_TIME graph=reddit method=b8_accurate kind=e2e repeat=3 order=2 ms=196.958065033
+METHOD_TIME graph=reddit method=b8_accurate kind=e2e repeat=4 order=2 ms=195.628166199
+METHOD_TIME graph=reddit method=b16_fast kind=e2e repeat=0 order=3 ms=151.37386322
+METHOD_TIME graph=reddit method=b16_fast kind=e2e repeat=1 order=3 ms=148.293972015
+METHOD_TIME graph=reddit method=b16_fast kind=e2e repeat=2 order=3 ms=142.623901367
+METHOD_TIME graph=reddit method=b16_fast kind=e2e repeat=3 order=3 ms=144.598007202
+METHOD_TIME graph=reddit method=b16_fast kind=e2e repeat=4 order=3 ms=144.170999527
+METHOD_TIME graph=reddit method=b16_accurate kind=e2e repeat=0 order=4 ms=158.280134201
+METHOD_TIME graph=reddit method=b16_accurate kind=e2e repeat=1 order=4 ms=155.434846878
+METHOD_TIME graph=reddit method=b16_accurate kind=e2e repeat=2 order=4 ms=151.81183815
+METHOD_TIME graph=reddit method=b16_accurate kind=e2e repeat=3 order=4 ms=156.404972076
+METHOD_TIME graph=reddit method=b16_accurate kind=e2e repeat=4 order=4 ms=154.294967651
+METHOD_TIME graph=reddit method=b64_fast kind=e2e repeat=0 order=5 ms=128.087043762
+METHOD_TIME graph=reddit method=b64_fast kind=e2e repeat=1 order=5 ms=124.917984009
+METHOD_TIME graph=reddit method=b64_fast kind=e2e repeat=2 order=5 ms=125.293970108
+METHOD_TIME graph=reddit method=b64_fast kind=e2e repeat=3 order=5 ms=124.080896378
+METHOD_TIME graph=reddit method=b64_fast kind=e2e repeat=4 order=5 ms=127.616882324
+METHOD_TIME graph=reddit method=b64_accurate kind=e2e repeat=0 order=6 ms=131.79397583
+METHOD_TIME graph=reddit method=b64_accurate kind=e2e repeat=1 order=6 ms=126.492023468
+METHOD_TIME graph=reddit method=b64_accurate kind=e2e repeat=2 order=6 ms=127.919912338
+METHOD_TIME graph=reddit method=b64_accurate kind=e2e repeat=3 order=6 ms=132.323980331
+METHOD_TIME graph=reddit method=b64_accurate kind=e2e repeat=4 order=6 ms=122.087001801
+METHOD_TIME graph=reddit method=bfull_fast kind=e2e repeat=0 order=7 ms=132.565021515
+METHOD_TIME graph=reddit method=bfull_fast kind=e2e repeat=1 order=7 ms=135.766983032
+METHOD_TIME graph=reddit method=bfull_fast kind=e2e repeat=2 order=7 ms=135.657072067
+METHOD_TIME graph=reddit method=bfull_fast kind=e2e repeat=3 order=7 ms=133.772850037
+METHOD_TIME graph=reddit method=bfull_fast kind=e2e repeat=4 order=7 ms=133.847951889
+METHOD_TIME graph=reddit method=bfull_accurate kind=e2e repeat=0 order=8 ms=135.360002518
+METHOD_TIME graph=reddit method=bfull_accurate kind=e2e repeat=1 order=8 ms=133.595943451
+METHOD_TIME graph=reddit method=bfull_accurate kind=e2e repeat=2 order=8 ms=134.016990662
+METHOD_TIME graph=reddit method=bfull_accurate kind=e2e repeat=3 order=8 ms=133.21518898
+METHOD_TIME graph=reddit method=bfull_accurate kind=e2e repeat=4 order=8 ms=136.584043503
+METHOD_TIME graph=reddit method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=439.327955246
+METHOD_TIME graph=reddit method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=440.218925476
+METHOD_TIME graph=reddit method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=438.997983932
+METHOD_TIME graph=reddit method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=440.855979919
+METHOD_TIME graph=reddit method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=439.82219696
+METHOD_COMPLETE graph=reddit methods=9 checks=36 pass=1 max_rss_kib=0

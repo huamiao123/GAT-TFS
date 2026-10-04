@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/amazon0601/amazon0601.csrbin
+Matrix: amazon0601  N=403394  NNZ=3387388  avg_deg=8.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 12.67 ms
+  run 1: 12.48 ms
+  run 2: 12.86 ms
+  run 3: 12.85 ms
+  run 4: 12.63 ms
+  TFS V3 E2E BEST: 12.48 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 26.13 ms
+  run 1: 25.95 ms
+  run 2: 25.73 ms
+  run 3: 25.79 ms
+  run 4: 25.57 ms
+  MKL E2E BEST: 25.57 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 12.48 ms
+  MKL (FP32):      25.57 ms
+  E2E Speedup:     2.05×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010476  RMSE=3.7819e+00
+First 8:
+  TFS: -47.33 -392.40 -490.73 -280.81 36.58 -167.26 -633.67 -190.92 
+  MKL: -47.51 -397.24 -496.00 -284.70 36.34 -169.30 -641.07 -192.56 
+METHOD_CONFIG graph=amazon0601 N=403394 E=3387388 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.5819906305 relative_L2=0.0131560059242 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.218906402588 mean_abs=0.0252661617756 relative_L2=0.00302525724631 normalized_max=0.00336858119012 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=14.4399414062 mean_abs=1.43501252052 relative_L2=0.00528645678336 normalized_max=0.00597037042421 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.43107628312 relative_L2=0.0057752294436 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=51.4755859375 mean_abs=4.90634833087 relative_L2=0.0179757054786 normalized_max=0.0210770609674 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00016450881958 mean_abs=1.75089303253e-06 relative_L2=5.29152365546e-07 normalized_max=2.53149889037e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.250030517578 mean_abs=0.000750695141722 relative_L2=1.38690561268e-05 normalized_max=0.00010337817622 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.000755262311164 relative_L2=0.000101676058315 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58203836865 relative_L2=0.0131561519532 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.230484008789 mean_abs=0.026546522623 relative_L2=0.00318884804894 normalized_max=0.00354674001057 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16.0229492188 mean_abs=1.56393010035 relative_L2=0.00578187996819 normalized_max=0.00662488436988 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16 mean_abs=1.55946604925 relative_L2=0.00621228430385 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=52.884765625 mean_abs=5.0315008829 relative_L2=0.0184475342814 normalized_max=0.0216540600563 gate=0.03 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.000173568725586 mean_abs=3.26950999369e-06 relative_L2=9.31734138376e-07 normalized_max=2.67091477129e-06 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=0.277618408203 mean_abs=0.00135401771162 relative_L2=1.82954956733e-05 normalized_max=0.000114784727093 gate=0.001 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.00135603184056 relative_L2=0.000135386359365 normalized_max=0.00331125827815 gate=0.01 pass=1
+METHOD_CHECK graph=amazon0601 method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=40.2041015625 mean_abs=3.58206534324 relative_L2=0.0131562388281 normalized_max=0.0164618679776 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=amazon0601 methods=9 pass=1
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=0 order=0 ms=12.9020214081
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=1 order=0 ms=12.8989219666
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=2 order=0 ms=12.6490592957
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=3 order=0 ms=12.6700401306
+METHOD_TIME graph=amazon0601 method=paper_tfs kind=e2e repeat=4 order=0 ms=12.876033783
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=0 order=1 ms=11.8110179901
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=1 order=1 ms=11.885881424
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=2 order=1 ms=12.1870040894
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=3 order=1 ms=11.9459629059
+METHOD_TIME graph=amazon0601 method=b8_fast kind=e2e repeat=4 order=1 ms=11.9099617004
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=0 order=2 ms=13.1678581238
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=1 order=2 ms=13.2839679718
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=2 order=2 ms=13.0019187927
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=3 order=2 ms=12.9308700562
+METHOD_TIME graph=amazon0601 method=b8_accurate kind=e2e repeat=4 order=2 ms=13.1559371948
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=0 order=3 ms=11.2769603729
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=1 order=3 ms=11.5480422974
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=2 order=3 ms=11.3589763641
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=3 order=3 ms=11.3139152527
+METHOD_TIME graph=amazon0601 method=b16_fast kind=e2e repeat=4 order=3 ms=11.2869739532
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=0 order=4 ms=11.8131637573
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=1 order=4 ms=11.6739273071
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=2 order=4 ms=12.0630264282
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=3 order=4 ms=11.6510391235
+METHOD_TIME graph=amazon0601 method=b16_accurate kind=e2e repeat=4 order=4 ms=11.7659568787
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=0 order=5 ms=11.5559101105
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=1 order=5 ms=11.2488269806
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=2 order=5 ms=11.3809108734
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=3 order=5 ms=11.3120079041
+METHOD_TIME graph=amazon0601 method=b64_fast kind=e2e repeat=4 order=5 ms=11.2671852112
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=0 order=6 ms=11.8789672852
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=1 order=6 ms=11.7621421814
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=2 order=6 ms=11.6789340973
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=3 order=6 ms=11.8730068207
+METHOD_TIME graph=amazon0601 method=b64_accurate kind=e2e repeat=4 order=6 ms=11.7518901825
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=0 order=7 ms=11.430978775
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=1 order=7 ms=11.4398002625
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=2 order=7 ms=11.4278793335
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=3 order=7 ms=11.687040329
+METHOD_TIME graph=amazon0601 method=bfull_fast kind=e2e repeat=4 order=7 ms=11.6760730743
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=0 order=8 ms=11.6469860077
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=1 order=8 ms=11.9299888611
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=2 order=8 ms=12.0370388031
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=3 order=8 ms=11.7180347443
+METHOD_TIME graph=amazon0601 method=bfull_accurate kind=e2e repeat=4 order=8 ms=12.0160579681
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=25.4509449005
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=25.7489681244
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=25.6268978119
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=25.5970954895
+METHOD_TIME graph=amazon0601 method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=25.3098011017
+METHOD_COMPLETE graph=amazon0601 methods=9 checks=36 pass=1 max_rss_kib=0

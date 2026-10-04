@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/com-LiveJournal/com-LiveJournal.csrbin
+Matrix: com-LiveJournal  N=3997962  NNZ=69362378  avg_deg=17.3
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 245.25 ms
+  run 1: 239.93 ms
+  run 2: 237.48 ms
+  run 3: 242.95 ms
+  run 4: 244.20 ms
+  TFS V3 E2E BEST: 237.48 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 643.55 ms
+  run 1: 644.12 ms
+  run 2: 643.16 ms
+  run 3: 646.36 ms
+  run 4: 643.23 ms
+  MKL E2E BEST: 643.16 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 237.48 ms
+  MKL (FP32):      643.16 ms
+  E2E Speedup:     2.71×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009347  RMSE=6.9870e+01
+First 8:
+  TFS: 975.59 -2614.89 -1185.33 244.44 144.58 154.73 -1612.97 -1329.18 
+  MKL: 990.37 -2642.10 -1198.25 249.54 144.67 153.64 -1628.47 -1341.65 
+METHOD_CONFIG graph=com-LiveJournal N=3997962 E=69362378 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=37904.75 mean_abs=18.7738840035 relative_L2=0.0128691809134 normalized_max=0.0133545182028 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.529296875 mean_abs=0.0280565246546 relative_L2=0.0031128922505 normalized_max=0.00265955104458 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=14605.5 mean_abs=7.81768328179 relative_L2=0.00529335635621 normalized_max=0.00519386721473 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=7.79575783402 relative_L2=0.00571751148408 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=53345.75 mean_abs=26.2667675315 relative_L2=0.0179907889115 normalized_max=0.0187946573824 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0126953125 mean_abs=3.19637975943e-06 relative_L2=7.19805978598e-07 normalized_max=6.10635174488e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=22.359375 mean_abs=0.00890370014401 relative_L2=7.48045779455e-06 normalized_max=7.9512255489e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.00881453441527 relative_L2=0.000130967299615 normalized_max=0.000730994152047 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=37904.75 mean_abs=18.7740868717 relative_L2=0.0128691885061 normalized_max=0.0133545182028 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=6.93103027344 mean_abs=0.0288055318555 relative_L2=0.00320868668805 normalized_max=0.0033337744781 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=15272.25 mean_abs=8.20277941062 relative_L2=0.00554413875927 normalized_max=0.00543097042691 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.18019529806 relative_L2=0.00593464316446 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=53345.75 mean_abs=26.6243279208 relative_L2=0.0182288882046 normalized_max=0.0187946573824 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0108642578125 mean_abs=1.02491714038e-05 relative_L2=1.74745547825e-06 normalized_max=5.22562793553e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=22.5 mean_abs=0.0185288104417 relative_L2=1.06190442934e-05 normalized_max=8.00123325675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.01844690512 relative_L2=0.000168822889292 normalized_max=0.00146198830409 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=37904.75 mean_abs=18.7750256268 relative_L2=0.0128697916994 normalized_max=0.0133545182028 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=6.5400390625 mean_abs=0.0290276905659 relative_L2=0.00324243976422 normalized_max=0.00314571058735 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=15810.75 mean_abs=8.4445481637 relative_L2=0.00569256585011 normalized_max=0.00562246660952 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.42146359547 relative_L2=0.00607767240714 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=53345.75 mean_abs=26.7890945634 relative_L2=0.0183444969133 normalized_max=0.0187946573824 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.016357421875 mean_abs=2.35548542032e-05 relative_L2=4.36237507206e-06 normalized_max=7.8677993636e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=40.25 mean_abs=0.0392444836517 relative_L2=2.02247542215e-05 normalized_max=1.43133172704e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.0389933933146 relative_L2=0.000250946534661 normalized_max=0.00292397660819 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=37904.75 mean_abs=18.7816637337 relative_L2=0.0128756010588 normalized_max=0.0133545182028 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.02001953125 mean_abs=2.61520194221e-05 relative_L2=5.34868647771e-06 normalized_max=9.62924698232e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=39.75 mean_abs=0.0465230719616 relative_L2=2.51449358526e-05 normalized_max=1.41355120869e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=0.0462518415758 relative_L2=0.000302442768664 normalized_max=0.00292397660819 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=37904.75 mean_abs=18.7850000283 relative_L2=0.0128801674759 normalized_max=0.0133545182028 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=com-LiveJournal methods=9 pass=1
+METHOD_TIME graph=com-LiveJournal method=paper_tfs kind=e2e repeat=0 order=0 ms=251.964092255
+METHOD_TIME graph=com-LiveJournal method=paper_tfs kind=e2e repeat=1 order=0 ms=254.959106445
+METHOD_TIME graph=com-LiveJournal method=paper_tfs kind=e2e repeat=2 order=0 ms=248.972892761
+METHOD_TIME graph=com-LiveJournal method=paper_tfs kind=e2e repeat=3 order=0 ms=249.870061874
+METHOD_TIME graph=com-LiveJournal method=paper_tfs kind=e2e repeat=4 order=0 ms=255.824804306
+METHOD_TIME graph=com-LiveJournal method=b8_fast kind=e2e repeat=0 order=1 ms=269.333839417
+METHOD_TIME graph=com-LiveJournal method=b8_fast kind=e2e repeat=1 order=1 ms=274.281024933
+METHOD_TIME graph=com-LiveJournal method=b8_fast kind=e2e repeat=2 order=1 ms=269.333124161
+METHOD_TIME graph=com-LiveJournal method=b8_fast kind=e2e repeat=3 order=1 ms=267.161846161
+METHOD_TIME graph=com-LiveJournal method=b8_fast kind=e2e repeat=4 order=1 ms=270.126104355
+METHOD_TIME graph=com-LiveJournal method=b8_accurate kind=e2e repeat=0 order=2 ms=282.828092575
+METHOD_TIME graph=com-LiveJournal method=b8_accurate kind=e2e repeat=1 order=2 ms=289.145946503
+METHOD_TIME graph=com-LiveJournal method=b8_accurate kind=e2e repeat=2 order=2 ms=285.381793976
+METHOD_TIME graph=com-LiveJournal method=b8_accurate kind=e2e repeat=3 order=2 ms=282.908201218
+METHOD_TIME graph=com-LiveJournal method=b8_accurate kind=e2e repeat=4 order=2 ms=285.888910294
+METHOD_TIME graph=com-LiveJournal method=b16_fast kind=e2e repeat=0 order=3 ms=263.822078705
+METHOD_TIME graph=com-LiveJournal method=b16_fast kind=e2e repeat=1 order=3 ms=262.557983398
+METHOD_TIME graph=com-LiveJournal method=b16_fast kind=e2e repeat=2 order=3 ms=261.761903763
+METHOD_TIME graph=com-LiveJournal method=b16_fast kind=e2e repeat=3 order=3 ms=259.217977524
+METHOD_TIME graph=com-LiveJournal method=b16_fast kind=e2e repeat=4 order=3 ms=260.817050934
+METHOD_TIME graph=com-LiveJournal method=b16_accurate kind=e2e repeat=0 order=4 ms=271.103143692
+METHOD_TIME graph=com-LiveJournal method=b16_accurate kind=e2e repeat=1 order=4 ms=274.610996246
+METHOD_TIME graph=com-LiveJournal method=b16_accurate kind=e2e repeat=2 order=4 ms=277.797937393
+METHOD_TIME graph=com-LiveJournal method=b16_accurate kind=e2e repeat=3 order=4 ms=276.761054993
+METHOD_TIME graph=com-LiveJournal method=b16_accurate kind=e2e repeat=4 order=4 ms=275.969028473
+METHOD_TIME graph=com-LiveJournal method=b64_fast kind=e2e repeat=0 order=5 ms=250.650882721
+METHOD_TIME graph=com-LiveJournal method=b64_fast kind=e2e repeat=1 order=5 ms=253.033161163
+METHOD_TIME graph=com-LiveJournal method=b64_fast kind=e2e repeat=2 order=5 ms=255.467891693
+METHOD_TIME graph=com-LiveJournal method=b64_fast kind=e2e repeat=3 order=5 ms=255.345106125
+METHOD_TIME graph=com-LiveJournal method=b64_fast kind=e2e repeat=4 order=5 ms=250.461816788
+METHOD_TIME graph=com-LiveJournal method=b64_accurate kind=e2e repeat=0 order=6 ms=257.709026337
+METHOD_TIME graph=com-LiveJournal method=b64_accurate kind=e2e repeat=1 order=6 ms=259.566068649
+METHOD_TIME graph=com-LiveJournal method=b64_accurate kind=e2e repeat=2 order=6 ms=262.300014496
+METHOD_TIME graph=com-LiveJournal method=b64_accurate kind=e2e repeat=3 order=6 ms=262.301921844
+METHOD_TIME graph=com-LiveJournal method=b64_accurate kind=e2e repeat=4 order=6 ms=258.662939072
+METHOD_TIME graph=com-LiveJournal method=bfull_fast kind=e2e repeat=0 order=7 ms=250.722885132
+METHOD_TIME graph=com-LiveJournal method=bfull_fast kind=e2e repeat=1 order=7 ms=251.224040985
+METHOD_TIME graph=com-LiveJournal method=bfull_fast kind=e2e repeat=2 order=7 ms=255.347013474
+METHOD_TIME graph=com-LiveJournal method=bfull_fast kind=e2e repeat=3 order=7 ms=253.163099289
+METHOD_TIME graph=com-LiveJournal method=bfull_fast kind=e2e repeat=4 order=7 ms=251.868963242
+METHOD_TIME graph=com-LiveJournal method=bfull_accurate kind=e2e repeat=0 order=8 ms=255.99193573
+METHOD_TIME graph=com-LiveJournal method=bfull_accurate kind=e2e repeat=1 order=8 ms=254.248142242
+METHOD_TIME graph=com-LiveJournal method=bfull_accurate kind=e2e repeat=2 order=8 ms=253.990888596
+METHOD_TIME graph=com-LiveJournal method=bfull_accurate kind=e2e repeat=3 order=8 ms=256.146192551
+METHOD_TIME graph=com-LiveJournal method=bfull_accurate kind=e2e repeat=4 order=8 ms=257.649898529
+METHOD_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=644.550085068
+METHOD_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=646.534919739
+METHOD_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=646.822929382
+METHOD_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=647.38202095
+METHOD_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=646.374940872
+METHOD_COMPLETE graph=com-LiveJournal methods=9 checks=36 pass=1 max_rss_kib=0

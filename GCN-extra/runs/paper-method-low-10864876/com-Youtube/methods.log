@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/com-Youtube/com-Youtube.csrbin
+Matrix: com-Youtube  N=1134890  NNZ=5975248  avg_deg=5.3
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 47.74 ms
+  run 1: 48.03 ms
+  run 2: 47.27 ms
+  run 3: 47.79 ms
+  run 4: 47.39 ms
+  TFS V3 E2E BEST: 47.27 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 53.85 ms
+  run 1: 54.58 ms
+  run 2: 54.41 ms
+  run 3: 53.90 ms
+  run 4: 54.50 ms
+  MKL E2E BEST: 53.85 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 47.27 ms
+  MKL (FP32):      53.85 ms
+  E2E Speedup:     1.14×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010551  RMSE=3.8059e+01
+First 8:
+  TFS: -2351.26 -6218.97 -4421.02 -752.56 -857.43 -2407.82 -5064.00 -5634.36 
+  MKL: -2364.53 -6275.42 -4456.55 -765.30 -868.71 -2435.09 -5125.71 -5678.16 
+METHOD_CONFIG graph=com-Youtube N=1134890 E=5975248 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=com-Youtube method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0235319013 relative_L2=0.0124641391878 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.232421875 mean_abs=0.0078441225527 relative_L2=0.00219348108774 normalized_max=0.00195006551172 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=10224.5 mean_abs=2.88517185373 relative_L2=0.00317530577756 normalized_max=0.0028065341506 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=2.89063766694 relative_L2=0.00423126554613 normalized_max=0.0045045045045 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=61088.25 mean_abs=12.346546014 relative_L2=0.015426004701 normalized_max=0.016591266223 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.035400390625 mean_abs=6.38163800002e-07 relative_L2=1.44536163031e-06 normalized_max=1.31933323628e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=536.5 mean_abs=0.0206602881391 relative_L2=5.54014437566e-05 normalized_max=0.000147264469832 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.0199944088329 relative_L2=0.000473882981354 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0236415081 relative_L2=0.0124876265229 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=8.17700195312 mean_abs=0.00954758032057 relative_L2=0.00274580690684 normalized_max=0.00304747779881 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=16150.5 mean_abs=4.00767643957 relative_L2=0.00478949717396 normalized_max=0.00443316835046 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=3.99721373279 relative_L2=0.00536731850516 normalized_max=0.0045045045045 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=61088.25 mean_abs=13.5361293905 relative_L2=0.0170041934907 normalized_max=0.016591266223 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0322265625 mean_abs=5.86818766995e-07 relative_L2=1.25115176072e-06 normalized_max=1.20104818751e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=400.5 mean_abs=0.0134481664175 relative_L2=4.56063299818e-05 normalized_max=0.00010993368158 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.0131052025811 relative_L2=0.000461034941582 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0226361856 relative_L2=0.0124854771758 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=7.95727539062 mean_abs=0.00997925770985 relative_L2=0.00290417585826 normalized_max=0.00296558814966 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18632 mean_abs=4.27291340807 relative_L2=0.00528831086368 normalized_max=0.00511431799052 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=4.26571404968 relative_L2=0.00572619578521 normalized_max=0.0045045045045 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=61088.25 mean_abs=13.8176259058 relative_L2=0.0174656581348 normalized_max=0.016591266223 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.02685546875 mean_abs=8.02603477227e-07 relative_L2=1.21436327364e-06 normalized_max=1.00087348959e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=363.25 mean_abs=0.0227757034474 relative_L2=5.57124034416e-05 normalized_max=9.97088884744e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.0218384360748 relative_L2=0.000485148725121 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0243734628 relative_L2=0.0124863292097 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=7.51477050781 mean_abs=0.0101425147349 relative_L2=0.00298476308893 normalized_max=0.00280067149512 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19703 mean_abs=4.42821917571 relative_L2=0.00552916025835 normalized_max=0.005408297948 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=4.41867639299 relative_L2=0.00592713840446 normalized_max=0.0045045045045 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=61088.25 mean_abs=13.9729137843 relative_L2=0.0176875211828 normalized_max=0.016591266223 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0264892578125 mean_abs=2.06123125812e-06 relative_L2=1.73657488398e-06 normalized_max=9.87225214733e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=370.75 mean_abs=0.0182314409032 relative_L2=4.96923185578e-05 normalized_max=0.00010176757165 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.018121063516 relative_L2=0.000480392961176 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0240491765 relative_L2=0.0124871154807 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=9.89501953125 mean_abs=0.0101638683422 relative_L2=0.00299471436627 normalized_max=0.00368776386665 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19650.25 mean_abs=4.4765895251 relative_L2=0.00560976832173 normalized_max=0.005393818543 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=4.4739503518 relative_L2=0.00599396301495 normalized_max=0.0045045045045 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=61088.25 mean_abs=14.0215194108 relative_L2=0.0177466584274 normalized_max=0.016591266223 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.01806640625 mean_abs=3.35911865665e-06 relative_L2=2.73708486054e-06 normalized_max=6.73314892998e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=392 mean_abs=0.0250753589739 relative_L2=5.14891892192e-05 normalized_max=0.000107600507314 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.0246184795823 relative_L2=0.000497958230506 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0247467431 relative_L2=0.0124892836943 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=8.55102539062 mean_abs=0.010178289729 relative_L2=0.00301003628531 normalized_max=0.00318687217936 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19699.25 mean_abs=4.47160501769 relative_L2=0.0055989650994 normalized_max=0.00540726860641 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=4.4577749125 relative_L2=0.00598909252314 normalized_max=0.0045045045045 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=61088.25 mean_abs=13.9844581967 relative_L2=0.0177251642885 normalized_max=0.016591266223 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.0244140625 mean_abs=4.28650725066e-06 relative_L2=3.84854546561e-06 normalized_max=9.09884990537e-06 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=396.5 mean_abs=0.0346105089079 relative_L2=5.87335546484e-05 normalized_max=0.00010883571722 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.0339674972795 relative_L2=0.000518489097404 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0269195866 relative_L2=0.0124925657644 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=10.0947265625 mean_abs=0.0101814606388 relative_L2=0.00302628011987 normalized_max=0.00376219245887 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=21057.75 mean_abs=4.47103371774 relative_L2=0.00570767172727 normalized_max=0.0057801647523 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=4.46358303888 relative_L2=0.006190860387 normalized_max=0.00900900900901 gate=0.02 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=70790.25 mean_abs=13.9658556544 relative_L2=0.017815196989 normalized_max=0.0192262813837 gate=0.03 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.038330078125 mean_abs=4.95118362617e-06 relative_L2=5.35593560371e-06 normalized_max=1.42851943514e-05 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=416 mean_abs=0.0403360873856 relative_L2=5.75233358092e-05 normalized_max=0.000114188293477 gate=0.001 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.0387856134388 relative_L2=0.000520553816371 normalized_max=0.0045045045045 gate=0.01 pass=1
+METHOD_CHECK graph=com-Youtube method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=44704.25 mean_abs=10.0298762748 relative_L2=0.0124947943652 normalized_max=0.012141452948 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=com-Youtube methods=15 pass=1
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=kernel repeat=0 order=0 ms=21.6639041901
+METHOD_TIME graph=com-Youtube method=b2_fast kind=kernel repeat=0 order=1 ms=33.1950187683
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=kernel repeat=0 order=2 ms=42.683839798
+METHOD_TIME graph=com-Youtube method=b4_fast kind=kernel repeat=0 order=3 ms=23.4107971191
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=kernel repeat=0 order=4 ms=28.1019210815
+METHOD_TIME graph=com-Youtube method=b8_fast kind=kernel repeat=0 order=5 ms=19.238948822
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=kernel repeat=0 order=6 ms=23.1010913849
+METHOD_TIME graph=com-Youtube method=b16_fast kind=kernel repeat=0 order=7 ms=17.4498558044
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=kernel repeat=0 order=8 ms=19.1562175751
+METHOD_TIME graph=com-Youtube method=b32_fast kind=kernel repeat=0 order=9 ms=15.7959461212
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=kernel repeat=0 order=10 ms=16.5791511536
+METHOD_TIME graph=com-Youtube method=b64_fast kind=kernel repeat=0 order=11 ms=15.6610012054
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=kernel repeat=0 order=12 ms=16.5030956268
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=kernel repeat=0 order=13 ms=14.4398212433
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=kernel repeat=0 order=14 ms=15.6190395355
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=32.6688289642
+METHOD_TIME graph=com-Youtube method=b2_fast kind=kernel repeat=1 order=0 ms=33.3859920502
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=kernel repeat=1 order=1 ms=44.4610118866
+METHOD_TIME graph=com-Youtube method=b4_fast kind=kernel repeat=1 order=2 ms=23.6661434174
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=kernel repeat=1 order=3 ms=29.6359062195
+METHOD_TIME graph=com-Youtube method=b8_fast kind=kernel repeat=1 order=4 ms=19.4578170776
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=kernel repeat=1 order=5 ms=22.5880146027
+METHOD_TIME graph=com-Youtube method=b16_fast kind=kernel repeat=1 order=6 ms=16.8149471283
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=kernel repeat=1 order=7 ms=19.073009491
+METHOD_TIME graph=com-Youtube method=b32_fast kind=kernel repeat=1 order=8 ms=16.5181159973
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=kernel repeat=1 order=9 ms=17.8160667419
+METHOD_TIME graph=com-Youtube method=b64_fast kind=kernel repeat=1 order=10 ms=14.9230957031
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=kernel repeat=1 order=11 ms=16.618013382
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=kernel repeat=1 order=12 ms=14.4279003143
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=kernel repeat=1 order=13 ms=15.1150226593
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=32.546043396
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=kernel repeat=1 order=15 ms=22.6550102234
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=kernel repeat=2 order=0 ms=42.7379608154
+METHOD_TIME graph=com-Youtube method=b4_fast kind=kernel repeat=2 order=1 ms=24.8041152954
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=kernel repeat=2 order=2 ms=30.6069850922
+METHOD_TIME graph=com-Youtube method=b8_fast kind=kernel repeat=2 order=3 ms=19.0818309784
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=kernel repeat=2 order=4 ms=22.4158763885
+METHOD_TIME graph=com-Youtube method=b16_fast kind=kernel repeat=2 order=5 ms=17.9569721222
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=kernel repeat=2 order=6 ms=19.6919441223
+METHOD_TIME graph=com-Youtube method=b32_fast kind=kernel repeat=2 order=7 ms=16.3750648499
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=kernel repeat=2 order=8 ms=16.8359279633
+METHOD_TIME graph=com-Youtube method=b64_fast kind=kernel repeat=2 order=9 ms=14.9598121643
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=kernel repeat=2 order=10 ms=16.8988704681
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=kernel repeat=2 order=11 ms=14.8401260376
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=kernel repeat=2 order=12 ms=15.5568122864
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=32.5629711151
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=kernel repeat=2 order=14 ms=21.8539237976
+METHOD_TIME graph=com-Youtube method=b2_fast kind=kernel repeat=2 order=15 ms=32.1440696716
+METHOD_TIME graph=com-Youtube method=b4_fast kind=kernel repeat=3 order=0 ms=23.6511230469
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=kernel repeat=3 order=1 ms=30.0529003143
+METHOD_TIME graph=com-Youtube method=b8_fast kind=kernel repeat=3 order=2 ms=19.2229747772
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=kernel repeat=3 order=3 ms=22.9148864746
+METHOD_TIME graph=com-Youtube method=b16_fast kind=kernel repeat=3 order=4 ms=17.3280239105
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=kernel repeat=3 order=5 ms=19.553899765
+METHOD_TIME graph=com-Youtube method=b32_fast kind=kernel repeat=3 order=6 ms=15.5520439148
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=kernel repeat=3 order=7 ms=17.7569389343
+METHOD_TIME graph=com-Youtube method=b64_fast kind=kernel repeat=3 order=8 ms=14.9428844452
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=kernel repeat=3 order=9 ms=16.5700912476
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=kernel repeat=3 order=10 ms=13.9651298523
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=kernel repeat=3 order=11 ms=15.3050422668
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=32.5508117676
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=kernel repeat=3 order=13 ms=21.1119651794
+METHOD_TIME graph=com-Youtube method=b2_fast kind=kernel repeat=3 order=14 ms=34.5861911774
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=kernel repeat=3 order=15 ms=42.5579547882
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=kernel repeat=4 order=0 ms=29.60896492
+METHOD_TIME graph=com-Youtube method=b8_fast kind=kernel repeat=4 order=1 ms=19.0489292145
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=kernel repeat=4 order=2 ms=21.3801860809
+METHOD_TIME graph=com-Youtube method=b16_fast kind=kernel repeat=4 order=3 ms=17.4851417542
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=kernel repeat=4 order=4 ms=19.3231105804
+METHOD_TIME graph=com-Youtube method=b32_fast kind=kernel repeat=4 order=5 ms=16.2930488586
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=kernel repeat=4 order=6 ms=17.6620483398
+METHOD_TIME graph=com-Youtube method=b64_fast kind=kernel repeat=4 order=7 ms=15.9621238708
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=kernel repeat=4 order=8 ms=16.4980888367
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=kernel repeat=4 order=9 ms=14.4770145416
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=kernel repeat=4 order=10 ms=15.1100158691
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=32.438993454
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=kernel repeat=4 order=12 ms=22.007226944
+METHOD_TIME graph=com-Youtube method=b2_fast kind=kernel repeat=4 order=13 ms=34.4200134277
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=kernel repeat=4 order=14 ms=42.2780513763
+METHOD_TIME graph=com-Youtube method=b4_fast kind=kernel repeat=4 order=15 ms=24.5850086212
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=e2e repeat=0 order=0 ms=47.1980571747
+METHOD_TIME graph=com-Youtube method=b2_fast kind=e2e repeat=0 order=1 ms=71.7809200287
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=e2e repeat=0 order=2 ms=92.187166214
+METHOD_TIME graph=com-Youtube method=b4_fast kind=e2e repeat=0 order=3 ms=53.2319545746
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=e2e repeat=0 order=4 ms=63.677072525
+METHOD_TIME graph=com-Youtube method=b8_fast kind=e2e repeat=0 order=5 ms=44.3007946014
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=e2e repeat=0 order=6 ms=49.5412349701
+METHOD_TIME graph=com-Youtube method=b16_fast kind=e2e repeat=0 order=7 ms=38.6900901794
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=e2e repeat=0 order=8 ms=45.0410842896
+METHOD_TIME graph=com-Youtube method=b32_fast kind=e2e repeat=0 order=9 ms=36.8230342865
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=e2e repeat=0 order=10 ms=39.0858650208
+METHOD_TIME graph=com-Youtube method=b64_fast kind=e2e repeat=0 order=11 ms=34.7340106964
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=e2e repeat=0 order=12 ms=37.5781059265
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=e2e repeat=0 order=13 ms=33.5490703583
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=e2e repeat=0 order=14 ms=35.8867645264
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=54.2922019958
+METHOD_TIME graph=com-Youtube method=b2_fast kind=e2e repeat=1 order=0 ms=72.3121166229
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=e2e repeat=1 order=1 ms=91.6860103607
+METHOD_TIME graph=com-Youtube method=b4_fast kind=e2e repeat=1 order=2 ms=50.9159564972
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=e2e repeat=1 order=3 ms=62.8800392151
+METHOD_TIME graph=com-Youtube method=b8_fast kind=e2e repeat=1 order=4 ms=43.6210632324
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=e2e repeat=1 order=5 ms=50.7340431213
+METHOD_TIME graph=com-Youtube method=b16_fast kind=e2e repeat=1 order=6 ms=38.5141372681
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=e2e repeat=1 order=7 ms=43.2288646698
+METHOD_TIME graph=com-Youtube method=b32_fast kind=e2e repeat=1 order=8 ms=36.5250110626
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=e2e repeat=1 order=9 ms=39.6060943604
+METHOD_TIME graph=com-Youtube method=b64_fast kind=e2e repeat=1 order=10 ms=36.0748767853
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=e2e repeat=1 order=11 ms=38.2199287415
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=e2e repeat=1 order=12 ms=32.6578617096
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=e2e repeat=1 order=13 ms=35.2759361267
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=54.0761947632
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=e2e repeat=1 order=15 ms=48.7990379333
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=e2e repeat=2 order=0 ms=93.5971736908
+METHOD_TIME graph=com-Youtube method=b4_fast kind=e2e repeat=2 order=1 ms=53.7760257721
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=e2e repeat=2 order=2 ms=62.1528625488
+METHOD_TIME graph=com-Youtube method=b8_fast kind=e2e repeat=2 order=3 ms=43.7071323395
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=e2e repeat=2 order=4 ms=49.6380329132
+METHOD_TIME graph=com-Youtube method=b16_fast kind=e2e repeat=2 order=5 ms=38.9468669891
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=e2e repeat=2 order=6 ms=42.7598953247
+METHOD_TIME graph=com-Youtube method=b32_fast kind=e2e repeat=2 order=7 ms=37.0800495148
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=e2e repeat=2 order=8 ms=40.2009487152
+METHOD_TIME graph=com-Youtube method=b64_fast kind=e2e repeat=2 order=9 ms=35.5730056763
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=e2e repeat=2 order=10 ms=37.9490852356
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=e2e repeat=2 order=11 ms=33.5400104523
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=e2e repeat=2 order=12 ms=35.336971283
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=54.1751384735
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=e2e repeat=2 order=14 ms=48.6788749695
+METHOD_TIME graph=com-Youtube method=b2_fast kind=e2e repeat=2 order=15 ms=69.9110031128
+METHOD_TIME graph=com-Youtube method=b4_fast kind=e2e repeat=3 order=0 ms=52.964925766
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=e2e repeat=3 order=1 ms=62.0579719543
+METHOD_TIME graph=com-Youtube method=b8_fast kind=e2e repeat=3 order=2 ms=43.5650348663
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=e2e repeat=3 order=3 ms=49.7839450836
+METHOD_TIME graph=com-Youtube method=b16_fast kind=e2e repeat=3 order=4 ms=38.5468006134
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=e2e repeat=3 order=5 ms=42.7730083466
+METHOD_TIME graph=com-Youtube method=b32_fast kind=e2e repeat=3 order=6 ms=36.9729995728
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=e2e repeat=3 order=7 ms=39.5758152008
+METHOD_TIME graph=com-Youtube method=b64_fast kind=e2e repeat=3 order=8 ms=35.2010726929
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=e2e repeat=3 order=9 ms=37.4069213867
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=e2e repeat=3 order=10 ms=33.8358879089
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=e2e repeat=3 order=11 ms=35.3498458862
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=54.1660785675
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=e2e repeat=3 order=13 ms=47.8870868683
+METHOD_TIME graph=com-Youtube method=b2_fast kind=e2e repeat=3 order=14 ms=69.7689056396
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=e2e repeat=3 order=15 ms=92.5490856171
+METHOD_TIME graph=com-Youtube method=b4_accurate kind=e2e repeat=4 order=0 ms=63.4391307831
+METHOD_TIME graph=com-Youtube method=b8_fast kind=e2e repeat=4 order=1 ms=44.6970462799
+METHOD_TIME graph=com-Youtube method=b8_accurate kind=e2e repeat=4 order=2 ms=49.1960048676
+METHOD_TIME graph=com-Youtube method=b16_fast kind=e2e repeat=4 order=3 ms=39.9248600006
+METHOD_TIME graph=com-Youtube method=b16_accurate kind=e2e repeat=4 order=4 ms=42.8721904755
+METHOD_TIME graph=com-Youtube method=b32_fast kind=e2e repeat=4 order=5 ms=36.6408824921
+METHOD_TIME graph=com-Youtube method=b32_accurate kind=e2e repeat=4 order=6 ms=39.1581058502
+METHOD_TIME graph=com-Youtube method=b64_fast kind=e2e repeat=4 order=7 ms=36.1649990082
+METHOD_TIME graph=com-Youtube method=b64_accurate kind=e2e repeat=4 order=8 ms=37.9991531372
+METHOD_TIME graph=com-Youtube method=bfull_fast kind=e2e repeat=4 order=9 ms=34.1930389404
+METHOD_TIME graph=com-Youtube method=bfull_accurate kind=e2e repeat=4 order=10 ms=36.8239879608
+METHOD_TIME graph=com-Youtube method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=54.0189743042
+METHOD_TIME graph=com-Youtube method=paper_tfs kind=e2e repeat=4 order=12 ms=47.1501350403
+METHOD_TIME graph=com-Youtube method=b2_fast kind=e2e repeat=4 order=13 ms=70.4848766327
+METHOD_TIME graph=com-Youtube method=b2_accurate kind=e2e repeat=4 order=14 ms=92.5350189209
+METHOD_TIME graph=com-Youtube method=b4_fast kind=e2e repeat=4 order=15 ms=52.5240898132
+METHOD_STAGE graph=com-Youtube method=paper_tfs repeat=0 layer1_ms=22.3410129547 relu_ms=2.48098373413 interlayer_conversion_ms=2.53987312317 layer2_ms=20.3762054443 total_ms=47.7380752563
+METHOD_STAGE graph=com-Youtube method=paper_tfs repeat=1 layer1_ms=21.9619274139 relu_ms=2.54201889038 interlayer_conversion_ms=2.91109085083 layer2_ms=20.5850601196 total_ms=48.0000972748
+METHOD_STAGE graph=com-Youtube method=paper_tfs repeat=2 layer1_ms=22.1118927002 relu_ms=2.56991386414 interlayer_conversion_ms=2.88701057434 layer2_ms=21.3360786438 total_ms=48.9048957825
+METHOD_STAGE graph=com-Youtube method=b2_fast repeat=0 layer1_ms=35.2411270142 relu_ms=2.43806838989 interlayer_conversion_ms=2.5110244751 layer2_ms=32.702922821 total_ms=72.8931427002
+METHOD_STAGE graph=com-Youtube method=b2_fast repeat=1 layer1_ms=33.0698490143 relu_ms=2.60210037231 interlayer_conversion_ms=2.9149055481 layer2_ms=32.5980186462 total_ms=71.1848735809
+METHOD_STAGE graph=com-Youtube method=b2_fast repeat=2 layer1_ms=35.2439880371 relu_ms=2.46715545654 interlayer_conversion_ms=2.50601768494 layer2_ms=32.5520038605 total_ms=72.7691650391
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.0219345092773 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.0700950622559 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=2.35462188721 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=4.68277931213 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=8.67819786072 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=9.02366638184 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.20012664795 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=tile_load sampled_thread_ms=9.78565216064 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=13.3593082428 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=tile_store sampled_thread_ms=1.6565322876 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=0.298500061035 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0364780426025 sampled_tiles=279 wall_ms=90.9018516541
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.0598430633545 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=2.35915184021 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=4.76551055908 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=8.52823257446 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=8.9955329895 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=2.21014022827 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=tile_load sampled_thread_ms=9.78398323059 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=12.9981040955 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=tile_store sampled_thread_ms=1.5697479248 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.0500679016113 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_PROFILE graph=com-Youtube method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0343322753906 sampled_tiles=279 wall_ms=90.7800197601
+METHOD_STAGE graph=com-Youtube method=b2_accurate repeat=0 layer1_ms=45.6109046936 relu_ms=2.601146698 interlayer_conversion_ms=2.91895866394 layer2_ms=42.9248809814 total_ms=94.055891037
+METHOD_STAGE graph=com-Youtube method=b2_accurate repeat=1 layer1_ms=44.361114502 relu_ms=2.39586830139 interlayer_conversion_ms=2.51412391663 layer2_ms=41.7189598083 total_ms=90.9900665283
+METHOD_STAGE graph=com-Youtube method=b2_accurate repeat=2 layer1_ms=45.1591014862 relu_ms=2.56586074829 interlayer_conversion_ms=2.91514396667 layer2_ms=41.2950515747 total_ms=91.9351577759
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0510215759277 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=2.53415107727 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.72521781921 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=8.75520706177 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=8.96430015564 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=3.9381980896 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=18.337726593 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=20.2958583832 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=1.31440162659 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=0.287055969238 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0274181365967 sampled_tiles=279 wall_ms=123.17109108
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0605583190918 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=2.56395339966 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.65607643127 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=8.70895385742 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=8.82363319397 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=3.90100479126 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=18.1987285614 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=19.6313858032 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=1.24549865723 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0579357147217 sampled_tiles=279 wall_ms=122.816085815
+METHOD_PROFILE graph=com-Youtube method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0405311584473 sampled_tiles=279 wall_ms=122.816085815
+METHOD_STAGE graph=com-Youtube method=b4_fast repeat=0 layer1_ms=25.2151489258 relu_ms=2.5999546051 interlayer_conversion_ms=2.93207168579 layer2_ms=23.1099128723 total_ms=53.857088089
+METHOD_STAGE graph=com-Youtube method=b4_fast repeat=1 layer1_ms=25.062084198 relu_ms=2.43806838989 interlayer_conversion_ms=2.51197814941 layer2_ms=23.4489440918 total_ms=53.4610748291
+METHOD_STAGE graph=com-Youtube method=b4_fast repeat=2 layer1_ms=24.9500274658 relu_ms=2.51412391663 interlayer_conversion_ms=2.50887870789 layer2_ms=23.4270095825 total_ms=53.4000396729
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.075101852417 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=1.27720832825 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=4.35495376587 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=6.66689872742 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=6.59608840942 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.14130973816 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=tile_load sampled_thread_ms=5.08546829224 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=7.159948349 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=tile_store sampled_thread_ms=0.80680847168 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=0.284910202026 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0338554382324 sampled_tiles=279 wall_ms=62.6921653748
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0.0782012939453 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=1.26051902771 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=4.31227684021 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=6.5004825592 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=6.50501251221 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.13701820374 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=tile_load sampled_thread_ms=5.19847869873 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=7.07912445068 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=tile_store sampled_thread_ms=0.792980194092 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0.0557899475098 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_PROFILE graph=com-Youtube method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0309944152832 sampled_tiles=279 wall_ms=60.9049797058
+METHOD_STAGE graph=com-Youtube method=b4_accurate repeat=0 layer1_ms=30.5299758911 relu_ms=2.59113311768 interlayer_conversion_ms=2.90989875793 layer2_ms=29.021024704 total_ms=65.0520324707
+METHOD_STAGE graph=com-Youtube method=b4_accurate repeat=1 layer1_ms=31.0940742493 relu_ms=2.58183479309 interlayer_conversion_ms=2.92420387268 layer2_ms=29.1438102722 total_ms=65.7439231873
+METHOD_STAGE graph=com-Youtube method=b4_accurate repeat=2 layer1_ms=30.2109718323 relu_ms=2.5691986084 interlayer_conversion_ms=2.9308795929 layer2_ms=28.5229682922 total_ms=64.2340183258
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0479221343994 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=1.30128860474 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.2097568512 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=6.4594745636 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=6.66737556458 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=2.03561782837 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=9.5546245575 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=10.4990005493 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=0.71382522583 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=0.296831130981 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=279 wall_ms=78.1590938568
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0548362731934 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=1.24430656433 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.33731079102 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=6.56867027283 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=6.48999214172 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.948595047 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=9.6480846405 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=10.374546051 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=0.650405883789 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0550746917725 sampled_tiles=279 wall_ms=75.425863266
+METHOD_PROFILE graph=com-Youtube method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.028133392334 sampled_tiles=279 wall_ms=75.425863266
+METHOD_STAGE graph=com-Youtube method=b8_fast repeat=0 layer1_ms=20.3680992126 relu_ms=2.44283676147 interlayer_conversion_ms=2.50697135925 layer2_ms=18.0780887604 total_ms=43.3959960938
+METHOD_STAGE graph=com-Youtube method=b8_fast repeat=1 layer1_ms=19.492149353 relu_ms=2.51889228821 interlayer_conversion_ms=2.52509117126 layer2_ms=18.8128948212 total_ms=43.3490276337
+METHOD_STAGE graph=com-Youtube method=b8_fast repeat=2 layer1_ms=20.9159851074 relu_ms=2.57611274719 interlayer_conversion_ms=2.93898582458 layer2_ms=18.6131000519 total_ms=45.0441837311
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.0743865966797 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=0.699758529663 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=4.20069694519 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=6.17337226868 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.19347190857 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.564575195312 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=tile_load sampled_thread_ms=2.94184684753 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=3.94177436829 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=tile_store sampled_thread_ms=0.419616699219 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=0.29468536377 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0331401824951 sampled_tiles=279 wall_ms=46.0300445557
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.053882598877 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=0.708341598511 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=4.32515144348 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.97739219666 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.55014610291 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.59962272644 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=tile_load sampled_thread_ms=2.83193588257 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=3.91888618469 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=tile_store sampled_thread_ms=0.391244888306 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.0534057617188 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_PROFILE graph=com-Youtube method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0276565551758 sampled_tiles=279 wall_ms=45.2990531921
+METHOD_STAGE graph=com-Youtube method=b8_accurate repeat=0 layer1_ms=24.2719650269 relu_ms=2.5908946991 interlayer_conversion_ms=2.93111801147 layer2_ms=22.1638679504 total_ms=51.9578456879
+METHOD_STAGE graph=com-Youtube method=b8_accurate repeat=1 layer1_ms=23.4520435333 relu_ms=2.58708000183 interlayer_conversion_ms=2.90489196777 layer2_ms=21.5260982513 total_ms=50.4701137543
+METHOD_STAGE graph=com-Youtube method=b8_accurate repeat=2 layer1_ms=22.6900577545 relu_ms=2.5749206543 interlayer_conversion_ms=2.94804573059 layer2_ms=21.703004837 total_ms=49.9160289764
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0622272491455 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=0.656843185425 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.37211990356 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.98406791687 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.3858757019 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.04165077209 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=5.16605377197 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=5.81431388855 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.357389450073 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=0.286817550659 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.028133392334 sampled_tiles=279 wall_ms=55.7548999786
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0669956207275 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=0.654458999634 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.34279441833 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=6.05869293213 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.26928901672 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.04403495789 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=5.07283210754 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=5.81407546997 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=0.375747680664 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0.051736831665 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_PROFILE graph=com-Youtube method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0288486480713 sampled_tiles=279 wall_ms=54.1739463806
+METHOD_STAGE graph=com-Youtube method=b16_fast repeat=0 layer1_ms=18.1541442871 relu_ms=2.44688987732 interlayer_conversion_ms=2.51889228821 layer2_ms=16.4551734924 total_ms=39.5750999451
+METHOD_STAGE graph=com-Youtube method=b16_fast repeat=1 layer1_ms=17.7810192108 relu_ms=2.50101089478 interlayer_conversion_ms=2.52509117126 layer2_ms=16.1027908325 total_ms=38.9099121094
+METHOD_STAGE graph=com-Youtube method=b16_fast repeat=2 layer1_ms=18.129825592 relu_ms=2.50005722046 interlayer_conversion_ms=2.49600410461 layer2_ms=16.4821147919 total_ms=39.608001709
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0.0734329223633 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.362873077393 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=4.23622131348 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=5.60808181763 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.60982322693 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.344276428223 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=tile_load sampled_thread_ms=1.58214569092 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=2.45332717896 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.247478485107 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=0.292301177979 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0276565551758 sampled_tiles=279 wall_ms=40.088891983
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.0476837158203 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.391244888306 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=4.27436828613 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.64527511597 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.66632843018 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.298500061035 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=tile_load sampled_thread_ms=1.64270401001 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=2.44784355164 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.243425369263 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.0488758087158 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_PROFILE graph=com-Youtube method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0331401824951 sampled_tiles=279 wall_ms=37.2729301453
+METHOD_STAGE graph=com-Youtube method=b16_accurate repeat=0 layer1_ms=20.0419425964 relu_ms=2.61306762695 interlayer_conversion_ms=2.92611122131 layer2_ms=17.6718235016 total_ms=43.2529449463
+METHOD_STAGE graph=com-Youtube method=b16_accurate repeat=1 layer1_ms=19.593000412 relu_ms=2.48503684998 interlayer_conversion_ms=2.49910354614 layer2_ms=18.187046051 total_ms=42.7641868591
+METHOD_STAGE graph=com-Youtube method=b16_accurate repeat=2 layer1_ms=20.3659534454 relu_ms=2.43806838989 interlayer_conversion_ms=2.52199172974 layer2_ms=17.4648761749 total_ms=42.79088974
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.051736831665 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.399827957153 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.29821014404 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.610704422 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.85396385193 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.590801239014 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=2.81524658203 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=3.51119041443 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.193357467651 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=0.297546386719 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=279 wall_ms=44.8830127716
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0486373901367 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.393867492676 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.36067581177 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=5.54180145264 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.72855567932 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.54144859314 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=2.88200378418 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=3.41653823853 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.199794769287 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0443458557129 sampled_tiles=279 wall_ms=42.867898941
+METHOD_PROFILE graph=com-Youtube method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0326633453369 sampled_tiles=279 wall_ms=42.867898941
+METHOD_STAGE graph=com-Youtube method=b32_fast repeat=0 layer1_ms=16.252040863 relu_ms=2.58088111877 interlayer_conversion_ms=2.90894508362 layer2_ms=15.1960849762 total_ms=36.9379520416
+METHOD_STAGE graph=com-Youtube method=b32_fast repeat=1 layer1_ms=16.951084137 relu_ms=2.60996818542 interlayer_conversion_ms=2.925157547 layer2_ms=15.4838562012 total_ms=37.9700660706
+METHOD_STAGE graph=com-Youtube method=b32_fast repeat=2 layer1_ms=16.4661407471 relu_ms=2.6228427887 interlayer_conversion_ms=2.91419029236 layer2_ms=15.4688358307 total_ms=37.4720096588
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.0851154327393 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.244140625 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=4.13370132446 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=5.43594360352 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.35304641724 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.209093093872 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=tile_load sampled_thread_ms=1.00135803223 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=1.62100791931 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.125408172607 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=0.294923782349 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0271797180176 sampled_tiles=279 wall_ms=36.4260673523
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.0431537628174 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.234842300415 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=4.22644615173 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.34057617188 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.33802604675 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.190734863281 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=tile_load sampled_thread_ms=0.986576080322 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=1.50942802429 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.165224075317 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.0536441802979 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_PROFILE graph=com-Youtube method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0343322753906 sampled_tiles=279 wall_ms=34.1699123383
+METHOD_STAGE graph=com-Youtube method=b32_accurate repeat=0 layer1_ms=18.0881023407 relu_ms=2.60305404663 interlayer_conversion_ms=2.92301177979 layer2_ms=15.6660079956 total_ms=39.2801761627
+METHOD_STAGE graph=com-Youtube method=b32_accurate repeat=1 layer1_ms=18.2819366455 relu_ms=2.54988670349 interlayer_conversion_ms=2.91919708252 layer2_ms=16.0307884216 total_ms=39.7818088531
+METHOD_STAGE graph=com-Youtube method=b32_accurate repeat=2 layer1_ms=18.404006958 relu_ms=2.57301330566 interlayer_conversion_ms=2.93612480164 layer2_ms=15.5339241028 total_ms=39.4470691681
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0410079956055 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.250339508057 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.32276725769 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.42831420898 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.37808036804 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.335216522217 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=1.79076194763 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=2.27332115173 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.124454498291 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=0.296831130981 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0543594360352 sampled_tiles=279 wall_ms=38.5100841522
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0655651092529 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.247955322266 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.29606437683 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=5.46288490295 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.3306350708 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.302791595459 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=1.79624557495 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=2.30097770691 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.138521194458 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0510215759277 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_PROFILE graph=com-Youtube method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0267028808594 sampled_tiles=279 wall_ms=37.1360778809
+METHOD_STAGE graph=com-Youtube method=b64_fast repeat=0 layer1_ms=15.3350830078 relu_ms=2.58994102478 interlayer_conversion_ms=2.91705131531 layer2_ms=14.0421390533 total_ms=34.8842144012
+METHOD_STAGE graph=com-Youtube method=b64_fast repeat=1 layer1_ms=15.6419277191 relu_ms=2.43806838989 interlayer_conversion_ms=2.5269985199 layer2_ms=14.6720409393 total_ms=35.2790355682
+METHOD_STAGE graph=com-Youtube method=b64_fast repeat=2 layer1_ms=16.0050392151 relu_ms=2.60090827942 interlayer_conversion_ms=2.92301177979 layer2_ms=14.3890380859 total_ms=35.9179973602
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.0741481781006 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.15926361084 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=4.16707992554 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=5.22208213806 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.19020652771 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.121593475342 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=tile_load sampled_thread_ms=0.673770904541 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=1.12199783325 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.0872611999512 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=0.316381454468 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=279 wall_ms=34.4381332397
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.0598430633545 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.17261505127 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=4.2417049408 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.25188446045 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.13084030151 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.120162963867 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=tile_load sampled_thread_ms=0.680446624756 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=1.18350982666 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.0984668731689 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.0436305999756 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_PROFILE graph=com-Youtube method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0336170196533 sampled_tiles=279 wall_ms=33.2028865814
+METHOD_STAGE graph=com-Youtube method=b64_accurate repeat=0 layer1_ms=17.3311233521 relu_ms=2.46500968933 interlayer_conversion_ms=2.5360584259 layer2_ms=14.7879123688 total_ms=37.1201038361
+METHOD_STAGE graph=com-Youtube method=b64_accurate repeat=1 layer1_ms=16.930103302 relu_ms=2.4778842926 interlayer_conversion_ms=2.49910354614 layer2_ms=15.2339935303 total_ms=37.141084671
+METHOD_STAGE graph=com-Youtube method=b64_accurate repeat=2 layer1_ms=16.9680118561 relu_ms=2.43592262268 interlayer_conversion_ms=2.50697135925 layer2_ms=14.5089626312 total_ms=36.4198684692
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0483989715576 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.17261505127 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.28199768066 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.39207458496 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.19664382935 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.194549560547 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=1.17659568787 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=1.55138969421 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.0982284545898 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=0.316143035889 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0360012054443 sampled_tiles=279 wall_ms=36.0908508301
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0576972961426 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.168800354004 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.20689582825 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=5.22804260254 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.19974327087 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.197649002075 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=1.10960006714 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=1.66440010071 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.0810623168945 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0584125518799 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_PROFILE graph=com-Youtube method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0324249267578 sampled_tiles=279 wall_ms=34.5709323883
+METHOD_STAGE graph=com-Youtube method=bfull_fast repeat=0 layer1_ms=15.2039527893 relu_ms=2.47001647949 interlayer_conversion_ms=2.50911712646 layer2_ms=13.2548809052 total_ms=33.4379673004
+METHOD_STAGE graph=com-Youtube method=bfull_fast repeat=1 layer1_ms=15.6271457672 relu_ms=2.44784355164 interlayer_conversion_ms=2.49695777893 layer2_ms=14.1870975494 total_ms=34.7590446472
+METHOD_STAGE graph=com-Youtube method=bfull_fast repeat=2 layer1_ms=15.0320529938 relu_ms=2.43902206421 interlayer_conversion_ms=2.5360584259 layer2_ms=13.4210586548 total_ms=33.4281921387
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.0536441802979 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.0784397125244 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.98826599121 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=5.038022995 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.73649597168 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.053882598877 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=0.346183776855 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=0.708103179932 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.0348091125488 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=0.308275222778 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0319480895996 sampled_tiles=279 wall_ms=31.0840606689
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.0481605529785 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.0996589660645 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.99589538574 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.0630569458 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.82900238037 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.042200088501 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=0.275373458862 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=0.789642333984 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.0450611114502 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.0555515289307 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_PROFILE graph=com-Youtube method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0336170196533 sampled_tiles=279 wall_ms=29.7927856445
+METHOD_STAGE graph=com-Youtube method=bfull_accurate repeat=0 layer1_ms=16.4577960968 relu_ms=2.53009796143 interlayer_conversion_ms=2.9079914093 layer2_ms=14.3790245056 total_ms=36.2749099731
+METHOD_STAGE graph=com-Youtube method=bfull_accurate repeat=1 layer1_ms=15.9120559692 relu_ms=2.47287750244 interlayer_conversion_ms=2.51007080078 layer2_ms=14.3201351166 total_ms=35.215139389
+METHOD_STAGE graph=com-Youtube method=bfull_accurate repeat=2 layer1_ms=15.6989097595 relu_ms=2.55298614502 interlayer_conversion_ms=2.92611122131 layer2_ms=14.6458148956 total_ms=35.8238220215
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0555515289307 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0908374786377 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=4.07958030701 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.33294677734 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.77607345581 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0813007354736 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=0.553846359253 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=0.862598419189 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.0360012054443 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=0.30517578125 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.035285949707 sampled_tiles=279 wall_ms=32.6199531555
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0545978546143 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.086784362793 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=4.10318374634 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=4.99701499939 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.86095046997 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0829696655273 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=0.557899475098 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=0.980138778687 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.0264644622803 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0615119934082 sampled_tiles=279 wall_ms=30.524969101
+METHOD_PROFILE graph=com-Youtube method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0462532043457 sampled_tiles=279 wall_ms=30.524969101
+METHOD_COMPLETE graph=com-Youtube methods=15 checks=60 pass=1 max_rss_kib=5842900

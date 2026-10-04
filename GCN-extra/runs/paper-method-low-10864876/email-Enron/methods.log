@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/email-Enron/email-Enron.csrbin
+Matrix: email-Enron  N=36692  NNZ=367662  avg_deg=10.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2.39 ms
+  run 1: 2.35 ms
+  run 2: 2.40 ms
+  run 3: 2.30 ms
+  run 4: 2.37 ms
+  TFS V3 E2E BEST: 2.30 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1.46 ms
+  run 1: 1.51 ms
+  run 2: 1.45 ms
+  run 3: 1.42 ms
+  run 4: 1.56 ms
+  MKL E2E BEST: 1.42 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2.30 ms
+  MKL (FP32):      1.42 ms
+  E2E Speedup:     0.62×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010905  RMSE=3.4708e+01
+First 8:
+  TFS: -208.08 -116.93 -138.97 -239.93 -55.83 -102.99 -99.58 -119.38 
+  MKL: -210.59 -118.71 -140.64 -241.98 -56.62 -103.84 -101.04 -120.51 
+METHOD_CONFIG graph=email-Enron N=36692 E=367662 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=email-Enron method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.317174065 relative_L2=0.0130503761638 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.984130859375 mean_abs=0.0139192481647 relative_L2=0.00230437694546 normalized_max=0.00228870695438 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=678 mean_abs=3.21855514261 relative_L2=0.00310538816091 normalized_max=0.00300731598642 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=3.19983170952 relative_L2=0.00409856349242 normalized_max=0.00454545454545 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3909.8125 mean_abs=15.1053946634 relative_L2=0.015927054887 normalized_max=0.0171531235791 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00131225585938 mean_abs=1.29522020487e-06 relative_L2=6.19441975905e-07 normalized_max=3.05179853133e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=3.0859375 mean_abs=0.00443929960922 relative_L2=7.67776474627e-06 normalized_max=1.36878896414e-05 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.00446980330164 relative_L2=0.000134799300357 normalized_max=0.00113636363636 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3169760283 relative_L2=0.0130496503517 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=1.22073364258 mean_abs=0.0173812024067 relative_L2=0.0028896477601 normalized_max=0.00283895332679 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1071.765625 mean_abs=4.55173080107 relative_L2=0.0046731654377 normalized_max=0.00475389070466 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=4.53860715424 relative_L2=0.0052265973747 normalized_max=0.00454545454545 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4042.828125 mean_abs=16.4885981166 relative_L2=0.0175472772122 normalized_max=0.0177366895311 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.001220703125 mean_abs=1.17734609122e-06 relative_L2=5.32621753926e-07 normalized_max=2.83888235473e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=2.453125 mean_abs=0.00356101975302 relative_L2=5.94677069443e-06 normalized_max=1.08810059428e-05 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.00347927511473 relative_L2=0.000110391198717 normalized_max=0.00113636363636 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3171939814 relative_L2=0.0130501206582 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=1.40875244141 mean_abs=0.0182684560747 relative_L2=0.00306027957727 normalized_max=0.00327621218147 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1163.625 mean_abs=4.99380657363 relative_L2=0.00524572278199 normalized_max=0.00516133932847 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=4.98183136129 relative_L2=0.00567352172821 normalized_max=0.00454545454545 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4082.8125 mean_abs=16.9301068299 relative_L2=0.0180927821088 normalized_max=0.0179121089215 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00112915039062 mean_abs=1.69262782069e-06 relative_L2=7.04988076169e-07 normalized_max=2.62596617812e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=2.625 mean_abs=0.00514348141886 relative_L2=7.77038693843e-06 normalized_max=1.16433694165e-05 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=512 mean_abs=0.00526901565872 relative_L2=0.000146227986131 normalized_max=0.00227272727273 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3170312631 relative_L2=0.0130489163455 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=1.43011474609 mean_abs=0.0186456243597 relative_L2=0.00315400213288 normalized_max=0.00332589262268 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1235.734375 mean_abs=5.28915328512 relative_L2=0.00560451038396 normalized_max=0.00548118545857 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=5.27080892325 relative_L2=0.00598920438654 normalized_max=0.00909090909091 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4703.890625 mean_abs=17.2259445912 relative_L2=0.0184319185239 normalized_max=0.0206369019469 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.001220703125 mean_abs=4.71214138013e-06 relative_L2=1.62899296674e-06 normalized_max=2.83888235473e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=2.15625 mean_abs=0.0106937355922 relative_L2=1.3495949987e-05 normalized_max=9.56419630638e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.0104850931377 relative_L2=0.000181665285914 normalized_max=0.00113636363636 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3176717988 relative_L2=0.013050063526 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=1.5403137207 mean_abs=0.0186873085211 relative_L2=0.00316183190364 normalized_max=0.00358217272725 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1281.25 mean_abs=5.28054440985 relative_L2=0.00560271600458 normalized_max=0.00568307316756 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=5.26397118809 relative_L2=0.00599293300884 normalized_max=0.00909090909091 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4703.890625 mean_abs=17.1957772333 relative_L2=0.0184077523352 normalized_max=0.0206369019469 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00201416015625 mean_abs=8.04101303698e-06 relative_L2=2.88391387836e-06 normalized_max=4.6841558853e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=2.34375 mean_abs=0.0133836466351 relative_L2=1.530076985e-05 normalized_max=1.03958655504e-05 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.0133435751169 relative_L2=0.000191572248315 normalized_max=0.00113636363636 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3186314321 relative_L2=0.0130515889663 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=1.51919555664 mean_abs=0.0187442744011 relative_L2=0.00317828493231 normalized_max=0.00353306006252 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1278.078125 mean_abs=5.3380944936 relative_L2=0.00573254593248 normalized_max=0.00566900409618 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=5.3170280145 relative_L2=0.00612116516622 normalized_max=0.00909090909091 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4703.890625 mean_abs=17.2362089349 relative_L2=0.0185138570724 normalized_max=0.0206369019469 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00246810913086 mean_abs=1.0620431713e-05 relative_L2=4.13802838383e-06 normalized_max=5.73986526097e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=3.21875 mean_abs=0.0177050899689 relative_L2=1.80434187802e-05 normalized_max=1.42769886892e-05 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.0174090265264 relative_L2=0.000208673990448 normalized_max=0.00113636363636 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3198268363 relative_L2=0.0130541988403 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=1.63317871094 mean_abs=0.0187412289992 relative_L2=0.00317622504898 normalized_max=0.00379814070239 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1465.328125 mean_abs=5.36762317403 relative_L2=0.00582180153671 normalized_max=0.00649956444789 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=5.3539862212 relative_L2=0.00622168735811 normalized_max=0.00909090909091 gate=0.02 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4082.8125 mean_abs=17.2455459245 relative_L2=0.0185067194323 normalized_max=0.0179121089215 gate=0.03 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.00425720214844 mean_abs=1.22848121881e-05 relative_L2=5.3744966448e-06 normalized_max=9.90060221211e-06 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=4.078125 mean_abs=0.0293688818838 relative_L2=3.14438638538e-05 normalized_max=1.80888060577e-05 gate=0.001 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=0.0287753147115 relative_L2=0.000288201921663 normalized_max=0.00113636363636 gate=0.01 pass=1
+METHOD_CHECK graph=email-Enron method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3058.8125 mean_abs=12.3217196815 relative_L2=0.0130549130012 normalized_max=0.0134196176461 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=email-Enron methods=15 pass=1
+METHOD_TIME graph=email-Enron method=paper_tfs kind=kernel repeat=0 order=0 ms=1.10507011414
+METHOD_TIME graph=email-Enron method=b2_fast kind=kernel repeat=0 order=1 ms=1.50012969971
+METHOD_TIME graph=email-Enron method=b2_accurate kind=kernel repeat=0 order=2 ms=2.26497650146
+METHOD_TIME graph=email-Enron method=b4_fast kind=kernel repeat=0 order=3 ms=1.04594230652
+METHOD_TIME graph=email-Enron method=b4_accurate kind=kernel repeat=0 order=4 ms=1.34801864624
+METHOD_TIME graph=email-Enron method=b8_fast kind=kernel repeat=0 order=5 ms=0.699996948242
+METHOD_TIME graph=email-Enron method=b8_accurate kind=kernel repeat=0 order=6 ms=0.885009765625
+METHOD_TIME graph=email-Enron method=b16_fast kind=kernel repeat=0 order=7 ms=0.736951828003
+METHOD_TIME graph=email-Enron method=b16_accurate kind=kernel repeat=0 order=8 ms=0.640869140625
+METHOD_TIME graph=email-Enron method=b32_fast kind=kernel repeat=0 order=9 ms=0.55980682373
+METHOD_TIME graph=email-Enron method=b32_accurate kind=kernel repeat=0 order=10 ms=0.530958175659
+METHOD_TIME graph=email-Enron method=b64_fast kind=kernel repeat=0 order=11 ms=0.509977340698
+METHOD_TIME graph=email-Enron method=b64_accurate kind=kernel repeat=0 order=12 ms=0.491142272949
+METHOD_TIME graph=email-Enron method=bfull_fast kind=kernel repeat=0 order=13 ms=0.488042831421
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=kernel repeat=0 order=14 ms=0.471830368042
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=0.791072845459
+METHOD_TIME graph=email-Enron method=b2_fast kind=kernel repeat=1 order=0 ms=1.50489807129
+METHOD_TIME graph=email-Enron method=b2_accurate kind=kernel repeat=1 order=1 ms=2.3021697998
+METHOD_TIME graph=email-Enron method=b4_fast kind=kernel repeat=1 order=2 ms=1.03402137756
+METHOD_TIME graph=email-Enron method=b4_accurate kind=kernel repeat=1 order=3 ms=1.33800506592
+METHOD_TIME graph=email-Enron method=b8_fast kind=kernel repeat=1 order=4 ms=0.708103179932
+METHOD_TIME graph=email-Enron method=b8_accurate kind=kernel repeat=1 order=5 ms=0.866889953613
+METHOD_TIME graph=email-Enron method=b16_fast kind=kernel repeat=1 order=6 ms=0.583171844482
+METHOD_TIME graph=email-Enron method=b16_accurate kind=kernel repeat=1 order=7 ms=0.645160675049
+METHOD_TIME graph=email-Enron method=b32_fast kind=kernel repeat=1 order=8 ms=0.483989715576
+METHOD_TIME graph=email-Enron method=b32_accurate kind=kernel repeat=1 order=9 ms=0.546932220459
+METHOD_TIME graph=email-Enron method=b64_fast kind=kernel repeat=1 order=10 ms=0.458002090454
+METHOD_TIME graph=email-Enron method=b64_accurate kind=kernel repeat=1 order=11 ms=0.491857528687
+METHOD_TIME graph=email-Enron method=bfull_fast kind=kernel repeat=1 order=12 ms=0.425100326538
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=kernel repeat=1 order=13 ms=0.478029251099
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=0.818967819214
+METHOD_TIME graph=email-Enron method=paper_tfs kind=kernel repeat=1 order=15 ms=1.06287002563
+METHOD_TIME graph=email-Enron method=b2_accurate kind=kernel repeat=2 order=0 ms=2.29120254517
+METHOD_TIME graph=email-Enron method=b4_fast kind=kernel repeat=2 order=1 ms=1.03807449341
+METHOD_TIME graph=email-Enron method=b4_accurate kind=kernel repeat=2 order=2 ms=1.38401985168
+METHOD_TIME graph=email-Enron method=b8_fast kind=kernel repeat=2 order=3 ms=0.717878341675
+METHOD_TIME graph=email-Enron method=b8_accurate kind=kernel repeat=2 order=4 ms=0.827074050903
+METHOD_TIME graph=email-Enron method=b16_fast kind=kernel repeat=2 order=5 ms=0.641822814941
+METHOD_TIME graph=email-Enron method=b16_accurate kind=kernel repeat=2 order=6 ms=0.692129135132
+METHOD_TIME graph=email-Enron method=b32_fast kind=kernel repeat=2 order=7 ms=0.52809715271
+METHOD_TIME graph=email-Enron method=b32_accurate kind=kernel repeat=2 order=8 ms=0.536203384399
+METHOD_TIME graph=email-Enron method=b64_fast kind=kernel repeat=2 order=9 ms=0.422954559326
+METHOD_TIME graph=email-Enron method=b64_accurate kind=kernel repeat=2 order=10 ms=0.483989715576
+METHOD_TIME graph=email-Enron method=bfull_fast kind=kernel repeat=2 order=11 ms=0.415802001953
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=kernel repeat=2 order=12 ms=0.464916229248
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=0.792980194092
+METHOD_TIME graph=email-Enron method=paper_tfs kind=kernel repeat=2 order=14 ms=1.07407569885
+METHOD_TIME graph=email-Enron method=b2_fast kind=kernel repeat=2 order=15 ms=1.48391723633
+METHOD_TIME graph=email-Enron method=b4_fast kind=kernel repeat=3 order=0 ms=0.967979431152
+METHOD_TIME graph=email-Enron method=b4_accurate kind=kernel repeat=3 order=1 ms=1.36208534241
+METHOD_TIME graph=email-Enron method=b8_fast kind=kernel repeat=3 order=2 ms=0.725984573364
+METHOD_TIME graph=email-Enron method=b8_accurate kind=kernel repeat=3 order=3 ms=0.859975814819
+METHOD_TIME graph=email-Enron method=b16_fast kind=kernel repeat=3 order=4 ms=0.581026077271
+METHOD_TIME graph=email-Enron method=b16_accurate kind=kernel repeat=3 order=5 ms=0.638961791992
+METHOD_TIME graph=email-Enron method=b32_fast kind=kernel repeat=3 order=6 ms=0.501871109009
+METHOD_TIME graph=email-Enron method=b32_accurate kind=kernel repeat=3 order=7 ms=0.542879104614
+METHOD_TIME graph=email-Enron method=b64_fast kind=kernel repeat=3 order=8 ms=0.448942184448
+METHOD_TIME graph=email-Enron method=b64_accurate kind=kernel repeat=3 order=9 ms=0.504016876221
+METHOD_TIME graph=email-Enron method=bfull_fast kind=kernel repeat=3 order=10 ms=0.471115112305
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=kernel repeat=3 order=11 ms=0.492095947266
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=0.760078430176
+METHOD_TIME graph=email-Enron method=paper_tfs kind=kernel repeat=3 order=13 ms=1.16086006165
+METHOD_TIME graph=email-Enron method=b2_fast kind=kernel repeat=3 order=14 ms=1.43313407898
+METHOD_TIME graph=email-Enron method=b2_accurate kind=kernel repeat=3 order=15 ms=2.30097770691
+METHOD_TIME graph=email-Enron method=b4_accurate kind=kernel repeat=4 order=0 ms=1.47390365601
+METHOD_TIME graph=email-Enron method=b8_fast kind=kernel repeat=4 order=1 ms=0.736951828003
+METHOD_TIME graph=email-Enron method=b8_accurate kind=kernel repeat=4 order=2 ms=0.88095664978
+METHOD_TIME graph=email-Enron method=b16_fast kind=kernel repeat=4 order=3 ms=0.550985336304
+METHOD_TIME graph=email-Enron method=b16_accurate kind=kernel repeat=4 order=4 ms=0.638961791992
+METHOD_TIME graph=email-Enron method=b32_fast kind=kernel repeat=4 order=5 ms=0.500917434692
+METHOD_TIME graph=email-Enron method=b32_accurate kind=kernel repeat=4 order=6 ms=0.554800033569
+METHOD_TIME graph=email-Enron method=b64_fast kind=kernel repeat=4 order=7 ms=0.463008880615
+METHOD_TIME graph=email-Enron method=b64_accurate kind=kernel repeat=4 order=8 ms=0.505924224854
+METHOD_TIME graph=email-Enron method=bfull_fast kind=kernel repeat=4 order=9 ms=0.433921813965
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=kernel repeat=4 order=10 ms=0.463008880615
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=0.777959823608
+METHOD_TIME graph=email-Enron method=paper_tfs kind=kernel repeat=4 order=12 ms=1.16491317749
+METHOD_TIME graph=email-Enron method=b2_fast kind=kernel repeat=4 order=13 ms=1.50108337402
+METHOD_TIME graph=email-Enron method=b2_accurate kind=kernel repeat=4 order=14 ms=2.25806236267
+METHOD_TIME graph=email-Enron method=b4_fast kind=kernel repeat=4 order=15 ms=1.02806091309
+METHOD_TIME graph=email-Enron method=paper_tfs kind=e2e repeat=0 order=0 ms=2.32601165771
+METHOD_TIME graph=email-Enron method=b2_fast kind=e2e repeat=0 order=1 ms=3.27610969543
+METHOD_TIME graph=email-Enron method=b2_accurate kind=e2e repeat=0 order=2 ms=4.88185882568
+METHOD_TIME graph=email-Enron method=b4_fast kind=e2e repeat=0 order=3 ms=2.29501724243
+METHOD_TIME graph=email-Enron method=b4_accurate kind=e2e repeat=0 order=4 ms=2.97594070435
+METHOD_TIME graph=email-Enron method=b8_fast kind=e2e repeat=0 order=5 ms=1.74498558044
+METHOD_TIME graph=email-Enron method=b8_accurate kind=e2e repeat=0 order=6 ms=2.02417373657
+METHOD_TIME graph=email-Enron method=b16_fast kind=e2e repeat=0 order=7 ms=1.5230178833
+METHOD_TIME graph=email-Enron method=b16_accurate kind=e2e repeat=0 order=8 ms=1.60193443298
+METHOD_TIME graph=email-Enron method=b32_fast kind=e2e repeat=0 order=9 ms=1.305103302
+METHOD_TIME graph=email-Enron method=b32_accurate kind=e2e repeat=0 order=10 ms=1.47581100464
+METHOD_TIME graph=email-Enron method=b64_fast kind=e2e repeat=0 order=11 ms=1.2731552124
+METHOD_TIME graph=email-Enron method=b64_accurate kind=e2e repeat=0 order=12 ms=1.31487846375
+METHOD_TIME graph=email-Enron method=bfull_fast kind=e2e repeat=0 order=13 ms=1.18613243103
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=e2e repeat=0 order=14 ms=1.30987167358
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=1.98197364807
+METHOD_TIME graph=email-Enron method=b2_fast kind=e2e repeat=1 order=0 ms=3.28707695007
+METHOD_TIME graph=email-Enron method=b2_accurate kind=e2e repeat=1 order=1 ms=5.00822067261
+METHOD_TIME graph=email-Enron method=b4_fast kind=e2e repeat=1 order=2 ms=2.27499008179
+METHOD_TIME graph=email-Enron method=b4_accurate kind=e2e repeat=1 order=3 ms=3.03292274475
+METHOD_TIME graph=email-Enron method=b8_fast kind=e2e repeat=1 order=4 ms=1.72901153564
+METHOD_TIME graph=email-Enron method=b8_accurate kind=e2e repeat=1 order=5 ms=2.08306312561
+METHOD_TIME graph=email-Enron method=b16_fast kind=e2e repeat=1 order=6 ms=1.40500068665
+METHOD_TIME graph=email-Enron method=b16_accurate kind=e2e repeat=1 order=7 ms=1.60908699036
+METHOD_TIME graph=email-Enron method=b32_fast kind=e2e repeat=1 order=8 ms=1.29389762878
+METHOD_TIME graph=email-Enron method=b32_accurate kind=e2e repeat=1 order=9 ms=1.36590003967
+METHOD_TIME graph=email-Enron method=b64_fast kind=e2e repeat=1 order=10 ms=1.2800693512
+METHOD_TIME graph=email-Enron method=b64_accurate kind=e2e repeat=1 order=11 ms=1.3439655304
+METHOD_TIME graph=email-Enron method=bfull_fast kind=e2e repeat=1 order=12 ms=1.17897987366
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=e2e repeat=1 order=13 ms=1.25098228455
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=1.92308425903
+METHOD_TIME graph=email-Enron method=paper_tfs kind=e2e repeat=1 order=15 ms=2.357006073
+METHOD_TIME graph=email-Enron method=b2_accurate kind=e2e repeat=2 order=0 ms=4.90093231201
+METHOD_TIME graph=email-Enron method=b4_fast kind=e2e repeat=2 order=1 ms=2.38394737244
+METHOD_TIME graph=email-Enron method=b4_accurate kind=e2e repeat=2 order=2 ms=3.06797027588
+METHOD_TIME graph=email-Enron method=b8_fast kind=e2e repeat=2 order=3 ms=1.74784660339
+METHOD_TIME graph=email-Enron method=b8_accurate kind=e2e repeat=2 order=4 ms=2.07805633545
+METHOD_TIME graph=email-Enron method=b16_fast kind=e2e repeat=2 order=5 ms=1.39307975769
+METHOD_TIME graph=email-Enron method=b16_accurate kind=e2e repeat=2 order=6 ms=1.74713134766
+METHOD_TIME graph=email-Enron method=b32_fast kind=e2e repeat=2 order=7 ms=1.29103660583
+METHOD_TIME graph=email-Enron method=b32_accurate kind=e2e repeat=2 order=8 ms=1.39188766479
+METHOD_TIME graph=email-Enron method=b64_fast kind=e2e repeat=2 order=9 ms=1.26194953918
+METHOD_TIME graph=email-Enron method=b64_accurate kind=e2e repeat=2 order=10 ms=1.28197669983
+METHOD_TIME graph=email-Enron method=bfull_fast kind=e2e repeat=2 order=11 ms=1.18684768677
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=e2e repeat=2 order=12 ms=1.25908851624
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=1.91903114319
+METHOD_TIME graph=email-Enron method=paper_tfs kind=e2e repeat=2 order=14 ms=2.30002403259
+METHOD_TIME graph=email-Enron method=b2_fast kind=e2e repeat=2 order=15 ms=3.20601463318
+METHOD_TIME graph=email-Enron method=b4_fast kind=e2e repeat=3 order=0 ms=2.33888626099
+METHOD_TIME graph=email-Enron method=b4_accurate kind=e2e repeat=3 order=1 ms=3.00312042236
+METHOD_TIME graph=email-Enron method=b8_fast kind=e2e repeat=3 order=2 ms=1.72805786133
+METHOD_TIME graph=email-Enron method=b8_accurate kind=e2e repeat=3 order=3 ms=2.05111503601
+METHOD_TIME graph=email-Enron method=b16_fast kind=e2e repeat=3 order=4 ms=1.42478942871
+METHOD_TIME graph=email-Enron method=b16_accurate kind=e2e repeat=3 order=5 ms=1.58977508545
+METHOD_TIME graph=email-Enron method=b32_fast kind=e2e repeat=3 order=6 ms=1.33514404297
+METHOD_TIME graph=email-Enron method=b32_accurate kind=e2e repeat=3 order=7 ms=1.41000747681
+METHOD_TIME graph=email-Enron method=b64_fast kind=e2e repeat=3 order=8 ms=1.24001502991
+METHOD_TIME graph=email-Enron method=b64_accurate kind=e2e repeat=3 order=9 ms=1.5811920166
+METHOD_TIME graph=email-Enron method=bfull_fast kind=e2e repeat=3 order=10 ms=1.18803977966
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=e2e repeat=3 order=11 ms=1.29103660583
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=1.92999839783
+METHOD_TIME graph=email-Enron method=paper_tfs kind=e2e repeat=3 order=13 ms=2.33602523804
+METHOD_TIME graph=email-Enron method=b2_fast kind=e2e repeat=3 order=14 ms=3.29899787903
+METHOD_TIME graph=email-Enron method=b2_accurate kind=e2e repeat=3 order=15 ms=4.86016273499
+METHOD_TIME graph=email-Enron method=b4_accurate kind=e2e repeat=4 order=0 ms=3.03387641907
+METHOD_TIME graph=email-Enron method=b8_fast kind=e2e repeat=4 order=1 ms=1.73091888428
+METHOD_TIME graph=email-Enron method=b8_accurate kind=e2e repeat=4 order=2 ms=2.13503837585
+METHOD_TIME graph=email-Enron method=b16_fast kind=e2e repeat=4 order=3 ms=1.57308578491
+METHOD_TIME graph=email-Enron method=b16_accurate kind=e2e repeat=4 order=4 ms=1.60694122314
+METHOD_TIME graph=email-Enron method=b32_fast kind=e2e repeat=4 order=5 ms=1.3210773468
+METHOD_TIME graph=email-Enron method=b32_accurate kind=e2e repeat=4 order=6 ms=1.39403343201
+METHOD_TIME graph=email-Enron method=b64_fast kind=e2e repeat=4 order=7 ms=1.26218795776
+METHOD_TIME graph=email-Enron method=b64_accurate kind=e2e repeat=4 order=8 ms=1.38092041016
+METHOD_TIME graph=email-Enron method=bfull_fast kind=e2e repeat=4 order=9 ms=1.22904777527
+METHOD_TIME graph=email-Enron method=bfull_accurate kind=e2e repeat=4 order=10 ms=1.23810768127
+METHOD_TIME graph=email-Enron method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=2.00891494751
+METHOD_TIME graph=email-Enron method=paper_tfs kind=e2e repeat=4 order=12 ms=2.3889541626
+METHOD_TIME graph=email-Enron method=b2_fast kind=e2e repeat=4 order=13 ms=3.27491760254
+METHOD_TIME graph=email-Enron method=b2_accurate kind=e2e repeat=4 order=14 ms=4.8840045929
+METHOD_TIME graph=email-Enron method=b4_fast kind=e2e repeat=4 order=15 ms=2.34913825989
+METHOD_STAGE graph=email-Enron method=paper_tfs repeat=0 layer1_ms=1.07192993164 relu_ms=0.0741481781006 interlayer_conversion_ms=0.159978866577 layer2_ms=0.998973846436 total_ms=2.30503082275
+METHOD_STAGE graph=email-Enron method=paper_tfs repeat=1 layer1_ms=1.05810165405 relu_ms=0.0748634338379 interlayer_conversion_ms=0.194072723389 layer2_ms=0.995874404907 total_ms=2.32291221619
+METHOD_STAGE graph=email-Enron method=paper_tfs repeat=2 layer1_ms=1.07598304749 relu_ms=0.0789165496826 interlayer_conversion_ms=0.198125839233 layer2_ms=1.02496147156 total_ms=2.37798690796
+METHOD_STAGE graph=email-Enron method=b2_fast repeat=0 layer1_ms=1.46102905273 relu_ms=0.0729560852051 interlayer_conversion_ms=0.207901000977 layer2_ms=1.46508216858 total_ms=3.2069683075
+METHOD_STAGE graph=email-Enron method=b2_fast repeat=1 layer1_ms=1.4820098877 relu_ms=0.0760555267334 interlayer_conversion_ms=0.160932540894 layer2_ms=1.45292282104 total_ms=3.17192077637
+METHOD_STAGE graph=email-Enron method=b2_fast repeat=2 layer1_ms=1.59811973572 relu_ms=0.0729560852051 interlayer_conversion_ms=0.154972076416 layer2_ms=1.49416923523 total_ms=3.32021713257
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.0250339508057 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.00309944152832 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=0.118732452393 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.228643417358 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.232934951782 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.282764434814 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.119924545288 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=tile_load sampled_thread_ms=0.491619110107 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=0.658988952637 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=tile_store sampled_thread_ms=0.0944137573242 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=0.346899032593 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0290870666504 sampled_tiles=10 wall_ms=4.82892990112
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=0.100135803223 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.191211700439 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.270843505859 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.250816345215 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.104188919067 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=tile_load sampled_thread_ms=0.474452972412 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=0.623464584351 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=tile_store sampled_thread_ms=0.0998973846436 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_PROFILE graph=email-Enron method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0345706939697 sampled_tiles=10 wall_ms=4.75001335144
+METHOD_STAGE graph=email-Enron method=b2_accurate repeat=0 layer1_ms=2.357006073 relu_ms=0.0739097595215 interlayer_conversion_ms=0.160932540894 layer2_ms=2.27499008179 total_ms=4.8668384552
+METHOD_STAGE graph=email-Enron method=b2_accurate repeat=1 layer1_ms=2.31313705444 relu_ms=0.0748634338379 interlayer_conversion_ms=0.159025192261 layer2_ms=2.26497650146 total_ms=4.81200218201
+METHOD_STAGE graph=email-Enron method=b2_accurate repeat=2 layer1_ms=2.31194496155 relu_ms=0.0741481781006 interlayer_conversion_ms=0.154972076416 layer2_ms=2.27093696594 total_ms=4.81200218201
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00214576721191 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=0.1220703125 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.184059143066 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.234842300415 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.293254852295 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.207424163818 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=0.898361206055 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=1.07097625732 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=0.0579357147217 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00810623168945 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0255107879639 sampled_tiles=10 wall_ms=6.30497932434
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=0.116348266602 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.196695327759 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.232458114624 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.297784805298 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.185966491699 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=0.932931900024 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=1.15585327148 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=0.0636577606201 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00119209289551 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_PROFILE graph=email-Enron method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0298023223877 sampled_tiles=10 wall_ms=6.43181800842
+METHOD_STAGE graph=email-Enron method=b4_fast repeat=0 layer1_ms=1.05285644531 relu_ms=0.0760555267334 interlayer_conversion_ms=0.163078308105 layer2_ms=0.964879989624 total_ms=2.25687026978
+METHOD_STAGE graph=email-Enron method=b4_fast repeat=1 layer1_ms=1.04808807373 relu_ms=0.0770092010498 interlayer_conversion_ms=0.169992446899 layer2_ms=1.10697746277 total_ms=2.40206718445
+METHOD_STAGE graph=email-Enron method=b4_fast repeat=2 layer1_ms=1.10912322998 relu_ms=0.0708103179932 interlayer_conversion_ms=0.168085098267 layer2_ms=0.997066497803 total_ms=2.34508514404
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=0.0567436218262 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.179052352905 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.232219696045 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.224590301514 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0519752502441 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=tile_load sampled_thread_ms=0.27060508728 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=0.32377243042 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=tile_store sampled_thread_ms=0.0293254852295 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=0.00762939453125 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0267028808594 sampled_tiles=10 wall_ms=2.9079914093
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=0.0689029693604 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.191926956177 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.221014022827 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.234127044678 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.056266784668 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=tile_load sampled_thread_ms=0.253915786743 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=0.507831573486 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=tile_store sampled_thread_ms=0.032901763916 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_PROFILE graph=email-Enron method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 sampled_tiles=10 wall_ms=3.12304496765
+METHOD_STAGE graph=email-Enron method=b4_accurate repeat=0 layer1_ms=1.43098831177 relu_ms=0.0760555267334 interlayer_conversion_ms=0.169038772583 layer2_ms=1.4169216156 total_ms=3.09300422668
+METHOD_STAGE graph=email-Enron method=b4_accurate repeat=1 layer1_ms=1.40309333801 relu_ms=0.0729560852051 interlayer_conversion_ms=0.171899795532 layer2_ms=1.33800506592 total_ms=2.98595428467
+METHOD_STAGE graph=email-Enron method=b4_accurate repeat=2 layer1_ms=1.48701667786 relu_ms=0.0760555267334 interlayer_conversion_ms=0.163078308105 layer2_ms=1.39379501343 total_ms=3.11994552612
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00429153442383 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0550746917725 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.159502029419 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.195026397705 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.239372253418 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0998973846436 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=0.440835952759 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=0.599145889282 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=0.032901763916 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00691413879395 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=10 wall_ms=3.85999679565
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0624656677246 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.191926956177 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.236749649048 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.218391418457 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0977516174316 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=0.448226928711 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=0.498056411743 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=0.0283718109131 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_PROFILE graph=email-Enron method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0326633453369 sampled_tiles=10 wall_ms=3.88097763062
+METHOD_STAGE graph=email-Enron method=b8_fast repeat=0 layer1_ms=0.839948654175 relu_ms=0.0741481781006 interlayer_conversion_ms=0.176906585693 layer2_ms=0.694990158081 total_ms=1.78599357605
+METHOD_STAGE graph=email-Enron method=b8_fast repeat=1 layer1_ms=0.747919082642 relu_ms=0.0770092010498 interlayer_conversion_ms=0.169038772583 layer2_ms=0.720977783203 total_ms=1.71494483948
+METHOD_STAGE graph=email-Enron method=b8_fast repeat=2 layer1_ms=0.746011734009 relu_ms=0.0770092010498 interlayer_conversion_ms=0.670194625854 layer2_ms=0.756978988647 total_ms=2.25019454956
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.00381469726562 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=0.0326633453369 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.196218490601 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.222206115723 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.205039978027 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0362396240234 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=tile_load sampled_thread_ms=0.145196914673 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=0.285387039185 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=tile_store sampled_thread_ms=0.0243186950684 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=0.00810623168945 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0205039978027 sampled_tiles=10 wall_ms=2.34794616699
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=0.0319480895996 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.176668167114 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.221729278564 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.186920166016 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0255107879639 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=tile_load sampled_thread_ms=0.141620635986 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=0.432968139648 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=tile_store sampled_thread_ms=0.0183582305908 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.00214576721191 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_PROFILE graph=email-Enron method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0333786010742 sampled_tiles=10 wall_ms=2.33697891235
+METHOD_STAGE graph=email-Enron method=b8_accurate repeat=0 layer1_ms=1.0130405426 relu_ms=0.075101852417 interlayer_conversion_ms=0.176906585693 layer2_ms=0.885963439941 total_ms=2.15101242065
+METHOD_STAGE graph=email-Enron method=b8_accurate repeat=1 layer1_ms=0.890970230103 relu_ms=0.0770092010498 interlayer_conversion_ms=0.175952911377 layer2_ms=0.882148742676 total_ms=2.02608108521
+METHOD_STAGE graph=email-Enron method=b8_accurate repeat=2 layer1_ms=0.949859619141 relu_ms=0.0851154327393 interlayer_conversion_ms=0.174045562744 layer2_ms=0.895023345947 total_ms=2.10404396057
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0321865081787 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.203371047974 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.215530395508 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.220775604248 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.044584274292 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=0.23365020752 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=0.392436981201 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.0171661376953 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00667572021484 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0224113464355 sampled_tiles=10 wall_ms=2.77900695801
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=0.035285949707 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.171184539795 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.234603881836 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.218152999878 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0491142272949 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=0.264167785645 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=0.339508056641 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=0.0159740447998 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_PROFILE graph=email-Enron method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=10 wall_ms=2.73489952087
+METHOD_STAGE graph=email-Enron method=b16_fast repeat=0 layer1_ms=0.653028488159 relu_ms=0.0791549682617 interlayer_conversion_ms=0.169992446899 layer2_ms=0.602960586548 total_ms=1.50513648987
+METHOD_STAGE graph=email-Enron method=b16_fast repeat=1 layer1_ms=0.648021697998 relu_ms=0.0770092010498 interlayer_conversion_ms=0.174045562744 layer2_ms=0.552892684937 total_ms=1.45196914673
+METHOD_STAGE graph=email-Enron method=b16_fast repeat=2 layer1_ms=0.611066818237 relu_ms=0.0770092010498 interlayer_conversion_ms=0.170946121216 layer2_ms=0.576972961426 total_ms=1.43599510193
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.0381469726562 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.198841094971 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.207424163818 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.189304351807 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0367164611816 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=tile_load sampled_thread_ms=0.0791549682617 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=0.0975131988525 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.0178813934326 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=0.00572204589844 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0190734863281 sampled_tiles=10 wall_ms=1.81818008423
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.00381469726562 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.0240802764893 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.170946121216 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.226974487305 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.189542770386 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0197887420654 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=tile_load sampled_thread_ms=0.0889301300049 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=0.173568725586 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.0126361846924 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_PROFILE graph=email-Enron method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=10 wall_ms=1.93500518799
+METHOD_STAGE graph=email-Enron method=b16_accurate repeat=0 layer1_ms=1.05810165405 relu_ms=0.0770092010498 interlayer_conversion_ms=0.159025192261 layer2_ms=0.643968582153 total_ms=1.93810462952
+METHOD_STAGE graph=email-Enron method=b16_accurate repeat=1 layer1_ms=0.771045684814 relu_ms=0.0748634338379 interlayer_conversion_ms=0.166177749634 layer2_ms=0.643014907837 total_ms=1.65510177612
+METHOD_STAGE graph=email-Enron method=b16_accurate repeat=2 layer1_ms=0.687122344971 relu_ms=0.0739097595215 interlayer_conversion_ms=0.169992446899 layer2_ms=0.663042068481 total_ms=1.59406661987
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0231266021729 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.178337097168 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.203609466553 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.202894210815 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.030517578125 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=0.128984451294 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=0.205278396606 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.00667572021484 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00977516174316 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0202655792236 sampled_tiles=10 wall_ms=2.07901000977
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0181198120117 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.174522399902 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.231504440308 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.190496444702 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0264644622803 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=0.152826309204 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=0.17786026001 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.011682510376 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_PROFILE graph=email-Enron method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 sampled_tiles=10 wall_ms=2.11715698242
+METHOD_STAGE graph=email-Enron method=b32_fast repeat=0 layer1_ms=0.586986541748 relu_ms=0.0770092010498 interlayer_conversion_ms=0.159978866577 layer2_ms=0.519990921021 total_ms=1.3439655304
+METHOD_STAGE graph=email-Enron method=b32_fast repeat=1 layer1_ms=0.586032867432 relu_ms=0.0770092010498 interlayer_conversion_ms=0.164985656738 layer2_ms=0.529050827026 total_ms=1.35707855225
+METHOD_STAGE graph=email-Enron method=b32_fast repeat=2 layer1_ms=0.555038452148 relu_ms=0.0760555267334 interlayer_conversion_ms=0.160932540894 layer2_ms=0.514030456543 total_ms=1.30605697632
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.0195503234863 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.186681747437 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.207424163818 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.181913375854 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0176429748535 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=tile_load sampled_thread_ms=0.0393390655518 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=0.0638961791992 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.00786781311035 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=0.00596046447754 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=10 wall_ms=1.61194801331
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.00333786010742 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.00739097595215 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.182390213013 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.213623046875 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.190258026123 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0112056732178 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=tile_load sampled_thread_ms=0.0452995300293 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=0.124931335449 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.00524520874023 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_PROFILE graph=email-Enron method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0267028808594 sampled_tiles=10 wall_ms=1.63102149963
+METHOD_STAGE graph=email-Enron method=b32_accurate repeat=0 layer1_ms=0.702857971191 relu_ms=0.0720024108887 interlayer_conversion_ms=0.169992446899 layer2_ms=0.555992126465 total_ms=1.50084495544
+METHOD_STAGE graph=email-Enron method=b32_accurate repeat=1 layer1_ms=0.559091567993 relu_ms=0.0729560852051 interlayer_conversion_ms=0.164031982422 layer2_ms=0.564098358154 total_ms=1.36017799377
+METHOD_STAGE graph=email-Enron method=b32_accurate repeat=2 layer1_ms=0.578880310059 relu_ms=0.0770092010498 interlayer_conversion_ms=0.171899795532 layer2_ms=0.527143478394 total_ms=1.35493278503
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00405311584473 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0114440917969 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.199317932129 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.216245651245 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.189781188965 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0147819519043 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=0.0874996185303 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=0.0948905944824 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.00572204589844 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00929832458496 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0200271606445 sampled_tiles=10 wall_ms=1.78003311157
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.00572204589844 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.226020812988 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.225782394409 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.19383430481 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0150203704834 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=0.0910758972168 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=0.15926361084 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.00691413879395 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_PROFILE graph=email-Enron method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0302791595459 sampled_tiles=10 wall_ms=1.78098678589
+METHOD_STAGE graph=email-Enron method=b64_fast repeat=0 layer1_ms=0.537872314453 relu_ms=0.0779628753662 interlayer_conversion_ms=0.160217285156 layer2_ms=0.541925430298 total_ms=1.31797790527
+METHOD_STAGE graph=email-Enron method=b64_fast repeat=1 layer1_ms=0.524997711182 relu_ms=0.0779628753662 interlayer_conversion_ms=0.164985656738 layer2_ms=0.49614906311 total_ms=1.2640953064
+METHOD_STAGE graph=email-Enron method=b64_fast repeat=2 layer1_ms=0.495910644531 relu_ms=0.0779628753662 interlayer_conversion_ms=0.175952911377 layer2_ms=0.457048416138 total_ms=1.20687484741
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.00619888305664 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.169992446899 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.180244445801 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.180006027222 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.00596046447754 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=tile_load sampled_thread_ms=0.0319480895996 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=0.0481605529785 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.00500679016113 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=0.00786781311035 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.028133392334 sampled_tiles=10 wall_ms=1.42383575439
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0.00119209289551 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.00691413879395 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.202894210815 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.206470489502 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.192165374756 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.00476837158203 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=tile_load sampled_thread_ms=0.0388622283936 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=0.06103515625 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.00619888305664 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_PROFILE graph=email-Enron method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0247955322266 sampled_tiles=10 wall_ms=1.55806541443
+METHOD_STAGE graph=email-Enron method=b64_accurate repeat=0 layer1_ms=0.554084777832 relu_ms=0.0739097595215 interlayer_conversion_ms=0.163078308105 layer2_ms=0.529050827026 total_ms=1.32012367249
+METHOD_STAGE graph=email-Enron method=b64_accurate repeat=1 layer1_ms=0.574827194214 relu_ms=0.0741481781006 interlayer_conversion_ms=0.168085098267 layer2_ms=0.524997711182 total_ms=1.34205818176
+METHOD_STAGE graph=email-Enron method=b64_accurate repeat=2 layer1_ms=0.593185424805 relu_ms=0.0789165496826 interlayer_conversion_ms=0.163078308105 layer2_ms=0.521898269653 total_ms=1.35707855225
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.00476837158203 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.195980072021 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.229120254517 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.184535980225 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0109672546387 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=0.0646114349365 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=0.08225440979 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.00786781311035 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00667572021484 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0190734863281 sampled_tiles=10 wall_ms=1.62816047668
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.014066696167 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.170469284058 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.212430953979 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.174760818481 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.00882148742676 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=0.0402927398682 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=0.0927448272705 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.00405311584473 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_PROFILE graph=email-Enron method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0247955322266 sampled_tiles=10 wall_ms=1.54209136963
+METHOD_STAGE graph=email-Enron method=bfull_fast repeat=0 layer1_ms=0.514030456543 relu_ms=0.0770092010498 interlayer_conversion_ms=0.180006027222 layer2_ms=0.447988510132 total_ms=1.21903419495
+METHOD_STAGE graph=email-Enron method=bfull_fast repeat=1 layer1_ms=0.503778457642 relu_ms=0.0770092010498 interlayer_conversion_ms=0.155210494995 layer2_ms=0.443935394287 total_ms=1.17993354797
+METHOD_STAGE graph=email-Enron method=bfull_fast repeat=2 layer1_ms=0.509023666382 relu_ms=0.0748634338379 interlayer_conversion_ms=0.174999237061 layer2_ms=0.444173812866 total_ms=1.20306015015
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.00381469726562 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=0.180721282959 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=0.19645690918 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.178098678589 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.00500679016113 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=0.0128746032715 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=0.0252723693848 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.00429153442383 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=0.00762939453125 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0252723693848 sampled_tiles=10 wall_ms=1.37090682983
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.00214576721191 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.00619888305664 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=0.186920166016 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=0.231742858887 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.18572807312 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=0.0126361846924 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=0.0231266021729 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.00309944152832 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_PROFILE graph=email-Enron method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0355243682861 sampled_tiles=10 wall_ms=1.42288208008
+METHOD_STAGE graph=email-Enron method=bfull_accurate repeat=0 layer1_ms=0.530004501343 relu_ms=0.0770092010498 interlayer_conversion_ms=0.171899795532 layer2_ms=0.504016876221 total_ms=1.28293037415
+METHOD_STAGE graph=email-Enron method=bfull_accurate repeat=1 layer1_ms=0.522136688232 relu_ms=0.0779628753662 interlayer_conversion_ms=0.164985656738 layer2_ms=0.484943389893 total_ms=1.25002861023
+METHOD_STAGE graph=email-Enron method=bfull_accurate repeat=2 layer1_ms=0.499963760376 relu_ms=0.075101852417 interlayer_conversion_ms=0.165939331055 layer2_ms=0.487089157104 total_ms=1.22809410095
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.00309944152832 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.00214576721191 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=0.188589096069 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=0.235557556152 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=0.188589096069 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.00381469726562 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=0.0228881835938 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=0.0259876251221 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.00309944152832 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=0.00905990600586 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0219345092773 sampled_tiles=10 wall_ms=1.45101547241
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.00286102294922 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.00309944152832 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=0.174045562744 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=0.208854675293 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=0.169038772583 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.00190734863281 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=0.0231266021729 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=0.0300407409668 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.000953674316406 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_PROFILE graph=email-Enron method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0269412994385 sampled_tiles=10 wall_ms=1.35612487793
+METHOD_COMPLETE graph=email-Enron methods=15 checks=60 pass=1 max_rss_kib=219348

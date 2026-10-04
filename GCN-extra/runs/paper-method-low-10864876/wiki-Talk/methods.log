@@ -1,0 +1,636 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/wiki-Talk/wiki-Talk.csrbin
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 106.76 ms
+  run 1: 108.16 ms
+  run 2: 109.05 ms
+  run 3: 108.13 ms
+  run 4: 105.00 ms
+  TFS V3 E2E BEST: 105.00 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 90.02 ms
+  run 1: 89.67 ms
+  run 2: 89.70 ms
+  run 3: 89.70 ms
+  run 4: 89.79 ms
+  MKL E2E BEST: 89.67 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 105.00 ms
+  MKL (FP32):      89.67 ms
+  E2E Speedup:     0.85×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+METHOD_CONFIG graph=wiki-Talk N=2394385 E=5021410 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89094870253 relative_L2=0.0120588659797 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_fast boundary=kernel_FP32 reference=paper_tfs max_abs=16.734375 mean_abs=0.000886728167699 relative_L2=0.00216251064455 normalized_max=0.00183232122251 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=10032 mean_abs=0.515238278807 relative_L2=0.00304782171779 normalized_max=0.002910354088 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.514021322972 relative_L2=0.00413941609424 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.33947961688 relative_L2=0.015000393464 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.232421875 mean_abs=3.07082821474e-07 relative_L2=6.44557484353e-06 normalized_max=2.54489058681e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=59.5 mean_abs=0.00208472443871 relative_L2=1.61087853645e-05 normalized_max=1.72613704382e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.00208444999706 relative_L2=0.000170045060222 normalized_max=0.000595238095238 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b2_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.8907566703 relative_L2=0.0120580914094 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_fast boundary=kernel_FP32 reference=paper_tfs max_abs=22.564453125 mean_abs=0.00110192686179 relative_L2=0.00279912479534 normalized_max=0.00247068243273 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=15949.75 mean_abs=0.74553073951 relative_L2=0.00470968156468 normalized_max=0.00462713517894 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.743750879098 relative_L2=0.00525467467714 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.57534575296 relative_L2=0.0166185703236 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.21923828125 mean_abs=2.6571591528e-07 relative_L2=5.04712388049e-06 normalized_max=2.40053754933e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=41.75 mean_abs=0.00312743718775 relative_L2=2.99483263278e-05 normalized_max=1.21119700134e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.00310477947225 relative_L2=0.000222591635219 normalized_max=0.00119047619048 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b4_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89058633945 relative_L2=0.0120581885464 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=23.4013671875 mean_abs=0.00116295810172 relative_L2=0.00299034612525 normalized_max=0.00256231987949 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18290.25 mean_abs=0.820231904064 relative_L2=0.00530005194867 normalized_max=0.00530613076736 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.817391589282 relative_L2=0.00570966729433 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.65000030266 relative_L2=0.0171700404989 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.2119140625 mean_abs=2.9565231948e-07 relative_L2=4.77555748821e-06 normalized_max=2.32034141739e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=30 mean_abs=0.00158711421532 relative_L2=1.07128620214e-05 normalized_max=8.70321198566e-06 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.0015717568309 relative_L2=0.000156261861202 normalized_max=0.000595238095238 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89090152561 relative_L2=0.0120584307542 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=27.853515625 mean_abs=0.00119385266643 relative_L2=0.0031032854196 normalized_max=0.00304980543349 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18976.25 mean_abs=0.856543335075 relative_L2=0.00555423453901 normalized_max=0.00550514421476 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.853815161136 relative_L2=0.00592957050508 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.68630617074 relative_L2=0.0174113240003 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.2294921875 mean_abs=5.61625527227e-07 relative_L2=5.02151463109e-06 normalized_max=2.51281213404e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=24.25 mean_abs=0.00191568246746 relative_L2=1.10801079999e-05 normalized_max=7.03509635507e-06 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.00190857240355 relative_L2=0.000147174747748 normalized_max=0.000595238095238 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89121548381 relative_L2=0.0120598409859 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_fast boundary=kernel_FP32 reference=paper_tfs max_abs=24.9794921875 mean_abs=0.00119768975637 relative_L2=0.00311021412945 normalized_max=0.00273511581177 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19212.75 mean_abs=0.861207401208 relative_L2=0.00558931142173 normalized_max=0.00557375453591 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.858169749607 relative_L2=0.00596250438208 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.68853507756 relative_L2=0.0174411612805 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.1513671875 mean_abs=9.4633311767e-07 relative_L2=5.32691213115e-06 normalized_max=1.65738672671e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=37.75 mean_abs=0.00263218911359 relative_L2=1.45256073265e-05 normalized_max=1.09515417486e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.00265220502329 relative_L2=0.000202371688186 normalized_max=0.00119047619048 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b32_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89144669742 relative_L2=0.0120625609029 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=27.34765625 mean_abs=0.00120377999327 relative_L2=0.00316130538823 normalized_max=0.00299441663837 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19292.75 mean_abs=0.875339903864 relative_L2=0.00566961976983 normalized_max=0.00559696310121 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.872406862499 relative_L2=0.00603904262364 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.69952923151 relative_L2=0.0175060748553 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.1865234375 mean_abs=1.34126616382e-06 relative_L2=6.68509496663e-06 normalized_max=2.04232816001e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=40.25 mean_abs=0.00328524751346 relative_L2=1.63431801996e-05 normalized_max=1.16768094141e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.00326472808623 relative_L2=0.000232421910591 normalized_max=0.00119047619048 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.8917642259 relative_L2=0.0120654574056 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.25 mean_abs=1.88037043185e-06 relative_L2=9.918371186e-06 normalized_max=2.73736130346e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=58 mean_abs=0.00744060388727 relative_L2=3.89447444718e-05 normalized_max=1.68262098389e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.007272773048 relative_L2=0.000316279470337 normalized_max=0.00119047619048 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89292022857 relative_L2=0.0120705716527 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=wiki-Talk methods=15 pass=1
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=kernel repeat=0 order=0 ms=51.4681339264
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=kernel repeat=0 order=1 ms=77.033996582
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=kernel repeat=0 order=2 ms=109.16519165
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=kernel repeat=0 order=3 ms=48.7749576569
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=kernel repeat=0 order=4 ms=63.5259151459
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=kernel repeat=0 order=5 ms=33.2131385803
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=kernel repeat=0 order=6 ms=38.6519432068
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=kernel repeat=0 order=7 ms=25.0208377838
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=kernel repeat=0 order=8 ms=28.5489559174
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=kernel repeat=0 order=9 ms=23.2529640198
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=kernel repeat=0 order=10 ms=23.1699943542
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=kernel repeat=0 order=11 ms=21.3379859924
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=kernel repeat=0 order=12 ms=20.8101272583
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=kernel repeat=0 order=13 ms=18.8679695129
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=kernel repeat=0 order=14 ms=19.6750164032
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=kernel repeat=0 order=15 ms=49.1058826447
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=kernel repeat=1 order=0 ms=78.113079071
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=kernel repeat=1 order=1 ms=107.036113739
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=kernel repeat=1 order=2 ms=48.6798286438
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=kernel repeat=1 order=3 ms=62.3409748077
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=kernel repeat=1 order=4 ms=34.1689586639
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=kernel repeat=1 order=5 ms=41.0070419312
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=kernel repeat=1 order=6 ms=25.7411003113
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=kernel repeat=1 order=7 ms=29.8709869385
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=kernel repeat=1 order=8 ms=21.3499069214
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=kernel repeat=1 order=9 ms=23.7200260162
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=kernel repeat=1 order=10 ms=19.6011066437
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=kernel repeat=1 order=11 ms=21.427154541
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=kernel repeat=1 order=12 ms=18.2828903198
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=kernel repeat=1 order=13 ms=18.5968875885
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=kernel repeat=1 order=14 ms=49.017906189
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=kernel repeat=1 order=15 ms=51.9518852234
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=kernel repeat=2 order=0 ms=106.462001801
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=kernel repeat=2 order=1 ms=48.5649108887
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=kernel repeat=2 order=2 ms=64.346075058
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=kernel repeat=2 order=3 ms=32.2759151459
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=kernel repeat=2 order=4 ms=39.9780273438
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=kernel repeat=2 order=5 ms=25.7649421692
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=kernel repeat=2 order=6 ms=29.1059017181
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=kernel repeat=2 order=7 ms=22.2499370575
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=kernel repeat=2 order=8 ms=23.0979919434
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=kernel repeat=2 order=9 ms=21.3940143585
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=kernel repeat=2 order=10 ms=20.7579135895
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=kernel repeat=2 order=11 ms=19.4299221039
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=kernel repeat=2 order=12 ms=18.651008606
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=kernel repeat=2 order=13 ms=49.1700172424
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=kernel repeat=2 order=14 ms=51.5449047089
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=kernel repeat=2 order=15 ms=78.0749320984
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=kernel repeat=3 order=0 ms=46.9880104065
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=kernel repeat=3 order=1 ms=61.1231327057
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=kernel repeat=3 order=2 ms=32.3839187622
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=kernel repeat=3 order=3 ms=39.3288135529
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=kernel repeat=3 order=4 ms=26.1220932007
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=kernel repeat=3 order=5 ms=29.865026474
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=kernel repeat=3 order=6 ms=21.8749046326
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=kernel repeat=3 order=7 ms=23.2968330383
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=kernel repeat=3 order=8 ms=20.9279060364
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=kernel repeat=3 order=9 ms=21.0330486298
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=kernel repeat=3 order=10 ms=19.7567939758
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=kernel repeat=3 order=11 ms=19.8588371277
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=kernel repeat=3 order=12 ms=49.1828918457
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=kernel repeat=3 order=13 ms=53.3490180969
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=kernel repeat=3 order=14 ms=79.6148777008
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=kernel repeat=3 order=15 ms=106.538057327
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=kernel repeat=4 order=0 ms=62.7207756042
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=kernel repeat=4 order=1 ms=33.2319736481
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=kernel repeat=4 order=2 ms=41.7139530182
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=kernel repeat=4 order=3 ms=24.5258808136
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=kernel repeat=4 order=4 ms=29.422044754
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=kernel repeat=4 order=5 ms=21.9390392303
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=kernel repeat=4 order=6 ms=23.7629413605
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=kernel repeat=4 order=7 ms=21.8670368195
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=kernel repeat=4 order=8 ms=22.0358371735
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=kernel repeat=4 order=9 ms=19.4990634918
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=kernel repeat=4 order=10 ms=18.6228752136
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=kernel repeat=4 order=11 ms=49.0260124207
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=kernel repeat=4 order=12 ms=52.0598888397
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=kernel repeat=4 order=13 ms=76.1170387268
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=kernel repeat=4 order=14 ms=109.430789948
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=kernel repeat=4 order=15 ms=47.2710132599
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=0 order=0 ms=109.543085098
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=e2e repeat=0 order=1 ms=160.761833191
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=e2e repeat=0 order=2 ms=220.518112183
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=e2e repeat=0 order=3 ms=102.689981461
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=e2e repeat=0 order=4 ms=133.996009827
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=0 order=5 ms=76.2839317322
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=0 order=6 ms=85.4909420013
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=0 order=7 ms=56.6630363464
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=0 order=8 ms=67.5859451294
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=e2e repeat=0 order=9 ms=49.7410297394
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=e2e repeat=0 order=10 ms=55.2909374237
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=0 order=11 ms=47.8370189667
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=0 order=12 ms=50.4198074341
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=0 order=13 ms=48.483133316
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=0 order=14 ms=48.4089851379
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=0 order=15 ms=90.3730392456
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=e2e repeat=1 order=0 ms=162.185192108
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=e2e repeat=1 order=1 ms=217.294931412
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=e2e repeat=1 order=2 ms=103.506088257
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=e2e repeat=1 order=3 ms=129.489898682
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=1 order=4 ms=73.9049911499
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=1 order=5 ms=85.6621265411
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=1 order=6 ms=56.7209720612
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=1 order=7 ms=66.7791366577
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=e2e repeat=1 order=8 ms=49.5488643646
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=e2e repeat=1 order=9 ms=54.6970367432
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=1 order=10 ms=48.4471321106
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=1 order=11 ms=49.9608516693
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=1 order=12 ms=46.324968338
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=1 order=13 ms=48.1898784637
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=1 order=14 ms=90.274810791
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=1 order=15 ms=110.054016113
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=e2e repeat=2 order=0 ms=218.050956726
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=e2e repeat=2 order=1 ms=105.537891388
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=e2e repeat=2 order=2 ms=134.46187973
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=2 order=3 ms=74.6750831604
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=2 order=4 ms=85.1891040802
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=2 order=5 ms=58.5749149323
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=2 order=6 ms=65.8521652222
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=e2e repeat=2 order=7 ms=50.1098632812
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=e2e repeat=2 order=8 ms=53.7869930267
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=2 order=9 ms=49.3490695953
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=2 order=10 ms=49.3450164795
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=2 order=11 ms=49.9370098114
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=2 order=12 ms=48.8471984863
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=2 order=13 ms=90.3708934784
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=2 order=14 ms=107.130050659
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=e2e repeat=2 order=15 ms=159.682035446
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=e2e repeat=3 order=0 ms=103.805065155
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=e2e repeat=3 order=1 ms=131.301879883
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=3 order=2 ms=71.2358951569
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=3 order=3 ms=86.0970020294
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=3 order=4 ms=57.4359893799
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=3 order=5 ms=64.8488998413
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=e2e repeat=3 order=6 ms=50.1420497894
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=e2e repeat=3 order=7 ms=52.3178577423
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=3 order=8 ms=48.5601425171
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=3 order=9 ms=49.3259429932
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=3 order=10 ms=47.110080719
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=3 order=11 ms=46.5559959412
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=3 order=12 ms=90.0120735168
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=3 order=13 ms=109.213113785
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=e2e repeat=3 order=14 ms=162.751913071
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=e2e repeat=3 order=15 ms=225.866794586
+METHOD_TIME graph=wiki-Talk method=b4_accurate kind=e2e repeat=4 order=0 ms=133.280992508
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=4 order=1 ms=76.122045517
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=4 order=2 ms=88.2298946381
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=4 order=3 ms=59.1430664062
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=4 order=4 ms=68.2837963104
+METHOD_TIME graph=wiki-Talk method=b32_fast kind=e2e repeat=4 order=5 ms=50.9378910065
+METHOD_TIME graph=wiki-Talk method=b32_accurate kind=e2e repeat=4 order=6 ms=54.3258190155
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=4 order=7 ms=48.3322143555
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=4 order=8 ms=49.9770641327
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=4 order=9 ms=44.7599887848
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=4 order=10 ms=48.0589866638
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=4 order=11 ms=90.304851532
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=4 order=12 ms=108.654975891
+METHOD_TIME graph=wiki-Talk method=b2_fast kind=e2e repeat=4 order=13 ms=157.799959183
+METHOD_TIME graph=wiki-Talk method=b2_accurate kind=e2e repeat=4 order=14 ms=220.881938934
+METHOD_TIME graph=wiki-Talk method=b4_fast kind=e2e repeat=4 order=15 ms=103.684902191
+METHOD_STAGE graph=wiki-Talk method=paper_tfs repeat=0 layer1_ms=51.1350631714 relu_ms=3.61490249634 interlayer_conversion_ms=4.67300415039 layer2_ms=47.4638938904 total_ms=106.886863708
+METHOD_STAGE graph=wiki-Talk method=paper_tfs repeat=1 layer1_ms=52.405834198 relu_ms=3.61919403076 interlayer_conversion_ms=4.72092628479 layer2_ms=48.1078624725 total_ms=108.853816986
+METHOD_STAGE graph=wiki-Talk method=paper_tfs repeat=2 layer1_ms=50.8658885956 relu_ms=3.61609458923 interlayer_conversion_ms=4.67395782471 layer2_ms=49.2188930511 total_ms=108.374834061
+METHOD_STAGE graph=wiki-Talk method=b2_fast repeat=0 layer1_ms=74.9900341034 relu_ms=3.62300872803 interlayer_conversion_ms=4.66704368591 layer2_ms=75.1481056213 total_ms=158.428192139
+METHOD_STAGE graph=wiki-Talk method=b2_fast repeat=1 layer1_ms=78.2318115234 relu_ms=3.59201431274 interlayer_conversion_ms=4.68111038208 layer2_ms=75.1280784607 total_ms=161.633014679
+METHOD_STAGE graph=wiki-Talk method=b2_fast repeat=2 layer1_ms=76.8649578094 relu_ms=3.61800193787 interlayer_conversion_ms=4.65703010559 layer2_ms=74.8867988586 total_ms=160.026788712
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=output_zero sampled_thread_ms=0.0269412994385 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=row_schedule sampled_thread_ms=0.0574588775635 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=partial_zero sampled_thread_ms=7.408618927 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.28779220581 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=feature_gather_decode sampled_thread_ms=9.91106033325 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.77862358093 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=7.06243515015 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=tile_load sampled_thread_ms=30.2441120148 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=tile_compute sampled_thread_ms=37.5032424927 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=tile_store sampled_thread_ms=5.1589012146 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=output_scatter sampled_thread_ms=0.0438690185547 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0250339508057 sampled_tiles=586 wall_ms=200.772047043
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=row_schedule sampled_thread_ms=0.0514984130859 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=partial_zero sampled_thread_ms=7.60340690613 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.12733650208 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=feature_gather_decode sampled_thread_ms=9.72270965576 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.61959838867 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=6.95943832397 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=tile_load sampled_thread_ms=30.2033424377 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=tile_compute sampled_thread_ms=37.4510288239 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=tile_store sampled_thread_ms=5.20396232605 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=output_scatter sampled_thread_ms=0.00715255737305 sampled_tiles=586 wall_ms=198.976039886
+METHOD_PROFILE graph=wiki-Talk method=b2_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.028133392334 sampled_tiles=586 wall_ms=198.976039886
+METHOD_STAGE graph=wiki-Talk method=b2_accurate repeat=0 layer1_ms=119.699954987 relu_ms=3.67593765259 interlayer_conversion_ms=4.66012954712 layer2_ms=106.235980988 total_ms=234.272003174
+METHOD_STAGE graph=wiki-Talk method=b2_accurate repeat=1 layer1_ms=107.079982758 relu_ms=3.60083580017 interlayer_conversion_ms=4.67205047607 layer2_ms=105.625152588 total_ms=220.978021622
+METHOD_STAGE graph=wiki-Talk method=b2_accurate repeat=2 layer1_ms=108.018875122 relu_ms=3.59201431274 interlayer_conversion_ms=4.65297698975 layer2_ms=107.578039169 total_ms=223.841905594
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0615119934082 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=partial_zero sampled_thread_ms=8.03327560425 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=csr_prefetch sampled_thread_ms=3.36933135986 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=10.4699134827 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=4.80580329895 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=12.5424861908 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=tile_load sampled_thread_ms=56.8368434906 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=tile_compute sampled_thread_ms=59.0176582336 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=tile_store sampled_thread_ms=5.25259971619 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0431537628174 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=586 wall_ms=305.871963501
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0391006469727 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=partial_zero sampled_thread_ms=7.61556625366 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.26204299927 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=9.89723205566 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=4.80318069458 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=12.624502182 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=tile_load sampled_thread_ms=57.1231842041 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=tile_compute sampled_thread_ms=59.2813491821 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=tile_store sampled_thread_ms=4.25314903259 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00905990600586 sampled_tiles=586 wall_ms=301.117897034
+METHOD_PROFILE graph=wiki-Talk method=b2_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0338554382324 sampled_tiles=586 wall_ms=301.117897034
+METHOD_STAGE graph=wiki-Talk method=b4_fast repeat=0 layer1_ms=47.5499629974 relu_ms=3.59010696411 interlayer_conversion_ms=4.6558380127 layer2_ms=49.1480827332 total_ms=104.943990707
+METHOD_STAGE graph=wiki-Talk method=b4_fast repeat=1 layer1_ms=48.4120845795 relu_ms=3.60584259033 interlayer_conversion_ms=4.65106964111 layer2_ms=45.2239513397 total_ms=101.892948151
+METHOD_STAGE graph=wiki-Talk method=b4_fast repeat=2 layer1_ms=49.3700504303 relu_ms=3.58200073242 interlayer_conversion_ms=4.65607643127 layer2_ms=47.4560260773 total_ms=105.064153671
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=row_schedule sampled_thread_ms=0.0617504119873 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=partial_zero sampled_thread_ms=3.72695922852 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.13639640808 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=feature_gather_decode sampled_thread_ms=7.22241401672 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.9701461792 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=3.46612930298 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=tile_load sampled_thread_ms=15.4139995575 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=tile_compute sampled_thread_ms=18.7668800354 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=tile_store sampled_thread_ms=2.50196456909 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=output_scatter sampled_thread_ms=0.0419616699219 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0276565551758 sampled_tiles=586 wall_ms=117.379903793
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=row_schedule sampled_thread_ms=0.0519752502441 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=partial_zero sampled_thread_ms=3.57580184937 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.1476020813 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=feature_gather_decode sampled_thread_ms=6.88743591309 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.91149520874 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=3.51405143738 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=tile_load sampled_thread_ms=15.3694152832 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=tile_compute sampled_thread_ms=18.7759399414 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=tile_store sampled_thread_ms=2.63667106628 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=output_scatter sampled_thread_ms=0.00190734863281 sampled_tiles=586 wall_ms=113.661050797
+METHOD_PROFILE graph=wiki-Talk method=b4_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0262260437012 sampled_tiles=586 wall_ms=113.661050797
+METHOD_STAGE graph=wiki-Talk method=b4_accurate repeat=0 layer1_ms=64.1601085663 relu_ms=3.60798835754 interlayer_conversion_ms=5.01394271851 layer2_ms=59.9129199982 total_ms=132.694959641
+METHOD_STAGE graph=wiki-Talk method=b4_accurate repeat=1 layer1_ms=65.2058124542 relu_ms=3.58414649963 interlayer_conversion_ms=5.02991676331 layer2_ms=61.5890026093 total_ms=135.408878326
+METHOD_STAGE graph=wiki-Talk method=b4_accurate repeat=2 layer1_ms=65.6590461731 relu_ms=3.59201431274 interlayer_conversion_ms=4.65703010559 layer2_ms=59.4778060913 total_ms=133.385896683
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0596046447754 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=partial_zero sampled_thread_ms=3.97896766663 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=csr_prefetch sampled_thread_ms=3.31163406372 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=7.41147994995 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.77154350281 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=6.30283355713 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=tile_load sampled_thread_ms=28.6593437195 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=tile_compute sampled_thread_ms=30.1682949066 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=tile_store sampled_thread_ms=2.13718414307 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0383853912354 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0271797180176 sampled_tiles=586 wall_ms=170.627117157
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0622272491455 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=partial_zero sampled_thread_ms=3.86953353882 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.24654579163 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=7.32398033142 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.83448600769 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=6.38794898987 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=tile_load sampled_thread_ms=28.7120342255 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=tile_compute sampled_thread_ms=29.9096107483 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=tile_store sampled_thread_ms=2.16364860535 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00596046447754 sampled_tiles=586 wall_ms=169.863939285
+METHOD_PROFILE graph=wiki-Talk method=b4_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0278949737549 sampled_tiles=586 wall_ms=169.863939285
+METHOD_STAGE graph=wiki-Talk method=b8_fast repeat=0 layer1_ms=33.2179069519 relu_ms=3.60298156738 interlayer_conversion_ms=4.65512275696 layer2_ms=30.9879779816 total_ms=72.4639892578
+METHOD_STAGE graph=wiki-Talk method=b8_fast repeat=1 layer1_ms=33.6089134216 relu_ms=3.60703468323 interlayer_conversion_ms=4.65393066406 layer2_ms=29.9110412598 total_ms=71.7809200287
+METHOD_STAGE graph=wiki-Talk method=b8_fast repeat=2 layer1_ms=33.2689285278 relu_ms=3.58605384827 interlayer_conversion_ms=4.65393066406 layer2_ms=31.1751365662 total_ms=72.6840496063
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=row_schedule sampled_thread_ms=0.0741481781006 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=partial_zero sampled_thread_ms=1.89113616943 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.25679779053 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=feature_gather_decode sampled_thread_ms=5.57327270508 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.37719917297 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.79648399353 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=tile_load sampled_thread_ms=7.79676437378 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=tile_compute sampled_thread_ms=9.79971885681 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=tile_store sampled_thread_ms=1.25026702881 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=output_scatter sampled_thread_ms=0.037670135498 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0276565551758 sampled_tiles=586 wall_ms=74.6219158173
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=row_schedule sampled_thread_ms=0.0672340393066 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=partial_zero sampled_thread_ms=1.8196105957 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.23963165283 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.50746917725 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.43322753906 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.79696083069 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=tile_load sampled_thread_ms=7.62581825256 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=tile_compute sampled_thread_ms=9.77396965027 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=tile_store sampled_thread_ms=1.3153553009 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=output_scatter sampled_thread_ms=0.00977516174316 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_PROFILE graph=wiki-Talk method=b8_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0350475311279 sampled_tiles=586 wall_ms=72.3328590393
+METHOD_STAGE graph=wiki-Talk method=b8_accurate repeat=0 layer1_ms=42.0320034027 relu_ms=3.60608100891 interlayer_conversion_ms=4.66704368591 layer2_ms=37.3158454895 total_ms=87.620973587
+METHOD_STAGE graph=wiki-Talk method=b8_accurate repeat=1 layer1_ms=40.1091575623 relu_ms=3.59296798706 interlayer_conversion_ms=4.64105606079 layer2_ms=37.2889041901 total_ms=85.6320858002
+METHOD_STAGE graph=wiki-Talk method=b8_accurate repeat=2 layer1_ms=42.3929691315 relu_ms=3.61299514771 interlayer_conversion_ms=4.64797019958 layer2_ms=37.9199981689 total_ms=88.5739326477
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0619888305664 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=partial_zero sampled_thread_ms=2.05850601196 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=csr_prefetch sampled_thread_ms=3.29780578613 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.75280189514 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.50904464722 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=3.1099319458 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=tile_load sampled_thread_ms=14.6312713623 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=tile_compute sampled_thread_ms=14.9517059326 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=tile_store sampled_thread_ms=0.997066497803 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0431537628174 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0274181365967 sampled_tiles=586 wall_ms=103.052139282
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0507831573486 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=partial_zero sampled_thread_ms=1.96194648743 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.1590461731 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=5.57923316956 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.53598594666 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=3.14903259277 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=tile_load sampled_thread_ms=14.527797699 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=tile_compute sampled_thread_ms=15.0949954987 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=tile_store sampled_thread_ms=1.06430053711 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00858306884766 sampled_tiles=586 wall_ms=100.411176682
+METHOD_PROFILE graph=wiki-Talk method=b8_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0293254852295 sampled_tiles=586 wall_ms=100.411176682
+METHOD_STAGE graph=wiki-Talk method=b16_fast repeat=0 layer1_ms=25.5019664764 relu_ms=3.59892845154 interlayer_conversion_ms=5.09905815125 layer2_ms=23.2799053192 total_ms=57.4798583984
+METHOD_STAGE graph=wiki-Talk method=b16_fast repeat=1 layer1_ms=26.8909931183 relu_ms=3.62396240234 interlayer_conversion_ms=4.65202331543 layer2_ms=24.4958400726 total_ms=59.6628189087
+METHOD_STAGE graph=wiki-Talk method=b16_fast repeat=2 layer1_ms=25.8829593658 relu_ms=3.59582901001 interlayer_conversion_ms=4.66918945312 layer2_ms=23.1068134308 total_ms=57.2547912598
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=row_schedule sampled_thread_ms=0.0734329223633 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=partial_zero sampled_thread_ms=0.972509384155 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.27634811401 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=feature_gather_decode sampled_thread_ms=5.05948066711 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.27706336975 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.884532928467 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=tile_load sampled_thread_ms=4.07958030701 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=tile_compute sampled_thread_ms=5.23900985718 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=tile_store sampled_thread_ms=0.668525695801 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=output_scatter sampled_thread_ms=0.0460147857666 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0247955322266 sampled_tiles=586 wall_ms=56.2779903412
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=row_schedule sampled_thread_ms=0.0603199005127 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=partial_zero sampled_thread_ms=0.93150138855 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.2525062561 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=feature_gather_decode sampled_thread_ms=5.18131256104 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.25679779053 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.857830047607 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=tile_load sampled_thread_ms=4.17709350586 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=tile_compute sampled_thread_ms=5.29336929321 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=tile_store sampled_thread_ms=0.699520111084 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=output_scatter sampled_thread_ms=0.00977516174316 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_PROFILE graph=wiki-Talk method=b16_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0209808349609 sampled_tiles=586 wall_ms=53.1969070435
+METHOD_STAGE graph=wiki-Talk method=b16_accurate repeat=0 layer1_ms=29.4442176819 relu_ms=3.59678268433 interlayer_conversion_ms=5.07307052612 layer2_ms=28.5310745239 total_ms=66.6451454163
+METHOD_STAGE graph=wiki-Talk method=b16_accurate repeat=1 layer1_ms=28.9208889008 relu_ms=3.58605384827 interlayer_conversion_ms=4.65393066406 layer2_ms=27.1501541138 total_ms=64.3110275269
+METHOD_STAGE graph=wiki-Talk method=b16_accurate repeat=2 layer1_ms=28.6600589752 relu_ms=3.58200073242 interlayer_conversion_ms=4.65393066406 layer2_ms=26.6880989075 total_ms=63.5840892792
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0514984130859 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=partial_zero sampled_thread_ms=0.991106033325 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=csr_prefetch sampled_thread_ms=3.24010848999 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=5.08499145508 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.28898429871 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=1.59692764282 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=tile_load sampled_thread_ms=7.58385658264 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=tile_compute sampled_thread_ms=8.19516181946 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=tile_store sampled_thread_ms=0.505924224854 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0443458557129 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0240802764893 sampled_tiles=586 wall_ms=68.7038898468
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0653266906738 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=partial_zero sampled_thread_ms=0.969886779785 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.36265563965 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=5.10430335999 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.3438205719 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=1.62100791931 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=tile_load sampled_thread_ms=7.46464729309 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=tile_compute sampled_thread_ms=8.54396820068 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=tile_store sampled_thread_ms=0.542163848877 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00786781311035 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_PROFILE graph=wiki-Talk method=b16_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0243186950684 sampled_tiles=586 wall_ms=67.0690536499
+METHOD_STAGE graph=wiki-Talk method=b32_fast repeat=0 layer1_ms=22.5660800934 relu_ms=3.59702110291 interlayer_conversion_ms=4.6648979187 layer2_ms=20.1840400696 total_ms=51.0120391846
+METHOD_STAGE graph=wiki-Talk method=b32_fast repeat=1 layer1_ms=22.7150917053 relu_ms=3.60298156738 interlayer_conversion_ms=4.67395782471 layer2_ms=21.5101242065 total_ms=52.502155304
+METHOD_STAGE graph=wiki-Talk method=b32_fast repeat=2 layer1_ms=21.5978622437 relu_ms=3.59606742859 interlayer_conversion_ms=4.64797019958 layer2_ms=21.3520526886 total_ms=51.1939525604
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=row_schedule sampled_thread_ms=0.0605583190918 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=partial_zero sampled_thread_ms=0.531673431396 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.1840801239 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=feature_gather_decode sampled_thread_ms=4.6706199646 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.19266319275 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.484943389893 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=tile_load sampled_thread_ms=2.14314460754 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=tile_compute sampled_thread_ms=2.6388168335 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=tile_store sampled_thread_ms=0.335454940796 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=output_scatter sampled_thread_ms=0.0431537628174 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.035285949707 sampled_tiles=586 wall_ms=43.4300899506
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=row_schedule sampled_thread_ms=0.0522136688232 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=partial_zero sampled_thread_ms=0.516653060913 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.19957733154 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=feature_gather_decode sampled_thread_ms=4.61077690125 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.16190719604 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.426292419434 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=tile_load sampled_thread_ms=2.12383270264 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=tile_compute sampled_thread_ms=2.45833396912 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=tile_store sampled_thread_ms=0.336647033691 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=output_scatter sampled_thread_ms=0.00858306884766 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_PROFILE graph=wiki-Talk method=b32_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=586 wall_ms=42.8330898285
+METHOD_STAGE graph=wiki-Talk method=b32_accurate repeat=0 layer1_ms=24.8129367828 relu_ms=3.59702110291 interlayer_conversion_ms=4.64606285095 layer2_ms=21.3389396667 total_ms=54.3949604034
+METHOD_STAGE graph=wiki-Talk method=b32_accurate repeat=1 layer1_ms=23.7879753113 relu_ms=3.60107421875 interlayer_conversion_ms=4.66394424438 layer2_ms=21.5051174164 total_ms=53.5581111908
+METHOD_STAGE graph=wiki-Talk method=b32_accurate repeat=2 layer1_ms=23.9548683167 relu_ms=3.59797477722 interlayer_conversion_ms=4.64606285095 layer2_ms=22.6199626923 total_ms=54.8188686371
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0543594360352 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=partial_zero sampled_thread_ms=0.566482543945 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=csr_prefetch sampled_thread_ms=3.30543518066 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=4.66299057007 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.2320022583 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.776767730713 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=tile_load sampled_thread_ms=3.89623641968 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=tile_compute sampled_thread_ms=4.52637672424 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=tile_store sampled_thread_ms=0.356912612915 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0417232513428 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0226497650146 sampled_tiles=586 wall_ms=52.2191524506
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0436305999756 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=partial_zero sampled_thread_ms=0.524997711182 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.14664840698 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=4.64177131653 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.13353538513 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.84400177002 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=tile_load sampled_thread_ms=3.8058757782 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=tile_compute sampled_thread_ms=3.84140014648 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=tile_store sampled_thread_ms=0.268936157227 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00739097595215 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_PROFILE graph=wiki-Talk method=b32_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.046968460083 sampled_tiles=586 wall_ms=49.0021705627
+METHOD_STAGE graph=wiki-Talk method=b64_fast repeat=0 layer1_ms=21.332025528 relu_ms=3.57699394226 interlayer_conversion_ms=4.66108322144 layer2_ms=19.5059776306 total_ms=49.0760803223
+METHOD_STAGE graph=wiki-Talk method=b64_fast repeat=1 layer1_ms=21.7189788818 relu_ms=3.59106063843 interlayer_conversion_ms=4.67801094055 layer2_ms=19.4370746613 total_ms=49.4251251221
+METHOD_STAGE graph=wiki-Talk method=b64_fast repeat=2 layer1_ms=21.4128494263 relu_ms=3.61800193787 interlayer_conversion_ms=4.67801094055 layer2_ms=21.4240550995 total_ms=51.1329174042
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=row_schedule sampled_thread_ms=0.06103515625 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=partial_zero sampled_thread_ms=0.256299972534 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.18551063538 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=feature_gather_decode sampled_thread_ms=4.47607040405 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.09610366821 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.240564346313 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=tile_load sampled_thread_ms=1.20973587036 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=tile_compute sampled_thread_ms=1.296043396 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=tile_store sampled_thread_ms=0.173807144165 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=output_scatter sampled_thread_ms=0.0452995300293 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0283718109131 sampled_tiles=586 wall_ms=37.9509925842
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=row_schedule sampled_thread_ms=0.0593662261963 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=partial_zero sampled_thread_ms=0.265836715698 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.15856933594 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=feature_gather_decode sampled_thread_ms=4.469871521 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.10277938843 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.222444534302 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=tile_load sampled_thread_ms=1.14488601685 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=tile_compute sampled_thread_ms=1.2366771698 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=tile_store sampled_thread_ms=0.154256820679 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=output_scatter sampled_thread_ms=0.00500679016113 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_PROFILE graph=wiki-Talk method=b64_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0317096710205 sampled_tiles=586 wall_ms=36.6630554199
+METHOD_STAGE graph=wiki-Talk method=b64_accurate repeat=0 layer1_ms=21.6679573059 relu_ms=3.5879611969 interlayer_conversion_ms=5.01394271851 layer2_ms=20.3981399536 total_ms=50.6680011749
+METHOD_STAGE graph=wiki-Talk method=b64_accurate repeat=1 layer1_ms=22.1030712128 relu_ms=3.57794761658 interlayer_conversion_ms=4.6648979187 layer2_ms=20.3790664673 total_ms=50.7249832153
+METHOD_STAGE graph=wiki-Talk method=b64_accurate repeat=2 layer1_ms=21.0680961609 relu_ms=3.59487533569 interlayer_conversion_ms=4.66108322144 layer2_ms=19.6349620819 total_ms=48.9590167999
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=row_schedule sampled_thread_ms=0.065803527832 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=partial_zero sampled_thread_ms=0.252485275269 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=csr_prefetch sampled_thread_ms=3.16452980042 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=4.71830368042 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=3.16047668457 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.407695770264 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=tile_load sampled_thread_ms=2.0751953125 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=tile_compute sampled_thread_ms=2.69436836243 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=tile_store sampled_thread_ms=0.133991241455 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0452995300293 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0290870666504 sampled_tiles=586 wall_ms=43.7340736389
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0572204589844 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=partial_zero sampled_thread_ms=0.268936157227 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.12328338623 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=4.47535514832 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=3.11017036438 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.441789627075 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=tile_load sampled_thread_ms=2.00891494751 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=tile_compute sampled_thread_ms=1.96766853333 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=tile_store sampled_thread_ms=0.138521194458 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=output_scatter sampled_thread_ms=0.00667572021484 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_PROFILE graph=wiki-Talk method=b64_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.0252723693848 sampled_tiles=586 wall_ms=40.8577919006
+METHOD_STAGE graph=wiki-Talk method=bfull_fast repeat=0 layer1_ms=20.5647945404 relu_ms=3.59201431274 interlayer_conversion_ms=4.63318824768 layer2_ms=18.5179710388 total_ms=47.3079681396
+METHOD_STAGE graph=wiki-Talk method=bfull_fast repeat=1 layer1_ms=21.1448669434 relu_ms=3.60798835754 interlayer_conversion_ms=4.64701652527 layer2_ms=18.6500549316 total_ms=48.0499267578
+METHOD_STAGE graph=wiki-Talk method=bfull_fast repeat=2 layer1_ms=21.4130878448 relu_ms=3.60202789307 interlayer_conversion_ms=5.06496429443 layer2_ms=19.8068618774 total_ms=49.8869419098
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=row_schedule sampled_thread_ms=0.0545978546143 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=partial_zero sampled_thread_ms=0.0119209289551 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=csr_prefetch sampled_thread_ms=3.04365158081 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=feature_gather_decode sampled_thread_ms=4.12821769714 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=2.80904769897 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.00810623168945 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=tile_load sampled_thread_ms=0.0627040863037 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=tile_compute sampled_thread_ms=0.152826309204 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=tile_store sampled_thread_ms=0.00572204589844 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=output_scatter sampled_thread_ms=0.0412464141846 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=1 phase=thread_amx_setup sampled_thread_ms=0.0298023223877 sampled_tiles=586 wall_ms=31.0189723969
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=row_schedule sampled_thread_ms=0.0598430633545 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=partial_zero sampled_thread_ms=0.016450881958 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=csr_prefetch sampled_thread_ms=3.08680534363 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=feature_gather_decode sampled_thread_ms=4.09817695618 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=2.91395187378 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.00882148742676 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=tile_load sampled_thread_ms=0.0655651092529 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=tile_compute sampled_thread_ms=0.15115737915 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=tile_store sampled_thread_ms=0.00500679016113 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=output_scatter sampled_thread_ms=0.00905990600586 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_PROFILE graph=wiki-Talk method=bfull_fast layer=2 phase=thread_amx_setup sampled_thread_ms=0.0276565551758 sampled_tiles=586 wall_ms=29.3200016022
+METHOD_STAGE graph=wiki-Talk method=bfull_accurate repeat=0 layer1_ms=19.2577838898 relu_ms=3.58009338379 interlayer_conversion_ms=4.66203689575 layer2_ms=19.670009613 total_ms=47.1699237823
+METHOD_STAGE graph=wiki-Talk method=bfull_accurate repeat=1 layer1_ms=20.6549167633 relu_ms=3.59392166138 interlayer_conversion_ms=5.04517555237 layer2_ms=19.5269584656 total_ms=48.8209724426
+METHOD_STAGE graph=wiki-Talk method=bfull_accurate repeat=2 layer1_ms=20.3838348389 relu_ms=3.57818603516 interlayer_conversion_ms=4.63891029358 layer2_ms=17.2181129456 total_ms=45.8190441132
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=row_schedule sampled_thread_ms=0.0667572021484 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=partial_zero sampled_thread_ms=0.0169277191162 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=csr_prefetch sampled_thread_ms=2.97951698303 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=feature_gather_decode sampled_thread_ms=4.18043136597 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=2.87699699402 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.0114440917969 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=tile_load sampled_thread_ms=0.103950500488 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=tile_compute sampled_thread_ms=0.164985656738 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=tile_store sampled_thread_ms=0.00500679016113 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=output_scatter sampled_thread_ms=0.0417232513428 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=1 phase=thread_amx_setup sampled_thread_ms=0.0271797180176 sampled_tiles=586 wall_ms=32.3300361633
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=output_zero sampled_thread_ms=0 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=row_schedule sampled_thread_ms=0.0483989715576 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=partial_zero sampled_thread_ms=0.0200271606445 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=csr_prefetch sampled_thread_ms=3.08895111084 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=feature_gather_decode sampled_thread_ms=4.0864944458 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=2.86793708801 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.0150203704834 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=tile_load sampled_thread_ms=0.0944137573242 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=tile_compute sampled_thread_ms=0.150680541992 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=tile_store sampled_thread_ms=0.0107288360596 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=output_scatter sampled_thread_ms=0.0100135803223 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_PROFILE graph=wiki-Talk method=bfull_accurate layer=2 phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=586 wall_ms=31.3138961792
+METHOD_COMPLETE graph=wiki-Talk methods=15 checks=60 pass=1 max_rss_kib=12145728

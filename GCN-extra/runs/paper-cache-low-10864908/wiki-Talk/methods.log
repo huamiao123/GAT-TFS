@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/wiki-Talk/wiki-Talk.csrbin
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 105.79 ms
+  run 1: 108.27 ms
+  run 2: 108.13 ms
+  run 3: 107.87 ms
+  run 4: 107.53 ms
+  TFS V3 E2E BEST: 105.79 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 91.04 ms
+  run 1: 90.90 ms
+  run 2: 91.11 ms
+  run 3: 90.95 ms
+  run 4: 90.81 ms
+  MKL E2E BEST: 90.81 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 105.79 ms
+  MKL (FP32):      90.81 ms
+  E2E Speedup:     0.86×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+METHOD_CONFIG graph=wiki-Talk N=2394385 E=5021410 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89094870253 relative_L2=0.0120588659797 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=23.4013671875 mean_abs=0.00116295810172 relative_L2=0.00299034612525 normalized_max=0.00256231987949 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18290.25 mean_abs=0.820231904064 relative_L2=0.00530005194867 normalized_max=0.00530613076736 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.817391589282 relative_L2=0.00570966729433 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.65000030266 relative_L2=0.0171700404989 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.2119140625 mean_abs=2.9565231948e-07 relative_L2=4.77555748821e-06 normalized_max=2.32034141739e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=30 mean_abs=0.00158711421532 relative_L2=1.07128620214e-05 normalized_max=8.70321198566e-06 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.0015717568309 relative_L2=0.000156261861202 normalized_max=0.000595238095238 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89090152561 relative_L2=0.0120584307542 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=27.853515625 mean_abs=0.00119385266643 relative_L2=0.0031032854196 normalized_max=0.00304980543349 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18976.25 mean_abs=0.856543335075 relative_L2=0.00555423453901 normalized_max=0.00550514421476 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.853815161136 relative_L2=0.00592957050508 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.68630617074 relative_L2=0.0174113240003 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.2294921875 mean_abs=5.61625527227e-07 relative_L2=5.02151463109e-06 normalized_max=2.51281213404e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=24.25 mean_abs=0.00191568246746 relative_L2=1.10801079999e-05 normalized_max=7.03509635507e-06 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=0.00190857240355 relative_L2=0.000147174747748 normalized_max=0.000595238095238 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89121548381 relative_L2=0.0120598409859 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=27.34765625 mean_abs=0.00120377999327 relative_L2=0.00316130538823 normalized_max=0.00299441663837 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19292.75 mean_abs=0.875339903864 relative_L2=0.00566961976983 normalized_max=0.00559696310121 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.872406862499 relative_L2=0.00603904262364 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.69952923151 relative_L2=0.0175060748553 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.1865234375 mean_abs=1.34126616382e-06 relative_L2=6.68509496663e-06 normalized_max=2.04232816001e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=40.25 mean_abs=0.00328524751346 relative_L2=1.63431801996e-05 normalized_max=1.16768094141e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.00326472808623 relative_L2=0.000232421910591 normalized_max=0.00119047619048 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.8917642259 relative_L2=0.0120654574056 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.25 mean_abs=1.88037043185e-06 relative_L2=9.918371186e-06 normalized_max=2.73736130346e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=58 mean_abs=0.00744060388727 relative_L2=3.89447444718e-05 normalized_max=1.68262098389e-05 gate=0.001 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=0.007272773048 relative_L2=0.000316279470337 normalized_max=0.00119047619048 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89292022857 relative_L2=0.0120705716527 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=wiki-Talk methods=9 pass=1
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=0 order=0 ms=108.157873154
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=1 order=0 ms=112.900972366
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=2 order=0 ms=107.50079155
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=3 order=0 ms=107.372045517
+METHOD_TIME graph=wiki-Talk method=paper_tfs kind=e2e repeat=4 order=0 ms=107.764005661
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=0 order=1 ms=74.3029117584
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=1 order=1 ms=71.0871219635
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=2 order=1 ms=73.0199813843
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=3 order=1 ms=75.2248764038
+METHOD_TIME graph=wiki-Talk method=b8_fast kind=e2e repeat=4 order=1 ms=73.8198757172
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=0 order=2 ms=87.8150463104
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=1 order=2 ms=89.1981124878
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=2 order=2 ms=86.2910747528
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=3 order=2 ms=88.8020992279
+METHOD_TIME graph=wiki-Talk method=b8_accurate kind=e2e repeat=4 order=2 ms=91.8998718262
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=0 order=3 ms=58.0930709839
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=1 order=3 ms=59.9889755249
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=2 order=3 ms=59.189081192
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=3 order=3 ms=59.4429969788
+METHOD_TIME graph=wiki-Talk method=b16_fast kind=e2e repeat=4 order=3 ms=58.2499504089
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=0 order=4 ms=64.905166626
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=1 order=4 ms=65.2418136597
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=2 order=4 ms=64.6200180054
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=3 order=4 ms=66.0138130188
+METHOD_TIME graph=wiki-Talk method=b16_accurate kind=e2e repeat=4 order=4 ms=66.7371749878
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=0 order=5 ms=49.220085144
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=1 order=5 ms=48.1939315796
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=2 order=5 ms=48.4189987183
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=3 order=5 ms=48.5880374908
+METHOD_TIME graph=wiki-Talk method=b64_fast kind=e2e repeat=4 order=5 ms=49.7589111328
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=0 order=6 ms=49.4201183319
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=1 order=6 ms=49.4260787964
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=2 order=6 ms=50.5659580231
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=3 order=6 ms=52.2878170013
+METHOD_TIME graph=wiki-Talk method=b64_accurate kind=e2e repeat=4 order=6 ms=48.5661029816
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=0 order=7 ms=47.4429130554
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=1 order=7 ms=49.2641925812
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=2 order=7 ms=47.5208759308
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=3 order=7 ms=47.9748249054
+METHOD_TIME graph=wiki-Talk method=bfull_fast kind=e2e repeat=4 order=7 ms=47.6019382477
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=0 order=8 ms=46.9591617584
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=1 order=8 ms=45.6418991089
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=2 order=8 ms=48.2790470123
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=3 order=8 ms=46.7839241028
+METHOD_TIME graph=wiki-Talk method=bfull_accurate kind=e2e repeat=4 order=8 ms=45.7937717438
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=91.0799503326
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=90.8648967743
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=91.3138389587
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=90.5849933624
+METHOD_TIME graph=wiki-Talk method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=90.7850265503
+METHOD_COMPLETE graph=wiki-Talk methods=9 checks=36 pass=1 max_rss_kib=0

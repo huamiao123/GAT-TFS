@@ -1,0 +1,121 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/mycielskian19/mycielskian19.csrbin
+Matrix: mycielskian19  N=393215  NNZ=903194710  avg_deg=2296.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2196.00 ms
+  run 1: 2173.95 ms
+  run 2: 2208.98 ms
+  run 3: 2259.47 ms
+  run 4: 2090.07 ms
+  TFS V3 E2E BEST: 2090.07 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 4769.16 ms
+  run 1: 4767.73 ms
+  run 2: 4771.23 ms
+  run 3: 4767.20 ms
+  run 4: 4767.00 ms
+  MKL E2E BEST: 4767.00 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2090.07 ms
+  MKL (FP32):      4767.00 ms
+  E2E Speedup:     2.28×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008863  RMSE=5.6702e+04
+First 8:
+  TFS: -53909420.00 -97622240.00 -80814696.00 -13668678.00 12609145.00 -9723282.00 -81751856.00 -87493720.00 
+  MKL: -54318140.00 -98481840.00 -81665120.00 -13942624.00 12705349.00 -9879961.00 -82692264.00 -88055840.00 
+METHOD_CONFIG graph=mycielskian19 N=393215 E=903194710 D=128 F=128 R=64 TR=16 warmups=1 repeats=5 final_output=BF16 mkl_threads=32 mkl_dynamic=1 numa=default
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4399232 mean_abs=46905.9725516 relative_L2=0.0110781608543 normalized_max=0.0149732438601 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_fast boundary=kernel_FP32 reference=paper_tfs max_abs=49.8984375 mean_abs=0.421045889511 relative_L2=0.00291956852275 normalized_max=0.00276506583699 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1542016 mean_abs=23009.2384381 relative_L2=0.00530148418917 normalized_max=0.00529330800993 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=22946.7716879 relative_L2=0.00571806830951 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=69459.3537649 relative_L2=0.016220476539 normalized_max=0.0204650815275 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.482421875 mean_abs=0.000313171246579 relative_L2=5.63579239255e-06 normalized_max=2.67328660457e-05 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=130400 mean_abs=35.8551368413 relative_L2=1.75336462652e-05 normalized_max=0.000447626590447 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=1048576 mean_abs=35.7585606054 relative_L2=0.000191987858502 normalized_max=0.0036231884058 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b8_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4399232 mean_abs=46909.5131835 relative_L2=0.0110806893993 normalized_max=0.0149732438601 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_fast boundary=kernel_FP32 reference=paper_tfs max_abs=50.998046875 mean_abs=0.435945181759 relative_L2=0.00303138176347 normalized_max=0.00282599945474 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1613024 mean_abs=23952.236529 relative_L2=0.0055236166794 normalized_max=0.00553705853857 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=23887.4500553 relative_L2=0.00590971459421 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=70383.177896 relative_L2=0.0164373352029 normalized_max=0.0204650815275 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.5029296875 mean_abs=0.000391538361913 relative_L2=5.52935897551e-06 normalized_max=2.78692834282e-05 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=49952 mean_abs=42.2137058333 relative_L2=9.20703387206e-06 normalized_max=0.000171471192071 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=1048576 mean_abs=42.0179343372 relative_L2=0.000178369882145 normalized_max=0.0036231884058 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b16_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4399232 mean_abs=46915.025689 relative_L2=0.0110801238325 normalized_max=0.0149732438601 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_fast boundary=kernel_FP32 reference=paper_tfs max_abs=53.53125 mean_abs=0.441249271908 relative_L2=0.00307224794212 normalized_max=0.00296637405903 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1630688 mean_abs=24497.4466493 relative_L2=0.00562924062475 normalized_max=0.00559769409144 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=24432.4311723 relative_L2=0.00600570842091 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=70880.202984 relative_L2=0.016537247198 normalized_max=0.0204650815275 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.4267578125 mean_abs=0.000776676154508 relative_L2=6.8316516821e-06 normalized_max=2.36483045789e-05 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=11456 mean_abs=57.0755253148 relative_L2=1.189406119e-05 normalized_max=3.93252317497e-05 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=1048576 mean_abs=56.6190694059 relative_L2=0.000228908386099 normalized_max=0.0036231884058 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=b64_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4399232 mean_abs=46940.1583486 relative_L2=0.0110858851289 normalized_max=0.0149732438601 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_accurate boundary=kernel_FP32 reference=paper_tfs max_abs=0.498046875 mean_abs=0.00126911545771 relative_L2=1.05769898971e-05 normalized_max=2.7598707861e-05 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_accurate boundary=e2e_FP32_final reference=paper_tfs max_abs=14272 mean_abs=86.3132213164 relative_L2=1.86671516692e-05 normalized_max=4.89917691631e-05 gate=0.001 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_accurate boundary=e2e_BF16_final reference=paper_tfs max_abs=1048576 mean_abs=85.5138829949 relative_L2=0.000297194224028 normalized_max=0.0036231884058 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=bfull_accurate boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4399232 mean_abs=46968.8820884 relative_L2=0.0110922533748 normalized_max=0.0149732438601 gate=0.03 pass=1
+METHOD_GATE_COMPLETE graph=mycielskian19 methods=9 pass=1
+METHOD_TIME graph=mycielskian19 method=paper_tfs kind=e2e repeat=0 order=0 ms=2164.30902481
+METHOD_TIME graph=mycielskian19 method=paper_tfs kind=e2e repeat=1 order=0 ms=2148.38004112
+METHOD_TIME graph=mycielskian19 method=paper_tfs kind=e2e repeat=2 order=0 ms=2240.42201042
+METHOD_TIME graph=mycielskian19 method=paper_tfs kind=e2e repeat=3 order=0 ms=2134.54198837
+METHOD_TIME graph=mycielskian19 method=paper_tfs kind=e2e repeat=4 order=0 ms=2227.70690918
+METHOD_TIME graph=mycielskian19 method=b8_fast kind=e2e repeat=0 order=1 ms=1370.90682983
+METHOD_TIME graph=mycielskian19 method=b8_fast kind=e2e repeat=1 order=1 ms=1369.02308464
+METHOD_TIME graph=mycielskian19 method=b8_fast kind=e2e repeat=2 order=1 ms=1390.90108871
+METHOD_TIME graph=mycielskian19 method=b8_fast kind=e2e repeat=3 order=1 ms=1362.45989799
+METHOD_TIME graph=mycielskian19 method=b8_fast kind=e2e repeat=4 order=1 ms=1356.4748764
+METHOD_TIME graph=mycielskian19 method=b8_accurate kind=e2e repeat=0 order=2 ms=1505.93113899
+METHOD_TIME graph=mycielskian19 method=b8_accurate kind=e2e repeat=1 order=2 ms=1520.56407928
+METHOD_TIME graph=mycielskian19 method=b8_accurate kind=e2e repeat=2 order=2 ms=1573.94599915
+METHOD_TIME graph=mycielskian19 method=b8_accurate kind=e2e repeat=3 order=2 ms=1544.2199707
+METHOD_TIME graph=mycielskian19 method=b8_accurate kind=e2e repeat=4 order=2 ms=1541.55492783
+METHOD_TIME graph=mycielskian19 method=b16_fast kind=e2e repeat=0 order=3 ms=1243.65186691
+METHOD_TIME graph=mycielskian19 method=b16_fast kind=e2e repeat=1 order=3 ms=1221.92001343
+METHOD_TIME graph=mycielskian19 method=b16_fast kind=e2e repeat=2 order=3 ms=1211.22694016
+METHOD_TIME graph=mycielskian19 method=b16_fast kind=e2e repeat=3 order=3 ms=1189.54610825
+METHOD_TIME graph=mycielskian19 method=b16_fast kind=e2e repeat=4 order=3 ms=1172.56903648
+METHOD_TIME graph=mycielskian19 method=b16_accurate kind=e2e repeat=0 order=4 ms=1315.94085693
+METHOD_TIME graph=mycielskian19 method=b16_accurate kind=e2e repeat=1 order=4 ms=1252.57587433
+METHOD_TIME graph=mycielskian19 method=b16_accurate kind=e2e repeat=2 order=4 ms=1234.78507996
+METHOD_TIME graph=mycielskian19 method=b16_accurate kind=e2e repeat=3 order=4 ms=1222.03397751
+METHOD_TIME graph=mycielskian19 method=b16_accurate kind=e2e repeat=4 order=4 ms=1241.14513397
+METHOD_TIME graph=mycielskian19 method=b64_fast kind=e2e repeat=0 order=5 ms=1144.32096481
+METHOD_TIME graph=mycielskian19 method=b64_fast kind=e2e repeat=1 order=5 ms=1094.84219551
+METHOD_TIME graph=mycielskian19 method=b64_fast kind=e2e repeat=2 order=5 ms=1123.46601486
+METHOD_TIME graph=mycielskian19 method=b64_fast kind=e2e repeat=3 order=5 ms=1138.59701157
+METHOD_TIME graph=mycielskian19 method=b64_fast kind=e2e repeat=4 order=5 ms=1132.98177719
+METHOD_TIME graph=mycielskian19 method=b64_accurate kind=e2e repeat=0 order=6 ms=1140.81907272
+METHOD_TIME graph=mycielskian19 method=b64_accurate kind=e2e repeat=1 order=6 ms=1130.02109528
+METHOD_TIME graph=mycielskian19 method=b64_accurate kind=e2e repeat=2 order=6 ms=1134.84287262
+METHOD_TIME graph=mycielskian19 method=b64_accurate kind=e2e repeat=3 order=6 ms=1097.82004356
+METHOD_TIME graph=mycielskian19 method=b64_accurate kind=e2e repeat=4 order=6 ms=1147.72796631
+METHOD_TIME graph=mycielskian19 method=bfull_fast kind=e2e repeat=0 order=7 ms=2441.21909142
+METHOD_TIME graph=mycielskian19 method=bfull_fast kind=e2e repeat=1 order=7 ms=2401.16596222
+METHOD_TIME graph=mycielskian19 method=bfull_fast kind=e2e repeat=2 order=7 ms=2437.4320507
+METHOD_TIME graph=mycielskian19 method=bfull_fast kind=e2e repeat=3 order=7 ms=2438.67182732
+METHOD_TIME graph=mycielskian19 method=bfull_fast kind=e2e repeat=4 order=7 ms=2410.06803513
+METHOD_TIME graph=mycielskian19 method=bfull_accurate kind=e2e repeat=0 order=8 ms=2481.26506805
+METHOD_TIME graph=mycielskian19 method=bfull_accurate kind=e2e repeat=1 order=8 ms=2429.79311943
+METHOD_TIME graph=mycielskian19 method=bfull_accurate kind=e2e repeat=2 order=8 ms=2432.82699585
+METHOD_TIME graph=mycielskian19 method=bfull_accurate kind=e2e repeat=3 order=8 ms=2470.80802917
+METHOD_TIME graph=mycielskian19 method=bfull_accurate kind=e2e repeat=4 order=8 ms=2395.81608772
+METHOD_TIME graph=mycielskian19 method=source_mkl_fp32 kind=e2e repeat=0 order=9 ms=4770.154953
+METHOD_TIME graph=mycielskian19 method=source_mkl_fp32 kind=e2e repeat=1 order=9 ms=4772.01986313
+METHOD_TIME graph=mycielskian19 method=source_mkl_fp32 kind=e2e repeat=2 order=9 ms=4767.79699326
+METHOD_TIME graph=mycielskian19 method=source_mkl_fp32 kind=e2e repeat=3 order=9 ms=4767.45891571
+METHOD_TIME graph=mycielskian19 method=source_mkl_fp32 kind=e2e repeat=4 order=9 ms=4768.73397827
+METHOD_COMPLETE graph=mycielskian19 methods=9 checks=36 pass=1 max_rss_kib=0
