@@ -1,0 +1,11 @@
+{
+  "id": "source-launcher-validation-10864830",
+  "kind": "launcher_isolation_correctness_gate",
+  "status": "PASS",
+  "paper_eligible": false,
+  "evidence": "runs/source-submit-smoke-20261004-113831/launcher, runs/source-smoke-10864830/launcher_snapshot, runs/source-smoke-10864830.out, runs/source-smoke-10864830/suite_status.json",
+  "correctness_checks": 102,
+  "issues": "First main batch failed during shell completion after measured programs succeeded. Do not rewrite that FAILED state.",
+  "resolution": "Submission snapshots Slurm, shell and Python launchers into a unique directory, pins build path, and launches snapshots. Post-fix smoke 10864830 ran both empty-row/tail fixtures and finished with exit_status=0.",
+  "next": "Archive new source-aligned evidence including failures and range correction; use immutable source-protocol launcher for future comparisons"
+}

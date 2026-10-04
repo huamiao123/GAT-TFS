@@ -1,0 +1,96 @@
+# Agent Rules
+
+## Active Architecture Version
+
+TFS-Train v2 (2026-08-04) is the only active architecture. The previous C0 result and all un-suffixed v1 specifications are historical evidence and do not constitute current acceptance. Active authority is:
+
+```text
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/MATH_SPEC_V2.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/KERNEL_LAYOUT_V2.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/PYTORCH_EXTENSION_SPEC.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/EXPERIMENT_SPEC_V2.md
+```
+
+Old v1 code/specifications may be retained for provenance but must be marked `DEPRECATED_V1` and excluded from the active/default build and entry points.
+
+This workspace is restricted to:
+
+`/home/huangjianqiang_group/hdacp1/data/wzh`
+
+## Mandatory Pre-Experiment Reading
+
+Before every experiment, the agent must read this file completely from its current server path:
+
+```bash
+cat /home/huangjianqiang_group/hdacp1/data/wzh/AGENTS.md
+```
+
+Then the agent must read the TFS research skill completely:
+
+```bash
+cat /home/huangjianqiang_group/hdacp1/data/wzh/skills/tfs-research-engineering/SKILL.md
+```
+
+This rule applies to all smoke tests, correctness runs, profiling, performance benchmarks, formal reruns, and Slurm jobs. Reading either file in a previous conversation, phase, or experiment does not satisfy the requirement for the next experiment.
+
+After reading both files, inspect the current authoritative specifications, repository state, target paths, partition state, and account queue before compiling or running. Record the two file paths and their current SHA-256 values in the experiment preflight log or manifest.
+
+If either file is missing, unreadable, changed unexpectedly, or conflicts with the planned action, stop before the experiment and resolve the conflict. `AGENTS.md` defines workspace and operational limits; `SKILL.md` defines the TFS-Train research, correctness, evidence, and reporting workflow. Both are mandatory.
+
+## Plan Adaptation Authority
+
+For the TFS-Train project, the user authorizes the agent to adjust the detailed plan dynamically according to the real server, repository, compiler, dependency, data, scheduler, and hardware state. The agent may independently change implementation order, directory organization, interfaces, build method, smoke scope, and other technical details when this improves correctness or execution, without stopping for approval on every minor decision.
+
+This authority does not permit changing the final research objective, restoring the abandoned dynamic-graph direction, writing outside `wzh`, modifying frozen evidence or third-party sources, touching other jobs, or bypassing explicit approval requirements for long-running/high-load cluster work. Every material adjustment must be recorded with its reason, evidence, impact, and resulting decision in the mandatory handoff documents below.
+
+The user explicitly authorizes the agent to adapt the detailed implementation plan to actual server conditions and to make technical decisions independently when problems are discovered. Every such decision must remain inside the boundaries above and be documented with evidence.
+
+## Mandatory TFS-Train Handoff Documents
+
+The following three documents are permanent project state and must exist:
+
+```text
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/handoff/ALL_EXPERIMENTS.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/handoff/EXPERIMENT_ISSUES.md
+/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/handoff/PROJECT_PROGRESS.md
+```
+
+Update all three after every experiment, including smoke tests, correctness runs, environment probes, build experiments, profiling, benchmarks, recovery runs, and formal reruns. An experiment is not complete until all three documents are synchronized.
+
+- `ALL_EXPERIMENTS.md` must list every TFS-Train experiment chronologically, including date/time, experiment ID and run tag, purpose, dataset or fixture, model/dimensions, implementation path, partition, JobID, actual node, CPU/NUMA/thread/binding, compiler/build, input/source/binary hashes, timing boundary, repeats, correctness result, performance result, status, evidence paths, and whether it may enter a paper table. Failed, cancelled, timed-out, partial, and superseded experiments must remain visible.
+- `EXPERIMENT_ISSUES.md` must record every major issue or issue likely to recur, including discovery date, affected experiments, symptoms, root cause, diagnostic evidence, resolution/workaround, prevention rule, validation status, and related paths. If an experiment introduces no new major issue, append a short dated `no new major issue` entry so synchronization is auditable.
+- `PROJECT_PROGRESS.md` must show the current cycle, completed/in-progress/pending work, latest experiment outcomes, acceptance status, current technical decisions, deviations from plan, blockers, risks, and the exact next task. Historical progress must not be rewritten to hide failed approaches.
+
+Before starting the next experiment, verify that the previous experiment appears in all three documents. Before reporting a milestone complete, reconcile the documents against run directories, Slurm accounting, manifests, raw logs, and hashes; chat history is not an authority.
+
+## Allowed
+
+- Create, edit, compile, and run files only under `/home/huangjianqiang_group/hdacp1/data/wzh`.
+- Create project subdirectories such as `TFS/`, `code/`, `build/`, `scripts/`, `logs/`, `datasets/`, and temporary test folders only under this workspace.
+- Read files from sibling or shared directories only when needed for reference, diagnostics, or environment discovery.
+- Use shared environment modules in read-only mode, for example `module load intel/intel-oneapi-compilers/2024.1.0/gcc8.5.0-5ndeojp`.
+- Run lightweight tests under this workspace after explaining the command and target path.
+
+## Forbidden
+
+- Do not create, edit, move, rename, or delete files outside `/home/huangjianqiang_group/hdacp1/data/wzh`.
+- Do not modify `/home/huangjianqiang_group/hdacp1/.bashrc`, shell startup files, SSH configuration, or login state.
+- Do not modify `/home/huangjianqiang_group/hdacp1/data/yx` or any other sibling user/project directory.
+- Do not modify shared conda environments, modulefiles, `/opt`, `/apps`, `/etc`, system paths, or cluster-wide software installations.
+- Do not change permissions, ownership, ACLs, quotas, or shared environment configuration.
+- Do not submit cluster jobs, request compute nodes, or start long-running/high-load tasks without explicit user approval.
+- Do not delete shared files or clean shared caches.
+
+## Write Discipline
+
+Before any write operation, state the exact target path and the purpose of the change.
+
+All generated files, build outputs, logs, downloaded datasets, temporary files, and test artifacts must stay under:
+
+`/home/huangjianqiang_group/hdacp1/data/wzh`
+
+If a task appears to require writing outside this workspace, stop and ask the user for explicit approval instead of proceeding.
+
+## Notes
+
+These rules constrain agent behavior. They are not a Linux permission boundary. True enforcement requires cluster account permissions, ACLs, or a dedicated restricted account.

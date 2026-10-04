@@ -1,0 +1,458 @@
+GCN E2E Inference Benchmark (2-layer, K=128)
+TFS V3 (BF16 AMX) vs MKL (FP32 two-step)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/soc-Pokec/soc-Pokec.csrbin
+Matrix: soc-Pokec  N=1632803  NNZ=30622564  avg_deg=18.8
+
+=== TFS V3 (BF16 AMX Fusion) ===
+  run 0: 195.54 ms
+  run 1: 193.07 ms
+  run 2: 196.15 ms
+  run 3: 195.46 ms
+  run 4: 261.65 ms
+  TFS V3 E2E BEST: 193.07 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 332.26 ms
+  run 1: 330.13 ms
+  run 2: 330.58 ms
+  run 3: 331.38 ms
+  run 4: 331.47 ms
+  MKL E2E BEST: 330.13 ms
+
+=== E2E Summary ===
+  TFS V3:  193.07 ms
+  MKL:     330.13 ms
+  Speedup: 1.71×
+
+=== Precision Analysis ===
+Layer 1 (after ReLU):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.004297  RMSE=6.160091e-02  max|diff|=6.015381e+00
+Layer 2 (final output):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.010972  RMSE=2.714512e+01  max|diff|=1.653800e+04
+
+First 8 output values:
+  TFS: -258.6757 -946.0062 -929.1967 54.8974 375.0495 90.6468 -826.3875 -423.8196 
+  MKL: -260.5918 -953.1296 -938.8513 57.4736 378.5117 90.4802 -835.3569 -427.9872 
+SOURCE_CONFIG graph=soc-Pokec N=1632803 E=30622564 D=128 F=128 R=64 TR=16 repeats=5 warmups=1 mkl_max_threads=32 mkl_dynamic=1 policy=default_no_numactl
+SOURCE_INPUT graph=soc-Pokec H0=119014488942979314 W1=7515093975424777444 W2=521590717466722379
+SOURCE_CORRECT graph=soc-Pokec method=original_nozero boundary=kernel reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=original_nozero boundary=e2e reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=original_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16538 mean_abs=10.7433243364 relative_l2=0.0100481406035 normalized_max=0.0109718474059 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b2_fast_nozero boundary=kernel reference=source_original_tfs max_abs=2.65112304688 mean_abs=0.0232323908526 relative_l2=0.00235479286298 normalized_max=0.00189990331646 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b2_fast_nozero boundary=e2e reference=source_original_tfs max_abs=4129.375 mean_abs=3.247071482 relative_l2=0.00294234454792 normalized_max=0.00276995326422 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b2_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=20667.375 mean_abs=13.7143857376 relative_l2=0.0128337696504 normalized_max=0.0137114091656 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b2_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00860595703125 mean_abs=2.5160843856e-06 relative_l2=4.50866206172e-07 normalized_max=6.16738114975e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b2_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=12.125 mean_abs=0.00395282043502 relative_l2=9.01987766547e-06 normalized_max=8.13335754894e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b2_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16550.125 mean_abs=10.7433437101 relative_l2=0.0100481597101 normalized_max=0.0109798915255 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b4_fast_nozero boundary=kernel reference=source_original_tfs max_abs=3.21020507812 mean_abs=0.0289969362649 relative_l2=0.00294809760549 normalized_max=0.00230056438973 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b4_fast_nozero boundary=e2e reference=source_original_tfs max_abs=6678.25 mean_abs=4.89156214698 relative_l2=0.0045389980946 normalized_max=0.00447971917948 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b4_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=23216.25 mean_abs=15.3879876014 relative_l2=0.0144289826102 normalized_max=0.0154024157901 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b4_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00762939453125 mean_abs=2.24961977886e-06 relative_l2=3.96412939127e-07 normalized_max=5.46753648028e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b4_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=8.1875 mean_abs=0.00348031727284 relative_l2=7.8651804675e-06 normalized_max=5.49211257171e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b4_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16540.5 mean_abs=10.7434010838 relative_l2=0.0100481935019 normalized_max=0.0109735059872 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b8_fast_nozero boundary=kernel reference=source_original_tfs max_abs=3.78112792969 mean_abs=0.030733916885 relative_l2=0.00312958796534 normalized_max=0.00270971107963 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b8_fast_nozero boundary=e2e reference=source_original_tfs max_abs=7737.375 mean_abs=5.66534775731 relative_l2=0.00530485707012 normalized_max=0.00519017215383 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b8_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=24275.375 mean_abs=16.1608994861 relative_l2=0.015185692271 normalized_max=0.0161050737828 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b8_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00604248046875 mean_abs=3.61911408268e-06 relative_l2=6.61641461676e-07 normalized_max=4.33028889238e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b8_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=9.125 mean_abs=0.00726937101634 relative_l2=1.98068840341e-05 normalized_max=6.12098042343e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b8_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16546 mean_abs=10.7434762939 relative_l2=0.0100482304665 normalized_max=0.0109771548662 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b16_fast_nozero boundary=kernel reference=source_original_tfs max_abs=3.76763916016 mean_abs=0.0316074119951 relative_l2=0.00322684489281 normalized_max=0.00270004447513 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b16_fast_nozero boundary=e2e reference=source_original_tfs max_abs=8061.25 mean_abs=5.96789167341 relative_l2=0.00558753050561 normalized_max=0.00540742503434 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b16_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=24599.25 mean_abs=16.4405778621 relative_l2=0.0154538927214 normalized_max=0.0163199429979 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b16_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.006103515625 mean_abs=1.22240583873e-05 relative_l2=1.74703565936e-06 normalized_max=4.37402918422e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b16_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=7.375 mean_abs=0.0142762953193 relative_l2=1.58939935687e-05 normalized_max=4.94709376688e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b16_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16544.625 mean_abs=10.744207983 relative_l2=0.0100490294932 normalized_max=0.0109762426465 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b32_fast_nozero boundary=kernel reference=source_original_tfs max_abs=3.97985839844 mean_abs=0.0317700170347 relative_l2=0.00324554993471 normalized_max=0.00285212946986 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b32_fast_nozero boundary=e2e reference=source_original_tfs max_abs=8259.875 mean_abs=6.09084446903 relative_l2=0.00568990077206 normalized_max=0.00554066116986 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b32_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=24797.875 mean_abs=16.5311260108 relative_l2=0.0155321499301 normalized_max=0.0164517172868 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b32_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00567626953125 mean_abs=2.19726572369e-05 relative_l2=3.12164280119e-06 normalized_max=4.06784714133e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b32_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=10.125 mean_abs=0.0232197953455 relative_l2=2.24898320684e-05 normalized_max=6.7917727986e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b32_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16547.375 mean_abs=10.7459427404 relative_l2=0.0100509487129 normalized_max=0.010978067086 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b64_fast_nozero boundary=kernel reference=source_original_tfs max_abs=4.00445556641 mean_abs=0.0318868461282 relative_l2=0.00326384582366 normalized_max=0.00286975680748 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b64_fast_nozero boundary=e2e reference=source_original_tfs max_abs=8355.375 mean_abs=6.17901146105 relative_l2=0.00577880454095 normalized_max=0.00560472184169 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b64_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=24893.375 mean_abs=16.5870195141 relative_l2=0.0155889409248 normalized_max=0.0165150750948 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b64_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00848388671875 mean_abs=2.85636748445e-05 relative_l2=4.33430631347e-06 normalized_max=6.07990056607e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b64_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=17.875 mean_abs=0.0308176564305 relative_l2=2.87493814782e-05 normalized_max=1.19904137062e-05 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_b64_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16555.875 mean_abs=10.7481801709 relative_l2=0.0100539283921 normalized_max=0.0109837062626 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_bfull_fast_nozero boundary=kernel reference=source_original_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_l2=0.0032661749059 normalized_max=0.00339184093091 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_bfull_fast_nozero boundary=e2e reference=source_original_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_l2=0.00587816919252 normalized_max=0.00549068713791 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_bfull_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=24723.375 mean_abs=16.6031304144 relative_l2=0.0156268512915 normalized_max=0.0164022915623 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_bfull_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0137329101562 mean_abs=3.08311286098e-05 relative_l2=4.98428988925e-06 normalized_max=9.8415656645e-06 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_bfull_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=25.625 mean_abs=0.0345863904605 relative_l2=3.29508981367e-05 normalized_max=1.71890546137e-05 pass=1
+SOURCE_CORRECT graph=soc-Pokec method=shared_bfull_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=16563.625 mean_abs=10.7492707063 relative_l2=0.0100558835491 normalized_max=0.0109888478648 pass=1
+SOURCE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=kernel repeat=0 ms=253.533840179
+SOURCE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=kernel repeat=1 ms=254.279136658
+SOURCE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=kernel repeat=2 ms=254.375934601
+SOURCE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=kernel repeat=3 ms=254.045009613
+SOURCE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=kernel repeat=4 ms=254.327058792
+SOURCE_TIME graph=soc-Pokec method=source_original_tfs kind=kernel repeat=0 ms=105.150938034
+SOURCE_TIME graph=soc-Pokec method=source_original_tfs kind=kernel repeat=1 ms=104.793071747
+SOURCE_TIME graph=soc-Pokec method=source_original_tfs kind=kernel repeat=2 ms=104.310035706
+SOURCE_TIME graph=soc-Pokec method=source_original_tfs kind=kernel repeat=3 ms=105.865001678
+SOURCE_TIME graph=soc-Pokec method=source_original_tfs kind=kernel repeat=4 ms=105.08108139
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=kernel repeat=0 ms=51.1360168457
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=kernel repeat=1 ms=52.8991222382
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=kernel repeat=2 ms=53.8530349731
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=kernel repeat=3 ms=53.4977912903
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=kernel repeat=4 ms=52.6008605957
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=e2e repeat=0 ms=145.355939865
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=e2e repeat=1 ms=143.368005753
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=e2e repeat=2 ms=141.92199707
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=e2e repeat=3 ms=142.073154449
+SOURCE_TIME graph=soc-Pokec method=original_nozero kind=e2e repeat=4 ms=142.486095428
+SOURCE_STAGE graph=soc-Pokec method=original_nozero repeat=0 layer1_ms=51.5909194946 relu_ms=32.261133194 conversion_ms=13.0298137665 layer2_ms=47.6191043854 total_ms=144.50097084
+SOURCE_STAGE graph=soc-Pokec method=original_nozero repeat=1 layer1_ms=52.796125412 relu_ms=31.2020778656 conversion_ms=12.7348899841 layer2_ms=47.8909015656 total_ms=144.623994827
+SOURCE_STAGE graph=soc-Pokec method=original_nozero repeat=2 layer1_ms=53.0791282654 relu_ms=31.653881073 conversion_ms=12.7949714661 layer2_ms=46.3171005249 total_ms=143.845081329
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=kernel repeat=0 ms=87.2299671173
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=kernel repeat=1 ms=79.9310207367
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=kernel repeat=2 ms=87.4879360199
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=kernel repeat=3 ms=84.3908786774
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=kernel repeat=4 ms=85.8638286591
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=e2e repeat=0 ms=201.066017151
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=e2e repeat=1 ms=205.096960068
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=e2e repeat=2 ms=209.34510231
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=e2e repeat=3 ms=206.3601017
+SOURCE_TIME graph=soc-Pokec method=shared_b2_fast_nozero kind=e2e repeat=4 ms=203.806877136
+SOURCE_STAGE graph=soc-Pokec method=shared_b2_fast_nozero repeat=0 layer1_ms=85.0899219513 relu_ms=32.2179794312 conversion_ms=12.9849910736 layer2_ms=77.0041942596 total_ms=207.297086716
+SOURCE_STAGE graph=soc-Pokec method=shared_b2_fast_nozero repeat=1 layer1_ms=86.7028236389 relu_ms=31.592130661 conversion_ms=13.0779743195 layer2_ms=78.1691074371 total_ms=209.542036057
+SOURCE_STAGE graph=soc-Pokec method=shared_b2_fast_nozero repeat=2 layer1_ms=87.5818729401 relu_ms=31.7521095276 conversion_ms=12.9818916321 layer2_ms=72.7150440216 total_ms=205.030918121
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=row_schedule sampled_thread_ms=0.187397003174 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=partial_zero sampled_thread_ms=1.35850906372 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=csr_prefetch sampled_thread_ms=6.10017776489 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=feature_gather_decode sampled_thread_ms=13.7097835541 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=6.82783126831 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=1.21116638184 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=tile_load sampled_thread_ms=6.04772567749 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=tile_compute sampled_thread_ms=12.6001834869 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=tile_store sampled_thread_ms=0.880718231201 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=output_scatter sampled_thread_ms=0.700235366821 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0288486480713 sampled_tiles=400 profile_wall_ms=100.026130676
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=kernel repeat=0 ms=100.464820862
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=kernel repeat=1 ms=99.3449687958
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=kernel repeat=2 ms=101.863145828
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=kernel repeat=3 ms=95.691204071
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=kernel repeat=4 ms=96.8780517578
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=e2e repeat=0 ms=232.111930847
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=e2e repeat=1 ms=232.831954956
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=e2e repeat=2 ms=228.214979172
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=e2e repeat=3 ms=236.033916473
+SOURCE_TIME graph=soc-Pokec method=shared_b2_accurate_nozero kind=e2e repeat=4 ms=239.80307579
+SOURCE_STAGE graph=soc-Pokec method=shared_b2_accurate_nozero repeat=0 layer1_ms=102.313041687 relu_ms=31.2039852142 conversion_ms=12.9780769348 layer2_ms=92.9419994354 total_ms=239.437103271
+SOURCE_STAGE graph=soc-Pokec method=shared_b2_accurate_nozero repeat=1 layer1_ms=96.9409942627 relu_ms=31.8169593811 conversion_ms=13.0000114441 layer2_ms=88.310956955 total_ms=230.068922043
+SOURCE_STAGE graph=soc-Pokec method=shared_b2_accurate_nozero repeat=2 layer1_ms=101.599931717 relu_ms=31.8260192871 conversion_ms=12.866973877 layer2_ms=89.5829200745 total_ms=235.875844955
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=row_schedule sampled_thread_ms=0.154495239258 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=partial_zero sampled_thread_ms=1.49655342102 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=csr_prefetch sampled_thread_ms=5.73062896729 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=feature_gather_decode sampled_thread_ms=13.2646560669 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=6.74438476562 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=2.14338302612 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=tile_load sampled_thread_ms=10.556936264 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=tile_compute sampled_thread_ms=14.497756958 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=tile_store sampled_thread_ms=0.741004943848 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=output_scatter sampled_thread_ms=0.594854354858 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_PROFILE graph=soc-Pokec method=shared_b2_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0226497650146 sampled_tiles=400 profile_wall_ms=124.415159225
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=kernel repeat=0 ms=71.4340209961
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=kernel repeat=1 ms=70.4770088196
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=kernel repeat=2 ms=70.9018707275
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=kernel repeat=3 ms=73.695898056
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=kernel repeat=4 ms=73.8379955292
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=e2e repeat=0 ms=177.874803543
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=e2e repeat=1 ms=179.615974426
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=e2e repeat=2 ms=177.20413208
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=e2e repeat=3 ms=180.777072906
+SOURCE_TIME graph=soc-Pokec method=shared_b4_fast_nozero kind=e2e repeat=4 ms=174.064874649
+SOURCE_STAGE graph=soc-Pokec method=shared_b4_fast_nozero repeat=0 layer1_ms=72.1311569214 relu_ms=32.2799682617 conversion_ms=13.2050514221 layer2_ms=61.1989498138 total_ms=178.815126419
+SOURCE_STAGE graph=soc-Pokec method=shared_b4_fast_nozero repeat=1 layer1_ms=73.1770992279 relu_ms=31.3758850098 conversion_ms=12.8769874573 layer2_ms=59.690952301 total_ms=177.120923996
+SOURCE_STAGE graph=soc-Pokec method=shared_b4_fast_nozero repeat=2 layer1_ms=70.680141449 relu_ms=31.9159030914 conversion_ms=13.2730007172 layer2_ms=61.0210895538 total_ms=176.890134811
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=row_schedule sampled_thread_ms=0.207185745239 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=partial_zero sampled_thread_ms=0.736236572266 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=csr_prefetch sampled_thread_ms=5.3653717041 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=feature_gather_decode sampled_thread_ms=10.4355812073 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=5.44357299805 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.648975372314 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=tile_load sampled_thread_ms=3.52668762207 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=tile_compute sampled_thread_ms=6.26659393311 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=tile_store sampled_thread_ms=0.463008880615 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=output_scatter sampled_thread_ms=0.682592391968 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0154972076416 sampled_tiles=400 profile_wall_ms=82.3850631714
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=kernel repeat=0 ms=74.9700069427
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=kernel repeat=1 ms=76.5988826752
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=kernel repeat=2 ms=75.0279426575
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=kernel repeat=3 ms=79.8518657684
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=kernel repeat=4 ms=80.69896698
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=e2e repeat=0 ms=188.204050064
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=e2e repeat=1 ms=188.044071198
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=e2e repeat=2 ms=187.766075134
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=e2e repeat=3 ms=187.895059586
+SOURCE_TIME graph=soc-Pokec method=shared_b4_accurate_nozero kind=e2e repeat=4 ms=191.693067551
+SOURCE_STAGE graph=soc-Pokec method=shared_b4_accurate_nozero repeat=0 layer1_ms=80.8000564575 relu_ms=31.7678451538 conversion_ms=12.7770900726 layer2_ms=66.3759708405 total_ms=191.720962524
+SOURCE_STAGE graph=soc-Pokec method=shared_b4_accurate_nozero repeat=1 layer1_ms=80.4929733276 relu_ms=31.5020084381 conversion_ms=12.7048492432 layer2_ms=67.7540302277 total_ms=192.453861237
+SOURCE_STAGE graph=soc-Pokec method=shared_b4_accurate_nozero repeat=2 layer1_ms=78.8691043854 relu_ms=32.0720672607 conversion_ms=13.0848884583 layer2_ms=66.260099411 total_ms=190.286159515
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=row_schedule sampled_thread_ms=0.158071517944 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=partial_zero sampled_thread_ms=0.781059265137 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=csr_prefetch sampled_thread_ms=5.10478019714 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=feature_gather_decode sampled_thread_ms=10.1807117462 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=5.61952590942 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.15299224854 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=tile_load sampled_thread_ms=5.83648681641 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=tile_compute sampled_thread_ms=8.0554485321 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=tile_store sampled_thread_ms=0.371694564819 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=output_scatter sampled_thread_ms=0.686645507812 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_PROFILE graph=soc-Pokec method=shared_b4_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0209808349609 sampled_tiles=400 profile_wall_ms=88.4399414062
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=kernel repeat=0 ms=66.2429332733
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=kernel repeat=1 ms=66.36095047
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=kernel repeat=2 ms=65.7348632812
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=kernel repeat=3 ms=65.1350021362
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=kernel repeat=4 ms=63.3730888367
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=e2e repeat=0 ms=161.792993546
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=e2e repeat=1 ms=165.5189991
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=e2e repeat=2 ms=164.556026459
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=e2e repeat=3 ms=161.566972733
+SOURCE_TIME graph=soc-Pokec method=shared_b8_fast_nozero kind=e2e repeat=4 ms=163.578033447
+SOURCE_STAGE graph=soc-Pokec method=shared_b8_fast_nozero repeat=0 layer1_ms=66.4429664612 relu_ms=31.919002533 conversion_ms=12.9721164703 layer2_ms=53.4639358521 total_ms=164.798021317
+SOURCE_STAGE graph=soc-Pokec method=shared_b8_fast_nozero repeat=1 layer1_ms=66.7941570282 relu_ms=32.2029590607 conversion_ms=13.0519866943 layer2_ms=51.5398979187 total_ms=163.589000702
+SOURCE_STAGE graph=soc-Pokec method=shared_b8_fast_nozero repeat=2 layer1_ms=66.4398670197 relu_ms=30.8430194855 conversion_ms=13.0620002747 layer2_ms=51.9669055939 total_ms=162.311792374
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=row_schedule sampled_thread_ms=0.205755233765 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=partial_zero sampled_thread_ms=0.409126281738 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=csr_prefetch sampled_thread_ms=4.96125221252 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=feature_gather_decode sampled_thread_ms=8.88752937317 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=4.74572181702 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.345230102539 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=tile_load sampled_thread_ms=1.95288658142 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=tile_compute sampled_thread_ms=3.42917442322 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=tile_store sampled_thread_ms=0.228643417358 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=output_scatter sampled_thread_ms=0.812768936157 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=400 profile_wall_ms=74.0959644318
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=kernel repeat=0 ms=69.1938400269
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=kernel repeat=1 ms=67.4700737
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=kernel repeat=2 ms=68.5958862305
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=kernel repeat=3 ms=69.2691802979
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=kernel repeat=4 ms=68.0348873138
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=e2e repeat=0 ms=171.33808136
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=e2e repeat=1 ms=168.281078339
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=e2e repeat=2 ms=165.215015411
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=e2e repeat=3 ms=170.50409317
+SOURCE_TIME graph=soc-Pokec method=shared_b8_accurate_nozero kind=e2e repeat=4 ms=171.06795311
+SOURCE_STAGE graph=soc-Pokec method=shared_b8_accurate_nozero repeat=0 layer1_ms=68.5768127441 relu_ms=32.2260856628 conversion_ms=12.8889083862 layer2_ms=57.4960708618 total_ms=171.187877655
+SOURCE_STAGE graph=soc-Pokec method=shared_b8_accurate_nozero repeat=1 layer1_ms=66.4391517639 relu_ms=32.2759151459 conversion_ms=13.041973114 layer2_ms=57.9640865326 total_ms=169.721126556
+SOURCE_STAGE graph=soc-Pokec method=shared_b8_accurate_nozero repeat=2 layer1_ms=69.5269107819 relu_ms=31.975030899 conversion_ms=13.1990909576 layer2_ms=54.7749996185 total_ms=169.476032257
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=row_schedule sampled_thread_ms=0.155448913574 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=partial_zero sampled_thread_ms=0.430822372437 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=csr_prefetch sampled_thread_ms=5.14364242554 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=feature_gather_decode sampled_thread_ms=8.73565673828 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=4.85134124756 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.608921051025 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=tile_load sampled_thread_ms=3.16476821899 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=tile_compute sampled_thread_ms=5.16152381897 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=tile_store sampled_thread_ms=0.194311141968 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=output_scatter sampled_thread_ms=0.736236572266 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_PROFILE graph=soc-Pokec method=shared_b8_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.02121925354 sampled_tiles=400 profile_wall_ms=78.1800746918
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=kernel repeat=0 ms=61.4440441132
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=kernel repeat=1 ms=62.2589588165
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=kernel repeat=2 ms=63.4779930115
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=kernel repeat=3 ms=62.6499652863
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=kernel repeat=4 ms=61.6290569305
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=e2e repeat=0 ms=155.548810959
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=e2e repeat=1 ms=156.801939011
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=e2e repeat=2 ms=155.061006546
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=e2e repeat=3 ms=155.090093613
+SOURCE_TIME graph=soc-Pokec method=shared_b16_fast_nozero kind=e2e repeat=4 ms=155.991077423
+SOURCE_STAGE graph=soc-Pokec method=shared_b16_fast_nozero repeat=0 layer1_ms=62.2251033783 relu_ms=31.6550731659 conversion_ms=13.1568908691 layer2_ms=49.8459339142 total_ms=156.883001328
+SOURCE_STAGE graph=soc-Pokec method=shared_b16_fast_nozero repeat=1 layer1_ms=63.1217956543 relu_ms=32.0911407471 conversion_ms=12.7739906311 layer2_ms=49.5488643646 total_ms=157.535791397
+SOURCE_STAGE graph=soc-Pokec method=shared_b16_fast_nozero repeat=2 layer1_ms=62.9539489746 relu_ms=31.7230224609 conversion_ms=12.9098892212 layer2_ms=49.3750572205 total_ms=156.961917877
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=row_schedule sampled_thread_ms=0.223398208618 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=partial_zero sampled_thread_ms=0.226020812988 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=csr_prefetch sampled_thread_ms=4.93764877319 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=feature_gather_decode sampled_thread_ms=8.06307792664 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=4.35876846313 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.17523765564 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=tile_load sampled_thread_ms=1.16729736328 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=tile_compute sampled_thread_ms=1.75094604492 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=tile_store sampled_thread_ms=0.134944915771 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=output_scatter sampled_thread_ms=0.79083442688 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0152587890625 sampled_tiles=400 profile_wall_ms=69.1349506378
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=kernel repeat=0 ms=63.3950233459
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=kernel repeat=1 ms=64.1469955444
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=kernel repeat=2 ms=63.7030601501
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=kernel repeat=3 ms=64.6948814392
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=kernel repeat=4 ms=62.8659725189
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=e2e repeat=0 ms=160.806894302
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=e2e repeat=1 ms=161.536931992
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=e2e repeat=2 ms=162.548065186
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=e2e repeat=3 ms=161.513090134
+SOURCE_TIME graph=soc-Pokec method=shared_b16_accurate_nozero kind=e2e repeat=4 ms=158.876895905
+SOURCE_STAGE graph=soc-Pokec method=shared_b16_accurate_nozero repeat=0 layer1_ms=63.5690689087 relu_ms=31.7559242249 conversion_ms=12.932062149 layer2_ms=53.2081127167 total_ms=161.465167999
+SOURCE_STAGE graph=soc-Pokec method=shared_b16_accurate_nozero repeat=1 layer1_ms=65.6089782715 relu_ms=31.7289829254 conversion_ms=12.9799842834 layer2_ms=52.8271198273 total_ms=163.145065308
+SOURCE_STAGE graph=soc-Pokec method=shared_b16_accurate_nozero repeat=2 layer1_ms=65.899848938 relu_ms=31.1131477356 conversion_ms=13.1099224091 layer2_ms=53.0290603638 total_ms=163.151979446
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=row_schedule sampled_thread_ms=0.18310546875 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=partial_zero sampled_thread_ms=0.253200531006 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=csr_prefetch sampled_thread_ms=5.06401062012 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=feature_gather_decode sampled_thread_ms=8.14437866211 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=4.43530082703 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.336647033691 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=tile_load sampled_thread_ms=1.91521644592 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=tile_compute sampled_thread_ms=2.78472900391 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=tile_store sampled_thread_ms=0.109434127808 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=output_scatter sampled_thread_ms=0.827789306641 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_PROFILE graph=soc-Pokec method=shared_b16_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0219345092773 sampled_tiles=400 profile_wall_ms=71.1359977722
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=kernel repeat=0 ms=58.1459999084
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=kernel repeat=1 ms=57.7759742737
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=kernel repeat=2 ms=57.088136673
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=kernel repeat=3 ms=56.9138526917
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=kernel repeat=4 ms=56.9961071014
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=e2e repeat=0 ms=147.463083267
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=e2e repeat=1 ms=147.38202095
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=e2e repeat=2 ms=148.222923279
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=e2e repeat=3 ms=146.312952042
+SOURCE_TIME graph=soc-Pokec method=shared_b32_fast_nozero kind=e2e repeat=4 ms=146.907091141
+SOURCE_STAGE graph=soc-Pokec method=shared_b32_fast_nozero repeat=0 layer1_ms=58.8421821594 relu_ms=31.6557884216 conversion_ms=12.9301548004 layer2_ms=43.6999797821 total_ms=147.128105164
+SOURCE_STAGE graph=soc-Pokec method=shared_b32_fast_nozero repeat=1 layer1_ms=59.43608284 relu_ms=31.4118862152 conversion_ms=13.0169391632 layer2_ms=44.9991226196 total_ms=148.864030838
+SOURCE_STAGE graph=soc-Pokec method=shared_b32_fast_nozero repeat=2 layer1_ms=58.7589740753 relu_ms=31.7080020905 conversion_ms=13.1051540375 layer2_ms=45.4359054565 total_ms=149.00803566
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=row_schedule sampled_thread_ms=0.20170211792 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=partial_zero sampled_thread_ms=0.152826309204 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=csr_prefetch sampled_thread_ms=5.01918792725 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=feature_gather_decode sampled_thread_ms=7.65180587769 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=4.12940979004 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.108957290649 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=tile_load sampled_thread_ms=0.717878341675 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=tile_compute sampled_thread_ms=1.37782096863 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=tile_store sampled_thread_ms=0.0696182250977 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=output_scatter sampled_thread_ms=0.831365585327 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.018835067749 sampled_tiles=400 profile_wall_ms=64.8400783539
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=kernel repeat=0 ms=60.3199005127
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=kernel repeat=1 ms=61.3980293274
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=kernel repeat=2 ms=61.5029335022
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=kernel repeat=3 ms=59.4320297241
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=kernel repeat=4 ms=61.1369609833
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=e2e repeat=0 ms=153.986930847
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=e2e repeat=1 ms=153.953075409
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=e2e repeat=2 ms=154.94799614
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=e2e repeat=3 ms=154.597997665
+SOURCE_TIME graph=soc-Pokec method=shared_b32_accurate_nozero kind=e2e repeat=4 ms=154.87909317
+SOURCE_STAGE graph=soc-Pokec method=shared_b32_accurate_nozero repeat=0 layer1_ms=62.2270107269 relu_ms=31.9669246674 conversion_ms=12.9420757294 layer2_ms=48.0709075928 total_ms=155.206918716
+SOURCE_STAGE graph=soc-Pokec method=shared_b32_accurate_nozero repeat=1 layer1_ms=60.3399276733 relu_ms=32.0820808411 conversion_ms=12.8858089447 layer2_ms=48.2070446014 total_ms=153.514862061
+SOURCE_STAGE graph=soc-Pokec method=shared_b32_accurate_nozero repeat=2 layer1_ms=62.6101493835 relu_ms=31.5089225769 conversion_ms=13.032913208 layer2_ms=48.3710765839 total_ms=155.523061752
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=row_schedule sampled_thread_ms=0.214815139771 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=partial_zero sampled_thread_ms=0.140190124512 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=csr_prefetch sampled_thread_ms=4.8668384552 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=feature_gather_decode sampled_thread_ms=7.63630867004 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=4.14848327637 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.207424163818 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=tile_load sampled_thread_ms=1.20878219604 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=tile_compute sampled_thread_ms=1.77693367004 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=tile_store sampled_thread_ms=0.0684261322021 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=output_scatter sampled_thread_ms=0.789880752563 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_PROFILE graph=soc-Pokec method=shared_b32_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0193119049072 sampled_tiles=400 profile_wall_ms=67.0020580292
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=kernel repeat=0 ms=57.8720569611
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=kernel repeat=1 ms=57.0180416107
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=kernel repeat=2 ms=57.0118427277
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=kernel repeat=3 ms=57.1420192719
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=kernel repeat=4 ms=57.4290752411
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=e2e repeat=0 ms=147.202968597
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=e2e repeat=1 ms=148.277044296
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=e2e repeat=2 ms=149.170875549
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=e2e repeat=3 ms=147.065162659
+SOURCE_TIME graph=soc-Pokec method=shared_b64_fast_nozero kind=e2e repeat=4 ms=147.105932236
+SOURCE_STAGE graph=soc-Pokec method=shared_b64_fast_nozero repeat=0 layer1_ms=57.9659938812 relu_ms=30.8640003204 conversion_ms=13.0219459534 layer2_ms=44.0151691437 total_ms=145.867109299
+SOURCE_STAGE graph=soc-Pokec method=shared_b64_fast_nozero repeat=1 layer1_ms=59.4959259033 relu_ms=32.0088863373 conversion_ms=13.0751132965 layer2_ms=44.9650287628 total_ms=149.5449543
+SOURCE_STAGE graph=soc-Pokec method=shared_b64_fast_nozero repeat=2 layer1_ms=59.2160224915 relu_ms=31.8539142609 conversion_ms=12.8960609436 layer2_ms=43.8899993896 total_ms=147.855997086
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=row_schedule sampled_thread_ms=0.199794769287 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=partial_zero sampled_thread_ms=0.102758407593 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=csr_prefetch sampled_thread_ms=4.81081008911 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=feature_gather_decode sampled_thread_ms=7.59410858154 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.91173362732 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.0908374786377 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=tile_load sampled_thread_ms=0.583171844482 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=tile_compute sampled_thread_ms=0.794172286987 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=tile_store sampled_thread_ms=0.0481605529785 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=output_scatter sampled_thread_ms=0.833988189697 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0193119049072 sampled_tiles=400 profile_wall_ms=62.8590583801
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=kernel repeat=0 ms=59.3340396881
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=kernel repeat=1 ms=57.4989318848
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=kernel repeat=2 ms=58.3190917969
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=kernel repeat=3 ms=57.6808452606
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=kernel repeat=4 ms=57.4140548706
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=e2e repeat=0 ms=150.163888931
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=e2e repeat=1 ms=150.759935379
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=e2e repeat=2 ms=150.994062424
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=e2e repeat=3 ms=149.792194366
+SOURCE_TIME graph=soc-Pokec method=shared_b64_accurate_nozero kind=e2e repeat=4 ms=149.405002594
+SOURCE_STAGE graph=soc-Pokec method=shared_b64_accurate_nozero repeat=0 layer1_ms=58.6190223694 relu_ms=31.2340259552 conversion_ms=12.9799842834 layer2_ms=47.327041626 total_ms=150.160074234
+SOURCE_STAGE graph=soc-Pokec method=shared_b64_accurate_nozero repeat=1 layer1_ms=59.1070652008 relu_ms=32.2289466858 conversion_ms=13.0820274353 layer2_ms=46.5641021729 total_ms=150.982141495
+SOURCE_STAGE graph=soc-Pokec method=shared_b64_accurate_nozero repeat=2 layer1_ms=60.1358413696 relu_ms=31.7211151123 conversion_ms=13.1709575653 layer2_ms=47.532081604 total_ms=152.559995651
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=row_schedule sampled_thread_ms=0.17261505127 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=partial_zero sampled_thread_ms=0.119209289551 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=csr_prefetch sampled_thread_ms=4.78529930115 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=feature_gather_decode sampled_thread_ms=7.44223594666 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.99398803711 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.154972076416 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=tile_load sampled_thread_ms=0.888109207153 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=tile_compute sampled_thread_ms=1.28316879272 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=tile_store sampled_thread_ms=0.0541210174561 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=output_scatter sampled_thread_ms=0.754594802856 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_PROFILE graph=soc-Pokec method=shared_b64_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=400 profile_wall_ms=65.6800270081
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=kernel repeat=0 ms=57.3830604553
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=kernel repeat=1 ms=56.9748878479
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=kernel repeat=2 ms=56.7588806152
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=kernel repeat=3 ms=56.8611621857
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=kernel repeat=4 ms=57.0390224457
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=e2e repeat=0 ms=146.107912064
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=e2e repeat=1 ms=147.326946259
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=e2e repeat=2 ms=146.87204361
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=e2e repeat=3 ms=147.223949432
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_fast_nozero kind=e2e repeat=4 ms=147.400856018
+SOURCE_STAGE graph=soc-Pokec method=shared_bfull_fast_nozero repeat=0 layer1_ms=57.7981472015 relu_ms=31.4249992371 conversion_ms=13.0639076233 layer2_ms=43.9400672913 total_ms=146.227121353
+SOURCE_STAGE graph=soc-Pokec method=shared_bfull_fast_nozero repeat=1 layer1_ms=58.7468147278 relu_ms=31.720161438 conversion_ms=13.1070613861 layer2_ms=44.4757938385 total_ms=148.04983139
+SOURCE_STAGE graph=soc-Pokec method=shared_bfull_fast_nozero repeat=2 layer1_ms=57.4128627777 relu_ms=31.7759513855 conversion_ms=13.1530761719 layer2_ms=44.1379547119 total_ms=146.479845047
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=row_schedule sampled_thread_ms=0.206232070923 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=partial_zero sampled_thread_ms=0.0946521759033 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=csr_prefetch sampled_thread_ms=4.71162796021 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=feature_gather_decode sampled_thread_ms=7.41147994995 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.96537780762 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.0638961791992 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=tile_load sampled_thread_ms=0.3821849823 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=tile_compute sampled_thread_ms=0.614881515503 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=tile_store sampled_thread_ms=0.0381469726562 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=output_scatter sampled_thread_ms=0.855207443237 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0221729278564 sampled_tiles=400 profile_wall_ms=61.2528324127
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=kernel repeat=0 ms=58.0449104309
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=kernel repeat=1 ms=58.6678981781
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=kernel repeat=2 ms=57.4300289154
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=kernel repeat=3 ms=58.3310127258
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=kernel repeat=4 ms=57.4450492859
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=e2e repeat=0 ms=149.359941483
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=e2e repeat=1 ms=148.467063904
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=e2e repeat=2 ms=149.976015091
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=e2e repeat=3 ms=149.260997772
+SOURCE_TIME graph=soc-Pokec method=shared_bfull_accurate_nozero kind=e2e repeat=4 ms=148.369073868
+SOURCE_STAGE graph=soc-Pokec method=shared_bfull_accurate_nozero repeat=0 layer1_ms=58.2420825958 relu_ms=31.0978889465 conversion_ms=12.9859447479 layer2_ms=46.3399887085 total_ms=148.665904999
+SOURCE_STAGE graph=soc-Pokec method=shared_bfull_accurate_nozero repeat=1 layer1_ms=58.2571029663 relu_ms=31.8279266357 conversion_ms=13.1039619446 layer2_ms=45.9251403809 total_ms=149.114131927
+SOURCE_STAGE graph=soc-Pokec method=shared_bfull_accurate_nozero repeat=2 layer1_ms=59.3779087067 relu_ms=32.3390960693 conversion_ms=12.9470825195 layer2_ms=46.8468666077 total_ms=151.510953903
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=row_schedule sampled_thread_ms=0.163316726685 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=partial_zero sampled_thread_ms=0.0860691070557 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=csr_prefetch sampled_thread_ms=4.72497940063 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=feature_gather_decode sampled_thread_ms=7.50064849854 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.90911102295 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.104665756226 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=tile_load sampled_thread_ms=0.674247741699 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=tile_compute sampled_thread_ms=0.933170318604 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=tile_store sampled_thread_ms=0.0374317169189 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=output_scatter sampled_thread_ms=0.791311264038 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_PROFILE graph=soc-Pokec method=shared_bfull_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0228881835938 sampled_tiles=400 profile_wall_ms=62.4680519104
+SOURCE_COMPLETE graph=soc-Pokec pass=1 max_rss_kib=8007404

@@ -1,0 +1,458 @@
+GCN E2E Inference Benchmark (2-layer, K=128)
+TFS V3 (BF16 AMX) vs MKL (FP32 two-step)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/rgg_n_2_24_s0/rgg_n_2_24_s0.csrbin
+Matrix: rgg_n_2_24_s0  N=16777216  NNZ=265114400  avg_deg=15.8
+
+=== TFS V3 (BF16 AMX Fusion) ===
+  run 0: 1824.24 ms
+  run 1: 1819.50 ms
+  run 2: 1825.28 ms
+  run 3: 1823.85 ms
+  run 4: 2497.25 ms
+  TFS V3 E2E BEST: 1819.50 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 2009.95 ms
+  run 1: 2012.09 ms
+  run 2: 2013.89 ms
+  run 3: 2012.02 ms
+  run 4: 2012.35 ms
+  MKL E2E BEST: 2009.95 ms
+
+=== E2E Summary ===
+  TFS V3:  1819.50 ms
+  MKL:     2009.95 ms
+  Speedup: 1.10×
+
+=== Precision Analysis ===
+Layer 1 (after ReLU):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.005161  RMSE=5.647059e-02  max|diff|=6.034775e-01
+Layer 2 (final output):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.010369  RMSE=9.901241e+00  max|diff|=1.300498e+02
+
+First 8 output values:
+  TFS: -329.9465 184.4216 -277.8173 196.3989 384.6608 29.2216 0.6371 -592.2756 
+  MKL: -333.8244 187.0208 -280.5003 197.7077 388.1005 29.6098 -0.3723 -597.8074 
+SOURCE_CONFIG graph=rgg_n_2_24_s0 N=16777216 E=265114400 D=128 F=128 R=64 TR=16 repeats=5 warmups=1 mkl_max_threads=32 mkl_dynamic=1 policy=default_no_numactl
+SOURCE_INPUT graph=rgg_n_2_24_s0 H0=1522616300919015600 W1=7515093975424777444 W2=521590717466722379
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=original_nozero boundary=kernel reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=original_nozero boundary=e2e reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=original_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.049804688 mean_abs=7.46073171198 relative_l2=0.0103085434512 normalized_max=0.0103686572258 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.276832580566 mean_abs=0.027690758727 relative_l2=0.00235065458494 normalized_max=0.00237879628122 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero boundary=e2e reference=source_original_tfs max_abs=43.1064453125 mean_abs=2.47937336967 relative_l2=0.00346217479354 normalized_max=0.00347281447377 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=163.192382812 mean_abs=9.74553826614 relative_l2=0.0134762244111 normalized_max=0.0130110605187 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=9.1552734375e-05 mean_abs=2.12563226745e-06 relative_l2=2.14589292844e-07 normalized_max=7.86704020248e-07 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.495361328125 mean_abs=0.00123661590234 relative_l2=8.95678416604e-06 normalized_max=3.99081385066e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.05078125 mean_abs=7.46073208441 relative_l2=0.0103085440044 normalized_max=0.0103687350855 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.328453063965 mean_abs=0.0346407173566 relative_l2=0.00294173315621 normalized_max=0.00282236623131 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero boundary=e2e reference=source_original_tfs max_abs=58.3837890625 mean_abs=3.44429383308 relative_l2=0.0048080280458 normalized_max=0.00470361372226 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=182.165039062 mean_abs=10.7343004821 relative_l2=0.0148415750025 normalized_max=0.0145237192251 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=9.53674316406e-05 mean_abs=1.93418065611e-06 relative_l2=1.93689004121e-07 normalized_max=8.19483354425e-07 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.495361328125 mean_abs=0.00119092242772 relative_l2=8.50634836017e-06 normalized_max=3.99081385066e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.05078125 mean_abs=7.46074659312 relative_l2=0.0103085633226 normalized_max=0.0103687350855 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.405860900879 mean_abs=0.0368046585405 relative_l2=0.00312659264514 normalized_max=0.00348752448043 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero boundary=e2e reference=source_original_tfs max_abs=71.52734375 mean_abs=3.86284021166 relative_l2=0.00538885106922 normalized_max=0.00576250704146 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=201.577148438 mean_abs=11.1396500513 relative_l2=0.0153985891864 normalized_max=0.0160714148069 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000221252441406 mean_abs=3.27649631818e-06 relative_l2=5.66842591685e-07 normalized_max=1.90120138227e-06 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.49462890625 mean_abs=0.00214300135116 relative_l2=1.05352678459e-05 normalized_max=3.98491318947e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.057617188 mean_abs=7.46081247261 relative_l2=0.010308653362 normalized_max=0.0103692801035 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.354034423828 mean_abs=0.0380479403785 relative_l2=0.00323220458387 normalized_max=0.0030421844463 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero boundary=e2e reference=source_original_tfs max_abs=70.63671875 mean_abs=4.09334863699 relative_l2=0.00569894476409 normalized_max=0.0056907550014 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=200.686523438 mean_abs=11.335066929 relative_l2=0.0156564632667 normalized_max=0.0160004067392 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000375986099243 mean_abs=1.37958068562e-05 relative_l2=1.68399401361e-06 normalized_max=3.23081312482e-06 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.52734375 mean_abs=0.00763273843608 relative_l2=2.05884299946e-05 normalized_max=4.2484760559e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.08203125 mean_abs=7.46117641125 relative_l2=0.0103091627313 normalized_max=0.0103712265966 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.37043762207 mean_abs=0.0384337633963 relative_l2=0.00326823167238 normalized_max=0.00318313558326 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero boundary=e2e reference=source_original_tfs max_abs=72.7822265625 mean_abs=4.19345291167 relative_l2=0.0058626254281 normalized_max=0.00586360503649 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=192.826171875 mean_abs=11.4229423752 relative_l2=0.0157955135229 normalized_max=0.0153737138255 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000575065612793 mean_abs=1.75694863059e-05 relative_l2=2.06851043726e-06 normalized_max=4.94148462718e-06 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.678466796875 mean_abs=0.00969019452958 relative_l2=2.41553346972e-05 normalized_max=5.46597914785e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.083984375 mean_abs=7.46142411731 relative_l2=0.0103096081964 normalized_max=0.0103713823161 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_l2=0.00326824265474 normalized_max=0.00318313558326 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero boundary=e2e reference=source_original_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_l2=0.00586274522077 normalized_max=0.00606981347617 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=205.391601562 mean_abs=11.422976364 relative_l2=0.0157956229552 normalized_max=0.0163755348866 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000587463378906 mean_abs=1.75700264172e-05 relative_l2=2.06862955043e-06 normalized_max=5.04801746326e-06 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.678466796875 mean_abs=0.00969019326899 relative_l2=2.41550188253e-05 normalized_max=5.46597914785e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.071289062 mean_abs=7.46142422218 relative_l2=0.0103096082681 normalized_max=0.0103703701397 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_l2=0.00326824265474 normalized_max=0.00318313558326 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero boundary=e2e reference=source_original_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_l2=0.00586274522077 normalized_max=0.00606981347617 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=205.391601562 mean_abs=11.422976364 relative_l2=0.0157956229552 normalized_max=0.0163755348866 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000587463378906 mean_abs=1.75700264172e-05 relative_l2=2.06862955043e-06 normalized_max=5.04801746326e-06 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.678466796875 mean_abs=0.00969019326899 relative_l2=2.41550188253e-05 normalized_max=5.46597914785e-05 pass=1
+SOURCE_CORRECT graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=130.071289062 mean_abs=7.46142422218 relative_l2=0.0103096082681 normalized_max=0.0103703701397 pass=1
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=kernel repeat=0 ms=1586.67397499
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=kernel repeat=1 ms=1586.69900894
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=kernel repeat=2 ms=1582.60703087
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=kernel repeat=3 ms=1588.763237
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=kernel repeat=4 ms=1586.46082878
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_original_tfs kind=kernel repeat=0 ms=954.900026321
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_original_tfs kind=kernel repeat=1 ms=955.111980438
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_original_tfs kind=kernel repeat=2 ms=956.362009048
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_original_tfs kind=kernel repeat=3 ms=955.862998962
+SOURCE_TIME graph=rgg_n_2_24_s0 method=source_original_tfs kind=kernel repeat=4 ms=955.402851105
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=kernel repeat=0 ms=414.344072342
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=kernel repeat=1 ms=424.826860428
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=kernel repeat=2 ms=424.023151398
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=kernel repeat=3 ms=423.335075378
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=kernel repeat=4 ms=423.723220825
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=e2e repeat=0 ms=1290.83299637
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=e2e repeat=1 ms=1291.10789299
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=e2e repeat=2 ms=1292.71602631
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=e2e repeat=3 ms=1291.35298729
+SOURCE_TIME graph=rgg_n_2_24_s0 method=original_nozero kind=e2e repeat=4 ms=1294.96502876
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=original_nozero repeat=0 layer1_ms=422.637939453 relu_ms=340.209007263 conversion_ms=118.990182877 layer2_ms=411.625862122 total_ms=1293.46299171
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=original_nozero repeat=1 layer1_ms=421.859025955 relu_ms=340.239048004 conversion_ms=118.109941483 layer2_ms=411.389112473 total_ms=1291.59712791
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=original_nozero repeat=2 layer1_ms=421.792030334 relu_ms=338.969945908 conversion_ms=119.534015656 layer2_ms=411.520957947 total_ms=1291.81694984
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=kernel repeat=0 ms=686.29193306
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=kernel repeat=1 ms=686.717987061
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=kernel repeat=2 ms=687.860965729
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=kernel repeat=3 ms=688.205003738
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=kernel repeat=4 ms=688.638925552
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=e2e repeat=0 ms=1832.70597458
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=e2e repeat=1 ms=1834.35988426
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=e2e repeat=2 ms=1831.23612404
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=e2e repeat=3 ms=1833.29820633
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero kind=e2e repeat=4 ms=1829.93197441
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero repeat=0 layer1_ms=690.802812576 relu_ms=329.493999481 conversion_ms=119.224071503 layer2_ms=688.991069794 total_ms=1828.51195335
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero repeat=1 layer1_ms=690.905094147 relu_ms=329.428911209 conversion_ms=119.709014893 layer2_ms=688.787937164 total_ms=1828.83095741
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero repeat=2 layer1_ms=690.70315361 relu_ms=329.435825348 conversion_ms=119.354009628 layer2_ms=688.388109207 total_ms=1827.88109779
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=output_zero sampled_thread_ms=0.00119209289551 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=row_schedule sampled_thread_ms=1.65939331055 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=partial_zero sampled_thread_ms=6.3271522522 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=csr_prefetch sampled_thread_ms=50.724029541 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=feature_gather_decode sampled_thread_ms=117.920160294 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=53.816318512 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=5.1600933075 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=tile_load sampled_thread_ms=27.6639461517 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=tile_compute sampled_thread_ms=100.255966187 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=tile_store sampled_thread_ms=3.81684303284 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=output_scatter sampled_thread_ms=4.48846817017 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0307559967041 sampled_tiles=4097 profile_wall_ms=700.99401474
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=kernel repeat=0 ms=794.978141785
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=kernel repeat=1 ms=794.958114624
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=kernel repeat=2 ms=795.522928238
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=kernel repeat=3 ms=796.099901199
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=kernel repeat=4 ms=796.341896057
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=e2e repeat=0 ms=2048.44212532
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=e2e repeat=1 ms=2045.61400414
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=e2e repeat=2 ms=2048.39801788
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=e2e repeat=3 ms=2045.08900642
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero kind=e2e repeat=4 ms=2045.98522186
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero repeat=0 layer1_ms=796.000957489 relu_ms=329.091072083 conversion_ms=119.982004166 layer2_ms=795.058012009 total_ms=2040.13204575
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero repeat=1 layer1_ms=796.035051346 relu_ms=331.989049911 conversion_ms=119.580984116 layer2_ms=795.239925385 total_ms=2042.84501076
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero repeat=2 layer1_ms=796.092033386 relu_ms=332.020998001 conversion_ms=119.601964951 layer2_ms=794.96216774 total_ms=2042.67716408
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=row_schedule sampled_thread_ms=1.36923789978 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=partial_zero sampled_thread_ms=6.45208358765 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=csr_prefetch sampled_thread_ms=49.1185188293 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=feature_gather_decode sampled_thread_ms=113.861322403 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=50.6384372711 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=9.35769081116 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=tile_load sampled_thread_ms=47.0595359802 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=tile_compute sampled_thread_ms=97.151517868 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=tile_store sampled_thread_ms=3.30591201782 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=output_scatter sampled_thread_ms=4.5006275177 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b2_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=4097 profile_wall_ms=807.74307251
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=kernel repeat=0 ms=578.576087952
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=kernel repeat=1 ms=578.9270401
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=kernel repeat=2 ms=579.13184166
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=kernel repeat=3 ms=578.907966614
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=kernel repeat=4 ms=579.721927643
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=e2e repeat=0 ms=1620.80192566
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=e2e repeat=1 ms=1623.37613106
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=e2e repeat=2 ms=1623.04186821
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=e2e repeat=3 ms=1621.35910988
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero kind=e2e repeat=4 ms=1622.08414078
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero repeat=0 layer1_ms=582.674026489 relu_ms=330.976963043 conversion_ms=119.465827942 layer2_ms=581.794023514 total_ms=1614.91084099
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero repeat=1 layer1_ms=582.932949066 relu_ms=329.110860825 conversion_ms=119.765996933 layer2_ms=581.211090088 total_ms=1613.02089691
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero repeat=2 layer1_ms=582.609891891 relu_ms=330.712080002 conversion_ms=119.781970978 layer2_ms=581.583023071 total_ms=1614.68696594
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=row_schedule sampled_thread_ms=1.69515609741 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=partial_zero sampled_thread_ms=3.66568565369 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=csr_prefetch sampled_thread_ms=43.2045459747 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=feature_gather_decode sampled_thread_ms=83.6775302887 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=42.7649021149 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=2.68793106079 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=tile_load sampled_thread_ms=15.5093669891 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=tile_compute sampled_thread_ms=48.3181476593 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=tile_store sampled_thread_ms=2.0444393158 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=output_scatter sampled_thread_ms=4.56786155701 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0321865081787 sampled_tiles=4097 profile_wall_ms=589.826107025
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=kernel repeat=0 ms=639.3430233
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=kernel repeat=1 ms=639.098882675
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=kernel repeat=2 ms=638.980150223
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=kernel repeat=3 ms=639.603853226
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=kernel repeat=4 ms=639.214992523
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=e2e repeat=0 ms=1736.2101078
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=e2e repeat=1 ms=1733.76297951
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=e2e repeat=2 ms=1735.24785042
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=e2e repeat=3 ms=1738.68107796
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero kind=e2e repeat=4 ms=1733.10399055
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero repeat=0 layer1_ms=640.686035156 relu_ms=331.940889359 conversion_ms=119.853019714 layer2_ms=636.409044266 total_ms=1728.88898849
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero repeat=1 layer1_ms=641.414880753 relu_ms=330.783128738 conversion_ms=120.047807693 layer2_ms=635.37311554 total_ms=1727.61893272
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero repeat=2 layer1_ms=639.24908638 relu_ms=329.108953476 conversion_ms=119.796991348 layer2_ms=636.513948441 total_ms=1724.66897964
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=row_schedule sampled_thread_ms=1.34992599487 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=partial_zero sampled_thread_ms=3.54886054993 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=csr_prefetch sampled_thread_ms=43.1983470917 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=feature_gather_decode sampled_thread_ms=83.1384658813 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=42.2010421753 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=4.90593910217 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=tile_load sampled_thread_ms=25.927066803 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=tile_compute sampled_thread_ms=50.7769584656 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=tile_store sampled_thread_ms=1.70731544495 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=output_scatter sampled_thread_ms=4.56380844116 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b4_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0243186950684 sampled_tiles=4097 profile_wall_ms=649.664163589
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=kernel repeat=0 ms=514.681816101
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=kernel repeat=1 ms=514.425039291
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=kernel repeat=2 ms=514.683008194
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=kernel repeat=3 ms=514.638900757
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=kernel repeat=4 ms=514.8229599
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=e2e repeat=0 ms=1467.9441452
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=e2e repeat=1 ms=1467.85497665
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=e2e repeat=2 ms=1465.05403519
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=e2e repeat=3 ms=1468.55807304
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero kind=e2e repeat=4 ms=1467.87405014
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero repeat=0 layer1_ms=515.763044357 relu_ms=329.994916916 conversion_ms=119.943141937 layer2_ms=497.092008591 total_ms=1462.7931118
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero repeat=1 layer1_ms=515.783071518 relu_ms=330.143928528 conversion_ms=119.918107986 layer2_ms=497.073888779 total_ms=1462.91899681
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero repeat=2 layer1_ms=515.578985214 relu_ms=333.111047745 conversion_ms=119.688987732 layer2_ms=497.035980225 total_ms=1465.41500092
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=row_schedule sampled_thread_ms=1.73330307007 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=partial_zero sampled_thread_ms=2.21252441406 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=csr_prefetch sampled_thread_ms=40.2574539185 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=feature_gather_decode sampled_thread_ms=66.7741298676 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=35.2165699005 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=1.37567520142 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=tile_load sampled_thread_ms=8.63003730774 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=tile_compute sampled_thread_ms=21.8198299408 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=tile_store sampled_thread_ms=1.05309486389 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=output_scatter sampled_thread_ms=4.70805168152 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0274181365967 sampled_tiles=4097 profile_wall_ms=519.65379715
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=kernel repeat=0 ms=544.167041779
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=kernel repeat=1 ms=543.98393631
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=kernel repeat=2 ms=543.375968933
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=kernel repeat=3 ms=542.996883392
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=kernel repeat=4 ms=542.857885361
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=e2e repeat=0 ms=1545.28784752
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=e2e repeat=1 ms=1542.32692719
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=e2e repeat=2 ms=1541.93091393
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=e2e repeat=3 ms=1540.72403908
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero kind=e2e repeat=4 ms=1543.6899662
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero repeat=0 layer1_ms=545.565128326 relu_ms=328.788042068 conversion_ms=119.601011276 layer2_ms=539.813995361 total_ms=1533.76817703
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero repeat=1 layer1_ms=545.848846436 relu_ms=328.940153122 conversion_ms=119.271039963 layer2_ms=539.556980133 total_ms=1533.61701965
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero repeat=2 layer1_ms=545.57299614 relu_ms=328.670978546 conversion_ms=119.271993637 layer2_ms=540.08102417 total_ms=1533.59699249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=row_schedule sampled_thread_ms=1.40380859375 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=partial_zero sampled_thread_ms=2.31528282166 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=csr_prefetch sampled_thread_ms=41.9511795044 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=feature_gather_decode sampled_thread_ms=66.8737888336 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=36.9956493378 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=2.60877609253 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=tile_load sampled_thread_ms=14.9722099304 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=tile_compute sampled_thread_ms=32.6294898987 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=tile_store sampled_thread_ms=0.983238220215 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=output_scatter sampled_thread_ms=4.68468666077 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b8_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0240802764893 sampled_tiles=4097 profile_wall_ms=545.09305954
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=kernel repeat=0 ms=459.388017654
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=kernel repeat=1 ms=459.275960922
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=kernel repeat=2 ms=459.106206894
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=kernel repeat=3 ms=459.118843079
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=kernel repeat=4 ms=459.536075592
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=e2e repeat=0 ms=1359.93790627
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=e2e repeat=1 ms=1357.83600807
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=e2e repeat=2 ms=1358.77108574
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=e2e repeat=3 ms=1358.48593712
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero kind=e2e repeat=4 ms=1360.10193825
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero repeat=0 layer1_ms=462.454080582 relu_ms=331.279993057 conversion_ms=119.888067245 layer2_ms=442.815065384 total_ms=1356.43720627
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero repeat=1 layer1_ms=462.239027023 relu_ms=330.229997635 conversion_ms=119.677066803 layer2_ms=442.407846451 total_ms=1354.55393791
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero repeat=2 layer1_ms=462.604045868 relu_ms=330.621004105 conversion_ms=119.609117508 layer2_ms=442.312002182 total_ms=1355.14616966
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=row_schedule sampled_thread_ms=1.76405906677 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=partial_zero sampled_thread_ms=1.29985809326 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=csr_prefetch sampled_thread_ms=38.4764671326 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=feature_gather_decode sampled_thread_ms=58.0122470856 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=31.3556194305 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.836849212646 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=tile_load sampled_thread_ms=5.13505935669 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=tile_compute sampled_thread_ms=12.3074054718 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=tile_store sampled_thread_ms=0.646114349365 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=output_scatter sampled_thread_ms=5.09858131409 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0298023223877 sampled_tiles=4097 profile_wall_ms=477.09608078
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=kernel repeat=0 ms=491.673946381
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=kernel repeat=1 ms=491.672992706
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=kernel repeat=2 ms=491.590023041
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=kernel repeat=3 ms=492.048978806
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=kernel repeat=4 ms=491.927862167
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=e2e repeat=0 ms=1433.0599308
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=e2e repeat=1 ms=1429.37088013
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=e2e repeat=2 ms=1430.01198769
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=e2e repeat=3 ms=1429.19993401
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero kind=e2e repeat=4 ms=1430.06205559
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero repeat=0 layer1_ms=491.6908741 relu_ms=330.638170242 conversion_ms=119.689941406 layer2_ms=483.555078506 total_ms=1425.57406425
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero repeat=1 layer1_ms=491.198062897 relu_ms=330.163955688 conversion_ms=119.940042496 layer2_ms=483.632087708 total_ms=1424.93414879
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero repeat=2 layer1_ms=491.43910408 relu_ms=331.124782562 conversion_ms=119.665145874 layer2_ms=483.793973923 total_ms=1426.02300644
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=row_schedule sampled_thread_ms=1.33490562439 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=partial_zero sampled_thread_ms=1.31511688232 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=csr_prefetch sampled_thread_ms=39.99376297 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=feature_gather_decode sampled_thread_ms=58.0313205719 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=32.8431129456 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.55997276306 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=tile_load sampled_thread_ms=8.63933563232 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=tile_compute sampled_thread_ms=17.6780223846 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=tile_store sampled_thread_ms=0.55193901062 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=output_scatter sampled_thread_ms=5.03945350647 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b16_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0262260437012 sampled_tiles=4097 profile_wall_ms=491.38712883
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=kernel repeat=0 ms=439.528942108
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=kernel repeat=1 ms=439.875125885
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=kernel repeat=2 ms=440.082788467
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=kernel repeat=3 ms=439.660072327
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=kernel repeat=4 ms=440.08398056
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=e2e repeat=0 ms=1323.48799706
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=e2e repeat=1 ms=1322.0911026
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=e2e repeat=2 ms=1325.52790642
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=e2e repeat=3 ms=1326.42102242
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero kind=e2e repeat=4 ms=1319.88692284
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero repeat=0 layer1_ms=442.852973938 relu_ms=334.974050522 conversion_ms=119.199037552 layer2_ms=426.020860672 total_ms=1323.04692268
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero repeat=1 layer1_ms=442.87109375 relu_ms=330.703020096 conversion_ms=119.721889496 layer2_ms=425.603151321 total_ms=1318.89915466
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero repeat=2 layer1_ms=442.364931107 relu_ms=332.700967789 conversion_ms=119.920015335 layer2_ms=425.305128098 total_ms=1320.29104233
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=row_schedule sampled_thread_ms=1.78003311157 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=partial_zero sampled_thread_ms=0.892877578735 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=csr_prefetch sampled_thread_ms=37.9209518433 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=feature_gather_decode sampled_thread_ms=54.4698238373 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=29.6461582184 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.600814819336 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=tile_load sampled_thread_ms=3.67832183838 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=tile_compute sampled_thread_ms=9.47952270508 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=tile_store sampled_thread_ms=0.40340423584 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=output_scatter sampled_thread_ms=5.2924156189 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0321865081787 sampled_tiles=4097 profile_wall_ms=459.06496048
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=kernel repeat=0 ms=472.102880478
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=kernel repeat=1 ms=471.463918686
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=kernel repeat=2 ms=471.921920776
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=kernel repeat=3 ms=471.451997757
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=kernel repeat=4 ms=471.419811249
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=e2e repeat=0 ms=1387.84599304
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=e2e repeat=1 ms=1386.92998886
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=e2e repeat=2 ms=1387.09402084
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=e2e repeat=3 ms=1384.67884064
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero kind=e2e repeat=4 ms=1384.28401947
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero repeat=0 layer1_ms=472.207069397 relu_ms=335.341930389 conversion_ms=120.124101639 layer2_ms=461.103916168 total_ms=1388.77701759
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero repeat=1 layer1_ms=471.700906754 relu_ms=330.333948135 conversion_ms=119.583129883 layer2_ms=460.928916931 total_ms=1382.5469017
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero repeat=2 layer1_ms=471.956968307 relu_ms=332.212924957 conversion_ms=119.686126709 layer2_ms=460.871934891 total_ms=1384.72795486
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=row_schedule sampled_thread_ms=1.33991241455 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=partial_zero sampled_thread_ms=0.971078872681 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=csr_prefetch sampled_thread_ms=38.7351512909 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=feature_gather_decode sampled_thread_ms=54.8031330109 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=31.2743186951 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.06763839722 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=tile_load sampled_thread_ms=6.09946250916 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=tile_compute sampled_thread_ms=11.8370056152 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=tile_store sampled_thread_ms=0.414609909058 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=output_scatter sampled_thread_ms=5.25045394897 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b32_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0309944152832 sampled_tiles=4097 profile_wall_ms=471.49515152
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=kernel repeat=0 ms=439.989089966
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=kernel repeat=1 ms=440.589904785
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=kernel repeat=2 ms=439.940929413
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=kernel repeat=3 ms=440.13094902
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=kernel repeat=4 ms=440.799951553
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=e2e repeat=0 ms=1320.28698921
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=e2e repeat=1 ms=1325.00290871
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=e2e repeat=2 ms=1321.85602188
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=e2e repeat=3 ms=1325.25110245
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero kind=e2e repeat=4 ms=1322.93701172
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero repeat=0 layer1_ms=442.618131638 relu_ms=332.774877548 conversion_ms=120.182991028 layer2_ms=425.436019897 total_ms=1321.01202011
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero repeat=1 layer1_ms=443.241834641 relu_ms=332.867145538 conversion_ms=119.59695816 layer2_ms=425.348997116 total_ms=1321.05493546
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero repeat=2 layer1_ms=442.935943604 relu_ms=331.878185272 conversion_ms=119.307994843 layer2_ms=425.07982254 total_ms=1319.20194626
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=row_schedule sampled_thread_ms=1.81341171265 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=partial_zero sampled_thread_ms=0.863075256348 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=csr_prefetch sampled_thread_ms=37.3773574829 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=feature_gather_decode sampled_thread_ms=54.0704727173 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=30.0047397614 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.582933425903 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=tile_load sampled_thread_ms=3.80444526672 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=tile_compute sampled_thread_ms=9.61923599243 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=tile_store sampled_thread_ms=0.411987304688 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=output_scatter sampled_thread_ms=5.37824630737 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0262260437012 sampled_tiles=4097 profile_wall_ms=459.535121918
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=kernel repeat=0 ms=471.628904343
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=kernel repeat=1 ms=471.969127655
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=kernel repeat=2 ms=472.210168839
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=kernel repeat=3 ms=471.821069717
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=kernel repeat=4 ms=472.326040268
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=e2e repeat=0 ms=1386.52515411
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=e2e repeat=1 ms=1390.07520676
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=e2e repeat=2 ms=1388.35811615
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=e2e repeat=3 ms=1386.97981834
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero kind=e2e repeat=4 ms=1388.4999752
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero repeat=0 layer1_ms=472.142934799 relu_ms=331.478118896 conversion_ms=120.093822479 layer2_ms=460.765123367 total_ms=1384.47999954
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero repeat=1 layer1_ms=472.069978714 relu_ms=331.85505867 conversion_ms=119.567871094 layer2_ms=460.842132568 total_ms=1384.33504105
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero repeat=2 layer1_ms=472.064971924 relu_ms=333.331108093 conversion_ms=119.525909424 layer2_ms=461.157083511 total_ms=1386.07907295
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=row_schedule sampled_thread_ms=1.40452384949 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=partial_zero sampled_thread_ms=0.897407531738 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=csr_prefetch sampled_thread_ms=39.0787124634 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=feature_gather_decode sampled_thread_ms=54.5525550842 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=31.4400196075 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.03235244751 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=tile_load sampled_thread_ms=6.07347488403 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=tile_compute sampled_thread_ms=11.8110179901 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=tile_store sampled_thread_ms=0.396251678467 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=output_scatter sampled_thread_ms=5.2547454834 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_b64_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0278949737549 sampled_tiles=4097 profile_wall_ms=471.739053726
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=kernel repeat=0 ms=439.506053925
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=kernel repeat=1 ms=440.549135208
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=kernel repeat=2 ms=440.02699852
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=kernel repeat=3 ms=439.970016479
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=kernel repeat=4 ms=440.369129181
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=e2e repeat=0 ms=1321.02012634
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=e2e repeat=1 ms=1324.7089386
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=e2e repeat=2 ms=1321.93207741
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=e2e repeat=3 ms=1322.6377964
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero kind=e2e repeat=4 ms=1327.20088959
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero repeat=0 layer1_ms=443.310022354 relu_ms=336.353778839 conversion_ms=120.069026947 layer2_ms=424.67713356 total_ms=1324.4099617
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero repeat=1 layer1_ms=442.161083221 relu_ms=330.026865005 conversion_ms=119.917154312 layer2_ms=424.753904343 total_ms=1316.85900688
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero repeat=2 layer1_ms=443.347930908 relu_ms=332.19909668 conversion_ms=119.878053665 layer2_ms=425.19903183 total_ms=1320.62411308
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=row_schedule sampled_thread_ms=1.74069404602 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=partial_zero sampled_thread_ms=0.973224639893 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=csr_prefetch sampled_thread_ms=38.074016571 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=feature_gather_decode sampled_thread_ms=54.7306537628 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=29.8678874969 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.575065612793 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=tile_load sampled_thread_ms=3.74245643616 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=tile_compute sampled_thread_ms=9.50574874878 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=tile_store sampled_thread_ms=0.437498092651 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=output_scatter sampled_thread_ms=5.35845756531 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0288486480713 sampled_tiles=4097 profile_wall_ms=459.734916687
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=kernel repeat=0 ms=471.838951111
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=kernel repeat=1 ms=471.925020218
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=kernel repeat=2 ms=472.100973129
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=kernel repeat=3 ms=471.907138824
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=kernel repeat=4 ms=472.229003906
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=e2e repeat=0 ms=1389.99080658
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=e2e repeat=1 ms=1389.46080208
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=e2e repeat=2 ms=1389.34803009
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=e2e repeat=3 ms=1389.23287392
+SOURCE_TIME graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero kind=e2e repeat=4 ms=1388.00477982
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero repeat=0 layer1_ms=472.820997238 relu_ms=333.201169968 conversion_ms=119.721889496 layer2_ms=460.961103439 total_ms=1386.70516014
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero repeat=1 layer1_ms=472.728013992 relu_ms=330.583095551 conversion_ms=120.001792908 layer2_ms=460.730075836 total_ms=1384.04297829
+SOURCE_STAGE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero repeat=2 layer1_ms=472.710132599 relu_ms=333.000898361 conversion_ms=120.687961578 layer2_ms=460.900068283 total_ms=1387.29906082
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=row_schedule sampled_thread_ms=1.27196311951 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=partial_zero sampled_thread_ms=0.938653945923 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=csr_prefetch sampled_thread_ms=39.003610611 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=feature_gather_decode sampled_thread_ms=54.1346073151 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=31.2819480896 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.05714797974 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=tile_load sampled_thread_ms=6.01601600647 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=tile_compute sampled_thread_ms=11.7502212524 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=tile_store sampled_thread_ms=0.375986099243 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=output_scatter sampled_thread_ms=5.27691841125 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_PROFILE graph=rgg_n_2_24_s0 method=shared_bfull_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0295639038086 sampled_tiles=4097 profile_wall_ms=472.282171249
+SOURCE_COMPLETE graph=rgg_n_2_24_s0 pass=1 max_rss_kib=81032516

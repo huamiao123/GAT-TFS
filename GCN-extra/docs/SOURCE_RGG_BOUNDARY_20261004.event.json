@@ -1,0 +1,10 @@
+{
+  "id": "source-rgg-boundary-correction-20261004",
+  "kind": "supervisor_range_audit",
+  "status": "SUPPLEMENT_SUBMITTED",
+  "paper_eligible": false,
+  "affected": "source-formal-10864754/rgg_n_2_24_s0/status.json",
+  "issues": "Supervisor incorrectly excluded N*128 == 2^31 using >=; maximum element index is N*128-1 and still fits INT32_MAX. Correct condition is > 2^31. No numerical kernel or compiler change.",
+  "resolution": "Preserve first skip, submit supplemental source-formal-10864792 for RGG only with the same source binary and protocol. Current supervisor explicitly supports subsets and snapshots the actual launcher code separately from the build snapshot.",
+  "next": "Reconcile first batch with RGG supplement without overwriting the first exclusion or mixing NUMA-interleaved historical evidence"
+}

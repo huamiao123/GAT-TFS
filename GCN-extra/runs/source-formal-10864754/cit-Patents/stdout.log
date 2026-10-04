@@ -1,0 +1,458 @@
+GCN E2E Inference Benchmark (2-layer, K=128)
+TFS V3 (BF16 AMX) vs MKL (FP32 two-step)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/cit-Patents/cit-Patents.csrbin
+Matrix: cit-Patents  N=3774768  NNZ=16518948  avg_deg=4.4
+
+=== TFS V3 (BF16 AMX Fusion) ===
+  run 0: 314.17 ms
+  run 1: 313.17 ms
+  run 2: 312.11 ms
+  run 3: 312.01 ms
+  run 4: 465.69 ms
+  TFS V3 E2E BEST: 312.01 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 270.95 ms
+  run 1: 271.26 ms
+  run 2: 270.19 ms
+  run 3: 271.09 ms
+  run 4: 271.83 ms
+  MKL E2E BEST: 270.19 ms
+
+=== E2E Summary ===
+  TFS V3:  312.01 ms
+  MKL:     270.19 ms
+  Speedup: 0.87×
+
+=== Precision Analysis ===
+Layer 1 (after ReLU):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.004678  RMSE=2.971602e-02  max|diff|=1.615051e+00
+Layer 2 (final output):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.010544  RMSE=2.161660e+00  max|diff|=5.622539e+02
+
+First 8 output values:
+  TFS: 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 
+  MKL: 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 
+SOURCE_CONFIG graph=cit-Patents N=3774768 E=16518948 D=128 F=128 R=64 TR=16 repeats=5 warmups=1 mkl_max_threads=32 mkl_dynamic=1 policy=default_no_numactl
+SOURCE_INPUT graph=cit-Patents H0=5186108949232280541 W1=7515093975424777444 W2=521590717466722379
+SOURCE_CORRECT graph=cit-Patents method=original_nozero boundary=kernel reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=cit-Patents method=original_nozero boundary=e2e reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=cit-Patents method=original_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.25390625 mean_abs=0.712365155367 relative_l2=0.0102219156944 normalized_max=0.0105438472102 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b2_fast_nozero boundary=kernel reference=source_original_tfs max_abs=0.833023071289 mean_abs=0.00959875524709 relative_l2=0.0023093826471 normalized_max=0.00242398780427 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b2_fast_nozero boundary=e2e reference=source_original_tfs max_abs=140.390625 mean_abs=0.22008732493 relative_l2=0.00300786980365 normalized_max=0.00266077515473 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b2_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=702.64453125 mean_abs=0.889903479043 relative_l2=0.0128746206241 normalized_max=0.0131765675582 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b2_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000762939453125 mean_abs=5.72694527527e-07 relative_l2=2.2350662561e-07 normalized_max=2.22005367379e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b2_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.74267578125 mean_abs=0.000100458634801 relative_l2=1.12516952904e-05 normalized_max=1.40756782497e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b2_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.23046875 mean_abs=0.712364208241 relative_l2=0.0102218707773 normalized_max=0.010543407691 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b4_fast_nozero boundary=kernel reference=source_original_tfs max_abs=1.05505371094 mean_abs=0.0119653609471 relative_l2=0.00288705780124 normalized_max=0.00307006782442 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b4_fast_nozero boundary=e2e reference=source_original_tfs max_abs=235 mean_abs=0.310745653023 relative_l2=0.00447741573576 normalized_max=0.00445387404865 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b4_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=797.25390625 mean_abs=0.985911665308 relative_l2=0.014380747301 normalized_max=0.0149507602914 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b4_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00048828125 mean_abs=5.38280450109e-07 relative_l2=2.00055494354e-07 normalized_max=1.42083435123e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b4_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.917236328125 mean_abs=0.00010357769328 relative_l2=1.06804524874e-05 normalized_max=1.7384064163e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b4_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.2734375 mean_abs=0.712366716226 relative_l2=0.0102219319892 normalized_max=0.0105442134763 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b8_fast_nozero boundary=kernel reference=source_original_tfs max_abs=1.13897705078 mean_abs=0.0126845081215 relative_l2=0.00306917312851 normalized_max=0.00331427372853 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b8_fast_nozero boundary=e2e reference=source_original_tfs max_abs=269.01171875 mean_abs=0.354509768804 relative_l2=0.00519186393926 normalized_max=0.00509848643797 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b8_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=831.265625 mean_abs=1.03107383116 relative_l2=0.0150955424417 normalized_max=0.0155885759862 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b8_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000579833984375 mean_abs=8.07436952275e-07 relative_l2=4.98452384667e-07 normalized_max=1.68724079208e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b8_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.500457763672 mean_abs=0.000168519413619 relative_l2=1.26316509931e-05 normalized_max=9.48500360026e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b8_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.32421875 mean_abs=0.712372252659 relative_l2=0.0102220442678 normalized_max=0.010545165768 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b16_fast_nozero boundary=kernel reference=source_original_tfs max_abs=1.1554107666 mean_abs=0.0129442800864 relative_l2=0.00314866451613 normalized_max=0.00336209368467 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b16_fast_nozero boundary=e2e reference=source_original_tfs max_abs=289.20703125 mean_abs=0.372874990051 relative_l2=0.0054911674104 normalized_max=0.00548124123902 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b16_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=851.4609375 mean_abs=1.04891606267 relative_l2=0.0153765513081 normalized_max=0.0159672950791 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b16_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.000892639160156 mean_abs=2.17074019919e-06 relative_l2=1.24046701696e-06 normalized_max=2.59746279834e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b16_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=0.5556640625 mean_abs=0.000396354092504 relative_l2=2.06372437099e-05 normalized_max=1.05313095648e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b16_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.38671875 mean_abs=0.712384014035 relative_l2=0.0102223715276 normalized_max=0.0105463378193 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b32_fast_nozero boundary=kernel reference=source_original_tfs max_abs=1.02856445312 mean_abs=0.0129742840816 relative_l2=0.00316036923794 normalized_max=0.00299298756086 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b32_fast_nozero boundary=e2e reference=source_original_tfs max_abs=286.1953125 mean_abs=0.377753764278 relative_l2=0.00560337345136 normalized_max=0.00542416117101 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b32_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=848.44921875 mean_abs=1.05304793152 relative_l2=0.0154664553467 normalized_max=0.0159108168546 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b32_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00129699707031 mean_abs=2.97418111684e-06 relative_l2=1.81750475226e-06 normalized_max=3.77409124545e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b32_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=1.01049804688 mean_abs=0.000528253354546 relative_l2=2.54095875676e-05 normalized_max=1.91516213923e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b32_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.4765625 mean_abs=0.712403221066 relative_l2=0.0102232063664 normalized_max=0.0105480226432 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b64_fast_nozero boundary=kernel reference=source_original_tfs max_abs=1.05746459961 mean_abs=0.0129792868356 relative_l2=0.00316353991885 normalized_max=0.00307708319402 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b64_fast_nozero boundary=e2e reference=source_original_tfs max_abs=293.6328125 mean_abs=0.378905496522 relative_l2=0.00565339537812 normalized_max=0.00556512154649 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b64_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=855.88671875 mean_abs=1.05379752104 relative_l2=0.0154972008275 normalized_max=0.0160502909654 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b64_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00228118896484 mean_abs=3.22952444084e-06 relative_l2=2.16146055957e-06 normalized_max=6.63796048464e-06 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b64_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=1.48937988281 mean_abs=0.000567116548294 relative_l2=2.73928494229e-05 normalized_max=2.82277038665e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_b64_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.5859375 mean_abs=0.712419909178 relative_l2=0.0102242925662 normalized_max=0.010550073733 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_bfull_fast_nozero boundary=kernel reference=source_original_tfs max_abs=1.30975341797 mean_abs=0.0129795904996 relative_l2=0.00316388184882 normalized_max=0.00381121054288 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_bfull_fast_nozero boundary=e2e reference=source_original_tfs max_abs=290.23828125 mean_abs=0.379328330491 relative_l2=0.005692006456 normalized_max=0.00550078616504 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_bfull_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=828.64453125 mean_abs=1.05399188902 relative_l2=0.0155081330114 normalized_max=0.0155394230826 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_bfull_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.00360107421875 mean_abs=3.29198377836e-06 relative_l2=2.31602499937e-06 normalized_max=1.04786533403e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_bfull_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=1.4755859375 mean_abs=0.000581692462032 relative_l2=2.8300676679e-05 normalized_max=2.79662719727e-05 pass=1
+SOURCE_CORRECT graph=cit-Patents method=shared_bfull_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=562.6328125 mean_abs=0.712427173497 relative_l2=0.0102250102573 normalized_max=0.0105509527715 pass=1
+SOURCE_TIME graph=cit-Patents method=source_mkl_fp32 kind=kernel repeat=0 ms=200.851202011
+SOURCE_TIME graph=cit-Patents method=source_mkl_fp32 kind=kernel repeat=1 ms=200.327157974
+SOURCE_TIME graph=cit-Patents method=source_mkl_fp32 kind=kernel repeat=2 ms=200.896978378
+SOURCE_TIME graph=cit-Patents method=source_mkl_fp32 kind=kernel repeat=3 ms=201.030015945
+SOURCE_TIME graph=cit-Patents method=source_mkl_fp32 kind=kernel repeat=4 ms=201.740980148
+SOURCE_TIME graph=cit-Patents method=source_original_tfs kind=kernel repeat=0 ms=192.123889923
+SOURCE_TIME graph=cit-Patents method=source_original_tfs kind=kernel repeat=1 ms=193.014144897
+SOURCE_TIME graph=cit-Patents method=source_original_tfs kind=kernel repeat=2 ms=191.859006882
+SOURCE_TIME graph=cit-Patents method=source_original_tfs kind=kernel repeat=3 ms=191.640853882
+SOURCE_TIME graph=cit-Patents method=source_original_tfs kind=kernel repeat=4 ms=193.599939346
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=kernel repeat=0 ms=70.3690052032
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=kernel repeat=1 ms=70.6920623779
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=kernel repeat=2 ms=70.6031322479
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=kernel repeat=3 ms=71.398973465
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=kernel repeat=4 ms=70.1568126678
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=e2e repeat=0 ms=192.833900452
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=e2e repeat=1 ms=191.134929657
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=e2e repeat=2 ms=193.176984787
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=e2e repeat=3 ms=192.243099213
+SOURCE_TIME graph=cit-Patents method=original_nozero kind=e2e repeat=4 ms=192.938089371
+SOURCE_STAGE graph=cit-Patents method=original_nozero repeat=0 layer1_ms=70.7850456238 relu_ms=62.353849411 conversion_ms=25.6659984589 layer2_ms=33.5280895233 total_ms=192.332983017
+SOURCE_STAGE graph=cit-Patents method=original_nozero repeat=1 layer1_ms=70.3840255737 relu_ms=62.1049404144 conversion_ms=25.5460739136 layer2_ms=33.6570739746 total_ms=191.692113876
+SOURCE_STAGE graph=cit-Patents method=original_nozero repeat=2 layer1_ms=70.3558921814 relu_ms=63.5321140289 conversion_ms=25.43592453 layer2_ms=33.5230827332 total_ms=192.847013474
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=kernel repeat=0 ms=95.2408313751
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=kernel repeat=1 ms=95.5839157104
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=kernel repeat=2 ms=94.9680805206
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=kernel repeat=3 ms=95.3650474548
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=kernel repeat=4 ms=95.7930088043
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=e2e repeat=0 ms=231.955051422
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=e2e repeat=1 ms=233.48402977
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=e2e repeat=2 ms=234.662055969
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=e2e repeat=3 ms=233.946800232
+SOURCE_TIME graph=cit-Patents method=shared_b2_fast_nozero kind=e2e repeat=4 ms=232.690811157
+SOURCE_STAGE graph=cit-Patents method=shared_b2_fast_nozero repeat=0 layer1_ms=96.7588424683 relu_ms=59.751033783 conversion_ms=25.6180763245 layer2_ms=50.0988960266 total_ms=232.226848602
+SOURCE_STAGE graph=cit-Patents method=shared_b2_fast_nozero repeat=1 layer1_ms=96.577167511 relu_ms=61.2308979034 conversion_ms=25.6321430206 layer2_ms=50.8379936218 total_ms=234.278202057
+SOURCE_STAGE graph=cit-Patents method=shared_b2_fast_nozero repeat=2 layer1_ms=95.9990024567 relu_ms=62.1790885925 conversion_ms=25.7430076599 layer2_ms=50.2190589905 total_ms=234.1401577
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=output_zero sampled_thread_ms=0.000953674316406 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=row_schedule sampled_thread_ms=0.409126281738 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=partial_zero sampled_thread_ms=0.481128692627 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=csr_prefetch sampled_thread_ms=4.09722328186 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=feature_gather_decode sampled_thread_ms=8.59498977661 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.6289691925 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.392198562622 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=tile_load sampled_thread_ms=2.27069854736 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=tile_compute sampled_thread_ms=5.11050224304 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=tile_store sampled_thread_ms=0.310897827148 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=output_scatter sampled_thread_ms=1.85990333557 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=923 profile_wall_ms=100.228071213
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=kernel repeat=0 ms=103.474855423
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=kernel repeat=1 ms=102.92506218
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=kernel repeat=2 ms=102.961063385
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=kernel repeat=3 ms=102.804899216
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=kernel repeat=4 ms=103.595018387
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=e2e repeat=0 ms=247.624158859
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=e2e repeat=1 ms=247.941970825
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=e2e repeat=2 ms=247.449874878
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=e2e repeat=3 ms=247.414112091
+SOURCE_TIME graph=cit-Patents method=shared_b2_accurate_nozero kind=e2e repeat=4 ms=249.220848083
+SOURCE_STAGE graph=cit-Patents method=shared_b2_accurate_nozero repeat=0 layer1_ms=104.576826096 relu_ms=61.3820552826 conversion_ms=25.8741378784 layer2_ms=56.9829940796 total_ms=248.816013336
+SOURCE_STAGE graph=cit-Patents method=shared_b2_accurate_nozero repeat=1 layer1_ms=103.410005569 relu_ms=60.8878135681 conversion_ms=25.8641242981 layer2_ms=57.0950508118 total_ms=247.256994247
+SOURCE_STAGE graph=cit-Patents method=shared_b2_accurate_nozero repeat=2 layer1_ms=103.389024734 relu_ms=62.3879432678 conversion_ms=26.015996933 layer2_ms=57.6419830322 total_ms=249.434947968
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=row_schedule sampled_thread_ms=0.368356704712 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=partial_zero sampled_thread_ms=0.520467758179 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=csr_prefetch sampled_thread_ms=4.02212142944 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=feature_gather_decode sampled_thread_ms=8.40067863464 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.77726554871 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.691890716553 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=tile_load sampled_thread_ms=3.81565093994 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=tile_compute sampled_thread_ms=6.21271133423 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=tile_store sampled_thread_ms=0.23078918457 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=output_scatter sampled_thread_ms=1.74236297607 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_PROFILE graph=cit-Patents method=shared_b2_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0216960906982 sampled_tiles=923 profile_wall_ms=105.790138245
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=kernel repeat=0 ms=87.7201557159
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=kernel repeat=1 ms=87.532043457
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=kernel repeat=2 ms=87.6450538635
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=kernel repeat=3 ms=87.1529579163
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=kernel repeat=4 ms=87.2890949249
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=e2e repeat=0 ms=218.704938889
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=e2e repeat=1 ms=217.529058456
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=e2e repeat=2 ms=217.614889145
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=e2e repeat=3 ms=217.861890793
+SOURCE_TIME graph=cit-Patents method=shared_b4_fast_nozero kind=e2e repeat=4 ms=218.074083328
+SOURCE_STAGE graph=cit-Patents method=shared_b4_fast_nozero repeat=0 layer1_ms=88.4258747101 relu_ms=62.1311664581 conversion_ms=25.7270336151 layer2_ms=43.6408519745 total_ms=219.924926758
+SOURCE_STAGE graph=cit-Patents method=shared_b4_fast_nozero repeat=1 layer1_ms=88.0980491638 relu_ms=61.1560344696 conversion_ms=25.6750583649 layer2_ms=43.32280159 total_ms=218.251943588
+SOURCE_STAGE graph=cit-Patents method=shared_b4_fast_nozero repeat=2 layer1_ms=88.3061885834 relu_ms=61.7699623108 conversion_ms=25.976896286 layer2_ms=43.5020923615 total_ms=219.555139542
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=row_schedule sampled_thread_ms=0.394582748413 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=partial_zero sampled_thread_ms=0.293016433716 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=csr_prefetch sampled_thread_ms=3.5834312439 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=feature_gather_decode sampled_thread_ms=6.45709037781 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.95996665955 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.208854675293 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=tile_load sampled_thread_ms=1.32703781128 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=tile_compute sampled_thread_ms=2.51173973083 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=tile_store sampled_thread_ms=0.165939331055 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=output_scatter sampled_thread_ms=1.85132026672 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.02121925354 sampled_tiles=923 profile_wall_ms=91.6299819946
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=kernel repeat=0 ms=92.8862094879
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=kernel repeat=1 ms=92.808008194
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=kernel repeat=2 ms=92.4990177155
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=kernel repeat=3 ms=92.5168991089
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=kernel repeat=4 ms=92.7910804749
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=e2e repeat=0 ms=227.513074875
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=e2e repeat=1 ms=226.324081421
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=e2e repeat=2 ms=226.688146591
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=e2e repeat=3 ms=227.112054825
+SOURCE_TIME graph=cit-Patents method=shared_b4_accurate_nozero kind=e2e repeat=4 ms=225.99697113
+SOURCE_STAGE graph=cit-Patents method=shared_b4_accurate_nozero repeat=0 layer1_ms=93.6877727509 relu_ms=60.4450702667 conversion_ms=25.7239341736 layer2_ms=47.0321178436 total_ms=226.888895035
+SOURCE_STAGE graph=cit-Patents method=shared_b4_accurate_nozero repeat=1 layer1_ms=93.7340259552 relu_ms=61.6960525513 conversion_ms=25.6869792938 layer2_ms=46.9298362732 total_ms=228.046894073
+SOURCE_STAGE graph=cit-Patents method=shared_b4_accurate_nozero repeat=2 layer1_ms=93.2729244232 relu_ms=60.5828762054 conversion_ms=25.7949829102 layer2_ms=46.9491481781 total_ms=226.599931717
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=row_schedule sampled_thread_ms=0.389337539673 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=partial_zero sampled_thread_ms=0.300884246826 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=csr_prefetch sampled_thread_ms=3.76105308533 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=feature_gather_decode sampled_thread_ms=6.65593147278 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=3.04675102234 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.353574752808 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=tile_load sampled_thread_ms=2.20918655396 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=tile_compute sampled_thread_ms=3.657579422 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=tile_store sampled_thread_ms=0.149011611938 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=output_scatter sampled_thread_ms=1.72567367554 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_PROFILE graph=cit-Patents method=shared_b4_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0162124633789 sampled_tiles=923 profile_wall_ms=97.2039699554
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=kernel repeat=0 ms=82.1409225464
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=kernel repeat=1 ms=82.2989940643
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=kernel repeat=2 ms=82.3481082916
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=kernel repeat=3 ms=82.2710990906
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=kernel repeat=4 ms=82.1959972382
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=e2e repeat=0 ms=207.488059998
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=e2e repeat=1 ms=209.136962891
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=e2e repeat=2 ms=208.629131317
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=e2e repeat=3 ms=209.850072861
+SOURCE_TIME graph=cit-Patents method=shared_b8_fast_nozero kind=e2e repeat=4 ms=207.982063293
+SOURCE_STAGE graph=cit-Patents method=shared_b8_fast_nozero repeat=0 layer1_ms=83.3158493042 relu_ms=61.0291957855 conversion_ms=25.5630016327 layer2_ms=38.8219356537 total_ms=208.729982376
+SOURCE_STAGE graph=cit-Patents method=shared_b8_fast_nozero repeat=1 layer1_ms=83.2231044769 relu_ms=60.772895813 conversion_ms=25.6490707397 layer2_ms=38.9058589935 total_ms=208.550930023
+SOURCE_STAGE graph=cit-Patents method=shared_b8_fast_nozero repeat=2 layer1_ms=82.9300880432 relu_ms=61.4740848541 conversion_ms=25.7189273834 layer2_ms=38.8998985291 total_ms=209.02299881
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=row_schedule sampled_thread_ms=0.407695770264 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=partial_zero sampled_thread_ms=0.186443328857 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=csr_prefetch sampled_thread_ms=3.4704208374 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=feature_gather_decode sampled_thread_ms=5.59902191162 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.55918502808 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.125408172607 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=tile_load sampled_thread_ms=0.862598419189 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=tile_compute sampled_thread_ms=1.46770477295 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=tile_store sampled_thread_ms=0.0853538513184 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=output_scatter sampled_thread_ms=1.78241729736 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0219345092773 sampled_tiles=923 profile_wall_ms=84.5758914948
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=kernel repeat=0 ms=87.0220661163
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=kernel repeat=1 ms=87.0740413666
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=kernel repeat=2 ms=87.081193924
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=kernel repeat=3 ms=87.3069763184
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=kernel repeat=4 ms=86.8539810181
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=e2e repeat=0 ms=216.133117676
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=e2e repeat=1 ms=216.004133224
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=e2e repeat=2 ms=216.381072998
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=e2e repeat=3 ms=217.298984528
+SOURCE_TIME graph=cit-Patents method=shared_b8_accurate_nozero kind=e2e repeat=4 ms=215.804100037
+SOURCE_STAGE graph=cit-Patents method=shared_b8_accurate_nozero repeat=0 layer1_ms=87.7010822296 relu_ms=60.9078407288 conversion_ms=25.8951187134 layer2_ms=42.0639514923 total_ms=216.567993164
+SOURCE_STAGE graph=cit-Patents method=shared_b8_accurate_nozero repeat=1 layer1_ms=87.3930454254 relu_ms=61.4991188049 conversion_ms=26.1478424072 layer2_ms=42.0980453491 total_ms=217.138051987
+SOURCE_STAGE graph=cit-Patents method=shared_b8_accurate_nozero repeat=2 layer1_ms=87.5899791718 relu_ms=61.8960857391 conversion_ms=25.9199142456 layer2_ms=42.328119278 total_ms=217.734098434
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=row_schedule sampled_thread_ms=0.378847122192 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=partial_zero sampled_thread_ms=0.187158584595 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=csr_prefetch sampled_thread_ms=3.46398353577 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=feature_gather_decode sampled_thread_ms=5.64956665039 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.65693664551 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.233888626099 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=tile_load sampled_thread_ms=1.42478942871 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=tile_compute sampled_thread_ms=2.35319137573 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=tile_store sampled_thread_ms=0.0841617584229 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=output_scatter sampled_thread_ms=1.83773040771 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_PROFILE graph=cit-Patents method=shared_b8_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0174045562744 sampled_tiles=923 profile_wall_ms=90.518951416
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=kernel repeat=0 ms=79.0469646454
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=kernel repeat=1 ms=79.4820785522
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=kernel repeat=2 ms=79.2870521545
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=kernel repeat=3 ms=79.4169902802
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=kernel repeat=4 ms=79.4599056244
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=e2e repeat=0 ms=203.285932541
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=e2e repeat=1 ms=203.918933868
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=e2e repeat=2 ms=204.252004623
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=e2e repeat=3 ms=203.561067581
+SOURCE_TIME graph=cit-Patents method=shared_b16_fast_nozero kind=e2e repeat=4 ms=202.89683342
+SOURCE_STAGE graph=cit-Patents method=shared_b16_fast_nozero repeat=0 layer1_ms=80.1179409027 relu_ms=60.7450008392 conversion_ms=25.9480476379 layer2_ms=36.6990566254 total_ms=203.510046005
+SOURCE_STAGE graph=cit-Patents method=shared_b16_fast_nozero repeat=1 layer1_ms=79.8330307007 relu_ms=61.7799758911 conversion_ms=25.7079601288 layer2_ms=36.5378856659 total_ms=203.858852386
+SOURCE_STAGE graph=cit-Patents method=shared_b16_fast_nozero repeat=2 layer1_ms=79.9732208252 relu_ms=60.558795929 conversion_ms=25.7301330566 layer2_ms=36.7040634155 total_ms=202.966213226
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=row_schedule sampled_thread_ms=0.426054000854 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=partial_zero sampled_thread_ms=0.123739242554 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=csr_prefetch sampled_thread_ms=3.37076187134 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=feature_gather_decode sampled_thread_ms=5.08618354797 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.46262550354 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.105381011963 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=tile_load sampled_thread_ms=0.713348388672 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=tile_compute sampled_thread_ms=0.897645950317 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=tile_store sampled_thread_ms=0.056266784668 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=output_scatter sampled_thread_ms=1.81984901428 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=923 profile_wall_ms=82.4289321899
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=kernel repeat=0 ms=83.7528705597
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=kernel repeat=1 ms=84.0170383453
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=kernel repeat=2 ms=83.8549137115
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=kernel repeat=3 ms=84.0401649475
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=kernel repeat=4 ms=84.0628147125
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=e2e repeat=0 ms=211.833000183
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=e2e repeat=1 ms=211.457967758
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=e2e repeat=2 ms=210.406064987
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=e2e repeat=3 ms=211.54499054
+SOURCE_TIME graph=cit-Patents method=shared_b16_accurate_nozero kind=e2e repeat=4 ms=210.806846619
+SOURCE_STAGE graph=cit-Patents method=shared_b16_accurate_nozero repeat=0 layer1_ms=84.6581459045 relu_ms=61.9208812714 conversion_ms=25.8240699768 layer2_ms=39.7100448608 total_ms=212.113142014
+SOURCE_STAGE graph=cit-Patents method=shared_b16_accurate_nozero repeat=1 layer1_ms=84.7499370575 relu_ms=61.3420009613 conversion_ms=25.7470607758 layer2_ms=39.8049354553 total_ms=211.64393425
+SOURCE_STAGE graph=cit-Patents method=shared_b16_accurate_nozero repeat=2 layer1_ms=84.5370292664 relu_ms=61.0320568085 conversion_ms=25.8738994598 layer2_ms=39.7741794586 total_ms=211.217164993
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=row_schedule sampled_thread_ms=0.329732894897 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=partial_zero sampled_thread_ms=0.137805938721 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=csr_prefetch sampled_thread_ms=3.41749191284 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=feature_gather_decode sampled_thread_ms=5.28836250305 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.46572494507 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.163555145264 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=tile_load sampled_thread_ms=1.02043151855 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=tile_compute sampled_thread_ms=1.65629386902 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=tile_store sampled_thread_ms=0.0536441802979 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=output_scatter sampled_thread_ms=1.79409980774 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_PROFILE graph=cit-Patents method=shared_b16_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0207424163818 sampled_tiles=923 profile_wall_ms=85.5910778046
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=kernel repeat=0 ms=78.6280632019
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=kernel repeat=1 ms=78.3948898315
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=kernel repeat=2 ms=78.6511898041
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=kernel repeat=3 ms=78.5410404205
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=kernel repeat=4 ms=78.8779258728
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=e2e repeat=0 ms=201.583862305
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=e2e repeat=1 ms=200.752973557
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=e2e repeat=2 ms=203.545093536
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=e2e repeat=3 ms=201.643943787
+SOURCE_TIME graph=cit-Patents method=shared_b32_fast_nozero kind=e2e repeat=4 ms=202.880144119
+SOURCE_STAGE graph=cit-Patents method=shared_b32_fast_nozero repeat=0 layer1_ms=79.2009830475 relu_ms=61.1510276794 conversion_ms=26.0789394379 layer2_ms=36.0841751099 total_ms=202.515125275
+SOURCE_STAGE graph=cit-Patents method=shared_b32_fast_nozero repeat=1 layer1_ms=79.2169570923 relu_ms=61.3720417023 conversion_ms=25.9158611298 layer2_ms=36.1909866333 total_ms=202.695846558
+SOURCE_STAGE graph=cit-Patents method=shared_b32_fast_nozero repeat=2 layer1_ms=78.9978504181 relu_ms=61.4380836487 conversion_ms=25.8269309998 layer2_ms=36.1130237579 total_ms=202.375888824
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=row_schedule sampled_thread_ms=0.43249130249 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=partial_zero sampled_thread_ms=0.132083892822 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=csr_prefetch sampled_thread_ms=3.38459014893 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=feature_gather_decode sampled_thread_ms=5.03349304199 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.34460830688 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.0705718994141 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=tile_load sampled_thread_ms=0.615835189819 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=tile_compute sampled_thread_ms=0.785827636719 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=tile_store sampled_thread_ms=0.0488758087158 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=output_scatter sampled_thread_ms=1.80459022522 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0185966491699 sampled_tiles=923 profile_wall_ms=81.4771652222
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=kernel repeat=0 ms=83.1530094147
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=kernel repeat=1 ms=83.3320617676
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=kernel repeat=2 ms=83.309173584
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=kernel repeat=3 ms=83.3749771118
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=kernel repeat=4 ms=82.9920768738
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=e2e repeat=0 ms=208.183050156
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=e2e repeat=1 ms=209.255933762
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=e2e repeat=2 ms=210.593938828
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=e2e repeat=3 ms=210.122823715
+SOURCE_TIME graph=cit-Patents method=shared_b32_accurate_nozero kind=e2e repeat=4 ms=209.921836853
+SOURCE_STAGE graph=cit-Patents method=shared_b32_accurate_nozero repeat=0 layer1_ms=83.9068889618 relu_ms=61.5448951721 conversion_ms=25.719165802 layer2_ms=39.235830307 total_ms=210.406780243
+SOURCE_STAGE graph=cit-Patents method=shared_b32_accurate_nozero repeat=1 layer1_ms=83.6849212646 relu_ms=60.8661174774 conversion_ms=25.8769989014 layer2_ms=39.2270088196 total_ms=209.655046463
+SOURCE_STAGE graph=cit-Patents method=shared_b32_accurate_nozero repeat=2 layer1_ms=84.1100215912 relu_ms=61.8839263916 conversion_ms=25.7880687714 layer2_ms=39.2169952393 total_ms=210.999011993
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=row_schedule sampled_thread_ms=0.346899032593 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=partial_zero sampled_thread_ms=0.128269195557 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=csr_prefetch sampled_thread_ms=3.33213806152 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=feature_gather_decode sampled_thread_ms=5.05185127258 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.48789787292 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.160694122314 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=tile_load sampled_thread_ms=0.976324081421 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=tile_compute sampled_thread_ms=1.42455101013 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=tile_store sampled_thread_ms=0.0560283660889 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=output_scatter sampled_thread_ms=1.83629989624 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_PROFILE graph=cit-Patents method=shared_b32_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0190734863281 sampled_tiles=923 profile_wall_ms=85.6840610504
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=kernel repeat=0 ms=78.4759521484
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=kernel repeat=1 ms=78.8741111755
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=kernel repeat=2 ms=78.3851146698
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=kernel repeat=3 ms=78.5889625549
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=kernel repeat=4 ms=78.507900238
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=e2e repeat=0 ms=201.003074646
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=e2e repeat=1 ms=202.393054962
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=e2e repeat=2 ms=201.418876648
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=e2e repeat=3 ms=201.524019241
+SOURCE_TIME graph=cit-Patents method=shared_b64_fast_nozero kind=e2e repeat=4 ms=201.642036438
+SOURCE_STAGE graph=cit-Patents method=shared_b64_fast_nozero repeat=0 layer1_ms=79.0250301361 relu_ms=62.5541210175 conversion_ms=25.9108543396 layer2_ms=36.1280441284 total_ms=203.618049622
+SOURCE_STAGE graph=cit-Patents method=shared_b64_fast_nozero repeat=1 layer1_ms=78.7692070007 relu_ms=61.2487792969 conversion_ms=25.8851051331 layer2_ms=36.0250473022 total_ms=201.928138733
+SOURCE_STAGE graph=cit-Patents method=shared_b64_fast_nozero repeat=2 layer1_ms=78.9840221405 relu_ms=62.0369911194 conversion_ms=25.887966156 layer2_ms=36.1030101776 total_ms=203.011989594
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=row_schedule sampled_thread_ms=0.409841537476 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=partial_zero sampled_thread_ms=0.116348266602 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=csr_prefetch sampled_thread_ms=3.32140922546 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=feature_gather_decode sampled_thread_ms=4.9352645874 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.35342979431 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.093936920166 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=tile_load sampled_thread_ms=0.607013702393 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=tile_compute sampled_thread_ms=0.675678253174 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=tile_store sampled_thread_ms=0.0720024108887 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=output_scatter sampled_thread_ms=1.80196762085 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0309944152832 sampled_tiles=923 profile_wall_ms=80.6901454926
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=kernel repeat=0 ms=82.7579498291
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=kernel repeat=1 ms=83.0819606781
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=kernel repeat=2 ms=82.8092098236
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=kernel repeat=3 ms=82.8769207001
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=kernel repeat=4 ms=82.8878879547
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=e2e repeat=0 ms=208.903074265
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=e2e repeat=1 ms=210.011005402
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=e2e repeat=2 ms=210.659980774
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=e2e repeat=3 ms=209.357023239
+SOURCE_TIME graph=cit-Patents method=shared_b64_accurate_nozero kind=e2e repeat=4 ms=210.222005844
+SOURCE_STAGE graph=cit-Patents method=shared_b64_accurate_nozero repeat=0 layer1_ms=83.7578773499 relu_ms=60.5881214142 conversion_ms=25.8040428162 layer2_ms=39.0620231628 total_ms=209.212064743
+SOURCE_STAGE graph=cit-Patents method=shared_b64_accurate_nozero repeat=1 layer1_ms=83.6000442505 relu_ms=62.1688365936 conversion_ms=26.0601043701 layer2_ms=38.950920105 total_ms=210.779905319
+SOURCE_STAGE graph=cit-Patents method=shared_b64_accurate_nozero repeat=2 layer1_ms=83.7090015411 relu_ms=61.0480308533 conversion_ms=25.7160663605 layer2_ms=39.0119552612 total_ms=209.485054016
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=row_schedule sampled_thread_ms=0.364065170288 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=partial_zero sampled_thread_ms=0.11682510376 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=csr_prefetch sampled_thread_ms=3.38411331177 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=feature_gather_decode sampled_thread_ms=5.10931015015 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.39658355713 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.130891799927 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=tile_load sampled_thread_ms=0.985145568848 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=tile_compute sampled_thread_ms=1.35254859924 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=tile_store sampled_thread_ms=0.0436305999756 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=output_scatter sampled_thread_ms=1.83701515198 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_PROFILE graph=cit-Patents method=shared_b64_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0145435333252 sampled_tiles=923 profile_wall_ms=85.0608348846
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=kernel repeat=0 ms=78.1278610229
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=kernel repeat=1 ms=78.6070823669
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=kernel repeat=2 ms=78.430891037
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=kernel repeat=3 ms=78.4590244293
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=kernel repeat=4 ms=78.469991684
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=e2e repeat=0 ms=202.430009842
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=e2e repeat=1 ms=201.533794403
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=e2e repeat=2 ms=201.864957809
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=e2e repeat=3 ms=202.427864075
+SOURCE_TIME graph=cit-Patents method=shared_bfull_fast_nozero kind=e2e repeat=4 ms=201.70712471
+SOURCE_STAGE graph=cit-Patents method=shared_bfull_fast_nozero repeat=0 layer1_ms=78.9659023285 relu_ms=60.7950687408 conversion_ms=25.9649753571 layer2_ms=36.0069274902 total_ms=201.732873917
+SOURCE_STAGE graph=cit-Patents method=shared_bfull_fast_nozero repeat=1 layer1_ms=78.8161754608 relu_ms=60.0879192352 conversion_ms=25.8738994598 layer2_ms=36.0059738159 total_ms=200.783967972
+SOURCE_STAGE graph=cit-Patents method=shared_bfull_fast_nozero repeat=2 layer1_ms=79.039812088 relu_ms=60.4600906372 conversion_ms=25.7859230042 layer2_ms=36.0150337219 total_ms=201.300859451
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=row_schedule sampled_thread_ms=0.418186187744 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=partial_zero sampled_thread_ms=0.109195709229 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=csr_prefetch sampled_thread_ms=3.42988967896 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=feature_gather_decode sampled_thread_ms=5.08141517639 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.24900245667 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.08225440979 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=tile_load sampled_thread_ms=0.58126449585 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=tile_compute sampled_thread_ms=0.664472579956 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=tile_store sampled_thread_ms=0.049352645874 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=output_scatter sampled_thread_ms=1.8994808197 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0195503234863 sampled_tiles=923 profile_wall_ms=81.579208374
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=kernel repeat=0 ms=83.1341743469
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=kernel repeat=1 ms=82.799911499
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=kernel repeat=2 ms=82.6900005341
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=kernel repeat=3 ms=83.2130908966
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=kernel repeat=4 ms=82.9799175262
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=e2e repeat=0 ms=208.551883698
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=e2e repeat=1 ms=214.860916138
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=e2e repeat=2 ms=209.425926208
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=e2e repeat=3 ms=209.810972214
+SOURCE_TIME graph=cit-Patents method=shared_bfull_accurate_nozero kind=e2e repeat=4 ms=208.214044571
+SOURCE_STAGE graph=cit-Patents method=shared_bfull_accurate_nozero repeat=0 layer1_ms=83.6880207062 relu_ms=60.4178905487 conversion_ms=25.9470939636 layer2_ms=39.0200614929 total_ms=209.073066711
+SOURCE_STAGE graph=cit-Patents method=shared_bfull_accurate_nozero repeat=1 layer1_ms=83.6749076843 relu_ms=60.6181621552 conversion_ms=25.7139205933 layer2_ms=39.1340255737 total_ms=209.141016006
+SOURCE_STAGE graph=cit-Patents method=shared_bfull_accurate_nozero repeat=2 layer1_ms=83.4951400757 relu_ms=61.1639022827 conversion_ms=25.8500576019 layer2_ms=38.9349460602 total_ms=209.444046021
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=row_schedule sampled_thread_ms=0.348091125488 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=partial_zero sampled_thread_ms=0.121355056763 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=csr_prefetch sampled_thread_ms=3.36837768555 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=feature_gather_decode sampled_thread_ms=5.21802902222 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=2.41422653198 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.144004821777 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=tile_load sampled_thread_ms=0.879287719727 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=tile_compute sampled_thread_ms=1.36351585388 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=tile_store sampled_thread_ms=0.0503063201904 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=output_scatter sampled_thread_ms=1.73139572144 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_PROFILE graph=cit-Patents method=shared_bfull_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0276565551758 sampled_tiles=923 profile_wall_ms=84.1901302338
+SOURCE_COMPLETE graph=cit-Patents pass=1 max_rss_kib=17412676

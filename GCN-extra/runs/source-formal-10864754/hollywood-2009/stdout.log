@@ -1,0 +1,458 @@
+GCN E2E Inference Benchmark (2-layer, K=128)
+TFS V3 (BF16 AMX) vs MKL (FP32 two-step)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/hollywood-2009/hollywood-2009.csrbin
+Matrix: hollywood-2009  N=1139905  NNZ=113891327  avg_deg=99.9
+
+=== TFS V3 (BF16 AMX Fusion) ===
+  run 0: 370.29 ms
+  run 1: 362.84 ms
+  run 2: 362.74 ms
+  run 3: 362.21 ms
+  run 4: 411.96 ms
+  TFS V3 E2E BEST: 362.21 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 385.76 ms
+  run 1: 385.42 ms
+  run 2: 385.61 ms
+  run 3: 385.67 ms
+  run 4: 386.03 ms
+  MKL E2E BEST: 385.42 ms
+
+=== E2E Summary ===
+  TFS V3:  362.21 ms
+  MKL:     385.42 ms
+  Speedup: 1.06×
+
+=== Precision Analysis ===
+Layer 1 (after ReLU):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.004189  RMSE=1.427480e-01  max|diff|=7.018555e+00
+Layer 2 (final output):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.009100  RMSE=1.329956e+03  max|diff|=1.018480e+05
+
+First 8 output values:
+  TFS: -109.2923 -272.3917 -461.8796 -26.2457 265.8114 31.7898 -482.1944 -364.3642 
+  MKL: -111.3662 -274.7953 -467.2626 -26.2931 268.5535 32.8556 -487.1407 -367.3576 
+SOURCE_CONFIG graph=hollywood-2009 N=1139905 E=113891327 D=128 F=128 R=64 TR=16 repeats=5 warmups=1 mkl_max_threads=32 mkl_dynamic=1 policy=default_no_numactl
+SOURCE_INPUT graph=hollywood-2009 H0=13824568770613624579 W1=7515093975424777444 W2=521590717466722379
+SOURCE_CORRECT graph=hollywood-2009 method=original_nozero boundary=kernel reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=original_nozero boundary=e2e reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=original_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101848 mean_abs=256.256919692 relative_l2=0.00949190138015 normalized_max=0.00909959015749 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b2_fast_nozero boundary=kernel reference=source_original_tfs max_abs=3.47192382812 mean_abs=0.0519067208084 relative_l2=0.00235207741219 normalized_max=0.00207831647743 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b2_fast_nozero boundary=e2e reference=source_original_tfs max_abs=34353 mean_abs=86.0954446884 relative_l2=0.00342454850623 normalized_max=0.00309736424248 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b2_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=134925 mean_abs=338.443389276 relative_l2=0.0127049025766 normalized_max=0.0120548484212 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b2_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0118408203125 mean_abs=1.36458735428e-05 relative_l2=1.48001707397e-06 normalized_max=7.08799304938e-06 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b2_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=158.5 mean_abs=0.152576844124 relative_l2=4.56432847349e-06 normalized_max=1.42908110626e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b2_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101918 mean_abs=256.254911486 relative_l2=0.00949167155966 normalized_max=0.00910584429415 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b4_fast_nozero boundary=kernel reference=source_original_tfs max_abs=4.611328125 mean_abs=0.0650424417751 relative_l2=0.00294795960254 normalized_max=0.00276037139622 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b4_fast_nozero boundary=e2e reference=source_original_tfs max_abs=51450 mean_abs=122.777948159 relative_l2=0.00468624507967 normalized_max=0.00463887841748 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b4_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=152999 mean_abs=375.267769299 relative_l2=0.0140144505278 normalized_max=0.013669666508 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b4_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.009521484375 mean_abs=1.19121010444e-05 relative_l2=1.28662473995e-06 normalized_max=5.69962327682e-06 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b4_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=161.25 mean_abs=0.141257768606 relative_l2=4.31381452985e-06 normalized_max=1.45387588886e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b4_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101819 mean_abs=256.251846698 relative_l2=0.00949146295587 normalized_max=0.00909699915801 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b8_fast_nozero boundary=kernel reference=source_original_tfs max_abs=4.83483886719 mean_abs=0.0690814500662 relative_l2=0.00313357811696 normalized_max=0.00289416639904 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b8_fast_nozero boundary=e2e reference=source_original_tfs max_abs=60288 mean_abs=139.31559867 relative_l2=0.00525288577887 normalized_max=0.00543573764884 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b8_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=161837 mean_abs=392.140970667 relative_l2=0.0145915464803 normalized_max=0.0144592959343 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b8_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0113525390625 mean_abs=1.51749494157e-05 relative_l2=1.30380572945e-06 normalized_max=6.79570467621e-06 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b8_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=154.25 mean_abs=0.144501951286 relative_l2=4.18504558672e-06 normalized_max=1.39076189678e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b8_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101780 mean_abs=256.258325805 relative_l2=0.00949172018705 normalized_max=0.00909351471044 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b16_fast_nozero boundary=kernel reference=source_original_tfs max_abs=5.05993652344 mean_abs=0.0712728880752 relative_l2=0.00323657057417 normalized_max=0.00302891133907 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b16_fast_nozero boundary=e2e reference=source_original_tfs max_abs=62081 mean_abs=146.348362787 relative_l2=0.005472030499 normalized_max=0.0055973996314 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b16_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=163630 mean_abs=399.018729164 relative_l2=0.0148078184137 normalized_max=0.0146194911777 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b16_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0106201171875 mean_abs=3.76053904623e-05 relative_l2=2.1311476026e-06 normalized_max=6.35727211646e-06 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b16_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=158.75 mean_abs=0.20509821925 relative_l2=5.14638162619e-06 normalized_max=1.4313351774e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b16_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101809 mean_abs=256.276211194 relative_l2=0.00949228754665 normalized_max=0.00909610570992 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b32_fast_nozero boundary=kernel reference=source_original_tfs max_abs=4.61413574219 mean_abs=0.0716342723232 relative_l2=0.00325174343937 normalized_max=0.00276205205437 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b32_fast_nozero boundary=e2e reference=source_original_tfs max_abs=63641 mean_abs=148.365457152 relative_l2=0.00554487134355 normalized_max=0.00573805367088 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b32_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=165190 mean_abs=400.610350907 relative_l2=0.0148637913162 normalized_max=0.0147588690805 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b32_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0106201171875 mean_abs=6.80511588657e-05 relative_l2=3.63969274211e-06 normalized_max=6.35727211646e-06 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b32_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=153.25 mean_abs=0.293691329815 relative_l2=7.54564897631e-06 normalized_max=1.3817456122e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b32_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101815 mean_abs=256.32349669 relative_l2=0.00949354862869 normalized_max=0.00909664177878 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b64_fast_nozero boundary=kernel reference=source_original_tfs max_abs=5.35668945312 mean_abs=0.0720189606988 relative_l2=0.00327599238865 normalized_max=0.00320654959787 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b64_fast_nozero boundary=e2e reference=source_original_tfs max_abs=62954 mean_abs=150.087356643 relative_l2=0.0055820651573 normalized_max=0.0056761117958 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b64_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=164503 mean_abs=401.984329621 relative_l2=0.0148979469954 normalized_max=0.0146974891964 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b64_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0123291015625 mean_abs=9.70584173903e-05 relative_l2=5.38491223282e-06 normalized_max=7.38028142255e-06 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b64_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=137.75 mean_abs=0.410268000075 relative_l2=9.69482129165e-06 normalized_max=1.24199320118e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_b64_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101863 mean_abs=256.414451542 relative_l2=0.00949686684964 normalized_max=0.00910093032963 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_bfull_fast_nozero boundary=kernel reference=source_original_tfs max_abs=5.36962890625 mean_abs=0.0721906003622 relative_l2=0.00330233041237 normalized_max=0.00321429523976 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_bfull_fast_nozero boundary=e2e reference=source_original_tfs max_abs=63238 mean_abs=155.674478996 relative_l2=0.00588085158172 normalized_max=0.00570171804401 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_bfull_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=163319 mean_abs=404.600873828 relative_l2=0.0150649295756 normalized_max=0.014591704942 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_bfull_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0201416015625 mean_abs=0.000125896911392 relative_l2=7.97482025252e-06 normalized_max=1.20568953933e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_bfull_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=209 mean_abs=0.632018481625 relative_l2=1.80237551635e-05 normalized_max=1.88440347765e-05 pass=1
+SOURCE_CORRECT graph=hollywood-2009 method=shared_bfull_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101934 mean_abs=256.569187904 relative_l2=0.00950476343839 normalized_max=0.00910727381111 pass=1
+SOURCE_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=kernel repeat=0 ms=272.704124451
+SOURCE_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=kernel repeat=1 ms=273.036003113
+SOURCE_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=kernel repeat=2 ms=272.397994995
+SOURCE_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=kernel repeat=3 ms=272.021055222
+SOURCE_TIME graph=hollywood-2009 method=source_mkl_fp32 kind=kernel repeat=4 ms=272.664785385
+SOURCE_TIME graph=hollywood-2009 method=source_original_tfs kind=kernel repeat=0 ms=183.225870132
+SOURCE_TIME graph=hollywood-2009 method=source_original_tfs kind=kernel repeat=1 ms=183.242082596
+SOURCE_TIME graph=hollywood-2009 method=source_original_tfs kind=kernel repeat=2 ms=185.513019562
+SOURCE_TIME graph=hollywood-2009 method=source_original_tfs kind=kernel repeat=3 ms=183.684110641
+SOURCE_TIME graph=hollywood-2009 method=source_original_tfs kind=kernel repeat=4 ms=187.558889389
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=kernel repeat=0 ms=156.382799149
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=kernel repeat=1 ms=155.601024628
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=kernel repeat=2 ms=157.031059265
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=kernel repeat=3 ms=156.372070312
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=kernel repeat=4 ms=156.290054321
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=e2e repeat=0 ms=345.581054688
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=e2e repeat=1 ms=338.167905807
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=e2e repeat=2 ms=334.15389061
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=e2e repeat=3 ms=339.734792709
+SOURCE_TIME graph=hollywood-2009 method=original_nozero kind=e2e repeat=4 ms=343.942165375
+SOURCE_STAGE graph=hollywood-2009 method=original_nozero repeat=0 layer1_ms=154.801130295 relu_ms=24.4898796082 conversion_ms=10.2679729462 layer2_ms=148.433208466 total_ms=337.992191315
+SOURCE_STAGE graph=hollywood-2009 method=original_nozero repeat=1 layer1_ms=158.067941666 relu_ms=26.1690616608 conversion_ms=10.7409954071 layer2_ms=146.581888199 total_ms=341.559886932
+SOURCE_STAGE graph=hollywood-2009 method=original_nozero repeat=2 layer1_ms=157.729148865 relu_ms=25.1889228821 conversion_ms=10.4699134827 layer2_ms=145.980119705 total_ms=339.368104935
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=kernel repeat=0 ms=176.990032196
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=kernel repeat=1 ms=175.710201263
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=kernel repeat=2 ms=181.738853455
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=kernel repeat=3 ms=179.742097855
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=kernel repeat=4 ms=174.204826355
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=e2e repeat=0 ms=389.964103699
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=e2e repeat=1 ms=380.929946899
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=e2e repeat=2 ms=383.385896683
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=e2e repeat=3 ms=383.058071136
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_fast_nozero kind=e2e repeat=4 ms=388.535022736
+SOURCE_STAGE graph=hollywood-2009 method=shared_b2_fast_nozero repeat=0 layer1_ms=182.289123535 relu_ms=24.463891983 conversion_ms=9.90509986877 layer2_ms=179.179906845 total_ms=395.838022232
+SOURCE_STAGE graph=hollywood-2009 method=shared_b2_fast_nozero repeat=1 layer1_ms=182.971000671 relu_ms=23.6620903015 conversion_ms=10.0359916687 layer2_ms=172.996997833 total_ms=389.666080475
+SOURCE_STAGE graph=hollywood-2009 method=shared_b2_fast_nozero repeat=2 layer1_ms=180.059909821 relu_ms=23.7481594086 conversion_ms=9.9790096283 layer2_ms=175.268888474 total_ms=389.055967331
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=row_schedule sampled_thread_ms=0.105142593384 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=partial_zero sampled_thread_ms=3.3106803894 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=csr_prefetch sampled_thread_ms=16.4058208466 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=feature_gather_decode sampled_thread_ms=24.2788791656 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=21.5833187103 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=2.82144546509 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=tile_load sampled_thread_ms=14.1234397888 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=tile_compute sampled_thread_ms=25.5062580109 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=tile_store sampled_thread_ms=2.04992294312 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=output_scatter sampled_thread_ms=0.27322769165 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0240802764893 sampled_tiles=280 profile_wall_ms=178.969144821
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=kernel repeat=0 ms=222.171068192
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=kernel repeat=1 ms=219.063043594
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=kernel repeat=2 ms=230.090856552
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=kernel repeat=3 ms=221.474170685
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=kernel repeat=4 ms=231.297969818
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=e2e repeat=0 ms=475.721120834
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=e2e repeat=1 ms=473.973035812
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=e2e repeat=2 ms=484.157085419
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=e2e repeat=3 ms=477.751970291
+SOURCE_TIME graph=hollywood-2009 method=shared_b2_accurate_nozero kind=e2e repeat=4 ms=484.207868576
+SOURCE_STAGE graph=hollywood-2009 method=shared_b2_accurate_nozero repeat=0 layer1_ms=219.885826111 relu_ms=24.4970321655 conversion_ms=10.4241371155 layer2_ms=225.970983505 total_ms=480.777978897
+SOURCE_STAGE graph=hollywood-2009 method=shared_b2_accurate_nozero repeat=1 layer1_ms=223.140001297 relu_ms=23.8418579102 conversion_ms=9.92608070374 layer2_ms=223.474025726 total_ms=480.381965637
+SOURCE_STAGE graph=hollywood-2009 method=shared_b2_accurate_nozero repeat=2 layer1_ms=220.134019852 relu_ms=23.9250659943 conversion_ms=9.97495651245 layer2_ms=223.84095192 total_ms=477.874994278
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=row_schedule sampled_thread_ms=0.0758171081543 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=partial_zero sampled_thread_ms=3.28612327576 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=csr_prefetch sampled_thread_ms=16.2689685822 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=feature_gather_decode sampled_thread_ms=23.8962173462 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=20.9329128265 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=5.15413284302 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=tile_load sampled_thread_ms=24.8930454254 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=tile_compute sampled_thread_ms=34.6462726593 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=tile_store sampled_thread_ms=1.75619125366 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=output_scatter sampled_thread_ms=0.257968902588 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b2_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0228881835938 sampled_tiles=280 profile_wall_ms=228.035926819
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=kernel repeat=0 ms=131.765842438
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=kernel repeat=1 ms=134.524106979
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=kernel repeat=2 ms=132.802009583
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=kernel repeat=3 ms=127.758979797
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=kernel repeat=4 ms=129.409790039
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=e2e repeat=0 ms=293.928146362
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=e2e repeat=1 ms=292.877912521
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=e2e repeat=2 ms=292.692184448
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=e2e repeat=3 ms=294.088840485
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_fast_nozero kind=e2e repeat=4 ms=293.600082397
+SOURCE_STAGE graph=hollywood-2009 method=shared_b4_fast_nozero repeat=0 layer1_ms=135.646104813 relu_ms=24.4138240814 conversion_ms=10.1220607758 layer2_ms=125.183105469 total_ms=295.365095139
+SOURCE_STAGE graph=hollywood-2009 method=shared_b4_fast_nozero repeat=1 layer1_ms=128.72505188 relu_ms=23.9460468292 conversion_ms=10.0758075714 layer2_ms=131.017208099 total_ms=293.76411438
+SOURCE_STAGE graph=hollywood-2009 method=shared_b4_fast_nozero repeat=2 layer1_ms=129.946947098 relu_ms=23.964881897 conversion_ms=10.1211071014 layer2_ms=130.245923996 total_ms=294.278860092
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=row_schedule sampled_thread_ms=0.0946521759033 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=partial_zero sampled_thread_ms=1.75142288208 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=csr_prefetch sampled_thread_ms=15.0318145752 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=feature_gather_decode sampled_thread_ms=21.1162567139 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=17.7190303802 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=1.56545639038 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=tile_load sampled_thread_ms=7.70974159241 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=tile_compute sampled_thread_ms=15.1381492615 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=tile_store sampled_thread_ms=1.15895271301 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=output_scatter sampled_thread_ms=0.271797180176 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0238418579102 sampled_tiles=280 profile_wall_ms=131.791114807
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=kernel repeat=0 ms=150.197982788
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=kernel repeat=1 ms=149.799823761
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=kernel repeat=2 ms=149.163961411
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=kernel repeat=3 ms=149.379968643
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=kernel repeat=4 ms=149.230957031
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=e2e repeat=0 ms=332.800865173
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=e2e repeat=1 ms=337.605953217
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=e2e repeat=2 ms=334.409952164
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=e2e repeat=3 ms=340.890169144
+SOURCE_TIME graph=hollywood-2009 method=shared_b4_accurate_nozero kind=e2e repeat=4 ms=340.675830841
+SOURCE_STAGE graph=hollywood-2009 method=shared_b4_accurate_nozero repeat=0 layer1_ms=150.810003281 relu_ms=24.0080356598 conversion_ms=10.2038383484 layer2_ms=150.776147842 total_ms=335.798025131
+SOURCE_STAGE graph=hollywood-2009 method=shared_b4_accurate_nozero repeat=1 layer1_ms=151.53002739 relu_ms=24.5900154114 conversion_ms=10.1749897003 layer2_ms=151.011943817 total_ms=337.306976318
+SOURCE_STAGE graph=hollywood-2009 method=shared_b4_accurate_nozero repeat=2 layer1_ms=152.383089066 relu_ms=24.0478515625 conversion_ms=9.99307632446 layer2_ms=147.269010544 total_ms=333.693027496
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=row_schedule sampled_thread_ms=0.0896453857422 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=partial_zero sampled_thread_ms=1.75642967224 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=csr_prefetch sampled_thread_ms=14.9109363556 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=feature_gather_decode sampled_thread_ms=20.4834938049 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=17.7552700043 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=2.66337394714 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=tile_load sampled_thread_ms=13.411283493 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=tile_compute sampled_thread_ms=19.0932750702 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=tile_store sampled_thread_ms=0.931739807129 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=output_scatter sampled_thread_ms=0.286817550659 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b4_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0183582305908 sampled_tiles=280 profile_wall_ms=165.597200394
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=kernel repeat=0 ms=108.884096146
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=kernel repeat=1 ms=109.300136566
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=kernel repeat=2 ms=111.492156982
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=kernel repeat=3 ms=106.057167053
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=kernel repeat=4 ms=108.355045319
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=e2e repeat=0 ms=244.999170303
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=e2e repeat=1 ms=246.36387825
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=e2e repeat=2 ms=253.347873688
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=e2e repeat=3 ms=250.500917435
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_fast_nozero kind=e2e repeat=4 ms=247.757911682
+SOURCE_STAGE graph=hollywood-2009 method=shared_b8_fast_nozero repeat=0 layer1_ms=107.336044312 relu_ms=24.533033371 conversion_ms=9.95492935181 layer2_ms=107.303857803 total_ms=249.127864838
+SOURCE_STAGE graph=hollywood-2009 method=shared_b8_fast_nozero repeat=1 layer1_ms=108.281850815 relu_ms=24.1341590881 conversion_ms=9.929895401 layer2_ms=107.596874237 total_ms=249.942779541
+SOURCE_STAGE graph=hollywood-2009 method=shared_b8_fast_nozero repeat=2 layer1_ms=108.17694664 relu_ms=23.9059925079 conversion_ms=9.6640586853 layer2_ms=104.954004288 total_ms=246.701002121
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=row_schedule sampled_thread_ms=0.0910758972168 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=partial_zero sampled_thread_ms=0.88357925415 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=csr_prefetch sampled_thread_ms=15.086889267 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=feature_gather_decode sampled_thread_ms=19.4327831268 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=15.8605575562 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.715732574463 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=tile_load sampled_thread_ms=4.24361228943 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=tile_compute sampled_thread_ms=9.76228713989 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=tile_store sampled_thread_ms=0.522613525391 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=output_scatter sampled_thread_ms=0.28657913208 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.025749206543 sampled_tiles=280 profile_wall_ms=111.716985703
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=kernel repeat=0 ms=116.906881332
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=kernel repeat=1 ms=116.494178772
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=kernel repeat=2 ms=120.599985123
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=kernel repeat=3 ms=122.515916824
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=kernel repeat=4 ms=119.141817093
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=e2e repeat=0 ms=267.153978348
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=e2e repeat=1 ms=267.836093903
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=e2e repeat=2 ms=268.573045731
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=e2e repeat=3 ms=266.435861588
+SOURCE_TIME graph=hollywood-2009 method=shared_b8_accurate_nozero kind=e2e repeat=4 ms=265.726089478
+SOURCE_STAGE graph=hollywood-2009 method=shared_b8_accurate_nozero repeat=0 layer1_ms=117.449998856 relu_ms=24.8351097107 conversion_ms=10.0228786469 layer2_ms=112.323045731 total_ms=264.631032944
+SOURCE_STAGE graph=hollywood-2009 method=shared_b8_accurate_nozero repeat=1 layer1_ms=119.270086288 relu_ms=24.1029262543 conversion_ms=10.046005249 layer2_ms=113.591909409 total_ms=267.0109272
+SOURCE_STAGE graph=hollywood-2009 method=shared_b8_accurate_nozero repeat=2 layer1_ms=118.501901627 relu_ms=24.0070819855 conversion_ms=9.87601280212 layer2_ms=113.575935364 total_ms=265.960931778
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=row_schedule sampled_thread_ms=0.0894069671631 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=partial_zero sampled_thread_ms=0.879287719727 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=csr_prefetch sampled_thread_ms=15.0411128998 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=feature_gather_decode sampled_thread_ms=19.1721916199 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=15.8116817474 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.37948989868 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=tile_load sampled_thread_ms=6.95729255676 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=tile_compute sampled_thread_ms=10.4701519012 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=tile_store sampled_thread_ms=0.478982925415 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=output_scatter sampled_thread_ms=0.280857086182 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b8_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0247955322266 sampled_tiles=280 profile_wall_ms=125.879049301
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=kernel repeat=0 ms=102.075099945
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=kernel repeat=1 ms=101.109027863
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=kernel repeat=2 ms=101.856946945
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=kernel repeat=3 ms=98.4539985657
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=kernel repeat=4 ms=102.102994919
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=e2e repeat=0 ms=229.053974152
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=e2e repeat=1 ms=231.539964676
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=e2e repeat=2 ms=230.499982834
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=e2e repeat=3 ms=236.750125885
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_fast_nozero kind=e2e repeat=4 ms=229.729890823
+SOURCE_STAGE graph=hollywood-2009 method=shared_b16_fast_nozero repeat=0 layer1_ms=101.895093918 relu_ms=24.924993515 conversion_ms=10.2458000183 layer2_ms=95.2551364899 total_ms=232.321023941
+SOURCE_STAGE graph=hollywood-2009 method=shared_b16_fast_nozero repeat=1 layer1_ms=99.2279052734 relu_ms=22.8781700134 conversion_ms=10.7529163361 layer2_ms=98.7110137939 total_ms=231.570005417
+SOURCE_STAGE graph=hollywood-2009 method=shared_b16_fast_nozero repeat=2 layer1_ms=99.7359752655 relu_ms=25.4650115967 conversion_ms=10.3869438171 layer2_ms=94.8660373688 total_ms=230.453968048
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=row_schedule sampled_thread_ms=0.115633010864 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=partial_zero sampled_thread_ms=0.486850738525 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=csr_prefetch sampled_thread_ms=14.2307281494 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=feature_gather_decode sampled_thread_ms=18.4001922607 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.2216682434 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.425815582275 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=tile_load sampled_thread_ms=2.24614143372 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=tile_compute sampled_thread_ms=4.802942276 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=tile_store sampled_thread_ms=0.259876251221 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=output_scatter sampled_thread_ms=0.288724899292 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0238418579102 sampled_tiles=280 profile_wall_ms=101.017951965
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=kernel repeat=0 ms=105.623006821
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=kernel repeat=1 ms=102.08106041
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=kernel repeat=2 ms=101.469993591
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=kernel repeat=3 ms=103.667020798
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=kernel repeat=4 ms=104.509115219
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=e2e repeat=0 ms=234.805822372
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=e2e repeat=1 ms=239.21585083
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=e2e repeat=2 ms=237.147092819
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=e2e repeat=3 ms=240.136861801
+SOURCE_TIME graph=hollywood-2009 method=shared_b16_accurate_nozero kind=e2e repeat=4 ms=237.88690567
+SOURCE_STAGE graph=hollywood-2009 method=shared_b16_accurate_nozero repeat=0 layer1_ms=100.865840912 relu_ms=25.5320072174 conversion_ms=10.7350349426 layer2_ms=102.679014206 total_ms=239.811897278
+SOURCE_STAGE graph=hollywood-2009 method=shared_b16_accurate_nozero repeat=1 layer1_ms=101.878166199 relu_ms=25.2959728241 conversion_ms=10.5068683624 layer2_ms=100.510120392 total_ms=238.191127777
+SOURCE_STAGE graph=hollywood-2009 method=shared_b16_accurate_nozero repeat=2 layer1_ms=104.070901871 relu_ms=24.3010520935 conversion_ms=10.1289749146 layer2_ms=98.5891819 total_ms=237.090110779
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=row_schedule sampled_thread_ms=0.100612640381 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=partial_zero sampled_thread_ms=0.45371055603 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=csr_prefetch sampled_thread_ms=14.7528648376 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=feature_gather_decode sampled_thread_ms=18.8143253326 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.7316455841 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.730514526367 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=tile_load sampled_thread_ms=3.79776954651 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=tile_compute sampled_thread_ms=5.80549240112 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=tile_store sampled_thread_ms=0.258207321167 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=output_scatter sampled_thread_ms=0.291347503662 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b16_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=280 profile_wall_ms=104.616880417
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=kernel repeat=0 ms=103.050947189
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=kernel repeat=1 ms=101.35602951
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=kernel repeat=2 ms=99.7381210327
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=kernel repeat=3 ms=102.808952332
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=kernel repeat=4 ms=97.2909927368
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=e2e repeat=0 ms=230.979919434
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=e2e repeat=1 ms=228.317022324
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=e2e repeat=2 ms=232.68198967
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=e2e repeat=3 ms=234.621047974
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_fast_nozero kind=e2e repeat=4 ms=228.263139725
+SOURCE_STAGE graph=hollywood-2009 method=shared_b32_fast_nozero repeat=0 layer1_ms=101.96185112 relu_ms=25.1400470734 conversion_ms=10.1029872894 layer2_ms=97.9819297791 total_ms=235.186815262
+SOURCE_STAGE graph=hollywood-2009 method=shared_b32_fast_nozero repeat=1 layer1_ms=97.6309776306 relu_ms=24.7669219971 conversion_ms=10.2491378784 layer2_ms=98.6428260803 total_ms=231.289863586
+SOURCE_STAGE graph=hollywood-2009 method=shared_b32_fast_nozero repeat=2 layer1_ms=101.944208145 relu_ms=24.3248939514 conversion_ms=9.91106033325 layer2_ms=97.0289707184 total_ms=233.209133148
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=row_schedule sampled_thread_ms=0.0848770141602 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=partial_zero sampled_thread_ms=0.26535987854 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=csr_prefetch sampled_thread_ms=14.0116214752 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=feature_gather_decode sampled_thread_ms=18.6512470245 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=13.1106376648 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.301837921143 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=tile_load sampled_thread_ms=1.26624107361 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=tile_compute sampled_thread_ms=2.40349769592 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=tile_store sampled_thread_ms=0.143766403198 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=output_scatter sampled_thread_ms=0.300168991089 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0267028808594 sampled_tiles=280 profile_wall_ms=99.328994751
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=kernel repeat=0 ms=102.464199066
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=kernel repeat=1 ms=100.50702095
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=kernel repeat=2 ms=100.322961807
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=kernel repeat=3 ms=100.66485405
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=kernel repeat=4 ms=100.345134735
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=e2e repeat=0 ms=230.348110199
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=e2e repeat=1 ms=232.805967331
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=e2e repeat=2 ms=233.438968658
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=e2e repeat=3 ms=232.459783554
+SOURCE_TIME graph=hollywood-2009 method=shared_b32_accurate_nozero kind=e2e repeat=4 ms=229.393959045
+SOURCE_STAGE graph=hollywood-2009 method=shared_b32_accurate_nozero repeat=0 layer1_ms=99.2460250854 relu_ms=24.9729156494 conversion_ms=10.5421543121 layer2_ms=98.3600616455 total_ms=233.121156693
+SOURCE_STAGE graph=hollywood-2009 method=shared_b32_accurate_nozero repeat=1 layer1_ms=97.5170135498 relu_ms=24.6388912201 conversion_ms=10.6031894684 layer2_ms=96.7259407043 total_ms=229.485034943
+SOURCE_STAGE graph=hollywood-2009 method=shared_b32_accurate_nozero repeat=2 layer1_ms=99.004983902 relu_ms=24.4250297546 conversion_ms=10.8420848846 layer2_ms=98.98686409 total_ms=233.258962631
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=row_schedule sampled_thread_ms=0.0958442687988 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=partial_zero sampled_thread_ms=0.246047973633 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=csr_prefetch sampled_thread_ms=14.2276287079 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=feature_gather_decode sampled_thread_ms=18.5072422028 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=13.7226581573 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.42462348938 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=tile_load sampled_thread_ms=2.14552879333 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=tile_compute sampled_thread_ms=3.76915931702 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=tile_store sampled_thread_ms=0.113010406494 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=output_scatter sampled_thread_ms=0.322341918945 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b32_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0221729278564 sampled_tiles=280 profile_wall_ms=101.972103119
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=kernel repeat=0 ms=98.01197052
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=kernel repeat=1 ms=99.0688800812
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=kernel repeat=2 ms=95.0858592987
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=kernel repeat=3 ms=101.418972015
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=kernel repeat=4 ms=99.5309352875
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=e2e repeat=0 ms=224.25699234
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=e2e repeat=1 ms=230.125904083
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=e2e repeat=2 ms=224.787950516
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=e2e repeat=3 ms=229.350090027
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_fast_nozero kind=e2e repeat=4 ms=229.735851288
+SOURCE_STAGE graph=hollywood-2009 method=shared_b64_fast_nozero repeat=0 layer1_ms=94.4349765778 relu_ms=24.2130756378 conversion_ms=10.1778507233 layer2_ms=95.3390598297 total_ms=224.164962769
+SOURCE_STAGE graph=hollywood-2009 method=shared_b64_fast_nozero repeat=1 layer1_ms=98.1981754303 relu_ms=23.4208106995 conversion_ms=9.95802879333 layer2_ms=94.2449569702 total_ms=225.821971893
+SOURCE_STAGE graph=hollywood-2009 method=shared_b64_fast_nozero repeat=2 layer1_ms=98.6199378967 relu_ms=24.0240097046 conversion_ms=10.0328922272 layer2_ms=97.2809791565 total_ms=229.957818985
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=row_schedule sampled_thread_ms=0.106573104858 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=partial_zero sampled_thread_ms=0.16713142395 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=csr_prefetch sampled_thread_ms=13.402223587 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=feature_gather_decode sampled_thread_ms=18.0583000183 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=12.7260684967 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.13279914856 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=tile_load sampled_thread_ms=0.816345214844 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=tile_compute sampled_thread_ms=1.57856941223 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=tile_store sampled_thread_ms=0.0948905944824 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=output_scatter sampled_thread_ms=0.295162200928 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0269412994385 sampled_tiles=280 profile_wall_ms=101.635932922
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=kernel repeat=0 ms=98.5839366913
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=kernel repeat=1 ms=97.6068973541
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=kernel repeat=2 ms=100.392103195
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=kernel repeat=3 ms=102.868080139
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=kernel repeat=4 ms=99.7679233551
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=e2e repeat=0 ms=225.581169128
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=e2e repeat=1 ms=227.025985718
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=e2e repeat=2 ms=224.659919739
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=e2e repeat=3 ms=228.07598114
+SOURCE_TIME graph=hollywood-2009 method=shared_b64_accurate_nozero kind=e2e repeat=4 ms=225.63791275
+SOURCE_STAGE graph=hollywood-2009 method=shared_b64_accurate_nozero repeat=0 layer1_ms=98.7679958344 relu_ms=25.3520011902 conversion_ms=10.311126709 layer2_ms=95.0930118561 total_ms=229.52413559
+SOURCE_STAGE graph=hollywood-2009 method=shared_b64_accurate_nozero repeat=1 layer1_ms=98.6709594727 relu_ms=25.062084198 conversion_ms=10.3118419647 layer2_ms=93.9431190491 total_ms=227.988004684
+SOURCE_STAGE graph=hollywood-2009 method=shared_b64_accurate_nozero repeat=2 layer1_ms=94.9170589447 relu_ms=25.1019001007 conversion_ms=10.6930732727 layer2_ms=94.8979854584 total_ms=225.610017776
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=row_schedule sampled_thread_ms=0.0779628753662 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=partial_zero sampled_thread_ms=0.163078308105 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=csr_prefetch sampled_thread_ms=13.9529705048 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=feature_gather_decode sampled_thread_ms=17.9269313812 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=12.9852294922 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.205993652344 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=tile_load sampled_thread_ms=1.34468078613 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=tile_compute sampled_thread_ms=2.33578681946 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=tile_store sampled_thread_ms=0.084400177002 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=output_scatter sampled_thread_ms=0.329732894897 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_PROFILE graph=hollywood-2009 method=shared_b64_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0197887420654 sampled_tiles=280 profile_wall_ms=99.2159843445
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=kernel repeat=0 ms=97.2189903259
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=kernel repeat=1 ms=99.5259284973
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=kernel repeat=2 ms=99.858045578
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=kernel repeat=3 ms=99.2851257324
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=kernel repeat=4 ms=98.5667705536
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=e2e repeat=0 ms=231.261968613
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=e2e repeat=1 ms=234.228134155
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=e2e repeat=2 ms=227.335929871
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=e2e repeat=3 ms=231.857061386
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_fast_nozero kind=e2e repeat=4 ms=230.606079102
+SOURCE_STAGE graph=hollywood-2009 method=shared_bfull_fast_nozero repeat=0 layer1_ms=99.1690158844 relu_ms=23.2739448547 conversion_ms=10.0080966949 layer2_ms=100.425004959 total_ms=232.876062393
+SOURCE_STAGE graph=hollywood-2009 method=shared_bfull_fast_nozero repeat=1 layer1_ms=97.9759693146 relu_ms=23.7510204315 conversion_ms=9.95111465454 layer2_ms=95.6318378448 total_ms=227.309942245
+SOURCE_STAGE graph=hollywood-2009 method=shared_bfull_fast_nozero repeat=2 layer1_ms=100.190162659 relu_ms=24.0788459778 conversion_ms=9.94801521301 layer2_ms=96.4729785919 total_ms=230.690002441
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=row_schedule sampled_thread_ms=0.119924545288 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=partial_zero sampled_thread_ms=0.058650970459 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=csr_prefetch sampled_thread_ms=13.7934684753 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=feature_gather_decode sampled_thread_ms=19.3655490875 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=12.836933136 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.0531673431396 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=tile_load sampled_thread_ms=0.247240066528 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=tile_compute sampled_thread_ms=0.695705413818 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=tile_store sampled_thread_ms=0.0367164611816 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=output_scatter sampled_thread_ms=0.328540802002 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0174045562744 sampled_tiles=280 profile_wall_ms=93.7788486481
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=kernel repeat=0 ms=101.811170578
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=kernel repeat=1 ms=100.48699379
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=kernel repeat=2 ms=98.7739562988
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=kernel repeat=3 ms=99.212884903
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=kernel repeat=4 ms=101.2570858
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=e2e repeat=0 ms=228.154182434
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=e2e repeat=1 ms=225.524902344
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=e2e repeat=2 ms=228.240966797
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=e2e repeat=3 ms=226.989984512
+SOURCE_TIME graph=hollywood-2009 method=shared_bfull_accurate_nozero kind=e2e repeat=4 ms=230.86810112
+SOURCE_STAGE graph=hollywood-2009 method=shared_bfull_accurate_nozero repeat=0 layer1_ms=99.0998744965 relu_ms=24.2450237274 conversion_ms=9.92512702942 layer2_ms=99.0858078003 total_ms=232.355833054
+SOURCE_STAGE graph=hollywood-2009 method=shared_bfull_accurate_nozero repeat=1 layer1_ms=97.1548557281 relu_ms=23.4930515289 conversion_ms=10.0319385529 layer2_ms=94.9862003326 total_ms=225.666046143
+SOURCE_STAGE graph=hollywood-2009 method=shared_bfull_accurate_nozero repeat=2 layer1_ms=95.6199169159 relu_ms=27.0938873291 conversion_ms=10.7500553131 layer2_ms=97.0320701599 total_ms=230.495929718
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=row_schedule sampled_thread_ms=0.0946521759033 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=partial_zero sampled_thread_ms=0.0832080841064 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=csr_prefetch sampled_thread_ms=13.5078430176 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=feature_gather_decode sampled_thread_ms=18.4767246246 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=12.5277042389 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.0786781311035 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=tile_load sampled_thread_ms=0.459671020508 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=tile_compute sampled_thread_ms=1.00469589233 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=tile_store sampled_thread_ms=0.044584274292 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=output_scatter sampled_thread_ms=0.319957733154 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_PROFILE graph=hollywood-2009 method=shared_bfull_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0314712524414 sampled_tiles=280 profile_wall_ms=101.061105728
+SOURCE_COMPLETE graph=hollywood-2009 pass=1 max_rss_kib=7405956

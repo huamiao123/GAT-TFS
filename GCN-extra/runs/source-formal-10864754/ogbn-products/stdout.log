@@ -1,0 +1,458 @@
+GCN E2E Inference Benchmark (2-layer, K=128)
+TFS V3 (BF16 AMX) vs MKL (FP32 two-step)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/ogbn-products/ogbn-products.csrbin
+Matrix: ogbn-products  N=2449029  NNZ=123718152  avg_deg=50.5
+
+=== TFS V3 (BF16 AMX Fusion) ===
+  run 0: 471.33 ms
+  run 1: 466.09 ms
+  run 2: 476.22 ms
+  run 3: 471.36 ms
+  run 4: 572.01 ms
+  TFS V3 E2E BEST: 466.09 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1345.42 ms
+  run 1: 1344.75 ms
+  run 2: 1345.29 ms
+  run 3: 1345.95 ms
+  run 4: 1346.08 ms
+  MKL E2E BEST: 1344.75 ms
+
+=== E2E Summary ===
+  TFS V3:  466.09 ms
+  MKL:     1344.75 ms
+  Speedup: 2.89×
+
+=== Precision Analysis ===
+Layer 1 (after ReLU):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.003667  RMSE=1.016131e-01  max|diff|=9.417969e+00
+Layer 2 (final output):
+  TFS_BF16 vs MKL_FP32: max_rel_err=0.010501  RMSE=1.525510e+02  max|diff|=6.802400e+04
+
+First 8 output values:
+  TFS: -12991.8389 -28908.6855 -36407.5820 -4621.7793 10116.6074 -6913.7495 -18725.1895 -24380.3145 
+  MKL: -13114.3867 -29165.5234 -36805.8242 -4675.3438 10199.5566 -6997.1738 -18939.5195 -24603.5859 
+SOURCE_CONFIG graph=ogbn-products N=2449029 E=123718152 D=128 F=128 R=64 TR=16 repeats=5 warmups=1 mkl_max_threads=32 mkl_dynamic=1 policy=default_no_numactl
+SOURCE_INPUT graph=ogbn-products H0=13265148807431282506 W1=7515093975424777444 W2=521590717466722379
+SOURCE_CORRECT graph=ogbn-products method=original_nozero boundary=kernel reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=ogbn-products method=original_nozero boundary=e2e reference=source_original_tfs max_abs=0 mean_abs=0 relative_l2=0 normalized_max=0 pass=1
+SOURCE_CORRECT graph=ogbn-products method=original_nozero boundary=e2e reference=source_mkl_fp32 max_abs=68024 mean_abs=62.4405623125 relative_l2=0.00992989278715 normalized_max=0.010501495665 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b2_fast_nozero boundary=kernel reference=source_original_tfs max_abs=4.34497070312 mean_abs=0.0408930255324 relative_l2=0.00236465143425 normalized_max=0.00169717859436 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b2_fast_nozero boundary=e2e reference=source_original_tfs max_abs=18154 mean_abs=20.0575557708 relative_l2=0.00310702299051 normalized_max=0.00283234518228 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b2_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=86178 mean_abs=81.5222040951 relative_l2=0.0129140089859 normalized_max=0.0133040969866 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b2_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.027587890625 mean_abs=6.84110817377e-06 relative_l2=8.08705499231e-07 normalized_max=1.07760398473e-05 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b2_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=75.5 mean_abs=0.0427110024427 relative_l2=9.92555860841e-06 normalized_max=1.17793357531e-05 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b2_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=68090 mean_abs=62.4410397843 relative_l2=0.00992994664805 normalized_max=0.010511684697 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b4_fast_nozero boundary=kernel reference=source_original_tfs max_abs=8.84350585938 mean_abs=0.0511866378839 relative_l2=0.00296596375591 normalized_max=0.00345434063176 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b4_fast_nozero boundary=e2e reference=source_original_tfs max_abs=29068.5 mean_abs=29.5499986697 relative_l2=0.00466793230852 normalized_max=0.00453520028264 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b4_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=97092.5 mean_abs=91.0967719017 relative_l2=0.0144667238278 normalized_max=0.0149890695615 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b4_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0196533203125 mean_abs=6.01317931417e-06 relative_l2=6.98190457573e-07 normalized_max=7.67673635141e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b4_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=40.25 mean_abs=0.0354791908389 relative_l2=8.29613237551e-06 normalized_max=6.27971210679e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b4_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=67984.5 mean_abs=62.4404349132 relative_l2=0.00992981971977 normalized_max=0.0104953976837 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b8_fast_nozero boundary=kernel reference=source_original_tfs max_abs=6.0048828125 mean_abs=0.054311277743 relative_l2=0.00314836586593 normalized_max=0.0023455528857 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b8_fast_nozero boundary=e2e reference=source_original_tfs max_abs=33691 mean_abs=33.3991320461 relative_l2=0.0053095238088 normalized_max=0.00525639206435 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b8_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101715 mean_abs=94.920090905 relative_l2=0.0151007565887 normalized_max=0.0157026877509 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b8_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0157470703125 mean_abs=8.97704397771e-06 relative_l2=8.59808244746e-07 normalized_max=6.15092539957e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b8_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=41.5 mean_abs=0.0425362262029 relative_l2=8.8079895277e-06 normalized_max=6.47473422191e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b8_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=68028.5 mean_abs=62.4419969104 relative_l2=0.0099300906475 normalized_max=0.0105021903717 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b16_fast_nozero boundary=kernel reference=source_original_tfs max_abs=7.42700195312 mean_abs=0.0559806752187 relative_l2=0.00324918545924 normalized_max=0.00290104343536 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b16_fast_nozero boundary=e2e reference=source_original_tfs max_abs=35394.5 mean_abs=35.00345079 relative_l2=0.0055617926936 normalized_max=0.00552216820283 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b16_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=103418.5 mean_abs=96.4235967184 relative_l2=0.0153427556005 normalized_max=0.0159656728424 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b16_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.020263671875 mean_abs=2.71377228472e-05 relative_l2=1.91365782387e-06 normalized_max=7.91514431263e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b16_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=31.25 mean_abs=0.0741049181739 relative_l2=1.190794918e-05 normalized_max=4.87555287795e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b16_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=67997 mean_abs=62.4469431825 relative_l2=0.00993093468362 normalized_max=0.0104973274246 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b32_fast_nozero boundary=kernel reference=source_original_tfs max_abs=6.69750976562 mean_abs=0.0562551287679 relative_l2=0.00326569303006 normalized_max=0.0026160982401 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b32_fast_nozero boundary=e2e reference=source_original_tfs max_abs=35815.5 mean_abs=35.6152657325 relative_l2=0.0056406514722 normalized_max=0.0055878516512 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b32_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=103839.5 mean_abs=96.8733807574 relative_l2=0.0154065752892 normalized_max=0.0160306665163 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b32_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0186157226562 mean_abs=5.02612875554e-05 relative_l2=3.47614398763e-06 normalized_max=7.27144281733e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b32_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=43.25 mean_abs=0.112568709721 relative_l2=1.58186525597e-05 normalized_max=6.74776518308e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b32_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=68017.5 mean_abs=62.4612671661 relative_l2=0.00993323482381 normalized_max=0.0105004921997 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b64_fast_nozero boundary=kernel reference=source_original_tfs max_abs=7.42822265625 mean_abs=0.0565590515441 relative_l2=0.00328826619572 normalized_max=0.00290152025128 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b64_fast_nozero boundary=e2e reference=source_original_tfs max_abs=35613 mean_abs=36.1791278913 relative_l2=0.00571474087541 normalized_max=0.00555625806855 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b64_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=103637 mean_abs=97.2313638321 relative_l2=0.0154567555621 normalized_max=0.0159994047135 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b64_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.0191650390625 mean_abs=7.13322475235e-05 relative_l2=5.11476888201e-06 normalized_max=7.48600998243e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b64_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=52.5 mean_abs=0.164428158725 relative_l2=2.35494527034e-05 normalized_max=8.19092883495e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_b64_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=68069.5 mean_abs=62.4825746829 relative_l2=0.0099371401534 normalized_max=0.0105085199219 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_bfull_fast_nozero boundary=kernel reference=source_original_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_l2=0.00329457783311 normalized_max=0.00264136948399 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_bfull_fast_nozero boundary=e2e reference=source_original_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_l2=0.00588307246424 normalized_max=0.00550594236285 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_bfull_fast_nozero boundary=e2e reference=source_mkl_fp32 max_abs=101447 mean_abs=97.4712454294 relative_l2=0.0155201917582 normalized_max=0.0156613141057 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_bfull_accurate_nozero boundary=kernel reference=source_original_tfs max_abs=0.023193359375 mean_abs=8.46767142868e-05 relative_l2=6.64284379022e-06 normalized_max=9.0595025265e-06 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_bfull_accurate_nozero boundary=e2e reference=source_original_tfs max_abs=76 mean_abs=0.206426005442 relative_l2=2.85233669546e-05 normalized_max=1.18573445992e-05 pass=1
+SOURCE_CORRECT graph=ogbn-products method=shared_bfull_accurate_nozero boundary=e2e reference=source_mkl_fp32 max_abs=68081.5 mean_abs=62.5013763058 relative_l2=0.00994063121635 normalized_max=0.0105103724732 pass=1
+SOURCE_TIME graph=ogbn-products method=source_mkl_fp32 kind=kernel repeat=0 ms=1113.11602592
+SOURCE_TIME graph=ogbn-products method=source_mkl_fp32 kind=kernel repeat=1 ms=1115.6270504
+SOURCE_TIME graph=ogbn-products method=source_mkl_fp32 kind=kernel repeat=2 ms=1115.32902718
+SOURCE_TIME graph=ogbn-products method=source_mkl_fp32 kind=kernel repeat=3 ms=1114.33196068
+SOURCE_TIME graph=ogbn-products method=source_mkl_fp32 kind=kernel repeat=4 ms=1113.31510544
+SOURCE_TIME graph=ogbn-products method=source_original_tfs kind=kernel repeat=0 ms=242.031812668
+SOURCE_TIME graph=ogbn-products method=source_original_tfs kind=kernel repeat=1 ms=238.569021225
+SOURCE_TIME graph=ogbn-products method=source_original_tfs kind=kernel repeat=2 ms=238.922119141
+SOURCE_TIME graph=ogbn-products method=source_original_tfs kind=kernel repeat=3 ms=242.60187149
+SOURCE_TIME graph=ogbn-products method=source_original_tfs kind=kernel repeat=4 ms=245.501041412
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=kernel repeat=0 ms=162.010908127
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=kernel repeat=1 ms=168.013095856
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=kernel repeat=2 ms=165.364027023
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=kernel repeat=3 ms=168.912172318
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=kernel repeat=4 ms=162.997961044
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=e2e repeat=0 ms=399.628162384
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=e2e repeat=1 ms=402.934074402
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=e2e repeat=2 ms=409.579992294
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=e2e repeat=3 ms=402.105093002
+SOURCE_TIME graph=ogbn-products method=original_nozero kind=e2e repeat=4 ms=392.669916153
+SOURCE_STAGE graph=ogbn-products method=original_nozero repeat=0 layer1_ms=173.228979111 relu_ms=55.0570487976 conversion_ms=19.2358493805 layer2_ms=164.127111435 total_ms=411.648988724
+SOURCE_STAGE graph=ogbn-products method=original_nozero repeat=1 layer1_ms=162.977933884 relu_ms=51.8341064453 conversion_ms=18.7220573425 layer2_ms=164.848804474 total_ms=398.382902145
+SOURCE_STAGE graph=ogbn-products method=original_nozero repeat=2 layer1_ms=170.151948929 relu_ms=53.8470745087 conversion_ms=19.7420120239 layer2_ms=161.774873734 total_ms=405.515909195
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=kernel repeat=0 ms=276.984930038
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=kernel repeat=1 ms=271.927118301
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=kernel repeat=2 ms=263.575077057
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=kernel repeat=3 ms=266.529083252
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=kernel repeat=4 ms=278.962135315
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=e2e repeat=0 ms=603.304862976
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=e2e repeat=1 ms=596.81892395
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=e2e repeat=2 ms=609.467983246
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=e2e repeat=3 ms=611.81807518
+SOURCE_TIME graph=ogbn-products method=shared_b2_fast_nozero kind=e2e repeat=4 ms=601.204156876
+SOURCE_STAGE graph=ogbn-products method=shared_b2_fast_nozero repeat=0 layer1_ms=272.218942642 relu_ms=49.4539737701 conversion_ms=18.4299945831 layer2_ms=278.484106064 total_ms=618.587017059
+SOURCE_STAGE graph=ogbn-products method=shared_b2_fast_nozero repeat=1 layer1_ms=272.706031799 relu_ms=48.8748550415 conversion_ms=18.4819698334 layer2_ms=264.793157578 total_ms=604.856014252
+SOURCE_STAGE graph=ogbn-products method=shared_b2_fast_nozero repeat=2 layer1_ms=276.536941528 relu_ms=48.2549667358 conversion_ms=18.571138382 layer2_ms=264.366865158 total_ms=607.729911804
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=row_schedule sampled_thread_ms=0.290393829346 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=partial_zero sampled_thread_ms=3.89671325684 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=csr_prefetch sampled_thread_ms=21.4409828186 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=feature_gather_decode sampled_thread_ms=47.0159053802 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=25.8204936981 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=3.5572052002 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=tile_load sampled_thread_ms=17.6379680634 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=tile_compute sampled_thread_ms=38.3803844452 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=tile_store sampled_thread_ms=2.55036354065 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=output_scatter sampled_thread_ms=0.595808029175 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0317096710205 sampled_tiles=599 profile_wall_ms=296.495199203
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=kernel repeat=0 ms=332.10515976
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=kernel repeat=1 ms=314.829111099
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=kernel repeat=2 ms=322.751998901
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=kernel repeat=3 ms=320.014953613
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=kernel repeat=4 ms=315.011024475
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=e2e repeat=0 ms=707.9641819
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=e2e repeat=1 ms=717.039108276
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=e2e repeat=2 ms=703.964948654
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=e2e repeat=3 ms=728.583097458
+SOURCE_TIME graph=ogbn-products method=shared_b2_accurate_nozero kind=e2e repeat=4 ms=721.810102463
+SOURCE_STAGE graph=ogbn-products method=shared_b2_accurate_nozero repeat=0 layer1_ms=320.70016861 relu_ms=49.9169826508 conversion_ms=18.4118747711 layer2_ms=315.275192261 total_ms=704.304218292
+SOURCE_STAGE graph=ogbn-products method=shared_b2_accurate_nozero repeat=1 layer1_ms=314.758062363 relu_ms=49.0310192108 conversion_ms=18.5070037842 layer2_ms=321.679830551 total_ms=703.975915909
+SOURCE_STAGE graph=ogbn-products method=shared_b2_accurate_nozero repeat=2 layer1_ms=323.703050613 relu_ms=48.4499931335 conversion_ms=18.4860229492 layer2_ms=329.963922501 total_ms=720.602989197
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=row_schedule sampled_thread_ms=0.218868255615 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=partial_zero sampled_thread_ms=4.16159629822 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=csr_prefetch sampled_thread_ms=21.2948322296 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=feature_gather_decode sampled_thread_ms=46.1442470551 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=25.2294540405 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=6.28924369812 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=tile_load sampled_thread_ms=30.9107303619 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=tile_compute sampled_thread_ms=47.8558540344 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=tile_store sampled_thread_ms=2.04348564148 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=output_scatter sampled_thread_ms=0.597476959229 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_PROFILE graph=ogbn-products method=shared_b2_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0221729278564 sampled_tiles=599 profile_wall_ms=371.615171432
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=kernel repeat=0 ms=207.919120789
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=kernel repeat=1 ms=207.408189774
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=kernel repeat=2 ms=210.098981857
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=kernel repeat=3 ms=208.025217056
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=kernel repeat=4 ms=214.664936066
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=e2e repeat=0 ms=498.086929321
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=e2e repeat=1 ms=493.839025497
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=e2e repeat=2 ms=491.26791954
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=e2e repeat=3 ms=487.102031708
+SOURCE_TIME graph=ogbn-products method=shared_b4_fast_nozero kind=e2e repeat=4 ms=487.201929092
+SOURCE_STAGE graph=ogbn-products method=shared_b4_fast_nozero repeat=0 layer1_ms=214.226961136 relu_ms=49.8950481415 conversion_ms=18.5759067535 layer2_ms=209.233999252 total_ms=491.931915283
+SOURCE_STAGE graph=ogbn-products method=shared_b4_fast_nozero repeat=1 layer1_ms=213.29498291 relu_ms=49.5779514313 conversion_ms=18.4099674225 layer2_ms=208.182096481 total_ms=489.464998245
+SOURCE_STAGE graph=ogbn-products method=shared_b4_fast_nozero repeat=2 layer1_ms=216.999053955 relu_ms=49.3769645691 conversion_ms=18.5451507568 layer2_ms=211.668014526 total_ms=496.589183807
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=row_schedule sampled_thread_ms=0.273704528809 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=partial_zero sampled_thread_ms=2.09879875183 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=csr_prefetch sampled_thread_ms=18.6607837677 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=feature_gather_decode sampled_thread_ms=35.1271629333 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=21.1963653564 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=1.65963172913 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=tile_load sampled_thread_ms=9.61065292358 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=tile_compute sampled_thread_ms=22.3762989044 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=tile_store sampled_thread_ms=1.25885009766 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=output_scatter sampled_thread_ms=0.620126724243 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0228881835938 sampled_tiles=599 profile_wall_ms=226.493835449
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=kernel repeat=0 ms=237.778902054
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=kernel repeat=1 ms=233.006000519
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=kernel repeat=2 ms=241.809129715
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=kernel repeat=3 ms=240.00787735
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=kernel repeat=4 ms=236.605167389
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=e2e repeat=0 ms=544.128894806
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=e2e repeat=1 ms=539.472103119
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=e2e repeat=2 ms=545.670986176
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=e2e repeat=3 ms=547.076940536
+SOURCE_TIME graph=ogbn-products method=shared_b4_accurate_nozero kind=e2e repeat=4 ms=547.462940216
+SOURCE_STAGE graph=ogbn-products method=shared_b4_accurate_nozero repeat=0 layer1_ms=234.938144684 relu_ms=49.2358207703 conversion_ms=18.3501243591 layer2_ms=236.232995987 total_ms=538.7570858
+SOURCE_STAGE graph=ogbn-products method=shared_b4_accurate_nozero repeat=1 layer1_ms=241.225004196 relu_ms=48.9010810852 conversion_ms=18.5160636902 layer2_ms=233.956813812 total_ms=542.598962784
+SOURCE_STAGE graph=ogbn-products method=shared_b4_accurate_nozero repeat=2 layer1_ms=242.932081223 relu_ms=48.8359928131 conversion_ms=18.6669826508 layer2_ms=245.629072189 total_ms=556.064128876
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=row_schedule sampled_thread_ms=0.232696533203 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=partial_zero sampled_thread_ms=2.16007232666 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=csr_prefetch sampled_thread_ms=18.0530548096 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=feature_gather_decode sampled_thread_ms=33.8101387024 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=21.023273468 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=3.11851501465 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=tile_load sampled_thread_ms=16.3931846619 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=tile_compute sampled_thread_ms=24.4860649109 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=tile_store sampled_thread_ms=1.04403495789 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=output_scatter sampled_thread_ms=0.611782073975 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_PROFILE graph=ogbn-products method=shared_b4_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.030517578125 sampled_tiles=599 profile_wall_ms=260.886907578
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=kernel repeat=0 ms=178.343057632
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=kernel repeat=1 ms=180.685997009
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=kernel repeat=2 ms=181.716918945
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=kernel repeat=3 ms=179.37207222
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=kernel repeat=4 ms=186.866998672
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=e2e repeat=0 ms=430.740833282
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=e2e repeat=1 ms=431.9460392
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=e2e repeat=2 ms=428.677082062
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=e2e repeat=3 ms=434.592962265
+SOURCE_TIME graph=ogbn-products method=shared_b8_fast_nozero kind=e2e repeat=4 ms=425.194978714
+SOURCE_STAGE graph=ogbn-products method=shared_b8_fast_nozero repeat=0 layer1_ms=179.501056671 relu_ms=50.5130290985 conversion_ms=18.1980133057 layer2_ms=179.593086243 total_ms=427.805185318
+SOURCE_STAGE graph=ogbn-products method=shared_b8_fast_nozero repeat=1 layer1_ms=184.553861618 relu_ms=50.5621433258 conversion_ms=18.4090137482 layer2_ms=183.296918869 total_ms=436.821937561
+SOURCE_STAGE graph=ogbn-products method=shared_b8_fast_nozero repeat=2 layer1_ms=181.477069855 relu_ms=49.1778850555 conversion_ms=18.4681415558 layer2_ms=180.526018143 total_ms=429.649114609
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=row_schedule sampled_thread_ms=0.277280807495 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=partial_zero sampled_thread_ms=1.05261802673 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=csr_prefetch sampled_thread_ms=17.1301364899 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=feature_gather_decode sampled_thread_ms=28.3603668213 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=17.240524292 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.878572463989 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=tile_load sampled_thread_ms=5.3403377533 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=tile_compute sampled_thread_ms=10.7271671295 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=tile_store sampled_thread_ms=0.638723373413 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=output_scatter sampled_thread_ms=0.635385513306 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0247955322266 sampled_tiles=599 profile_wall_ms=184.530973434
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=kernel repeat=0 ms=194.354057312
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=kernel repeat=1 ms=192.567110062
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=kernel repeat=2 ms=188.74001503
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=kernel repeat=3 ms=195.530891418
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=kernel repeat=4 ms=194.890975952
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=e2e repeat=0 ms=453.253984451
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=e2e repeat=1 ms=453.760147095
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=e2e repeat=2 ms=451.027870178
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=e2e repeat=3 ms=456.988096237
+SOURCE_TIME graph=ogbn-products method=shared_b8_accurate_nozero kind=e2e repeat=4 ms=454.129934311
+SOURCE_STAGE graph=ogbn-products method=shared_b8_accurate_nozero repeat=0 layer1_ms=194.37289238 relu_ms=49.5140552521 conversion_ms=18.3730125427 layer2_ms=197.190999985 total_ms=459.450960159
+SOURCE_STAGE graph=ogbn-products method=shared_b8_accurate_nozero repeat=1 layer1_ms=193.989992142 relu_ms=49.4039058685 conversion_ms=18.541097641 layer2_ms=194.550037384 total_ms=456.485033035
+SOURCE_STAGE graph=ogbn-products method=shared_b8_accurate_nozero repeat=2 layer1_ms=192.384958267 relu_ms=47.926902771 conversion_ms=18.5301303864 layer2_ms=192.91305542 total_ms=451.755046844
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=row_schedule sampled_thread_ms=0.239849090576 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=partial_zero sampled_thread_ms=1.14583969116 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=csr_prefetch sampled_thread_ms=18.2130336761 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=feature_gather_decode sampled_thread_ms=28.3629894257 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=18.3112621307 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=1.59192085266 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=tile_load sampled_thread_ms=8.88824462891 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=tile_compute sampled_thread_ms=16.2234306335 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=tile_store sampled_thread_ms=0.566005706787 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=output_scatter sampled_thread_ms=0.629186630249 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_PROFILE graph=ogbn-products method=shared_b8_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0190734863281 sampled_tiles=599 profile_wall_ms=204.629898071
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=kernel repeat=0 ms=170.44878006
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=kernel repeat=1 ms=164.271831512
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=kernel repeat=2 ms=168.513059616
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=kernel repeat=3 ms=164.122104645
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=kernel repeat=4 ms=168.194055557
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=e2e repeat=0 ms=393.532037735
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=e2e repeat=1 ms=400.259971619
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=e2e repeat=2 ms=392.222166061
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=e2e repeat=3 ms=395.796060562
+SOURCE_TIME graph=ogbn-products method=shared_b16_fast_nozero kind=e2e repeat=4 ms=390.167951584
+SOURCE_STAGE graph=ogbn-products method=shared_b16_fast_nozero repeat=0 layer1_ms=166.768789291 relu_ms=50.7190227509 conversion_ms=18.3160305023 layer2_ms=159.0321064 total_ms=394.835948944
+SOURCE_STAGE graph=ogbn-products method=shared_b16_fast_nozero repeat=1 layer1_ms=164.24703598 relu_ms=48.9928722382 conversion_ms=18.5940265656 layer2_ms=159.52706337 total_ms=391.360998154
+SOURCE_STAGE graph=ogbn-products method=shared_b16_fast_nozero repeat=2 layer1_ms=162.579059601 relu_ms=49.5538711548 conversion_ms=18.3000564575 layer2_ms=164.221048355 total_ms=394.654035568
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=row_schedule sampled_thread_ms=0.262022018433 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=partial_zero sampled_thread_ms=0.596284866333 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=csr_prefetch sampled_thread_ms=16.5317058563 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=feature_gather_decode sampled_thread_ms=24.7948169708 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=15.8176422119 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.485181808472 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=tile_load sampled_thread_ms=2.83145904541 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=tile_compute sampled_thread_ms=5.99980354309 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=tile_store sampled_thread_ms=0.303745269775 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=output_scatter sampled_thread_ms=0.641822814941 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0278949737549 sampled_tiles=599 profile_wall_ms=175.207138062
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=kernel repeat=0 ms=169.684886932
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=kernel repeat=1 ms=175.017118454
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=kernel repeat=2 ms=169.574975967
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=kernel repeat=3 ms=171.100854874
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=kernel repeat=4 ms=175.25100708
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=e2e repeat=0 ms=405.990839005
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=e2e repeat=1 ms=414.889097214
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=e2e repeat=2 ms=412.09602356
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=e2e repeat=3 ms=413.909196854
+SOURCE_TIME graph=ogbn-products method=shared_b16_accurate_nozero kind=e2e repeat=4 ms=411.404848099
+SOURCE_STAGE graph=ogbn-products method=shared_b16_accurate_nozero repeat=0 layer1_ms=168.663024902 relu_ms=48.7329959869 conversion_ms=18.3281898499 layer2_ms=173.840999603 total_ms=409.565210342
+SOURCE_STAGE graph=ogbn-products method=shared_b16_accurate_nozero repeat=1 layer1_ms=170.804023743 relu_ms=49.6318340302 conversion_ms=18.4321403503 layer2_ms=172.610044479 total_ms=411.478042603
+SOURCE_STAGE graph=ogbn-products method=shared_b16_accurate_nozero repeat=2 layer1_ms=170.475959778 relu_ms=47.837972641 conversion_ms=18.4688568115 layer2_ms=170.057058334 total_ms=406.839847565
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=row_schedule sampled_thread_ms=0.23341178894 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=partial_zero sampled_thread_ms=0.600099563599 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=csr_prefetch sampled_thread_ms=17.1928405762 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=feature_gather_decode sampled_thread_ms=24.9109268188 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=16.4008140564 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.80943107605 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=tile_load sampled_thread_ms=4.81700897217 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=tile_compute sampled_thread_ms=8.13412666321 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=tile_store sampled_thread_ms=0.273466110229 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=output_scatter sampled_thread_ms=0.657081604004 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_PROFILE graph=ogbn-products method=shared_b16_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0367164611816 sampled_tiles=599 profile_wall_ms=174.637079239
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=kernel repeat=0 ms=152.204990387
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=kernel repeat=1 ms=149.341106415
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=kernel repeat=2 ms=150.088071823
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=kernel repeat=3 ms=150.848865509
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=kernel repeat=4 ms=146.7628479
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=e2e repeat=0 ms=364.136219025
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=e2e repeat=1 ms=358.210086823
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=e2e repeat=2 ms=359.63010788
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=e2e repeat=3 ms=361.399888992
+SOURCE_TIME graph=ogbn-products method=shared_b32_fast_nozero kind=e2e repeat=4 ms=359.165906906
+SOURCE_STAGE graph=ogbn-products method=shared_b32_fast_nozero repeat=0 layer1_ms=151.469945908 relu_ms=49.8039722443 conversion_ms=18.2120800018 layer2_ms=144.453048706 total_ms=363.93904686
+SOURCE_STAGE graph=ogbn-products method=shared_b32_fast_nozero repeat=1 layer1_ms=148.202896118 relu_ms=49.8909950256 conversion_ms=18.4440612793 layer2_ms=148.637056351 total_ms=365.175008774
+SOURCE_STAGE graph=ogbn-products method=shared_b32_fast_nozero repeat=2 layer1_ms=146.742105484 relu_ms=51.7838001251 conversion_ms=18.5010433197 layer2_ms=147.328138351 total_ms=364.35508728
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=row_schedule sampled_thread_ms=0.28657913208 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=partial_zero sampled_thread_ms=0.311374664307 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=csr_prefetch sampled_thread_ms=16.2303447723 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=feature_gather_decode sampled_thread_ms=22.5741863251 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.3351554871 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.250816345215 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=tile_load sampled_thread_ms=1.72281265259 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=tile_compute sampled_thread_ms=3.1635761261 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=tile_store sampled_thread_ms=0.177145004272 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=output_scatter sampled_thread_ms=0.672817230225 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0238418579102 sampled_tiles=599 profile_wall_ms=159.847974777
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=kernel repeat=0 ms=157.264947891
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=kernel repeat=1 ms=158.708095551
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=kernel repeat=2 ms=163.042783737
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=kernel repeat=3 ms=157.797813416
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=kernel repeat=4 ms=158.075094223
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=e2e repeat=0 ms=380.195856094
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=e2e repeat=1 ms=389.511823654
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=e2e repeat=2 ms=382.183074951
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=e2e repeat=3 ms=382.76720047
+SOURCE_TIME graph=ogbn-products method=shared_b32_accurate_nozero kind=e2e repeat=4 ms=385.921001434
+SOURCE_STAGE graph=ogbn-products method=shared_b32_accurate_nozero repeat=0 layer1_ms=157.773017883 relu_ms=48.8920211792 conversion_ms=18.4299945831 layer2_ms=154.698848724 total_ms=379.79388237
+SOURCE_STAGE graph=ogbn-products method=shared_b32_accurate_nozero repeat=1 layer1_ms=160.028219223 relu_ms=49.3638515472 conversion_ms=18.5980796814 layer2_ms=156.257867813 total_ms=384.248018265
+SOURCE_STAGE graph=ogbn-products method=shared_b32_accurate_nozero repeat=2 layer1_ms=156.68797493 relu_ms=50.0380992889 conversion_ms=18.5570716858 layer2_ms=158.704996109 total_ms=383.988142014
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=row_schedule sampled_thread_ms=0.274419784546 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=partial_zero sampled_thread_ms=0.309944152832 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=csr_prefetch sampled_thread_ms=16.4937973022 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=feature_gather_decode sampled_thread_ms=23.2520103455 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=15.2447223663 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.462770462036 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=tile_load sampled_thread_ms=2.83026695251 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=tile_compute sampled_thread_ms=4.30130958557 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=tile_store sampled_thread_ms=0.167846679688 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=output_scatter sampled_thread_ms=0.640153884888 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_PROFILE graph=ogbn-products method=shared_b32_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0247955322266 sampled_tiles=599 profile_wall_ms=159.125089645
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=kernel repeat=0 ms=143.417835236
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=kernel repeat=1 ms=143.505811691
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=kernel repeat=2 ms=143.590927124
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=kernel repeat=3 ms=147.044897079
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=kernel repeat=4 ms=148.106098175
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=e2e repeat=0 ms=354.68006134
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=e2e repeat=1 ms=357.340812683
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=e2e repeat=2 ms=353.55591774
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=e2e repeat=3 ms=352.017879486
+SOURCE_TIME graph=ogbn-products method=shared_b64_fast_nozero kind=e2e repeat=4 ms=351.198196411
+SOURCE_STAGE graph=ogbn-products method=shared_b64_fast_nozero repeat=0 layer1_ms=147.474050522 relu_ms=49.6180057526 conversion_ms=18.5270309448 layer2_ms=143.633842468 total_ms=359.252929688
+SOURCE_STAGE graph=ogbn-products method=shared_b64_fast_nozero repeat=1 layer1_ms=148.042917252 relu_ms=50.4260063171 conversion_ms=18.5689926147 layer2_ms=142.118930817 total_ms=359.156847
+SOURCE_STAGE graph=ogbn-products method=shared_b64_fast_nozero repeat=2 layer1_ms=143.085956573 relu_ms=51.2700080872 conversion_ms=18.4140205383 layer2_ms=142.663002014 total_ms=355.432987213
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=row_schedule sampled_thread_ms=0.275850296021 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=partial_zero sampled_thread_ms=0.226020812988 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=csr_prefetch sampled_thread_ms=16.0484313965 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=feature_gather_decode sampled_thread_ms=21.8274593353 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.0659809113 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.165224075317 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=tile_load sampled_thread_ms=1.10411643982 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=tile_compute sampled_thread_ms=2.05874443054 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=tile_store sampled_thread_ms=0.118255615234 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=output_scatter sampled_thread_ms=0.669479370117 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0219345092773 sampled_tiles=599 profile_wall_ms=151.504039764
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=kernel repeat=0 ms=149.207115173
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=kernel repeat=1 ms=147.994995117
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=kernel repeat=2 ms=149.335861206
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=kernel repeat=3 ms=151.832103729
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=kernel repeat=4 ms=148.191213608
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=e2e repeat=0 ms=367.012023926
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=e2e repeat=1 ms=366.786003113
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=e2e repeat=2 ms=365.777015686
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=e2e repeat=3 ms=372.550964355
+SOURCE_TIME graph=ogbn-products method=shared_b64_accurate_nozero kind=e2e repeat=4 ms=363.496780396
+SOURCE_STAGE graph=ogbn-products method=shared_b64_accurate_nozero repeat=0 layer1_ms=148.400068283 relu_ms=50.3408908844 conversion_ms=18.1949138641 layer2_ms=151.464223862 total_ms=368.400096893
+SOURCE_STAGE graph=ogbn-products method=shared_b64_accurate_nozero repeat=1 layer1_ms=152.581930161 relu_ms=51.6800880432 conversion_ms=18.5010433197 layer2_ms=148.924827576 total_ms=371.687889099
+SOURCE_STAGE graph=ogbn-products method=shared_b64_accurate_nozero repeat=2 layer1_ms=147.678136826 relu_ms=52.7698993683 conversion_ms=18.5990333557 layer2_ms=146.013975143 total_ms=365.061044693
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=row_schedule sampled_thread_ms=0.242471694946 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=partial_zero sampled_thread_ms=0.229358673096 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=csr_prefetch sampled_thread_ms=16.0830020905 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=feature_gather_decode sampled_thread_ms=21.924495697 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.4617557526 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.296354293823 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=tile_load sampled_thread_ms=1.69157981873 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=tile_compute sampled_thread_ms=2.76899337769 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=tile_store sampled_thread_ms=0.0998973846436 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=output_scatter sampled_thread_ms=0.66089630127 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_PROFILE graph=ogbn-products method=shared_b64_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0224113464355 sampled_tiles=599 profile_wall_ms=158.877849579
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=kernel repeat=0 ms=142.244100571
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=kernel repeat=1 ms=144.026994705
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=kernel repeat=2 ms=141.41201973
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=kernel repeat=3 ms=140.985965729
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=kernel repeat=4 ms=140.861034393
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=e2e repeat=0 ms=347.321033478
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=e2e repeat=1 ms=347.507953644
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=e2e repeat=2 ms=346.496105194
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=e2e repeat=3 ms=350.431919098
+SOURCE_TIME graph=ogbn-products method=shared_bfull_fast_nozero kind=e2e repeat=4 ms=348.92988205
+SOURCE_STAGE graph=ogbn-products method=shared_bfull_fast_nozero repeat=0 layer1_ms=140.882015228 relu_ms=50.9929656982 conversion_ms=18.483877182 layer2_ms=137.932062149 total_ms=348.290920258
+SOURCE_STAGE graph=ogbn-products method=shared_bfull_fast_nozero repeat=1 layer1_ms=145.354032516 relu_ms=49.2479801178 conversion_ms=18.4321403503 layer2_ms=140.465974808 total_ms=353.500127792
+SOURCE_STAGE graph=ogbn-products method=shared_bfull_fast_nozero repeat=2 layer1_ms=141.207933426 relu_ms=51.9618988037 conversion_ms=18.2571411133 layer2_ms=137.324094772 total_ms=348.751068115
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=row_schedule sampled_thread_ms=0.29444694519 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=partial_zero sampled_thread_ms=0.135183334351 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=csr_prefetch sampled_thread_ms=16.0536766052 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=feature_gather_decode sampled_thread_ms=21.3232040405 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.066696167 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=partial_bf16_conversion sampled_thread_ms=0.0927448272705 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=tile_load sampled_thread_ms=0.521659851074 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=tile_compute sampled_thread_ms=1.18589401245 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=tile_store sampled_thread_ms=0.0753402709961 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=output_scatter sampled_thread_ms=0.680446624756 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_fast_nozero phase=thread_amx_setup sampled_thread_ms=0.0259876251221 sampled_tiles=599 profile_wall_ms=149.27482605
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=kernel repeat=0 ms=143.990039825
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=kernel repeat=1 ms=145.275115967
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=kernel repeat=2 ms=144.196033478
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=kernel repeat=3 ms=149.646043777
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=kernel repeat=4 ms=146.796941757
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=e2e repeat=0 ms=359.117031097
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=e2e repeat=1 ms=359.135150909
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=e2e repeat=2 ms=361.45401001
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=e2e repeat=3 ms=359.322071075
+SOURCE_TIME graph=ogbn-products method=shared_bfull_accurate_nozero kind=e2e repeat=4 ms=355.183839798
+SOURCE_STAGE graph=ogbn-products method=shared_bfull_accurate_nozero repeat=0 layer1_ms=148.916006088 relu_ms=50.5809783936 conversion_ms=18.5208320618 layer2_ms=144.000053406 total_ms=362.017869949
+SOURCE_STAGE graph=ogbn-products method=shared_bfull_accurate_nozero repeat=1 layer1_ms=148.344993591 relu_ms=50.1790046692 conversion_ms=18.4741020203 layer2_ms=144.381046295 total_ms=361.379146576
+SOURCE_STAGE graph=ogbn-products method=shared_bfull_accurate_nozero repeat=2 layer1_ms=147.953033447 relu_ms=50.6448745728 conversion_ms=18.5730457306 layer2_ms=143.680095673 total_ms=360.851049423
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=output_zero sampled_thread_ms=0 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=row_schedule sampled_thread_ms=0.224828720093 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=partial_zero sampled_thread_ms=0.145435333252 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=csr_prefetch sampled_thread_ms=16.1571502686 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=feature_gather_decode sampled_thread_ms=21.1615562439 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=fp32_neighbor_reduction sampled_thread_ms=14.2116546631 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=partial_bf16_conversion sampled_thread_ms=0.141620635986 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=tile_load sampled_thread_ms=0.938892364502 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=tile_compute sampled_thread_ms=1.77979469299 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=tile_store sampled_thread_ms=0.0636577606201 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=output_scatter sampled_thread_ms=0.708103179932 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_PROFILE graph=ogbn-products method=shared_bfull_accurate_nozero phase=thread_amx_setup sampled_thread_ms=0.0181198120117 sampled_tiles=599 profile_wall_ms=153.81193161
+SOURCE_COMPLETE graph=ogbn-products pass=1 max_rss_kib=13514612

@@ -7,6 +7,38 @@ paths. Original source is preserved byte for byte.
 Remote root: `/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra`.
 Read-only dataset root: `/home/huangjianqiang_group/hdacp1/data/yx/TFS/data`.
 
+## Current comparison protocol: original-source MKL/TFS (2026-10-04)
+
+Original TFS and its MKL source/scripts have no explicit NUMA memory policy.
+The 2026-10-03 experiments below used explicit interleave and other wrapper
+changes; retain them as historical evidence, not original-source reproduction.
+For new comparisons, use `docs/SOURCE_MKL_PROTOCOL_20261004.md`, which overrides
+the old contract's runtime/data-generation/statistic clauses for this protocol.
+
+Build: `bash scripts/build_source_protocol.sh`.
+Correctness: `bash scripts/submit_source_protocol.sh smoke`.
+Authorized formal comparison after correctness: `bash scripts/submit_source_protocol.sh formal`.
+The generated runner preserves `original/gcn_e2e_bench.cpp` except an include
+and a candidate hook after the original timings/checks. Original MKL uses FP32,
+hint=10, original allocation/first writes, one warmup and five-run minimum.
+All methods use default NUMA policy and only the original declared OMP settings.
+Separate untouched original MKL/TFS/E2E binaries are retained as anchors.
+This LP64 protocol excludes graphs requiring ILP64; old ILP64 recovery values
+must not be substituted into a source-faithful table.
+
+Completed source-aligned comparison: `docs/SOURCE_MKL_RESULTS_20261004.md`.
+Runs `source-formal-10864754` and `source-formal-10864792` give 17 valid real
+graphs and 765 numerical checks, with eight excluded inputs. Fixed B64 Fast
+gives 1.427x geometric mean versus source MKL, 1.601x versus raw source TFS,
+and 1.189x versus source TFS with only redundant zeroing removed. FP32/BF16
+precision follows the original source protocol; it is not a matched-precision
+competition. Preserve the first batch's FAILED shell-completion status after
+all 16 graph processes succeeded, and its initial erroneous RGG skip; the
+supplement covers RGG without changing the binary. Immutable launcher fix was
+validated by smoke 10864830 (102 checks, exit zero). All raw logs remain visible.
+
+## Historical 2026-10-03 experiment protocol and evidence
+
 See IMPLEMENTATION_CONTRACT.md and docs/experiment_plan_v1.txt for the operator,
 precision controls, numerical gates, timing boundaries and modeled work counts.
 Build with `bash scripts/build.sh`; correctness uses scripts/smoke.slurm;
