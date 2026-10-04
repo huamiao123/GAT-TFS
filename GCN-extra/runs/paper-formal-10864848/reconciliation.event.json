@@ -1,0 +1,31 @@
+{
+  "id": "paper-reconciliation-20261004-10864848",
+  "kind": "paper_reproduction_reconciliation",
+  "status": "PASS",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-formal-10864848",
+  "report": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/docs/PAPER_REPRODUCTION_RESULTS_20261004.md",
+  "statistics": {
+    "completion": {
+      "passed": 17,
+      "excluded": 8,
+      "failed": 0,
+      "mode": "formal"
+    },
+    "node": "qhcn817",
+    "all17_kernel_min_gmean": 2.483165974812451,
+    "all17_e2e_min_gmean": 1.9061598602772976,
+    "all17_kernel_median_gmean": 2.4298650671360496,
+    "all17_e2e_median_gmean": 1.885919052875715,
+    "e2e_faster": 15,
+    "paper_winner15_e2e_min_gmean": 2.1631839114866036,
+    "max_final_bf16_relative_L2": 0.0132329377,
+    "max_final_bf16_normalized_max": 0.016461868,
+    "paper_timing_baseline": "unmodified gcn_e2e_v3.cpp",
+    "prior_older_source": "gcn_e2e_bench.cpp; previous claim about paper original TFS slower is withdrawn",
+    "paper_full25_reproduction": false,
+    "reason": "17 numerically comparable graphs reproduced. Six nonunit CSR graphs have unequal source operators; two graphs exceed original LP64 safe limits."
+  },
+  "paper_eligible": true,
+  "issues": "Correct source version reproduces major paper speedups; prior conclusion about paper original TFS slower withdrawn. Historical min/median and FP32-check/BF16-timed output discrepancies explicitly audited.",
+  "next": "Any reduction extension must first rebase on this gcn_e2e_v3 baseline, with the same BF16 final output and source MKL; trained-checkpoint inference remains a separate task."
+}

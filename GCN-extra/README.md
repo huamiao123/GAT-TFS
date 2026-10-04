@@ -7,12 +7,32 @@ paths. Original source is preserved byte for byte.
 Remote root: `/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra`.
 Read-only dataset root: `/home/huangjianqiang_group/hdacp1/data/yx/TFS/data`.
 
-## Current comparison protocol: original-source MKL/TFS (2026-10-04)
+## Paper reproduction: corrected v3 baseline (2026-10-04)
+
+The paper's E2E Table 2 corresponds to `original/gcn_e2e_v3.cpp`, with FP32
+intermediate output and BF16 final output. The earlier source comparison below
+used `gcn_e2e_bench.cpp`, an older FP32-final version with redundant global
+output zeroing. Its 0.891x aggregate result does not describe the paper version;
+that inference is withdrawn. Historical measurements remain preserved.
+
+Use `scripts/build_paper_reproduction.sh`, then
+`scripts/submit_paper_reproduction.sh smoke` and `formal`. The raw performance
+sources remain byte-identical to yx; no NUMA or MKL overrides are introduced.
+Separate full-output correctness checks validate the actual BF16 final result.
+Both minimum-of-five and median-of-five are retained: historical paper table
+entries match source BEST values despite the manuscript describing medians.
+
+Report: `docs/PAPER_REPRODUCTION_RESULTS_20261004.md`.
+Raw formal evidence: `runs/paper-formal-10864848`.
+The reduction extension has not yet been compared with the paper v3 baseline.
+It must preserve that baseline's output precision in the next comparison.
+
+## Historical comparison with older source MKL/TFS (2026-10-04)
 
 Original TFS and its MKL source/scripts have no explicit NUMA memory policy.
 The 2026-10-03 experiments below used explicit interleave and other wrapper
 changes; retain them as historical evidence, not original-source reproduction.
-For new comparisons, use `docs/SOURCE_MKL_PROTOCOL_20261004.md`, which overrides
+This older-source comparison uses `docs/SOURCE_MKL_PROTOCOL_20261004.md`, which overrides
 the old contract's runtime/data-generation/statistic clauses for this protocol.
 
 Build: `bash scripts/build_source_protocol.sh`.

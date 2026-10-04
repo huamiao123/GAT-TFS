@@ -1,0 +1,23 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/email-Enron/email-Enron.csrbin
+Matrix: email-Enron  N=36692  NNZ=367662  avg_deg=10.0
+
+=== TFS V3 Hybrid Pipeline ===
+  TFS V3 E2E BEST: 1000000000000000019884624838656.00 ms
+
+=== MKL FP32 Two-Step ===
+  MKL E2E BEST: 1000000000000000019884624838656.00 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 1000000000000000019884624838656.00 ms
+  MKL (FP32):      1000000000000000019884624838656.00 ms
+  E2E Speedup:     1.00×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010905  RMSE=3.4708e+01
+First 8:
+  TFS: -208.08 -116.93 -138.97 -239.93 -55.83 -102.99 -99.58 -119.38 
+  MKL: -210.59 -118.71 -140.64 -241.98 -56.62 -103.84 -101.04 -120.51 
+PAPER_FINAL_CHECK max_abs=3058.8125 mean_abs=12.3171741 relative_L2=0.0130503762 normalized_max=0.0134196176 pass=1

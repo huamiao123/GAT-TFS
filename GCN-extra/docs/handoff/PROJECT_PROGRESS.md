@@ -2920,3 +2920,167 @@ Claims remain UNVERIFIED until qualified evidence is available.
   "date": "2026-10-04T03:40:01.741796+00:00"
 }
 ```
+
+## paper-build-20261004-120429
+
+```json
+{
+  "id": "paper-build-20261004-120429",
+  "kind": "paper_source_build",
+  "status": "PASS",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-build-20261004-120429",
+  "paper_eligible": false,
+  "next": "correctness-first paper protocol reproduction",
+  "issues": "Earlier source comparison selected gcn_e2e_bench.cpp; paper Table 2 matches gcn_e2e_v3.cpp, FP32 intermediate and BF16 final output.",
+  "date": "2026-10-04T04:04:36.058566+00:00"
+}
+```
+
+## paper-submit-smoke-20261004-120508
+
+```json
+{
+  "id": "paper-submit-smoke-20261004-120508",
+  "kind": "paper_reproduction_submission",
+  "status": "SUBMITTED",
+  "job_id": "10864847",
+  "mode": "smoke",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-submit-smoke-20261004-120508",
+  "paper_eligible": false,
+  "next": "Wait for correctness smoke before formal submission",
+  "date": "2026-10-04T04:05:10.052587+00:00"
+}
+```
+
+## paper-smoke-10864847
+
+```json
+{
+  "id": "paper-smoke-10864847",
+  "kind": "paper_reproduction",
+  "status": "PASS",
+  "exit_status": 0,
+  "job_id": "10864847",
+  "node": "qhcn016",
+  "build": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-build-20261004-120429",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-smoke-10864847",
+  "completion": {
+    "passed": 2,
+    "excluded": 0,
+    "failed": 0,
+    "mode": "smoke"
+  },
+  "paper_eligible": false,
+  "issues": "Unmodified gcn_e2e_v3 paper version; no added NUMA/MKL controls; report both source minimum and paper-described median. Separate full BF16 final-output gate precedes raw performance.",
+  "date": "2026-10-04T04:05:12.515194+00:00"
+}
+```
+
+## paper-submit-formal-20261004-120551
+
+```json
+{
+  "id": "paper-submit-formal-20261004-120551",
+  "kind": "paper_reproduction_submission",
+  "status": "SUBMITTED",
+  "job_id": "10864848",
+  "mode": "formal",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-submit-formal-20261004-120551",
+  "paper_eligible": false,
+  "next": "Reconcile raw paper repetitions against historical paper logs",
+  "date": "2026-10-04T04:05:53.321918+00:00"
+}
+```
+
+## paper-assets-20261004-120700
+
+```json
+{
+  "id": "paper-assets-20261004-120700",
+  "kind": "paper_real_asset_audit",
+  "status": "READ_ONLY_AUDIT_COMPLETE",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-assets-20261004-120700",
+  "paper_eligible": false,
+  "issues": "Available real features have 602/100 input dimensions; single-step W snapshots are not complete model checkpoints. Paper performance reproduction must first use source-defined random 128-dimensional input.",
+  "next": "Reproduce original paper source, keep checkpoint inference as a separate protocol",
+  "date": "2026-10-04T04:07:47.267522+00:00"
+}
+```
+
+## paper-formal-10864848
+
+```json
+{
+  "id": "paper-formal-10864848",
+  "kind": "paper_reproduction",
+  "status": "PASS",
+  "exit_status": 0,
+  "job_id": "10864848",
+  "node": "qhcn817",
+  "build": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-build-20261004-120429",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-formal-10864848",
+  "completion": {
+    "passed": 17,
+    "excluded": 8,
+    "failed": 0,
+    "mode": "formal"
+  },
+  "paper_eligible": true,
+  "issues": "Unmodified gcn_e2e_v3 paper version; no added NUMA/MKL controls; report both source minimum and paper-described median. Separate full BF16 final-output gate precedes raw performance.",
+  "date": "2026-10-04T04:15:16.288115+00:00"
+}
+```
+
+## paper-reconciliation-20261004-10864848
+
+```json
+{
+  "id": "paper-reconciliation-20261004-10864848",
+  "kind": "paper_reproduction_reconciliation",
+  "status": "PASS",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-formal-10864848",
+  "report": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/docs/PAPER_REPRODUCTION_RESULTS_20261004.md",
+  "statistics": {
+    "completion": {
+      "passed": 17,
+      "excluded": 8,
+      "failed": 0,
+      "mode": "formal"
+    },
+    "node": "qhcn817",
+    "all17_kernel_min_gmean": 2.483165974812451,
+    "all17_e2e_min_gmean": 1.9061598602772976,
+    "all17_kernel_median_gmean": 2.4298650671360496,
+    "all17_e2e_median_gmean": 1.885919052875715,
+    "e2e_faster": 15,
+    "paper_winner15_e2e_min_gmean": 2.1631839114866036,
+    "max_final_bf16_relative_L2": 0.0132329377,
+    "max_final_bf16_normalized_max": 0.016461868,
+    "paper_timing_baseline": "unmodified gcn_e2e_v3.cpp",
+    "prior_older_source": "gcn_e2e_bench.cpp; previous claim about paper original TFS slower is withdrawn",
+    "paper_full25_reproduction": false,
+    "reason": "17 numerically comparable graphs reproduced. Six nonunit CSR graphs have unequal source operators; two graphs exceed original LP64 safe limits."
+  },
+  "paper_eligible": true,
+  "issues": "Correct source version reproduces major paper speedups; prior conclusion about paper original TFS slower withdrawn. Historical min/median and FP32-check/BF16-timed output discrepancies explicitly audited.",
+  "next": "Any reduction extension must first rebase on this gcn_e2e_v3 baseline, with the same BF16 final output and source MKL; trained-checkpoint inference remains a separate task.",
+  "date": "2026-10-04T04:16:38.044563+00:00"
+}
+```
+
+## paper-package-20261004-10864848
+
+```json
+{
+  "id": "paper-package-20261004-10864848",
+  "kind": "paper_reproduction_archive",
+  "status": "VERIFIED_RUN_READY_FOR_ARCHIVE",
+  "archive": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/evidence-paper-reproduction-20261004.tar.gz",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/paper-formal-10864848",
+  "paper_eligible": true,
+  "issues": "No new issue; baseline version correction and historical discrepancies retained",
+  "next": "Mirror archive, verify hashes, publish on existing isolated experiment branch",
+  "date": "2026-10-04T04:17:22.833859+00:00"
+}
+```

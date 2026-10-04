@@ -1,0 +1,912 @@
+Loading intel/intel-oneapi-compilers/2024.1.0/gcc8.5.0-5ndeojp
+  Loading requirement: intel/glibc/2.28/gcc8.5.0-4tqvnf5
+    intel/gcc-runtime/8.5.0/gcc8.5.0-cplyhzx
+Loading intel/intel-oneapi-mkl/2023.2.0/oneapi2023.2.0-vuihbr3
+  Loading requirement:
+    intel/intel-oneapi-runtime/2023.2.0/oneapi2023.2.0-dtykzom
+    intel/libpciaccess/0.17/gcc8.5.0-ef2polq intel/xz/5.4.6/gcc8.5.0-2y2bu6q
+    intel/zlib-ng/2.1.6/gcc8.5.0-azgekxn intel/libxml2/2.10.3/gcc8.5.0-a37qzwu
+    intel/ncurses/6.5/gcc8.5.0-7le5bly intel/hwloc/2.9.1/gcc8.5.0-dbnwaak
+    intel/intel-tbb/2021.9.0/intel2021.10.0-lute5pk
+=== GCN E2E v3 — Hybrid Pipeline, ALL 25 ===
+Node: qhcn064
+Date: Tue Mar 10 21:19:29 CST 2026
+
+############################################
+# amazon0601
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/amazon0601/amazon0601.csrbin
+Matrix: amazon0601  N=403394  NNZ=3387388  avg_deg=8.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 12.89 ms
+  run 1: 12.65 ms
+  run 2: 12.99 ms
+  run 3: 12.79 ms
+  run 4: 13.10 ms
+  TFS V3 E2E BEST: 12.65 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 25.71 ms
+  run 1: 26.24 ms
+  run 2: 26.54 ms
+  run 3: 26.62 ms
+  run 4: 25.62 ms
+  MKL E2E BEST: 25.62 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 12.65 ms
+  MKL (FP32):      25.62 ms
+  E2E Speedup:     2.03×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010476  RMSE=3.7819e+00
+First 8:
+  TFS: -47.33 -392.40 -490.73 -280.81 36.58 -167.26 -633.67 -190.92 
+  MKL: -47.51 -397.24 -496.00 -284.70 36.34 -169.30 -641.07 -192.56 
+
+############################################
+# as-Skitter
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/as-Skitter/as-Skitter.csrbin
+Matrix: as-Skitter  N=1696415  NNZ=22190596  avg_deg=13.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 100.52 ms
+  run 1: 102.61 ms
+  run 2: 103.64 ms
+  run 3: 103.54 ms
+  run 4: 103.03 ms
+  TFS V3 E2E BEST: 100.52 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 162.84 ms
+  run 1: 163.46 ms
+  run 2: 162.80 ms
+  run 3: 162.63 ms
+  run 4: 162.64 ms
+  MKL E2E BEST: 162.63 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 100.52 ms
+  MKL (FP32):      162.63 ms
+  E2E Speedup:     1.62×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010795  RMSE=1.7434e+02
+First 8:
+  TFS: -4624.96 -24859.84 -17876.94 -5137.20 84.81 398.49 -13633.83 -20492.36 
+  MKL: -4643.98 -25083.39 -18068.94 -5190.35 76.51 388.86 -13794.22 -20682.04 
+
+############################################
+# cage15
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/cage15/cage15.csrbin
+Matrix: cage15  N=5154859  NNZ=99199551  avg_deg=19.2
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 278.57 ms
+  run 1: 277.93 ms
+  run 2: 278.23 ms
+  run 3: 278.51 ms
+  run 4: 278.08 ms
+  TFS V3 E2E BEST: 277.93 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 608.58 ms
+  run 1: 604.23 ms
+  run 2: 605.83 ms
+  run 3: 640.21 ms
+  run 4: 601.46 ms
+  MKL E2E BEST: 601.46 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 277.93 ms
+  MKL (FP32):      601.46 ms
+  E2E Speedup:     2.16×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=142.315308  RMSE=1.0790e+03
+First 8:
+  TFS: 99.19 -130.07 -223.82 -165.67 95.97 175.92 -54.41 -43.16 
+  MKL: -5.46 -23.87 -1.79 -7.50 6.25 11.07 0.82 -22.57 
+
+############################################
+# cit-Patents
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/cit-Patents/cit-Patents.csrbin
+Matrix: cit-Patents  N=3774768  NNZ=16518948  avg_deg=4.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 77.05 ms
+  run 1: 77.07 ms
+  run 2: 77.58 ms
+  run 3: 77.56 ms
+  run 4: 77.78 ms
+  TFS V3 E2E BEST: 77.05 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 271.32 ms
+  run 1: 271.50 ms
+  run 2: 275.28 ms
+  run 3: 272.27 ms
+  run 4: 275.05 ms
+  MKL E2E BEST: 271.32 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 77.05 ms
+  MKL (FP32):      271.32 ms
+  E2E Speedup:     3.52×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010544  RMSE=2.1617e+00
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+############################################
+# com-Friendster
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/com-Friendster/com-Friendster.csrbin
+Matrix: com-Friendster  N=65608366  NNZ=3612134270  avg_deg=55.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 22453.31 ms
+  run 1: 22464.42 ms
+  run 2: 22455.80 ms
+  run 3: 22479.66 ms
+  run 4: 22544.77 ms
+  TFS V3 E2E BEST: 22453.31 ms
+
+=== MKL FP32 Two-Step ===
+timeout: the monitored command dumped core
+/var/spool/slurmd/job4624352/slurm_script: line 27: 2763828 Segmentation fault      timeout 1200 ./gcn_e2e_v3 $DDIR $mat
+  ERROR (139)
+
+############################################
+# com-LiveJournal
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/com-LiveJournal/com-LiveJournal.csrbin
+Matrix: com-LiveJournal  N=3997962  NNZ=69362378  avg_deg=17.3
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 238.00 ms
+  run 1: 237.90 ms
+  run 2: 247.31 ms
+  run 3: 244.84 ms
+  run 4: 242.22 ms
+  TFS V3 E2E BEST: 237.90 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 646.91 ms
+  run 1: 648.66 ms
+  run 2: 647.69 ms
+  run 3: 648.40 ms
+  run 4: 646.45 ms
+  MKL E2E BEST: 646.45 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 237.90 ms
+  MKL (FP32):      646.45 ms
+  E2E Speedup:     2.72×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009347  RMSE=6.9870e+01
+First 8:
+  TFS: 975.59 -2614.89 -1185.33 244.44 144.58 154.73 -1612.97 -1329.18 
+  MKL: 990.37 -2642.10 -1198.25 249.54 144.67 153.64 -1628.47 -1341.65 
+
+############################################
+# com-Youtube
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/com-Youtube/com-Youtube.csrbin
+Matrix: com-Youtube  N=1134890  NNZ=5975248  avg_deg=5.3
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 48.45 ms
+  run 1: 48.57 ms
+  run 2: 47.68 ms
+  run 3: 48.64 ms
+  run 4: 47.33 ms
+  TFS V3 E2E BEST: 47.33 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 54.64 ms
+  run 1: 54.17 ms
+  run 2: 54.69 ms
+  run 3: 54.21 ms
+  run 4: 54.74 ms
+  MKL E2E BEST: 54.17 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 47.33 ms
+  MKL (FP32):      54.17 ms
+  E2E Speedup:     1.14×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010551  RMSE=3.8059e+01
+First 8:
+  TFS: -2351.26 -6218.97 -4421.02 -752.56 -857.43 -2407.82 -5064.00 -5634.36 
+  MKL: -2364.53 -6275.42 -4456.55 -765.30 -868.71 -2435.09 -5125.71 -5678.16 
+
+############################################
+# email-Enron
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/email-Enron/email-Enron.csrbin
+Matrix: email-Enron  N=36692  NNZ=367662  avg_deg=10.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2.31 ms
+  run 1: 2.30 ms
+  run 2: 2.37 ms
+  run 3: 2.31 ms
+  run 4: 2.38 ms
+  TFS V3 E2E BEST: 2.30 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1.43 ms
+  run 1: 1.57 ms
+  run 2: 1.46 ms
+  run 3: 1.47 ms
+  run 4: 1.55 ms
+  MKL E2E BEST: 1.43 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2.30 ms
+  MKL (FP32):      1.43 ms
+  E2E Speedup:     0.62×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010905  RMSE=3.4708e+01
+First 8:
+  TFS: -208.08 -116.93 -138.97 -239.93 -55.83 -102.99 -99.58 -119.38 
+  MKL: -210.59 -118.71 -140.64 -241.98 -56.62 -103.84 -101.04 -120.51 
+
+############################################
+# FullChip
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/FullChip/FullChip.csrbin
+Matrix: FullChip  N=2987012  NNZ=26621990  avg_deg=8.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 1223.94 ms
+  run 1: 1219.59 ms
+  run 2: 1221.34 ms
+  run 3: 1221.01 ms
+  run 4: 1221.16 ms
+  TFS V3 E2E BEST: 1219.59 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 334.34 ms
+  run 1: 334.80 ms
+  run 2: 334.69 ms
+  run 3: 334.91 ms
+  run 4: 334.86 ms
+  MKL E2E BEST: 334.34 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 1219.59 ms
+  MKL (FP32):      334.34 ms
+  E2E Speedup:     0.27×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.999981  RMSE=8.4600e+06
+First 8:
+  TFS: -6.51 -27.47 1.57 -6.48 3.16 7.93 1.60 -29.08 
+  MKL: -519.21 -2184.65 128.55 -515.40 255.16 630.19 123.16 -2313.59 
+
+############################################
+# hollywood-2009
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/hollywood-2009/hollywood-2009.csrbin
+Matrix: hollywood-2009  N=1139905  NNZ=113891327  avg_deg=99.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 303.08 ms
+  run 1: 298.88 ms
+  run 2: 303.22 ms
+  run 3: 299.21 ms
+  run 4: 302.52 ms
+  TFS V3 E2E BEST: 298.88 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 396.26 ms
+  run 1: 392.32 ms
+  run 2: 394.76 ms
+  run 3: 393.20 ms
+  run 4: 392.78 ms
+  MKL E2E BEST: 392.32 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 298.88 ms
+  MKL (FP32):      392.32 ms
+  E2E Speedup:     1.31×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009100  RMSE=1.3300e+03
+First 8:
+  TFS: -109.29 -272.39 -461.88 -26.25 265.81 31.79 -482.19 -364.36 
+  MKL: -111.37 -274.80 -467.26 -26.29 268.55 32.86 -487.14 -367.36 
+
+############################################
+# indochina-2004
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/indochina-2004/indochina-2004.csrbin
+Matrix: indochina-2004  N=7414866  NNZ=194109311  avg_deg=26.2
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 347.33 ms
+  run 1: 349.90 ms
+  run 2: 353.14 ms
+  run 3: 349.18 ms
+  run 4: 348.86 ms
+  TFS V3 E2E BEST: 347.33 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 698.35 ms
+  run 1: 697.52 ms
+  run 2: 696.06 ms
+  run 3: 699.11 ms
+  run 4: 700.26 ms
+  MKL E2E BEST: 696.06 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 347.33 ms
+  MKL (FP32):      696.06 ms
+  E2E Speedup:     2.00×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008503  RMSE=3.9596e+03
+First 8:
+  TFS: -37.13 -33.93 -379.67 -25.18 -119.69 195.20 125.78 -160.26 
+  MKL: -37.65 -34.23 -383.59 -26.44 -120.64 197.34 126.60 -161.51 
+
+############################################
+# kron_g500-logn21
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/kron_g500-logn21/kron_g500-logn21.csrbin
+Matrix: kron_g500-logn21  N=2097152  NNZ=182082942  avg_deg=86.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 721.25 ms
+  run 1: 634.74 ms
+  run 2: 691.93 ms
+  run 3: 667.20 ms
+  run 4: 648.65 ms
+  TFS V3 E2E BEST: 634.74 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 638.00 ms
+  run 1: 612.60 ms
+  run 2: 620.25 ms
+  run 3: 619.47 ms
+  run 4: 621.01 ms
+  MKL E2E BEST: 612.60 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 634.74 ms
+  MKL (FP32):      612.60 ms
+  E2E Speedup:     0.97×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.966841  RMSE=3.1892e+06
+First 8:
+  TFS: -3910.11 -3709.67 -6116.74 2333.80 -1453.18 2373.25 -5128.07 -12548.81 
+  MKL: -5372.51 -5318.07 -6963.81 4582.21 -2518.00 -621.17 -2252.74 -15395.16 
+
+############################################
+# mycielskian19
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/mycielskian19/mycielskian19.csrbin
+Matrix: mycielskian19  N=393215  NNZ=903194710  avg_deg=2296.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2131.92 ms
+  run 1: 2262.79 ms
+  run 2: 2287.61 ms
+  run 3: 2173.53 ms
+  run 4: 2272.20 ms
+  TFS V3 E2E BEST: 2131.92 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 4814.15 ms
+  run 1: 4817.53 ms
+  run 2: 4817.69 ms
+  run 3: 4815.65 ms
+  run 4: 4813.87 ms
+  MKL E2E BEST: 4813.87 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2131.92 ms
+  MKL (FP32):      4813.87 ms
+  E2E Speedup:     2.26×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008863  RMSE=5.6702e+04
+First 8:
+  TFS: -53909420.00 -97622240.00 -80814696.00 -13668678.00 12609145.00 -9723282.00 -81751856.00 -87493720.00 
+  MKL: -54318140.00 -98481840.00 -81665120.00 -13942624.00 12705349.00 -9879961.00 -82692264.00 -88055840.00 
+
+############################################
+# ogbn-products
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/ogbn-products/ogbn-products.csrbin
+Matrix: ogbn-products  N=2449029  NNZ=123718152  avg_deg=50.5
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 340.27 ms
+  run 1: 329.69 ms
+  run 2: 331.87 ms
+  run 3: 331.86 ms
+  run 4: 344.24 ms
+  TFS V3 E2E BEST: 329.69 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1349.92 ms
+  run 1: 1350.51 ms
+  run 2: 1349.29 ms
+  run 3: 1348.42 ms
+  run 4: 1349.77 ms
+  MKL E2E BEST: 1348.42 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 329.69 ms
+  MKL (FP32):      1348.42 ms
+  E2E Speedup:     4.09×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010501  RMSE=1.5255e+02
+First 8:
+  TFS: -12991.84 -28908.69 -36407.58 -4621.78 10116.61 -6913.75 -18725.19 -24380.31 
+  MKL: -13114.39 -29165.52 -36805.82 -4675.34 10199.56 -6997.17 -18939.52 -24603.59 
+
+############################################
+# rajat31
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/rajat31/rajat31.csrbin
+Matrix: rajat31  N=4690002  NNZ=20316253  avg_deg=4.3
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 84.00 ms
+  run 1: 85.01 ms
+  run 2: 84.10 ms
+  run 3: 84.90 ms
+  run 4: 84.12 ms
+  TFS V3 E2E BEST: 84.00 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 140.56 ms
+  run 1: 141.44 ms
+  run 2: 167.17 ms
+  run 3: 138.67 ms
+  run 4: 140.70 ms
+  MKL E2E BEST: 138.67 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 84.00 ms
+  MKL (FP32):      138.67 ms
+  E2E Speedup:     1.65×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.999989  RMSE=1.2367e+06
+First 8:
+  TFS: -17.21 -30.10 4.76 -8.55 35.55 -7.04 -83.34 -97.48 
+  MKL: 2981.45 -3343.31 3071.70 -1476.28 -3857.81 425.02 -5218.61 -4702.40 
+
+############################################
+# reddit
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/reddit/reddit.csrbin
+Matrix: reddit  N=232965  NNZ=114615892  avg_deg=492.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 298.45 ms
+  run 1: 304.44 ms
+  run 2: 306.62 ms
+  run 3: 292.82 ms
+  run 4: 303.04 ms
+  TFS V3 E2E BEST: 292.82 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 441.37 ms
+  run 1: 441.82 ms
+  run 2: 442.46 ms
+  run 3: 441.87 ms
+  run 4: 441.95 ms
+  MKL E2E BEST: 441.37 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 292.82 ms
+  MKL (FP32):      441.37 ms
+  E2E Speedup:     1.51×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009665  RMSE=5.6776e+03
+First 8:
+  TFS: -1817809.38 -1559857.00 -1456105.00 -168724.73 170550.45 229760.09 -1456822.00 -2919221.25 
+  MKL: -1835311.88 -1573869.62 -1469937.12 -176028.23 172793.00 233258.53 -1473026.62 -2942951.50 
+
+############################################
+# rgg_n_2_24_s0
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/rgg_n_2_24_s0/rgg_n_2_24_s0.csrbin
+Matrix: rgg_n_2_24_s0  N=16777216  NNZ=265114400  avg_deg=15.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 885.20 ms
+  run 1: 904.86 ms
+  run 2: 903.50 ms
+  run 3: 900.89 ms
+  run 4: 903.77 ms
+  TFS V3 E2E BEST: 885.20 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 2022.07 ms
+  run 1: 2025.38 ms
+  run 2: 2025.78 ms
+  run 3: 2025.46 ms
+  run 4: 2023.64 ms
+  MKL E2E BEST: 2022.07 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 885.20 ms
+  MKL (FP32):      2022.07 ms
+  E2E Speedup:     2.28×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010369  RMSE=9.9012e+00
+First 8:
+  TFS: -329.95 184.42 -277.82 196.40 384.66 29.22 0.64 -592.28 
+  MKL: -333.82 187.02 -280.50 197.71 388.10 29.61 -0.37 -597.81 
+
+############################################
+# roadNet-CA
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/roadNet-CA/roadNet-CA.csrbin
+Matrix: roadNet-CA  N=1971281  NNZ=5533214  avg_deg=2.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 35.25 ms
+  run 1: 36.07 ms
+  run 2: 35.84 ms
+  run 3: 35.90 ms
+  run 4: 35.78 ms
+  TFS V3 E2E BEST: 35.25 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 66.23 ms
+  run 1: 66.39 ms
+  run 2: 66.38 ms
+  run 3: 66.35 ms
+  run 4: 66.49 ms
+  MKL E2E BEST: 66.23 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 35.25 ms
+  MKL (FP32):      66.23 ms
+  E2E Speedup:     1.88×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.011806  RMSE=8.0874e-01
+First 8:
+  TFS: 6.10 -52.73 -71.34 -1.16 36.92 -0.90 -104.09 -96.44 
+  MKL: 6.14 -53.15 -72.05 -1.12 37.09 -0.75 -105.36 -97.44 
+
+############################################
+# road_usa
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/road_usa/road_usa.csrbin
+Matrix: road_usa  N=23947347  NNZ=57708624  avg_deg=2.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 479.64 ms
+  run 1: 480.81 ms
+  run 2: 485.08 ms
+  run 3: 495.14 ms
+  run 4: 495.48 ms
+  TFS V3 E2E BEST: 479.64 ms
+
+=== MKL FP32 Two-Step ===
+timeout: the monitored command dumped core
+/var/spool/slurmd/job4624352/slurm_script: line 27: 2766778 Segmentation fault      timeout 1200 ./gcn_e2e_v3 $DDIR $mat
+  ERROR (139)
+
+############################################
+# scircuit
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/scircuit/scircuit.csrbin
+Matrix: scircuit  N=170998  NNZ=958936  avg_deg=5.6
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 4.86 ms
+  run 1: 4.70 ms
+  run 2: 4.84 ms
+  run 3: 4.77 ms
+  run 4: 4.90 ms
+  TFS V3 E2E BEST: 4.70 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 6.75 ms
+  run 1: 6.81 ms
+  run 2: 6.75 ms
+  run 3: 6.80 ms
+  run 4: 6.83 ms
+  MKL E2E BEST: 6.75 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 4.70 ms
+  MKL (FP32):      6.75 ms
+  E2E Speedup:     1.44×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=1.000000  RMSE=8.5499e+07
+First 8:
+  TFS: -328.33 -1117.94 -563.70 -78.45 -18.37 -387.32 -588.32 -747.61 
+  MKL: -5.31 -44.04 -6.47 -10.08 -0.23 -15.17 -7.18 -32.68 
+
+############################################
+# soc-LiveJournal1
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/soc-LiveJournal1/soc-LiveJournal1.csrbin
+Matrix: soc-LiveJournal1  N=4847571  NNZ=68993773  avg_deg=14.2
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 249.31 ms
+  run 1: 256.09 ms
+  run 2: 252.69 ms
+  run 3: 251.35 ms
+  run 4: 245.07 ms
+  TFS V3 E2E BEST: 245.07 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 680.27 ms
+  run 1: 683.47 ms
+  run 2: 680.09 ms
+  run 3: 680.00 ms
+  run 4: 680.38 ms
+  MKL E2E BEST: 680.00 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 245.07 ms
+  MKL (FP32):      680.00 ms
+  E2E Speedup:     2.77×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010477  RMSE=4.7468e+01
+First 8:
+  TFS: -1141.54 -5977.87 -4698.88 -2085.13 -153.08 186.01 -3180.57 -4738.68 
+  MKL: -1152.32 -6034.86 -4747.99 -2104.23 -159.90 190.52 -3217.06 -4786.02 
+
+############################################
+# soc-Pokec
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/soc-Pokec/soc-Pokec.csrbin
+Matrix: soc-Pokec  N=1632803  NNZ=30622564  avg_deg=18.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 97.04 ms
+  run 1: 99.11 ms
+  run 2: 98.37 ms
+  run 3: 96.50 ms
+  run 4: 97.83 ms
+  TFS V3 E2E BEST: 96.50 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 331.83 ms
+  run 1: 332.91 ms
+  run 2: 333.08 ms
+  run 3: 331.18 ms
+  run 4: 333.83 ms
+  MKL E2E BEST: 331.18 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 96.50 ms
+  MKL (FP32):      331.18 ms
+  E2E Speedup:     3.43×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010972  RMSE=2.7145e+01
+First 8:
+  TFS: -258.68 -946.01 -929.20 54.90 375.05 90.65 -826.39 -423.82 
+  MKL: -260.59 -953.13 -938.85 57.47 378.51 90.48 -835.36 -427.99 
+
+############################################
+# sx-stackoverflow
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/sx-stackoverflow/sx-stackoverflow.csrbin
+Matrix: sx-stackoverflow  N=2601977  NNZ=11370342  avg_deg=4.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 64.20 ms
+  run 1: 61.45 ms
+  run 2: 62.48 ms
+  run 3: 61.86 ms
+  run 4: 59.93 ms
+  TFS V3 E2E BEST: 59.93 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 98.83 ms
+  run 1: 99.55 ms
+  run 2: 100.81 ms
+  run 3: 99.68 ms
+  run 4: 100.76 ms
+  MKL E2E BEST: 98.83 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 59.93 ms
+  MKL (FP32):      98.83 ms
+  E2E Speedup:     1.65×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.999990  RMSE=1.3197e+07
+First 8:
+  TFS: -1718.93 -40602.50 -39839.26 164.19 4535.11 3503.73 -22411.95 -18016.25 
+  MKL: -119668.84 -734033.25 -1125762.75 -254257.52 39112.45 -106932.11 -730690.38 -454654.25 
+
+############################################
+# web-Google
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/web-Google/web-Google.csrbin
+Matrix: web-Google  N=916428  NNZ=5105039  avg_deg=5.6
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 20.66 ms
+  run 1: 20.76 ms
+  run 2: 20.71 ms
+  run 3: 21.18 ms
+  run 4: 20.85 ms
+  TFS V3 E2E BEST: 20.66 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 46.73 ms
+  run 1: 47.03 ms
+  run 2: 47.98 ms
+  run 3: 47.65 ms
+  run 4: 47.54 ms
+  MKL E2E BEST: 46.73 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 20.66 ms
+  MKL (FP32):      46.73 ms
+  E2E Speedup:     2.26×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010098  RMSE=4.2428e+00
+First 8:
+  TFS: 1.26 -199.48 -333.10 5.93 33.54 46.40 -79.69 -134.20 
+  MKL: 1.78 -200.73 -336.73 6.12 33.62 46.02 -80.46 -135.35 
+
+############################################
+# wiki-Talk
+############################################
+
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/SpMM_project/data/wiki-Talk/wiki-Talk.csrbin
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 109.67 ms
+  run 1: 108.08 ms
+  run 2: 107.23 ms
+  run 3: 107.15 ms
+  run 4: 106.69 ms
+  TFS V3 E2E BEST: 106.69 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 90.34 ms
+  run 1: 90.50 ms
+  run 2: 90.52 ms
+  run 3: 90.54 ms
+  run 4: 90.48 ms
+  MKL E2E BEST: 90.34 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 106.69 ms
+  MKL (FP32):      90.34 ms
+  E2E Speedup:     0.85×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+
+=== Done: Tue Mar 10 21:27:58 CST 2026 ===
