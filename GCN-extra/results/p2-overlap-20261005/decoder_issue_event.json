@@ -1,0 +1,16 @@
+{
+  "id": "p2-amx-decoder-audit-20261005",
+  "kind": "decoder_issue_and_resolution",
+  "status": "RESOLVED",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/results/p2-overlap-20261005-v2",
+  "paper_eligible": false,
+  "issues": "GNU objdump 2.30 does not decode AMX; its (bad) entries are not an instruction audit. The old immutable disassembly remains preserved.",
+  "resolution": "Decode actual ELF function bytes with iced-x86 1.21.0. ELF symbol sizes/PT_LOAD select bytes; the old demangled output supplies addresses only. Both functions have zero invalid instructions. AVX neighbor reduction appears between current-tile AMX K blocks in the interleaved function.",
+  "binary_sha256": "1aff557978952bf8c069c57dd30a0bce281ba0e0be69506664a6ca00fa2a3daa",
+  "decoder": "iced-x86 1.21.0",
+  "decoded_hashes": {
+    "serial": "24406aa69283f013b833c59eff7ea631a41ee0dc446ac75e1ae5c403c1d49c00",
+    "interleaved": "666b5d5e15d86736405d258477d84263596b6edad9c196c7956f75a086f07f87"
+  },
+  "next": "Instruction ordering is validated; effective hardware overlap and full-model speedup are not thereby proved."
+}

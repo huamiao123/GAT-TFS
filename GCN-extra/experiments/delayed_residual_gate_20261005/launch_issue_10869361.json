@@ -1,0 +1,12 @@
+{
+  "id": "delayed-residual-launch-10869361-resolved",
+  "kind": "launcher_issue_resolution",
+  "status": "RESOLVED",
+  "job_id": "10869361",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/delayed-residual-gate-20261005-112010/logs",
+  "issues": "Preflight shell source assigns RUN=$1. Passing RUN/logs overwrote caller RUN and created logs/logs output targets. Hardware program never ran. The old completion event has id logs because of the same variable overwrite. Failed evidence is retained.",
+  "resolution": "Preserve GATE_RUN and restore RUN after sourced preflight. Rebuild in unique delayed-residual-gate-20261005-112212; job10869364 completed with the expected D1 FP32-gate rejection and other counterexample outputs exact.",
+  "prevention": "Preserve experiment-specific run variables when sourcing shared shell preflight; do not pass subdirectories through an unprotected RUN global.",
+  "paper_eligible": false,
+  "next": "Retain this failure and use the successful unique hardware gate as numerical evidence only"
+}

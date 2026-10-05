@@ -18,6 +18,15 @@ control stays byte-identical; FP32 sparse input bypasses decode and native
 interlayer conversion, with separate matched-input/reference diagnostics.
 The user explicitly allows shared intel nodes for this experiment; verify
 32 physical cores on one socket and label shared measurements accordingly.
+The follow-on journal P1 study is authorized under
+experiments/journal_grouping_p1_20261005/PROTOCOL.md. It changes only the
+logical destination schedule within bounded identical-q64 buckets and
+requires bitwise output and identical projection/window work. P0 sources
+and existing frozen run snapshots remain unchanged.
+The user-supplied journal study also authorizes isolated P2 same-work
+AVX/AMX handoff microbenchmarks and P3 delayed-residual numerical gates,
+under their own experiments/ protocols. These do not replace the paper
+baseline or constitute complete-model performance/accuracy evidence.
 Use the canonical validated paper_methods_kernels.hpp. No numerical gate
 relaxation, per-graph oracle treated as deployed policy, or cross-run timing
 denominator. Preserve all current negative cases and raw repeated measurements.
