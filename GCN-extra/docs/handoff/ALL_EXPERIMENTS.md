@@ -2977,3 +2977,19 @@ Prior experiment entries removed by explicit user request. The retained run snap
   "date": "2026-10-05T04:00:26.738461+00:00"
 }
 ```
+
+## journal-evidence-gitignore-resolved-20261005
+
+```json
+{
+  "id": "journal-evidence-gitignore-resolved-20261005",
+  "kind": "artifact_curation_issue",
+  "status": "RESOLVED",
+  "paper_eligible": false,
+  "evidence": "GCN-extra/results/journal-p1-20261005/CURATED_ARTIFACT_HASHES.json",
+  "issues": "The staged-byte integrity check detected that GCN-extra/.gitignore build/ excluded copied provenance/build metadata from an initial unpublished local commit. No executable or numerical measurement was affected.",
+  "resolution": "Explicitly include only the copied command, compiler log, binary-hash, build-event and library metadata directories. Keep executables and scratch data excluded. Verify all curated file hashes against staged Git blobs before publishing.",
+  "next": "Future evidence packaging must check tracked-file coverage, not only filesystem hashes. Raw NUMA command output retains original trailing spaces.",
+  "date": "2026-10-05T04:04:44.964758+00:00"
+}
+```

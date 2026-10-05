@@ -18,6 +18,8 @@ logical work, PMU and schedule audit/structure. `provenance/` copies the
 actual frozen source snapshot, build metadata and each job's environment
 and completion evidence. Executable binaries and input graph data remain
 on the server; their hashes are recorded. Source TFS/MKL are unmodified.
+`RAW_LOGS.tar.gz` preserves the original per-graph command, stdout, stderr
+and status files (including smoke); its index gives every member hash.
 
 `artifact_hashes.json` is the original reconciliation inventory. The later
 curation adds provenance, interpretation event and this README;
