@@ -8,6 +8,16 @@ packed weights, activation, output precision and timing boundaries.
 default NUMA policy; no MKL thread/dynamic override; at most five nodes.
 Write only within wzh; yx is read-only. Read applicable AGENTS.md/SKILL.md.
 Modified TFS parameters are neighbor block and FAST/ACCURATE representation.
+Independent neighbor-window/projection-scope experiments are additionally
+authorized by docs/PROJECTION_WINDOW_PROTOCOL_20261004.md. Their new kernels
+remain isolated; same-scope output must be bitwise identical to the canonical
+validated kernel. No prefetch/NUMA/permutation changes in that controlled round.
+The user additionally authorizes the frozen 8aeef16 feature-input precision
+2x2 ablation under experiments/feature_precision_8aeef16/PROTOCOL.md. BF16
+control stays byte-identical; FP32 sparse input bypasses decode and native
+interlayer conversion, with separate matched-input/reference diagnostics.
+The user explicitly allows shared intel nodes for this experiment; verify
+32 physical cores on one socket and label shared measurements accordingly.
 Use the canonical validated paper_methods_kernels.hpp. No numerical gate
 relaxation, per-graph oracle treated as deployed policy, or cross-run timing
 denominator. Preserve all current negative cases and raw repeated measurements.
