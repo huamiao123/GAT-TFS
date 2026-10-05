@@ -2993,3 +2993,1156 @@ Prior experiment entries removed by explicit user request. The retained run snap
   "date": "2026-10-05T04:04:44.964758+00:00"
 }
 ```
+
+## residual-broad-build-20261005-121707
+
+```json
+{
+  "id": "residual-broad-build-20261005-121707",
+  "kind": "residual_broad_build",
+  "status": "PASS",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707",
+  "paper_eligible": false,
+  "issues": "Frozen ACCURATE controls unchanged; isolated D2/D3 code",
+  "next": "Smoke gates before diagnostic graphs",
+  "date": "2026-10-05T04:17:14.181063+00:00"
+}
+```
+
+## residual-broad-build-20261005-121707-smoke-submit-10869475
+
+```json
+{
+  "id": "residual-broad-build-20261005-121707-smoke-submit-10869475",
+  "kind": "residual_broad_submission",
+  "status": "SUBMITTED",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707",
+  "mode": "smoke",
+  "job": "10869475",
+  "paper_eligible": false,
+  "issues": "Shared single-socket physical cores, default NUMA",
+  "next": "Numerical gates before accepted timing",
+  "date": "2026-10-05T04:19:35.979520+00:00"
+}
+```
+
+## smoke-10869475
+
+```json
+{
+  "id": "smoke-10869475",
+  "kind": "residual_broad_run",
+  "status": "COMPLETE",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707/logs/smoke-10869475",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707",
+  "mode": "smoke",
+  "job": "10869475",
+  "node": "qhcn001",
+  "paper_eligible": false,
+  "issues": "Candidate numeric rejection remains evidence; no relaxed gates or cross-node ratios",
+  "next": "Inspect accepted candidates against decoupled FULL ACCURATE",
+  "completion": {
+    "mode": "smoke",
+    "graphs": 3,
+    "failed": 0,
+    "checks": 60,
+    "rejections": [
+      {
+        "graph": "window_tail",
+        "methods": []
+      },
+      {
+        "graph": "window_high_tail",
+        "methods": []
+      },
+      {
+        "graph": "window_scope_tail",
+        "methods": []
+      }
+    ]
+  },
+  "date": "2026-10-05T04:19:39.848796+00:00"
+}
+```
+
+## residual-broad-build-20261005-121707-focus-submit-10869493
+
+```json
+{
+  "id": "residual-broad-build-20261005-121707-focus-submit-10869493",
+  "kind": "residual_broad_submission",
+  "status": "SUBMITTED",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707",
+  "mode": "focus",
+  "job": "10869493",
+  "paper_eligible": false,
+  "issues": "Shared single-socket physical cores, default NUMA",
+  "next": "Numerical gates before accepted timing",
+  "date": "2026-10-05T04:22:56.387763+00:00"
+}
+```
+
+## focus-10869493
+
+```json
+{
+  "id": "focus-10869493",
+  "kind": "residual_broad_run",
+  "status": "COMPLETE",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707/logs/focus-10869493",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707",
+  "mode": "focus",
+  "job": "10869493",
+  "node": "qhcn274",
+  "paper_eligible": false,
+  "issues": "Candidate numeric rejection remains evidence; no relaxed gates or cross-node ratios",
+  "next": "Inspect accepted candidates against decoupled FULL ACCURATE",
+  "completion": {
+    "mode": "focus",
+    "graphs": 5,
+    "failed": 0,
+    "checks": 100,
+    "rejections": [
+      {
+        "graph": "ogbn-products",
+        "methods": []
+      },
+      {
+        "graph": "reddit",
+        "methods": []
+      },
+      {
+        "graph": "mycielskian19",
+        "methods": []
+      },
+      {
+        "graph": "roadNet-CA",
+        "methods": []
+      },
+      {
+        "graph": "wiki-Talk",
+        "methods": []
+      }
+    ]
+  },
+  "date": "2026-10-05T04:27:08.676104+00:00"
+}
+```
+
+## selective-shape-build-20261005-122940
+
+```json
+{
+  "id": "selective-shape-build-20261005-122940",
+  "kind": "selective_shape_build",
+  "status": "PASS",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-122940",
+  "paper_eligible": false,
+  "issues": "P4 isolated ACCURATE shape controls; source TFS/MKL unchanged",
+  "next": "Smoke gates before diagnostic graphs",
+  "date": "2026-10-05T04:29:57.903012+00:00"
+}
+```
+
+## selective-shape-build-20261005-122940-smoke-submit-10869522
+
+```json
+{
+  "id": "selective-shape-build-20261005-122940-smoke-submit-10869522",
+  "kind": "selective_shape_submission",
+  "status": "SUBMITTED",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-122940",
+  "mode": "smoke",
+  "job": "10869522",
+  "paper_eligible": false,
+  "issues": "Shared single-socket physical cores, default NUMA",
+  "next": "Numerical gates before accepted timing",
+  "date": "2026-10-05T04:30:44.592527+00:00"
+}
+```
+
+## smoke-10869522
+
+```json
+{
+  "id": "smoke-10869522",
+  "kind": "selective_shape_run",
+  "status": "COMPLETE",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-122940/logs/smoke-10869522",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-122940",
+  "mode": "smoke",
+  "job": "10869522",
+  "node": "qhcn001",
+  "paper_eligible": false,
+  "issues": "Candidate numeric rejection remains evidence; no relaxed gates or cross-node ratios",
+  "next": "Check conditional benefits against project_all and project_used, including cache rebuild",
+  "completion": {
+    "mode": "smoke",
+    "graphs": 3,
+    "failed": 0,
+    "checks": 144
+  },
+  "date": "2026-10-05T04:30:54.381274+00:00"
+}
+```
+
+## p4-smoke-control-alignment-20261005
+
+```json
+{
+  "id": "p4-smoke-control-alignment-20261005",
+  "kind": "pre-formal_control_alignment",
+  "status": "RESOLVED",
+  "paper_eligible": false,
+  "evidence": "runs/selective-shape-build-20261005-122940/logs/smoke-10869522",
+  "issues": "First P4 smoke passed 144 numerical and degenerate/frozen controls using a continuous small-magnitude random generator. This is a valid independent implementation gate, but the journal shape study should inherit the original discrete H/W distribution.",
+  "resolution": "Before any real-graph timing, align to original 0.01*(rand()%200-100), preserving original interleaved W1/W2 order for width128. Add predefined project-used L1/full L2 strong control and sampled state-load/per-thread records. Build/run a new snapshot; preserve the earlier smoke as superseded. No previous measurement is overwritten.",
+  "next": "Repeat smoke, then controlled source-sharing graphs and five real graphs with the frozen aligned generator.",
+  "date": "2026-10-05T04:34:18.881892+00:00"
+}
+```
+
+## selective-shape-build-20261005-123418
+
+```json
+{
+  "id": "selective-shape-build-20261005-123418",
+  "kind": "selective_shape_build",
+  "status": "PASS",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "paper_eligible": false,
+  "issues": "P4 isolated ACCURATE shape controls; source TFS/MKL unchanged",
+  "next": "Smoke gates before diagnostic graphs",
+  "date": "2026-10-05T04:34:31.068672+00:00"
+}
+```
+
+## selective-shape-build-20261005-123418-smoke-submit-10869541
+
+```json
+{
+  "id": "selective-shape-build-20261005-123418-smoke-submit-10869541",
+  "kind": "selective_shape_submission",
+  "status": "SUBMITTED",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "mode": "smoke",
+  "job": "10869541",
+  "paper_eligible": false,
+  "issues": "Shared single-socket physical cores, default NUMA",
+  "next": "Numerical gates before accepted timing",
+  "date": "2026-10-05T04:36:11.116920+00:00"
+}
+```
+
+## smoke-10869541
+
+```json
+{
+  "id": "smoke-10869541",
+  "kind": "selective_shape_run",
+  "status": "COMPLETE",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418/logs/smoke-10869541",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "mode": "smoke",
+  "job": "10869541",
+  "node": "qhcn001",
+  "paper_eligible": false,
+  "issues": "Candidate numeric rejection remains evidence; no relaxed gates or cross-node ratios",
+  "next": "Check conditional benefits against project_all and project_used, including cache rebuild",
+  "completion": {
+    "mode": "smoke",
+    "graphs": 3,
+    "failed": 0,
+    "checks": 162
+  },
+  "date": "2026-10-05T04:36:15.626800+00:00"
+}
+```
+
+## selective-shape-build-20261005-123418-controlled-submit-10869544
+
+```json
+{
+  "id": "selective-shape-build-20261005-123418-controlled-submit-10869544",
+  "kind": "selective_shape_submission",
+  "status": "SUBMITTED",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "mode": "controlled",
+  "job": "10869544",
+  "paper_eligible": false,
+  "issues": "Shared single-socket physical cores, default NUMA",
+  "next": "Numerical gates before accepted timing",
+  "date": "2026-10-05T04:37:18.175284+00:00"
+}
+```
+
+## controlled-10869544
+
+```json
+{
+  "id": "controlled-10869544",
+  "kind": "selective_shape_run",
+  "status": "COMPLETE",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418/logs/controlled-10869544",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "mode": "controlled",
+  "job": "10869544",
+  "node": "qhcn177",
+  "paper_eligible": false,
+  "issues": "Candidate numeric rejection remains evidence; no relaxed gates or cross-node ratios",
+  "next": "Check conditional benefits against project_all and project_used, including cache rebuild",
+  "completion": {
+    "mode": "controlled",
+    "graphs": 2,
+    "failed": 0,
+    "checks": 108
+  },
+  "date": "2026-10-05T04:37:30.235962+00:00"
+}
+```
+
+## selective-shape-build-20261005-123418-focus-submit-10869550
+
+```json
+{
+  "id": "selective-shape-build-20261005-123418-focus-submit-10869550",
+  "kind": "selective_shape_submission",
+  "status": "SUBMITTED",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "mode": "focus",
+  "job": "10869550",
+  "paper_eligible": false,
+  "issues": "Shared single-socket physical cores, default NUMA",
+  "next": "Numerical gates before accepted timing",
+  "date": "2026-10-05T04:40:35.744552+00:00"
+}
+```
+
+## focus-10869550
+
+```json
+{
+  "id": "focus-10869550",
+  "kind": "selective_shape_run",
+  "status": "COMPLETE",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418/logs/focus-10869550",
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418",
+  "mode": "focus",
+  "job": "10869550",
+  "node": "qhcn177",
+  "paper_eligible": false,
+  "issues": "Candidate numeric rejection remains evidence; no relaxed gates or cross-node ratios",
+  "next": "Check conditional benefits against project_all and project_used, including cache rebuild",
+  "completion": {
+    "mode": "focus",
+    "graphs": 5,
+    "failed": 0,
+    "checks": 270
+  },
+  "date": "2026-10-05T04:56:20.584725+00:00"
+}
+```
+
+## journal-p3-p4-reconciled-20261005-1301
+
+```json
+{
+  "id": "journal-p3-p4-reconciled-20261005-1301",
+  "kind": "journal_p3_p4_reconciliation",
+  "status": "COMPLETE",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/journal-p3-p4-reconciled-20261005-1301",
+  "paper_eligible": false,
+  "summary": {
+    "p3": {
+      "checks": 160,
+      "rejections": [],
+      "runs": [
+        {
+          "mode": "smoke",
+          "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707/logs/smoke-10869475",
+          "node": "qhcn001",
+          "job": "10869475",
+          "completion": {
+            "mode": "smoke",
+            "graphs": 3,
+            "failed": 0,
+            "checks": 60,
+            "rejections": [
+              {
+                "graph": "window_tail",
+                "methods": []
+              },
+              {
+                "graph": "window_high_tail",
+                "methods": []
+              },
+              {
+                "graph": "window_scope_tail",
+                "methods": []
+              }
+            ]
+          },
+          "affinity": {
+            "cpus": [
+              32,
+              33,
+              34,
+              35
+            ],
+            "topology": [
+              {
+                "cpu": 32,
+                "socket": 1,
+                "core": 0
+              },
+              {
+                "cpu": 33,
+                "socket": 1,
+                "core": 1
+              },
+              {
+                "cpu": 34,
+                "socket": 1,
+                "core": 2
+              },
+              {
+                "cpu": 35,
+                "socket": 1,
+                "core": 3
+              }
+            ]
+          }
+        },
+        {
+          "mode": "focus",
+          "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/residual-broad-build-20261005-121707/logs/focus-10869493",
+          "node": "qhcn274",
+          "job": "10869493",
+          "completion": {
+            "mode": "focus",
+            "graphs": 5,
+            "failed": 0,
+            "checks": 100,
+            "rejections": [
+              {
+                "graph": "ogbn-products",
+                "methods": []
+              },
+              {
+                "graph": "reddit",
+                "methods": []
+              },
+              {
+                "graph": "mycielskian19",
+                "methods": []
+              },
+              {
+                "graph": "roadNet-CA",
+                "methods": []
+              },
+              {
+                "graph": "wiki-Talk",
+                "methods": []
+              }
+            ]
+          },
+          "affinity": {
+            "cpus": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63
+            ],
+            "topology": [
+              {
+                "cpu": 32,
+                "socket": 1,
+                "core": 0
+              },
+              {
+                "cpu": 33,
+                "socket": 1,
+                "core": 1
+              },
+              {
+                "cpu": 34,
+                "socket": 1,
+                "core": 2
+              },
+              {
+                "cpu": 35,
+                "socket": 1,
+                "core": 3
+              },
+              {
+                "cpu": 36,
+                "socket": 1,
+                "core": 4
+              },
+              {
+                "cpu": 37,
+                "socket": 1,
+                "core": 5
+              },
+              {
+                "cpu": 38,
+                "socket": 1,
+                "core": 6
+              },
+              {
+                "cpu": 39,
+                "socket": 1,
+                "core": 7
+              },
+              {
+                "cpu": 40,
+                "socket": 1,
+                "core": 8
+              },
+              {
+                "cpu": 41,
+                "socket": 1,
+                "core": 9
+              },
+              {
+                "cpu": 42,
+                "socket": 1,
+                "core": 10
+              },
+              {
+                "cpu": 43,
+                "socket": 1,
+                "core": 11
+              },
+              {
+                "cpu": 44,
+                "socket": 1,
+                "core": 12
+              },
+              {
+                "cpu": 45,
+                "socket": 1,
+                "core": 13
+              },
+              {
+                "cpu": 46,
+                "socket": 1,
+                "core": 14
+              },
+              {
+                "cpu": 47,
+                "socket": 1,
+                "core": 15
+              },
+              {
+                "cpu": 48,
+                "socket": 1,
+                "core": 16
+              },
+              {
+                "cpu": 49,
+                "socket": 1,
+                "core": 17
+              },
+              {
+                "cpu": 50,
+                "socket": 1,
+                "core": 18
+              },
+              {
+                "cpu": 51,
+                "socket": 1,
+                "core": 19
+              },
+              {
+                "cpu": 52,
+                "socket": 1,
+                "core": 20
+              },
+              {
+                "cpu": 53,
+                "socket": 1,
+                "core": 21
+              },
+              {
+                "cpu": 54,
+                "socket": 1,
+                "core": 22
+              },
+              {
+                "cpu": 55,
+                "socket": 1,
+                "core": 23
+              },
+              {
+                "cpu": 56,
+                "socket": 1,
+                "core": 24
+              },
+              {
+                "cpu": 57,
+                "socket": 1,
+                "core": 25
+              },
+              {
+                "cpu": 58,
+                "socket": 1,
+                "core": 26
+              },
+              {
+                "cpu": 59,
+                "socket": 1,
+                "core": 27
+              },
+              {
+                "cpu": 60,
+                "socket": 1,
+                "core": 28
+              },
+              {
+                "cpu": 61,
+                "socket": 1,
+                "core": 29
+              },
+              {
+                "cpu": 62,
+                "socket": 1,
+                "core": 30
+              },
+              {
+                "cpu": 63,
+                "socket": 1,
+                "core": 31
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "p4": {
+      "checks": 540,
+      "rejections": [],
+      "runs": [
+        {
+          "mode": "smoke",
+          "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418/logs/smoke-10869541",
+          "node": "qhcn001",
+          "job": "10869541",
+          "completion": {
+            "mode": "smoke",
+            "graphs": 3,
+            "failed": 0,
+            "checks": 162
+          },
+          "affinity": {
+            "cpus": [
+              32,
+              33,
+              34,
+              35
+            ],
+            "topology": [
+              {
+                "cpu": 32,
+                "socket": 1,
+                "core": 0
+              },
+              {
+                "cpu": 33,
+                "socket": 1,
+                "core": 1
+              },
+              {
+                "cpu": 34,
+                "socket": 1,
+                "core": 2
+              },
+              {
+                "cpu": 35,
+                "socket": 1,
+                "core": 3
+              }
+            ]
+          }
+        },
+        {
+          "mode": "controlled",
+          "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418/logs/controlled-10869544",
+          "node": "qhcn177",
+          "job": "10869544",
+          "completion": {
+            "mode": "controlled",
+            "graphs": 2,
+            "failed": 0,
+            "checks": 108
+          },
+          "affinity": {
+            "cpus": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31
+            ],
+            "topology": [
+              {
+                "cpu": 0,
+                "socket": 0,
+                "core": 0
+              },
+              {
+                "cpu": 1,
+                "socket": 0,
+                "core": 1
+              },
+              {
+                "cpu": 2,
+                "socket": 0,
+                "core": 2
+              },
+              {
+                "cpu": 3,
+                "socket": 0,
+                "core": 3
+              },
+              {
+                "cpu": 4,
+                "socket": 0,
+                "core": 4
+              },
+              {
+                "cpu": 5,
+                "socket": 0,
+                "core": 5
+              },
+              {
+                "cpu": 6,
+                "socket": 0,
+                "core": 6
+              },
+              {
+                "cpu": 7,
+                "socket": 0,
+                "core": 7
+              },
+              {
+                "cpu": 8,
+                "socket": 0,
+                "core": 8
+              },
+              {
+                "cpu": 9,
+                "socket": 0,
+                "core": 9
+              },
+              {
+                "cpu": 10,
+                "socket": 0,
+                "core": 10
+              },
+              {
+                "cpu": 11,
+                "socket": 0,
+                "core": 11
+              },
+              {
+                "cpu": 12,
+                "socket": 0,
+                "core": 12
+              },
+              {
+                "cpu": 13,
+                "socket": 0,
+                "core": 13
+              },
+              {
+                "cpu": 14,
+                "socket": 0,
+                "core": 14
+              },
+              {
+                "cpu": 15,
+                "socket": 0,
+                "core": 15
+              },
+              {
+                "cpu": 16,
+                "socket": 0,
+                "core": 16
+              },
+              {
+                "cpu": 17,
+                "socket": 0,
+                "core": 17
+              },
+              {
+                "cpu": 18,
+                "socket": 0,
+                "core": 18
+              },
+              {
+                "cpu": 19,
+                "socket": 0,
+                "core": 19
+              },
+              {
+                "cpu": 20,
+                "socket": 0,
+                "core": 20
+              },
+              {
+                "cpu": 21,
+                "socket": 0,
+                "core": 21
+              },
+              {
+                "cpu": 22,
+                "socket": 0,
+                "core": 22
+              },
+              {
+                "cpu": 23,
+                "socket": 0,
+                "core": 23
+              },
+              {
+                "cpu": 24,
+                "socket": 0,
+                "core": 24
+              },
+              {
+                "cpu": 25,
+                "socket": 0,
+                "core": 25
+              },
+              {
+                "cpu": 26,
+                "socket": 0,
+                "core": 26
+              },
+              {
+                "cpu": 27,
+                "socket": 0,
+                "core": 27
+              },
+              {
+                "cpu": 28,
+                "socket": 0,
+                "core": 28
+              },
+              {
+                "cpu": 29,
+                "socket": 0,
+                "core": 29
+              },
+              {
+                "cpu": 30,
+                "socket": 0,
+                "core": 30
+              },
+              {
+                "cpu": 31,
+                "socket": 0,
+                "core": 31
+              }
+            ]
+          }
+        },
+        {
+          "mode": "focus",
+          "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/selective-shape-build-20261005-123418/logs/focus-10869550",
+          "node": "qhcn177",
+          "job": "10869550",
+          "completion": {
+            "mode": "focus",
+            "graphs": 5,
+            "failed": 0,
+            "checks": 270
+          },
+          "affinity": {
+            "cpus": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31
+            ],
+            "topology": [
+              {
+                "cpu": 0,
+                "socket": 0,
+                "core": 0
+              },
+              {
+                "cpu": 1,
+                "socket": 0,
+                "core": 1
+              },
+              {
+                "cpu": 2,
+                "socket": 0,
+                "core": 2
+              },
+              {
+                "cpu": 3,
+                "socket": 0,
+                "core": 3
+              },
+              {
+                "cpu": 4,
+                "socket": 0,
+                "core": 4
+              },
+              {
+                "cpu": 5,
+                "socket": 0,
+                "core": 5
+              },
+              {
+                "cpu": 6,
+                "socket": 0,
+                "core": 6
+              },
+              {
+                "cpu": 7,
+                "socket": 0,
+                "core": 7
+              },
+              {
+                "cpu": 8,
+                "socket": 0,
+                "core": 8
+              },
+              {
+                "cpu": 9,
+                "socket": 0,
+                "core": 9
+              },
+              {
+                "cpu": 10,
+                "socket": 0,
+                "core": 10
+              },
+              {
+                "cpu": 11,
+                "socket": 0,
+                "core": 11
+              },
+              {
+                "cpu": 12,
+                "socket": 0,
+                "core": 12
+              },
+              {
+                "cpu": 13,
+                "socket": 0,
+                "core": 13
+              },
+              {
+                "cpu": 14,
+                "socket": 0,
+                "core": 14
+              },
+              {
+                "cpu": 15,
+                "socket": 0,
+                "core": 15
+              },
+              {
+                "cpu": 16,
+                "socket": 0,
+                "core": 16
+              },
+              {
+                "cpu": 17,
+                "socket": 0,
+                "core": 17
+              },
+              {
+                "cpu": 18,
+                "socket": 0,
+                "core": 18
+              },
+              {
+                "cpu": 19,
+                "socket": 0,
+                "core": 19
+              },
+              {
+                "cpu": 20,
+                "socket": 0,
+                "core": 20
+              },
+              {
+                "cpu": 21,
+                "socket": 0,
+                "core": 21
+              },
+              {
+                "cpu": 22,
+                "socket": 0,
+                "core": 22
+              },
+              {
+                "cpu": 23,
+                "socket": 0,
+                "core": 23
+              },
+              {
+                "cpu": 24,
+                "socket": 0,
+                "core": 24
+              },
+              {
+                "cpu": 25,
+                "socket": 0,
+                "core": 25
+              },
+              {
+                "cpu": 26,
+                "socket": 0,
+                "core": 26
+              },
+              {
+                "cpu": 27,
+                "socket": 0,
+                "core": 27
+              },
+              {
+                "cpu": 28,
+                "socket": 0,
+                "core": 28
+              },
+              {
+                "cpu": 29,
+                "socket": 0,
+                "core": 29
+              },
+              {
+                "cpu": 30,
+                "socket": 0,
+                "core": 30
+              },
+              {
+                "cpu": 31,
+                "socket": 0,
+                "core": 31
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "issues": "Shared-node conditional shape experiments; no universal accuracy/novelty or additive profile claims",
+  "next": "Interpret fixed selective fractions against strong project-used and mixed-layer controls",
+  "date": "2026-10-05T04:59:38.357108+00:00"
+}
+```
+
+## journal-p3-p4-interpretation-20261005
+
+```json
+{
+  "id": "journal-p3-p4-interpretation-20261005",
+  "kind": "journal_followup_final_audit",
+  "status": "COMPLETE",
+  "evidence": "GCN-extra/results/journal-p3-p4-20261005",
+  "source": "GCN-extra/experiments/journal_followup_p3_p4_20261005",
+  "report": "GCN-extra/docs/JOURNAL_P3_P4_INTERPRETATION_20261005.md",
+  "paper_eligible": false,
+  "results": "P3:160/P4:540 numerical checks passed; zero candidate rejection; 660 PMU regions. D2/D3 0/5 wins vs FULL. Partial P4 fractions do not beat all global/mixed controls.",
+  "issues": "Analysis initially stopped on missing P3 work pass-column; schema corrected and complete audit rerun. Controlled small graphs have high CV. P3 fine profile is layer1 only. Source-cache layout/map dependence is not isolated. No universal accuracy or task/novelty claims.",
+  "resolution": "All raw measurements retained; source/input hashes, Slurm exit, physical binding, NUMA policy, gates and PMU scaling reconciled. Superseded first P4 smoke remains outside main tables.",
+  "next": "Prioritize P0/P1 predictive conditions and held-out selection evidence; isolate same-set Q layout before claiming a selective materialization mechanism.",
+  "date": "2026-10-05T05:16:35.872807+00:00"
+}
+```

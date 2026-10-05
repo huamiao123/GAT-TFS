@@ -1,6 +1,7 @@
 # GCN-extra: current controlled inference experiments
 
-Only the controlled 2026-10-04 comparison is retained. Prior experimental runs,
+The controlled 2026-10-04 comparison and subsequent isolated journal studies
+are retained. Prior experimental runs,
 result reports, obsolete implementation variants and archive bundles were
 deleted at the user's request. Negative results from the current comparison
 remain included. Existing Git commits were not rewritten.
@@ -24,6 +25,9 @@ No complete graph-wide AH intermediate is produced.
 
 ## Current controls and results
 
+- [Latest journal P3/P4 validation and interpretation](docs/JOURNAL_P3_P4_INTERPRETATION_20261005.md)
+- [P3/P4 frozen sources, raw samples and PMU](results/journal-p3-p4-20261005/)
+- [Earlier P1/P2/P3 evidence and remaining requirements](docs/JOURNAL_FOLLOWUP_VALIDATION_20261005.md)
 - [Protocol](docs/PAPER_METHODS_PROTOCOL_20261004.md)
 - [Main controlled comparison](docs/PAPER_METHODS_RESULTS_20261004.md)
 - [Consecutive measurement control](docs/PAPER_CACHE_CONTROL_RESULTS_20261004.md)
