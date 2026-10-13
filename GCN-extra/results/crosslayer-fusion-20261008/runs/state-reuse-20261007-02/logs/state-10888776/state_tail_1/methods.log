@@ -1,0 +1,48 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/state-reuse-20261007-02/logs/state-10888776/fixtures/state_tail_1/state_tail_1.csrbin
+METHOD_SETUP graph=state_tail_1 phase=csr_file_load ms=0.385999679565
+Matrix: state_tail_1  N=1  NNZ=1  avg_deg=1.0
+
+METHOD_SETUP graph=state_tail_1 phase=tensor_allocation ms=0.093936920166
+METHOD_SETUP graph=state_tail_1 phase=weight_generation ms=0.267028808594
+METHOD_SETUP graph=state_tail_1 phase=feature_generation ms=0.000953674316406
+METHOD_SETUP graph=state_tail_1 phase=degree_sort ms=0.00309944152832
+METHOD_SETUP graph=state_tail_1 phase=packed_weight_allocation ms=0.00405311584473
+METHOD_SETUP graph=state_tail_1 phase=weight_vnni_packing ms=0.0181198120117
+METHOD_SETUP graph=state_tail_1 phase=input_bf16_allocation ms=0
+METHOD_SETUP graph=state_tail_1 phase=input_bf16_conversion ms=9.85908508301
+METHOD_SETUP graph=state_tail_1 phase=tfs_output_allocation ms=0.00405311584473
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.05 ms
+  run 1: 0.04 ms
+  run 2: 0.02 ms
+  run 3: 0.05 ms
+  run 4: 0.04 ms
+  TFS V3 E2E BEST: 0.02 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=state_tail_1 phase=mkl_index_allocation ms=0.000953674316406
+METHOD_SETUP graph=state_tail_1 phase=mkl_index_conversion ms=0
+METHOD_SETUP graph=state_tail_1 phase=mkl_csr_create ms=2.13384628296
+METHOD_SETUP graph=state_tail_1 phase=mkl_hint_and_optimize ms=14.2939090729
+METHOD_SETUP graph=state_tail_1 phase=mkl_output_allocation ms=0.00119209289551
+  run 0: 0.09 ms
+  run 1: 0.10 ms
+  run 2: 0.09 ms
+  run 3: 0.10 ms
+  run 4: 0.10 ms
+  MKL E2E BEST: 0.09 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.02 ms
+  MKL (FP32):      0.09 ms
+  E2E Speedup:     5.07×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010512  RMSE=1.5920e-01
+First 8:
+  TFS: -6.51 -27.47 1.57 -6.48 3.16 7.93 1.60 -29.08 
+  MKL: -6.59 -27.74 1.63 -6.54 3.24 8.00 1.56 -29.37 
+STATE_SEMANTIC graph=state_tail_1 values=19 bitwise=0 pass=0 kind=relu_truncation_signedzero_nan_vector_tail

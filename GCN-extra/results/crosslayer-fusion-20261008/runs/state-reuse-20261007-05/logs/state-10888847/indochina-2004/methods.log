@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/indochina-2004/indochina-2004.csrbin
+METHOD_SETUP graph=indochina-2004 phase=csr_file_load ms=388.075113297
+Matrix: indochina-2004  N=7414866  NNZ=194109311  avg_deg=26.2
+
+METHOD_SETUP graph=indochina-2004 phase=tensor_allocation ms=0.110149383545
+METHOD_SETUP graph=indochina-2004 phase=weight_generation ms=0.256061553955
+METHOD_SETUP graph=indochina-2004 phase=feature_generation ms=6439.48793411
+METHOD_SETUP graph=indochina-2004 phase=degree_sort ms=227.103948593
+METHOD_SETUP graph=indochina-2004 phase=packed_weight_allocation ms=0.0178813934326
+METHOD_SETUP graph=indochina-2004 phase=weight_vnni_packing ms=0.0391006469727
+METHOD_SETUP graph=indochina-2004 phase=input_bf16_allocation ms=0.0100135803223
+METHOD_SETUP graph=indochina-2004 phase=input_bf16_conversion ms=87.452173233
+METHOD_SETUP graph=indochina-2004 phase=tfs_output_allocation ms=0.0290870666504
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 348.79 ms
+  run 1: 350.99 ms
+  run 2: 349.40 ms
+  run 3: 352.34 ms
+  run 4: 350.10 ms
+  TFS V3 E2E BEST: 348.79 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=indochina-2004 phase=mkl_index_allocation ms=0.0331401824951
+METHOD_SETUP graph=indochina-2004 phase=mkl_index_conversion ms=166.777133942
+METHOD_SETUP graph=indochina-2004 phase=mkl_csr_create ms=2.61688232422
+METHOD_SETUP graph=indochina-2004 phase=mkl_hint_and_optimize ms=116.550207138
+METHOD_SETUP graph=indochina-2004 phase=mkl_output_allocation ms=0.0209808349609
+  run 0: 689.75 ms
+  run 1: 688.42 ms
+  run 2: 689.26 ms
+  run 3: 688.83 ms
+  run 4: 689.17 ms
+  MKL E2E BEST: 688.42 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 348.79 ms
+  MKL (FP32):      688.42 ms
+  E2E Speedup:     1.97×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008503  RMSE=3.9596e+03
+First 8:
+  TFS: -37.13 -33.93 -379.67 -25.18 -119.69 195.20 125.78 -160.26 
+  MKL: -37.65 -34.23 -383.59 -26.44 -120.64 197.34 126.60 -161.51 
+STATE_SEMANTIC graph=indochina-2004 values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=indochina-2004 fnv64=4552929606082528880
+GROUP_SETUP graph=indochina-2004 phase=schedule_signature_allocation ms=64.6090507507
+GROUP_SETUP graph=indochina-2004 phase=signature_pass ms=133.04901123 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=indochina-2004 phase=segment_construction ms=17.0450210571 segments=1871 cap=4096
+GROUP_SETUP graph=indochina-2004 phase=schedule_sort schedule=qsource ms=18.7289714813 signature_ms=133.04901123 shared_signature_pass=1
+GROUP_SETUP graph=indochina-2004 phase=schedule_sort schedule=qpage ms=19.1950798035 signature_ms=133.04901123 shared_signature_pass=1
+GROUP_SETUP graph=indochina-2004 phase=schedule_sort schedule=qsamplepage ms=19.1719532013 signature_ms=133.04901123 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=indochina-2004 candidate=degree sampled_tiles=128 sampled_windows=279 requests=189976 misses256=80054 misses1024=66396 misses4096=56547 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=indochina-2004 candidate=qsource sampled_tiles=128 sampled_windows=279 requests=189963 misses256=35314 misses1024=33453 misses4096=31015 ratio256=0.441157427382 ratio1024=0.503875072825 ratio4096=0.548519328917 mean_ratio=0.497850609708 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=indochina-2004 candidate=qpage sampled_tiles=128 sampled_windows=279 requests=189940 misses256=46276 misses1024=44295 misses4096=40949 ratio256=0.578169371349 ratio1024=0.667260006446 ratio4096=0.724295916827 mean_ratio=0.656575098207 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=indochina-2004 candidate=qsamplepage sampled_tiles=128 sampled_windows=279 requests=190530 misses256=36253 misses1024=34256 misses4096=31443 ratio256=0.451540059565 ratio1024=0.5144345226 ratio4096=0.554433902106 mean_ratio=0.50680282809 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=indochina-2004 schedule=qguard selected=qsource predicted_mean_miss_rate_ratio=0.497850609708 sampled_tiles=128 high_q_tiles=24382 low_q_fallback=1 uses_timing=0 probe_ms=58.5880279541 assembly_ms=17.1399116516
+GROUP_SETUP graph=indochina-2004 phase=guard_probe ms=58.5880279541
+GROUP_SETUP graph=indochina-2004 phase=guard_schedule_assembly ms=17.1399116516
+GROUP_AUDIT graph=indochina-2004 schedule=degree pass=1 rows=7414866 moved=0 fnv64=4552929606082528880 full_projections=381610 b64_projections=466343 b256_projections=395801 windows=466343 state_load_bytes=692948480 state_store_bytes=3819090432 padded_steps=194258688 audit_ms=62.2260570526
+GROUP_AUDIT graph=indochina-2004 schedule=qsource pass=1 rows=7414866 moved=6097133 fnv64=11322054159127485870 full_projections=381610 b64_projections=466343 b256_projections=395801 windows=466343 state_load_bytes=692948480 state_store_bytes=3819090432 padded_steps=194509904 audit_ms=60.662984848
+GROUP_AUDIT graph=indochina-2004 schedule=qpage pass=1 rows=7414866 moved=6097003 fnv64=12672431518341155388 full_projections=381610 b64_projections=466343 b256_projections=395801 windows=466343 state_load_bytes=692948480 state_store_bytes=3819090432 padded_steps=194561568 audit_ms=59.6179962158
+GROUP_AUDIT graph=indochina-2004 schedule=qsamplepage pass=1 rows=7414866 moved=6100420 fnv64=13495901134518199818 full_projections=381610 b64_projections=466343 b256_projections=395801 windows=466343 state_load_bytes=692948480 state_store_bytes=3819090432 padded_steps=194519872 audit_ms=59.6249103546
+GROUP_AUDIT graph=indochina-2004 schedule=qguard pass=1 rows=7414866 moved=382987 fnv64=3983211366487064206 full_projections=381610 b64_projections=466343 b256_projections=395801 windows=466343 state_load_bytes=692948480 state_store_bytes=3819090432 padded_steps=194459984 audit_ms=60.494184494
+GROUP_SETUP graph=indochina-2004 phase=all_schedules_total ms=671.668052673 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=indochina-2004 phase=all_five_frozen_schedules ms=672.538995743 included_in_primary=0
+STATE_CONFIG graph=indochina-2004 N=7414866 E=194109311 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=indochina-2004 method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=indochina-2004 method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=indochina-2004 method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=indochina-2004 method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=indochina-2004 method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=indochina-2004 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=598908 mean_abs=148.494195791 relative_L2=0.0122209035657 normalized_max=0.0149265441402 gate=0.03 pass=1
+METHOD_CHECK graph=indochina-2004 method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.31188964844 mean_abs=0.0328011408345 relative_L2=0.00322483237286 normalized_max=0.00372013218588 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=225512 mean_abs=67.2914388204 relative_L2=0.0055550536483 normalized_max=0.00566861914859 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=66.9687299182 relative_L2=0.0059520265279 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=820392 mean_abs=211.728782941 relative_L2=0.0174899448931 normalized_max=0.0204465751005 gate=0.03 pass=1
+METHOD_CHECK graph=indochina-2004 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.46606445312 mean_abs=0.0328383965999 relative_L2=0.0032578925049 normalized_max=0.00382810706697 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=279990 mean_abs=71.2863304077 relative_L2=0.00600463832796 normalized_max=0.00703801427602 gate=0.01 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=70.31088722 relative_L2=0.00630784269788 normalized_max=0.00662251655629 gate=0.02 pass=1
+METHOD_CHECK graph=indochina-2004 method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=837844 mean_abs=214.81538276 relative_L2=0.0177392012683 normalized_max=0.0208815301325 gate=0.03 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=indochina-2004 method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=indochina-2004 pass=1
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=consecutive repeat=0 order=0 ms=351.588010788
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=consecutive repeat=1 order=0 ms=352.218151093
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=consecutive repeat=2 order=0 ms=350.110054016
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=consecutive repeat=3 order=0 ms=352.13303566
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=consecutive repeat=4 order=0 ms=351.231813431
+STATE_TIME graph=indochina-2004 method=b256_fast kind=consecutive repeat=0 order=1 ms=212.85200119
+STATE_TIME graph=indochina-2004 method=b256_fast kind=consecutive repeat=1 order=1 ms=213.217020035
+STATE_TIME graph=indochina-2004 method=b256_fast kind=consecutive repeat=2 order=1 ms=213.016986847
+STATE_TIME graph=indochina-2004 method=b256_fast kind=consecutive repeat=3 order=1 ms=211.767911911
+STATE_TIME graph=indochina-2004 method=b256_fast kind=consecutive repeat=4 order=1 ms=212.747097015
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=consecutive repeat=0 order=2 ms=210.536956787
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=consecutive repeat=1 order=2 ms=209.699869156
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=consecutive repeat=2 order=2 ms=210.822105408
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=consecutive repeat=3 order=2 ms=209.203958511
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=consecutive repeat=4 order=2 ms=210.598945618
+STATE_TIME graph=indochina-2004 method=p0_degree kind=consecutive repeat=0 order=3 ms=210.363149643
+STATE_TIME graph=indochina-2004 method=p0_degree kind=consecutive repeat=1 order=3 ms=210.707902908
+STATE_TIME graph=indochina-2004 method=p0_degree kind=consecutive repeat=2 order=3 ms=210.493803024
+STATE_TIME graph=indochina-2004 method=p0_degree kind=consecutive repeat=3 order=3 ms=210.870981216
+STATE_TIME graph=indochina-2004 method=p0_degree kind=consecutive repeat=4 order=3 ms=212.377071381
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=163.524866104
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=162.717103958
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=162.431001663
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=162.534952164
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=161.839008331
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=consecutive repeat=0 order=5 ms=168.155193329
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=consecutive repeat=1 order=5 ms=167.513132095
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=consecutive repeat=2 order=5 ms=166.655063629
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=consecutive repeat=3 order=5 ms=167.580127716
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=consecutive repeat=4 order=5 ms=167.610883713
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=consecutive repeat=0 order=6 ms=160.310029984
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=consecutive repeat=1 order=6 ms=160.646915436
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=consecutive repeat=2 order=6 ms=160.629034042
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=consecutive repeat=3 order=6 ms=160.450935364
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=consecutive repeat=4 order=6 ms=160.240888596
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=consecutive repeat=0 order=7 ms=209.285020828
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=consecutive repeat=1 order=7 ms=209.925889969
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=consecutive repeat=2 order=7 ms=210.402965546
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=consecutive repeat=3 order=7 ms=210.036039352
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=consecutive repeat=4 order=7 ms=209.995031357
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=161.628961563
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=161.03386879
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=161.040067673
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=161.602020264
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=161.489009857
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=165.666103363
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=166.450023651
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=165.143013
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=165.58098793
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=164.834022522
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=156.303882599
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=158.526182175
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=156.944990158
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=157.270908356
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=156.955003738
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=688.958883286
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=687.017202377
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=689.419031143
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=689.609050751
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=689.872980118
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=0 order=0 ms=351.116895676
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=0 order=1 ms=210.40391922
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=0 order=2 ms=209.47098732
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=0 order=3 ms=209.91897583
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=0 order=4 ms=160.546064377
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=0 order=5 ms=167.073011398
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=0 order=6 ms=160.195112228
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=0 order=7 ms=209.46598053
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=160.981893539
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=0 order=9 ms=164.272069931
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=0 order=10 ms=155.922174454
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=703.583955765
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=691.596984863
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=1 order=1 ms=156.653881073
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=1 order=2 ms=162.9550457
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=161.74197197
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=1 order=4 ms=210.057973862
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=1 order=5 ms=159.329891205
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=1 order=6 ms=167.447090149
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=1 order=7 ms=161.712169647
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=1 order=8 ms=211.103916168
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=1 order=9 ms=209.88702774
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=1 order=10 ms=211.466789246
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=1 order=11 ms=355.885982513
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=2 order=0 ms=352.302074432
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=2 order=1 ms=210.057973862
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=2 order=2 ms=210.881948471
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=2 order=3 ms=210.952997208
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=2 order=4 ms=162.219047546
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=2 order=5 ms=167.304992676
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=2 order=6 ms=159.970998764
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=2 order=7 ms=209.856033325
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=161.022901535
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=2 order=9 ms=164.397954941
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=2 order=10 ms=156.946897507
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=691.642999649
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=689.1310215
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=3 order=1 ms=156.195163727
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=3 order=2 ms=163.576126099
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=161.144971848
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=3 order=4 ms=210.742950439
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=3 order=5 ms=160.790920258
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=3 order=6 ms=167.222976685
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=3 order=7 ms=162.009954453
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=3 order=8 ms=210.036039352
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=3 order=9 ms=210.466861725
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=3 order=10 ms=211.748838425
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=3 order=11 ms=352.741003036
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=4 order=0 ms=351.385116577
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=4 order=1 ms=210.514068604
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=4 order=2 ms=210.048913956
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=4 order=3 ms=210.691928864
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=4 order=4 ms=161.586999893
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=4 order=5 ms=166.406154633
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=4 order=6 ms=160.103082657
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=4 order=7 ms=210.018873215
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=160.609006882
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=4 order=9 ms=163.768053055
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=4 order=10 ms=156.774997711
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=695.316076279
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=689.690113068
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=5 order=1 ms=155.451059341
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=5 order=2 ms=163.296937943
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=161.860942841
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=5 order=4 ms=210.815906525
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=5 order=5 ms=159.386873245
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=5 order=6 ms=166.980981827
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=5 order=7 ms=162.513971329
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=5 order=8 ms=211.109876633
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=5 order=9 ms=210.49284935
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=5 order=10 ms=211.838960648
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=5 order=11 ms=354.286909103
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=6 order=0 ms=354.122877121
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=6 order=1 ms=209.724903107
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=6 order=2 ms=210.39390564
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=6 order=3 ms=211.972951889
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=6 order=4 ms=161.910057068
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=6 order=5 ms=167.320013046
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=6 order=6 ms=159.482002258
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=6 order=7 ms=208.462953568
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=161.320924759
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=6 order=9 ms=163.531064987
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=6 order=10 ms=156.629085541
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=696.382045746
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=689.162969589
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=7 order=1 ms=155.591011047
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=7 order=2 ms=164.128065109
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=162.003993988
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=7 order=4 ms=210.554122925
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=7 order=5 ms=159.718036652
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=7 order=6 ms=166.77904129
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=7 order=7 ms=161.764144897
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=7 order=8 ms=210.896968842
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=7 order=9 ms=209.338903427
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=7 order=10 ms=212.09192276
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=7 order=11 ms=355.757951736
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=8 order=0 ms=352.312088013
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=8 order=1 ms=211.010932922
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=8 order=2 ms=210.269212723
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=8 order=3 ms=210.939884186
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=8 order=4 ms=162.122964859
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=8 order=5 ms=166.755914688
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=8 order=6 ms=160.056114197
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=8 order=7 ms=211.267948151
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=160.479784012
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=8 order=9 ms=164.793968201
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=8 order=10 ms=156.741142273
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=696.699857712
+STATE_TIME graph=indochina-2004 method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=689.783096313
+STATE_TIME graph=indochina-2004 method=pair_s_qguard kind=alternating repeat=9 order=1 ms=156.254053116
+STATE_TIME graph=indochina-2004 method=pair_i_qguard kind=alternating repeat=9 order=2 ms=162.874221802
+STATE_TIME graph=indochina-2004 method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=162.480831146
+STATE_TIME graph=indochina-2004 method=p0_qguard kind=alternating repeat=9 order=4 ms=209.249019623
+STATE_TIME graph=indochina-2004 method=pair_s_degree kind=alternating repeat=9 order=5 ms=159.816026688
+STATE_TIME graph=indochina-2004 method=pair_i_degree kind=alternating repeat=9 order=6 ms=166.465044022
+STATE_TIME graph=indochina-2004 method=pack_epi_degree kind=alternating repeat=9 order=7 ms=162.114858627
+STATE_TIME graph=indochina-2004 method=p0_degree kind=alternating repeat=9 order=8 ms=210.359096527
+STATE_TIME graph=indochina-2004 method=bfull_fast kind=alternating repeat=9 order=9 ms=209.41400528
+STATE_TIME graph=indochina-2004 method=b256_fast kind=alternating repeat=9 order=10 ms=212.203979492
+STATE_TIME graph=indochina-2004 method=paper_tfs kind=alternating repeat=9 order=11 ms=350.46005249
+STATE_COUNTERS graph=indochina-2004 method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=0 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=0
+STATE_WORK_GATE graph=indochina-2004 method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=0 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=0
+STATE_WORK_GATE graph=indochina-2004 method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=55037360 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102148418
+STATE_WORK_GATE graph=indochina-2004 method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=55037360 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102148418
+STATE_WORK_GATE graph=indochina-2004 method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=139071951 shared_heads=55037360 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102148418
+STATE_WORK_GATE graph=indochina-2004 method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=139071951 shared_heads=55037360 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102148418
+STATE_WORK_GATE graph=indochina-2004 method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=0 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=0
+STATE_WORK_GATE graph=indochina-2004 method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=0 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=0
+STATE_WORK_GATE graph=indochina-2004 method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=62175375 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102262884
+STATE_WORK_GATE graph=indochina-2004 method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=194109311 shared_heads=62175375 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102262884
+STATE_WORK_GATE graph=indochina-2004 method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=131933936 shared_heads=62175375 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102262884
+STATE_WORK_GATE graph=indochina-2004 method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=indochina-2004 method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=194109311 feature_adds=24845991808 decode_rows=131933936 shared_heads=62175375 projection_scopes=381610 amx_tdp=12211520 partial_zero_bytes=0 partial_load_bytes=692948480 partial_store_bytes=692948480 packing_load_bytes=0 direct_rows=6105746 packed_bytes=1563074560 prefetch_requests=752014288 csr_reads=194109311 comparisons=102262884
+STATE_WORK_GATE graph=indochina-2004 method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=indochina-2004 method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=indochina-2004 schedule=degree scope=64 edges=194109311 shared_heads=55037360 merge_steps=139071951 share_fraction=0.283537970005 projection_scopes=466343 windows=466343 scalar_adds=24845991808 direct_decode_rows=194109311 shared_decode_rows=139071951 amx_tdp_fast=14922976 baseline_partial_zero_bytes=3820281856 baseline_state_load_bytes=0 baseline_state_store_bytes=3819493376 direct_saved_terminal_bytes=7639775232 prefetch_requests=746600628 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=indochina-2004 schedule=degree scope=256 edges=194109311 shared_heads=55037360 merge_steps=139071951 share_fraction=0.283537970005 projection_scopes=395801 windows=466343 scalar_adds=24845991808 direct_decode_rows=194109311 shared_decode_rows=139071951 amx_tdp_fast=12665632 baseline_partial_zero_bytes=3242401792 baseline_state_load_bytes=576995328 baseline_state_store_bytes=3819196416 direct_saved_terminal_bytes=6484602880 prefetch_requests=751108404 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=indochina-2004 schedule=degree scope=0 edges=194109311 shared_heads=55037360 merge_steps=139071951 share_fraction=0.283537970005 projection_scopes=381610 windows=466343 scalar_adds=24845991808 direct_decode_rows=194109311 shared_decode_rows=139071951 amx_tdp_fast=12211520 baseline_partial_zero_bytes=3126149120 baseline_state_load_bytes=692948480 baseline_state_store_bytes=3819090432 direct_saved_terminal_bytes=6252291072 prefetch_requests=752014288 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=indochina-2004 schedule=qguard scope=64 edges=194109311 shared_heads=62175375 merge_steps=131933936 share_fraction=0.320311141592 projection_scopes=466343 windows=466343 scalar_adds=24845991808 direct_decode_rows=194109311 shared_decode_rows=131933936 amx_tdp_fast=14922976 baseline_partial_zero_bytes=3820281856 baseline_state_load_bytes=0 baseline_state_store_bytes=3819493376 direct_saved_terminal_bytes=7639775232 prefetch_requests=746600628 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=indochina-2004 schedule=qguard scope=256 edges=194109311 shared_heads=62175375 merge_steps=131933936 share_fraction=0.320311141592 projection_scopes=395801 windows=466343 scalar_adds=24845991808 direct_decode_rows=194109311 shared_decode_rows=131933936 amx_tdp_fast=12665632 baseline_partial_zero_bytes=3242401792 baseline_state_load_bytes=576995328 baseline_state_store_bytes=3819196416 direct_saved_terminal_bytes=6484602880 prefetch_requests=751108404 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=indochina-2004 schedule=qguard scope=0 edges=194109311 shared_heads=62175375 merge_steps=131933936 share_fraction=0.320311141592 projection_scopes=381610 windows=466343 scalar_adds=24845991808 direct_decode_rows=194109311 shared_decode_rows=131933936 amx_tdp_fast=12211520 baseline_partial_zero_bytes=3126149120 baseline_state_load_bytes=692948480 baseline_state_store_bytes=3819090432 direct_saved_terminal_bytes=6252291072 prefetch_requests=752014288 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=indochina-2004 pass=1 methods=11 smoke=0 max_rss_kib=44903076

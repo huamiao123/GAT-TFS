@@ -1,0 +1,3 @@
+# Batched source-generation packing prototype, 2026-10-08
+
+This isolated shadow experiment keeps 128 -> 128 -> 128, BF16 boundaries, default NUMA policy, and the same per-thread source-cache candidate. It changes only the source-generation packing: missing H1 source rows are collected across a configurable number of destination 16-row blocks before AVX reduction and AMX projection. This tests whether small under-filled AMX groups, rather than source duplication alone, cause the candidate overhead. Source batch blocks are 1, 4, 16, and 64. The baseline is canonical materialized FULL FAST at the same thread count. Exact final BF16 equality is required. This is exploratory and paper-ineligible.

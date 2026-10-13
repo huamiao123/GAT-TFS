@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/web-Google/web-Google.csrbin
+METHOD_SETUP graph=web-Google phase=csr_file_load ms=14.4271850586
+Matrix: web-Google  N=916428  NNZ=5105039  avg_deg=5.6
+
+METHOD_SETUP graph=web-Google phase=tensor_allocation ms=0.093936920166
+METHOD_SETUP graph=web-Google phase=weight_generation ms=0.254154205322
+METHOD_SETUP graph=web-Google phase=feature_generation ms=795.240879059
+METHOD_SETUP graph=web-Google phase=degree_sort ms=31.5079689026
+METHOD_SETUP graph=web-Google phase=packed_weight_allocation ms=0.0100135803223
+METHOD_SETUP graph=web-Google phase=weight_vnni_packing ms=0.0360012054443
+METHOD_SETUP graph=web-Google phase=input_bf16_allocation ms=0.00810623168945
+METHOD_SETUP graph=web-Google phase=input_bf16_conversion ms=72.4120140076
+METHOD_SETUP graph=web-Google phase=tfs_output_allocation ms=0.0271797180176
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 20.67 ms
+  run 1: 20.94 ms
+  run 2: 20.93 ms
+  run 3: 21.05 ms
+  run 4: 20.99 ms
+  TFS V3 E2E BEST: 20.67 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=web-Google phase=mkl_index_allocation ms=0.0410079956055
+METHOD_SETUP graph=web-Google phase=mkl_index_conversion ms=7.03597068787
+METHOD_SETUP graph=web-Google phase=mkl_csr_create ms=2.42710113525
+METHOD_SETUP graph=web-Google phase=mkl_hint_and_optimize ms=17.5278186798
+METHOD_SETUP graph=web-Google phase=mkl_output_allocation ms=0.0159740447998
+  run 0: 46.29 ms
+  run 1: 46.92 ms
+  run 2: 46.93 ms
+  run 3: 46.63 ms
+  run 4: 46.81 ms
+  MKL E2E BEST: 46.29 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 20.67 ms
+  MKL (FP32):      46.29 ms
+  E2E Speedup:     2.24×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010098  RMSE=4.2428e+00
+First 8:
+  TFS: 1.26 -199.48 -333.10 5.93 33.54 46.40 -79.69 -134.20 
+  MKL: 1.78 -200.73 -336.73 6.12 33.62 46.02 -80.46 -135.35 
+STATE_SEMANTIC graph=web-Google values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=web-Google fnv64=3982475581111229405
+GROUP_SETUP graph=web-Google phase=schedule_signature_allocation ms=11.8660926819
+GROUP_SETUP graph=web-Google phase=signature_pass ms=7.98082351685 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=web-Google phase=segment_construction ms=1.54495239258 segments=231 cap=4096
+GROUP_SETUP graph=web-Google phase=schedule_sort schedule=qsource ms=2.61497497559 signature_ms=7.98082351685 shared_signature_pass=1
+GROUP_SETUP graph=web-Google phase=schedule_sort schedule=qpage ms=2.62594223022 signature_ms=7.98082351685 shared_signature_pass=1
+GROUP_SETUP graph=web-Google phase=schedule_sort schedule=qsamplepage ms=2.80404090881 signature_ms=7.98082351685 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=web-Google candidate=degree sampled_tiles=36 sampled_windows=77 requests=52292 misses256=48322 misses1024=45001 misses4096=39174 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=web-Google candidate=qsource sampled_tiles=36 sampled_windows=77 requests=52400 misses256=40623 misses1024=39191 misses4096=37051 ratio256=0.838940300611 ratio1024=0.869096790216 ratio4096=0.943856520741 mean_ratio=0.883964537189 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=web-Google candidate=qpage sampled_tiles=36 sampled_windows=77 requests=52392 misses256=40972 misses1024=39677 misses4096=37615 ratio256=0.846277000558 ratio1024=0.880008643638 ratio4096=0.958370467344 mean_ratio=0.894885370513 no_worse=1 improvements_ge5pct=2 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=web-Google candidate=qsamplepage sampled_tiles=36 sampled_windows=77 requests=52374 misses256=42732 misses1024=41304 misses4096=38382 ratio256=0.882933159149 ratio1024=0.916409232733 ratio4096=0.97824850022 mean_ratio=0.925863630701 no_worse=1 improvements_ge5pct=2 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=web-Google schedule=qguard selected=qsource predicted_mean_miss_rate_ratio=0.883964537189 sampled_tiles=36 high_q_tiles=36 low_q_fallback=1 uses_timing=0 probe_ms=34.4660282135 assembly_ms=1.55305862427
+GROUP_SETUP graph=web-Google phase=guard_probe ms=34.4660282135
+GROUP_SETUP graph=web-Google phase=guard_schedule_assembly ms=1.55305862427
+GROUP_AUDIT graph=web-Google schedule=degree pass=1 rows=916428 moved=0 fnv64=3982475581111229405 full_projections=46217 b64_projections=46264 b256_projections=46218 windows=46264 state_load_bytes=347648 state_store_bytes=378955264 padded_steps=5110688 audit_ms=5.45597076416
+GROUP_AUDIT graph=web-Google schedule=qsource pass=1 rows=916428 moved=739260 fnv64=4266019088879996647 full_projections=46217 b64_projections=46264 b256_projections=46218 windows=46264 state_load_bytes=347648 state_store_bytes=378955264 padded_steps=5214528 audit_ms=5.41710853577
+GROUP_AUDIT graph=web-Google schedule=qpage pass=1 rows=916428 moved=739258 fnv64=13383104850760203499 full_projections=46217 b64_projections=46264 b256_projections=46218 windows=46264 state_load_bytes=347648 state_store_bytes=378955264 padded_steps=5214416 audit_ms=5.21993637085
+GROUP_AUDIT graph=web-Google schedule=qsamplepage pass=1 rows=916428 moved=739260 fnv64=7218813320637872041 full_projections=46217 b64_projections=46264 b256_projections=46218 windows=46264 state_load_bytes=347648 state_store_bytes=378955264 padded_steps=5214512 audit_ms=4.98509407043
+GROUP_AUDIT graph=web-Google schedule=qguard pass=1 rows=916428 moved=557 fnv64=8089312960783043673 full_projections=46217 b64_projections=46264 b256_projections=46218 windows=46264 state_load_bytes=347648 state_store_bytes=378955264 padded_steps=5126336 audit_ms=4.94813919067
+GROUP_SETUP graph=web-Google phase=all_schedules_total ms=93.3740139008 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=web-Google phase=all_five_frozen_schedules ms=93.8789844513 included_in_primary=0
+STATE_CONFIG graph=web-Google N=916428 E=5105039 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=web-Google method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=web-Google method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=web-Google method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=web-Google method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=web-Google method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=666.25 mean_abs=2.55826937075 relative_L2=0.0131663707239 normalized_max=0.0153772862624 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.867385864258 mean_abs=0.0165106876032 relative_L2=0.00313507755652 normalized_max=0.00340933040379 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=244.765625 mean_abs=1.09815107817 relative_L2=0.00580250020992 normalized_max=0.00570690480835 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09496334561 relative_L2=0.0062284944515 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56736233398 relative_L2=0.0185131879469 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+METHOD_CHECK graph=web-Google method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.785766601562 mean_abs=0.0165107423424 relative_L2=0.00313519421366 normalized_max=0.00308851928003 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=238.81640625 mean_abs=1.09799728619 relative_L2=0.00580214833271 normalized_max=0.00556819405152 gate=0.01 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=256 mean_abs=1.09479791867 relative_L2=0.00622767757251 normalized_max=0.0059880239521 gate=0.02 pass=1
+METHOD_CHECK graph=web-Google method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=830.890625 mean_abs=3.56713013078 relative_L2=0.0185106584075 normalized_max=0.0191772502715 gate=0.03 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=web-Google method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=web-Google pass=1
+STATE_TIME graph=web-Google method=paper_tfs kind=consecutive repeat=0 order=0 ms=20.7998752594
+STATE_TIME graph=web-Google method=paper_tfs kind=consecutive repeat=1 order=0 ms=20.9097862244
+STATE_TIME graph=web-Google method=paper_tfs kind=consecutive repeat=2 order=0 ms=20.6868648529
+STATE_TIME graph=web-Google method=paper_tfs kind=consecutive repeat=3 order=0 ms=20.9059715271
+STATE_TIME graph=web-Google method=paper_tfs kind=consecutive repeat=4 order=0 ms=21.0571289062
+STATE_TIME graph=web-Google method=b256_fast kind=consecutive repeat=0 order=1 ms=21.7928886414
+STATE_TIME graph=web-Google method=b256_fast kind=consecutive repeat=1 order=1 ms=21.6310024261
+STATE_TIME graph=web-Google method=b256_fast kind=consecutive repeat=2 order=1 ms=21.744966507
+STATE_TIME graph=web-Google method=b256_fast kind=consecutive repeat=3 order=1 ms=21.5208530426
+STATE_TIME graph=web-Google method=b256_fast kind=consecutive repeat=4 order=1 ms=21.6839313507
+STATE_TIME graph=web-Google method=bfull_fast kind=consecutive repeat=0 order=2 ms=21.3851928711
+STATE_TIME graph=web-Google method=bfull_fast kind=consecutive repeat=1 order=2 ms=21.5167999268
+STATE_TIME graph=web-Google method=bfull_fast kind=consecutive repeat=2 order=2 ms=21.6519832611
+STATE_TIME graph=web-Google method=bfull_fast kind=consecutive repeat=3 order=2 ms=21.6190814972
+STATE_TIME graph=web-Google method=bfull_fast kind=consecutive repeat=4 order=2 ms=21.5718746185
+STATE_TIME graph=web-Google method=p0_degree kind=consecutive repeat=0 order=3 ms=21.7969417572
+STATE_TIME graph=web-Google method=p0_degree kind=consecutive repeat=1 order=3 ms=21.6400623322
+STATE_TIME graph=web-Google method=p0_degree kind=consecutive repeat=2 order=3 ms=21.3119983673
+STATE_TIME graph=web-Google method=p0_degree kind=consecutive repeat=3 order=3 ms=21.4219093323
+STATE_TIME graph=web-Google method=p0_degree kind=consecutive repeat=4 order=3 ms=21.6779708862
+STATE_TIME graph=web-Google method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=15.4919624329
+STATE_TIME graph=web-Google method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=15.5959129333
+STATE_TIME graph=web-Google method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=15.4619216919
+STATE_TIME graph=web-Google method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=15.6950950623
+STATE_TIME graph=web-Google method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=15.6230926514
+STATE_TIME graph=web-Google method=pair_i_degree kind=consecutive repeat=0 order=5 ms=15.4500007629
+STATE_TIME graph=web-Google method=pair_i_degree kind=consecutive repeat=1 order=5 ms=15.4390335083
+STATE_TIME graph=web-Google method=pair_i_degree kind=consecutive repeat=2 order=5 ms=15.2900218964
+STATE_TIME graph=web-Google method=pair_i_degree kind=consecutive repeat=3 order=5 ms=15.5289173126
+STATE_TIME graph=web-Google method=pair_i_degree kind=consecutive repeat=4 order=5 ms=15.3560638428
+STATE_TIME graph=web-Google method=pair_s_degree kind=consecutive repeat=0 order=6 ms=15.5420303345
+STATE_TIME graph=web-Google method=pair_s_degree kind=consecutive repeat=1 order=6 ms=15.3968334198
+STATE_TIME graph=web-Google method=pair_s_degree kind=consecutive repeat=2 order=6 ms=15.2909755707
+STATE_TIME graph=web-Google method=pair_s_degree kind=consecutive repeat=3 order=6 ms=15.6610012054
+STATE_TIME graph=web-Google method=pair_s_degree kind=consecutive repeat=4 order=6 ms=15.4919624329
+STATE_TIME graph=web-Google method=p0_qguard kind=consecutive repeat=0 order=7 ms=21.8091011047
+STATE_TIME graph=web-Google method=p0_qguard kind=consecutive repeat=1 order=7 ms=21.9438076019
+STATE_TIME graph=web-Google method=p0_qguard kind=consecutive repeat=2 order=7 ms=21.9640731812
+STATE_TIME graph=web-Google method=p0_qguard kind=consecutive repeat=3 order=7 ms=21.7299461365
+STATE_TIME graph=web-Google method=p0_qguard kind=consecutive repeat=4 order=7 ms=21.9259262085
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=15.6581401825
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=15.4221057892
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=15.5138969421
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=16.0441398621
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=15.5019760132
+STATE_TIME graph=web-Google method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=15.4240131378
+STATE_TIME graph=web-Google method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=15.0971412659
+STATE_TIME graph=web-Google method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=15.3238773346
+STATE_TIME graph=web-Google method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=15.095949173
+STATE_TIME graph=web-Google method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=15.3439044952
+STATE_TIME graph=web-Google method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=15.2609348297
+STATE_TIME graph=web-Google method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=15.3849124908
+STATE_TIME graph=web-Google method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=15.6528949738
+STATE_TIME graph=web-Google method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=15.2590274811
+STATE_TIME graph=web-Google method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=15.4750347137
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=46.6809272766
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=47.0111370087
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=46.9200611115
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=46.9880104065
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=46.6208457947
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=0 order=0 ms=21.1560726166
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=0 order=1 ms=21.5041637421
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=0 order=2 ms=21.4228630066
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=0 order=3 ms=21.5179920197
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=0 order=4 ms=15.9430503845
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=0 order=5 ms=15.5510902405
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=0 order=6 ms=15.5460834503
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=0 order=7 ms=21.6920375824
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=15.8529281616
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=0 order=9 ms=15.2831077576
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=0 order=10 ms=15.4249668121
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=46.1130142212
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=47.0581054688
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=1 order=1 ms=15.9261226654
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=1 order=2 ms=15.22397995
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=15.8948898315
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=1 order=4 ms=21.7638015747
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=1 order=5 ms=15.6562328339
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=1 order=6 ms=15.4700279236
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=1 order=7 ms=15.7089233398
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=1 order=8 ms=51.8469810486
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=1 order=9 ms=21.5139389038
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=1 order=10 ms=21.4540958405
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=1 order=11 ms=20.8029747009
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=2 order=0 ms=20.9040641785
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=2 order=1 ms=21.733045578
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=2 order=2 ms=21.5120315552
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=2 order=3 ms=21.6419696808
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=2 order=4 ms=15.5069828033
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=2 order=5 ms=15.3338909149
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=2 order=6 ms=15.4211521149
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=2 order=7 ms=21.6178894043
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=15.7151222229
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=2 order=9 ms=15.3539180756
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=2 order=10 ms=15.3489112854
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=45.6581115723
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=46.9689369202
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=3 order=1 ms=15.8758163452
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=3 order=2 ms=15.4638290405
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=15.8579349518
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=3 order=4 ms=21.7728614807
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=3 order=5 ms=15.7248973846
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=3 order=6 ms=15.3968334198
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=3 order=7 ms=15.8538818359
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=3 order=8 ms=21.5120315552
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=3 order=9 ms=21.3401317596
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=3 order=10 ms=21.2619304657
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=3 order=11 ms=20.7240581512
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=4 order=0 ms=20.7509994507
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=4 order=1 ms=21.8968391418
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=4 order=2 ms=21.301984787
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=4 order=3 ms=21.7130184174
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=4 order=4 ms=15.93708992
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=4 order=5 ms=15.4790878296
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=4 order=6 ms=15.7787799835
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=4 order=7 ms=21.7249393463
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=15.5861377716
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=4 order=9 ms=15.1948928833
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=4 order=10 ms=15.5351161957
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=46.0410118103
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=47.0879077911
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=5 order=1 ms=15.7198905945
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=5 order=2 ms=15.6760215759
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=15.9559249878
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=5 order=4 ms=21.5559005737
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=5 order=5 ms=15.8860683441
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=5 order=6 ms=15.5000686646
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=5 order=7 ms=15.8860683441
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=5 order=8 ms=21.5299129486
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=5 order=9 ms=21.8069553375
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=5 order=10 ms=21.7280387878
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=5 order=11 ms=20.8821296692
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=6 order=0 ms=21.1751461029
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=6 order=1 ms=21.5880870819
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=6 order=2 ms=21.4760303497
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=6 order=3 ms=21.537065506
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=6 order=4 ms=15.7878398895
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=6 order=5 ms=15.5439376831
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=6 order=6 ms=15.8200263977
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=6 order=7 ms=21.7909812927
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=15.7928466797
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=6 order=9 ms=15.1741504669
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=6 order=10 ms=15.7268047333
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=46.1759567261
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=47.1649169922
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=7 order=1 ms=15.7489776611
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=7 order=2 ms=15.4280662537
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=16.049861908
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=7 order=4 ms=21.6829776764
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=7 order=5 ms=15.6199932098
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=7 order=6 ms=15.6850814819
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=7 order=7 ms=15.683889389
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=7 order=8 ms=21.5439796448
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=7 order=9 ms=21.5079784393
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=7 order=10 ms=21.2399959564
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=7 order=11 ms=20.8189487457
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=8 order=0 ms=20.9131240845
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=8 order=1 ms=21.8229293823
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=8 order=2 ms=21.4071273804
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=8 order=3 ms=21.4660167694
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=8 order=4 ms=15.8288478851
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=8 order=5 ms=15.5348777771
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=8 order=6 ms=15.6488418579
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=8 order=7 ms=21.6150283813
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=15.830039978
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=8 order=9 ms=15.0501728058
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=8 order=10 ms=15.5727863312
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=45.9988117218
+STATE_TIME graph=web-Google method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=47.1439361572
+STATE_TIME graph=web-Google method=pair_s_qguard kind=alternating repeat=9 order=1 ms=15.9368515015
+STATE_TIME graph=web-Google method=pair_i_qguard kind=alternating repeat=9 order=2 ms=15.7060623169
+STATE_TIME graph=web-Google method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=15.8939361572
+STATE_TIME graph=web-Google method=p0_qguard kind=alternating repeat=9 order=4 ms=21.507024765
+STATE_TIME graph=web-Google method=pair_s_degree kind=alternating repeat=9 order=5 ms=15.695810318
+STATE_TIME graph=web-Google method=pair_i_degree kind=alternating repeat=9 order=6 ms=15.4130458832
+STATE_TIME graph=web-Google method=pack_epi_degree kind=alternating repeat=9 order=7 ms=15.5189037323
+STATE_TIME graph=web-Google method=p0_degree kind=alternating repeat=9 order=8 ms=21.7859745026
+STATE_TIME graph=web-Google method=bfull_fast kind=alternating repeat=9 order=9 ms=21.4409828186
+STATE_TIME graph=web-Google method=b256_fast kind=alternating repeat=9 order=10 ms=21.5389728546
+STATE_TIME graph=web-Google method=paper_tfs kind=alternating repeat=9 order=11 ms=20.9300518036
+STATE_COUNTERS graph=web-Google method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=0 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=0
+STATE_WORK_GATE graph=web-Google method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=0 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=0
+STATE_WORK_GATE graph=web-Google method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=3943 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4492625
+STATE_WORK_GATE graph=web-Google method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=3943 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4492625
+STATE_WORK_GATE graph=web-Google method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5101096 shared_heads=3943 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4492625
+STATE_WORK_GATE graph=web-Google method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5101096 shared_heads=3943 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4492625
+STATE_WORK_GATE graph=web-Google method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=0 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=0
+STATE_WORK_GATE graph=web-Google method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=0 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=0
+STATE_WORK_GATE graph=web-Google method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=9072 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4486443
+STATE_WORK_GATE graph=web-Google method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5105039 shared_heads=9072 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4486443
+STATE_WORK_GATE graph=web-Google method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5095967 shared_heads=9072 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4486443
+STATE_WORK_GATE graph=web-Google method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=web-Google method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=5105039 feature_adds=653444992 decode_rows=5095967 shared_heads=9072 projection_scopes=46217 amx_tdp=1478944 partial_zero_bytes=0 partial_load_bytes=347648 partial_store_bytes=347648 packing_load_bytes=0 direct_rows=739468 packed_bytes=189304832 prefetch_requests=17462340 csr_reads=5105039 comparisons=4486443
+STATE_WORK_GATE graph=web-Google method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=web-Google method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=web-Google schedule=degree scope=64 edges=5105039 shared_heads=3943 merge_steps=5101096 share_fraction=0.000772374118983 projection_scopes=46264 windows=46264 scalar_adds=653444992 direct_decode_rows=5105039 shared_decode_rows=5101096 amx_tdp_fast=1480448 baseline_partial_zero_bytes=378994688 baseline_state_load_bytes=0 baseline_state_store_bytes=378978304 direct_saved_terminal_bytes=757972992 prefetch_requests=17459624 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=web-Google schedule=degree scope=256 edges=5105039 shared_heads=3943 merge_steps=5101096 share_fraction=0.000772374118983 projection_scopes=46218 windows=46264 scalar_adds=653444992 direct_decode_rows=5105039 shared_decode_rows=5101096 amx_tdp_fast=1478976 baseline_partial_zero_bytes=378617856 baseline_state_load_bytes=343040 baseline_state_store_bytes=378956800 direct_saved_terminal_bytes=757231616 prefetch_requests=17462304 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=web-Google schedule=degree scope=0 edges=5105039 shared_heads=3943 merge_steps=5101096 share_fraction=0.000772374118983 projection_scopes=46217 windows=46264 scalar_adds=653444992 direct_decode_rows=5105039 shared_decode_rows=5101096 amx_tdp_fast=1478944 baseline_partial_zero_bytes=378609664 baseline_state_load_bytes=347648 baseline_state_store_bytes=378955264 direct_saved_terminal_bytes=757217280 prefetch_requests=17462340 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=web-Google schedule=qguard scope=64 edges=5105039 shared_heads=9072 merge_steps=5095967 share_fraction=0.00177706771682 projection_scopes=46264 windows=46264 scalar_adds=653444992 direct_decode_rows=5105039 shared_decode_rows=5095967 amx_tdp_fast=1480448 baseline_partial_zero_bytes=378994688 baseline_state_load_bytes=0 baseline_state_store_bytes=378978304 direct_saved_terminal_bytes=757972992 prefetch_requests=17459624 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=web-Google schedule=qguard scope=256 edges=5105039 shared_heads=9072 merge_steps=5095967 share_fraction=0.00177706771682 projection_scopes=46218 windows=46264 scalar_adds=653444992 direct_decode_rows=5105039 shared_decode_rows=5095967 amx_tdp_fast=1478976 baseline_partial_zero_bytes=378617856 baseline_state_load_bytes=343040 baseline_state_store_bytes=378956800 direct_saved_terminal_bytes=757231616 prefetch_requests=17462304 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=web-Google schedule=qguard scope=0 edges=5105039 shared_heads=9072 merge_steps=5095967 share_fraction=0.00177706771682 projection_scopes=46217 windows=46264 scalar_adds=653444992 direct_decode_rows=5105039 shared_decode_rows=5095967 amx_tdp_fast=1478944 baseline_partial_zero_bytes=378609664 baseline_state_load_bytes=347648 baseline_state_store_bytes=378955264 direct_saved_terminal_bytes=757217280 prefetch_requests=17462340 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=web-Google pass=1 methods=11 smoke=0 max_rss_kib=5208356

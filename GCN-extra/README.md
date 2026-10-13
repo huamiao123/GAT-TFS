@@ -25,6 +25,7 @@ No complete graph-wide AH intermediate is produced.
 
 ## Current controls and results
 
+- [October 7/8 cross-layer fusion: latest source, raw results and review corrections](docs/CROSSLAYER_FUSION_REVIEW_20261013.md)
 - [Complete work index for the supplied TFS journal study](docs/TFS_JOURNAL_WORK_INDEX_20261005.md)
 - [Latest journal P3/P4 validation and interpretation](docs/JOURNAL_P3_P4_INTERPRETATION_20261005.md)
 - [P3/P4 frozen sources, raw samples and PMU](results/journal-p3-p4-20261005/)

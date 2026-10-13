@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/as-Skitter/as-Skitter.csrbin
+METHOD_SETUP graph=as-Skitter phase=csr_file_load ms=51.6860485077
+Matrix: as-Skitter  N=1696415  NNZ=22190596  avg_deg=13.1
+
+METHOD_SETUP graph=as-Skitter phase=tensor_allocation ms=0.0948905944824
+METHOD_SETUP graph=as-Skitter phase=weight_generation ms=0.257968902588
+METHOD_SETUP graph=as-Skitter phase=feature_generation ms=1458.10508728
+METHOD_SETUP graph=as-Skitter phase=degree_sort ms=55.0980567932
+METHOD_SETUP graph=as-Skitter phase=packed_weight_allocation ms=0.0109672546387
+METHOD_SETUP graph=as-Skitter phase=weight_vnni_packing ms=0.0319480895996
+METHOD_SETUP graph=as-Skitter phase=input_bf16_allocation ms=0.0100135803223
+METHOD_SETUP graph=as-Skitter phase=input_bf16_conversion ms=62.4680519104
+METHOD_SETUP graph=as-Skitter phase=tfs_output_allocation ms=0.0209808349609
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 101.81 ms
+  run 1: 99.63 ms
+  run 2: 101.92 ms
+  run 3: 102.27 ms
+  run 4: 100.28 ms
+  TFS V3 E2E BEST: 99.63 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=as-Skitter phase=mkl_index_allocation ms=0.0369548797607
+METHOD_SETUP graph=as-Skitter phase=mkl_index_conversion ms=22.1078395844
+METHOD_SETUP graph=as-Skitter phase=mkl_csr_create ms=2.50506401062
+METHOD_SETUP graph=as-Skitter phase=mkl_hint_and_optimize ms=26.3800621033
+METHOD_SETUP graph=as-Skitter phase=mkl_output_allocation ms=0.0150203704834
+  run 0: 163.78 ms
+  run 1: 163.38 ms
+  run 2: 162.97 ms
+  run 3: 162.84 ms
+  run 4: 163.03 ms
+  MKL E2E BEST: 162.84 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 99.63 ms
+  MKL (FP32):      162.84 ms
+  E2E Speedup:     1.63×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010795  RMSE=1.7434e+02
+First 8:
+  TFS: -4624.96 -24859.84 -17876.94 -5137.20 84.81 398.49 -13633.83 -20492.36 
+  MKL: -4643.98 -25083.39 -18068.94 -5190.35 76.51 388.86 -13794.22 -20682.04 
+STATE_SEMANTIC graph=as-Skitter values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=as-Skitter fnv64=1418202230871684802
+GROUP_SETUP graph=as-Skitter phase=schedule_signature_allocation ms=17.1689987183
+GROUP_SETUP graph=as-Skitter phase=signature_pass ms=28.8579463959 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=as-Skitter phase=segment_construction ms=3.33404541016 segments=587 cap=4096
+GROUP_SETUP graph=as-Skitter phase=schedule_sort schedule=qsource ms=5.90395927429 signature_ms=28.8579463959 shared_signature_pass=1
+GROUP_SETUP graph=as-Skitter phase=schedule_sort schedule=qpage ms=6.04200363159 signature_ms=28.8579463959 shared_signature_pass=1
+GROUP_SETUP graph=as-Skitter phase=schedule_sort schedule=qsamplepage ms=6.07204437256 signature_ms=28.8579463959 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=as-Skitter candidate=degree sampled_tiles=128 sampled_windows=310 requests=239573 misses256=235482 misses1024=232100 misses4096=221173 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=as-Skitter candidate=qsource sampled_tiles=128 sampled_windows=310 requests=239451 misses256=203647 misses1024=199109 misses4096=191342 ratio256=0.865249819114 ratio1024=0.858295759582 ratio4096=0.86556446095 mean_ratio=0.863036679882 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=as-Skitter candidate=qpage sampled_tiles=128 sampled_windows=310 requests=238165 misses256=200167 misses1024=194691 misses4096=189268 ratio256=0.855056271165 ratio1024=0.843782798183 ratio4096=0.860805466305 mean_ratio=0.853214845218 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=as-Skitter candidate=qsamplepage sampled_tiles=128 sampled_windows=310 requests=237550 misses256=207093 misses1024=201751 misses4096=194203 ratio256=0.886932441058 ratio1024=0.876644257083 ratio4096=0.885536898862 mean_ratio=0.883037865668 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=as-Skitter schedule=qguard selected=qpage predicted_mean_miss_rate_ratio=0.853214845218 sampled_tiles=128 high_q_tiles=2282 low_q_fallback=1 uses_timing=0 probe_ms=161.154031754 assembly_ms=2.49910354614
+GROUP_SETUP graph=as-Skitter phase=guard_probe ms=161.154031754
+GROUP_SETUP graph=as-Skitter phase=guard_schedule_assembly ms=2.49910354614
+GROUP_AUDIT graph=as-Skitter schedule=degree pass=1 rows=1696415 moved=0 fnv64=1418202230871684802 full_projections=106026 b64_projections=114091 b256_projections=107274 windows=114091 state_load_bytes=63521792 state_store_bytes=932086272 padded_steps=22509664 audit_ms=9.53793525696
+GROUP_AUDIT graph=as-Skitter schedule=qsource pass=1 rows=1696415 moved=1695844 fnv64=3708522907064124436 full_projections=106026 b64_projections=114091 b256_projections=107274 windows=114091 state_load_bytes=63521792 state_store_bytes=932086272 padded_steps=23050304 audit_ms=9.79900360107
+GROUP_AUDIT graph=as-Skitter schedule=qpage pass=1 rows=1696415 moved=1695849 fnv64=4353738280129682688 full_projections=106026 b64_projections=114091 b256_projections=107274 windows=114091 state_load_bytes=63521792 state_store_bytes=932086272 padded_steps=22971280 audit_ms=8.99600982666
+GROUP_AUDIT graph=as-Skitter schedule=qsamplepage pass=1 rows=1696415 moved=1695810 fnv64=12275367440812625352 full_projections=106026 b64_projections=114091 b256_projections=107274 windows=114091 state_load_bytes=63521792 state_store_bytes=932086272 padded_steps=23016960 audit_ms=9.04703140259
+GROUP_AUDIT graph=as-Skitter schedule=qguard pass=1 rows=1696415 moved=36320 fnv64=5509231605208737090 full_projections=106026 b64_projections=114091 b256_projections=107274 windows=114091 state_load_bytes=63521792 state_store_bytes=932086272 padded_steps=22887664 audit_ms=8.67295265198
+GROUP_SETUP graph=as-Skitter phase=all_schedules_total ms=280.514955521 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=as-Skitter phase=all_five_frozen_schedules ms=280.961036682 included_in_primary=0
+STATE_CONFIG graph=as-Skitter N=1696415 E=22190596 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=as-Skitter method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=as-Skitter method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=as-Skitter method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=as-Skitter method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=as-Skitter method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=101176 mean_abs=49.296742437 relative_L2=0.0115825632437 normalized_max=0.0141074558509 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=11.4736328125 mean_abs=0.0241246486473 relative_L2=0.00317803618427 normalized_max=0.0026163745542 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=39627 mean_abs=25.5883120755 relative_L2=0.00592553561045 normalized_max=0.00558567832472 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=25.5164447212 relative_L2=0.00631264961826 normalized_max=0.00462962962963 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.2798203343 relative_L2=0.0171726640694 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=13.8238525391 mean_abs=0.0241367617241 relative_L2=0.00322832966378 normalized_max=0.00315230377469 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=46943.5 mean_abs=25.7084822882 relative_L2=0.00604604186784 normalized_max=0.00661698565212 gate=0.01 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=65536 mean_abs=25.6329044094 relative_L2=0.0064397834697 normalized_max=0.00925925925926 gate=0.02 pass=1
+METHOD_CHECK graph=as-Skitter method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=133944 mean_abs=73.3207592817 relative_L2=0.0172384073062 normalized_max=0.0186764555477 gate=0.03 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=as-Skitter method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=as-Skitter pass=1
+STATE_TIME graph=as-Skitter method=paper_tfs kind=consecutive repeat=0 order=0 ms=102.572202682
+STATE_TIME graph=as-Skitter method=paper_tfs kind=consecutive repeat=1 order=0 ms=101.640939713
+STATE_TIME graph=as-Skitter method=paper_tfs kind=consecutive repeat=2 order=0 ms=103.872060776
+STATE_TIME graph=as-Skitter method=paper_tfs kind=consecutive repeat=3 order=0 ms=104.678869247
+STATE_TIME graph=as-Skitter method=paper_tfs kind=consecutive repeat=4 order=0 ms=103.950977325
+STATE_TIME graph=as-Skitter method=b256_fast kind=consecutive repeat=0 order=1 ms=75.2580165863
+STATE_TIME graph=as-Skitter method=b256_fast kind=consecutive repeat=1 order=1 ms=77.0289897919
+STATE_TIME graph=as-Skitter method=b256_fast kind=consecutive repeat=2 order=1 ms=78.6409378052
+STATE_TIME graph=as-Skitter method=b256_fast kind=consecutive repeat=3 order=1 ms=78.8509845734
+STATE_TIME graph=as-Skitter method=b256_fast kind=consecutive repeat=4 order=1 ms=77.2140026093
+STATE_TIME graph=as-Skitter method=bfull_fast kind=consecutive repeat=0 order=2 ms=78.6988735199
+STATE_TIME graph=as-Skitter method=bfull_fast kind=consecutive repeat=1 order=2 ms=78.1710147858
+STATE_TIME graph=as-Skitter method=bfull_fast kind=consecutive repeat=2 order=2 ms=80.020904541
+STATE_TIME graph=as-Skitter method=bfull_fast kind=consecutive repeat=3 order=2 ms=76.6718387604
+STATE_TIME graph=as-Skitter method=bfull_fast kind=consecutive repeat=4 order=2 ms=78.4349441528
+STATE_TIME graph=as-Skitter method=p0_degree kind=consecutive repeat=0 order=3 ms=76.4091014862
+STATE_TIME graph=as-Skitter method=p0_degree kind=consecutive repeat=1 order=3 ms=76.220035553
+STATE_TIME graph=as-Skitter method=p0_degree kind=consecutive repeat=2 order=3 ms=76.6739845276
+STATE_TIME graph=as-Skitter method=p0_degree kind=consecutive repeat=3 order=3 ms=76.2288570404
+STATE_TIME graph=as-Skitter method=p0_degree kind=consecutive repeat=4 order=3 ms=77.584028244
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=66.7631626129
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=64.0058517456
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=66.1239624023
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=66.6241645813
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=63.4949207306
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=consecutive repeat=0 order=5 ms=65.3488636017
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=consecutive repeat=1 order=5 ms=66.7450428009
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=consecutive repeat=2 order=5 ms=66.3120746613
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=consecutive repeat=3 order=5 ms=67.6240921021
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=consecutive repeat=4 order=5 ms=65.3779506683
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=consecutive repeat=0 order=6 ms=66.1859512329
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=consecutive repeat=1 order=6 ms=66.220998764
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=consecutive repeat=2 order=6 ms=66.1990642548
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=consecutive repeat=3 order=6 ms=67.1310424805
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=consecutive repeat=4 order=6 ms=68.1748390198
+STATE_TIME graph=as-Skitter method=p0_qguard kind=consecutive repeat=0 order=7 ms=77.3758888245
+STATE_TIME graph=as-Skitter method=p0_qguard kind=consecutive repeat=1 order=7 ms=76.8899917603
+STATE_TIME graph=as-Skitter method=p0_qguard kind=consecutive repeat=2 order=7 ms=75.523853302
+STATE_TIME graph=as-Skitter method=p0_qguard kind=consecutive repeat=3 order=7 ms=77.8551101685
+STATE_TIME graph=as-Skitter method=p0_qguard kind=consecutive repeat=4 order=7 ms=75.5889415741
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=63.4741783142
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=64.2011165619
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=65.101146698
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=64.5508766174
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=63.1189346313
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=66.0011768341
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=64.4929409027
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=65.5958652496
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=65.9120082855
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=66.3690567017
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=67.5020217896
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=64.3482208252
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=65.2959346771
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=64.3219947815
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=65.0768280029
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=162.431955338
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=161.864042282
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=163.065910339
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=163.397073746
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=162.55903244
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=0 order=0 ms=103.245019913
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=0 order=1 ms=77.0699977875
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=0 order=2 ms=77.9299736023
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=0 order=3 ms=77.8679847717
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=0 order=4 ms=65.6750202179
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=0 order=5 ms=65.8838748932
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=0 order=6 ms=66.1599636078
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=0 order=7 ms=75.2329826355
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=62.1321201324
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=0 order=9 ms=66.6468143463
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=0 order=10 ms=65.1779174805
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=163.239002228
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=163.308143616
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=1 order=1 ms=64.3150806427
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=1 order=2 ms=63.9040470123
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=64.9919509888
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=1 order=4 ms=76.2810707092
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=1 order=5 ms=66.3290023804
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=1 order=6 ms=67.2378540039
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=1 order=7 ms=67.5880908966
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=1 order=8 ms=76.7619609833
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=1 order=9 ms=78.3817768097
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=1 order=10 ms=77.5489807129
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=1 order=11 ms=101.135015488
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=2 order=0 ms=108.25586319
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=2 order=1 ms=76.4899253845
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=2 order=2 ms=78.0189037323
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=2 order=3 ms=78.7210464478
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=2 order=4 ms=66.5128231049
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=2 order=5 ms=65.5710697174
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=2 order=6 ms=66.2221908569
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=2 order=7 ms=75.8290290833
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=63.2588863373
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=2 order=9 ms=63.9851093292
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=2 order=10 ms=65.5510425568
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=163.295030594
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=163.023948669
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=3 order=1 ms=64.8369789124
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=3 order=2 ms=63.5039806366
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=62.8080368042
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=3 order=4 ms=76.1640071869
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=3 order=5 ms=67.5110816956
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=3 order=6 ms=66.1151409149
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=3 order=7 ms=64.98503685
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=3 order=8 ms=77.9149532318
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=3 order=9 ms=78.596830368
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=3 order=10 ms=76.9159793854
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=3 order=11 ms=101.062059402
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=4 order=0 ms=102.092027664
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=4 order=1 ms=79.3969631195
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=4 order=2 ms=78.5729885101
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=4 order=3 ms=77.3310661316
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=4 order=4 ms=65.2408599854
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=4 order=5 ms=67.2380924225
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=4 order=6 ms=66.9009685516
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=4 order=7 ms=76.0500431061
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=64.3048286438
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=4 order=9 ms=65.8748149872
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=4 order=10 ms=65.4578208923
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=162.659883499
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=162.950992584
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=5 order=1 ms=63.9221668243
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=5 order=2 ms=62.8788471222
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=63.6758804321
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=5 order=4 ms=74.912071228
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=5 order=5 ms=67.7750110626
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=5 order=6 ms=65.9310817719
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=5 order=7 ms=68.4659481049
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=5 order=8 ms=77.3169994354
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=5 order=9 ms=78.6099433899
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=5 order=10 ms=79.4479846954
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=5 order=11 ms=102.62298584
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=6 order=0 ms=102.864027023
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=6 order=1 ms=76.474905014
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=6 order=2 ms=79.6592235565
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=6 order=3 ms=78.7580013275
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=6 order=4 ms=65.9749507904
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=6 order=5 ms=65.731048584
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=6 order=6 ms=63.7710094452
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=6 order=7 ms=77.3808956146
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=65.1640892029
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=6 order=9 ms=65.171957016
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=6 order=10 ms=65.0670528412
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=163.124799728
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=162.886142731
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=7 order=1 ms=64.5961761475
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=7 order=2 ms=65.633058548
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=62.0977878571
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=7 order=4 ms=76.0059356689
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=7 order=5 ms=67.4960613251
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=7 order=6 ms=66.9648647308
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=7 order=7 ms=65.5660629272
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=7 order=8 ms=76.6298770905
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=7 order=9 ms=81.0241699219
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=7 order=10 ms=79.0119171143
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=7 order=11 ms=106.781005859
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=8 order=0 ms=105.329990387
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=8 order=1 ms=78.2499313354
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=8 order=2 ms=78.1500339508
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=8 order=3 ms=77.8739452362
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=8 order=4 ms=66.4961338043
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=8 order=5 ms=66.8330192566
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=8 order=6 ms=66.4708614349
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=8 order=7 ms=76.6031742096
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=64.8460388184
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=8 order=9 ms=66.6739940643
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=8 order=10 ms=64.3439292908
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=162.873983383
+STATE_TIME graph=as-Skitter method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=162.89806366
+STATE_TIME graph=as-Skitter method=pair_s_qguard kind=alternating repeat=9 order=1 ms=64.9240016937
+STATE_TIME graph=as-Skitter method=pair_i_qguard kind=alternating repeat=9 order=2 ms=62.4589920044
+STATE_TIME graph=as-Skitter method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=63.7230873108
+STATE_TIME graph=as-Skitter method=p0_qguard kind=alternating repeat=9 order=4 ms=76.4451026917
+STATE_TIME graph=as-Skitter method=pair_s_degree kind=alternating repeat=9 order=5 ms=67.3789978027
+STATE_TIME graph=as-Skitter method=pair_i_degree kind=alternating repeat=9 order=6 ms=66.8499469757
+STATE_TIME graph=as-Skitter method=pack_epi_degree kind=alternating repeat=9 order=7 ms=65.7730102539
+STATE_TIME graph=as-Skitter method=p0_degree kind=alternating repeat=9 order=8 ms=77.5599479675
+STATE_TIME graph=as-Skitter method=bfull_fast kind=alternating repeat=9 order=9 ms=79.9329280853
+STATE_TIME graph=as-Skitter method=b256_fast kind=alternating repeat=9 order=10 ms=79.7500610352
+STATE_TIME graph=as-Skitter method=paper_tfs kind=alternating repeat=9 order=11 ms=101.390838623
+STATE_COUNTERS graph=as-Skitter method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=0 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=0
+STATE_WORK_GATE graph=as-Skitter method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=0 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=0
+STATE_WORK_GATE graph=as-Skitter method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=563072 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15667726
+STATE_WORK_GATE graph=as-Skitter method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=563072 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15667726
+STATE_WORK_GATE graph=as-Skitter method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=21627524 shared_heads=563072 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15667726
+STATE_WORK_GATE graph=as-Skitter method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=21627524 shared_heads=563072 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15667726
+STATE_WORK_GATE graph=as-Skitter method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=0 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=0
+STATE_WORK_GATE graph=as-Skitter method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=0 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=0
+STATE_WORK_GATE graph=as-Skitter method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=846073 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15862788
+STATE_WORK_GATE graph=as-Skitter method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=22190596 shared_heads=846073 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15862788
+STATE_WORK_GATE graph=as-Skitter method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=21344523 shared_heads=846073 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15862788
+STATE_WORK_GATE graph=as-Skitter method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=as-Skitter method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=22190596 feature_adds=2840396288 decode_rows=21344523 shared_heads=846073 projection_scopes=106026 amx_tdp=3392832 partial_zero_bytes=0 partial_load_bytes=63521792 partial_store_bytes=63521792 packing_load_bytes=0 direct_rows=1696415 packed_bytes=434282496 prefetch_requests=81976724 csr_reads=22190596 comparisons=15862788
+STATE_WORK_GATE graph=as-Skitter method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=as-Skitter method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=as-Skitter schedule=degree scope=64 edges=22190596 shared_heads=563072 merge_steps=21627524 share_fraction=0.0253743522707 projection_scopes=114091 windows=114091 scalar_adds=2840396288 direct_decode_rows=22190596 shared_decode_rows=21627524 amx_tdp_fast=3650912 baseline_partial_zero_bytes=934633472 baseline_state_load_bytes=0 baseline_state_store_bytes=934349824 direct_saved_terminal_bytes=1868983296 prefetch_requests=81480460 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=as-Skitter schedule=degree scope=256 edges=22190596 shared_heads=563072 merge_steps=21627524 share_fraction=0.0253743522707 projection_scopes=107274 windows=114091 scalar_adds=2840396288 direct_decode_rows=22190596 shared_decode_rows=21627524 amx_tdp_fast=3432768 baseline_partial_zero_bytes=878788608 baseline_state_load_bytes=53944320 baseline_state_store_bytes=932661760 direct_saved_terminal_bytes=1757506048 prefetch_requests=81901900 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=as-Skitter schedule=degree scope=0 edges=22190596 shared_heads=563072 merge_steps=21627524 share_fraction=0.0253743522707 projection_scopes=106026 windows=114091 scalar_adds=2840396288 direct_decode_rows=22190596 shared_decode_rows=21627524 amx_tdp_fast=3392832 baseline_partial_zero_bytes=868564992 baseline_state_load_bytes=63521792 baseline_state_store_bytes=932086272 direct_saved_terminal_bytes=1737129472 prefetch_requests=81976724 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=as-Skitter schedule=qguard scope=64 edges=22190596 shared_heads=846073 merge_steps=21344523 share_fraction=0.0381275473629 projection_scopes=114091 windows=114091 scalar_adds=2840396288 direct_decode_rows=22190596 shared_decode_rows=21344523 amx_tdp_fast=3650912 baseline_partial_zero_bytes=934633472 baseline_state_load_bytes=0 baseline_state_store_bytes=934349824 direct_saved_terminal_bytes=1868983296 prefetch_requests=81480460 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=as-Skitter schedule=qguard scope=256 edges=22190596 shared_heads=846073 merge_steps=21344523 share_fraction=0.0381275473629 projection_scopes=107274 windows=114091 scalar_adds=2840396288 direct_decode_rows=22190596 shared_decode_rows=21344523 amx_tdp_fast=3432768 baseline_partial_zero_bytes=878788608 baseline_state_load_bytes=53944320 baseline_state_store_bytes=932661760 direct_saved_terminal_bytes=1757506048 prefetch_requests=81901900 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=as-Skitter schedule=qguard scope=0 edges=22190596 shared_heads=846073 merge_steps=21344523 share_fraction=0.0381275473629 projection_scopes=106026 windows=114091 scalar_adds=2840396288 direct_decode_rows=22190596 shared_decode_rows=21344523 amx_tdp_fast=3392832 baseline_partial_zero_bytes=868564992 baseline_state_load_bytes=63521792 baseline_state_store_bytes=932086272 direct_saved_terminal_bytes=1737129472 prefetch_requests=81976724 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=as-Skitter pass=1 methods=11 smoke=0 max_rss_kib=9862628

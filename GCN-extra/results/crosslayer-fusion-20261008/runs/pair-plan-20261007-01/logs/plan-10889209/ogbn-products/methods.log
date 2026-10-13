@@ -1,0 +1,476 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/ogbn-products/ogbn-products.csrbin
+METHOD_SETUP graph=ogbn-products phase=csr_file_load ms=250.211000443
+Matrix: ogbn-products  N=2449029  NNZ=123718152  avg_deg=50.5
+
+METHOD_SETUP graph=ogbn-products phase=tensor_allocation ms=0.112056732178
+METHOD_SETUP graph=ogbn-products phase=weight_generation ms=0.255107879639
+METHOD_SETUP graph=ogbn-products phase=feature_generation ms=2217.16284752
+METHOD_SETUP graph=ogbn-products phase=degree_sort ms=127.050876617
+METHOD_SETUP graph=ogbn-products phase=packed_weight_allocation ms=0.0131130218506
+METHOD_SETUP graph=ogbn-products phase=weight_vnni_packing ms=0.0400543212891
+METHOD_SETUP graph=ogbn-products phase=input_bf16_allocation ms=0.0128746032715
+METHOD_SETUP graph=ogbn-products phase=input_bf16_conversion ms=17.795085907
+METHOD_SETUP graph=ogbn-products phase=tfs_output_allocation ms=0.0338554382324
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 332.50 ms
+  run 1: 329.73 ms
+  run 2: 326.05 ms
+  run 3: 333.61 ms
+  run 4: 346.71 ms
+  TFS V3 E2E BEST: 326.05 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=ogbn-products phase=mkl_index_allocation ms=0.0369548797607
+METHOD_SETUP graph=ogbn-products phase=mkl_index_conversion ms=108.549118042
+METHOD_SETUP graph=ogbn-products phase=mkl_csr_create ms=2.48908996582
+METHOD_SETUP graph=ogbn-products phase=mkl_hint_and_optimize ms=47.0170974731
+METHOD_SETUP graph=ogbn-products phase=mkl_output_allocation ms=0.0190734863281
+  run 0: 1433.35 ms
+  run 1: 1432.08 ms
+  run 2: 1433.03 ms
+  run 3: 1434.59 ms
+  run 4: 1433.89 ms
+  MKL E2E BEST: 1432.08 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 326.05 ms
+  MKL (FP32):      1432.08 ms
+  E2E Speedup:     4.39×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010501  RMSE=1.5255e+02
+First 8:
+  TFS: -12991.84 -28908.69 -36407.58 -4621.78 10116.61 -6913.75 -18725.19 -24380.31 
+  MKL: -13114.39 -29165.52 -36805.82 -4675.34 10199.56 -6997.17 -18939.52 -24603.59 
+PAIRPLAN_SEMANTIC graph=ogbn-products values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=ogbn-products fnv64=5279377339579493237
+GROUP_SETUP graph=ogbn-products phase=schedule_signature_allocation ms=24.2130756378
+GROUP_SETUP graph=ogbn-products phase=signature_pass ms=108.102083206 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=ogbn-products phase=segment_construction ms=6.85000419617 segments=696 cap=4096
+GROUP_SETUP graph=ogbn-products phase=schedule_sort schedule=qsource ms=7.4520111084 signature_ms=108.102083206 shared_signature_pass=1
+GROUP_SETUP graph=ogbn-products phase=schedule_sort schedule=qpage ms=8.72087478638 signature_ms=108.102083206 shared_signature_pass=1
+GROUP_SETUP graph=ogbn-products phase=schedule_sort schedule=qsamplepage ms=8.18204879761 signature_ms=108.102083206 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=ogbn-products candidate=degree sampled_tiles=128 sampled_windows=298 requests=226112 misses256=225739 misses1024=225285 misses4096=222994 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=ogbn-products candidate=qsource sampled_tiles=128 sampled_windows=298 requests=226061 misses256=213171 misses1024=212447 misses4096=211052 ratio256=0.944538125798 ratio1024=0.94322715069 ratio4096=0.946660510719 mean_ratio=0.944808595736 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=ogbn-products candidate=qpage sampled_tiles=128 sampled_windows=298 requests=225875 misses256=213672 misses1024=211360 misses4096=209916 ratio256=0.947537625164 ratio1024=0.939173802491 ratio4096=0.942340399172 mean_ratio=0.943017275609 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=ogbn-products candidate=qsamplepage sampled_tiles=128 sampled_windows=298 requests=226139 misses256=219391 misses1024=218517 misses4096=216809 ratio256=0.971762990363 ratio1024=0.969842244416 ratio4096=0.97214774371 mean_ratio=0.971250992829 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=ogbn-products schedule=qguard selected=qpage predicted_mean_miss_rate_ratio=0.943017275609 sampled_tiles=128 high_q_tiles=36833 low_q_fallback=1 uses_timing=0 probe_ms=170.076847076 assembly_ms=6.81018829346
+GROUP_SETUP graph=ogbn-products phase=guard_probe ms=170.076847076
+GROUP_SETUP graph=ogbn-products phase=guard_schedule_assembly ms=6.81018829346
+GROUP_AUDIT graph=ogbn-products schedule=degree pass=1 rows=2449029 moved=0 fnv64=5279377339579493237 full_projections=150039 b64_projections=218018 b256_projections=155053 windows=218018 state_load_bytes=554577408 state_store_bytes=1783691264 padded_steps=124006192 audit_ms=22.0510959625
+GROUP_AUDIT graph=ogbn-products schedule=qsource pass=1 rows=2449029 moved=2399958 fnv64=15860113415873615355 full_projections=150039 b64_projections=218018 b256_projections=155053 windows=218018 state_load_bytes=554577408 state_store_bytes=1783691264 padded_steps=125273040 audit_ms=22.68409729
+GROUP_AUDIT graph=ogbn-products schedule=qpage pass=1 rows=2449029 moved=2399901 fnv64=15206398364441907111 full_projections=150039 b64_projections=218018 b256_projections=155053 windows=218018 state_load_bytes=554577408 state_store_bytes=1783691264 padded_steps=125249424 audit_ms=21.901845932
+GROUP_AUDIT graph=ogbn-products schedule=qsamplepage pass=1 rows=2449029 moved=2399961 fnv64=8350342809054875769 full_projections=150039 b64_projections=218018 b256_projections=155053 windows=218018 state_load_bytes=554577408 state_store_bytes=1783691264 padded_steps=125277936 audit_ms=21.6989517212
+GROUP_AUDIT graph=ogbn-products schedule=qguard pass=1 rows=2449029 moved=589065 fnv64=5493344836821987159 full_projections=150039 b64_projections=218018 b256_projections=155053 windows=218018 state_load_bytes=554577408 state_store_bytes=1783691264 padded_steps=125128256 audit_ms=21.0609436035
+GROUP_SETUP graph=ogbn-products phase=all_schedules_total ms=456.906080246 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+PAIRPLAN_SCHEDULE_SETUP graph=ogbn-products phase=all_five_frozen_schedules ms=457.494020462 included_in_primary=0
+PAIRPLAN_SETUP graph=ogbn-products plan=adj_degree kind=0 layout_ms=18.4059143066 pairing_ms=1.46007537842 verify_ms=184.490919113 audit_ms=18.8150405884 total_ms=223.171949387 plan_bytes=5116098 allocated_bytes=5116098 sample_edge_probes=0 signature_probes=0 score_probes=0 score_pairs=0 full_verification_reads=127201444 merge_index_reads=123718152 exact_compare_reads=3482452 memcmp_requested_reads=840 audit_reads=3482452 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=ogbn-products plan=adj_degree kind=0 tiles=153065 source_edges=123718152 dynamic_shared_heads=22642 exact_shared_edges=420 merge_steps=123695510 comparisons=108526301 exact_windows=12 nonempty_pair_windows=1742055 neighbor_windows=218018 full_projections=150039 b64_projections=218018 b256_projections=155053 changed_tiles=0 zero_score_tiles=0 score_fallback_tiles=0 adjacent_sample_score=0 selected_sample_score=0 fnv64=4272675850575742423 exact_masks_bytes=218018
+PLAN_GATE graph=ogbn-products plan=adj_degree pass=1 invalid=0 source_edges=123718152 expected_edges=123718152 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+PAIRPLAN_SETUP graph=ogbn-products plan=opt_degree kind=1 layout_ms=18.5258388519 pairing_ms=136.510133743 verify_ms=186.26499176 audit_ms=18.611907959 total_ms=359.912872314 plan_bytes=5116098 allocated_bytes=5116098 sample_edge_probes=211737306 signature_probes=104475976 score_probes=107261330 score_pairs=1240269 full_verification_reads=127238250 merge_index_reads=123718152 exact_compare_reads=3501602 memcmp_requested_reads=18496 audit_reads=3501602 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=ogbn-products plan=opt_degree kind=1 tiles=153065 source_edges=123718152 dynamic_shared_heads=145323 exact_shared_edges=9248 merge_steps=123572829 comparisons=108506029 exact_windows=245 nonempty_pair_windows=1742131 neighbor_windows=218018 full_projections=150039 b64_projections=218018 b256_projections=155053 changed_tiles=6651 zero_score_tiles=146008 score_fallback_tiles=0 adjacent_sample_score=14699 selected_sample_score=83711 fnv64=9661391471368020520 exact_masks_bytes=218018
+PLAN_GATE graph=ogbn-products plan=opt_degree pass=1 invalid=0 source_edges=123718152 expected_edges=123718152 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+PAIRPLAN_SETUP graph=ogbn-products plan=opt_qguard kind=1 layout_ms=18.975019455 pairing_ms=166.303873062 verify_ms=199.038982391 audit_ms=18.2950496674 total_ms=402.612924576 plan_bytes=5116098 allocated_bytes=5116098 sample_edge_probes=230737285 signature_probes=104475976 score_probes=126261309 score_pairs=1320681 full_verification_reads=128629126 merge_index_reads=123718152 exact_compare_reads=4120176 memcmp_requested_reads=790798 audit_reads=4120176 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=ogbn-products plan=opt_qguard kind=1 tiles=153065 source_edges=123718152 dynamic_shared_heads=2934582 exact_shared_edges=395399 merge_steps=120783570 comparisons=108251784 exact_windows=9561 nonempty_pair_windows=1742131 neighbor_windows=218018 full_projections=150039 b64_projections=218018 b256_projections=155053 changed_tiles=31113 zero_score_tiles=120878 score_fallback_tiles=52 adjacent_sample_score=1084253 selected_sample_score=2284911 fnv64=1003079150617995176 exact_masks_bytes=218018
+PLAN_GATE graph=ogbn-products plan=opt_qguard pass=1 invalid=0 source_edges=123718152 expected_edges=123718152 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+PAIRPLAN_CONFIG graph=ogbn-products N=2449029 E=123718152 D=128 H=128 F=128 S=64 R=64 TR=16 methods=13 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+PAIRPLAN_PLAN graph=ogbn-products method=paper_tfs kind=0 scope=1 schedule=degree pair=0 plan_index=-1 plan=none mode=0 accurate=0 epilogue=0
+PAIRPLAN_PLAN graph=ogbn-products method=pack_epi_degree kind=3 scope=0 schedule=degree pair=0 plan_index=-1 plan=none mode=0 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=legacy_s_degree kind=3 scope=0 schedule=degree pair=2 plan_index=-1 plan=none mode=0 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=adj_exact_s_degree kind=4 scope=0 schedule=degree pair=0 plan_index=0 plan=adj_degree mode=4 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_dyn_i_degree kind=4 scope=0 schedule=degree pair=0 plan_index=1 plan=opt_degree mode=1 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_dyn_s_degree kind=4 scope=0 schedule=degree pair=0 plan_index=1 plan=opt_degree mode=2 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_exact_i_degree kind=4 scope=0 schedule=degree pair=0 plan_index=1 plan=opt_degree mode=3 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_exact_s_degree kind=4 scope=0 schedule=degree pair=0 plan_index=1 plan=opt_degree mode=4 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=pack_epi_qguard kind=3 scope=0 schedule=qguard pair=0 plan_index=-1 plan=none mode=0 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_dyn_i_qguard kind=4 scope=0 schedule=qguard pair=0 plan_index=3 plan=opt_qguard mode=1 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_dyn_s_qguard kind=4 scope=0 schedule=qguard pair=0 plan_index=3 plan=opt_qguard mode=2 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_exact_i_qguard kind=4 scope=0 schedule=qguard pair=0 plan_index=3 plan=opt_qguard mode=3 accurate=0 epilogue=1
+PAIRPLAN_PLAN graph=ogbn-products method=opt_exact_s_qguard kind=4 scope=0 schedule=qguard pair=0 plan_index=3 plan=opt_qguard mode=4 accurate=0 epilogue=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=87793.5 mean_abs=79.6746653957 relative_L2=0.0127954883771 normalized_max=0.0135534967021 gate=0.03 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=pack_epi_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=0 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=0 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=pack_epi_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=pack_epi_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=pack_epi_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=0 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=pack_epi_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=pack_epi_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=legacy_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=legacy_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=legacy_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=legacy_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=legacy_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=legacy_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=legacy_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=legacy_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=legacy_s_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123695510 shared_heads=22642 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108526301 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=22642 expected_decode=123695510 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=legacy_s_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=legacy_s_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=legacy_s_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123695510 shared_heads=22642 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108526301 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=22642 expected_decode=123695510 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=legacy_s_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=legacy_s_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=adj_exact_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=adj_exact_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=adj_exact_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=adj_exact_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=adj_exact_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=adj_exact_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=adj_exact_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=adj_exact_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=adj_exact_s_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123717732 shared_heads=420 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123717732 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=12 exact_pair_edges=420 exact_shared_edges=420 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=420 expected_decode=123717732 expected_csr=123717732 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=adj_exact_s_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=adj_exact_s_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=adj_exact_s_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123717732 shared_heads=420 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123717732 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=12 exact_pair_edges=420 exact_shared_edges=420 runtime_head_comparisons=0 relu_elements=0 expected_hits=420 expected_decode=123717732 expected_csr=123717732 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=adj_exact_s_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=adj_exact_s_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_i_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=145323 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108506029 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108506029 relu_elements=307278464 expected_hits=145323 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_i_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_i_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_i_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=145323 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108506029 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108506029 relu_elements=0 expected_hits=145323 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_i_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_i_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_s_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123572829 shared_heads=145323 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108506029 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108506029 relu_elements=307278464 expected_hits=145323 expected_decode=123572829 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_s_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_s_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_s_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123572829 shared_heads=145323 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108506029 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108506029 relu_elements=0 expected_hits=145323 expected_decode=123572829 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_s_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_s_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_i_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=9248 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=245 exact_pair_edges=9248 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=9248 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_i_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_i_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_i_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=9248 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=245 exact_pair_edges=9248 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=9248 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_i_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_i_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_s_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123708904 shared_heads=9248 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123708904 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=245 exact_pair_edges=9248 exact_shared_edges=9248 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=9248 expected_decode=123708904 expected_csr=123708904 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_s_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_s_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_s_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123708904 shared_heads=9248 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123708904 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=245 exact_pair_edges=9248 exact_shared_edges=9248 runtime_head_comparisons=0 relu_elements=0 expected_hits=9248 expected_decode=123708904 expected_csr=123708904 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_s_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_s_degree layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=pack_epi_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=0 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=0 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=pack_epi_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=pack_epi_qguard layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=pack_epi_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=0 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=pack_epi_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=pack_epi_qguard layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_i_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=2934582 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108251784 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108251784 relu_elements=307278464 expected_hits=2934582 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_i_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_i_qguard layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_i_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=2934582 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108251784 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108251784 relu_elements=0 expected_hits=2934582 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_i_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_i_qguard layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_dyn_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_dyn_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_s_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=120783570 shared_heads=2934582 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108251784 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108251784 relu_elements=307278464 expected_hits=2934582 expected_decode=120783570 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_s_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_s_qguard layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_dyn_s_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=120783570 shared_heads=2934582 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=108251784 order_index_reads=3485274 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=108251784 relu_elements=0 expected_hits=2934582 expected_decode=120783570 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_dyn_s_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_dyn_s_qguard layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_i_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=395399 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=9561 exact_pair_edges=395399 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=395399 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_i_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_i_qguard layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_i_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123718152 shared_heads=395399 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123718152 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=9561 exact_pair_edges=395399 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=395399 expected_decode=123718152 expected_csr=123718152 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_i_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_i_qguard layer=2 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=opt_exact_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=ogbn-products method=opt_exact_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_s_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123322753 shared_heads=395399 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123322753 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=9561 exact_pair_edges=395399 exact_shared_edges=395399 runtime_head_comparisons=0 relu_elements=307278464 expected_hits=395399 expected_decode=123322753 expected_csr=123322753 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_s_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_s_qguard layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=ogbn-products method=opt_exact_s_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=123718152 feature_adds=15835923456 decode_rows=123322753 shared_heads=395399 projection_scopes=150039 windows=218018 amx_tdp=4801248 partial_zero_bytes=0 partial_load_bytes=554577408 partial_store_bytes=554577408 packing_load_bytes=0 direct_rows=2400613 packed_bytes=614559744 prefetch_requests=485270176 prefetch_index_reads=121317544 csr_reads=123322753 comparisons=0 order_index_reads=3485274 exact_mask_bytes_read=218018 exact_pair_flags_tested=1742500 exact_pair_windows=9561 exact_pair_edges=395399 exact_shared_edges=395399 runtime_head_comparisons=0 relu_elements=0 expected_hits=395399 expected_decode=123322753 expected_csr=123322753 expected_scopes=150039 expected_windows=218018 expected_loads=554577408 expected_stores=554577408 expected_packed=614559744 expected_direct=2400613 expected_prefetch=485270176
+PAIRPLAN_WORK_GATE graph=ogbn-products method=opt_exact_s_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=ogbn-products method=opt_exact_s_qguard layer=2 bitwise=1 pass=1
+PAIRPLAN_GATE_COMPLETE graph=ogbn-products pass=1
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=consecutive repeat=0 order=0 ms=335.728168488
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=consecutive repeat=1 order=0 ms=343.456983566
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=consecutive repeat=2 order=0 ms=331.984996796
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=consecutive repeat=3 order=0 ms=345.93296051
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=consecutive repeat=4 order=0 ms=345.102071762
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=consecutive repeat=0 order=1 ms=275.312900543
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=consecutive repeat=1 order=1 ms=277.652978897
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=consecutive repeat=2 order=1 ms=274.912118912
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=consecutive repeat=3 order=1 ms=276.533126831
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=consecutive repeat=4 order=1 ms=278.166055679
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=consecutive repeat=0 order=2 ms=279.099941254
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=consecutive repeat=1 order=2 ms=273.73290062
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=consecutive repeat=2 order=2 ms=281.681060791
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=consecutive repeat=3 order=2 ms=279.92105484
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=consecutive repeat=4 order=2 ms=274.411916733
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=consecutive repeat=0 order=3 ms=273.431062698
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=consecutive repeat=1 order=3 ms=271.317958832
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=consecutive repeat=2 order=3 ms=276.333093643
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=consecutive repeat=3 order=3 ms=275.35700798
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=consecutive repeat=4 order=3 ms=275.853157043
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=consecutive repeat=0 order=4 ms=279.833078384
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=consecutive repeat=1 order=4 ms=279.413938522
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=consecutive repeat=2 order=4 ms=279.150009155
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=consecutive repeat=3 order=4 ms=277.781963348
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=consecutive repeat=4 order=4 ms=282.310962677
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=consecutive repeat=0 order=5 ms=282.830953598
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=consecutive repeat=1 order=5 ms=277.611970901
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=consecutive repeat=2 order=5 ms=282.056808472
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=consecutive repeat=3 order=5 ms=282.248020172
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=consecutive repeat=4 order=5 ms=278.987884521
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=consecutive repeat=0 order=6 ms=273.534059525
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=consecutive repeat=1 order=6 ms=274.750947952
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=consecutive repeat=2 order=6 ms=275.015830994
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=consecutive repeat=3 order=6 ms=274.353981018
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=consecutive repeat=4 order=6 ms=275.749921799
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=consecutive repeat=0 order=7 ms=273.395776749
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=consecutive repeat=1 order=7 ms=277.24480629
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=consecutive repeat=2 order=7 ms=271.085977554
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=consecutive repeat=3 order=7 ms=271.008014679
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=consecutive repeat=4 order=7 ms=273.900032043
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=271.395921707
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=271.031856537
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=271.319150925
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=275.474071503
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=272.144079208
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=consecutive repeat=0 order=9 ms=278.265953064
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=consecutive repeat=1 order=9 ms=272.902965546
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=consecutive repeat=2 order=9 ms=271.367073059
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=consecutive repeat=3 order=9 ms=278.558015823
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=consecutive repeat=4 order=9 ms=275.568008423
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=consecutive repeat=0 order=10 ms=271.545171738
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=consecutive repeat=1 order=10 ms=271.894931793
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=consecutive repeat=2 order=10 ms=274.585962296
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=consecutive repeat=3 order=10 ms=271.035909653
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=consecutive repeat=4 order=10 ms=279.479026794
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=consecutive repeat=0 order=11 ms=271.941900253
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=consecutive repeat=1 order=11 ms=273.469209671
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=consecutive repeat=2 order=11 ms=267.358064651
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=consecutive repeat=3 order=11 ms=273.638963699
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=consecutive repeat=4 order=11 ms=271.826982498
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=consecutive repeat=0 order=12 ms=271.460056305
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=consecutive repeat=1 order=12 ms=269.534826279
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=consecutive repeat=2 order=12 ms=272.594928741
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=consecutive repeat=3 order=12 ms=267.189025879
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=consecutive repeat=4 order=12 ms=270.698070526
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=consecutive repeat=0 order=13 ms=1432.18207359
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=consecutive repeat=1 order=13 ms=1433.09187889
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=consecutive repeat=2 order=13 ms=1432.64389038
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=consecutive repeat=3 order=13 ms=1430.83906174
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=consecutive repeat=4 order=13 ms=1432.99794197
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=0 order=0 ms=338.829994202
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=0 order=1 ms=262.938022614
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=0 order=2 ms=274.115085602
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=0 order=3 ms=275.677919388
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=0 order=4 ms=274.026870728
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=0 order=5 ms=274.696111679
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=0 order=6 ms=268.563985825
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=0 order=7 ms=275.926828384
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=275.099039078
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=0 order=9 ms=274.637937546
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=0 order=10 ms=267.174005508
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=0 order=11 ms=267.7090168
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=0 order=12 ms=271.539926529
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=0 order=13 ms=1431.15401268
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=1434.26680565
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=1 order=1 ms=266.321897507
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=1 order=2 ms=257.416963577
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=1 order=3 ms=265.85316658
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=1 order=4 ms=270.206928253
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=1 order=5 ms=267.26102829
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=1 order=6 ms=269.284963608
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=1 order=7 ms=266.376972198
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=1 order=8 ms=269.523143768
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=1 order=9 ms=270.463943481
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=1 order=10 ms=267.488956451
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=1 order=11 ms=274.387121201
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=1 order=12 ms=274.972915649
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=1 order=13 ms=345.216989517
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=2 order=0 ms=343.418836594
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=2 order=1 ms=275.538921356
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=2 order=2 ms=273.375034332
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=2 order=3 ms=277.642965317
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=2 order=4 ms=279.083967209
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=2 order=5 ms=280.671834946
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=2 order=6 ms=269.481897354
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=2 order=7 ms=272.989988327
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=266.746997833
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=2 order=9 ms=273.100137711
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=2 order=10 ms=267.598152161
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=2 order=11 ms=265.434026718
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=2 order=12 ms=272.469997406
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=2 order=13 ms=1432.53421783
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=1431.11491203
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=3 order=1 ms=258.072137833
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=3 order=2 ms=259.051084518
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=3 order=3 ms=267.179965973
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=3 order=4 ms=268.045902252
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=3 order=5 ms=269.250154495
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=3 order=6 ms=270.848989487
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=3 order=7 ms=268.166065216
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=3 order=8 ms=270.334005356
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=3 order=9 ms=274.768829346
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=3 order=10 ms=270.906925201
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=3 order=11 ms=274.610996246
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=3 order=12 ms=273.182868958
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=3 order=13 ms=341.907024384
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=4 order=0 ms=340.175151825
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=4 order=1 ms=272.004127502
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=4 order=2 ms=272.472858429
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=4 order=3 ms=272.038936615
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=4 order=4 ms=273.607969284
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=4 order=5 ms=275.515079498
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=4 order=6 ms=269.232034683
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=4 order=7 ms=268.994092941
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=268.202066422
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=4 order=9 ms=272.37701416
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=4 order=10 ms=270.853996277
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=4 order=11 ms=263.555049896
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=4 order=12 ms=263.984918594
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=4 order=13 ms=1432.89113045
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=1434.36002731
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=5 order=1 ms=259.618997574
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=5 order=2 ms=257.023096085
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=5 order=3 ms=262.902975082
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=5 order=4 ms=267.196893692
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=5 order=5 ms=269.00601387
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=5 order=6 ms=271.096944809
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=5 order=7 ms=268.932104111
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=5 order=8 ms=273.873090744
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=5 order=9 ms=276.705026627
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=5 order=10 ms=267.565011978
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=5 order=11 ms=271.948099136
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=5 order=12 ms=274.837970734
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=5 order=13 ms=341.343164444
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=6 order=0 ms=343.44792366
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=6 order=1 ms=271.029949188
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=6 order=2 ms=270.714998245
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=6 order=3 ms=269.387960434
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=6 order=4 ms=273.998975754
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=6 order=5 ms=271.17395401
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=6 order=6 ms=272.850036621
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=6 order=7 ms=275.578022003
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=266.873121262
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=6 order=9 ms=272.956848145
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=6 order=10 ms=271.801948547
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=6 order=11 ms=264.209032059
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=6 order=12 ms=267.961978912
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=6 order=13 ms=1430.82380295
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=1432.87777901
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=7 order=1 ms=258.894920349
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=7 order=2 ms=256.794214249
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=7 order=3 ms=263.759851456
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=7 order=4 ms=273.809909821
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=7 order=5 ms=273.322820663
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=7 order=6 ms=265.57803154
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=7 order=7 ms=272.885084152
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=7 order=8 ms=273.048877716
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=7 order=9 ms=274.681806564
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=7 order=10 ms=275.832891464
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=7 order=11 ms=269.9239254
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=7 order=12 ms=275.334835052
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=7 order=13 ms=340.946912766
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=8 order=0 ms=341.813087463
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=8 order=1 ms=274.766921997
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=8 order=2 ms=273.958921432
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=8 order=3 ms=273.456096649
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=8 order=4 ms=276.295900345
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=8 order=5 ms=275.768995285
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=8 order=6 ms=270.797014236
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=8 order=7 ms=268.394947052
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=267.931938171
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=8 order=9 ms=269.201993942
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=8 order=10 ms=267.374038696
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=8 order=11 ms=267.709970474
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=8 order=12 ms=269.032001495
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=8 order=13 ms=1435.22310257
+PAIRPLAN_TIME graph=ogbn-products method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=1431.4699173
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_qguard kind=alternating repeat=9 order=1 ms=258.484125137
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_qguard kind=alternating repeat=9 order=2 ms=259.498119354
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_qguard kind=alternating repeat=9 order=3 ms=261.690855026
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_qguard kind=alternating repeat=9 order=4 ms=268.184900284
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_qguard kind=alternating repeat=9 order=5 ms=268.763780594
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_s_degree kind=alternating repeat=9 order=6 ms=267.946958542
+PAIRPLAN_TIME graph=ogbn-products method=opt_exact_i_degree kind=alternating repeat=9 order=7 ms=269.335031509
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_s_degree kind=alternating repeat=9 order=8 ms=273.053884506
+PAIRPLAN_TIME graph=ogbn-products method=opt_dyn_i_degree kind=alternating repeat=9 order=9 ms=272.964000702
+PAIRPLAN_TIME graph=ogbn-products method=adj_exact_s_degree kind=alternating repeat=9 order=10 ms=268.658161163
+PAIRPLAN_TIME graph=ogbn-products method=legacy_s_degree kind=alternating repeat=9 order=11 ms=272.644996643
+PAIRPLAN_TIME graph=ogbn-products method=pack_epi_degree kind=alternating repeat=9 order=12 ms=272.786140442
+PAIRPLAN_TIME graph=ogbn-products method=paper_tfs kind=alternating repeat=9 order=13 ms=338.32192421
+PAIRPLAN_COMPLETE graph=ogbn-products pass=1 methods=13 smoke=0 max_rss_kib=16026760

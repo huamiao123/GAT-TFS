@@ -1,0 +1,58 @@
+{
+  "schema_version": "certificate-self-test-v1",
+  "status": "PASS",
+  "valid": [
+    {
+      "fixture": "capacity_two",
+      "status": "PASS",
+      "frontiers": 3
+    },
+    {
+      "fixture": "repeated",
+      "status": "PASS",
+      "frontiers": 3
+    },
+    {
+      "fixture": "empty",
+      "status": "PASS",
+      "frontiers": 2
+    },
+    {
+      "fixture": "self17",
+      "status": "PASS",
+      "frontiers": 3
+    },
+    {
+      "fixture": "cycle33",
+      "status": "PASS",
+      "frontiers": 3
+    }
+  ],
+  "mutations": [
+    {
+      "case": "duplicate_source",
+      "status": "REJECTED",
+      "reason": "source capacity exceeded"
+    },
+    {
+      "case": "destination_overcapacity",
+      "status": "REJECTED",
+      "reason": "destination capacity exceeded"
+    },
+    {
+      "case": "unproduced_source",
+      "status": "REJECTED",
+      "reason": "source not produced"
+    },
+    {
+      "case": "completed_destination",
+      "status": "REJECTED",
+      "reason": "destination already complete"
+    },
+    {
+      "case": "wrong_offset",
+      "status": "REJECTED",
+      "reason": "offset does not belong to destination"
+    }
+  ]
+}

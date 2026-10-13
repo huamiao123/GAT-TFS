@@ -1,0 +1,123 @@
+{
+  "schema": "order-share-factorial-independent-review-v1",
+  "created_at_utc": "2026-10-07T11:40:04.623376Z",
+  "run": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01",
+  "review_pass": true,
+  "rules": [
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/AGENTS.md",
+      "sha256": "55ac34d581d9cfda4e408ef5ad1fdb58c1dbf0cdd0c5fafbf725f5e31ff12ec7"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/skills/tfs-research-engineering/SKILL.md",
+      "sha256": "641694f2090f9b1581b32b64b8273ff6acc7fb470d0910ca9390f48766a4bcca"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/MATH_SPEC_V2.md",
+      "sha256": "1938d301e3fc913766744af166c0a41b1cb767d7d7419af9c098d3de955cf266"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/KERNEL_LAYOUT_V2.md",
+      "sha256": "732e859128baa3cf87813df82cf7562d14358fc6e1cf17c32ec0dde5a743595f"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/PYTORCH_EXTENSION_SPEC.md",
+      "sha256": "a3784dd66d4986bde33a40d523f761ee8956da9bbbe711f1707d13d8d2d82df2"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/TFS-Train/docs/spec/EXPERIMENT_SPEC_V2.md",
+      "sha256": "ecb8fe1c394d9ec47aae97d8f5b87c5b948963c7e8c8b25d70128483c7c0d10d"
+    }
+  ],
+  "scope": "GCN-extra unit-weight inference, not TFS-Train mathematics",
+  "files": [
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/PROTOCOL.md",
+      "sha256": "faae19de72df553fb1a6cfc4526d22448ea8535936386e5112ca76c2dd654e0c"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/INTERFACE.md",
+      "sha256": "fee8cc3d5a11c5462f53769cf9bf409adf63e62dda7e60b18876753cc7bfe99d"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/factorial_runtime.hpp",
+      "sha256": "e28d09cf941ee0b12ae5608d292e129af1ebca4d49bda3f18e67a405d18bc3e3"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/factorial_suite.py",
+      "sha256": "b3572d3b5cab7d1298b722569d45b52e3d91fa1fd29a734443d9d48d9e161bef"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/planned_kernel.hpp",
+      "sha256": "0e68326806ef441c97b779273b295a870d4a8dc57398357b752cf98bdb19ec1b"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/planned_reducer.hpp",
+      "sha256": "ab84c109997670fe616a2661cd2f4d95895d1d750ab99f9324fd4ef56aac02c8"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/plan_runtime.hpp",
+      "sha256": "672c60c8caf2a29541cadd0c5e2a85fcd9cd792eea870e3f09b73e7f4fa30154"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/order-share-factorial-20261007-01/source_snapshot/pair_plan.hpp",
+      "sha256": "3c6b3d49a082e3203559461a5606e8e0f1c9f85086f8c1fb93ee5af789ed083c"
+    }
+  ],
+  "findings": [
+    {
+      "name": "fixed_pair_factorial",
+      "pass": true,
+      "evidence": "Thirteen methods: PACK plus adjacent and three prespecified complete-pair shuffles x modes0/3/4; pair direction, odd tail and AMX row slots preserved. No timing selects seeds or modes."
+    },
+    {
+      "name": "exact_coverage_independent_CSR_audit",
+      "pass": true,
+      "evidence": "Each shuffled plan maps mask bits with pair identity and independently recomputes every positive equal-length CSR window via memcmp. Exact edges/windows must equal adjacent statistics."
+    },
+    {
+      "name": "same_storage_and_execution_object",
+      "pass": true,
+      "evidence": "One scratch Plan; select only std::copy into unchanged-capacity buffers and updates same short-name Method.mode outside timing. Data pointers and object addresses logged each switch."
+    },
+    {
+      "name": "actual_timed_path_equivalence",
+      "pass": true,
+      "evidence": "Four extra boundaries compare actual fixed execution object with diagnostic Method. Outputs are poisoned between reference and actual runs to avoid stale-output false passes."
+    },
+    {
+      "name": "controlled_work",
+      "pass": true,
+      "evidence": "All orders at same mode must have identical source counters. Across modes adds/projections/state/prefetch stay fixed; ExactS alone saves c current CSR requests and c decodes."
+    },
+    {
+      "name": "counter_coverage",
+      "pass": true,
+      "evidence": "All13 methods x3 PMU reps per performance graph;32thread identities, enabled/running times, raw/scaled totals independently summed. Generic cache events and AMX busy cannot establish DRAM traffic or overlap."
+    },
+    {
+      "name": "prespecified_expansion_filter",
+      "pass": true,
+      "evidence": "Only s1ExactS vsPACK may trigger full17: diag4GM>=1.03 and wins>=3/4 in each of two protocols x two allocation classes. No substitution by better seed."
+    }
+  ],
+  "analyzer": {
+    "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/experiments/order_share_factorial_20261007/analysis_inputs_01/analyze_factorial.py",
+    "sha256": "c4351fedf2c351fa5546374c4cd0bf144f87430b0d5e63e9abbfc855a2c0dc19",
+    "helper_path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/experiments/pair_plan_20261007/analyze_plan.py",
+    "helper_sha256": "bcac6ddc97042cbf4d3643ae7fa846a2f716ee1fc4c05d6b238269874cf90fd9"
+  },
+  "analyzer_smoke_selfcheck": {
+    "packets": 13,
+    "all_pass": true,
+    "raw_logs_used": true,
+    "note": "In-memory invocation first omitted resolve() when constructing test run path and reported command-path alias mismatches; canonicalized run path as main() does, then all13 passed. No analyzer/kernel changes or result gating changes were made for this alias-only selfcheck issue."
+  },
+  "limits": [
+    "Source-identical core headers do not establish AVX-AMX overlap.",
+    "One warmup follows every switch; copy/hash work is outside clocks but its cache effects are controlled only by this declared warmed protocol.",
+    "Two new seeds are held out from earlier observation; graph family is not new and no universal robustness follows.",
+    "Interaction ratios and sample-extrema ranges are descriptive, not statistical confidence statements.",
+    "Separate allocation classes and protocols retain distinct denominators."
+  ]
+}

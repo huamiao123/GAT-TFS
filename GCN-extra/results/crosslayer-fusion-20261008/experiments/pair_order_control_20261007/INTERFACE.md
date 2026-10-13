@@ -1,0 +1,1 @@
+Same frozen planned MODE0 kernel and all helpers. Only high-level plan-copy/measurement wrapper changes. Fixed-capacity scratchPlan storage reused at identical addresses. No primary-study files may be changed.

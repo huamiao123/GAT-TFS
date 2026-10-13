@@ -1,0 +1,20 @@
+{
+  "id": "recompute-window-adaptive-20261008-234255",
+  "kind": "recompute_window_adaptive",
+  "status": "PASS",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-adaptive-20261008-234255",
+  "paper_eligible": false,
+  "plans": [
+    "PLAN graph=roadNet-CA threads=32 weighted_duplication=1.045113744 threshold=1.25 mode=fused_min_source batch=64",
+    "PLAN graph=amazon0601 threads=32 weighted_duplication=3.665222816 threshold=1.25 mode=materialized_full batch=64",
+    "PLAN graph=reddit threads=32 weighted_duplication=26.062167191 threshold=1.25 mode=materialized_full batch=64"
+  ],
+  "results": [
+    "ADAPT_RESULT graph=roadNet-CA threads=32 mode=fused_min_source rho=1.045113744 baseline_median_ms=58.727025986 candidate_median_ms=50.426959991 exact=1 source_rows=2043040 source_projection_groups=128585",
+    "ADAPT_RESULT graph=amazon0601 threads=32 mode=materialized_full rho=3.665222816 baseline_median_ms=50.272941589 candidate_median_ms=50.272941589 exact=1 source_rows=0 source_projection_groups=0",
+    "ADAPT_RESULT graph=reddit threads=32 mode=materialized_full rho=26.062167191 baseline_median_ms=164.298057556 candidate_median_ms=164.298057556 exact=1 source_rows=0 source_projection_groups=0"
+  ],
+  "issues": "Adaptive weighted-duplication dispatcher exploratory gate; no paper performance claim",
+  "next": "Repeat on held-out graphs and calibrate threshold with weighted work model"
+}

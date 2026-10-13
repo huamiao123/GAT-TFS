@@ -1,0 +1,708 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/state-reuse-20261007-05/logs/state-10888825/fixtures/state_tail_17/state_tail_17.csrbin
+METHOD_SETUP graph=state_tail_17 phase=csr_file_load ms=0.239133834839
+Matrix: state_tail_17  N=17  NNZ=1505  avg_deg=88.5
+
+METHOD_SETUP graph=state_tail_17 phase=tensor_allocation ms=0.0801086425781
+METHOD_SETUP graph=state_tail_17 phase=weight_generation ms=0.257968902588
+METHOD_SETUP graph=state_tail_17 phase=feature_generation ms=0.0169277191162
+METHOD_SETUP graph=state_tail_17 phase=degree_sort ms=0.00405311584473
+METHOD_SETUP graph=state_tail_17 phase=packed_weight_allocation ms=0.00500679016113
+METHOD_SETUP graph=state_tail_17 phase=weight_vnni_packing ms=0.0209808349609
+METHOD_SETUP graph=state_tail_17 phase=input_bf16_allocation ms=0
+METHOD_SETUP graph=state_tail_17 phase=input_bf16_conversion ms=9.57798957825
+METHOD_SETUP graph=state_tail_17 phase=tfs_output_allocation ms=0.00810623168945
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.54 ms
+  run 1: 0.44 ms
+  run 2: 0.43 ms
+  run 3: 0.45 ms
+  run 4: 0.47 ms
+  TFS V3 E2E BEST: 0.43 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=state_tail_17 phase=mkl_index_allocation ms=0.00214576721191
+METHOD_SETUP graph=state_tail_17 phase=mkl_index_conversion ms=0.000953674316406
+METHOD_SETUP graph=state_tail_17 phase=mkl_csr_create ms=2.11882591248
+METHOD_SETUP graph=state_tail_17 phase=mkl_hint_and_optimize ms=1.25098228455
+METHOD_SETUP graph=state_tail_17 phase=mkl_output_allocation ms=0.00500679016113
+  run 0: 0.03 ms
+  run 1: 0.03 ms
+  run 2: 0.03 ms
+  run 3: 0.03 ms
+  run 4: 0.02 ms
+  MKL E2E BEST: 0.02 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.43 ms
+  MKL (FP32):      0.02 ms
+  E2E Speedup:     0.06×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010745  RMSE=6.2238e+02
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+STATE_SEMANTIC graph=state_tail_17 values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=state_tail_17 fnv64=6939584990127289587
+GROUP_SETUP graph=state_tail_17 phase=schedule_signature_allocation ms=0.00715255737305
+GROUP_SETUP graph=state_tail_17 phase=signature_pass ms=0.0159740447998 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=state_tail_17 phase=segment_construction ms=0.00190734863281 segments=6 cap=4096
+GROUP_SETUP graph=state_tail_17 phase=schedule_sort schedule=qsource ms=0.00309944152832 signature_ms=0.0159740447998 shared_signature_pass=1
+GROUP_SETUP graph=state_tail_17 phase=schedule_sort schedule=qpage ms=0.00190734863281 signature_ms=0.0159740447998 shared_signature_pass=1
+GROUP_SETUP graph=state_tail_17 phase=schedule_sort schedule=qsamplepage ms=0.00190734863281 signature_ms=0.0159740447998 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=state_tail_17 candidate=degree sampled_tiles=2 sampled_windows=6 requests=801 misses256=17 misses1024=17 misses4096=17 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=state_tail_17 candidate=qsource sampled_tiles=2 sampled_windows=6 requests=801 misses256=17 misses1024=17 misses4096=17 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=state_tail_17 candidate=qpage sampled_tiles=2 sampled_windows=6 requests=801 misses256=17 misses1024=17 misses4096=17 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=state_tail_17 candidate=qsamplepage sampled_tiles=2 sampled_windows=6 requests=801 misses256=17 misses1024=17 misses4096=17 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=state_tail_17 schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=2 high_q_tiles=2 low_q_fallback=1 uses_timing=0 probe_ms=0.133037567139 assembly_ms=0
+GROUP_SETUP graph=state_tail_17 phase=guard_probe ms=0.133037567139
+GROUP_SETUP graph=state_tail_17 phase=guard_schedule_assembly ms=0
+GROUP_AUDIT graph=state_tail_17 schedule=degree pass=1 rows=17 moved=0 fnv64=6939584990127289587 full_projections=2 b64_projections=13 b256_projections=4 windows=13 state_load_bytes=8704 state_store_bytes=17408 padded_steps=12304 audit_ms=0.00119209289551
+GROUP_AUDIT graph=state_tail_17 schedule=qsource pass=1 rows=17 moved=6 fnv64=8011898740107259631 full_projections=2 b64_projections=13 b256_projections=4 windows=13 state_load_bytes=8704 state_store_bytes=17408 padded_steps=12304 audit_ms=0
+GROUP_AUDIT graph=state_tail_17 schedule=qpage pass=1 rows=17 moved=6 fnv64=8011898740107259631 full_projections=2 b64_projections=13 b256_projections=4 windows=13 state_load_bytes=8704 state_store_bytes=17408 padded_steps=12304 audit_ms=0
+GROUP_AUDIT graph=state_tail_17 schedule=qsamplepage pass=1 rows=17 moved=0 fnv64=6939584990127289587 full_projections=2 b64_projections=13 b256_projections=4 windows=13 state_load_bytes=8704 state_store_bytes=17408 padded_steps=12304 audit_ms=0
+GROUP_AUDIT graph=state_tail_17 schedule=qguard pass=1 rows=17 moved=0 fnv64=6939584990127289587 full_projections=2 b64_projections=13 b256_projections=4 windows=13 state_load_bytes=8704 state_store_bytes=17408 padded_steps=12304 audit_ms=0
+GROUP_SETUP graph=state_tail_17 phase=all_schedules_total ms=0.177145004272 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=state_tail_17 phase=all_five_frozen_schedules ms=0.179052352905 included_in_primary=0
+STATE_CONFIG graph=state_tail_17 N=17 E=1505 D=128 H=128 F=128 S=64 R=64 TR=16 methods=18 warmups=1 consecutive=5 alternating=10 numa=default smoke=1 ablations=1 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=state_tail_17 method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=state_identity kind=3 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=nozero_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=direct_degree kind=3 scope=0 schedule=degree partial_nozero=0 direct_pack=1 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=pack_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=epi_degree kind=3 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=state_tail_17 method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=state_tail_17 method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=state_tail_17 method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=state_tail_17 method=p0_m256 kind=2 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=state_tail_17 method=pack_epi_m256 kind=3 scope=256 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+METHOD_CHECK graph=state_tail_17 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.680632172 relative_L2=0.0136275648539 normalized_max=0.0132137247867 gate=0.03 pass=1
+METHOD_CHECK graph=state_tail_17 method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+METHOD_CHECK graph=state_tail_17 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=state_identity boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=state_identity boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=state_identity boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=state_identity boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=state_identity boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=state_identity boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=state_identity boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=state_identity boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=nozero_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=nozero_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=nozero_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=nozero_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=nozero_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=nozero_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=nozero_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=nozero_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=direct_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=direct_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=direct_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=direct_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=direct_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=direct_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=direct_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=direct_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_m256 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_m256 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_m256 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=p0_m256 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_m256 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_m256 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_m256 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=p0_m256 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_m256 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_m256 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_m256 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=pack_epi_m256 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_m256 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_m256 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_m256 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=pack_epi_m256 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v0 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v0 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v0 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v0 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v0 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v0 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v0 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v0 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v1 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v1 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v1 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v1 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v1 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v1 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v1 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v1 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v2 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v2 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v2 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v2 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v2 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v2 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v2 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v2 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v3 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v3 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v3 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v3 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v3 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v3 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v3 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v3 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v4 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v4 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v4 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v4 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v4 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v4 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v4 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v4 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v5 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v5 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v5 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v5 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v5 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v5 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v5 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v5 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v6 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v6 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v6 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a0_v6 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v6 boundary=kernel_FP32 reference=paper_tfs max_abs=3.63208007812 mean_abs=0.181813693824 relative_L2=0.00294196149841 normalized_max=0.0025106877634 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v6 boundary=e2e_FP32_final reference=paper_tfs max_abs=2989.25 mean_abs=149.833331819 relative_L2=0.0059330073692 normalized_max=0.00621724209651 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v6 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=151.304050221 relative_L2=0.00635567965932 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a0_v6 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.436880349 relative_L2=0.0192552488517 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v0 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v0 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v0 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v0 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v0 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v0 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v0 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v0 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v1 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v1 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v1 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v1 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v1 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v1 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v1 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v1 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v2 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v2 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v2 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v2 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v2 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v2 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v2 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v2 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v3 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v3 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v3 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v3 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v3 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v3 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v3 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v3 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v4 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v4 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v4 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v4 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v4 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v4 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v4 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v4 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v5 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v5 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v5 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v5 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v5 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v5 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v5 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v5 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v6 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v6 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v6 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a0_v6 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v6 boundary=kernel_FP32 reference=paper_tfs max_abs=3.51391601562 mean_abs=0.198846416657 relative_L2=0.00322666002378 normalized_max=0.00242900645147 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v6 boundary=e2e_FP32_final reference=paper_tfs max_abs=3062.6875 mean_abs=159.456236616 relative_L2=0.00626703858138 normalized_max=0.00636998232113 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v6 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=160.921275419 relative_L2=0.00663555248796 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a0_v6 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=493.509857525 relative_L2=0.0193146802931 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v0 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v0 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v0 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v0 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v0 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v0 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v0 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v0 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v1 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v1 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v1 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v1 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v1 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v1 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v1 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v1 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v2 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v2 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v2 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v2 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v2 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v2 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v2 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v2 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v3 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v3 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v3 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v3 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v3 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v3 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v3 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v3 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v4 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v4 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v4 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v4 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v4 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v4 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v4 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v4 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v5 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v5 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v5 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v5 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v5 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v5 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v5 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v5 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v6 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v6 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v6 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a0_v6 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v6 boundary=kernel_FP32 reference=paper_tfs max_abs=3.95849609375 mean_abs=0.195178502842 relative_L2=0.00318574904468 normalized_max=0.00273632394943 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v6 boundary=e2e_FP32_final reference=paper_tfs max_abs=2881.09375 mean_abs=148.232181194 relative_L2=0.00576794897953 normalized_max=0.00599229149334 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v6 boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=152.540617101 relative_L2=0.00650474256072 normalized_max=0.00854700854701 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a0_v6 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=9286.875 mean_abs=488.865970866 relative_L2=0.0192138325066 normalized_max=0.0191228334791 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v0 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v0 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v0 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v0 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v0 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v0 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v0 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v0 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v1 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v1 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v1 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v1 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v1 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v1 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v1 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v1 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v2 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v2 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v2 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v2 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v2 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v2 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v2 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v2 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v3 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v3 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v3 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v3 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v3 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v3 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v3 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v3 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v4 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v4 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v4 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v4 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v4 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v4 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v4 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v4 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v5 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v5 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v5 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v5 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v5 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v5 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v5 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v5 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v6 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v6 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v6 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m64_a1_v6 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v6 boundary=kernel_FP32 reference=paper_tfs max_abs=0.00335693359375 mean_abs=0.000124001692337 relative_L2=2.13566047391e-06 normalized_max=2.32049181601e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v6 boundary=e2e_FP32_final reference=paper_tfs max_abs=15.625 mean_abs=1.37101238747 relative_L2=5.05008377186e-05 normalized_max=3.24979201331e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v6 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.38500527775 relative_L2=0.000457141486333 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m64_a1_v6 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.132846183 relative_L2=0.0136016193692 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v0 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v0 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v0 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v0 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v0 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v0 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v0 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v0 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v1 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v1 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v1 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v1 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v1 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v1 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v1 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v1 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v2 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v2 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v2 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v2 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v2 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v2 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v2 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v2 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v3 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v3 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v3 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v3 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v3 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v3 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v3 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v3 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v4 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v4 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v4 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v4 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v4 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v4 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v4 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v4 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v5 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v5 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v5 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v5 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v5 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v5 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v5 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v5 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v6 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v6 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v6 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m256_a1_v6 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v6 boundary=kernel_FP32 reference=paper_tfs max_abs=0.0119018554688 mean_abs=0.000413643670446 relative_L2=7.65071760371e-06 normalized_max=8.22719825675e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v6 boundary=e2e_FP32_final reference=paper_tfs max_abs=17.46875 mean_abs=1.33653047111 relative_L2=4.8999229757e-05 normalized_max=3.63326747088e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v6 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.28216462977 relative_L2=0.000453767239887 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m256_a1_v6 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.029775755 relative_L2=0.0136008889571 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v0 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v0 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v0 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v0 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v0 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v0 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v0 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v0 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v1 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v1 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v1 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v1 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v1 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v1 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v1 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v1 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v2 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v2 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v2 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v2 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v2 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v2 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v2 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v2 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v3 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v3 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v3 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v3 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v3 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v3 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v3 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v3 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v4 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v4 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v4 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v4 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v4 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v4 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v4 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v4 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v5 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v5 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v5 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v5 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v5 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v5 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v5 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v5 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v6 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v6 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v6 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=smoke_m0_a1_v6 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v6 boundary=kernel_FP32 reference=paper_tfs max_abs=0.010986328125 mean_abs=0.000415826909696 relative_L2=7.64783741959e-06 normalized_max=7.59433685238e-06 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v6 boundary=e2e_FP32_final reference=paper_tfs max_abs=18.03125 mean_abs=1.34199233222 relative_L2=4.95626399422e-05 normalized_max=3.75025998336e-05 gate=0.001 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v6 boundary=e2e_BF16_final reference=paper_tfs max_abs=1024 mean_abs=1.34098815918 relative_L2=0.000456340364211 normalized_max=0.00213675213675 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_17 method=smoke_m0_a1_v6 boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6417.15625 mean_abs=346.088599285 relative_L2=0.0136014051764 normalized_max=0.0132137247867 gate=0.03 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p0 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p0 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p0 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p0 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p1 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p1 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p1 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p1 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p2 boundary=kernel_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p2 boundary=e2e_FP32 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p2 boundary=H1_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a0_p2 boundary=e2e_BF16 scope=64 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p0 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p0 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p0 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p0 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p1 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p1 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p1 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p1 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p2 boundary=kernel_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p2 boundary=e2e_FP32 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p2 boundary=H1_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a0_p2 boundary=e2e_BF16 scope=256 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p0 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p0 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p0 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p0 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p1 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p1 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p1 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p1 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p2 boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p2 boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p2 boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a0_p2 boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p0 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p0 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p0 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p0 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p1 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p1 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p1 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p1 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p2 boundary=kernel_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p2 boundary=e2e_FP32 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p2 boundary=H1_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m64_a1_p2 boundary=e2e_BF16 scope=64 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p0 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p0 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p0 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p0 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p1 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p1 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p1 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p1 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p2 boundary=kernel_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p2 boundary=e2e_FP32 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p2 boundary=H1_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m256_a1_p2 boundary=e2e_BF16 scope=256 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p0 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p0 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p0 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p0 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p1 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p1 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p1 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p1 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p2 boundary=kernel_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p2 boundary=e2e_FP32 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p2 boundary=H1_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_EQUIV graph=state_tail_17 method=stress_m0_a1_p2 boundary=e2e_BF16 scope=0 accurate=1 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=state_tail_17 pass=1
+STATE_COUNTERS graph=state_tail_17 method=state_identity layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=16384 partial_load_bytes=8704 partial_store_bytes=17408 packing_load_bytes=16384 direct_rows=0 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=state_identity layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=state_identity layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=state_identity layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=16384 partial_load_bytes=8704 partial_store_bytes=17408 packing_load_bytes=16384 direct_rows=0 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=state_identity layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=state_identity layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=nozero_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=7680 partial_load_bytes=8704 partial_store_bytes=17408 packing_load_bytes=16384 direct_rows=0 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=nozero_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=nozero_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=nozero_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=7680 partial_load_bytes=8704 partial_store_bytes=17408 packing_load_bytes=16384 direct_rows=0 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=nozero_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=nozero_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=direct_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=16384 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=direct_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=direct_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=direct_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=16384 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=direct_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=direct_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=epi_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=16384 partial_load_bytes=8704 partial_store_bytes=17408 packing_load_bytes=16384 direct_rows=0 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=epi_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=16384 partial_load_bytes=8704 partial_store_bytes=17408 packing_load_bytes=16384 direct_rows=0 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1059 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1059 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1059 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1059 shared_heads=446 projection_scopes=2 amx_tdp=64 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=17 packed_bytes=8192 prefetch_requests=5972 csr_reads=1505 comparisons=514
+STATE_WORK_GATE graph=state_tail_17 method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_epi_m256 layer=1 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=4 amx_tdp=128 partial_zero_bytes=0 partial_load_bytes=7680 partial_store_bytes=7680 packing_load_bytes=0 direct_rows=34 packed_bytes=16384 prefetch_requests=5964 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_epi_m256 layer=1 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_epi_m256 layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=state_tail_17 method=pack_epi_m256 layer=2 unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=4 amx_tdp=128 partial_zero_bytes=0 partial_load_bytes=7680 partial_store_bytes=7680 packing_load_bytes=0 direct_rows=34 packed_bytes=16384 prefetch_requests=5964 csr_reads=1505 comparisons=0
+STATE_WORK_GATE graph=state_tail_17 method=pack_epi_m256 layer=2 pass=1
+STATE_PROFILE_GATE graph=state_tail_17 method=pack_epi_m256 layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=state_tail_17 schedule=degree scope=64 edges=1505 shared_heads=446 merge_steps=1059 share_fraction=0.29634551495 projection_scopes=13 windows=13 scalar_adds=192640 direct_decode_rows=1505 shared_decode_rows=1059 amx_tdp_fast=416 baseline_partial_zero_bytes=106496 baseline_state_load_bytes=0 baseline_state_store_bytes=45056 direct_saved_terminal_bytes=151552 prefetch_requests=5904 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=state_tail_17 schedule=degree scope=256 edges=1505 shared_heads=446 merge_steps=1059 share_fraction=0.29634551495 projection_scopes=4 windows=13 scalar_adds=192640 direct_decode_rows=1505 shared_decode_rows=1059 amx_tdp_fast=128 baseline_partial_zero_bytes=32768 baseline_state_load_bytes=7680 baseline_state_store_bytes=25088 direct_saved_terminal_bytes=50176 prefetch_requests=5964 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=state_tail_17 schedule=degree scope=0 edges=1505 shared_heads=446 merge_steps=1059 share_fraction=0.29634551495 projection_scopes=2 windows=13 scalar_adds=192640 direct_decode_rows=1505 shared_decode_rows=1059 amx_tdp_fast=64 baseline_partial_zero_bytes=16384 baseline_state_load_bytes=8704 baseline_state_store_bytes=17408 direct_saved_terminal_bytes=25088 prefetch_requests=5972 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=state_tail_17 schedule=qguard scope=64 edges=1505 shared_heads=446 merge_steps=1059 share_fraction=0.29634551495 projection_scopes=13 windows=13 scalar_adds=192640 direct_decode_rows=1505 shared_decode_rows=1059 amx_tdp_fast=416 baseline_partial_zero_bytes=106496 baseline_state_load_bytes=0 baseline_state_store_bytes=45056 direct_saved_terminal_bytes=151552 prefetch_requests=5904 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=state_tail_17 schedule=qguard scope=256 edges=1505 shared_heads=446 merge_steps=1059 share_fraction=0.29634551495 projection_scopes=4 windows=13 scalar_adds=192640 direct_decode_rows=1505 shared_decode_rows=1059 amx_tdp_fast=128 baseline_partial_zero_bytes=32768 baseline_state_load_bytes=7680 baseline_state_store_bytes=25088 direct_saved_terminal_bytes=50176 prefetch_requests=5964 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=state_tail_17 schedule=qguard scope=0 edges=1505 shared_heads=446 merge_steps=1059 share_fraction=0.29634551495 projection_scopes=2 windows=13 scalar_adds=192640 direct_decode_rows=1505 shared_decode_rows=1059 amx_tdp_fast=64 baseline_partial_zero_bytes=16384 baseline_state_load_bytes=8704 baseline_state_store_bytes=17408 direct_saved_terminal_bytes=25088 prefetch_requests=5972 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=state_tail_17 pass=1 methods=18 smoke=1 max_rss_kib=28976

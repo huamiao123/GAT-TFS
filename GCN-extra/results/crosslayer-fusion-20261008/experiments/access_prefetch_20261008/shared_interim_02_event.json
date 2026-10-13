@@ -1,0 +1,115 @@
+{
+  "id": "access-prefetch-shared-interim-02-20261008",
+  "kind": "prefetch_partial_shared_independent_audit",
+  "status": "PASS",
+  "stage": "PARTIAL_SHARED_ONLY",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/results/access_prefetch_20261008/interim-02",
+  "jobs": [
+    "10895466",
+    "10895502",
+    "10895503",
+    "10895504"
+  ],
+  "dimensions": [
+    128,
+    128,
+    128
+  ],
+  "numa_interleave": false,
+  "first_touch_changed": false,
+  "paper_eligible": false,
+  "counts": {
+    "numerical": 1040,
+    "canonical_bitwise": 1040,
+    "execution_bitwise": 1040,
+    "work": 520,
+    "profile": 520,
+    "slots": 1534,
+    "timings": 1365,
+    "pmu_regions": 273,
+    "pmu_threads": 8736,
+    "pf1_identity": 320,
+    "pf1_profile_identity": 160,
+    "prefetch_target_cases": 720,
+    "prefetch_target_audits": 20
+  },
+  "shared_candidate_gate": [
+    {
+      "partition": "intel",
+      "exclusive": "false",
+      "protocol": "same_slot_consecutive",
+      "graphs": 4,
+      "geometric_mean": 1.0132383982097102,
+      "wins": 2,
+      "required_geometric_mean": 1.03,
+      "required_wins": 3,
+      "pass_filter": false,
+      "ratios": [
+        {
+          "graph": "mycielskian19",
+          "job": "10895503",
+          "speedup": 1.001644956820648
+        },
+        {
+          "graph": "reddit",
+          "job": "10895504",
+          "speedup": 0.9870559020026727
+        },
+        {
+          "graph": "roadNet-CA",
+          "job": "10895504",
+          "speedup": 0.971427448125989
+        },
+        {
+          "graph": "amazon0601",
+          "job": "10895504",
+          "speedup": 1.0974396065378598
+        }
+      ]
+    },
+    {
+      "partition": "intel",
+      "exclusive": "false",
+      "protocol": "same_slot_alternating",
+      "graphs": 4,
+      "geometric_mean": 1.0153432554622304,
+      "wins": 2,
+      "required_geometric_mean": 1.03,
+      "required_wins": 3,
+      "pass_filter": false,
+      "ratios": [
+        {
+          "graph": "mycielskian19",
+          "job": "10895503",
+          "speedup": 1.0291320783914713
+        },
+        {
+          "graph": "reddit",
+          "job": "10895504",
+          "speedup": 0.9874249677115483
+        },
+        {
+          "graph": "roadNet-CA",
+          "job": "10895504",
+          "speedup": 0.9874362501412696
+        },
+        {
+          "graph": "amazon0601",
+          "job": "10895504",
+          "speedup": 1.0591738905795105
+        }
+      ]
+    }
+  ],
+  "eligible_to_expand_full17": false,
+  "output_sha256": {
+    "shared_audit.json": "80fb2a8725cace643440f27ba379fb88c7b60b82527d9bfe7d13e8677fc3dd6f",
+    "selected_effects.csv": "74cdb12ac133694a639f47b355813f66fcfa7b0982f8b411d0d97b7ec8a46318",
+    "findings.json": "9e5485046e09af9af79457fecc6c067dc153e36581f52e6977b409f34646559c",
+    "summary.csv": "8883328362a58ef8b4ea05135d87f77348a781f13e01b8c80537e11e4d5a910e"
+  },
+  "analyzer_sha256": "865b853106bb6d818b31067b475ce04a06afb1bb427d2672f37745bd0530c4b4",
+  "issues": "No new major issue if interim audit PASS. Exclusive evidence pending; this artifact is partial shared-only and cannot be presented as final acceptance.",
+  "next": "Wait for the three original exclusive jobs, then run unchanged final 7-job/27-packet analyzer into new analysis-01."
+}

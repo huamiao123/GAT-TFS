@@ -1,0 +1,11 @@
+# TFS-Train v2 Kernel Layout
+
+Status: authoritative design; C0 establishes interfaces, not optimized kernels.
+
+- Pull-SpMM produces `ybar`, owner-computes, with no scatter, atomics, or resident CSC. Undirected CSR is physically reused but logs retain transpose semantics.
+- `dH = ybar * pack(W^T)`, FP32 accumulation, followed by target `s` scaling.
+- Preferred dW kernel computes `dW^T=ybar^T Hs`. AMX A is ordinary BF16 `ybar^T[16,32]`; B is VNNI-packed `Hs[32,16]`; C is FP32 `[16,16]`.
+- Reduction blocks contain 32 nodes; tails are zero-filled. Forward/SpMM may retain 16-row scheduling, so both granularities coexist.
+- Each thread owns aligned FP32 `dW^T`; reduction is deterministic thread -> core group -> NUMA -> global.
+- Candidate two-level blocking: row panel in `{512,1024,2048}` and four dW accumulator tiles per tile panel. Compare against naive accumulator traffic and a DRAM-materialized strong baseline.
+- `pack(W)` and mathematical `pack(W^T)` are independent. Packing is accounted end to end but is not the primary research risk.

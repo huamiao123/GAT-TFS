@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/rgg_n_2_24_s0/rgg_n_2_24_s0.csrbin
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=csr_file_load ms=572.697877884
+Matrix: rgg_n_2_24_s0  N=16777216  NNZ=265114400  avg_deg=15.8
+
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=tensor_allocation ms=0.111103057861
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=weight_generation ms=0.252962112427
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=feature_generation ms=14466.2799835
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=degree_sort ms=927.314043045
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=packed_weight_allocation ms=0.0121593475342
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=weight_vnni_packing ms=0.0429153442383
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=input_bf16_allocation ms=0.0109672546387
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=input_bf16_conversion ms=130.802869797
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=tfs_output_allocation ms=0.032901763916
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 885.19 ms
+  run 1: 900.87 ms
+  run 2: 901.24 ms
+  run 3: 902.26 ms
+  run 4: 905.94 ms
+  TFS V3 E2E BEST: 885.19 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=mkl_index_allocation ms=0.0460147857666
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=mkl_index_conversion ms=247.08199501
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=mkl_csr_create ms=2.63905525208
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=mkl_hint_and_optimize ms=95.5200195312
+METHOD_SETUP graph=rgg_n_2_24_s0 phase=mkl_output_allocation ms=0.0178813934326
+  run 0: 2029.49 ms
+  run 1: 2028.84 ms
+  run 2: 2025.90 ms
+  run 3: 2027.24 ms
+  run 4: 2028.80 ms
+  MKL E2E BEST: 2025.90 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 885.19 ms
+  MKL (FP32):      2025.90 ms
+  E2E Speedup:     2.29×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010369  RMSE=9.9012e+00
+First 8:
+  TFS: -329.95 184.42 -277.82 196.40 384.66 29.22 0.64 -592.28 
+  MKL: -333.82 187.02 -280.50 197.71 388.10 29.61 -0.37 -597.81 
+STATE_SEMANTIC graph=rgg_n_2_24_s0 values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=rgg_n_2_24_s0 fnv64=17139989955775609497
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=schedule_signature_allocation ms=148.230075836
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=signature_pass ms=419.862985611 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=segment_construction ms=80.1291465759 segments=4097 cap=4096
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=schedule_sort schedule=qsource ms=66.0679340363 signature_ms=419.862985611 shared_signature_pass=1
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=schedule_sort schedule=qpage ms=78.3958435059 signature_ms=419.862985611 shared_signature_pass=1
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=schedule_sort schedule=qsamplepage ms=78.2961845398 signature_ms=419.862985611 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=rgg_n_2_24_s0 candidate=degree sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=rgg_n_2_24_s0 candidate=qsource sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=rgg_n_2_24_s0 candidate=qpage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=rgg_n_2_24_s0 candidate=qsamplepage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=rgg_n_2_24_s0 schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=0 high_q_tiles=0 low_q_fallback=1 uses_timing=0 probe_ms=79.5431137085 assembly_ms=79.4160366058
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=guard_probe ms=79.5431137085
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=guard_schedule_assembly ms=79.4160366058
+GROUP_AUDIT graph=rgg_n_2_24_s0 schedule=degree pass=1 rows=16777216 moved=0 fnv64=17139989955775609497 full_projections=1048576 b64_projections=1048576 b256_projections=1048576 windows=1048576 state_load_bytes=0 state_store_bytes=8589934592 padded_steps=265114704 audit_ms=291.270017624
+GROUP_AUDIT graph=rgg_n_2_24_s0 schedule=qsource pass=1 rows=16777216 moved=16773118 fnv64=1410636271361352493 full_projections=1048576 b64_projections=1048576 b256_projections=1048576 windows=1048576 state_load_bytes=0 state_store_bytes=8589934592 padded_steps=265169776 audit_ms=317.899942398
+GROUP_AUDIT graph=rgg_n_2_24_s0 schedule=qpage pass=1 rows=16777216 moved=16773101 fnv64=14522267334496027935 full_projections=1048576 b64_projections=1048576 b256_projections=1048576 windows=1048576 state_load_bytes=0 state_store_bytes=8589934592 padded_steps=265169456 audit_ms=302.471160889
+GROUP_AUDIT graph=rgg_n_2_24_s0 schedule=qsamplepage pass=1 rows=16777216 moved=16773026 fnv64=12447139142042059017 full_projections=1048576 b64_projections=1048576 b256_projections=1048576 windows=1048576 state_load_bytes=0 state_store_bytes=8589934592 padded_steps=265169360 audit_ms=303.253889084
+GROUP_AUDIT graph=rgg_n_2_24_s0 schedule=qguard pass=1 rows=16777216 moved=0 fnv64=17139989955775609497 full_projections=1048576 b64_projections=1048576 b256_projections=1048576 windows=1048576 state_load_bytes=0 state_store_bytes=8589934592 padded_steps=265114704 audit_ms=290.030002594
+GROUP_SETUP graph=rgg_n_2_24_s0 phase=all_schedules_total ms=2634.54985619 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=rgg_n_2_24_s0 phase=all_five_frozen_schedules ms=2635.96892357 included_in_primary=0
+STATE_CONFIG graph=rgg_n_2_24_s0 N=16777216 E=265114400 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=rgg_n_2_24_s0 method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=rgg_n_2_24_s0 method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=190.588867188 mean_abs=9.43934433653 relative_L2=0.0131541738972 normalized_max=0.0151953371992 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=0.37043762207 mean_abs=0.038433857048 relative_L2=0.00326824265474 normalized_max=0.00318313558326 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=75.341796875 mean_abs=4.19348919808 relative_L2=0.00586274522077 normalized_max=0.00606981347617 gate=0.01 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=64 mean_abs=4.18172953651 relative_L2=0.00627735988506 normalized_max=0.00518134715026 gate=0.02 pass=1
+METHOD_CHECK graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=254.588867188 mean_abs=13.3989871429 relative_L2=0.0186044922592 normalized_max=0.0202979520323 gate=0.03 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=rgg_n_2_24_s0 method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=rgg_n_2_24_s0 pass=1
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=consecutive repeat=0 order=0 ms=884.402990341
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=consecutive repeat=1 order=0 ms=902.756929398
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=consecutive repeat=2 order=0 ms=904.330968857
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=consecutive repeat=3 order=0 ms=902.986049652
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=consecutive repeat=4 order=0 ms=903.578042984
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=consecutive repeat=0 order=1 ms=934.700965881
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=consecutive repeat=1 order=1 ms=934.563875198
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=consecutive repeat=2 order=1 ms=934.031009674
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=consecutive repeat=3 order=1 ms=935.016870499
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=consecutive repeat=4 order=1 ms=933.699846268
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=consecutive repeat=0 order=2 ms=932.993888855
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=consecutive repeat=1 order=2 ms=932.962179184
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=consecutive repeat=2 order=2 ms=950.856924057
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=consecutive repeat=3 order=2 ms=933.917045593
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=consecutive repeat=4 order=2 ms=933.887958527
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=consecutive repeat=0 order=3 ms=934.661865234
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=consecutive repeat=1 order=3 ms=935.879230499
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=consecutive repeat=2 order=3 ms=937.490940094
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=consecutive repeat=3 order=3 ms=936.274051666
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=consecutive repeat=4 order=3 ms=935.067176819
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=817.394971848
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=818.197011948
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=819.029092789
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=817.348957062
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=817.735910416
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=consecutive repeat=0 order=5 ms=786.472082138
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=consecutive repeat=1 order=5 ms=785.980939865
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=consecutive repeat=2 order=5 ms=787.519931793
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=consecutive repeat=3 order=5 ms=786.798000336
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=consecutive repeat=4 order=5 ms=787.061929703
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=consecutive repeat=0 order=6 ms=791.588068008
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=consecutive repeat=1 order=6 ms=790.914058685
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=consecutive repeat=2 order=6 ms=792.169809341
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=consecutive repeat=3 order=6 ms=791.287183762
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=consecutive repeat=4 order=6 ms=791.058063507
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=consecutive repeat=0 order=7 ms=934.753894806
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=consecutive repeat=1 order=7 ms=936.779975891
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=consecutive repeat=2 order=7 ms=966.419935226
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=consecutive repeat=3 order=7 ms=936.962127686
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=consecutive repeat=4 order=7 ms=938.141107559
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=818.197965622
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=818.941831589
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=819.373130798
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=818.537950516
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=818.724155426
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=786.362171173
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=786.538124084
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=787.492036819
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=787.060022354
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=787.336111069
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=792.506933212
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=791.839838028
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=792.356014252
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=792.741060257
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=791.728973389
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=2027.2860527
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=2024.7900486
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=2028.04303169
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=2027.64296532
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=2026.39603615
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=0 order=0 ms=920.2439785
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=0 order=1 ms=915.783882141
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=0 order=2 ms=917.355060577
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=0 order=3 ms=921.388864517
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=0 order=4 ms=809.242963791
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=0 order=5 ms=783.973932266
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=0 order=6 ms=787.954092026
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=0 order=7 ms=929.282188416
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=813.889980316
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=0 order=9 ms=783.674955368
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=0 order=10 ms=788.249969482
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=2042.09208488
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=2028.69701385
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=1 order=1 ms=795.59803009
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=1 order=2 ms=781.542062759
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=810.906887054
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=1 order=4 ms=933.348894119
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=1 order=5 ms=788.78903389
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=1 order=6 ms=782.666921616
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=1 order=7 ms=813.595056534
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=1 order=8 ms=929.819107056
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=1 order=9 ms=931.355953217
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=1 order=10 ms=930.037975311
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=1 order=11 ms=905.555963516
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=2 order=0 ms=904.9949646
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=2 order=1 ms=929.226875305
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=2 order=2 ms=931.116104126
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=2 order=3 ms=933.112859726
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=2 order=4 ms=814.068078995
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=2 order=5 ms=784.723043442
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=2 order=6 ms=789.47687149
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=2 order=7 ms=932.25312233
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=815.165042877
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=2 order=9 ms=785.263061523
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=2 order=10 ms=789.216995239
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=2042.36602783
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=2025.60305595
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=3 order=1 ms=797.410011292
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=3 order=2 ms=783.804893494
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=812.621116638
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=3 order=4 ms=933.637857437
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=3 order=5 ms=790.087938309
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=3 order=6 ms=784.171104431
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=3 order=7 ms=813.522815704
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=3 order=8 ms=931.813001633
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=3 order=9 ms=930.458068848
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=3 order=10 ms=928.978919983
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=3 order=11 ms=904.747009277
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=4 order=0 ms=904.361009598
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=4 order=1 ms=930.180072784
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=4 order=2 ms=933.794975281
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=4 order=3 ms=929.651975632
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=4 order=4 ms=814.709186554
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=4 order=5 ms=784.488916397
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=4 order=6 ms=789.733171463
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=4 order=7 ms=932.491064072
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=814.919948578
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=4 order=9 ms=784.787893295
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=4 order=10 ms=789.003133774
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=2042.50216484
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=2026.9548893
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=5 order=1 ms=794.968128204
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=5 order=2 ms=782.333850861
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=810.745954514
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=5 order=4 ms=931.308031082
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=5 order=5 ms=789.222002029
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=5 order=6 ms=782.984018326
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=5 order=7 ms=811.299085617
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=5 order=8 ms=931.150913239
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=5 order=9 ms=929.967880249
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=5 order=10 ms=930.60708046
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=5 order=11 ms=902.806043625
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=6 order=0 ms=902.21786499
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=6 order=1 ms=929.513931274
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=6 order=2 ms=927.96087265
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=6 order=3 ms=931.479930878
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=6 order=4 ms=814.571857452
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=6 order=5 ms=784.26194191
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=6 order=6 ms=789.242982864
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=6 order=7 ms=931.20098114
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=815.217018127
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=6 order=9 ms=784.335851669
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=6 order=10 ms=788.867950439
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=2043.69115829
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=2026.34310722
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=7 order=1 ms=794.274091721
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=7 order=2 ms=781.24499321
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=810.014009476
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=7 order=4 ms=932.565927505
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=7 order=5 ms=788.547039032
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=7 order=6 ms=782.973051071
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=7 order=7 ms=811.797857285
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=7 order=8 ms=931.314945221
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=7 order=9 ms=927.986860275
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=7 order=10 ms=930.227994919
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=7 order=11 ms=903.385877609
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=8 order=0 ms=905.117988586
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=8 order=1 ms=927.955150604
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=8 order=2 ms=927.265882492
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=8 order=3 ms=931.743144989
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=8 order=4 ms=813.514947891
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=8 order=5 ms=783.723831177
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=8 order=6 ms=788.470029831
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=8 order=7 ms=931.49805069
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=814.10908699
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=8 order=9 ms=783.996105194
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=8 order=10 ms=788.92493248
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=2041.9948101
+STATE_TIME graph=rgg_n_2_24_s0 method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=2027.44793892
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_qguard kind=alternating repeat=9 order=1 ms=794.612884521
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_qguard kind=alternating repeat=9 order=2 ms=780.877113342
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=809.314966202
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_qguard kind=alternating repeat=9 order=4 ms=931.206941605
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_s_degree kind=alternating repeat=9 order=5 ms=787.503004074
+STATE_TIME graph=rgg_n_2_24_s0 method=pair_i_degree kind=alternating repeat=9 order=6 ms=782.135009766
+STATE_TIME graph=rgg_n_2_24_s0 method=pack_epi_degree kind=alternating repeat=9 order=7 ms=810.986042023
+STATE_TIME graph=rgg_n_2_24_s0 method=p0_degree kind=alternating repeat=9 order=8 ms=931.280136108
+STATE_TIME graph=rgg_n_2_24_s0 method=bfull_fast kind=alternating repeat=9 order=9 ms=927.742958069
+STATE_TIME graph=rgg_n_2_24_s0 method=b256_fast kind=alternating repeat=9 order=10 ms=930.319786072
+STATE_TIME graph=rgg_n_2_24_s0 method=paper_tfs kind=alternating repeat=9 order=11 ms=902.043104172
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=0 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=0
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=0 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=0
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265031597 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265031597 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=0 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=0
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=0 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=0
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265114400 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265031597 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=rgg_n_2_24_s0 method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=265114400 feature_adds=33934643200 decode_rows=265031597 shared_heads=82803 projection_scopes=1048576 amx_tdp=33554432 partial_zero_bytes=0 partial_load_bytes=0 partial_store_bytes=0 packing_load_bytes=0 direct_rows=16777216 packed_bytes=4294967296 prefetch_requests=993348740 csr_reads=265114400 comparisons=148608200
+STATE_WORK_GATE graph=rgg_n_2_24_s0 method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=rgg_n_2_24_s0 method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=rgg_n_2_24_s0 schedule=degree scope=64 edges=265114400 shared_heads=82803 merge_steps=265031597 share_fraction=0.000312329318966 projection_scopes=1048576 windows=1048576 scalar_adds=33934643200 direct_decode_rows=265114400 shared_decode_rows=265031597 amx_tdp_fast=33554432 baseline_partial_zero_bytes=8589934592 baseline_state_load_bytes=0 baseline_state_store_bytes=8589934592 direct_saved_terminal_bytes=17179869184 prefetch_requests=993348740 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=rgg_n_2_24_s0 schedule=degree scope=256 edges=265114400 shared_heads=82803 merge_steps=265031597 share_fraction=0.000312329318966 projection_scopes=1048576 windows=1048576 scalar_adds=33934643200 direct_decode_rows=265114400 shared_decode_rows=265031597 amx_tdp_fast=33554432 baseline_partial_zero_bytes=8589934592 baseline_state_load_bytes=0 baseline_state_store_bytes=8589934592 direct_saved_terminal_bytes=17179869184 prefetch_requests=993348740 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=rgg_n_2_24_s0 schedule=degree scope=0 edges=265114400 shared_heads=82803 merge_steps=265031597 share_fraction=0.000312329318966 projection_scopes=1048576 windows=1048576 scalar_adds=33934643200 direct_decode_rows=265114400 shared_decode_rows=265031597 amx_tdp_fast=33554432 baseline_partial_zero_bytes=8589934592 baseline_state_load_bytes=0 baseline_state_store_bytes=8589934592 direct_saved_terminal_bytes=17179869184 prefetch_requests=993348740 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=rgg_n_2_24_s0 schedule=qguard scope=64 edges=265114400 shared_heads=82803 merge_steps=265031597 share_fraction=0.000312329318966 projection_scopes=1048576 windows=1048576 scalar_adds=33934643200 direct_decode_rows=265114400 shared_decode_rows=265031597 amx_tdp_fast=33554432 baseline_partial_zero_bytes=8589934592 baseline_state_load_bytes=0 baseline_state_store_bytes=8589934592 direct_saved_terminal_bytes=17179869184 prefetch_requests=993348740 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=rgg_n_2_24_s0 schedule=qguard scope=256 edges=265114400 shared_heads=82803 merge_steps=265031597 share_fraction=0.000312329318966 projection_scopes=1048576 windows=1048576 scalar_adds=33934643200 direct_decode_rows=265114400 shared_decode_rows=265031597 amx_tdp_fast=33554432 baseline_partial_zero_bytes=8589934592 baseline_state_load_bytes=0 baseline_state_store_bytes=8589934592 direct_saved_terminal_bytes=17179869184 prefetch_requests=993348740 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=rgg_n_2_24_s0 schedule=qguard scope=0 edges=265114400 shared_heads=82803 merge_steps=265031597 share_fraction=0.000312329318966 projection_scopes=1048576 windows=1048576 scalar_adds=33934643200 direct_decode_rows=265114400 shared_decode_rows=265031597 amx_tdp_fast=33554432 baseline_partial_zero_bytes=8589934592 baseline_state_load_bytes=0 baseline_state_store_bytes=8589934592 direct_saved_terminal_bytes=17179869184 prefetch_requests=993348740 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=rgg_n_2_24_s0 pass=1 methods=11 smoke=0 max_rss_kib=98153680

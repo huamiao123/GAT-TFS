@@ -1,0 +1,7 @@
+# PyTorch Extension Specification
+
+The active path is `PyTorch -> torch.autograd.Function -> C++ extension -> AVX-512 pull-SpMM -> AMX GeMM/dW`.
+
+`TFSConvFunction.forward(x, weight, bias, a_off)` returns normalized GCN pre-activation and saves `x`, `weight`, `a_off`, `s`, and `Hs`. Backward returns `dH`, `dW`, `db`, and no graph gradient using the v2 equations.
+
+PyTorch owns ReLU, dropout including the real mask and inverted scaling, cross entropy, optimizer, FP32 master weights, checkpoints, training loop and gradcheck. The extension must neither infer dropout masks from nonzeros nor replay RNG. C0 may execute the Python reference while a compiled C++ module proves ABI/import viability.

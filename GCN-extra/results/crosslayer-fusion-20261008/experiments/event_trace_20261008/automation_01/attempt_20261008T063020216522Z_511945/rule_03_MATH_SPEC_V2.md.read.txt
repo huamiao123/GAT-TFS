@@ -1,0 +1,11 @@
+# TFS-Train v2 Mathematical Specification
+
+Status: authoritative for v2, frozen 2026-08-04.
+
+For an undirected graph, CSR stores only off-diagonal adjacency `A_off`. Let `s_i=(degree_off_i+1)^(-1/2)` and `Hs=diag(s)H`. Self loops are separate diagonal terms.
+
+Forward is `T=(A_off+I)Hs` and `P=diag(s)TW+b`, exactly equivalent to `P=SHW+b` for `S=diag(s)(A_off+I)diag(s)`.
+
+For upstream gradient `G`, define `grad_scaled=diag(s)G` and `ybar=(A_off^T+I)grad_scaled`. Then `dW=Hs^T ybar`, `dH=diag(s)(ybar W^T)`, and `db=sum_rows(G)`. These must be checked against direct textbook `S^T G`. `grad_scaled`, `ybar`, and final `dH` are distinct values.
+
+All tensors use original node order. Degree sorting creates only a logical execution schedule. Dropout, activation and loss are outside this operator and are owned by PyTorch.

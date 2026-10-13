@@ -1,0 +1,24 @@
+GROUP_NATIVE_PERM graph=roadNet-CA fnv64=14797091962217450347
+GROUP_SETUP graph=roadNet-CA phase=schedule_signature_allocation ms=19.9329853058
+GROUP_SETUP graph=roadNet-CA phase=signature_pass ms=106.285095215 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=roadNet-CA phase=segment_construction ms=3.42392921448 segments=482 cap=4096
+GROUP_SETUP graph=roadNet-CA phase=schedule_sort schedule=qsource ms=134.778022766 signature_ms=106.285095215 shared_signature_pass=1
+GROUP_SETUP graph=roadNet-CA phase=schedule_sort schedule=qpage ms=148.843050003 signature_ms=106.285095215 shared_signature_pass=1
+GROUP_SETUP graph=roadNet-CA phase=schedule_sort schedule=qsamplepage ms=148.915052414 signature_ms=106.285095215 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=roadNet-CA candidate=degree sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=roadNet-CA candidate=qsource sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=roadNet-CA candidate=qpage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=roadNet-CA candidate=qsamplepage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=roadNet-CA schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=0 high_q_tiles=0 low_q_fallback=1 uses_timing=0 probe_ms=3.751039505 assembly_ms=2.1059513092
+GROUP_SETUP graph=roadNet-CA phase=guard_probe ms=3.751039505
+GROUP_SETUP graph=roadNet-CA phase=guard_schedule_assembly ms=2.1059513092
+GROUP_AUDIT graph=roadNet-CA schedule=degree pass=1 rows=1971281 moved=0 fnv64=14797091962217450347 full_projections=122827 b64_projections=122827 b256_projections=122827 windows=122827 state_load_bytes=0 state_store_bytes=1006191104 padded_steps=5533488 audit_ms=11.1269950867
+GROUP_AUDIT graph=roadNet-CA schedule=qsource pass=1 rows=1971281 moved=1964663 fnv64=8587936070055410735 full_projections=122827 b64_projections=122827 b256_projections=122827 windows=122827 state_load_bytes=0 state_store_bytes=1006191104 padded_steps=5543424 audit_ms=11.3649368286
+GROUP_AUDIT graph=roadNet-CA schedule=qpage pass=1 rows=1971281 moved=1964724 fnv64=10429005060269470433 full_projections=122827 b64_projections=122827 b256_projections=122827 windows=122827 state_load_bytes=0 state_store_bytes=1006191104 padded_steps=5543040 audit_ms=9.88793373108
+GROUP_AUDIT graph=roadNet-CA schedule=qsamplepage pass=1 rows=1971281 moved=1964735 fnv64=11397820248203041837 full_projections=122827 b64_projections=122827 b256_projections=122827 windows=122827 state_load_bytes=0 state_store_bytes=1006191104 padded_steps=5543232 audit_ms=9.74583625793
+GROUP_AUDIT graph=roadNet-CA schedule=qguard pass=1 rows=1971281 moved=0 fnv64=14797091962217450347 full_projections=122827 b64_projections=122827 b256_projections=122827 windows=122827 state_load_bytes=0 state_store_bytes=1006191104 padded_steps=5533488 audit_ms=9.37509536743
+GROUP_SETUP graph=roadNet-CA phase=all_schedules_total ms=624.792098999 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+FRONTIER_ORDER graph=roadNet-CA order=nodeid fnv64=15922551721608736585 pass=1 forced_peak_rows=0 eager_segments=4147800
+FRONTIER_ORDER graph=roadNet-CA order=degree fnv64=14797091962217450347 pass=1 forced_peak_rows=772421 eager_segments=3010897
+FRONTIER_ORDER graph=roadNet-CA order=qguard fnv64=14797091962217450347 pass=1 forced_peak_rows=772421 eager_segments=3010897
+FRONTIER_ANALYSIS graph=roadNet-CA pass=1 output=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-structure-20261008-01/compute-10898893/roadNet-CA/structure.json values_read=0

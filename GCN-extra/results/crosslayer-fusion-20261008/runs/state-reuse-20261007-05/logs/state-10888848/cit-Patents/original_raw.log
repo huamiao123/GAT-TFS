@@ -1,0 +1,32 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/cit-Patents/cit-Patents.csrbin
+Matrix: cit-Patents  N=3774768  NNZ=16518948  avg_deg=4.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 77.00 ms
+  run 1: 76.89 ms
+  run 2: 76.66 ms
+  run 3: 77.34 ms
+  run 4: 77.05 ms
+  TFS V3 E2E BEST: 76.66 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 271.12 ms
+  run 1: 271.49 ms
+  run 2: 271.05 ms
+  run 3: 271.81 ms
+  run 4: 271.38 ms
+  MKL E2E BEST: 271.05 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 76.66 ms
+  MKL (FP32):      271.05 ms
+  E2E Speedup:     3.54×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010544  RMSE=2.1617e+00
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 

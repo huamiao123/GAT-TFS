@@ -1,0 +1,28 @@
+{
+  "id": "recompute-window-parallel-cross-10901444",
+  "kind": "recompute_window_parallel_cross",
+  "status": "PASS",
+  "exit_status": 0,
+  "job_id": "10901444",
+  "node": "qhcn140",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-cross-10901444",
+  "paper_eligible": false,
+  "results": [
+    "PAR_RESULT order=degree graph=amazon0601 threads=32 baseline_median_ms=447.346925735 candidate_median_ms=399.296998978 exact=1 source_rows=1840149 source_projection_groups=126085 second_projection_groups=25213 peak_cache_rows=75480 checksum=3449434827757982282",
+    "PAR_RESULT order=identity graph=amazon0601 threads=32 baseline_median_ms=427.399873734 candidate_median_ms=339.286088943 exact=1 source_rows=1717770 source_projection_groups=119141 second_projection_groups=25213 peak_cache_rows=60192 checksum=3449434827757982282",
+    "PAR_RESULT order=min_source graph=amazon0601 threads=32 baseline_median_ms=560.470104218 candidate_median_ms=384.896039963 exact=1 source_rows=1357690 source_projection_groups=96659 second_projection_groups=25213 peak_cache_rows=49722 checksum=3449434827757982282",
+    "PAR_RESULT order=degree graph=reddit threads=32 baseline_median_ms=1498.723983765 candidate_median_ms=15128.699064255 exact=1 source_rows=5035725 source_projection_groups=321514 second_projection_groups=14561 peak_cache_rows=207222 checksum=7310392754903689554",
+    "PAR_RESULT order=identity graph=reddit threads=32 baseline_median_ms=1554.455995560 candidate_median_ms=15640.945911407 exact=1 source_rows=6533110 source_projection_groups=415126 second_projection_groups=14561 peak_cache_rows=205390 checksum=7310392754903689554",
+    "PAR_RESULT order=min_source graph=reddit threads=32 baseline_median_ms=1170.876026154 candidate_median_ms=13622.236013412 exact=1 source_rows=4721996 source_projection_groups=301994 second_projection_groups=14561 peak_cache_rows=212072 checksum=7310392754903689554"
+  ],
+  "gates": [
+    "PAR_GATE order=degree pass=1 speedup=1.120336308",
+    "PAR_GATE order=identity pass=1 speedup=1.259703500",
+    "PAR_GATE order=min_source pass=1 speedup=1.456159706",
+    "PAR_GATE order=degree pass=1 speedup=0.099064961",
+    "PAR_GATE order=identity pass=1 speedup=0.099383759",
+    "PAR_GATE order=min_source pass=1 speedup=0.085953292"
+  ],
+  "issues": "Exploratory cross-graph source-duplication boundary; no paper performance claim",
+  "next": "Use the measured boundary to define an offline policy or close the candidate"
+}

@@ -1,0 +1,95 @@
+{
+  "schema": "pair-order-control-independent-static-review-v1",
+  "created_at_utc": "2026-10-07T10:48:23.734511Z",
+  "run": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01",
+  "review_pass": true,
+  "files": [
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/PROTOCOL.md",
+      "sha256": "d2c0c4432f2eb6a659fbd7f035bb36744b4d034f3b6d8692484c18f18b73fe36"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/INTERFACE.md",
+      "sha256": "c650af8b7579f70c81da5b8ee7c21491dff8eafd5fc7bc9f57eb0f2d6988fa47"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/order_control_runtime.hpp",
+      "sha256": "af13ad7fea19b3975eb6d90c8909c37bd533efd9abe2747731e8a47a693d34db"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/order_control_suite.py",
+      "sha256": "2ec0fc4b5cfebac20ffd8cadb5a333e703b8163c293c9328d98906af9ec3ecf8"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/planned_kernel.hpp",
+      "sha256": "0e68326806ef441c97b779273b295a870d4a8dc57398357b752cf98bdb19ec1b"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/planned_reducer.hpp",
+      "sha256": "ab84c109997670fe616a2661cd2f4d95895d1d750ab99f9324fd4ef56aac02c8"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/plan_runtime.hpp",
+      "sha256": "672c60c8caf2a29541cadd0c5e2a85fcd9cd792eea870e3f09b73e7f4fa30154"
+    },
+    {
+      "path": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-order-control-20261007-01/source_snapshot/pair_plan.hpp",
+      "sha256": "3c6b3d49a082e3203559461a5606e8e0f1c9f85086f8c1fb93ee5af789ed083c"
+    }
+  ],
+  "checks": [
+    {
+      "name": "same_plan_storage",
+      "pass": true,
+      "evidence": "Scratch is allocated once; std::copy only into existing tile/mask buffers. Select checks data pointers, object pointer, size and capacity; no assignment or resize after allocation."
+    },
+    {
+      "name": "fixed_input_output_pointers",
+      "pass": true,
+      "evidence": "h0,w1,w2,wv1,wv2,h0b,h1,h1b,h2b,h2f,perm,row,col pointers logged and compared across every switch; all measured slot runs use the same capture and buffers."
+    },
+    {
+      "name": "fixed_execution_method",
+      "pass": true,
+      "evidence": "All four timed slot paths share const Method slot_execution with name slot_mode0 and the same object address, preventing differing 15/16/17-character names from adding SSO/heap-allocation differences."
+    },
+    {
+      "name": "MODE0_only",
+      "pass": true,
+      "evidence": "All slot methods and fixed slot_execution use kind4,mode0,scope0,accuratefalse; profile validates E source/decode/CSR visits,128E adds,no shared heads or head comparisons."
+    },
+    {
+      "name": "pair_shuffle_causal_design",
+      "pass": true,
+      "evidence": "Shuffle permutes complete adjacent pairs with fixed direction; odd last row stays last, trailing order slots remain255. Independent audit recovers oriented original pair identities and checks bijection/mask-bit remapping."
+    },
+    {
+      "name": "switch_and_warmup_outside_timing",
+      "pass": true,
+      "evidence": "Consecutive: select then one run before five clocks. Alternating: select then one run before every measured call. PMU: select then one run before Region.start. Copy costs reported separately."
+    },
+    {
+      "name": "all_five_PMU_methods",
+      "pass": true,
+      "evidence": "Outer method loop covers baseline plus all four slots, three PMU repeats each; suite requires summaries and32unique thread records, successful running times and independently summed counters."
+    },
+    {
+      "name": "immutable_kernel_sources",
+      "pass": true,
+      "evidence": "Runtime wraps frozen primary helpers; final analyzer recomputes13 source-file equalities against primary run01, rather than accepting filenames."
+    }
+  ],
+  "resolved_issue": {
+    "issue": "Logging names had lengths15/15/16/17 and planned_layer copies std::string each layer, allowing different allocation paths.",
+    "resolution": "Only timed forward/PMU runs use single fixed slot_execution object; logs remain separately named. Frozen kernels unchanged."
+  },
+  "qualifications": [
+    "SLOT execution_method metadata describes the planned timed execution object; correctness/profile wrappers retain per-method diagnostic names. Their mathematical modes and all buffers are identical, and all four canonical boundaries are checked.",
+    "This controls plan-storage addresses and visit order under warmed execution; it does not isolate a specific cache or prefetch mechanism.",
+    "Pairs-shuffle retains oriented pair membership; therefore any speed difference from adjacent MODE0 cannot be caused by new sharing or different pair membership.",
+    "Input/output pointer comparisons establish address invariance, not equal cache contents; the changed access order is the intended treatment.",
+    "Distinct degree,opt,rand,pairs Plan statistics are not copied into scratch; MODE0 consumes only copied tiles/order, with masks unused. This is valid only for declared MODE0 control.",
+    "Generic cache events do not establish DRAM byte reduction, and AMX busy does not establish AVX-AMX overlap.",
+    "Only three fixed synthetic fixtures and two allocation classes; no primary17 or universal conclusion."
+  ]
+}

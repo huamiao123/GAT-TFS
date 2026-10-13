@@ -1,0 +1,3 @@
+# Interleaved source-generation packing timing gate, 2026-10-08
+
+This isolated shadow experiment keeps 128 -> 128 -> 128 and the source_batch_blocks=16 packed source-generation candidate. For each destination order, six repetitions alternate baseline-then-candidate and candidate-then-baseline, reducing sequential thermal/frequency bias. The baseline is canonical materialized FULL FAST at the same 32-thread setting. Exact final BF16 equality is required. This is exploratory and paper-ineligible.

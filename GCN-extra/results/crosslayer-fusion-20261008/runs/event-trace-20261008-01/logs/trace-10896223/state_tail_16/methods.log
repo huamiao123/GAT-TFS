@@ -1,0 +1,398 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-plan-20261007-01/logs/plan-10889177/fixtures/state_tail_16/state_tail_16.csrbin
+METHOD_SETUP graph=state_tail_16 phase=csr_file_load ms=0.385046005249
+Matrix: state_tail_16  N=16  NNZ=1505  avg_deg=94.1
+
+METHOD_SETUP graph=state_tail_16 phase=tensor_allocation ms=0.0829696655273
+METHOD_SETUP graph=state_tail_16 phase=weight_generation ms=0.26798248291
+METHOD_SETUP graph=state_tail_16 phase=feature_generation ms=0.0171661376953
+METHOD_SETUP graph=state_tail_16 phase=degree_sort ms=0.00286102294922
+METHOD_SETUP graph=state_tail_16 phase=packed_weight_allocation ms=0.00405311584473
+METHOD_SETUP graph=state_tail_16 phase=weight_vnni_packing ms=0.0190734863281
+METHOD_SETUP graph=state_tail_16 phase=input_bf16_allocation ms=0
+METHOD_SETUP graph=state_tail_16 phase=input_bf16_conversion ms=9.74416732788
+METHOD_SETUP graph=state_tail_16 phase=tfs_output_allocation ms=0.00596046447754
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.38 ms
+  run 1: 0.37 ms
+  run 2: 0.33 ms
+  run 3: 0.26 ms
+  run 4: 0.34 ms
+  TFS V3 E2E BEST: 0.26 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=state_tail_16 phase=mkl_index_allocation ms=0.00190734863281
+METHOD_SETUP graph=state_tail_16 phase=mkl_index_conversion ms=0.00214576721191
+METHOD_SETUP graph=state_tail_16 phase=mkl_csr_create ms=2.04491615295
+METHOD_SETUP graph=state_tail_16 phase=mkl_hint_and_optimize ms=1.14321708679
+METHOD_SETUP graph=state_tail_16 phase=mkl_output_allocation ms=0.00405311584473
+  run 0: 0.03 ms
+  run 1: 0.03 ms
+  run 2: 0.02 ms
+  run 3: 0.02 ms
+  run 4: 0.02 ms
+  MKL E2E BEST: 0.02 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.26 ms
+  MKL (FP32):      0.02 ms
+  E2E Speedup:     0.09×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010862  RMSE=6.9835e+02
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+PAIRPLAN_SEMANTIC graph=state_tail_16 values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+TRACE_REJECT_CASE graph=state_tail_16 case=used_code_zero valid_fixture=1 rejected=1 reason_present=1 pass=1
+TRACE_REJECT_CASE graph=state_tail_16 case=tile_offset_oob valid_fixture=1 rejected=1 reason_present=1 pass=1
+TRACE_REJECT_AUDIT graph=state_tail_16 cases=2 rejected=2 valid_fixture=1 pass=1
+GROUP_NATIVE_PERM graph=state_tail_16 fnv64=1016140811586988491
+GROUP_SETUP graph=state_tail_16 phase=schedule_signature_allocation ms=0.00309944152832
+GROUP_SETUP graph=state_tail_16 phase=signature_pass ms=0.0269412994385 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=state_tail_16 phase=segment_construction ms=0 segments=6 cap=4096
+GROUP_SETUP graph=state_tail_16 phase=schedule_sort schedule=qsource ms=0.00309944152832 signature_ms=0.0269412994385 shared_signature_pass=1
+GROUP_SETUP graph=state_tail_16 phase=schedule_sort schedule=qpage ms=0.00286102294922 signature_ms=0.0269412994385 shared_signature_pass=1
+GROUP_SETUP graph=state_tail_16 phase=schedule_sort schedule=qsamplepage ms=0.00214576721191 signature_ms=0.0269412994385 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=state_tail_16 candidate=degree sampled_tiles=1 sampled_windows=3 requests=673 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=state_tail_16 candidate=qsource sampled_tiles=1 sampled_windows=3 requests=673 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=state_tail_16 candidate=qpage sampled_tiles=1 sampled_windows=3 requests=673 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=state_tail_16 candidate=qsamplepage sampled_tiles=1 sampled_windows=3 requests=673 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=state_tail_16 schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=1 high_q_tiles=1 low_q_fallback=1 uses_timing=0 probe_ms=0.135898590088 assembly_ms=0.00119209289551
+GROUP_SETUP graph=state_tail_16 phase=guard_probe ms=0.135898590088
+GROUP_SETUP graph=state_tail_16 phase=guard_schedule_assembly ms=0.00119209289551
+GROUP_AUDIT graph=state_tail_16 schedule=degree pass=1 rows=16 moved=0 fnv64=1016140811586988491 full_projections=1 b64_projections=8 b256_projections=2 windows=8 state_load_bytes=8704 state_store_bytes=16896 padded_steps=8192 audit_ms=0.000953674316406
+GROUP_AUDIT graph=state_tail_16 schedule=qsource pass=1 rows=16 moved=6 fnv64=4744456816351696915 full_projections=1 b64_projections=8 b256_projections=2 windows=8 state_load_bytes=8704 state_store_bytes=16896 padded_steps=8192 audit_ms=0
+GROUP_AUDIT graph=state_tail_16 schedule=qpage pass=1 rows=16 moved=0 fnv64=1016140811586988491 full_projections=1 b64_projections=8 b256_projections=2 windows=8 state_load_bytes=8704 state_store_bytes=16896 padded_steps=8192 audit_ms=0.000953674316406
+GROUP_AUDIT graph=state_tail_16 schedule=qsamplepage pass=1 rows=16 moved=0 fnv64=1016140811586988491 full_projections=1 b64_projections=8 b256_projections=2 windows=8 state_load_bytes=8704 state_store_bytes=16896 padded_steps=8192 audit_ms=0
+GROUP_AUDIT graph=state_tail_16 schedule=qguard pass=1 rows=16 moved=0 fnv64=1016140811586988491 full_projections=1 b64_projections=8 b256_projections=2 windows=8 state_load_bytes=8704 state_store_bytes=16896 padded_steps=8192 audit_ms=0
+GROUP_SETUP graph=state_tail_16 phase=all_schedules_total ms=0.185966491699 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+TRACE_SCHEDULE_SETUP graph=state_tail_16 phase=all_five_frozen_schedules ms=0.186920166016 included_in_primary=0
+PAIRPLAN_SETUP graph=state_tail_16 plan=adj_degree kind=0 layout_ms=0.00214576721191 pairing_ms=0.0288486480713 verify_ms=0.0221729278564 audit_ms=0.0169277191162 total_ms=0.0710487365723 plan_bytes=40 allocated_bytes=40 sample_edge_probes=0 signature_probes=0 score_probes=0 score_pairs=0 full_verification_reads=1519 merge_index_reads=1505 exact_compare_reads=14 memcmp_requested_reads=0 audit_reads=14 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=state_tail_16 plan=adj_degree kind=0 tiles=1 source_edges=1505 dynamic_shared_heads=424 exact_shared_edges=0 merge_steps=1081 comparisons=551 exact_windows=0 nonempty_pair_windows=17 neighbor_windows=8 full_projections=1 b64_projections=8 b256_projections=2 changed_tiles=0 zero_score_tiles=0 score_fallback_tiles=0 adjacent_sample_score=0 selected_sample_score=0 fnv64=187372989908224059 exact_masks_bytes=8
+PLAN_GATE graph=state_tail_16 plan=adj_degree pass=1 invalid=0 source_edges=1505 expected_edges=1505 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+TRACE_PLAN_SETUP graph=state_tail_16 source_edges=1505 shared_heads=424 merge_steps=1081 comparisons=551 nonempty_tiles=1 windows=8 headers=64 payload_bytes=274 data_bytes=338 offset_bytes=16 plan_bytes=354 allocated_bytes=354 take1=75 take2=582 take3=424 fnv64=12307369023404777776 build_ms=0.0340938568115 validate_ms=0.00810623168945 total_ms=0.042200088501 format=count_u8_plus_lsb2 source_ids_stored=0 inspector_includes_full_validator=1 bytes_semantics=persistent_vector_payload object_bytes=1232
+TRACE_PLAN_GATE graph=state_tail_16 pass=1 independent_scalar_validator=1 original_greedy=1 source_ids_stored=0
+TRACE_PLAN_HIST graph=state_tail_16 event_count=0 builder_records=47 validator_records=47 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=1 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=2 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=3 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=4 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=5 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=6 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=7 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=8 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=9 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=10 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=11 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=12 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=13 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=14 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=15 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=16 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=17 builder_records=1 validator_records=1 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=18 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=19 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=20 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=21 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=22 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=23 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=24 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=25 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=26 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=27 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=28 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=29 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=30 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=31 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=32 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=33 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=34 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=35 builder_records=1 validator_records=1 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=36 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=37 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=38 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=39 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=40 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=41 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=42 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=43 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=44 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=45 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=46 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=47 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=48 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=49 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=50 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=51 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=52 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=53 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=54 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=55 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=56 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=57 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=58 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=59 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=60 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=61 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=62 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=63 builder_records=1 validator_records=1 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=64 builder_records=5 validator_records=5 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=65 builder_records=1 validator_records=1 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=66 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=67 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=68 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=69 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=70 builder_records=1 validator_records=1 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=71 builder_records=4 validator_records=4 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=72 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=73 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=74 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=75 builder_records=1 validator_records=1 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=76 builder_records=2 validator_records=2 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=77 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=78 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=79 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=80 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=81 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=82 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=83 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=84 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=85 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=86 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=87 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=88 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=89 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=90 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=91 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=92 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=93 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=94 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=95 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=96 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=97 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=98 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=99 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=100 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=101 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=102 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=103 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=104 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=105 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=106 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=107 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=108 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=109 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=110 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=111 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=112 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=113 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=114 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=115 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=116 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=117 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=118 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=119 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=120 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=121 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=122 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=123 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=124 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=125 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=126 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=127 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=state_tail_16 event_count=128 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN graph=state_tail_16 tiles=1 nonempty_tiles=1 windows=8 source_edges=1505 events=1081 shared_heads=424 comparisons=551 take1=75 take2=582 take3=424 headers=64 payload_bytes=274 data_bytes=338 offset_bytes=16 plan_bytes=354 allocated_bytes=354 data_size=338 data_capacity=338 offsets_size=2 offsets_capacity=2 offset_element_bytes=8 object_bytes=1232 plan_fnv64=12307369023404777776 payload_hash=12307369023404777776 independent_audit_ms=0.0360012054443 order_preserved=1 exact_exhaustion=1 padding_zero=1 header_hist_checked=1 pass=1
+TRACE_SMOKE_DUMP graph=state_tail_16 degree_perm=0,4,8,12,13,1,14,2,15,3,5,6,7,9,10,11 tile_offsets=0,338 data_hex=000011a6aaaaaa022356aaaaaafaffffbf2a466a55f5ffffffffffbfaaaaaaaaaaaaaaaa0a4baaaaeaffffffffffffffffffffffffff5555154ca95a95aafaffffffffffffffffffffffff5f55475a55fdffffffffffffffffffffffffffaf2a00000000003faaaaeaaaaaaaaaaaaaaaaaaaaaaaaa2a4ca95a95aafaffffffffffffffffffffffff5f55475a55fdffffffffffffffffffffffffffaf2a00000000000040aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa475a55fdffffffffffffffffffffffffffaf2a00000000000040aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa475a55fdffffffffffffffffffffffffffaf2a00000000000000419aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa020000000000000040aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000040aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000040aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+TRACE_OPPORTUNITY graph=state_tail_16 diagnostic_only=1 semantics=full_row_greedy source_level=1 diagnostic_ms=0.0119209289551 rows=16 sorted_rows=5 unsorted_rows=11 pairs=8 odd_rows=0 sorted_pairs=2 unsorted_pairs=6 gain_pairs=3 loss_pairs=0 tie_pairs=5 sorted_gain_pairs=0 sorted_loss_pairs=0 sorted_tie_pairs=2 shared_s64=424 shared_full=475 sorted_shared_s64=0 sorted_shared_full=0 unsorted_shared_s64=424 unsorted_shared_full=475 source_reads=1505 events=1030 comparisons=543 invalid=0 pass=1
+TRACE_CONFIG graph=state_tail_16 N=16 E=1505 D=128 H=128 F=128 S=64 M=FULL R=64 TR=16 methods=8 pf=1 warmup_consecutive=1 warmup_each_alternating_switch=1 consecutive=5 alternating=10 numa=default smoke=1 final_output=BF16 copy_in_compute=0 purpose=mechanism_not_deployment fixed_expansion_candidate=trace_s_rep trace_resident_for_all_methods=1
+TRACE_METHOD graph=state_tail_16 method=pack_epi_degree kind=3 mode=0 scope=0 schedule=degree schedule_index=0 plan_index=-1 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=pack_epi_qguard kind=3 mode=0 scope=0 schedule=qguard schedule_index=4 plan_index=-1 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=dyn_i kind=4 mode=1 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=dyn_s kind=4 mode=2 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=exact_s kind=4 mode=4 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=trace_i kind=5 mode=0 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=trace_s_cached kind=5 mode=1 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=state_tail_16 method=trace_s_rep kind=5 mode=2 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_IMMUTABLE graph=state_tail_16 phase=before base_hash=187372989908224059 expected_base_hash=187372989908224059 trace_hash=12307369023404777776 expected_trace_hash=12307369023404777776 hash_checked=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=pack_epi_degree phase=correctness repeat=0 serial=0 kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=kernel_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=e2e_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=H1_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=e2e_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=pack_epi_degree layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=pack_epi_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=0 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=pack_epi_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=pack_epi_degree layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=pack_epi_degree layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=pack_epi_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=pack_epi_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=pack_epi_degree layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=kernel_FP32 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=e2e_FP32 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=H1_BF16 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_degree boundary=e2e_BF16 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x1704010 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=pack_epi_qguard phase=correctness repeat=0 serial=1 kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 schedule=qguard schedule_ptr=0x1703ca0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=kernel_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=e2e_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=H1_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=e2e_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=pack_epi_qguard layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=pack_epi_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=0 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=pack_epi_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=pack_epi_qguard layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=pack_epi_qguard layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=pack_epi_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=pack_epi_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=pack_epi_qguard layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=kernel_FP32 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=e2e_FP32 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=H1_BF16 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=pack_epi_qguard boundary=e2e_BF16 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x1704050 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=dyn_i phase=correctness repeat=0 serial=2 kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=dyn_i boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=dyn_i boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=dyn_i boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=dyn_i boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_i boundary=kernel_FP32 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x1704090 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_i boundary=e2e_FP32 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x1704090 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_i boundary=H1_BF16 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x1704090 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_i boundary=e2e_BF16 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x1704090 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=dyn_i layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=dyn_i layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=551 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=551 relu_elements=2048 expected_hits=424 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=dyn_i layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=dyn_i layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=dyn_i layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=dyn_i layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=551 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=551 relu_elements=0 expected_hits=424 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=dyn_i layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=dyn_i layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_i boundary=kernel_FP32 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_i boundary=e2e_FP32 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_i boundary=H1_BF16 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_i boundary=e2e_BF16 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=dyn_s phase=correctness repeat=0 serial=3 kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=dyn_s boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=dyn_s boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=dyn_s boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=dyn_s boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_s boundary=kernel_FP32 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x17040d0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_s boundary=e2e_FP32 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x17040d0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_s boundary=H1_BF16 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x17040d0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=dyn_s boundary=e2e_BF16 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x17040d0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=dyn_s layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=dyn_s layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1081 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=551 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=551 relu_elements=2048 expected_hits=424 expected_decode=1081 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=dyn_s layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=dyn_s layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=dyn_s layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=dyn_s layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1081 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=551 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=551 relu_elements=0 expected_hits=424 expected_decode=1081 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=dyn_s layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=dyn_s layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_s boundary=kernel_FP32 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_s boundary=e2e_FP32 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_s boundary=H1_BF16 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=dyn_s boundary=e2e_BF16 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=exact_s phase=correctness repeat=0 serial=4 kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=exact_s boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=exact_s boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=exact_s boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=exact_s boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=exact_s boundary=kernel_FP32 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x1704110 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=exact_s boundary=e2e_FP32 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x1704110 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=exact_s boundary=H1_BF16 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x1704110 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=exact_s boundary=e2e_BF16 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x1704110 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=exact_s layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=exact_s layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=128 exact_mask_bytes_read=8 exact_pair_flags_tested=64 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=0 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=exact_s layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=exact_s layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=exact_s layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=exact_s layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=128 exact_mask_bytes_read=8 exact_pair_flags_tested=64 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=exact_s layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=exact_s layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=exact_s boundary=kernel_FP32 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=exact_s boundary=e2e_FP32 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=exact_s boundary=H1_BF16 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=exact_s boundary=e2e_BF16 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=trace_i phase=correctness repeat=0 serial=5 kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=trace_i boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_i boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_i boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_i boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_i boundary=kernel_FP32 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x1704150 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_i boundary=e2e_FP32 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x1704150 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_i boundary=H1_BF16 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x1704150 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_i boundary=e2e_BF16 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x1704150 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=trace_i layer=1 headers=64 payload_bytes=274 events=1081 take1=75 take2=582 take3=424 tile_offset_reads=1 expected_headers=64 expected_payload_bytes=274 expected_events=1081 expected_take1=75 expected_take2=582 expected_take3=424 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=trace_i layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=424 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=trace_i layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=trace_i layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=trace_i layer=2 headers=64 payload_bytes=274 events=1081 take1=75 take2=582 take3=424 tile_offset_reads=1 expected_headers=64 expected_payload_bytes=274 expected_events=1081 expected_take1=75 expected_take2=582 expected_take3=424 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=trace_i layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1505 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=424 expected_decode=1505 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=trace_i layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=trace_i layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_i boundary=kernel_FP32 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_i boundary=e2e_FP32 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_i boundary=H1_BF16 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_i boundary=e2e_BF16 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=trace_s_cached phase=correctness repeat=0 serial=6 kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=trace_s_cached boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_s_cached boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_s_cached boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_s_cached boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_cached boundary=kernel_FP32 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_cached boundary=e2e_FP32 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_cached boundary=H1_BF16 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_cached boundary=e2e_BF16 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_cached boundary=kernel_FP32 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_cached boundary=e2e_FP32 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_cached boundary=H1_BF16 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_cached boundary=e2e_BF16 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x1704190 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=trace_s_cached layer=1 headers=64 payload_bytes=274 events=1081 take1=75 take2=582 take3=424 tile_offset_reads=1 expected_headers=64 expected_payload_bytes=274 expected_events=1081 expected_take1=75 expected_take2=582 expected_take3=424 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=trace_s_cached layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1081 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=424 expected_decode=1081 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=trace_s_cached layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=trace_s_cached layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=trace_s_cached layer=2 headers=64 payload_bytes=274 events=1081 take1=75 take2=582 take3=424 tile_offset_reads=1 expected_headers=64 expected_payload_bytes=274 expected_events=1081 expected_take1=75 expected_take2=582 expected_take3=424 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=trace_s_cached layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1081 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1505 comparisons=0 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=424 expected_decode=1081 expected_csr=1505 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=trace_s_cached layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=trace_s_cached layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_cached boundary=kernel_FP32 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_cached boundary=e2e_FP32 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_cached boundary=H1_BF16 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_cached boundary=e2e_BF16 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=state_tail_16 method=trace_s_rep phase=correctness repeat=0 serial=7 kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 schedule=degree schedule_ptr=0x16eabd0 base_plan_ptr=0x7ffeaa64db00 tiles_ptr=0x169d700 masks_ptr=0x171a8e0 trace_plan_ptr=0x7ffeaa64dcc0 offsets_ptr=0x171a820 data_ptr=0x1703eb0 tiles_size=1 tiles_capacity=1 masks_size=8 masks_capacity=8 offsets_size=2 offsets_capacity=2 data_size=338 data_capacity=338 h0_ptr=0x16d3e80 w1_ptr=0x16a2d40 w2_ptr=0x16c3e00 wv1_ptr=0x16d5ec0 wv2_ptr=0x16ddf40 h0b_ptr=0x169ddc0 h1_ptr=0x16e7b40 h1b_ptr=0x16e9bc0 h2b_ptr=0x16eac40 h2f_ptr=0x16ebcc0 perm_ptr=0x169dd70 row_ptr=0x169fd80 col_ptr=0x169fdd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=state_tail_16 method=trace_s_rep boundary=kernel_FP32 reference=paper_tfs max_abs=4.27258300781 mean_abs=0.225427181722 relative_L2=0.0033940904766 normalized_max=0.00312017195044 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_s_rep boundary=e2e_FP32_final reference=paper_tfs max_abs=2912.1875 mean_abs=175.933457933 relative_L2=0.00622463287831 normalized_max=0.00512666589135 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_s_rep boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=171.175231934 relative_L2=0.00671604373323 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_16 method=trace_s_rep boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=10349.1875 mean_abs=537.285450702 relative_L2=0.0189330838327 normalized_max=0.0180209917504 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_rep boundary=kernel_FP32 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_rep boundary=e2e_FP32 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_rep boundary=H1_BF16 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_16 method=trace_s_rep boundary=e2e_BF16 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_rep boundary=kernel_FP32 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_rep boundary=e2e_FP32 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_rep boundary=H1_BF16 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=state_tail_16 method=trace_s_rep boundary=e2e_BF16 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x17041d0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=trace_s_rep layer=1 headers=64 payload_bytes=274 events=1081 take1=75 take2=582 take3=424 tile_offset_reads=1 expected_headers=64 expected_payload_bytes=274 expected_events=1081 expected_take1=75 expected_take2=582 expected_take3=424 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=trace_s_rep layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1081 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1081 comparisons=0 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=424 expected_decode=1081 expected_csr=1081 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=trace_s_rep layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=trace_s_rep layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=state_tail_16 method=trace_s_rep layer=2 headers=64 payload_bytes=274 events=1081 take1=75 take2=582 take3=424 tile_offset_reads=1 expected_headers=64 expected_payload_bytes=274 expected_events=1081 expected_take1=75 expected_take2=582 expected_take3=424 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=state_tail_16 method=trace_s_rep layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1505 feature_adds=192640 decode_rows=1081 shared_heads=424 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=5972 prefetch_index_reads=1493 csr_reads=1081 comparisons=0 order_index_reads=128 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=424 expected_decode=1081 expected_csr=1081 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=16 expected_prefetch=5972
+PAIRPLAN_WORK_GATE graph=state_tail_16 method=trace_s_rep layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_16 method=trace_s_rep layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_rep boundary=kernel_FP32 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_rep boundary=e2e_FP32 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_rep boundary=H1_BF16 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=state_tail_16 method=trace_s_rep boundary=e2e_BF16 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffeaa64d5c0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_GATE_COMPLETE graph=state_tail_16 pass=1
+TRACE_IMMUTABLE graph=state_tail_16 phase=after base_hash=187372989908224059 expected_base_hash=187372989908224059 trace_hash=12307369023404777776 expected_trace_hash=12307369023404777776 hash_checked=1 pass=1
+TRACE_COMPLETE graph=state_tail_16 pass=1 methods=8 smoke=1 slot_checks=8 max_rss_kib=31156

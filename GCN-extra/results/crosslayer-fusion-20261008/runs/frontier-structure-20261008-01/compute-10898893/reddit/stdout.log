@@ -1,0 +1,24 @@
+GROUP_NATIVE_PERM graph=reddit fnv64=11207242478564472119
+GROUP_SETUP graph=reddit phase=schedule_signature_allocation ms=4.79006767273
+GROUP_SETUP graph=reddit phase=signature_pass ms=209.56993103 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=reddit phase=segment_construction ms=0.441074371338 segments=262 cap=4096
+GROUP_SETUP graph=reddit phase=schedule_sort schedule=qsource ms=19.581079483 signature_ms=209.56993103 shared_signature_pass=1
+GROUP_SETUP graph=reddit phase=schedule_sort schedule=qpage ms=20.5240249634 signature_ms=209.56993103 shared_signature_pass=1
+GROUP_SETUP graph=reddit phase=schedule_sort schedule=qsamplepage ms=19.5469856262 signature_ms=209.56993103 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=reddit candidate=degree sampled_tiles=128 sampled_windows=362 requests=300428 misses256=283856 misses1024=272726 misses4096=241673 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=reddit candidate=qsource sampled_tiles=128 sampled_windows=362 requests=302826 misses256=205031 misses1024=198733 misses4096=178361 ratio256=0.716586625128 ratio1024=0.722920752988 ratio4096=0.732181939341 mean_ratio=0.723896439152 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=reddit candidate=qpage sampled_tiles=128 sampled_windows=362 requests=303022 misses256=247463 misses1024=230024 misses4096=205956 ratio256=0.864327719631 ratio1024=0.836205182497 ratio4096=0.84491410766 mean_ratio=0.848482336596 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=reddit candidate=qsamplepage sampled_tiles=128 sampled_windows=362 requests=302088 misses256=254746 misses1024=243221 misses4096=213773 ratio256=0.892516446485 ratio1024=0.886913896428 ratio4096=0.879694043831 mean_ratio=0.886374795581 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=reddit schedule=qguard selected=qsource predicted_mean_miss_rate_ratio=0.723896439152 sampled_tiles=128 high_q_tiles=11236 low_q_fallback=1 uses_timing=0 probe_ms=193.527936935 assembly_ms=0.49614906311
+GROUP_SETUP graph=reddit phase=guard_probe ms=193.527936935
+GROUP_SETUP graph=reddit phase=guard_schedule_assembly ms=0.49614906311
+GROUP_AUDIT graph=reddit schedule=degree pass=1 rows=232965 moved=0 fnv64=11207242478564472119 full_projections=14561 b64_projections=119990 b256_projections=36658 windows=119990 state_load_bytes=860610048 state_store_bytes=979888128 padded_steps=115000224 audit_ms=1.29222869873
+GROUP_AUDIT graph=reddit schedule=qsource pass=1 rows=232965 moved=232695 fnv64=2657575305661053423 full_projections=14561 b64_projections=119990 b256_projections=36658 windows=119990 state_load_bytes=860610048 state_store_bytes=979888128 padded_steps=117128192 audit_ms=1.16205215454
+GROUP_AUDIT graph=reddit schedule=qpage pass=1 rows=232965 moved=232614 fnv64=848112562839156189 full_projections=14561 b64_projections=119990 b256_projections=36658 windows=119990 state_load_bytes=860610048 state_store_bytes=979888128 padded_steps=116472560 audit_ms=1.0941028595
+GROUP_AUDIT graph=reddit schedule=qsamplepage pass=1 rows=232965 moved=232725 fnv64=13593347164876094399 full_projections=14561 b64_projections=119990 b256_projections=36658 windows=119990 state_load_bytes=860610048 state_store_bytes=979888128 padded_steps=117425024 audit_ms=1.11198425293
+GROUP_AUDIT graph=reddit schedule=qguard pass=1 rows=232965 moved=179499 fnv64=9198765782015757761 full_projections=14561 b64_projections=119990 b256_projections=36658 windows=119990 state_load_bytes=860610048 state_store_bytes=979888128 padded_steps=117014512 audit_ms=1.0941028595
+GROUP_SETUP graph=reddit phase=all_schedules_total ms=474.855184555 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+FRONTIER_ORDER graph=reddit order=nodeid fnv64=2535314664428192377 pass=1 forced_peak_rows=0 eager_segments=108481140
+FRONTIER_ORDER graph=reddit order=degree fnv64=11207242478564472119 pass=1 forced_peak_rows=230254 eager_segments=1289061
+FRONTIER_ORDER graph=reddit order=qguard fnv64=9198765782015757761 pass=1 forced_peak_rows=230248 eager_segments=1284436
+FRONTIER_ANALYSIS graph=reddit pass=1 output=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-structure-20261008-01/compute-10898893/reddit/structure.json values_read=0

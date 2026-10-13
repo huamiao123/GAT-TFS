@@ -1,0 +1,1 @@
+Runtime namespace gcn_extra_factorial_runtime::run_methods same original signature. Runtime/suite agents coordinate exact FACT_* labels and method names. Only runtime/suite new; frozen helpers unchanged. Root owns build/job/protocol. Kernel reviewer owns independent analyzer/review.

@@ -1,0 +1,24 @@
+GROUP_NATIVE_PERM graph=checkpoint16_tail_273 fnv64=6100711701888931385
+GROUP_SETUP graph=checkpoint16_tail_273 phase=schedule_signature_allocation ms=0.0340938568115
+GROUP_SETUP graph=checkpoint16_tail_273 phase=signature_pass ms=5.35178184509 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=checkpoint16_tail_273 phase=segment_construction ms=0.000953674316406 segments=1 cap=4096
+GROUP_SETUP graph=checkpoint16_tail_273 phase=schedule_sort schedule=qsource ms=0.0178813934326 signature_ms=5.35178184509 shared_signature_pass=1
+GROUP_SETUP graph=checkpoint16_tail_273 phase=schedule_sort schedule=qpage ms=0.0131130218506 signature_ms=5.35178184509 shared_signature_pass=1
+GROUP_SETUP graph=checkpoint16_tail_273 phase=schedule_sort schedule=qsamplepage ms=0.0121593475342 signature_ms=5.35178184509 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=checkpoint16_tail_273 candidate=degree sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=checkpoint16_tail_273 candidate=qsource sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=checkpoint16_tail_273 candidate=qpage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=checkpoint16_tail_273 candidate=qsamplepage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=checkpoint16_tail_273 schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=0 high_q_tiles=0 low_q_fallback=1 uses_timing=0 probe_ms=0.0569820404053 assembly_ms=0
+GROUP_SETUP graph=checkpoint16_tail_273 phase=guard_probe ms=0.0569820404053
+GROUP_SETUP graph=checkpoint16_tail_273 phase=guard_schedule_assembly ms=0
+GROUP_AUDIT graph=checkpoint16_tail_273 schedule=degree pass=1 rows=273 moved=0 fnv64=6100711701888931385 full_projections=18 b64_projections=18 b256_projections=18 windows=18 state_load_bytes=0 state_store_bytes=139776 padded_steps=320 audit_ms=0.000953674316406
+GROUP_AUDIT graph=checkpoint16_tail_273 schedule=qsource pass=1 rows=273 moved=269 fnv64=8973198764811487457 full_projections=18 b64_projections=18 b256_projections=18 windows=18 state_load_bytes=0 state_store_bytes=139776 padded_steps=320 audit_ms=0.000953674316406
+GROUP_AUDIT graph=checkpoint16_tail_273 schedule=qpage pass=1 rows=273 moved=273 fnv64=2209570954509755109 full_projections=18 b64_projections=18 b256_projections=18 windows=18 state_load_bytes=0 state_store_bytes=139776 padded_steps=320 audit_ms=0.000953674316406
+GROUP_AUDIT graph=checkpoint16_tail_273 schedule=qsamplepage pass=1 rows=273 moved=272 fnv64=16976579093310584457 full_projections=18 b64_projections=18 b256_projections=18 windows=18 state_load_bytes=0 state_store_bytes=139776 padded_steps=320 audit_ms=0.000953674316406
+GROUP_AUDIT graph=checkpoint16_tail_273 schedule=qguard pass=1 rows=273 moved=0 fnv64=6100711701888931385 full_projections=18 b64_projections=18 b256_projections=18 windows=18 state_load_bytes=0 state_store_bytes=139776 padded_steps=320 audit_ms=0.000953674316406
+GROUP_SETUP graph=checkpoint16_tail_273 phase=all_schedules_total ms=5.51605224609 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+FRONTIER_ORDER graph=checkpoint16_tail_273 order=nodeid fnv64=12018768605665587465 pass=1 forced_peak_rows=0 eager_segments=275
+FRONTIER_ORDER graph=checkpoint16_tail_273 order=degree fnv64=6100711701888931385 pass=1 forced_peak_rows=2 eager_segments=273
+FRONTIER_ORDER graph=checkpoint16_tail_273 order=qguard fnv64=6100711701888931385 pass=1 forced_peak_rows=2 eager_segments=273
+FRONTIER_ANALYSIS graph=checkpoint16_tail_273 pass=1 output=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-structure-20261008-01/compute-10898893/oracle/fixtures/checkpoint16_tail_273.native.json values_read=0

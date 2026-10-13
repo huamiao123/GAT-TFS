@@ -1,0 +1,57 @@
+In file included from /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:2:
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_kernel.cpp:1:9: warning: 'main' macro redefined [-Wmacro-redefined]
+    1 | #define main frozen_gcn_e2e_main
+      |         ^
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:1:9: note: previous definition is here
+    1 | #define main serial_window_kernel_main
+      |         ^
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:19:38: warning: parentheses were disambiguated as a function declaration [-Wvexing-parse]
+   19 |     std::vector<ParallelStats> locals(size_t(threads));
+      |                                      ^~~~~~~~~~~~~~~~~
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:19:39: note: add a pair of parentheses to declare a variable
+   19 |     std::vector<ParallelStats> locals(size_t(threads));
+      |                                       ^              
+      |                                       (              )
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:65:34: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+   65 |                                  locals[tid].source_projection_groups);
+      |                                  ^~~~~~
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:68:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+   68 |                     locals[tid].source_rows++;
+      |                     ^~~~~~
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:84:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+   84 |                     locals[tid].edges++;
+      |                     ^~~~~~
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:105:13: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+  105 |             locals[tid].second_projection_groups += (uint64_t(end - begin) + 15) / 16;
+      |             ^~~~~~
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:107:9: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+  107 |         locals[tid].peak_cache = cache.peak;
+      |         ^~~~~~
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:110:24: error: invalid range expression of type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)'); no viable 'begin' function available
+  110 |     for (const auto& x : locals) {
+      |                        ^ ~~~~~~
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/initializer_list:89:5: note: candidate template ignored: could not match 'initializer_list<_Tp>' against 'std::vector<ParallelStats> (*)(size_t)' (aka 'vector<ParallelStats> (*)(unsigned long)')
+   89 |     begin(initializer_list<_Tp> __ils) noexcept
+      |     ^
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/bits/range_access.h:48:5: note: candidate template ignored: substitution failure [with _Container = std::vector<ParallelStats> (size_t)]: member reference base type 'std::vector<ParallelStats> (unsigned long)' is not a structure or union
+   48 |     begin(_Container& __cont) -> decltype(__cont.begin())
+      |     ^                                           ~
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/bits/range_access.h:58:5: note: candidate template ignored: substitution failure [with _Container = std::vector<ParallelStats> (size_t)]: member reference base type 'std::vector<ParallelStats> (unsigned long)' is not a structure or union
+   58 |     begin(const _Container& __cont) -> decltype(__cont.begin())
+      |     ^                                                 ~
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/bits/range_access.h:87:5: note: candidate template ignored: could not match '_Tp[_Nm]' against 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+   87 |     begin(_Tp (&__arr)[_Nm])
+      |     ^
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/bits/range_access.h:104:31: note: candidate template ignored: could not match 'valarray<_Tp>' against 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+  104 |   template<typename _Tp> _Tp* begin(valarray<_Tp>&);
+      |                               ^
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/bits/range_access.h:105:37: note: candidate template ignored: could not match 'valarray<_Tp>' against 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')
+  105 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&);
+      |                                     ^
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:124:5: error: redefinition of 'main'
+  124 | int main(int argc, char** argv) {
+      |     ^
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_kernel.cpp:248:5: note: previous definition is here
+  248 | int main(int argc, char** argv) {
+      |     ^
+2 warnings and 7 errors generated.

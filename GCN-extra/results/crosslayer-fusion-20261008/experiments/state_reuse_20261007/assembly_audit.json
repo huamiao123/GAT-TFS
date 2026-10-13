@@ -1,0 +1,5442 @@
+{
+  "schema": "gcn-extra-state-assembly-audit-v1",
+  "created_utc": "2026-10-07T09:03:10.864298+00:00",
+  "auditor": "avx_amx_research",
+  "scope": "Read-only analysis of frozen objdump text and existing smoke logs; no compiling, new jobs, or performance measurements performed by this audit.",
+  "source_header": {
+    "path": "experiments/state_reuse_20261007/state_kernels.hpp",
+    "sha256": "01a6a46bdcc92a29fb6e2a24f724971854c967c91ee31276b4ee033baa4274a4"
+  },
+  "input_disassemblies": {
+    "02": {
+      "path": "runs/state-reuse-20261007-02/build/disassembly.txt",
+      "sha256": "37985df526698b3939f8ed82fef915eb78da3982967afc2669014a1d243893fe",
+      "bytes": 6081463
+    },
+    "03": {
+      "path": "runs/state-reuse-20261007-03/build/disassembly.txt",
+      "sha256": "b7d81dcf8bc6951b19c2a4545bf6ac307031795fbe5050443e240fe9e4147f88",
+      "bytes": 6098971
+    },
+    "04": {
+      "path": "runs/state-reuse-20261007-04/build/disassembly.txt",
+      "sha256": "608c020084e2bb0b8e4b6c14701f799b2dbdf067bddca65ca832688577ef94a0",
+      "bytes": 6106641
+    },
+    "05": {
+      "path": "runs/state-reuse-20261007-05/build/disassembly.txt",
+      "sha256": "9e68d8d68b05b2f81895fb716cd355a066a668a1647c884e0408281df2f88dc0",
+      "bytes": 6106650
+    }
+  },
+  "selected_symbol_text_hashes": {
+    "02": [
+      {
+        "address": "0x4093f0",
+        "symbol": "relu_f32(float*, unsigned long) [clone .extracted]",
+        "symbol_text_sha256": "9496c7af9cc71d133e9982e1285a53d4f360cfb95c1f190e2a508f04f2a03b7e",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40df60",
+        "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "52102b3a5514ef2b20894047f490a02284bc27310862de4f3e874720a091726e",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40fef0",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "cf92dfd4e0a454219b8a9ab998990376a9dfadea92fa3038c01637d2f564c904",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x410d30",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "fd99e24d8b76617af6a9ccb785df98f121e0634a8985112b87628a64b2ad8bd3",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x411b70",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "0d819d92d4aef0d9e7a7aaf959eab77e35c81ed6187086f4a047f65001baa4c6",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x417dc0",
+        "symbol": "void gcn_extra_projection::kernel<false, true>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "cccae02b3e96303112b3e71fd413989ff5adb52f6da01b603ec2abb8e0e1bdbc",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x419d60",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "84515619d2d4f14af3d4fbe33104a658ae77db94adeb78f1f0a1e50912dddfe9",
+        "vmax_instruction_count": 8
+      },
+      {
+        "address": "0x41aca0",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "33f4279f43cff38186ac038bcc50a022119d3156a506ded0ed4d757a445f728f",
+        "vmax_instruction_count": 8
+      },
+      {
+        "address": "0x41bbe0",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "fa70ea08dac596d377759a4af2b11a8d702b37362129d8b5bb1a110d4cadb90d",
+        "vmax_instruction_count": 8
+      },
+      {
+        "address": "0x437ba0",
+        "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "1393f2c43156a6a3a1a6c6140e97f7483c3ec012b652b639a7f6a2ea5917070b",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x4389f0",
+        "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "a1086b1e76787cebdbe4c5d2ad3e016d713862dc040f18025f0ed3fcba706324",
+        "vmax_instruction_count": 0
+      }
+    ],
+    "03": [
+      {
+        "address": "0x4093f0",
+        "symbol": "relu_f32(float*, unsigned long) [clone .extracted]",
+        "symbol_text_sha256": "9496c7af9cc71d133e9982e1285a53d4f360cfb95c1f190e2a508f04f2a03b7e",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40df60",
+        "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "57f3d870af490989c378bf675750062f87defbd1b04551aac80beb92b4f9b0cd",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40fef0",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "e02fc88154203ef410aed01b8aec14eec102554dcde24164e54851178fc7b16d",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x410d30",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "726fecffaaf90cd3ca0f1d98ae31dd603e4e4fba85ace28ede7907c6358a5d96",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x411b70",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "b2235a0c5e3eceff806c0b5125362e1c24e79577909963f7596542aa0f4db40c",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x417dc0",
+        "symbol": "void gcn_extra_projection::kernel<false, true>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "3fe7bdb1d95a02312cbb785dbbeff3341382d0e55e534dda4ce937938187e13c",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x419d60",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "e7e85a5c0fcba2b0f4eeb6ad0dae2edd78aa680accc805d64ad0257aa1908459",
+        "vmax_instruction_count": 8
+      },
+      {
+        "address": "0x41aca0",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "7e538b509f1f3d1ee31aeb067875fd9a028c45fb540406bbe7cf5742b1bcf138",
+        "vmax_instruction_count": 8
+      },
+      {
+        "address": "0x41bbe0",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "907a29c12137d70ea60f7d50aa3d57c58932e84792e702a48921ea38cb7671f5",
+        "vmax_instruction_count": 8
+      },
+      {
+        "address": "0x436600",
+        "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+        "symbol_text_sha256": "3c45c0b9d9e8b2ed37d6f43c27239be644516545a45f6958cd871433d20e7ab4",
+        "vmax_instruction_count": 11
+      },
+      {
+        "address": "0x437fe0",
+        "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "9ff98ba0cde8e2d78df65a9bbcecee9dbb724434d968bf3e0aaff335984f2bad",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x438e30",
+        "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "9ccb42167e923f062f02e4510d7699472a5fde27883edbf37db3d6bc73712f70",
+        "vmax_instruction_count": 0
+      }
+    ],
+    "04": [
+      {
+        "address": "0x4093f0",
+        "symbol": "relu_f32(float*, unsigned long) [clone .extracted]",
+        "symbol_text_sha256": "9496c7af9cc71d133e9982e1285a53d4f360cfb95c1f190e2a508f04f2a03b7e",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40df60",
+        "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "e07ab295fba39a65fae70956239a41dceedbb2a4f4dfd519c0c70078892ccd0f",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40fef0",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "3d8fa6c176c6b587e82c441d5e7faa433bc4d86bf9c033abee1bdde3d94c2388",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x410d30",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "c398bf89cf57d8df4c28e9d1d50946e4aec166d6640da82896932d0a94408dd6",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x411b70",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "3f659884b2c035c503047b6ab8bfa1e742474f558b7bc447a14921f624280f1a",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x417dc0",
+        "symbol": "void gcn_extra_projection::kernel<false, true>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "27e90b863a3daf33a6a09d9ce0bee1fb48503c430b66101e8e1688d5976437dd",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x419d60",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "c4ba0368d048f5258f8249bb31d3172ff25e4a968b5e75929c58cd16632812d4",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x41ad00",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "d572617b04837959f8d5a9eff4ab38138b4f2fce3e34341189805959b923abf8",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x41bca0",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "d1368e7e8546856ef4e29fff04bcfd749bcdedcc81d336739ff3f3ae842c3d84",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x436840",
+        "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+        "symbol_text_sha256": "9e8de84b10fb168407b343c38c8f0f927cd05c5d6fa9c82109f7f3d8894de04f",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x4382b0",
+        "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "2ac49a96481bf9d5f3399c8fb443e1662f711ee3902fc4da90c05214abef78e7",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x439100",
+        "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "0bbe86ab82d784ebe8957cd41e18fa0657887db63353314349366b1a546a3b6a",
+        "vmax_instruction_count": 0
+      }
+    ],
+    "05": [
+      {
+        "address": "0x4093f0",
+        "symbol": "relu_f32(float*, unsigned long) [clone .extracted]",
+        "symbol_text_sha256": "9496c7af9cc71d133e9982e1285a53d4f360cfb95c1f190e2a508f04f2a03b7e",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40df60",
+        "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "e07ab295fba39a65fae70956239a41dceedbb2a4f4dfd519c0c70078892ccd0f",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x40fef0",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "3d8fa6c176c6b587e82c441d5e7faa433bc4d86bf9c033abee1bdde3d94c2388",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x410d30",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "c398bf89cf57d8df4c28e9d1d50946e4aec166d6640da82896932d0a94408dd6",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x411b70",
+        "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "3f659884b2c035c503047b6ab8bfa1e742474f558b7bc447a14921f624280f1a",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x417dc0",
+        "symbol": "void gcn_extra_projection::kernel<false, true>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "27e90b863a3daf33a6a09d9ce0bee1fb48503c430b66101e8e1688d5976437dd",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x419d60",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "c4ba0368d048f5258f8249bb31d3172ff25e4a968b5e75929c58cd16632812d4",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x41ad00",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "d572617b04837959f8d5a9eff4ab38138b4f2fce3e34341189805959b923abf8",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x41bca0",
+        "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+        "symbol_text_sha256": "d1368e7e8546856ef4e29fff04bcfd749bcdedcc81d336739ff3f3ae842c3d84",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x436840",
+        "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+        "symbol_text_sha256": "29f8743ce149f2800fc91afc538ff4153abc9d0b49adf5d6977ed553379c4082",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x4382b0",
+        "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "2ac49a96481bf9d5f3399c8fb443e1662f711ee3902fc4da90c05214abef78e7",
+        "vmax_instruction_count": 0
+      },
+      {
+        "address": "0x439100",
+        "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+        "symbol_text_sha256": "0bbe86ab82d784ebe8957cd41e18fa0657887db63353314349366b1a546a3b6a",
+        "vmax_instruction_count": 0
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "hot_loop_vector_spills",
+      "status": "NOT_OBSERVED_IN_INSPECTED_REGIONS",
+      "detail": "Final P0 and state scalar loops contain eight feature-load/decode/add triplets and no vector stack memory operations. Pair loops hold sixteen accumulator vectors plus eight decoded feature temporaries in zmm1..zmm24; no vector stack memory operation appears in either entire frontier loop. Scalar metadata stack loads in pair loops are present and are not ZMM spills. This does not assert that all surrounding functions are spill-free."
+    },
+    {
+      "id": "natural_interleave_CSE",
+      "status": "NO_COMMON_HEAD_DECODE_CSE_IN_THIS_BUILD",
+      "detail": "Final INTERLEAVE common-head mask=3 follows both decode branches: sixteen vpmovzxwd, sixteen vpslld and sixteen vaddps. SHARE common-head branch has eight vpmovzxwd, eight vpslld and sixteen vaddps. No compiler barriers or asm artificially disable optimization in these reducers. This is generated instruction-path evidence, not a retired-instruction or cache-traffic measurement."
+    },
+    {
+      "id": "P0_vs_state_identity",
+      "status": "SAME_EDGE_CORE_WITH_DIFFERENT_SURROUNDING_CONTROL",
+      "detail": "Both scalar edge cores decode/add 128 features with eight triplets and four conditional next-edge prefetch instructions. State has an extra scope-end/final-window/direct-pack test after the hot edge loop. Pair reducers are outlined functions called per scope whereas scalar is inlined. P0 versus state_identity must remain a timing control; assembly does not establish zero overhead."
+    },
+    {
+      "id": "partial_buffer_not_spill",
+      "status": "EXPLICIT_ALGORITHMIC_STATE",
+      "detail": "P0 row stores at 0x40e6c7..0x40e6ff and reloads 0x40e76c..0x40e7a4 are eight contiguous 64-byte vectors in per-row partial state. They occur at window boundaries outside the hot edge loop and are not evidence of compiler register spills. Corresponding state fallback stores are at 0x4123f7..0x41242f."
+    },
+    {
+      "id": "epilogue_semantics_run02_03",
+      "status": "FAILED_AND_RETAINED",
+      "detail": "Floating select was rewritten into MAXPS in all three BF16 production kernel specializations in run02; run03 noinline semantic gate confirmed positive/negative representable BF16 subnormal bits lost under MXCSR 0x9fe1 (DAZ/FTZ). Original compiled ReLU uses compare plus conditional zero store and original BF16 conversion uses integer shift/truncate."
+    },
+    {
+      "id": "epilogue_semantics_run04",
+      "status": "CONTEXT_DEPENDENT_GATE_FAILURE",
+      "detail": "Integer raw-bit masking removed MAXPS. All three run04 production BF16 kernels already used unordered-complement vcmpnltps and integer masked moves. However the separately optimized variable-count semantic helper used ordered 0<=x for its main vector loop, clearing NaN; its tail used vcmpnltps and preserved NaN. Therefore run04 cannot be described as all production kernels failing the same NaN path."
+    },
+    {
+      "id": "epilogue_semantics_run05",
+      "status": "ASSEMBLY_AND_EXISTING_SMOKE_PASS",
+      "detail": "Local float_control(precise,on,push)/pop around scatter_state prevents the helper-context NaN rewrite while leaving aggregation and projection flags unchanged. Three production BF16 kernels and semantic helper contain no MAXPS; compare masks preserve unordered inputs, integer shift/narrow and integer masked moves preserve retained bits. Semantic helper main vector, residual vector and masked tail all use vcmpnltps. Existing job10888825 has 10/10 semantic and complete gates, 240/240 work gates, 240/240 profile gates and 3000/3000 equivalence rows passing."
+    }
+  ],
+  "regions": [
+    {
+      "label": "P0 FP32-output hot CSR edge loop",
+      "run": "02",
+      "symbol_address": "0x40df60",
+      "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+      "begin": "0x40e7f0",
+      "end_inclusive": "0x40e8e0",
+      "instructions": [
+        {
+          "address": "0x40e7f0",
+          "instruction": "shl    $0x8,%r11"
+        },
+        {
+          "address": "0x40e7f4",
+          "instruction": "vpmovzxwd (%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e7fb",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e802",
+          "instruction": "vaddps %zmm8,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x40e808",
+          "instruction": "vpmovzxwd 0x20(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e810",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e817",
+          "instruction": "vaddps %zmm8,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x40e81d",
+          "instruction": "vpmovzxwd 0x40(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e825",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e82c",
+          "instruction": "vaddps %zmm8,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x40e832",
+          "instruction": "vpmovzxwd 0x60(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e83a",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e841",
+          "instruction": "vaddps %zmm8,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x40e847",
+          "instruction": "vpmovzxwd 0x80(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e84f",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e856",
+          "instruction": "vaddps %zmm8,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x40e85c",
+          "instruction": "vpmovzxwd 0xa0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e864",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e86b",
+          "instruction": "vaddps %zmm8,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x40e871",
+          "instruction": "vpmovzxwd 0xc0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e879",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e880",
+          "instruction": "vaddps %zmm8,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x40e886",
+          "instruction": "vpmovzxwd 0xe0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e88e",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e895",
+          "instruction": "vaddps %zmm8,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x40e89b",
+          "instruction": "lea    0x1(%r9,%r10,1),%r11"
+        },
+        {
+          "address": "0x40e8a0",
+          "instruction": "inc    %r10"
+        },
+        {
+          "address": "0x40e8a3",
+          "instruction": "cmp    $0x1,%r11"
+        },
+        {
+          "address": "0x40e8a7",
+          "instruction": "je     40e6c0"
+        },
+        {
+          "address": "0x40e8ad",
+          "instruction": "mov    -0x4(%r8,%r10,4),%r11d"
+        },
+        {
+          "address": "0x40e8b2",
+          "instruction": "cmp    %rdi,%r10"
+        },
+        {
+          "address": "0x40e8b5",
+          "instruction": "jae    40e7f0"
+        },
+        {
+          "address": "0x40e8bb",
+          "instruction": "mov    (%r8,%r10,4),%r12d"
+        },
+        {
+          "address": "0x40e8bf",
+          "instruction": "shl    $0x8,%r12"
+        },
+        {
+          "address": "0x40e8c3",
+          "instruction": "prefetcht0 (%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8c8",
+          "instruction": "prefetcht0 0x40(%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8ce",
+          "instruction": "prefetcht0 0x80(%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8d7",
+          "instruction": "prefetcht0 0xc0(%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8e0",
+          "instruction": "jmpq   40e7f0"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 8,
+      "prefetcht0_static_count": 4,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "state scalar FP32-output hot CSR edge loop",
+      "run": "02",
+      "symbol_address": "0x411b70",
+      "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x412520",
+      "end_inclusive": "0x41260c",
+      "instructions": [
+        {
+          "address": "0x412520",
+          "instruction": "shl    $0x8,%r13"
+        },
+        {
+          "address": "0x412524",
+          "instruction": "vpmovzxwd (%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x41252b",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412532",
+          "instruction": "vaddps %zmm8,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x412538",
+          "instruction": "vpmovzxwd 0x20(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x412540",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412547",
+          "instruction": "vaddps %zmm8,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x41254d",
+          "instruction": "vpmovzxwd 0x40(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x412555",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41255c",
+          "instruction": "vaddps %zmm8,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x412562",
+          "instruction": "vpmovzxwd 0x60(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x41256a",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412571",
+          "instruction": "vaddps %zmm8,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x412577",
+          "instruction": "vpmovzxwd 0x80(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x41257f",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412586",
+          "instruction": "vaddps %zmm8,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x41258c",
+          "instruction": "vpmovzxwd 0xa0(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x412594",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41259b",
+          "instruction": "vaddps %zmm8,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4125a1",
+          "instruction": "vpmovzxwd 0xc0(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x4125a9",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4125b0",
+          "instruction": "vaddps %zmm8,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4125b6",
+          "instruction": "vpmovzxwd 0xe0(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x4125be",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4125c5",
+          "instruction": "vaddps %zmm8,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4125cb",
+          "instruction": "lea    0x1(%r9,%r11,1),%r12"
+        },
+        {
+          "address": "0x4125d0",
+          "instruction": "inc    %r11"
+        },
+        {
+          "address": "0x4125d3",
+          "instruction": "cmp    $0x1,%r12"
+        },
+        {
+          "address": "0x4125d7",
+          "instruction": "je     412620"
+        },
+        {
+          "address": "0x4125d9",
+          "instruction": "mov    -0x4(%r8,%r11,4),%r13d"
+        },
+        {
+          "address": "0x4125de",
+          "instruction": "cmp    %r10,%r11"
+        },
+        {
+          "address": "0x4125e1",
+          "instruction": "jae    412520"
+        },
+        {
+          "address": "0x4125e7",
+          "instruction": "mov    (%r8,%r11,4),%r12d"
+        },
+        {
+          "address": "0x4125eb",
+          "instruction": "shl    $0x8,%r12"
+        },
+        {
+          "address": "0x4125ef",
+          "instruction": "prefetcht0 (%r15,%r12,1)"
+        },
+        {
+          "address": "0x4125f4",
+          "instruction": "prefetcht0 0x40(%r15,%r12,1)"
+        },
+        {
+          "address": "0x4125fa",
+          "instruction": "prefetcht0 0x80(%r15,%r12,1)"
+        },
+        {
+          "address": "0x412603",
+          "instruction": "prefetcht0 0xc0(%r15,%r12,1)"
+        },
+        {
+          "address": "0x41260c",
+          "instruction": "jmpq   412520"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 8,
+      "prefetcht0_static_count": 4,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "pair INTERLEAVE hot CSR frontier loop",
+      "run": "02",
+      "symbol_address": "0x437ba0",
+      "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+      "begin": "0x438140",
+      "end_inclusive": "0x4383e0",
+      "instructions": [
+        {
+          "address": "0x438140",
+          "instruction": "test   $0x1,%r15b"
+        },
+        {
+          "address": "0x438144",
+          "instruction": "je     438170"
+        },
+        {
+          "address": "0x438146",
+          "instruction": "cmp    %edi,%r13d"
+        },
+        {
+          "address": "0x438149",
+          "instruction": "mov    $0x3,%ebx"
+        },
+        {
+          "address": "0x43814e",
+          "instruction": "sbb    $0x0,%ebx"
+        },
+        {
+          "address": "0x438151",
+          "instruction": "test   $0x1,%cl"
+        },
+        {
+          "address": "0x438154",
+          "instruction": "mov    $0x1,%eax"
+        },
+        {
+          "address": "0x438159",
+          "instruction": "cmove  %eax,%ebx"
+        },
+        {
+          "address": "0x43815c",
+          "instruction": "cmp    %r13d,%edi"
+        },
+        {
+          "address": "0x43815f",
+          "instruction": "cmovb  %eax,%ebx"
+        },
+        {
+          "address": "0x438162",
+          "instruction": "lea    0x1(%rbp),%ecx"
+        },
+        {
+          "address": "0x438165",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x438168",
+          "instruction": "jne    438180"
+        },
+        {
+          "address": "0x43816a",
+          "instruction": "jmp    4381b3"
+        },
+        {
+          "address": "0x43816c",
+          "instruction": "nopl   0x0(%rax)"
+        },
+        {
+          "address": "0x438170",
+          "instruction": "movzbl %cl,%ebx"
+        },
+        {
+          "address": "0x438173",
+          "instruction": "and    $0x1,%ebx"
+        },
+        {
+          "address": "0x438176",
+          "instruction": "add    %ebx,%ebx"
+        },
+        {
+          "address": "0x438178",
+          "instruction": "lea    0x1(%rbp),%ecx"
+        },
+        {
+          "address": "0x43817b",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x43817e",
+          "instruction": "je     4381b3"
+        },
+        {
+          "address": "0x438180",
+          "instruction": "cmp    %r14d,%ecx"
+        },
+        {
+          "address": "0x438183",
+          "instruction": "jae    4381b3"
+        },
+        {
+          "address": "0x438185",
+          "instruction": "mov    (%r8,%r9,4),%r15d"
+        },
+        {
+          "address": "0x438189",
+          "instruction": "mov    %ebp,%eax"
+        },
+        {
+          "address": "0x43818b",
+          "instruction": "add    %r15,%rax"
+        },
+        {
+          "address": "0x43818e",
+          "instruction": "mov    0x4(%rdx,%rax,4),%eax"
+        },
+        {
+          "address": "0x438192",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x438196",
+          "instruction": "prefetcht0 (%r12,%rax,1)"
+        },
+        {
+          "address": "0x43819b",
+          "instruction": "prefetcht0 0x40(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381a1",
+          "instruction": "prefetcht0 0x80(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381aa",
+          "instruction": "prefetcht0 0xc0(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381b3",
+          "instruction": "lea    0x1(%rsi),%r15d"
+        },
+        {
+          "address": "0x4381b7",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x4381ba",
+          "instruction": "je     4381f9"
+        },
+        {
+          "address": "0x4381bc",
+          "instruction": "cmp    0x4(%rsp),%r15d"
+        },
+        {
+          "address": "0x4381c1",
+          "instruction": "jae    4381f9"
+        },
+        {
+          "address": "0x4381c3",
+          "instruction": "mov    0x4(%r8,%r9,4),%eax"
+        },
+        {
+          "address": "0x4381c8",
+          "instruction": "mov    %esi,%r8d"
+        },
+        {
+          "address": "0x4381cb",
+          "instruction": "add    %rax,%r8"
+        },
+        {
+          "address": "0x4381ce",
+          "instruction": "mov    0x4(%rdx,%r8,4),%eax"
+        },
+        {
+          "address": "0x4381d3",
+          "instruction": "mov    0x10(%rsp),%r8"
+        },
+        {
+          "address": "0x4381d8",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x4381dc",
+          "instruction": "prefetcht0 (%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381e1",
+          "instruction": "prefetcht0 0x40(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381e7",
+          "instruction": "prefetcht0 0x80(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381f0",
+          "instruction": "prefetcht0 0xc0(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4381f9",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x4381fc",
+          "instruction": "jne    438220"
+        },
+        {
+          "address": "0x4381fe",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x438201",
+          "instruction": "jne    4382d6"
+        },
+        {
+          "address": "0x438207",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x43820a",
+          "instruction": "jne    43838d"
+        },
+        {
+          "address": "0x438210",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x438213",
+          "instruction": "jne    4383a5"
+        },
+        {
+          "address": "0x438219",
+          "instruction": "jmpq   4383bc"
+        },
+        {
+          "address": "0x43821e",
+          "instruction": "xchg   %ax,%ax"
+        },
+        {
+          "address": "0x438220",
+          "instruction": "mov    %edi,%eax"
+        },
+        {
+          "address": "0x438222",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x438226",
+          "instruction": "vpmovzxwd 0xa0(%r12,%rax,1),%zmm17"
+        },
+        {
+          "address": "0x43822e",
+          "instruction": "vpmovzxwd 0x80(%r12,%rax,1),%zmm18"
+        },
+        {
+          "address": "0x438236",
+          "instruction": "vpmovzxwd 0x60(%r12,%rax,1),%zmm19"
+        },
+        {
+          "address": "0x43823e",
+          "instruction": "vpmovzxwd 0x40(%r12,%rax,1),%zmm20"
+        },
+        {
+          "address": "0x438246",
+          "instruction": "vpmovzxwd 0x20(%r12,%rax,1),%zmm21"
+        },
+        {
+          "address": "0x43824e",
+          "instruction": "vpmovzxwd (%r12,%rax,1),%zmm22"
+        },
+        {
+          "address": "0x438255",
+          "instruction": "vpmovzxwd 0xc0(%r12,%rax,1),%zmm23"
+        },
+        {
+          "address": "0x43825d",
+          "instruction": "vpmovzxwd 0xe0(%r12,%rax,1),%zmm24"
+        },
+        {
+          "address": "0x438265",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x43826c",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x438273",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x43827a",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x438281",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x438288",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x43828f",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x438296",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x43829d",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4382a3",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4382a9",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4382af",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4382b5",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4382bb",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x4382c1",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x4382c7",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x4382cd",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x4382d0",
+          "instruction": "je     438207"
+        },
+        {
+          "address": "0x4382d6",
+          "instruction": "mov    %r13d,%eax"
+        },
+        {
+          "address": "0x4382d9",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x4382dd",
+          "instruction": "vpmovzxwd 0xa0(%r12,%rax,1),%zmm17"
+        },
+        {
+          "address": "0x4382e5",
+          "instruction": "vpmovzxwd 0x80(%r12,%rax,1),%zmm18"
+        },
+        {
+          "address": "0x4382ed",
+          "instruction": "vpmovzxwd 0x60(%r12,%rax,1),%zmm19"
+        },
+        {
+          "address": "0x4382f5",
+          "instruction": "vpmovzxwd 0x40(%r12,%rax,1),%zmm20"
+        },
+        {
+          "address": "0x4382fd",
+          "instruction": "vpmovzxwd 0x20(%r12,%rax,1),%zmm21"
+        },
+        {
+          "address": "0x438305",
+          "instruction": "vpmovzxwd (%r12,%rax,1),%zmm22"
+        },
+        {
+          "address": "0x43830c",
+          "instruction": "vpmovzxwd 0xc0(%r12,%rax,1),%zmm23"
+        },
+        {
+          "address": "0x438314",
+          "instruction": "vpmovzxwd 0xe0(%r12,%rax,1),%zmm24"
+        },
+        {
+          "address": "0x43831c",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x438323",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x43832a",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x438331",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x438338",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x43833f",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x438346",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x43834d",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x438354",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x43835a",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x438360",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x438366",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x43836c",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x438372",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x438378",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x43837e",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x438384",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x438387",
+          "instruction": "je     438210"
+        },
+        {
+          "address": "0x43838d",
+          "instruction": "cmp    %r11d,%ecx"
+        },
+        {
+          "address": "0x438390",
+          "instruction": "jae    43839e"
+        },
+        {
+          "address": "0x438392",
+          "instruction": "mov    (%r8,%r9,4),%edi"
+        },
+        {
+          "address": "0x438396",
+          "instruction": "mov    %ecx,%ebp"
+        },
+        {
+          "address": "0x438398",
+          "instruction": "add    %rdi,%rbp"
+        },
+        {
+          "address": "0x43839b",
+          "instruction": "mov    (%rdx,%rbp,4),%edi"
+        },
+        {
+          "address": "0x43839e",
+          "instruction": "mov    %ecx,%ebp"
+        },
+        {
+          "address": "0x4383a0",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x4383a3",
+          "instruction": "je     4383bc"
+        },
+        {
+          "address": "0x4383a5",
+          "instruction": "cmp    %r10d,%r15d"
+        },
+        {
+          "address": "0x4383a8",
+          "instruction": "jae    4383b9"
+        },
+        {
+          "address": "0x4383aa",
+          "instruction": "mov    0x4(%r8,%r9,4),%ecx"
+        },
+        {
+          "address": "0x4383af",
+          "instruction": "mov    %r15d,%esi"
+        },
+        {
+          "address": "0x4383b2",
+          "instruction": "add    %rcx,%rsi"
+        },
+        {
+          "address": "0x4383b5",
+          "instruction": "mov    (%rdx,%rsi,4),%r13d"
+        },
+        {
+          "address": "0x4383b9",
+          "instruction": "mov    %r15d,%esi"
+        },
+        {
+          "address": "0x4383bc",
+          "instruction": "mov    0x40(%rsp),%rax"
+        },
+        {
+          "address": "0x4383c1",
+          "instruction": "cmp    0x18(%rsp),%rax"
+        },
+        {
+          "address": "0x4383c6",
+          "instruction": "setb   %bl"
+        },
+        {
+          "address": "0x4383c9",
+          "instruction": "cmp    %r10d,%esi"
+        },
+        {
+          "address": "0x4383cc",
+          "instruction": "setb   %cl"
+        },
+        {
+          "address": "0x4383cf",
+          "instruction": "and    %bl,%cl"
+        },
+        {
+          "address": "0x4383d1",
+          "instruction": "cmp    %r11d,%ebp"
+        },
+        {
+          "address": "0x4383d4",
+          "instruction": "setb   %r15b"
+        },
+        {
+          "address": "0x4383d8",
+          "instruction": "jb     438140"
+        },
+        {
+          "address": "0x4383de",
+          "instruction": "test   %cl,%cl"
+        },
+        {
+          "address": "0x4383e0",
+          "instruction": "jne    438140"
+        }
+      ],
+      "vpmovzxwd_count": 16,
+      "vpslld_count": 16,
+      "vaddps_count": 16,
+      "prefetcht0_static_count": 8,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "pair SHARE hot CSR frontier loop",
+      "run": "02",
+      "symbol_address": "0x4389f0",
+      "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+      "begin": "0x438f90",
+      "end_inclusive": "0x43932c",
+      "instructions": [
+        {
+          "address": "0x438f90",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x438f94",
+          "instruction": "je     438fc0"
+        },
+        {
+          "address": "0x438f96",
+          "instruction": "cmp    %ebx,%r13d"
+        },
+        {
+          "address": "0x438f99",
+          "instruction": "mov    $0x3,%edi"
+        },
+        {
+          "address": "0x438f9e",
+          "instruction": "sbb    $0x0,%edi"
+        },
+        {
+          "address": "0x438fa1",
+          "instruction": "test   $0x1,%al"
+        },
+        {
+          "address": "0x438fa3",
+          "instruction": "mov    $0x1,%eax"
+        },
+        {
+          "address": "0x438fa8",
+          "instruction": "cmove  %eax,%edi"
+        },
+        {
+          "address": "0x438fab",
+          "instruction": "cmp    %r13d,%ebx"
+        },
+        {
+          "address": "0x438fae",
+          "instruction": "cmovb  %eax,%edi"
+        },
+        {
+          "address": "0x438fb1",
+          "instruction": "lea    0x1(%rbp),%eax"
+        },
+        {
+          "address": "0x438fb4",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x438fb8",
+          "instruction": "jne    438fd1"
+        },
+        {
+          "address": "0x438fba",
+          "instruction": "jmp    43900c"
+        },
+        {
+          "address": "0x438fbc",
+          "instruction": "nopl   0x0(%rax)"
+        },
+        {
+          "address": "0x438fc0",
+          "instruction": "movzbl %al,%edi"
+        },
+        {
+          "address": "0x438fc3",
+          "instruction": "and    $0x1,%edi"
+        },
+        {
+          "address": "0x438fc6",
+          "instruction": "add    %edi,%edi"
+        },
+        {
+          "address": "0x438fc8",
+          "instruction": "lea    0x1(%rbp),%eax"
+        },
+        {
+          "address": "0x438fcb",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x438fcf",
+          "instruction": "je     43900c"
+        },
+        {
+          "address": "0x438fd1",
+          "instruction": "cmp    0x2c(%rsp),%eax"
+        },
+        {
+          "address": "0x438fd5",
+          "instruction": "jae    43900c"
+        },
+        {
+          "address": "0x438fd7",
+          "instruction": "mov    0x18(%rsp),%rcx"
+        },
+        {
+          "address": "0x438fdc",
+          "instruction": "mov    (%rcx,%r9,4),%ecx"
+        },
+        {
+          "address": "0x438fe0",
+          "instruction": "mov    %ebp,%r15d"
+        },
+        {
+          "address": "0x438fe3",
+          "instruction": "add    %rcx,%r15"
+        },
+        {
+          "address": "0x438fe6",
+          "instruction": "mov    0x4(%rdx,%r15,4),%ecx"
+        },
+        {
+          "address": "0x438feb",
+          "instruction": "shl    $0x8,%rcx"
+        },
+        {
+          "address": "0x438fef",
+          "instruction": "prefetcht0 (%r12,%rcx,1)"
+        },
+        {
+          "address": "0x438ff4",
+          "instruction": "prefetcht0 0x40(%r12,%rcx,1)"
+        },
+        {
+          "address": "0x438ffa",
+          "instruction": "prefetcht0 0x80(%r12,%rcx,1)"
+        },
+        {
+          "address": "0x439003",
+          "instruction": "prefetcht0 0xc0(%r12,%rcx,1)"
+        },
+        {
+          "address": "0x43900c",
+          "instruction": "lea    0x1(%rsi),%ecx"
+        },
+        {
+          "address": "0x43900f",
+          "instruction": "test   $0x2,%dil"
+        },
+        {
+          "address": "0x439013",
+          "instruction": "je     439050"
+        },
+        {
+          "address": "0x439015",
+          "instruction": "cmp    %r10d,%ecx"
+        },
+        {
+          "address": "0x439018",
+          "instruction": "jae    439050"
+        },
+        {
+          "address": "0x43901a",
+          "instruction": "mov    0x18(%rsp),%r8"
+        },
+        {
+          "address": "0x43901f",
+          "instruction": "mov    0x4(%r8,%r9,4),%r15d"
+        },
+        {
+          "address": "0x439024",
+          "instruction": "mov    %esi,%r8d"
+        },
+        {
+          "address": "0x439027",
+          "instruction": "add    %r15,%r8"
+        },
+        {
+          "address": "0x43902a",
+          "instruction": "mov    0x4(%rdx,%r8,4),%r8d"
+        },
+        {
+          "address": "0x43902f",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439033",
+          "instruction": "prefetcht0 (%r12,%r8,1)"
+        },
+        {
+          "address": "0x439038",
+          "instruction": "prefetcht0 0x40(%r12,%r8,1)"
+        },
+        {
+          "address": "0x43903e",
+          "instruction": "prefetcht0 0x80(%r12,%r8,1)"
+        },
+        {
+          "address": "0x439047",
+          "instruction": "prefetcht0 0xc0(%r12,%r8,1)"
+        },
+        {
+          "address": "0x439050",
+          "instruction": "cmp    $0x1,%edi"
+        },
+        {
+          "address": "0x439053",
+          "instruction": "je     439150"
+        },
+        {
+          "address": "0x439059",
+          "instruction": "cmp    $0x3,%edi"
+        },
+        {
+          "address": "0x43905c",
+          "instruction": "jne    439210"
+        },
+        {
+          "address": "0x439062",
+          "instruction": "mov    %ebx,%r8d"
+        },
+        {
+          "address": "0x439065",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439069",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x439071",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439079",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x439081",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439089",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x439091",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x439098",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x4390a0",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x4390a8",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x4390af",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x4390b6",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4390bd",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4390c4",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4390cb",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4390d2",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4390d9",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4390e0",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4390e6",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4390ec",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4390f2",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4390f8",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4390fe",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x439104",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x43910a",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x439110",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x439116",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x43911c",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x439122",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x439128",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x43912e",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x439134",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x43913a",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x439140",
+          "instruction": "jmpq   4392d0"
+        },
+        {
+          "address": "0x439145",
+          "instruction": "data16 nopw %cs:0x0(%rax,%rax,1)"
+        },
+        {
+          "address": "0x439150",
+          "instruction": "mov    %ebx,%r8d"
+        },
+        {
+          "address": "0x439153",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439157",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x43915f",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439167",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x43916f",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439177",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x43917f",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x439186",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x43918e",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x439196",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x43919d",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x4391a4",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4391ab",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4391b2",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4391b9",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4391c0",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4391c7",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4391ce",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4391d4",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4391da",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4391e0",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4391e6",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4391ec",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x4391f2",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x4391f8",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x4391fe",
+          "instruction": "jmpq   4392d0"
+        },
+        {
+          "address": "0x439203",
+          "instruction": "data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)"
+        },
+        {
+          "address": "0x439210",
+          "instruction": "mov    %r13d,%r8d"
+        },
+        {
+          "address": "0x439213",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439217",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x43921f",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439227",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x43922f",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439237",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x43923f",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x439246",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x43924e",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x439256",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x43925d",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x439264",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x43926b",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x439272",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x439279",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x439280",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x439287",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x43928e",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x439294",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x43929a",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x4392a0",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x4392a6",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x4392ac",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4392b2",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x4392b8",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x4392be",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x4392c2",
+          "instruction": "je     4392e8"
+        },
+        {
+          "address": "0x4392c4",
+          "instruction": "data16 data16 nopw %cs:0x0(%rax,%rax,1)"
+        },
+        {
+          "address": "0x4392d0",
+          "instruction": "cmp    %r11d,%eax"
+        },
+        {
+          "address": "0x4392d3",
+          "instruction": "jae    4392e6"
+        },
+        {
+          "address": "0x4392d5",
+          "instruction": "mov    0x18(%rsp),%r8"
+        },
+        {
+          "address": "0x4392da",
+          "instruction": "mov    (%r8,%r9,4),%ebx"
+        },
+        {
+          "address": "0x4392de",
+          "instruction": "mov    %eax,%ebp"
+        },
+        {
+          "address": "0x4392e0",
+          "instruction": "add    %rbx,%rbp"
+        },
+        {
+          "address": "0x4392e3",
+          "instruction": "mov    (%rdx,%rbp,4),%ebx"
+        },
+        {
+          "address": "0x4392e6",
+          "instruction": "mov    %eax,%ebp"
+        },
+        {
+          "address": "0x4392e8",
+          "instruction": "test   $0x2,%dil"
+        },
+        {
+          "address": "0x4392ec",
+          "instruction": "je     439308"
+        },
+        {
+          "address": "0x4392ee",
+          "instruction": "cmp    %r14d,%ecx"
+        },
+        {
+          "address": "0x4392f1",
+          "instruction": "jae    439306"
+        },
+        {
+          "address": "0x4392f3",
+          "instruction": "mov    0x18(%rsp),%rax"
+        },
+        {
+          "address": "0x4392f8",
+          "instruction": "mov    0x4(%rax,%r9,4),%eax"
+        },
+        {
+          "address": "0x4392fd",
+          "instruction": "mov    %ecx,%esi"
+        },
+        {
+          "address": "0x4392ff",
+          "instruction": "add    %rax,%rsi"
+        },
+        {
+          "address": "0x439302",
+          "instruction": "mov    (%rdx,%rsi,4),%r13d"
+        },
+        {
+          "address": "0x439306",
+          "instruction": "mov    %ecx,%esi"
+        },
+        {
+          "address": "0x439308",
+          "instruction": "mov    0x50(%rsp),%rax"
+        },
+        {
+          "address": "0x43930d",
+          "instruction": "cmp    0x38(%rsp),%rax"
+        },
+        {
+          "address": "0x439312",
+          "instruction": "setb   %cl"
+        },
+        {
+          "address": "0x439315",
+          "instruction": "cmp    %r14d,%esi"
+        },
+        {
+          "address": "0x439318",
+          "instruction": "setb   %al"
+        },
+        {
+          "address": "0x43931b",
+          "instruction": "and    %cl,%al"
+        },
+        {
+          "address": "0x43931d",
+          "instruction": "cmp    %r11d,%ebp"
+        },
+        {
+          "address": "0x439320",
+          "instruction": "setb   %dil"
+        },
+        {
+          "address": "0x439324",
+          "instruction": "jb     438f90"
+        },
+        {
+          "address": "0x43932a",
+          "instruction": "test   %al,%al"
+        },
+        {
+          "address": "0x43932c",
+          "instruction": "jne    438f90"
+        }
+      ],
+      "vpmovzxwd_count": 24,
+      "vpslld_count": 24,
+      "vaddps_count": 32,
+      "prefetcht0_static_count": 8,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "P0 FP32-output hot CSR edge loop",
+      "run": "05",
+      "symbol_address": "0x40df60",
+      "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+      "begin": "0x40e7f0",
+      "end_inclusive": "0x40e8e0",
+      "instructions": [
+        {
+          "address": "0x40e7f0",
+          "instruction": "shl    $0x8,%r11"
+        },
+        {
+          "address": "0x40e7f4",
+          "instruction": "vpmovzxwd (%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e7fb",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e802",
+          "instruction": "vaddps %zmm8,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x40e808",
+          "instruction": "vpmovzxwd 0x20(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e810",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e817",
+          "instruction": "vaddps %zmm8,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x40e81d",
+          "instruction": "vpmovzxwd 0x40(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e825",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e82c",
+          "instruction": "vaddps %zmm8,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x40e832",
+          "instruction": "vpmovzxwd 0x60(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e83a",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e841",
+          "instruction": "vaddps %zmm8,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x40e847",
+          "instruction": "vpmovzxwd 0x80(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e84f",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e856",
+          "instruction": "vaddps %zmm8,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x40e85c",
+          "instruction": "vpmovzxwd 0xa0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e864",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e86b",
+          "instruction": "vaddps %zmm8,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x40e871",
+          "instruction": "vpmovzxwd 0xc0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e879",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e880",
+          "instruction": "vaddps %zmm8,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x40e886",
+          "instruction": "vpmovzxwd 0xe0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x40e88e",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x40e895",
+          "instruction": "vaddps %zmm8,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x40e89b",
+          "instruction": "lea    0x1(%r9,%r10,1),%r11"
+        },
+        {
+          "address": "0x40e8a0",
+          "instruction": "inc    %r10"
+        },
+        {
+          "address": "0x40e8a3",
+          "instruction": "cmp    $0x1,%r11"
+        },
+        {
+          "address": "0x40e8a7",
+          "instruction": "je     40e6c0"
+        },
+        {
+          "address": "0x40e8ad",
+          "instruction": "mov    -0x4(%r8,%r10,4),%r11d"
+        },
+        {
+          "address": "0x40e8b2",
+          "instruction": "cmp    %rdi,%r10"
+        },
+        {
+          "address": "0x40e8b5",
+          "instruction": "jae    40e7f0"
+        },
+        {
+          "address": "0x40e8bb",
+          "instruction": "mov    (%r8,%r10,4),%r12d"
+        },
+        {
+          "address": "0x40e8bf",
+          "instruction": "shl    $0x8,%r12"
+        },
+        {
+          "address": "0x40e8c3",
+          "instruction": "prefetcht0 (%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8c8",
+          "instruction": "prefetcht0 0x40(%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8ce",
+          "instruction": "prefetcht0 0x80(%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8d7",
+          "instruction": "prefetcht0 0xc0(%r15,%r12,1)"
+        },
+        {
+          "address": "0x40e8e0",
+          "instruction": "jmpq   40e7f0"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 8,
+      "prefetcht0_static_count": 4,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "P0 BF16-output hot CSR edge loop",
+      "run": "05",
+      "symbol_address": "0x417dc0",
+      "symbol": "void gcn_extra_projection::kernel<false, true>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+      "begin": "0x418620",
+      "end_inclusive": "0x418710",
+      "instructions": [
+        {
+          "address": "0x418620",
+          "instruction": "shl    $0x8,%r11"
+        },
+        {
+          "address": "0x418624",
+          "instruction": "vpmovzxwd (%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x41862b",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x418632",
+          "instruction": "vaddps %zmm8,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x418638",
+          "instruction": "vpmovzxwd 0x20(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x418640",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x418647",
+          "instruction": "vaddps %zmm8,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x41864d",
+          "instruction": "vpmovzxwd 0x40(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x418655",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41865c",
+          "instruction": "vaddps %zmm8,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x418662",
+          "instruction": "vpmovzxwd 0x60(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x41866a",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x418671",
+          "instruction": "vaddps %zmm8,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x418677",
+          "instruction": "vpmovzxwd 0x80(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x41867f",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x418686",
+          "instruction": "vaddps %zmm8,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x41868c",
+          "instruction": "vpmovzxwd 0xa0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x418694",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41869b",
+          "instruction": "vaddps %zmm8,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4186a1",
+          "instruction": "vpmovzxwd 0xc0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x4186a9",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4186b0",
+          "instruction": "vaddps %zmm8,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4186b6",
+          "instruction": "vpmovzxwd 0xe0(%r15,%r11,1),%zmm8"
+        },
+        {
+          "address": "0x4186be",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4186c5",
+          "instruction": "vaddps %zmm8,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x4186cb",
+          "instruction": "lea    0x1(%r9,%r10,1),%r11"
+        },
+        {
+          "address": "0x4186d0",
+          "instruction": "inc    %r10"
+        },
+        {
+          "address": "0x4186d3",
+          "instruction": "cmp    $0x1,%r11"
+        },
+        {
+          "address": "0x4186d7",
+          "instruction": "je     418500"
+        },
+        {
+          "address": "0x4186dd",
+          "instruction": "mov    -0x4(%r8,%r10,4),%r11d"
+        },
+        {
+          "address": "0x4186e2",
+          "instruction": "cmp    %rdi,%r10"
+        },
+        {
+          "address": "0x4186e5",
+          "instruction": "jae    418620"
+        },
+        {
+          "address": "0x4186eb",
+          "instruction": "mov    (%r8,%r10,4),%r12d"
+        },
+        {
+          "address": "0x4186ef",
+          "instruction": "shl    $0x8,%r12"
+        },
+        {
+          "address": "0x4186f3",
+          "instruction": "prefetcht0 (%r15,%r12,1)"
+        },
+        {
+          "address": "0x4186f8",
+          "instruction": "prefetcht0 0x40(%r15,%r12,1)"
+        },
+        {
+          "address": "0x4186fe",
+          "instruction": "prefetcht0 0x80(%r15,%r12,1)"
+        },
+        {
+          "address": "0x418707",
+          "instruction": "prefetcht0 0xc0(%r15,%r12,1)"
+        },
+        {
+          "address": "0x418710",
+          "instruction": "jmpq   418620"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 8,
+      "prefetcht0_static_count": 4,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "state scalar FP32-output hot CSR edge loop",
+      "run": "05",
+      "symbol_address": "0x411b70",
+      "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x412520",
+      "end_inclusive": "0x41260c",
+      "instructions": [
+        {
+          "address": "0x412520",
+          "instruction": "shl    $0x8,%r13"
+        },
+        {
+          "address": "0x412524",
+          "instruction": "vpmovzxwd (%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x41252b",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412532",
+          "instruction": "vaddps %zmm8,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x412538",
+          "instruction": "vpmovzxwd 0x20(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x412540",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412547",
+          "instruction": "vaddps %zmm8,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x41254d",
+          "instruction": "vpmovzxwd 0x40(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x412555",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41255c",
+          "instruction": "vaddps %zmm8,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x412562",
+          "instruction": "vpmovzxwd 0x60(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x41256a",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412571",
+          "instruction": "vaddps %zmm8,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x412577",
+          "instruction": "vpmovzxwd 0x80(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x41257f",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x412586",
+          "instruction": "vaddps %zmm8,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x41258c",
+          "instruction": "vpmovzxwd 0xa0(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x412594",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41259b",
+          "instruction": "vaddps %zmm8,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4125a1",
+          "instruction": "vpmovzxwd 0xc0(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x4125a9",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4125b0",
+          "instruction": "vaddps %zmm8,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4125b6",
+          "instruction": "vpmovzxwd 0xe0(%r15,%r13,1),%zmm8"
+        },
+        {
+          "address": "0x4125be",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4125c5",
+          "instruction": "vaddps %zmm8,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4125cb",
+          "instruction": "lea    0x1(%r9,%r11,1),%r12"
+        },
+        {
+          "address": "0x4125d0",
+          "instruction": "inc    %r11"
+        },
+        {
+          "address": "0x4125d3",
+          "instruction": "cmp    $0x1,%r12"
+        },
+        {
+          "address": "0x4125d7",
+          "instruction": "je     412620"
+        },
+        {
+          "address": "0x4125d9",
+          "instruction": "mov    -0x4(%r8,%r11,4),%r13d"
+        },
+        {
+          "address": "0x4125de",
+          "instruction": "cmp    %r10,%r11"
+        },
+        {
+          "address": "0x4125e1",
+          "instruction": "jae    412520"
+        },
+        {
+          "address": "0x4125e7",
+          "instruction": "mov    (%r8,%r11,4),%r12d"
+        },
+        {
+          "address": "0x4125eb",
+          "instruction": "shl    $0x8,%r12"
+        },
+        {
+          "address": "0x4125ef",
+          "instruction": "prefetcht0 (%r15,%r12,1)"
+        },
+        {
+          "address": "0x4125f4",
+          "instruction": "prefetcht0 0x40(%r15,%r12,1)"
+        },
+        {
+          "address": "0x4125fa",
+          "instruction": "prefetcht0 0x80(%r15,%r12,1)"
+        },
+        {
+          "address": "0x412603",
+          "instruction": "prefetcht0 0xc0(%r15,%r12,1)"
+        },
+        {
+          "address": "0x41260c",
+          "instruction": "jmpq   412520"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 8,
+      "prefetcht0_static_count": 4,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "state scalar BF16-output hot CSR edge loop",
+      "run": "05",
+      "symbol_address": "0x41bca0",
+      "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x41c650",
+      "end_inclusive": "0x41c73c",
+      "instructions": [
+        {
+          "address": "0x41c650",
+          "instruction": "shl    $0x8,%r14"
+        },
+        {
+          "address": "0x41c654",
+          "instruction": "vpmovzxwd (%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c65b",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c662",
+          "instruction": "vaddps %zmm8,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x41c668",
+          "instruction": "vpmovzxwd 0x20(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c670",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c677",
+          "instruction": "vaddps %zmm8,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x41c67d",
+          "instruction": "vpmovzxwd 0x40(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c685",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c68c",
+          "instruction": "vaddps %zmm8,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x41c692",
+          "instruction": "vpmovzxwd 0x60(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c69a",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c6a1",
+          "instruction": "vaddps %zmm8,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x41c6a7",
+          "instruction": "vpmovzxwd 0x80(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c6af",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c6b6",
+          "instruction": "vaddps %zmm8,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x41c6bc",
+          "instruction": "vpmovzxwd 0xa0(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c6c4",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c6cb",
+          "instruction": "vaddps %zmm8,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x41c6d1",
+          "instruction": "vpmovzxwd 0xc0(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c6d9",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c6e0",
+          "instruction": "vaddps %zmm8,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x41c6e6",
+          "instruction": "vpmovzxwd 0xe0(%r15,%r14,1),%zmm8"
+        },
+        {
+          "address": "0x41c6ee",
+          "instruction": "vpslld $0x10,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x41c6f5",
+          "instruction": "vaddps %zmm8,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x41c6fb",
+          "instruction": "lea    0x1(%r9,%r11,1),%r14"
+        },
+        {
+          "address": "0x41c700",
+          "instruction": "inc    %r11"
+        },
+        {
+          "address": "0x41c703",
+          "instruction": "cmp    $0x1,%r14"
+        },
+        {
+          "address": "0x41c707",
+          "instruction": "je     41c750"
+        },
+        {
+          "address": "0x41c709",
+          "instruction": "mov    -0x4(%r8,%r11,4),%r14d"
+        },
+        {
+          "address": "0x41c70e",
+          "instruction": "cmp    %r10,%r11"
+        },
+        {
+          "address": "0x41c711",
+          "instruction": "jae    41c650"
+        },
+        {
+          "address": "0x41c717",
+          "instruction": "mov    (%r8,%r11,4),%r12d"
+        },
+        {
+          "address": "0x41c71b",
+          "instruction": "shl    $0x8,%r12"
+        },
+        {
+          "address": "0x41c71f",
+          "instruction": "prefetcht0 (%r15,%r12,1)"
+        },
+        {
+          "address": "0x41c724",
+          "instruction": "prefetcht0 0x40(%r15,%r12,1)"
+        },
+        {
+          "address": "0x41c72a",
+          "instruction": "prefetcht0 0x80(%r15,%r12,1)"
+        },
+        {
+          "address": "0x41c733",
+          "instruction": "prefetcht0 0xc0(%r15,%r12,1)"
+        },
+        {
+          "address": "0x41c73c",
+          "instruction": "jmpq   41c650"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 8,
+      "prefetcht0_static_count": 4,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "pair INTERLEAVE hot CSR frontier loop",
+      "run": "05",
+      "symbol_address": "0x4382b0",
+      "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+      "begin": "0x438850",
+      "end_inclusive": "0x438af0",
+      "instructions": [
+        {
+          "address": "0x438850",
+          "instruction": "test   $0x1,%r15b"
+        },
+        {
+          "address": "0x438854",
+          "instruction": "je     438880"
+        },
+        {
+          "address": "0x438856",
+          "instruction": "cmp    %edi,%r13d"
+        },
+        {
+          "address": "0x438859",
+          "instruction": "mov    $0x3,%ebx"
+        },
+        {
+          "address": "0x43885e",
+          "instruction": "sbb    $0x0,%ebx"
+        },
+        {
+          "address": "0x438861",
+          "instruction": "test   $0x1,%cl"
+        },
+        {
+          "address": "0x438864",
+          "instruction": "mov    $0x1,%eax"
+        },
+        {
+          "address": "0x438869",
+          "instruction": "cmove  %eax,%ebx"
+        },
+        {
+          "address": "0x43886c",
+          "instruction": "cmp    %r13d,%edi"
+        },
+        {
+          "address": "0x43886f",
+          "instruction": "cmovb  %eax,%ebx"
+        },
+        {
+          "address": "0x438872",
+          "instruction": "lea    0x1(%rbp),%ecx"
+        },
+        {
+          "address": "0x438875",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x438878",
+          "instruction": "jne    438890"
+        },
+        {
+          "address": "0x43887a",
+          "instruction": "jmp    4388c3"
+        },
+        {
+          "address": "0x43887c",
+          "instruction": "nopl   0x0(%rax)"
+        },
+        {
+          "address": "0x438880",
+          "instruction": "movzbl %cl,%ebx"
+        },
+        {
+          "address": "0x438883",
+          "instruction": "and    $0x1,%ebx"
+        },
+        {
+          "address": "0x438886",
+          "instruction": "add    %ebx,%ebx"
+        },
+        {
+          "address": "0x438888",
+          "instruction": "lea    0x1(%rbp),%ecx"
+        },
+        {
+          "address": "0x43888b",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x43888e",
+          "instruction": "je     4388c3"
+        },
+        {
+          "address": "0x438890",
+          "instruction": "cmp    %r14d,%ecx"
+        },
+        {
+          "address": "0x438893",
+          "instruction": "jae    4388c3"
+        },
+        {
+          "address": "0x438895",
+          "instruction": "mov    (%r8,%r9,4),%r15d"
+        },
+        {
+          "address": "0x438899",
+          "instruction": "mov    %ebp,%eax"
+        },
+        {
+          "address": "0x43889b",
+          "instruction": "add    %r15,%rax"
+        },
+        {
+          "address": "0x43889e",
+          "instruction": "mov    0x4(%rdx,%rax,4),%eax"
+        },
+        {
+          "address": "0x4388a2",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x4388a6",
+          "instruction": "prefetcht0 (%r12,%rax,1)"
+        },
+        {
+          "address": "0x4388ab",
+          "instruction": "prefetcht0 0x40(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4388b1",
+          "instruction": "prefetcht0 0x80(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4388ba",
+          "instruction": "prefetcht0 0xc0(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4388c3",
+          "instruction": "lea    0x1(%rsi),%r15d"
+        },
+        {
+          "address": "0x4388c7",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x4388ca",
+          "instruction": "je     438909"
+        },
+        {
+          "address": "0x4388cc",
+          "instruction": "cmp    0x4(%rsp),%r15d"
+        },
+        {
+          "address": "0x4388d1",
+          "instruction": "jae    438909"
+        },
+        {
+          "address": "0x4388d3",
+          "instruction": "mov    0x4(%r8,%r9,4),%eax"
+        },
+        {
+          "address": "0x4388d8",
+          "instruction": "mov    %esi,%r8d"
+        },
+        {
+          "address": "0x4388db",
+          "instruction": "add    %rax,%r8"
+        },
+        {
+          "address": "0x4388de",
+          "instruction": "mov    0x4(%rdx,%r8,4),%eax"
+        },
+        {
+          "address": "0x4388e3",
+          "instruction": "mov    0x10(%rsp),%r8"
+        },
+        {
+          "address": "0x4388e8",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x4388ec",
+          "instruction": "prefetcht0 (%r12,%rax,1)"
+        },
+        {
+          "address": "0x4388f1",
+          "instruction": "prefetcht0 0x40(%r12,%rax,1)"
+        },
+        {
+          "address": "0x4388f7",
+          "instruction": "prefetcht0 0x80(%r12,%rax,1)"
+        },
+        {
+          "address": "0x438900",
+          "instruction": "prefetcht0 0xc0(%r12,%rax,1)"
+        },
+        {
+          "address": "0x438909",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x43890c",
+          "instruction": "jne    438930"
+        },
+        {
+          "address": "0x43890e",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x438911",
+          "instruction": "jne    4389e6"
+        },
+        {
+          "address": "0x438917",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x43891a",
+          "instruction": "jne    438a9d"
+        },
+        {
+          "address": "0x438920",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x438923",
+          "instruction": "jne    438ab5"
+        },
+        {
+          "address": "0x438929",
+          "instruction": "jmpq   438acc"
+        },
+        {
+          "address": "0x43892e",
+          "instruction": "xchg   %ax,%ax"
+        },
+        {
+          "address": "0x438930",
+          "instruction": "mov    %edi,%eax"
+        },
+        {
+          "address": "0x438932",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x438936",
+          "instruction": "vpmovzxwd 0xa0(%r12,%rax,1),%zmm17"
+        },
+        {
+          "address": "0x43893e",
+          "instruction": "vpmovzxwd 0x80(%r12,%rax,1),%zmm18"
+        },
+        {
+          "address": "0x438946",
+          "instruction": "vpmovzxwd 0x60(%r12,%rax,1),%zmm19"
+        },
+        {
+          "address": "0x43894e",
+          "instruction": "vpmovzxwd 0x40(%r12,%rax,1),%zmm20"
+        },
+        {
+          "address": "0x438956",
+          "instruction": "vpmovzxwd 0x20(%r12,%rax,1),%zmm21"
+        },
+        {
+          "address": "0x43895e",
+          "instruction": "vpmovzxwd (%r12,%rax,1),%zmm22"
+        },
+        {
+          "address": "0x438965",
+          "instruction": "vpmovzxwd 0xc0(%r12,%rax,1),%zmm23"
+        },
+        {
+          "address": "0x43896d",
+          "instruction": "vpmovzxwd 0xe0(%r12,%rax,1),%zmm24"
+        },
+        {
+          "address": "0x438975",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x43897c",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x438983",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x43898a",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x438991",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x438998",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x43899f",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4389a6",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4389ad",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4389b3",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4389b9",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4389bf",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4389c5",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4389cb",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x4389d1",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x4389d7",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x4389dd",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x4389e0",
+          "instruction": "je     438917"
+        },
+        {
+          "address": "0x4389e6",
+          "instruction": "mov    %r13d,%eax"
+        },
+        {
+          "address": "0x4389e9",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x4389ed",
+          "instruction": "vpmovzxwd 0xa0(%r12,%rax,1),%zmm17"
+        },
+        {
+          "address": "0x4389f5",
+          "instruction": "vpmovzxwd 0x80(%r12,%rax,1),%zmm18"
+        },
+        {
+          "address": "0x4389fd",
+          "instruction": "vpmovzxwd 0x60(%r12,%rax,1),%zmm19"
+        },
+        {
+          "address": "0x438a05",
+          "instruction": "vpmovzxwd 0x40(%r12,%rax,1),%zmm20"
+        },
+        {
+          "address": "0x438a0d",
+          "instruction": "vpmovzxwd 0x20(%r12,%rax,1),%zmm21"
+        },
+        {
+          "address": "0x438a15",
+          "instruction": "vpmovzxwd (%r12,%rax,1),%zmm22"
+        },
+        {
+          "address": "0x438a1c",
+          "instruction": "vpmovzxwd 0xc0(%r12,%rax,1),%zmm23"
+        },
+        {
+          "address": "0x438a24",
+          "instruction": "vpmovzxwd 0xe0(%r12,%rax,1),%zmm24"
+        },
+        {
+          "address": "0x438a2c",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x438a33",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x438a3a",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x438a41",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x438a48",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x438a4f",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x438a56",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x438a5d",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x438a64",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x438a6a",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x438a70",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x438a76",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x438a7c",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x438a82",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x438a88",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x438a8e",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x438a94",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x438a97",
+          "instruction": "je     438920"
+        },
+        {
+          "address": "0x438a9d",
+          "instruction": "cmp    %r11d,%ecx"
+        },
+        {
+          "address": "0x438aa0",
+          "instruction": "jae    438aae"
+        },
+        {
+          "address": "0x438aa2",
+          "instruction": "mov    (%r8,%r9,4),%edi"
+        },
+        {
+          "address": "0x438aa6",
+          "instruction": "mov    %ecx,%ebp"
+        },
+        {
+          "address": "0x438aa8",
+          "instruction": "add    %rdi,%rbp"
+        },
+        {
+          "address": "0x438aab",
+          "instruction": "mov    (%rdx,%rbp,4),%edi"
+        },
+        {
+          "address": "0x438aae",
+          "instruction": "mov    %ecx,%ebp"
+        },
+        {
+          "address": "0x438ab0",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x438ab3",
+          "instruction": "je     438acc"
+        },
+        {
+          "address": "0x438ab5",
+          "instruction": "cmp    %r10d,%r15d"
+        },
+        {
+          "address": "0x438ab8",
+          "instruction": "jae    438ac9"
+        },
+        {
+          "address": "0x438aba",
+          "instruction": "mov    0x4(%r8,%r9,4),%ecx"
+        },
+        {
+          "address": "0x438abf",
+          "instruction": "mov    %r15d,%esi"
+        },
+        {
+          "address": "0x438ac2",
+          "instruction": "add    %rcx,%rsi"
+        },
+        {
+          "address": "0x438ac5",
+          "instruction": "mov    (%rdx,%rsi,4),%r13d"
+        },
+        {
+          "address": "0x438ac9",
+          "instruction": "mov    %r15d,%esi"
+        },
+        {
+          "address": "0x438acc",
+          "instruction": "mov    0x40(%rsp),%rax"
+        },
+        {
+          "address": "0x438ad1",
+          "instruction": "cmp    0x18(%rsp),%rax"
+        },
+        {
+          "address": "0x438ad6",
+          "instruction": "setb   %bl"
+        },
+        {
+          "address": "0x438ad9",
+          "instruction": "cmp    %r10d,%esi"
+        },
+        {
+          "address": "0x438adc",
+          "instruction": "setb   %cl"
+        },
+        {
+          "address": "0x438adf",
+          "instruction": "and    %bl,%cl"
+        },
+        {
+          "address": "0x438ae1",
+          "instruction": "cmp    %r11d,%ebp"
+        },
+        {
+          "address": "0x438ae4",
+          "instruction": "setb   %r15b"
+        },
+        {
+          "address": "0x438ae8",
+          "instruction": "jb     438850"
+        },
+        {
+          "address": "0x438aee",
+          "instruction": "test   %cl,%cl"
+        },
+        {
+          "address": "0x438af0",
+          "instruction": "jne    438850"
+        }
+      ],
+      "vpmovzxwd_count": 16,
+      "vpslld_count": 16,
+      "vaddps_count": 16,
+      "prefetcht0_static_count": 8,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "pair SHARE hot CSR frontier loop",
+      "run": "05",
+      "symbol_address": "0x439100",
+      "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+      "begin": "0x4396a0",
+      "end_inclusive": "0x439a3c",
+      "instructions": [
+        {
+          "address": "0x4396a0",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x4396a4",
+          "instruction": "je     4396d0"
+        },
+        {
+          "address": "0x4396a6",
+          "instruction": "cmp    %ebx,%r13d"
+        },
+        {
+          "address": "0x4396a9",
+          "instruction": "mov    $0x3,%edi"
+        },
+        {
+          "address": "0x4396ae",
+          "instruction": "sbb    $0x0,%edi"
+        },
+        {
+          "address": "0x4396b1",
+          "instruction": "test   $0x1,%al"
+        },
+        {
+          "address": "0x4396b3",
+          "instruction": "mov    $0x1,%eax"
+        },
+        {
+          "address": "0x4396b8",
+          "instruction": "cmove  %eax,%edi"
+        },
+        {
+          "address": "0x4396bb",
+          "instruction": "cmp    %r13d,%ebx"
+        },
+        {
+          "address": "0x4396be",
+          "instruction": "cmovb  %eax,%edi"
+        },
+        {
+          "address": "0x4396c1",
+          "instruction": "lea    0x1(%rbp),%eax"
+        },
+        {
+          "address": "0x4396c4",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x4396c8",
+          "instruction": "jne    4396e1"
+        },
+        {
+          "address": "0x4396ca",
+          "instruction": "jmp    43971c"
+        },
+        {
+          "address": "0x4396cc",
+          "instruction": "nopl   0x0(%rax)"
+        },
+        {
+          "address": "0x4396d0",
+          "instruction": "movzbl %al,%edi"
+        },
+        {
+          "address": "0x4396d3",
+          "instruction": "and    $0x1,%edi"
+        },
+        {
+          "address": "0x4396d6",
+          "instruction": "add    %edi,%edi"
+        },
+        {
+          "address": "0x4396d8",
+          "instruction": "lea    0x1(%rbp),%eax"
+        },
+        {
+          "address": "0x4396db",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x4396df",
+          "instruction": "je     43971c"
+        },
+        {
+          "address": "0x4396e1",
+          "instruction": "cmp    0x2c(%rsp),%eax"
+        },
+        {
+          "address": "0x4396e5",
+          "instruction": "jae    43971c"
+        },
+        {
+          "address": "0x4396e7",
+          "instruction": "mov    0x18(%rsp),%rcx"
+        },
+        {
+          "address": "0x4396ec",
+          "instruction": "mov    (%rcx,%r9,4),%ecx"
+        },
+        {
+          "address": "0x4396f0",
+          "instruction": "mov    %ebp,%r15d"
+        },
+        {
+          "address": "0x4396f3",
+          "instruction": "add    %rcx,%r15"
+        },
+        {
+          "address": "0x4396f6",
+          "instruction": "mov    0x4(%rdx,%r15,4),%ecx"
+        },
+        {
+          "address": "0x4396fb",
+          "instruction": "shl    $0x8,%rcx"
+        },
+        {
+          "address": "0x4396ff",
+          "instruction": "prefetcht0 (%r12,%rcx,1)"
+        },
+        {
+          "address": "0x439704",
+          "instruction": "prefetcht0 0x40(%r12,%rcx,1)"
+        },
+        {
+          "address": "0x43970a",
+          "instruction": "prefetcht0 0x80(%r12,%rcx,1)"
+        },
+        {
+          "address": "0x439713",
+          "instruction": "prefetcht0 0xc0(%r12,%rcx,1)"
+        },
+        {
+          "address": "0x43971c",
+          "instruction": "lea    0x1(%rsi),%ecx"
+        },
+        {
+          "address": "0x43971f",
+          "instruction": "test   $0x2,%dil"
+        },
+        {
+          "address": "0x439723",
+          "instruction": "je     439760"
+        },
+        {
+          "address": "0x439725",
+          "instruction": "cmp    %r10d,%ecx"
+        },
+        {
+          "address": "0x439728",
+          "instruction": "jae    439760"
+        },
+        {
+          "address": "0x43972a",
+          "instruction": "mov    0x18(%rsp),%r8"
+        },
+        {
+          "address": "0x43972f",
+          "instruction": "mov    0x4(%r8,%r9,4),%r15d"
+        },
+        {
+          "address": "0x439734",
+          "instruction": "mov    %esi,%r8d"
+        },
+        {
+          "address": "0x439737",
+          "instruction": "add    %r15,%r8"
+        },
+        {
+          "address": "0x43973a",
+          "instruction": "mov    0x4(%rdx,%r8,4),%r8d"
+        },
+        {
+          "address": "0x43973f",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439743",
+          "instruction": "prefetcht0 (%r12,%r8,1)"
+        },
+        {
+          "address": "0x439748",
+          "instruction": "prefetcht0 0x40(%r12,%r8,1)"
+        },
+        {
+          "address": "0x43974e",
+          "instruction": "prefetcht0 0x80(%r12,%r8,1)"
+        },
+        {
+          "address": "0x439757",
+          "instruction": "prefetcht0 0xc0(%r12,%r8,1)"
+        },
+        {
+          "address": "0x439760",
+          "instruction": "cmp    $0x1,%edi"
+        },
+        {
+          "address": "0x439763",
+          "instruction": "je     439860"
+        },
+        {
+          "address": "0x439769",
+          "instruction": "cmp    $0x3,%edi"
+        },
+        {
+          "address": "0x43976c",
+          "instruction": "jne    439920"
+        },
+        {
+          "address": "0x439772",
+          "instruction": "mov    %ebx,%r8d"
+        },
+        {
+          "address": "0x439775",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439779",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x439781",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439789",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x439791",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439799",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x4397a1",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x4397a8",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x4397b0",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x4397b8",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x4397bf",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x4397c6",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4397cd",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4397d4",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4397db",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4397e2",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4397e9",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4397f0",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4397f6",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4397fc",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x439802",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x439808",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x43980e",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x439814",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x43981a",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x439820",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x439826",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x43982c",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x439832",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x439838",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x43983e",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x439844",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x43984a",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x439850",
+          "instruction": "jmpq   4399e0"
+        },
+        {
+          "address": "0x439855",
+          "instruction": "data16 nopw %cs:0x0(%rax,%rax,1)"
+        },
+        {
+          "address": "0x439860",
+          "instruction": "mov    %ebx,%r8d"
+        },
+        {
+          "address": "0x439863",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439867",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x43986f",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439877",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x43987f",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439887",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x43988f",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x439896",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x43989e",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x4398a6",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x4398ad",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x4398b4",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4398bb",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4398c2",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4398c9",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4398d0",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4398d7",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4398de",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4398e4",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4398ea",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4398f0",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4398f6",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4398fc",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x439902",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x439908",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x43990e",
+          "instruction": "jmpq   4399e0"
+        },
+        {
+          "address": "0x439913",
+          "instruction": "data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)"
+        },
+        {
+          "address": "0x439920",
+          "instruction": "mov    %r13d,%r8d"
+        },
+        {
+          "address": "0x439923",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439927",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x43992f",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439937",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x43993f",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439947",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x43994f",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x439956",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x43995e",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x439966",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x43996d",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x439974",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x43997b",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x439982",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x439989",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x439990",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x439997",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x43999e",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x4399a4",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4399aa",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x4399b0",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x4399b6",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x4399bc",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4399c2",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x4399c8",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x4399ce",
+          "instruction": "test   $0x1,%dil"
+        },
+        {
+          "address": "0x4399d2",
+          "instruction": "je     4399f8"
+        },
+        {
+          "address": "0x4399d4",
+          "instruction": "data16 data16 nopw %cs:0x0(%rax,%rax,1)"
+        },
+        {
+          "address": "0x4399e0",
+          "instruction": "cmp    %r11d,%eax"
+        },
+        {
+          "address": "0x4399e3",
+          "instruction": "jae    4399f6"
+        },
+        {
+          "address": "0x4399e5",
+          "instruction": "mov    0x18(%rsp),%r8"
+        },
+        {
+          "address": "0x4399ea",
+          "instruction": "mov    (%r8,%r9,4),%ebx"
+        },
+        {
+          "address": "0x4399ee",
+          "instruction": "mov    %eax,%ebp"
+        },
+        {
+          "address": "0x4399f0",
+          "instruction": "add    %rbx,%rbp"
+        },
+        {
+          "address": "0x4399f3",
+          "instruction": "mov    (%rdx,%rbp,4),%ebx"
+        },
+        {
+          "address": "0x4399f6",
+          "instruction": "mov    %eax,%ebp"
+        },
+        {
+          "address": "0x4399f8",
+          "instruction": "test   $0x2,%dil"
+        },
+        {
+          "address": "0x4399fc",
+          "instruction": "je     439a18"
+        },
+        {
+          "address": "0x4399fe",
+          "instruction": "cmp    %r14d,%ecx"
+        },
+        {
+          "address": "0x439a01",
+          "instruction": "jae    439a16"
+        },
+        {
+          "address": "0x439a03",
+          "instruction": "mov    0x18(%rsp),%rax"
+        },
+        {
+          "address": "0x439a08",
+          "instruction": "mov    0x4(%rax,%r9,4),%eax"
+        },
+        {
+          "address": "0x439a0d",
+          "instruction": "mov    %ecx,%esi"
+        },
+        {
+          "address": "0x439a0f",
+          "instruction": "add    %rax,%rsi"
+        },
+        {
+          "address": "0x439a12",
+          "instruction": "mov    (%rdx,%rsi,4),%r13d"
+        },
+        {
+          "address": "0x439a16",
+          "instruction": "mov    %ecx,%esi"
+        },
+        {
+          "address": "0x439a18",
+          "instruction": "mov    0x50(%rsp),%rax"
+        },
+        {
+          "address": "0x439a1d",
+          "instruction": "cmp    0x38(%rsp),%rax"
+        },
+        {
+          "address": "0x439a22",
+          "instruction": "setb   %cl"
+        },
+        {
+          "address": "0x439a25",
+          "instruction": "cmp    %r14d,%esi"
+        },
+        {
+          "address": "0x439a28",
+          "instruction": "setb   %al"
+        },
+        {
+          "address": "0x439a2b",
+          "instruction": "and    %cl,%al"
+        },
+        {
+          "address": "0x439a2d",
+          "instruction": "cmp    %r11d,%ebp"
+        },
+        {
+          "address": "0x439a30",
+          "instruction": "setb   %dil"
+        },
+        {
+          "address": "0x439a34",
+          "instruction": "jb     4396a0"
+        },
+        {
+          "address": "0x439a3a",
+          "instruction": "test   %al,%al"
+        },
+        {
+          "address": "0x439a3c",
+          "instruction": "jne    4396a0"
+        }
+      ],
+      "vpmovzxwd_count": 24,
+      "vpslld_count": 24,
+      "vaddps_count": 32,
+      "prefetcht0_static_count": 8,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "pair SHARE common-frontier branch: one decode, both accumulators",
+      "run": "05",
+      "symbol_address": "0x439100",
+      "symbol": "void gcn_extra_state::PairReducer<true>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+      "begin": "0x439772",
+      "end_inclusive": "0x439850",
+      "instructions": [
+        {
+          "address": "0x439772",
+          "instruction": "mov    %ebx,%r8d"
+        },
+        {
+          "address": "0x439775",
+          "instruction": "shl    $0x8,%r8"
+        },
+        {
+          "address": "0x439779",
+          "instruction": "vpmovzxwd 0xa0(%r12,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x439781",
+          "instruction": "vpmovzxwd 0x80(%r12,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x439789",
+          "instruction": "vpmovzxwd 0x60(%r12,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x439791",
+          "instruction": "vpmovzxwd 0x40(%r12,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x439799",
+          "instruction": "vpmovzxwd 0x20(%r12,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x4397a1",
+          "instruction": "vpmovzxwd (%r12,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x4397a8",
+          "instruction": "vpmovzxwd 0xc0(%r12,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x4397b0",
+          "instruction": "vpmovzxwd 0xe0(%r12,%r8,1),%zmm24"
+        },
+        {
+          "address": "0x4397b8",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x4397bf",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x4397c6",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4397cd",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4397d4",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4397db",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4397e2",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4397e9",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4397f0",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4397f6",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4397fc",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x439802",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x439808",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x43980e",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x439814",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x43981a",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x439820",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x439826",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x43982c",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x439832",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x439838",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x43983e",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x439844",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x43984a",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x439850",
+          "instruction": "jmpq   4399e0"
+        }
+      ],
+      "vpmovzxwd_count": 8,
+      "vpslld_count": 8,
+      "vaddps_count": 16,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "pair INTERLEAVE: two sequential decode paths when both heads match",
+      "run": "05",
+      "symbol_address": "0x4382b0",
+      "symbol": "void gcn_extra_state::PairReducer<false>::run<false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, unsigned int, unsigned int, unsigned int, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_state::Profile&, bool)",
+      "begin": "0x438930",
+      "end_inclusive": "0x438a97",
+      "instructions": [
+        {
+          "address": "0x438930",
+          "instruction": "mov    %edi,%eax"
+        },
+        {
+          "address": "0x438932",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x438936",
+          "instruction": "vpmovzxwd 0xa0(%r12,%rax,1),%zmm17"
+        },
+        {
+          "address": "0x43893e",
+          "instruction": "vpmovzxwd 0x80(%r12,%rax,1),%zmm18"
+        },
+        {
+          "address": "0x438946",
+          "instruction": "vpmovzxwd 0x60(%r12,%rax,1),%zmm19"
+        },
+        {
+          "address": "0x43894e",
+          "instruction": "vpmovzxwd 0x40(%r12,%rax,1),%zmm20"
+        },
+        {
+          "address": "0x438956",
+          "instruction": "vpmovzxwd 0x20(%r12,%rax,1),%zmm21"
+        },
+        {
+          "address": "0x43895e",
+          "instruction": "vpmovzxwd (%r12,%rax,1),%zmm22"
+        },
+        {
+          "address": "0x438965",
+          "instruction": "vpmovzxwd 0xc0(%r12,%rax,1),%zmm23"
+        },
+        {
+          "address": "0x43896d",
+          "instruction": "vpmovzxwd 0xe0(%r12,%rax,1),%zmm24"
+        },
+        {
+          "address": "0x438975",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x43897c",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x438983",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x43898a",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x438991",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x438998",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x43899f",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4389a6",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4389ad",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4389b3",
+          "instruction": "vaddps %zmm18,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4389b9",
+          "instruction": "vaddps %zmm19,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4389bf",
+          "instruction": "vaddps %zmm20,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x4389c5",
+          "instruction": "vaddps %zmm21,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4389cb",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x4389d1",
+          "instruction": "vaddps %zmm23,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x4389d7",
+          "instruction": "vaddps %zmm24,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x4389dd",
+          "instruction": "test   $0x2,%bl"
+        },
+        {
+          "address": "0x4389e0",
+          "instruction": "je     438917"
+        },
+        {
+          "address": "0x4389e6",
+          "instruction": "mov    %r13d,%eax"
+        },
+        {
+          "address": "0x4389e9",
+          "instruction": "shl    $0x8,%rax"
+        },
+        {
+          "address": "0x4389ed",
+          "instruction": "vpmovzxwd 0xa0(%r12,%rax,1),%zmm17"
+        },
+        {
+          "address": "0x4389f5",
+          "instruction": "vpmovzxwd 0x80(%r12,%rax,1),%zmm18"
+        },
+        {
+          "address": "0x4389fd",
+          "instruction": "vpmovzxwd 0x60(%r12,%rax,1),%zmm19"
+        },
+        {
+          "address": "0x438a05",
+          "instruction": "vpmovzxwd 0x40(%r12,%rax,1),%zmm20"
+        },
+        {
+          "address": "0x438a0d",
+          "instruction": "vpmovzxwd 0x20(%r12,%rax,1),%zmm21"
+        },
+        {
+          "address": "0x438a15",
+          "instruction": "vpmovzxwd (%r12,%rax,1),%zmm22"
+        },
+        {
+          "address": "0x438a1c",
+          "instruction": "vpmovzxwd 0xc0(%r12,%rax,1),%zmm23"
+        },
+        {
+          "address": "0x438a24",
+          "instruction": "vpmovzxwd 0xe0(%r12,%rax,1),%zmm24"
+        },
+        {
+          "address": "0x438a2c",
+          "instruction": "vpslld $0x10,%zmm24,%zmm24"
+        },
+        {
+          "address": "0x438a33",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x438a3a",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x438a41",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x438a48",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x438a4f",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x438a56",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x438a5d",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x438a64",
+          "instruction": "vaddps %zmm17,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x438a6a",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x438a70",
+          "instruction": "vaddps %zmm19,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x438a76",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x438a7c",
+          "instruction": "vaddps %zmm21,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x438a82",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x438a88",
+          "instruction": "vaddps %zmm23,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x438a8e",
+          "instruction": "vaddps %zmm24,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x438a94",
+          "instruction": "test   $0x1,%bl"
+        },
+        {
+          "address": "0x438a97",
+          "instruction": "je     438920"
+        }
+      ],
+      "vpmovzxwd_count": 16,
+      "vpslld_count": 16,
+      "vaddps_count": 16,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "scalar additional final-window/direct-pack branch after hot loop",
+      "run": "05",
+      "symbol_address": "0x411b70",
+      "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x412620",
+      "end_inclusive": "0x412632",
+      "instructions": [
+        {
+          "address": "0x412620",
+          "instruction": "cmp    %ebx,%edi"
+        },
+        {
+          "address": "0x412622",
+          "instruction": "cmovae %ebx,%edi"
+        },
+        {
+          "address": "0x412625",
+          "instruction": "cmp    %ecx,%edi"
+        },
+        {
+          "address": "0x412627",
+          "instruction": "ja     4123f0"
+        },
+        {
+          "address": "0x41262d",
+          "instruction": "cmpb   $0x0,0x28(%rsp)"
+        },
+        {
+          "address": "0x412632",
+          "instruction": "je     4123f0"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "P0 explicit partial row store, not a register spill",
+      "run": "05",
+      "symbol_address": "0x40df60",
+      "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+      "begin": "0x40e6c0",
+      "end_inclusive": "0x40e6ff",
+      "instructions": [
+        {
+          "address": "0x40e6c0",
+          "instruction": "mov    %rsi,%rdi"
+        },
+        {
+          "address": "0x40e6c3",
+          "instruction": "shl    $0x9,%rdi"
+        },
+        {
+          "address": "0x40e6c7",
+          "instruction": "vmovups %zmm5,0x300(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6cf",
+          "instruction": "vmovups %zmm1,0x2c0(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6d7",
+          "instruction": "vmovups %zmm6,0x340(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6df",
+          "instruction": "vmovups %zmm7,0x380(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6e7",
+          "instruction": "vmovups %zmm4,0x3c0(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6ef",
+          "instruction": "vmovups %zmm3,0x400(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6f7",
+          "instruction": "vmovups %zmm2,0x440(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6ff",
+          "instruction": "vmovups %zmm0,0x480(%rsp,%rdi,1)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": [
+        {
+          "address": "0x40e6c7",
+          "instruction": "vmovups %zmm5,0x300(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6cf",
+          "instruction": "vmovups %zmm1,0x2c0(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6d7",
+          "instruction": "vmovups %zmm6,0x340(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6df",
+          "instruction": "vmovups %zmm7,0x380(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6e7",
+          "instruction": "vmovups %zmm4,0x3c0(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6ef",
+          "instruction": "vmovups %zmm3,0x400(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6f7",
+          "instruction": "vmovups %zmm2,0x440(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x40e6ff",
+          "instruction": "vmovups %zmm0,0x480(%rsp,%rdi,1)"
+        }
+      ]
+    },
+    {
+      "label": "P0 explicit partial row reload, not a register spill",
+      "run": "05",
+      "symbol_address": "0x40df60",
+      "symbol": "void gcn_extra_projection::kernel<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_projection::Method const&, gcn_extra_projection::Profile*) [clone .extracted]",
+      "begin": "0x40e76c",
+      "end_inclusive": "0x40e7a4",
+      "instructions": [
+        {
+          "address": "0x40e76c",
+          "instruction": "vmovdqu64 0x480(%rsp,%r8,1),%zmm0"
+        },
+        {
+          "address": "0x40e774",
+          "instruction": "vmovdqu64 0x440(%rsp,%r8,1),%zmm2"
+        },
+        {
+          "address": "0x40e77c",
+          "instruction": "vmovdqu64 0x400(%rsp,%r8,1),%zmm3"
+        },
+        {
+          "address": "0x40e784",
+          "instruction": "vmovups 0x3c0(%rsp,%r8,1),%zmm4"
+        },
+        {
+          "address": "0x40e78c",
+          "instruction": "vmovdqu64 0x2c0(%rsp,%r8,1),%zmm1"
+        },
+        {
+          "address": "0x40e794",
+          "instruction": "vmovups 0x300(%rsp,%r8,1),%zmm5"
+        },
+        {
+          "address": "0x40e79c",
+          "instruction": "vmovups 0x340(%rsp,%r8,1),%zmm6"
+        },
+        {
+          "address": "0x40e7a4",
+          "instruction": "vmovups 0x380(%rsp,%r8,1),%zmm7"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": [
+        {
+          "address": "0x40e76c",
+          "instruction": "vmovdqu64 0x480(%rsp,%r8,1),%zmm0"
+        },
+        {
+          "address": "0x40e774",
+          "instruction": "vmovdqu64 0x440(%rsp,%r8,1),%zmm2"
+        },
+        {
+          "address": "0x40e77c",
+          "instruction": "vmovdqu64 0x400(%rsp,%r8,1),%zmm3"
+        },
+        {
+          "address": "0x40e784",
+          "instruction": "vmovups 0x3c0(%rsp,%r8,1),%zmm4"
+        },
+        {
+          "address": "0x40e78c",
+          "instruction": "vmovdqu64 0x2c0(%rsp,%r8,1),%zmm1"
+        },
+        {
+          "address": "0x40e794",
+          "instruction": "vmovups 0x300(%rsp,%r8,1),%zmm5"
+        },
+        {
+          "address": "0x40e79c",
+          "instruction": "vmovups 0x340(%rsp,%r8,1),%zmm6"
+        },
+        {
+          "address": "0x40e7a4",
+          "instruction": "vmovups 0x380(%rsp,%r8,1),%zmm7"
+        }
+      ]
+    },
+    {
+      "label": "state scalar explicit partial row store, not a register spill",
+      "run": "05",
+      "symbol_address": "0x411b70",
+      "symbol": "void gcn_extra_state::kernel<false, false, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x4123f0",
+      "end_inclusive": "0x41242f",
+      "instructions": [
+        {
+          "address": "0x4123f0",
+          "instruction": "mov    %rsi,%rdi"
+        },
+        {
+          "address": "0x4123f3",
+          "instruction": "shl    $0x9,%rdi"
+        },
+        {
+          "address": "0x4123f7",
+          "instruction": "vmovups %zmm1,0x340(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x4123ff",
+          "instruction": "vmovups %zmm0,0x300(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x412407",
+          "instruction": "vmovups %zmm6,0x380(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x41240f",
+          "instruction": "vmovups %zmm7,0x3c0(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x412417",
+          "instruction": "vmovups %zmm4,0x400(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x41241f",
+          "instruction": "vmovups %zmm2,0x440(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x412427",
+          "instruction": "vmovups %zmm5,0x480(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x41242f",
+          "instruction": "vmovups %zmm3,0x4c0(%rsp,%rdi,1)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": [
+        {
+          "address": "0x4123f7",
+          "instruction": "vmovups %zmm1,0x340(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x4123ff",
+          "instruction": "vmovups %zmm0,0x300(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x412407",
+          "instruction": "vmovups %zmm6,0x380(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x41240f",
+          "instruction": "vmovups %zmm7,0x3c0(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x412417",
+          "instruction": "vmovups %zmm4,0x400(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x41241f",
+          "instruction": "vmovups %zmm2,0x440(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x412427",
+          "instruction": "vmovups %zmm5,0x480(%rsp,%rdi,1)"
+        },
+        {
+          "address": "0x41242f",
+          "instruction": "vmovups %zmm3,0x4c0(%rsp,%rdi,1)"
+        }
+      ]
+    },
+    {
+      "label": "production pair INTERLEAVE fused integer truncate and masked ReLU",
+      "run": "05",
+      "symbol_address": "0x419d60",
+      "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x41ab32",
+      "end_inclusive": "0x41ac15",
+      "instructions": [
+        {
+          "address": "0x41ab32",
+          "instruction": "vpsrld $0x10,%zmm7,%zmm8"
+        },
+        {
+          "address": "0x41ab39",
+          "instruction": "vpsrld $0x10,%zmm6,%zmm9"
+        },
+        {
+          "address": "0x41ab40",
+          "instruction": "vpsrld $0x10,%zmm5,%zmm10"
+        },
+        {
+          "address": "0x41ab47",
+          "instruction": "vpsrld $0x10,%zmm4,%zmm11"
+        },
+        {
+          "address": "0x41ab4e",
+          "instruction": "vpsrld $0x10,%zmm3,%zmm12"
+        },
+        {
+          "address": "0x41ab55",
+          "instruction": "vpsrld $0x10,%zmm1,%zmm13"
+        },
+        {
+          "address": "0x41ab5c",
+          "instruction": "vpsrld $0x10,%zmm0,%zmm14"
+        },
+        {
+          "address": "0x41ab63",
+          "instruction": "vpmovdw %zmm14,%ymm14"
+        },
+        {
+          "address": "0x41ab69",
+          "instruction": "vpmovdw %zmm13,%ymm13"
+        },
+        {
+          "address": "0x41ab6f",
+          "instruction": "vpsrld $0x10,%zmm2,%zmm15"
+        },
+        {
+          "address": "0x41ab76",
+          "instruction": "vinserti64x4 $0x1,%ymm13,%zmm14,%zmm13"
+        },
+        {
+          "address": "0x41ab7d",
+          "instruction": "vpmovdw %zmm15,%ymm14"
+        },
+        {
+          "address": "0x41ab83",
+          "instruction": "vpmovdw %zmm12,%ymm12"
+        },
+        {
+          "address": "0x41ab89",
+          "instruction": "vinserti64x4 $0x1,%ymm12,%zmm14,%zmm12"
+        },
+        {
+          "address": "0x41ab90",
+          "instruction": "vpmovdw %zmm11,%ymm11"
+        },
+        {
+          "address": "0x41ab96",
+          "instruction": "vpmovdw %zmm10,%ymm10"
+        },
+        {
+          "address": "0x41ab9c",
+          "instruction": "vinserti64x4 $0x1,%ymm10,%zmm11,%zmm10"
+        },
+        {
+          "address": "0x41aba3",
+          "instruction": "vpmovdw %zmm9,%ymm9"
+        },
+        {
+          "address": "0x41aba9",
+          "instruction": "vpmovdw %zmm8,%ymm8"
+        },
+        {
+          "address": "0x41abaf",
+          "instruction": "vinserti64x4 $0x1,%ymm8,%zmm9,%zmm8"
+        },
+        {
+          "address": "0x41abb6",
+          "instruction": "vpxor  %xmm9,%xmm9,%xmm9"
+        },
+        {
+          "address": "0x41abbb",
+          "instruction": "vcmpnltps %zmm9,%zmm0,%k0"
+        },
+        {
+          "address": "0x41abc2",
+          "instruction": "vcmpnltps %zmm9,%zmm1,%k1"
+        },
+        {
+          "address": "0x41abc9",
+          "instruction": "kunpckwd %k0,%k1,%k1"
+        },
+        {
+          "address": "0x41abcd",
+          "instruction": "vcmpnltps %zmm9,%zmm2,%k0"
+        },
+        {
+          "address": "0x41abd4",
+          "instruction": "vcmpnltps %zmm9,%zmm3,%k2"
+        },
+        {
+          "address": "0x41abdb",
+          "instruction": "kunpckwd %k0,%k2,%k2"
+        },
+        {
+          "address": "0x41abdf",
+          "instruction": "vcmpnltps %zmm9,%zmm4,%k0"
+        },
+        {
+          "address": "0x41abe6",
+          "instruction": "vcmpnltps %zmm9,%zmm5,%k3"
+        },
+        {
+          "address": "0x41abed",
+          "instruction": "kunpckwd %k0,%k3,%k3"
+        },
+        {
+          "address": "0x41abf1",
+          "instruction": "vcmpnltps %zmm9,%zmm6,%k0"
+        },
+        {
+          "address": "0x41abf8",
+          "instruction": "vcmpnltps %zmm9,%zmm7,%k4"
+        },
+        {
+          "address": "0x41abff",
+          "instruction": "kunpckwd %k0,%k4,%k4"
+        },
+        {
+          "address": "0x41ac03",
+          "instruction": "vmovdqu16 %zmm8,%zmm0{%k4}{z}"
+        },
+        {
+          "address": "0x41ac09",
+          "instruction": "vmovdqu16 %zmm10,%zmm1{%k3}{z}"
+        },
+        {
+          "address": "0x41ac0f",
+          "instruction": "vmovdqu16 %zmm12,%zmm2{%k2}{z}"
+        },
+        {
+          "address": "0x41ac15",
+          "instruction": "vmovdqu16 %zmm13,%zmm3{%k1}{z}"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "production pair SHARE comparison and integer mask excerpt",
+      "run": "05",
+      "symbol_address": "0x41ad00",
+      "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<true> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x41bb32",
+      "end_inclusive": "0x41bbb5",
+      "instructions": [
+        {
+          "address": "0x41bb36",
+          "instruction": "vpmovdw %zmm10,%ymm10"
+        },
+        {
+          "address": "0x41bb3c",
+          "instruction": "vinserti64x4 $0x1,%ymm10,%zmm11,%zmm10"
+        },
+        {
+          "address": "0x41bb43",
+          "instruction": "vpmovdw %zmm9,%ymm9"
+        },
+        {
+          "address": "0x41bb49",
+          "instruction": "vpmovdw %zmm8,%ymm8"
+        },
+        {
+          "address": "0x41bb4f",
+          "instruction": "vinserti64x4 $0x1,%ymm8,%zmm9,%zmm8"
+        },
+        {
+          "address": "0x41bb56",
+          "instruction": "vpxor  %xmm9,%xmm9,%xmm9"
+        },
+        {
+          "address": "0x41bb5b",
+          "instruction": "vcmpnltps %zmm9,%zmm0,%k0"
+        },
+        {
+          "address": "0x41bb62",
+          "instruction": "vcmpnltps %zmm9,%zmm1,%k1"
+        },
+        {
+          "address": "0x41bb69",
+          "instruction": "kunpckwd %k0,%k1,%k1"
+        },
+        {
+          "address": "0x41bb6d",
+          "instruction": "vcmpnltps %zmm9,%zmm2,%k0"
+        },
+        {
+          "address": "0x41bb74",
+          "instruction": "vcmpnltps %zmm9,%zmm3,%k2"
+        },
+        {
+          "address": "0x41bb7b",
+          "instruction": "kunpckwd %k0,%k2,%k2"
+        },
+        {
+          "address": "0x41bb7f",
+          "instruction": "vcmpnltps %zmm9,%zmm4,%k0"
+        },
+        {
+          "address": "0x41bb86",
+          "instruction": "vcmpnltps %zmm9,%zmm5,%k3"
+        },
+        {
+          "address": "0x41bb8d",
+          "instruction": "kunpckwd %k0,%k3,%k3"
+        },
+        {
+          "address": "0x41bb91",
+          "instruction": "vcmpnltps %zmm9,%zmm6,%k0"
+        },
+        {
+          "address": "0x41bb98",
+          "instruction": "vcmpnltps %zmm9,%zmm7,%k4"
+        },
+        {
+          "address": "0x41bb9f",
+          "instruction": "kunpckwd %k0,%k4,%k4"
+        },
+        {
+          "address": "0x41bba3",
+          "instruction": "vmovdqu16 %zmm8,%zmm0{%k4}{z}"
+        },
+        {
+          "address": "0x41bba9",
+          "instruction": "vmovdqu16 %zmm10,%zmm1{%k3}{z}"
+        },
+        {
+          "address": "0x41bbaf",
+          "instruction": "vmovdqu16 %zmm12,%zmm2{%k2}{z}"
+        },
+        {
+          "address": "0x41bbb5",
+          "instruction": "vmovdqu16 %zmm13,%zmm3{%k1}{z}"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "production scalar comparison and integer mask excerpt",
+      "run": "05",
+      "symbol_address": "0x41bca0",
+      "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::ScalarReducer>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x41def0",
+      "end_inclusive": "0x41df80",
+      "instructions": [
+        {
+          "address": "0x41def5",
+          "instruction": "vpmovdw %zmm11,%ymm11"
+        },
+        {
+          "address": "0x41defb",
+          "instruction": "vpmovdw %zmm10,%ymm10"
+        },
+        {
+          "address": "0x41df01",
+          "instruction": "vinserti64x4 $0x1,%ymm10,%zmm11,%zmm10"
+        },
+        {
+          "address": "0x41df08",
+          "instruction": "vpmovdw %zmm9,%ymm9"
+        },
+        {
+          "address": "0x41df0e",
+          "instruction": "vpmovdw %zmm8,%ymm8"
+        },
+        {
+          "address": "0x41df14",
+          "instruction": "vinserti64x4 $0x1,%ymm8,%zmm9,%zmm8"
+        },
+        {
+          "address": "0x41df1b",
+          "instruction": "vpxor  %xmm9,%xmm9,%xmm9"
+        },
+        {
+          "address": "0x41df20",
+          "instruction": "vcmpnltps %zmm9,%zmm0,%k0"
+        },
+        {
+          "address": "0x41df27",
+          "instruction": "vcmpnltps %zmm9,%zmm1,%k1"
+        },
+        {
+          "address": "0x41df2e",
+          "instruction": "kunpckwd %k0,%k1,%k1"
+        },
+        {
+          "address": "0x41df32",
+          "instruction": "vcmpnltps %zmm9,%zmm2,%k0"
+        },
+        {
+          "address": "0x41df39",
+          "instruction": "vcmpnltps %zmm9,%zmm3,%k2"
+        },
+        {
+          "address": "0x41df40",
+          "instruction": "kunpckwd %k0,%k2,%k2"
+        },
+        {
+          "address": "0x41df44",
+          "instruction": "vcmpnltps %zmm9,%zmm4,%k0"
+        },
+        {
+          "address": "0x41df4b",
+          "instruction": "vcmpnltps %zmm9,%zmm5,%k3"
+        },
+        {
+          "address": "0x41df52",
+          "instruction": "kunpckwd %k0,%k3,%k3"
+        },
+        {
+          "address": "0x41df56",
+          "instruction": "vcmpnltps %zmm9,%zmm6,%k0"
+        },
+        {
+          "address": "0x41df5d",
+          "instruction": "vcmpnltps %zmm9,%zmm7,%k4"
+        },
+        {
+          "address": "0x41df64",
+          "instruction": "kunpckwd %k0,%k4,%k4"
+        },
+        {
+          "address": "0x41df68",
+          "instruction": "vmovdqu16 %zmm8,%zmm0{%k4}{z}"
+        },
+        {
+          "address": "0x41df6e",
+          "instruction": "vmovdqu16 %zmm10,%zmm1{%k3}{z}"
+        },
+        {
+          "address": "0x41df74",
+          "instruction": "vmovdqu16 %zmm12,%zmm2{%k2}{z}"
+        },
+        {
+          "address": "0x41df7a",
+          "instruction": "vmovdqu16 %zmm13,%zmm3{%k1}{z}"
+        },
+        {
+          "address": "0x41df80",
+          "instruction": "shl    $0x8,%rsi"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "final semantic helper vector path",
+      "run": "05",
+      "symbol_address": "0x436840",
+      "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+      "begin": "0x436880",
+      "end_inclusive": "0x43689b",
+      "instructions": [
+        {
+          "address": "0x436880",
+          "instruction": "vmovups (%rsi,%r9,2),%zmm1"
+        },
+        {
+          "address": "0x436887",
+          "instruction": "vcmpnltps %zmm0,%zmm1,%k1"
+        },
+        {
+          "address": "0x43688e",
+          "instruction": "vpsrld $0x10,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x436895",
+          "instruction": "vpmovdw %zmm1,%ymm1{%k1}{z}"
+        },
+        {
+          "address": "0x43689b",
+          "instruction": "vmovdqu %ymm1,(%rdi,%r9,1)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "final semantic helper residual full-vector path",
+      "run": "05",
+      "symbol_address": "0x436840",
+      "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+      "begin": "0x4369f0",
+      "end_inclusive": "0x436a0b",
+      "instructions": [
+        {
+          "address": "0x4369f0",
+          "instruction": "vmovups (%rsi,%rax,2),%zmm1"
+        },
+        {
+          "address": "0x4369f7",
+          "instruction": "vcmpnltps %zmm0,%zmm1,%k1"
+        },
+        {
+          "address": "0x4369fe",
+          "instruction": "vpsrld $0x10,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x436a05",
+          "instruction": "vpmovdw %zmm1,%ymm1{%k1}{z}"
+        },
+        {
+          "address": "0x436a0b",
+          "instruction": "vmovdqu %ymm1,(%rdi,%rax,1)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "final semantic helper masked tail path",
+      "run": "05",
+      "symbol_address": "0x436840",
+      "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+      "begin": "0x436ac0",
+      "end_inclusive": "0x436adf",
+      "instructions": [
+        {
+          "address": "0x436ac0",
+          "instruction": "vmovups (%rsi,%rax,4),%zmm0{%k1}{z}"
+        },
+        {
+          "address": "0x436ac7",
+          "instruction": "vpsrld $0x10,%zmm0,%zmm1"
+        },
+        {
+          "address": "0x436ace",
+          "instruction": "vpxor  %xmm2,%xmm2,%xmm2"
+        },
+        {
+          "address": "0x436ad2",
+          "instruction": "vcmpnltps %zmm2,%zmm0,%k2"
+        },
+        {
+          "address": "0x436ad9",
+          "instruction": "vpmovdw %zmm1,%ymm0{%k2}{z}"
+        },
+        {
+          "address": "0x436adf",
+          "instruction": "vmovdqu16 %ymm0,(%rdi,%rax,2){%k1}"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "failed semantic helper: ordered <= incorrectly rejects NaN",
+      "run": "04",
+      "symbol_address": "0x436840",
+      "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+      "begin": "0x436880",
+      "end_inclusive": "0x43689b",
+      "instructions": [
+        {
+          "address": "0x436880",
+          "instruction": "vmovups (%rsi,%r9,2),%zmm1"
+        },
+        {
+          "address": "0x436887",
+          "instruction": "vcmpleps %zmm1,%zmm0,%k1"
+        },
+        {
+          "address": "0x43688e",
+          "instruction": "vpsrld $0x10,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x436895",
+          "instruction": "vpmovdw %zmm1,%ymm1{%k1}{z}"
+        },
+        {
+          "address": "0x43689b",
+          "instruction": "vmovdqu %ymm1,(%rdi,%r9,1)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "run04 tail vector path already uses unordered complement",
+      "run": "04",
+      "symbol_address": "0x436840",
+      "symbol": "gcn_extra_state_runtime::semantic_runtime_scatter(unsigned short*, float const*, int)",
+      "begin": "0x436a50",
+      "end_inclusive": "0x436a6b",
+      "instructions": [
+        {
+          "address": "0x436a50",
+          "instruction": "vmovdqu64 (%r9,%r10,4),%zmm1"
+        },
+        {
+          "address": "0x436a57",
+          "instruction": "vpsrld $0x10,%zmm1,%zmm2"
+        },
+        {
+          "address": "0x436a5e",
+          "instruction": "vcmpnltps %zmm0,%zmm1,%k1"
+        },
+        {
+          "address": "0x436a65",
+          "instruction": "vpmovdw %zmm2,%ymm1{%k1}{z}"
+        },
+        {
+          "address": "0x436a6b",
+          "instruction": "vmovdqu %ymm1,(%r8,%r10,2)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "original compiled ReLU compare and conditional zero stores",
+      "run": "02",
+      "symbol_address": "0x4093f0",
+      "symbol": "relu_f32(float*, unsigned long) [clone .extracted]",
+      "begin": "0x4094a0",
+      "end_inclusive": "0x4094b9",
+      "instructions": [
+        {
+          "address": "0x4094a0",
+          "instruction": "vcmpgtps (%r9,%r10,4),%ymm0,%k1"
+        },
+        {
+          "address": "0x4094a8",
+          "instruction": "vcmpgtps 0x20(%r9,%r10,4),%ymm0,%k2"
+        },
+        {
+          "address": "0x4094b1",
+          "instruction": "vmovups %ymm0,0x20(%r9,%r10,4){%k2}"
+        },
+        {
+          "address": "0x4094b9",
+          "instruction": "vmovups %ymm0,(%r9,%r10,4){%k1}"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "original compiled BF16 integer truncation",
+      "run": "02",
+      "symbol_address": "0x4088d0",
+      "symbol": "convert_f32_to_bf16(float const*, unsigned short*, unsigned long) [clone .extracted]",
+      "begin": "0x408980",
+      "end_inclusive": "0x40898e",
+      "instructions": [
+        {
+          "address": "0x408980",
+          "instruction": "vpsrld $0x10,(%r9,%r10,4),%ymm0"
+        },
+        {
+          "address": "0x408988",
+          "instruction": "vpmovdw %ymm0,(%r8,%r10,2)"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    },
+    {
+      "label": "failed production floating MAXPS rewrite",
+      "run": "02",
+      "symbol_address": "0x419d60",
+      "symbol": "void gcn_extra_state::kernel<false, true, gcn_extra_state::PairReducer<false> >(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_state::Profile*) [clone .extracted]",
+      "begin": "0x41aaff",
+      "end_inclusive": "0x41ab2f",
+      "instructions": [
+        {
+          "address": "0x41aaff",
+          "instruction": "vmaxps 0x80(%rcx),%zmm7,%zmm0"
+        },
+        {
+          "address": "0x41ab06",
+          "instruction": "vmaxps 0xc0(%rcx),%zmm7,%zmm1"
+        },
+        {
+          "address": "0x41ab0d",
+          "instruction": "vmaxps (%rcx),%zmm7,%zmm2"
+        },
+        {
+          "address": "0x41ab13",
+          "instruction": "vmaxps 0x40(%rcx),%zmm7,%zmm3"
+        },
+        {
+          "address": "0x41ab1a",
+          "instruction": "vmaxps 0x180(%rcx),%zmm7,%zmm4"
+        },
+        {
+          "address": "0x41ab21",
+          "instruction": "vmaxps 0x1c0(%rcx),%zmm7,%zmm5"
+        },
+        {
+          "address": "0x41ab28",
+          "instruction": "vmaxps 0x100(%rcx),%zmm7,%zmm6"
+        },
+        {
+          "address": "0x41ab2f",
+          "instruction": "vmaxps 0x140(%rcx),%zmm7,%zmm7"
+        }
+      ],
+      "vpmovzxwd_count": 0,
+      "vpslld_count": 0,
+      "vaddps_count": 0,
+      "prefetcht0_static_count": 0,
+      "vector_direct_stack_memory_accesses": []
+    }
+  ],
+  "failed_semantic_gate_evidence": [
+    {
+      "run": "03",
+      "path": "runs/state-reuse-20261007-03/logs/state-10888795/state_semantic_diff.csv",
+      "sha256": "d80c8b47dc2e54b31a17f09fe1f9d235ffe805eceb3620b04527878eae2b2d70",
+      "representative_graph": "window_tail",
+      "representative_mismatches": [
+        {
+          "graph": "window_tail",
+          "index": "13",
+          "input": "00010000",
+          "got": "0000",
+          "expected": "0001",
+          "mxcsr": "00009fe1"
+        },
+        {
+          "graph": "window_tail",
+          "index": "14",
+          "input": "80010000",
+          "got": "8000",
+          "expected": "8001",
+          "mxcsr": "00009fe1"
+        }
+      ],
+      "all_row_count": 190,
+      "all_mismatch_count": 20
+    },
+    {
+      "run": "04",
+      "path": "runs/state-reuse-20261007-04/logs/state-10888814/state_semantic_diff.csv",
+      "sha256": "1044824fb783b31462c35ba90a8fbfc55b9e11ea2a2ad3c6f0bd09f8863855a4",
+      "representative_graph": "window_tail",
+      "representative_mismatches": [
+        {
+          "graph": "window_tail",
+          "index": "4",
+          "input": "7fc12345",
+          "got": "0000",
+          "expected": "7fc1",
+          "mxcsr": "00009fe1"
+        },
+        {
+          "graph": "window_tail",
+          "index": "5",
+          "input": "ffc12345",
+          "got": "0000",
+          "expected": "ffc1",
+          "mxcsr": "00009fe1"
+        },
+        {
+          "graph": "window_tail",
+          "index": "15",
+          "input": "7fa12345",
+          "got": "0000",
+          "expected": "7fa1",
+          "mxcsr": "00009fe1"
+        }
+      ],
+      "all_row_count": 190,
+      "all_mismatch_count": 30
+    }
+  ],
+  "final_existing_smoke": {
+    "job": "10888825",
+    "completion": {
+      "study": "state",
+      "mode": "smoke",
+      "graphs": 10,
+      "passed": 10,
+      "failed": 0,
+      "checks": 2400,
+      "equiv": 3000
+    },
+    "exit_status": "0",
+    "gates": [
+      {
+        "path": "runs/state-reuse-20261007-05/logs/state-10888825/state_semantic.csv",
+        "sha256": "dc31d70be04c259c1045fb762516c1d8d0cd7908c232ff75c5bccbc385a3944b",
+        "rows": 10,
+        "pass_values": [
+          "1"
+        ],
+        "bitwise_values": [
+          "1"
+        ]
+      },
+      {
+        "path": "runs/state-reuse-20261007-05/logs/state-10888825/state_work_gate.csv",
+        "sha256": "30d810a48fd52e6c1c3e8f673d7cca78d64b4790dfbe376809108c0f8135a464",
+        "rows": 240,
+        "pass_values": [
+          "1"
+        ],
+        "bitwise_values": []
+      },
+      {
+        "path": "runs/state-reuse-20261007-05/logs/state-10888825/state_profile_gate.csv",
+        "sha256": "463a01ea2150aa7b1f8057303bbf7f64d9d6f82762ea2274c6ff885f2549511f",
+        "rows": 240,
+        "pass_values": [
+          "1"
+        ],
+        "bitwise_values": [
+          "1"
+        ]
+      },
+      {
+        "path": "runs/state-reuse-20261007-05/logs/state-10888825/state_equiv.csv",
+        "sha256": "c3e860da2e7e492325da28435fa9da0a88e6290326bf5e9aa016e1dce2ea38eb",
+        "rows": 3000,
+        "pass_values": [
+          "1"
+        ],
+        "bitwise_values": [
+          "1"
+        ]
+      },
+      {
+        "path": "runs/state-reuse-20261007-05/logs/state-10888825/state_gate_complete.csv",
+        "sha256": "07a35d2655c0631ae12d8a3d7d8cbe1211c17a5fb689d45008e352a490ee350b",
+        "rows": 10,
+        "pass_values": [
+          "1"
+        ],
+        "bitwise_values": []
+      }
+    ]
+  },
+  "limitations": [
+    "The installed objdump reports bad/incorrectly decoded bytes around AMX instructions. Conclusions are restricted to the correctly decoded AVX, scalar control and identified CSR regions; this is not a complete AMX machine-code validation.",
+    "Static instruction paths and source-level counters do not establish retired counts, cache line transfers, DRAM bytes, frequency behavior, AVX/AMX execution overlap or application speedup.",
+    "No all-input formal equivalence or exception-flag equivalence is claimed. Bitwise semantic gates cover the recorded finite, signed-zero, infinity, NaN-payload and subnormal fixture under the recorded runtime MXCSR.",
+    "No claim is made that the whole function lacks compiler spills; explicit partial/ctile buffers and function prologues must not be counted as hot-CSR register spilling.",
+    "Inputs from failed run02/run03/run04 remain frozen evidence; performance conclusions must use the final passing build only."
+  ]
+}

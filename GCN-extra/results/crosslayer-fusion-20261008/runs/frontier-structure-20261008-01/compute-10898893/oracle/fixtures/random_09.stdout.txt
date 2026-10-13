@@ -1,0 +1,24 @@
+GROUP_NATIVE_PERM graph=random_09 fnv64=7403495974024892825
+GROUP_SETUP graph=random_09 phase=schedule_signature_allocation ms=0.0250339508057
+GROUP_SETUP graph=random_09 phase=signature_pass ms=5.37800788879 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=random_09 phase=segment_construction ms=0.00190734863281 segments=2 cap=4096
+GROUP_SETUP graph=random_09 phase=schedule_sort schedule=qsource ms=0.00500679016113 signature_ms=5.37800788879 shared_signature_pass=1
+GROUP_SETUP graph=random_09 phase=schedule_sort schedule=qpage ms=0.000953674316406 signature_ms=5.37800788879 shared_signature_pass=1
+GROUP_SETUP graph=random_09 phase=schedule_sort schedule=qsamplepage ms=0.000953674316406 signature_ms=5.37800788879 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=random_09 candidate=degree sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=random_09 candidate=qsource sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=random_09 candidate=qpage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=random_09 candidate=qsamplepage sampled_tiles=0 sampled_windows=0 requests=0 misses256=0 misses1024=0 misses4096=0 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=random_09 schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=0 high_q_tiles=0 low_q_fallback=1 uses_timing=0 probe_ms=0.0650882720947 assembly_ms=0
+GROUP_SETUP graph=random_09 phase=guard_probe ms=0.0650882720947
+GROUP_SETUP graph=random_09 phase=guard_schedule_assembly ms=0
+GROUP_AUDIT graph=random_09 schedule=degree pass=1 rows=33 moved=0 fnv64=7403495974024892825 full_projections=3 b64_projections=3 b256_projections=3 windows=3 state_load_bytes=0 state_store_bytes=16896 padded_steps=1312 audit_ms=0.00119209289551
+GROUP_AUDIT graph=random_09 schedule=qsource pass=1 rows=33 moved=23 fnv64=1946357804619071779 full_projections=3 b64_projections=3 b256_projections=3 windows=3 state_load_bytes=0 state_store_bytes=16896 padded_steps=880 audit_ms=0.000953674316406
+GROUP_AUDIT graph=random_09 schedule=qpage pass=1 rows=33 moved=0 fnv64=7403495974024892825 full_projections=3 b64_projections=3 b256_projections=3 windows=3 state_load_bytes=0 state_store_bytes=16896 padded_steps=1312 audit_ms=0.000953674316406
+GROUP_AUDIT graph=random_09 schedule=qsamplepage pass=1 rows=33 moved=16 fnv64=10363828091326247533 full_projections=3 b64_projections=3 b256_projections=3 windows=3 state_load_bytes=0 state_store_bytes=16896 padded_steps=1216 audit_ms=0
+GROUP_AUDIT graph=random_09 schedule=qguard pass=1 rows=33 moved=0 fnv64=7403495974024892825 full_projections=3 b64_projections=3 b256_projections=3 windows=3 state_load_bytes=0 state_store_bytes=16896 padded_steps=1312 audit_ms=0
+GROUP_SETUP graph=random_09 phase=all_schedules_total ms=5.4988861084 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+FRONTIER_ORDER graph=random_09 order=nodeid fnv64=2689684201023061881 pass=1 forced_peak_rows=0 eager_segments=51
+FRONTIER_ORDER graph=random_09 order=degree fnv64=7403495974024892825 pass=1 forced_peak_rows=13 eager_segments=54
+FRONTIER_ORDER graph=random_09 order=qguard fnv64=7403495974024892825 pass=1 forced_peak_rows=13 eager_segments=54
+FRONTIER_ANALYSIS graph=random_09 pass=1 output=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-structure-20261008-01/compute-10898893/oracle/fixtures/random_09.native.json values_read=0

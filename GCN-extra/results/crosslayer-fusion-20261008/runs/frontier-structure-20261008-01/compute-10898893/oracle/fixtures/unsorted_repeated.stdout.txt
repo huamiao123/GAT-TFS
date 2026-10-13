@@ -1,0 +1,24 @@
+GROUP_NATIVE_PERM graph=unsorted_repeated fnv64=10947662795537084930
+GROUP_SETUP graph=unsorted_repeated phase=schedule_signature_allocation ms=0.0238418579102
+GROUP_SETUP graph=unsorted_repeated phase=signature_pass ms=5.26595115662 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=unsorted_repeated phase=segment_construction ms=0.000953674316406 segments=3 cap=4096
+GROUP_SETUP graph=unsorted_repeated phase=schedule_sort schedule=qsource ms=0.00405311584473 signature_ms=5.26595115662 shared_signature_pass=1
+GROUP_SETUP graph=unsorted_repeated phase=schedule_sort schedule=qpage ms=0 signature_ms=5.26595115662 shared_signature_pass=1
+GROUP_SETUP graph=unsorted_repeated phase=schedule_sort schedule=qsamplepage ms=0 signature_ms=5.26595115662 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=unsorted_repeated candidate=degree sampled_tiles=1 sampled_windows=3 requests=135 misses256=3 misses1024=3 misses4096=3 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=unsorted_repeated candidate=qsource sampled_tiles=1 sampled_windows=3 requests=135 misses256=3 misses1024=3 misses4096=3 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=unsorted_repeated candidate=qpage sampled_tiles=1 sampled_windows=3 requests=135 misses256=3 misses1024=3 misses4096=3 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=unsorted_repeated candidate=qsamplepage sampled_tiles=1 sampled_windows=3 requests=135 misses256=3 misses1024=3 misses4096=3 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=unsorted_repeated schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=1 high_q_tiles=1 low_q_fallback=1 uses_timing=0 probe_ms=0.075101852417 assembly_ms=0.000953674316406
+GROUP_SETUP graph=unsorted_repeated phase=guard_probe ms=0.075101852417
+GROUP_SETUP graph=unsorted_repeated phase=guard_schedule_assembly ms=0.000953674316406
+GROUP_AUDIT graph=unsorted_repeated schedule=degree pass=1 rows=3 moved=0 fnv64=10947662795537084930 full_projections=1 b64_projections=3 b256_projections=1 windows=3 state_load_bytes=1024 state_store_bytes=2560 padded_steps=2112 audit_ms=0
+GROUP_AUDIT graph=unsorted_repeated schedule=qsource pass=1 rows=3 moved=0 fnv64=10947662795537084930 full_projections=1 b64_projections=3 b256_projections=1 windows=3 state_load_bytes=1024 state_store_bytes=2560 padded_steps=2112 audit_ms=0
+GROUP_AUDIT graph=unsorted_repeated schedule=qpage pass=1 rows=3 moved=0 fnv64=10947662795537084930 full_projections=1 b64_projections=3 b256_projections=1 windows=3 state_load_bytes=1024 state_store_bytes=2560 padded_steps=2112 audit_ms=0
+GROUP_AUDIT graph=unsorted_repeated schedule=qsamplepage pass=1 rows=3 moved=0 fnv64=10947662795537084930 full_projections=1 b64_projections=3 b256_projections=1 windows=3 state_load_bytes=1024 state_store_bytes=2560 padded_steps=2112 audit_ms=0
+GROUP_AUDIT graph=unsorted_repeated schedule=qguard pass=1 rows=3 moved=0 fnv64=10947662795537084930 full_projections=1 b64_projections=3 b256_projections=1 windows=3 state_load_bytes=1024 state_store_bytes=2560 padded_steps=2112 audit_ms=0
+GROUP_SETUP graph=unsorted_repeated phase=all_schedules_total ms=5.38992881775 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+FRONTIER_ORDER graph=unsorted_repeated order=nodeid fnv64=12195995521320448702 pass=1 forced_peak_rows=0 eager_segments=2
+FRONTIER_ORDER graph=unsorted_repeated order=degree fnv64=10947662795537084930 pass=1 forced_peak_rows=0 eager_segments=2
+FRONTIER_ORDER graph=unsorted_repeated order=qguard fnv64=10947662795537084930 pass=1 forced_peak_rows=0 eager_segments=2
+FRONTIER_ANALYSIS graph=unsorted_repeated pass=1 output=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-structure-20261008-01/compute-10898893/oracle/fixtures/unsorted_repeated.native.json values_read=0

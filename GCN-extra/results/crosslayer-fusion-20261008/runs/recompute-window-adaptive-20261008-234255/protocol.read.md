@@ -1,0 +1,3 @@
+# Adaptive source-overlap and tile-packing dispatcher, 2026-10-08
+
+The dispatcher computes a weighted source-duplication ratio before execution. The ratio sums the source row's own neighbor count once per thread partition and divides by the global source aggregation work. If rho_w <= 1.25 it selects min_source destination order and packed source generation (default source_batch_blocks=64); otherwise it selects the canonical materialized FULL path. Six interleaved repetitions verify exact BF16 equality. This is an isolated exploratory prototype, no NUMA interleave, and not a paper table.

@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/com-LiveJournal/com-LiveJournal.csrbin
+METHOD_SETUP graph=com-LiveJournal phase=csr_file_load ms=145.569086075
+Matrix: com-LiveJournal  N=3997962  NNZ=69362378  avg_deg=17.3
+
+METHOD_SETUP graph=com-LiveJournal phase=tensor_allocation ms=0.109910964966
+METHOD_SETUP graph=com-LiveJournal phase=weight_generation ms=0.264883041382
+METHOD_SETUP graph=com-LiveJournal phase=feature_generation ms=3422.34492302
+METHOD_SETUP graph=com-LiveJournal phase=degree_sort ms=159.9650383
+METHOD_SETUP graph=com-LiveJournal phase=packed_weight_allocation ms=0.014066696167
+METHOD_SETUP graph=com-LiveJournal phase=weight_vnni_packing ms=0.0350475311279
+METHOD_SETUP graph=com-LiveJournal phase=input_bf16_allocation ms=0.0109672546387
+METHOD_SETUP graph=com-LiveJournal phase=input_bf16_conversion ms=79.2338848114
+METHOD_SETUP graph=com-LiveJournal phase=tfs_output_allocation ms=0.0259876251221
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 239.45 ms
+  run 1: 239.78 ms
+  run 2: 242.42 ms
+  run 3: 240.44 ms
+  run 4: 241.01 ms
+  TFS V3 E2E BEST: 239.45 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=com-LiveJournal phase=mkl_index_allocation ms=0.0340938568115
+METHOD_SETUP graph=com-LiveJournal phase=mkl_index_conversion ms=62.8831386566
+METHOD_SETUP graph=com-LiveJournal phase=mkl_csr_create ms=2.57277488708
+METHOD_SETUP graph=com-LiveJournal phase=mkl_hint_and_optimize ms=44.6050167084
+METHOD_SETUP graph=com-LiveJournal phase=mkl_output_allocation ms=0.0178813934326
+  run 0: 646.22 ms
+  run 1: 645.74 ms
+  run 2: 645.38 ms
+  run 3: 645.41 ms
+  run 4: 647.21 ms
+  MKL E2E BEST: 645.38 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 239.45 ms
+  MKL (FP32):      645.38 ms
+  E2E Speedup:     2.70×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009347  RMSE=6.9870e+01
+First 8:
+  TFS: 975.59 -2614.89 -1185.33 244.44 144.58 154.73 -1612.97 -1329.18 
+  MKL: 990.37 -2642.10 -1198.25 249.54 144.67 153.64 -1628.47 -1341.65 
+STATE_SEMANTIC graph=com-LiveJournal values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=com-LiveJournal fnv64=17450678118189930306
+GROUP_SETUP graph=com-LiveJournal phase=schedule_signature_allocation ms=35.5269908905
+GROUP_SETUP graph=com-LiveJournal phase=signature_pass ms=106.868028641 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=com-LiveJournal phase=segment_construction ms=10.5209350586 segments=1042 cap=4096
+GROUP_SETUP graph=com-LiveJournal phase=schedule_sort schedule=qsource ms=10.3030204773 signature_ms=106.868028641 shared_signature_pass=1
+GROUP_SETUP graph=com-LiveJournal phase=schedule_sort schedule=qpage ms=11.6991996765 signature_ms=106.868028641 shared_signature_pass=1
+GROUP_SETUP graph=com-LiveJournal phase=schedule_sort schedule=qsamplepage ms=11.1999511719 signature_ms=106.868028641 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=com-LiveJournal candidate=degree sampled_tiles=128 sampled_windows=293 requests=217524 misses256=213745 misses1024=212097 misses4096=207982 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=com-LiveJournal candidate=qsource sampled_tiles=128 sampled_windows=293 requests=217526 misses256=200034 misses1024=198970 misses4096=196927 ratio256=0.935844865736 ratio1024=0.938099881703 ratio4096=0.946837656112 mean_ratio=0.940260801184 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=com-LiveJournal candidate=qpage sampled_tiles=128 sampled_windows=293 requests=217965 misses256=207829 misses1024=205138 misses4096=202526 ratio256=0.970354898452 ratio1024=0.96523266413 ratio4096=0.971796776263 mean_ratio=0.969128112948 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=com-LiveJournal candidate=qsamplepage sampled_tiles=128 sampled_windows=293 requests=218032 misses256=202849 misses1024=201241 misses4096=198523 ratio256=0.946812207893 ratio1024=0.946605194363 ratio4096=0.952296134604 mean_ratio=0.948571178953 no_worse=1 improvements_ge5pct=2 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=com-LiveJournal schedule=qguard selected=qsource predicted_mean_miss_rate_ratio=0.940260801184 sampled_tiles=128 high_q_tiles=13019 low_q_fallback=1 uses_timing=0 probe_ms=161.484003067 assembly_ms=9.36698913574
+GROUP_SETUP graph=com-LiveJournal phase=guard_probe ms=161.484003067
+GROUP_SETUP graph=com-LiveJournal phase=guard_schedule_assembly ms=9.36698913574
+GROUP_AUDIT graph=com-LiveJournal schedule=degree pass=1 rows=3997962 moved=0 fnv64=17450678118189930306 full_projections=249873 b64_projections=271940 b256_projections=251243 windows=271940 state_load_bytes=179187200 state_store_bytes=2226143744 padded_steps=69564096 audit_ms=35.3491306305
+GROUP_AUDIT graph=com-LiveJournal schedule=qsource pass=1 rows=3997962 moved=3996943 fnv64=9937167995946501002 full_projections=249873 b64_projections=271940 b256_projections=251243 windows=271940 state_load_bytes=179187200 state_store_bytes=2226143744 padded_steps=70342960 audit_ms=36.3671779633
+GROUP_AUDIT graph=com-LiveJournal schedule=qpage pass=1 rows=3997962 moved=3996907 fnv64=5724096354708628316 full_projections=249873 b64_projections=271940 b256_projections=251243 windows=271940 state_load_bytes=179187200 state_store_bytes=2226143744 padded_steps=70301456 audit_ms=35.679101944
+GROUP_AUDIT graph=com-LiveJournal schedule=qsamplepage pass=1 rows=3997962 moved=3996906 fnv64=6024811689663703178 full_projections=249873 b64_projections=271940 b256_projections=251243 windows=271940 state_load_bytes=179187200 state_store_bytes=2226143744 padded_steps=70367824 audit_ms=35.4208946228
+GROUP_AUDIT graph=com-LiveJournal schedule=qguard pass=1 rows=3997962 moved=208177 fnv64=6194011054399015906 full_projections=249873 b64_projections=271940 b256_projections=251243 windows=271940 state_load_bytes=179187200 state_store_bytes=2226143744 padded_steps=70219056 audit_ms=33.5791110992
+GROUP_SETUP graph=com-LiveJournal phase=all_schedules_total ms=544.049024582 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=com-LiveJournal phase=all_five_frozen_schedules ms=544.667959213 included_in_primary=0
+STATE_CONFIG graph=com-LiveJournal N=3997962 E=69362378 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=com-LiveJournal method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=com-LiveJournal method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=com-LiveJournal method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=com-LiveJournal method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=com-LiveJournal method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=37904.75 mean_abs=18.7738840035 relative_L2=0.0128691809134 normalized_max=0.0133545182028 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=6.4501953125 mean_abs=0.02903140451 relative_L2=0.00324486642727 normalized_max=0.00310249640577 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=15713.25 mean_abs=8.53822841876 relative_L2=0.00579647650617 normalized_max=0.00558779459874 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.51380457267 relative_L2=0.00619044085524 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=53345.75 mean_abs=26.8285301654 relative_L2=0.018384206257 normalized_max=0.0187946573824 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=5.24780273438 mean_abs=0.0290304786294 relative_L2=0.00324507654098 normalized_max=0.00252415443762 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=15874.5 mean_abs=8.56417095331 relative_L2=0.00587799678191 normalized_max=0.00564513677041 gate=0.01 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=8.53978982793 relative_L2=0.00627983341884 normalized_max=0.00584795321637 gate=0.02 pass=1
+METHOD_CHECK graph=com-LiveJournal method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=54288.75 mean_abs=26.8372687296 relative_L2=0.018407251517 normalized_max=0.0191268930696 gate=0.03 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=com-LiveJournal method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=com-LiveJournal pass=1
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=consecutive repeat=0 order=0 ms=243.726968765
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=consecutive repeat=1 order=0 ms=243.82519722
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=consecutive repeat=2 order=0 ms=239.045858383
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=consecutive repeat=3 order=0 ms=241.762161255
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=consecutive repeat=4 order=0 ms=255.042076111
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=consecutive repeat=0 order=1 ms=253.499031067
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=consecutive repeat=1 order=1 ms=256.12616539
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=consecutive repeat=2 order=1 ms=250.613927841
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=consecutive repeat=3 order=1 ms=254.531860352
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=consecutive repeat=4 order=1 ms=253.806114197
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=consecutive repeat=0 order=2 ms=251.64103508
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=consecutive repeat=1 order=2 ms=251.950979233
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=consecutive repeat=2 order=2 ms=254.256010056
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=consecutive repeat=3 order=2 ms=249.053001404
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=consecutive repeat=4 order=2 ms=252.911090851
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=consecutive repeat=0 order=3 ms=257.406949997
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=consecutive repeat=1 order=3 ms=258.13293457
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=consecutive repeat=2 order=3 ms=255.869865417
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=consecutive repeat=3 order=3 ms=255.058050156
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=consecutive repeat=4 order=3 ms=253.190994263
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=231.286048889
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=232.640981674
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=232.11312294
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=230.690956116
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=236.523866653
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=consecutive repeat=0 order=5 ms=230.573892593
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=consecutive repeat=1 order=5 ms=233.716011047
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=consecutive repeat=2 order=5 ms=228.359937668
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=consecutive repeat=3 order=5 ms=230.744123459
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=consecutive repeat=4 order=5 ms=227.634906769
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=consecutive repeat=0 order=6 ms=223.820924759
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=consecutive repeat=1 order=6 ms=227.916002274
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=consecutive repeat=2 order=6 ms=226.927042007
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=consecutive repeat=3 order=6 ms=228.070020676
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=consecutive repeat=4 order=6 ms=225.624084473
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=consecutive repeat=0 order=7 ms=259.127140045
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=consecutive repeat=1 order=7 ms=258.465051651
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=consecutive repeat=2 order=7 ms=258.21185112
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=consecutive repeat=3 order=7 ms=260.81609726
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=consecutive repeat=4 order=7 ms=255.582094193
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=235.857009888
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=237.905979156
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=235.331058502
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=233.994007111
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=236.524105072
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=232.501983643
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=232.904911041
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=236.593961716
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=230.204820633
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=234.393119812
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=233.632087708
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=228.16991806
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=230.934143066
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=231.750965118
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=228.06096077
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=645.554065704
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=646.203041077
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=646.289110184
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=645.33495903
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=645.00784874
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=0 order=0 ms=248.229980469
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=0 order=1 ms=251.327037811
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=0 order=2 ms=250.252962112
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=0 order=3 ms=251.363039017
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=0 order=4 ms=233.646869659
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=0 order=5 ms=226.39799118
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=0 order=6 ms=226.969003677
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=0 order=7 ms=255.256891251
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=236.140966415
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=0 order=9 ms=231.886148453
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=0 order=10 ms=231.836080551
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=645.624876022
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=645.232915878
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=1 order=1 ms=224.128007889
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=1 order=2 ms=224.590063095
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=238.740921021
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=1 order=4 ms=256.227016449
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=1 order=5 ms=225.618839264
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=1 order=6 ms=229.319810867
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=1 order=7 ms=231.949806213
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=1 order=8 ms=253.620862961
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=1 order=9 ms=250.001907349
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=1 order=10 ms=253.724098206
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=1 order=11 ms=256.75201416
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=2 order=0 ms=250.926971436
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=2 order=1 ms=250.690937042
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=2 order=2 ms=250.420093536
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=2 order=3 ms=257.784128189
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=2 order=4 ms=237.149000168
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=2 order=5 ms=234.086036682
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=2 order=6 ms=227.113962173
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=2 order=7 ms=257.114887238
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=234.663009644
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=2 order=9 ms=234.525918961
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=2 order=10 ms=229.396104813
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=645.380973816
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=644.758939743
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=3 order=1 ms=219.257116318
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=3 order=2 ms=229.715108871
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=237.755060196
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=3 order=4 ms=258.691072464
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=3 order=5 ms=231.024980545
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=3 order=6 ms=232.284069061
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=3 order=7 ms=236.393928528
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=3 order=8 ms=256.764888763
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=3 order=9 ms=252.075910568
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=3 order=10 ms=250.545978546
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=3 order=11 ms=255.979061127
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=4 order=0 ms=252.525806427
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=4 order=1 ms=249.579906464
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=4 order=2 ms=250.439882278
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=4 order=3 ms=257.6379776
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=4 order=4 ms=234.311103821
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=4 order=5 ms=232.460975647
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=4 order=6 ms=224.617004395
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=4 order=7 ms=257.405996323
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=239.217042923
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=4 order=9 ms=235.810041428
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=4 order=10 ms=226.453065872
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=646.093130112
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=644.694805145
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=5 order=1 ms=218.770980835
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=5 order=2 ms=226.07588768
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=238.097190857
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=5 order=4 ms=258.879899979
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=5 order=5 ms=229.12311554
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=5 order=6 ms=232.141971588
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=5 order=7 ms=233.738899231
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=5 order=8 ms=255.612134933
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=5 order=9 ms=250.309944153
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=5 order=10 ms=253.40294838
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=5 order=11 ms=251.706838608
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=6 order=0 ms=249.570131302
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=6 order=1 ms=252.110958099
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=6 order=2 ms=252.695083618
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=6 order=3 ms=255.604028702
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=6 order=4 ms=235.184192657
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=6 order=5 ms=233.277082443
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=6 order=6 ms=227.08106041
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=6 order=7 ms=254.743099213
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=239.583969116
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=6 order=9 ms=232.726097107
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=6 order=10 ms=229.989051819
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=645.005941391
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=645.720005035
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=7 order=1 ms=222.556829453
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=7 order=2 ms=227.844953537
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=239.595890045
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=7 order=4 ms=254.160881042
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=7 order=5 ms=225.485801697
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=7 order=6 ms=230.937957764
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=7 order=7 ms=233.613014221
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=7 order=8 ms=256.201028824
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=7 order=9 ms=251.775979996
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=7 order=10 ms=254.591941833
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=7 order=11 ms=257.463216782
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=8 order=0 ms=254.153013229
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=8 order=1 ms=249.093055725
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=8 order=2 ms=251.549005508
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=8 order=3 ms=255.870103836
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=8 order=4 ms=233.47902298
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=8 order=5 ms=234.179973602
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=8 order=6 ms=227.327823639
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=8 order=7 ms=257.195949554
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=235.51607132
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=8 order=9 ms=234.335899353
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=8 order=10 ms=229.855060577
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=645.615100861
+STATE_TIME graph=com-LiveJournal method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=644.597053528
+STATE_TIME graph=com-LiveJournal method=pair_s_qguard kind=alternating repeat=9 order=1 ms=219.768047333
+STATE_TIME graph=com-LiveJournal method=pair_i_qguard kind=alternating repeat=9 order=2 ms=226.252794266
+STATE_TIME graph=com-LiveJournal method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=237.076997757
+STATE_TIME graph=com-LiveJournal method=p0_qguard kind=alternating repeat=9 order=4 ms=258.701086044
+STATE_TIME graph=com-LiveJournal method=pair_s_degree kind=alternating repeat=9 order=5 ms=227.437019348
+STATE_TIME graph=com-LiveJournal method=pair_i_degree kind=alternating repeat=9 order=6 ms=232.645988464
+STATE_TIME graph=com-LiveJournal method=pack_epi_degree kind=alternating repeat=9 order=7 ms=234.417915344
+STATE_TIME graph=com-LiveJournal method=p0_degree kind=alternating repeat=9 order=8 ms=255.362987518
+STATE_TIME graph=com-LiveJournal method=bfull_fast kind=alternating repeat=9 order=9 ms=251.309156418
+STATE_TIME graph=com-LiveJournal method=b256_fast kind=alternating repeat=9 order=10 ms=250.272035599
+STATE_TIME graph=com-LiveJournal method=paper_tfs kind=alternating repeat=9 order=11 ms=258.693933487
+STATE_COUNTERS graph=com-LiveJournal method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=0 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=0
+STATE_WORK_GATE graph=com-LiveJournal method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=0 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=0
+STATE_WORK_GATE graph=com-LiveJournal method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=347580 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=53977571
+STATE_WORK_GATE graph=com-LiveJournal method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=347580 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=53977571
+STATE_WORK_GATE graph=com-LiveJournal method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69014798 shared_heads=347580 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=53977571
+STATE_WORK_GATE graph=com-LiveJournal method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69014798 shared_heads=347580 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=53977571
+STATE_WORK_GATE graph=com-LiveJournal method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=0 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=0
+STATE_WORK_GATE graph=com-LiveJournal method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=0 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=0
+STATE_WORK_GATE graph=com-LiveJournal method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=1321359 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=54996616
+STATE_WORK_GATE graph=com-LiveJournal method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=69362378 shared_heads=1321359 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=54996616
+STATE_WORK_GATE graph=com-LiveJournal method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=68041019 shared_heads=1321359 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=54996616
+STATE_WORK_GATE graph=com-LiveJournal method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=com-LiveJournal method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=69362378 feature_adds=8878384384 decode_rows=68041019 shared_heads=1321359 projection_scopes=249873 amx_tdp=7995936 partial_zero_bytes=0 partial_load_bytes=179187200 partial_store_bytes=179187200 packing_load_bytes=0 direct_rows=3997962 packed_bytes=1023479808 prefetch_requests=261457664 csr_reads=69362378 comparisons=54996616
+STATE_WORK_GATE graph=com-LiveJournal method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=com-LiveJournal method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=com-LiveJournal schedule=degree scope=64 edges=69362378 shared_heads=347580 merge_steps=69014798 share_fraction=0.00501107387062 projection_scopes=271940 windows=271940 scalar_adds=8878384384 direct_decode_rows=69362378 shared_decode_rows=69014798 amx_tdp_fast=8702080 baseline_partial_zero_bytes=2227732480 baseline_state_load_bytes=0 baseline_state_store_bytes=2227019776 direct_saved_terminal_bytes=4454752256 prefetch_requests=260057764 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=com-LiveJournal schedule=degree scope=256 edges=69362378 shared_heads=347580 merge_steps=69014798 share_fraction=0.00501107387062 projection_scopes=251243 windows=271940 scalar_adds=8878384384 direct_decode_rows=69362378 shared_decode_rows=69014798 amx_tdp_fast=8039776 baseline_partial_zero_bytes=2058182656 baseline_state_load_bytes=168361984 baseline_state_store_bytes=2226366464 direct_saved_terminal_bytes=4116187136 prefetch_requests=261373092 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=com-LiveJournal schedule=degree scope=0 edges=69362378 shared_heads=347580 merge_steps=69014798 share_fraction=0.00501107387062 projection_scopes=249873 windows=271940 scalar_adds=8878384384 direct_decode_rows=69362378 shared_decode_rows=69014798 amx_tdp_fast=7995936 baseline_partial_zero_bytes=2046959616 baseline_state_load_bytes=179187200 baseline_state_store_bytes=2226143744 direct_saved_terminal_bytes=4093916160 prefetch_requests=261457664 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=com-LiveJournal schedule=qguard scope=64 edges=69362378 shared_heads=1321359 merge_steps=68041019 share_fraction=0.0190500821641 projection_scopes=271940 windows=271940 scalar_adds=8878384384 direct_decode_rows=69362378 shared_decode_rows=68041019 amx_tdp_fast=8702080 baseline_partial_zero_bytes=2227732480 baseline_state_load_bytes=0 baseline_state_store_bytes=2227019776 direct_saved_terminal_bytes=4454752256 prefetch_requests=260057764 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=com-LiveJournal schedule=qguard scope=256 edges=69362378 shared_heads=1321359 merge_steps=68041019 share_fraction=0.0190500821641 projection_scopes=251243 windows=271940 scalar_adds=8878384384 direct_decode_rows=69362378 shared_decode_rows=68041019 amx_tdp_fast=8039776 baseline_partial_zero_bytes=2058182656 baseline_state_load_bytes=168361984 baseline_state_store_bytes=2226366464 direct_saved_terminal_bytes=4116187136 prefetch_requests=261373092 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=com-LiveJournal schedule=qguard scope=0 edges=69362378 shared_heads=1321359 merge_steps=68041019 share_fraction=0.0190500821641 projection_scopes=249873 windows=271940 scalar_adds=8878384384 direct_decode_rows=69362378 shared_decode_rows=68041019 amx_tdp_fast=7995936 baseline_partial_zero_bytes=2046959616 baseline_state_load_bytes=179187200 baseline_state_store_bytes=2226143744 direct_saved_terminal_bytes=4093916160 prefetch_requests=261457664 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=com-LiveJournal pass=1 methods=11 smoke=0 max_rss_kib=23533448

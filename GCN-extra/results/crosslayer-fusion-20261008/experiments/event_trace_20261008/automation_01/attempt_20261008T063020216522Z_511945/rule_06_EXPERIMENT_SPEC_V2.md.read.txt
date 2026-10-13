@@ -1,0 +1,7 @@
+# TFS-Train v2 Experiment Specification
+
+Every run reads and hashes server `AGENTS.md` and the research Skill, creates a unique immutable run directory, records versions/environment/affinity/Slurm identity/config/source hashes and raw JSON/CSV, and then updates all three handoff documents.
+
+C0-v2 is one correctness/environment gate: FP64 and FP32 `P,dW,dH` alignment; internal/direct `Hs,ybar` equivalence; compiled extension import; one reference autograd pass; AMX, ABI, OpenMP, NUMA, binding, memory, hugepage and mmap audit; deprecated v1 paths absent from default build; B1 started; no P0/P1. It is not a performance result and cannot enter a paper table.
+
+Formal performance later uses `intel_expr --exclusive`; correctness uses normal `intel`. Timing comparisons require identical precision, data, threads, affinity and boundaries.

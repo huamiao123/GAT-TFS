@@ -1,0 +1,1671 @@
+{
+  "checks": [
+    {
+      "name": "production_bf16_caller_trace_i",
+      "pass": true
+    },
+    {
+      "name": "no_direct_vector_stack_memory_trace_i",
+      "pass": true
+    },
+    {
+      "name": "production_bf16_caller_trace_s_cached",
+      "pass": true
+    },
+    {
+      "name": "no_direct_vector_stack_memory_trace_s_cached",
+      "pass": true
+    },
+    {
+      "name": "production_bf16_caller_trace_s_rep",
+      "pass": true
+    },
+    {
+      "name": "no_direct_vector_stack_memory_trace_s_rep",
+      "pass": true
+    },
+    {
+      "name": "production_bf16_caller_dyn_i",
+      "pass": true
+    },
+    {
+      "name": "no_direct_vector_stack_memory_dyn_i",
+      "pass": true
+    },
+    {
+      "name": "production_bf16_caller_dyn_s",
+      "pass": true
+    },
+    {
+      "name": "no_direct_vector_stack_memory_dyn_s",
+      "pass": true
+    },
+    {
+      "name": "old_reducer_identity_dyn_i",
+      "pass": true
+    },
+    {
+      "name": "old_reducer_identity_dyn_s",
+      "pass": true
+    },
+    {
+      "name": "take3_decode_shift_add_trace_i",
+      "pass": true
+    },
+    {
+      "name": "take3_decode_shift_add_trace_s_cached",
+      "pass": true
+    },
+    {
+      "name": "take3_decode_shift_add_trace_s_rep",
+      "pass": true
+    },
+    {
+      "name": "take3_decode_shift_add_dyn_i",
+      "pass": true
+    },
+    {
+      "name": "take3_decode_shift_add_dyn_s",
+      "pass": true
+    },
+    {
+      "name": "site_trace_i_current_head_update_0x4637d4",
+      "pass": true
+    },
+    {
+      "name": "site_trace_i_current_head_update_0x4637fe",
+      "pass": true
+    },
+    {
+      "name": "site_trace_i_prefetch_next_index_0x4635ba",
+      "pass": true
+    },
+    {
+      "name": "site_trace_i_prefetch_next_index_0x4635f6",
+      "pass": true
+    },
+    {
+      "name": "site_trace_i_packed_payload_byte_0x46357a",
+      "pass": true
+    },
+    {
+      "name": "site_trace_i_mask_shift_0x463593",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_cached_current_head_update_0x4642f8",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_cached_current_head_update_0x464326",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_cached_prefetch_next_index_0x464038",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_cached_prefetch_next_index_0x464153",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_cached_packed_payload_byte_0x464007",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_cached_mask_shift_0x464010",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_rep_mutually_exclusive_current_head_0x464b5d",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_rep_mutually_exclusive_current_head_0x464b83",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_rep_prefetch_next_index_0x464b90",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_rep_prefetch_next_index_0x464be1",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_rep_packed_payload_byte_0x464a76",
+      "pass": true
+    },
+    {
+      "name": "site_trace_s_rep_mask_shift_0x464b2e",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_i_head_comparison_0x467f16",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_i_head_comparison_0x467f31",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_i_current_head_update_0x4681a9",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_i_current_head_update_0x4681ce",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_i_prefetch_next_index_0x467f80",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_i_prefetch_next_index_0x467fd1",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_s_head_comparison_0x4689c4",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_s_head_comparison_0x4689dd",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_s_current_head_update_0x468d19",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_s_current_head_update_0x468d3d",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_s_prefetch_next_index_0x468a1c",
+      "pass": true
+    },
+    {
+      "name": "site_dyn_s_prefetch_next_index_0x468a66",
+      "pass": true
+    }
+  ],
+  "conclusions": [
+    "trace_i and dyn_i retain two independently decoded BF16 feature vectors on a shared (mask11) event: 16 vpmovzxwd + 16 vpslld + 16 vaddps. No CSE collapsed the intended independent-decode control.",
+    "trace_s_cached, trace_s_rep and dyn_s shared events decode once: 8 vpmovzxwd + 8 vpslld + 16 vaddps. Both destination additions remain; single-destination events use 8/8/8.",
+    "Cached trace modes retain separate per-row next-current-head loads when consumed rows remain nonempty. Representative mode chooses one of two current-head load sites at event entry; take11 chooses row0. PF1 next-index loads and four prefetch hints per eligible consumed row remain separate in all treatments.",
+    "Trace hot loops read packed event bytes and shift masks. Dynamic head-value comparison instructions are replaced by trace decoding and mask control, not by a free oracle.",
+    "Each examined pair reducer has scalar stack traffic, but no direct rsp/rbp-based memory instruction involving an xmm/ymm/zmm register. This narrow screen supports no obvious direct vector-accumulator spill, not absence of all spills.",
+    "dyn_i/dyn_s pair-window instruction streams match the prior access-prefetch build after address normalization."
+  ],
+  "extracts_sha256": {
+    "dyn_i.asm": "6c8fac256ef94ccf2f0908d09b37523fbb7311a12c3deb18e21a29ac98fb48d4",
+    "dyn_i_previous.asm": "82b13a87dbe9efe9cdb3fedd4d22000d58ba967b0f9b15be31ed30cb4df78497",
+    "dyn_s.asm": "b82f6fecb751f934ff2a224eea6e83855c3cd77d9a7c9d22022623e6be0662ce",
+    "dyn_s_previous.asm": "fd405711e4dae8ad93e385faf3847bed6a4b27ef11420b730e0cde607ae86984",
+    "trace_i.asm": "04472797bd1fbc0c8683746db7899fa5f9f0c3b57b7e1440d14863cb055a3add",
+    "trace_s_cached.asm": "0d488da4b12a56b7751b77f2e24a8d0c498a22e468b86bbf15d023c396a502c3",
+    "trace_s_rep.asm": "4a091a219b6e1ac16e5a73c37030f9351b727c9db9b0d399e4dbd1fbc8cd1215"
+  },
+  "functions": {
+    "dyn_i": {
+      "direct_callers": [
+        {
+          "address": "0x41c09e",
+          "bf16_output": false,
+          "caller": "void gcn_extra_pair_plan::kernel<false, false, 1>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_pair_plan::Profile*) [clone .extracted]"
+        },
+        {
+          "address": "0x430a1e",
+          "bf16_output": true,
+          "caller": "void gcn_extra_pair_plan::kernel<false, true, 1>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_pair_plan::Profile*) [clone .extracted]"
+        }
+      ],
+      "direct_stack_memory_instruction_count": 47,
+      "direct_vector_stack_memory_instructions": [],
+      "entry": "0x467be0",
+      "extract": "/online1/huangjianqiang_group/hdacp1/wzh/GCN-extra/experiments/event_trace_20261008/codegen_audit_01/dyn_i.asm",
+      "extract_sha256": "6c8fac256ef94ccf2f0908d09b37523fbb7311a12c3deb18e21a29ac98fb48d4",
+      "instruction_count_static": 522,
+      "mnemonic_counts_static": {
+        "add": 8,
+        "and": 3,
+        "cltq": 2,
+        "cmovae": 1,
+        "cmovb": 4,
+        "cmove": 1,
+        "cmp": 21,
+        "cmpb": 21,
+        "data16": 2,
+        "ja": 3,
+        "jae": 4,
+        "jb": 1,
+        "jbe": 2,
+        "je": 35,
+        "jmp": 4,
+        "jmpq": 5,
+        "jne": 11,
+        "js": 1,
+        "lea": 3,
+        "mov": 82,
+        "movb": 3,
+        "movl": 4,
+        "movslq": 7,
+        "movzbl": 2,
+        "nop": 1,
+        "nopw": 1,
+        "or": 2,
+        "pop": 6,
+        "prefetcht0": 8,
+        "push": 6,
+        "retq": 1,
+        "sbb": 1,
+        "seta": 3,
+        "setb": 2,
+        "setns": 2,
+        "shl": 11,
+        "test": 28,
+        "vaddps": 16,
+        "vandps": 16,
+        "vmovups": 40,
+        "vpmovdw": 32,
+        "vpmovzxwd": 16,
+        "vpslld": 16,
+        "vpsrld": 32,
+        "vsubps": 16,
+        "vxorps": 24,
+        "vzeroupper": 1,
+        "xor": 11
+      },
+      "symbol": "void gcn_extra_pair_plan::dynamic_pair_window<false, false>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, int, unsigned int, unsigned int, unsigned int, bool, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Profile&, bool)"
+    },
+    "dyn_s": {
+      "direct_callers": [
+        {
+          "address": "0x41df7e",
+          "bf16_output": false,
+          "caller": "void gcn_extra_pair_plan::kernel<false, false, 2>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_pair_plan::Profile*) [clone .extracted]"
+        },
+        {
+          "address": "0x432aae",
+          "bf16_output": true,
+          "caller": "void gcn_extra_pair_plan::kernel<false, true, 2>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_pair_plan::Profile*) [clone .extracted]"
+        }
+      ],
+      "direct_stack_memory_instruction_count": 50,
+      "direct_vector_stack_memory_instructions": [],
+      "entry": "0x468670",
+      "extract": "/online1/huangjianqiang_group/hdacp1/wzh/GCN-extra/experiments/event_trace_20261008/codegen_audit_01/dyn_s.asm",
+      "extract_sha256": "b82f6fecb751f934ff2a224eea6e83855c3cd77d9a7c9d22022623e6be0662ce",
+      "instruction_count_static": 563,
+      "mnemonic_counts_static": {
+        "add": 8,
+        "and": 3,
+        "cmovae": 1,
+        "cmovb": 4,
+        "cmove": 1,
+        "cmp": 23,
+        "cmpb": 21,
+        "data16": 2,
+        "ja": 3,
+        "jae": 4,
+        "jb": 1,
+        "jbe": 2,
+        "je": 34,
+        "jmp": 4,
+        "jmpq": 7,
+        "jne": 9,
+        "js": 1,
+        "lea": 3,
+        "mov": 91,
+        "movb": 3,
+        "movl": 3,
+        "movslq": 9,
+        "movzbl": 2,
+        "nopl": 2,
+        "nopw": 2,
+        "or": 2,
+        "pop": 6,
+        "prefetcht0": 8,
+        "push": 6,
+        "retq": 1,
+        "sbb": 1,
+        "seta": 3,
+        "setb": 2,
+        "setns": 2,
+        "shl": 12,
+        "test": 23,
+        "vaddps": 32,
+        "vandps": 16,
+        "vmovups": 40,
+        "vpmovdw": 32,
+        "vpmovzxwd": 24,
+        "vpslld": 24,
+        "vpsrld": 32,
+        "vsubps": 16,
+        "vxorps": 24,
+        "vzeroupper": 1,
+        "xchg": 1,
+        "xor": 12
+      },
+      "symbol": "void gcn_extra_pair_plan::dynamic_pair_window<false, true>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, int, unsigned int, unsigned int, unsigned int, bool, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Profile&, bool)"
+    },
+    "trace_i": {
+      "direct_callers": [
+        {
+          "address": "0x40e0cc",
+          "bf16_output": false,
+          "caller": "void gcn_extra_event_trace::kernel<false, false, 0>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_event_trace::TracePlan const&, gcn_extra_event_trace::Profile*) [clone .extracted]"
+        },
+        {
+          "address": "0x421f0c",
+          "bf16_output": true,
+          "caller": "void gcn_extra_event_trace::kernel<false, true, 0>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_event_trace::TracePlan const&, gcn_extra_event_trace::Profile*) [clone .extracted]"
+        }
+      ],
+      "direct_stack_memory_instruction_count": 59,
+      "direct_vector_stack_memory_instructions": [],
+      "entry": "0x4631e0",
+      "extract": "/online1/huangjianqiang_group/hdacp1/wzh/GCN-extra/experiments/event_trace_20261008/codegen_audit_01/trace_i.asm",
+      "extract_sha256": "04472797bd1fbc0c8683746db7899fa5f9f0c3b57b7e1440d14863cb055a3add",
+      "instruction_count_static": 518,
+      "mnemonic_counts_static": {
+        "adc": 1,
+        "add": 9,
+        "cltq": 2,
+        "cmovae": 1,
+        "cmovb": 4,
+        "cmp": 18,
+        "cmpb": 21,
+        "data16": 3,
+        "dec": 2,
+        "ja": 2,
+        "jae": 4,
+        "jbe": 2,
+        "je": 37,
+        "jmp": 5,
+        "jmpq": 7,
+        "jne": 8,
+        "js": 1,
+        "lea": 5,
+        "mov": 89,
+        "movb": 3,
+        "movl": 5,
+        "movslq": 7,
+        "movzbl": 3,
+        "nopl": 1,
+        "nopw": 1,
+        "or": 2,
+        "pop": 6,
+        "prefetcht0": 8,
+        "push": 6,
+        "retq": 1,
+        "seta": 2,
+        "shl": 11,
+        "shr": 3,
+        "test": 22,
+        "vaddps": 16,
+        "vandps": 16,
+        "vmovups": 40,
+        "vpmovdw": 32,
+        "vpmovzxwd": 16,
+        "vpslld": 16,
+        "vpsrld": 32,
+        "vsubps": 16,
+        "vxorps": 24,
+        "vzeroupper": 1,
+        "xor": 7
+      },
+      "symbol": "void gcn_extra_event_trace::trace_pair_window<false, 0>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, int, unsigned int, unsigned int, unsigned int, bool, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, unsigned char const*&, gcn_extra_event_trace::Profile&, bool)"
+    },
+    "trace_s_cached": {
+      "direct_callers": [
+        {
+          "address": "0x40ffdc",
+          "bf16_output": false,
+          "caller": "void gcn_extra_event_trace::kernel<false, false, 1>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_event_trace::TracePlan const&, gcn_extra_event_trace::Profile*) [clone .extracted]"
+        },
+        {
+          "address": "0x42400c",
+          "bf16_output": true,
+          "caller": "void gcn_extra_event_trace::kernel<false, true, 1>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_event_trace::TracePlan const&, gcn_extra_event_trace::Profile*) [clone .extracted]"
+        }
+      ],
+      "direct_stack_memory_instruction_count": 58,
+      "direct_vector_stack_memory_instructions": [],
+      "entry": "0x463c70",
+      "extract": "/online1/huangjianqiang_group/hdacp1/wzh/GCN-extra/experiments/event_trace_20261008/codegen_audit_01/trace_s_cached.asm",
+      "extract_sha256": "0d488da4b12a56b7751b77f2e24a8d0c498a22e468b86bbf15d023c396a502c3",
+      "instruction_count_static": 540,
+      "mnemonic_counts_static": {
+        "adc": 1,
+        "add": 10,
+        "and": 1,
+        "cltq": 2,
+        "cmovae": 1,
+        "cmovb": 4,
+        "cmp": 22,
+        "cmpb": 21,
+        "data16": 2,
+        "dec": 1,
+        "inc": 1,
+        "ja": 2,
+        "jae": 6,
+        "jb": 1,
+        "jbe": 2,
+        "je": 32,
+        "jmp": 5,
+        "jmpq": 8,
+        "jne": 8,
+        "js": 1,
+        "lea": 4,
+        "mov": 89,
+        "movb": 3,
+        "movl": 5,
+        "movslq": 7,
+        "movzbl": 3,
+        "nopl": 1,
+        "or": 2,
+        "pop": 6,
+        "prefetcht0": 8,
+        "push": 6,
+        "retq": 1,
+        "seta": 2,
+        "shl": 12,
+        "shr": 3,
+        "test": 16,
+        "vaddps": 24,
+        "vandps": 16,
+        "vmovups": 40,
+        "vpmovdw": 32,
+        "vpmovzxwd": 24,
+        "vpslld": 24,
+        "vpsrld": 32,
+        "vsubps": 16,
+        "vxorps": 24,
+        "vzeroupper": 1,
+        "xchg": 1,
+        "xor": 7
+      },
+      "symbol": "void gcn_extra_event_trace::trace_pair_window<false, 1>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, int, unsigned int, unsigned int, unsigned int, bool, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, unsigned char const*&, gcn_extra_event_trace::Profile&, bool)"
+    },
+    "trace_s_rep": {
+      "direct_callers": [
+        {
+          "address": "0x411eec",
+          "bf16_output": false,
+          "caller": "void gcn_extra_event_trace::kernel<false, false, 2>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<false, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_event_trace::TracePlan const&, gcn_extra_event_trace::Profile*) [clone .extracted]"
+        },
+        {
+          "address": "0x42610c",
+          "bf16_output": true,
+          "caller": "void gcn_extra_event_trace::kernel<false, true, 2>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned short const*, std::conditional<true, unsigned short, float>::type*, int const*, gcn_extra_state::Method const&, gcn_extra_pair_plan::Plan const&, gcn_extra_event_trace::TracePlan const&, gcn_extra_event_trace::Profile*) [clone .extracted]"
+        }
+      ],
+      "direct_stack_memory_instruction_count": 42,
+      "direct_vector_stack_memory_instructions": [],
+      "entry": "0x464790",
+      "extract": "/online1/huangjianqiang_group/hdacp1/wzh/GCN-extra/experiments/event_trace_20261008/codegen_audit_01/trace_s_rep.asm",
+      "extract_sha256": "4a091a219b6e1ac16e5a73c37030f9351b727c9db9b0d399e4dbd1fbc8cd1215",
+      "instruction_count_static": 493,
+      "mnemonic_counts_static": {
+        "adc": 1,
+        "add": 6,
+        "and": 2,
+        "cltq": 2,
+        "cmovae": 1,
+        "cmovb": 4,
+        "cmp": 17,
+        "cmpb": 21,
+        "data16": 2,
+        "dec": 1,
+        "ja": 1,
+        "jae": 3,
+        "jb": 1,
+        "je": 29,
+        "jmp": 4,
+        "jmpq": 7,
+        "jne": 7,
+        "js": 1,
+        "lea": 5,
+        "mov": 71,
+        "movl": 3,
+        "movslq": 7,
+        "movzbl": 4,
+        "nopl": 2,
+        "nopw": 1,
+        "or": 2,
+        "pop": 6,
+        "prefetcht0": 8,
+        "push": 6,
+        "retq": 1,
+        "sbb": 1,
+        "seta": 2,
+        "shl": 12,
+        "shr": 3,
+        "test": 11,
+        "vaddps": 24,
+        "vandps": 16,
+        "vmovups": 40,
+        "vpmovdw": 32,
+        "vpmovzxwd": 24,
+        "vpslld": 24,
+        "vpsrld": 32,
+        "vsubps": 16,
+        "vxorps": 24,
+        "vzeroupper": 1,
+        "xor": 5
+      },
+      "symbol": "void gcn_extra_event_trace::trace_pair_window<false, 2>(gcn_extra_paper::SourceGraphView const&, unsigned short const*, unsigned int const*, unsigned int const*, int, int, unsigned int, unsigned int, unsigned int, bool, float*, unsigned short*, unsigned short*, gcn_extra_state::Method const&, unsigned char const*&, gcn_extra_event_trace::Profile&, bool)"
+    }
+  },
+  "inputs_sha256": {
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/access-prefetch-20261008-01/build/disassembly.txt": "b7ce457d39727749cc2aced7ad6c47f04857c2286e38dbb441c7a67a941b32e9",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/build/commands.txt": "32a15395fe93d42b20ae3b4dcb19752ff0fcb34018b0cf62fe7572bdb697eb25",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/build/disassembly.txt": "356ed7c2e4b1c331355b2dc834dc33b4436c66062e758e6b7840fd3278d3c9fa",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/build/kernel_static_audit.json": "3bfd63d838bcef7f0fe651821d5cba898062b1c85c8806b0fd002ad9417fe327",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/build/trace_methods": "a59e61fea119331082150f926c7c337236b9f25160311b7caa4e7d2888d483e2",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/manifest.json": "9302ac1549b4ba078a59d0e693c517fff014ef6854609cfc24671b3e3ee95576",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/source.sha256": "2813b90a4efa010ab1324b790faf804891cea9c059559db5b1b535d0e361427b",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/source_snapshot/planned_kernel.hpp": "0e68326806ef441c97b779273b295a870d4a8dc57398357b752cf98bdb19ec1b",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/source_snapshot/planned_reducer.hpp": "ab84c109997670fe616a2661cd2f4d95895d1d750ab99f9324fd4ef56aac02c8",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/source_snapshot/trace_kernel.hpp": "f8e8766b890108f33ac01282b761371347051be873336e676dfb55adc6a0762e",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/source_snapshot/trace_plan.hpp": "80b327f4b101bbd44d269a731aaaeeba3538f8458bde2a30eaf94d13e895530d",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01/source_snapshot/trace_reducer.hpp": "63f1f0ac746f421eb011f94d866a69fc5766ff6e9f0370d2e9f8a52097a3f29e"
+  },
+  "load_and_control_sites": {
+    "dyn_i": {
+      "current_head_update": [
+        {
+          "address": "0x4681a9",
+          "instruction": "mov    (%rdi,%r14,4),%r11d"
+        },
+        {
+          "address": "0x4681ce",
+          "instruction": "mov    (%rdi,%r10,4),%eax"
+        }
+      ],
+      "head_comparison": [
+        {
+          "address": "0x467f16",
+          "instruction": "cmp    %r11d,%eax"
+        },
+        {
+          "address": "0x467f31",
+          "instruction": "cmp    %eax,%r11d"
+        }
+      ],
+      "prefetch_next_index": [
+        {
+          "address": "0x467f80",
+          "instruction": "mov    0x4(%rdi,%rbx,4),%r8d"
+        },
+        {
+          "address": "0x467fd1",
+          "instruction": "mov    0x4(%rdi,%r8,4),%r8d"
+        }
+      ]
+    },
+    "dyn_s": {
+      "current_head_update": [
+        {
+          "address": "0x468d19",
+          "instruction": "mov    (%rdi,%r12,4),%r12d"
+        },
+        {
+          "address": "0x468d3d",
+          "instruction": "mov    (%rdi,%r10,4),%r11d"
+        }
+      ],
+      "head_comparison": [
+        {
+          "address": "0x4689c4",
+          "instruction": "cmp    %r12d,%r11d"
+        },
+        {
+          "address": "0x4689dd",
+          "instruction": "cmp    %r11d,%r12d"
+        }
+      ],
+      "prefetch_next_index": [
+        {
+          "address": "0x468a1c",
+          "instruction": "mov    0x4(%rdi,%rbx,4),%ebx"
+        },
+        {
+          "address": "0x468a66",
+          "instruction": "mov    0x4(%rdi,%rbx,4),%ebx"
+        }
+      ]
+    },
+    "trace_i": {
+      "current_head_update": [
+        {
+          "address": "0x4637d4",
+          "instruction": "mov    (%rdi,%r9,4),%eax"
+        },
+        {
+          "address": "0x4637fe",
+          "instruction": "mov    (%rdi,%r11,4),%r11d"
+        }
+      ],
+      "mask_shift": [
+        {
+          "address": "0x463593",
+          "instruction": "shr    $0x2,%r14b"
+        }
+      ],
+      "packed_payload_byte": [
+        {
+          "address": "0x46357a",
+          "instruction": "movzbl 0x1(%rcx,%r10,1),%r14d"
+        }
+      ],
+      "prefetch_next_index": [
+        {
+          "address": "0x4635ba",
+          "instruction": "mov    0x4(%rdi,%r10,4),%ecx"
+        },
+        {
+          "address": "0x4635f6",
+          "instruction": "mov    0x4(%rdi,%rbx,4),%r10d"
+        }
+      ]
+    },
+    "trace_s_cached": {
+      "current_head_update": [
+        {
+          "address": "0x4642f8",
+          "instruction": "mov    (%rdi,%r9,4),%eax"
+        },
+        {
+          "address": "0x464326",
+          "instruction": "mov    (%rdi,%r11,4),%r11d"
+        }
+      ],
+      "mask_shift": [
+        {
+          "address": "0x464010",
+          "instruction": "shr    $0x2,%cl"
+        }
+      ],
+      "packed_payload_byte": [
+        {
+          "address": "0x464007",
+          "instruction": "movzbl (%r10,%rcx,1),%ecx"
+        }
+      ],
+      "prefetch_next_index": [
+        {
+          "address": "0x464038",
+          "instruction": "mov    0x4(%rdi,%rbp,4),%r10d"
+        },
+        {
+          "address": "0x464153",
+          "instruction": "mov    0x4(%rdi,%rbx,4),%ebx"
+        }
+      ]
+    },
+    "trace_s_rep": {
+      "mask_shift": [
+        {
+          "address": "0x464b2e",
+          "instruction": "shr    $0x2,%r12b"
+        }
+      ],
+      "mutually_exclusive_current_head": [
+        {
+          "address": "0x464b5d",
+          "instruction": "mov    (%rdi,%r8,4),%edx"
+        },
+        {
+          "address": "0x464b83",
+          "instruction": "mov    (%rdi,%rcx,4),%r9d"
+        }
+      ],
+      "packed_payload_byte": [
+        {
+          "address": "0x464a76",
+          "instruction": "movzbl (%rcx,%rax,1),%r12d"
+        }
+      ],
+      "prefetch_next_index": [
+        {
+          "address": "0x464b90",
+          "instruction": "mov    0x4(%rdi,%rcx,4),%ecx"
+        },
+        {
+          "address": "0x464be1",
+          "instruction": "mov    0x4(%rdi,%rbx,4),%r10d"
+        }
+      ]
+    }
+  },
+  "normalization": "Ignore instruction addresses/bytes and objdump comments; internal direct control-flow target -> relative offset; external target -> full symbol; RIP displacement -> placeholder. Preserve instruction order, registers, immediate values and stack offsets. This is reducer instruction identity, not whole-binary timing identity.",
+  "old_dynamic_reducer_identity": {
+    "dyn_i": {
+      "current_entry": "0x467be0",
+      "current_instruction_count": 522,
+      "current_normalized_sha256": "5994b2e173017f6cb9bacc306a7100c2a3858f05f912b7b9eab0977d687a0aab",
+      "difference": [],
+      "equal": true,
+      "previous_entry": "0x46a370",
+      "previous_instruction_count": 522,
+      "previous_normalized_sha256": "5994b2e173017f6cb9bacc306a7100c2a3858f05f912b7b9eab0977d687a0aab"
+    },
+    "dyn_s": {
+      "current_entry": "0x468670",
+      "current_instruction_count": 563,
+      "current_normalized_sha256": "abdef14721f5a01256dc15ebc5221ae3d15505cc3778b1b21a8d45e37a695348",
+      "difference": [],
+      "equal": true,
+      "previous_entry": "0x46ae00",
+      "previous_instruction_count": 563,
+      "previous_normalized_sha256": "abdef14721f5a01256dc15ebc5221ae3d15505cc3778b1b21a8d45e37a695348"
+    }
+  },
+  "previous_run": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/access-prefetch-20261008-01",
+  "run": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/event-trace-20261008-01",
+  "schema": "event_trace_codegen_audit_v1",
+  "scope": "Static control-flow and code-generation evidence from frozen build01 P=false pair-window functions; production BF16-output callers verified. No binaries/jobs executed.",
+  "script_sha256": "3b40a57c30fc913e17ee2845385eabd2aa87f5547b186aa93c620c7055f7ade7",
+  "source_vs_machine_limits": [
+    "Let E be row-edge consumptions, S be mask11 events, T=E-S. Source feature-decode requests are E for independent and T for shared modes; additions are 128E. The inspected branch paths support the corresponding vector instructions, but software Profile counters are not retired-instruction PMU measurements.",
+    "Source current-index requests are E in cached modes and T in representative mode. PF1 index loads, row bases, degree/plan headers, loop control, compiler stack traffic and speculative execution are additional. Neither 4S fewer source index bytes nor 256S fewer source feature bytes means equal DRAM-byte savings.",
+    "Histogram-counted payload bytes sum ceil(record_events/4), with one count header per pair-window and one tile-offset read per nonempty tile. The assembly confirms packed-byte outer loops; it does not measure memory hierarchy traffic.",
+    "Static mnemonic totals include mutually exclusive paths and epilogues. In particular 24 static decodes in a shared reducer do not mean 24 decodes per event.",
+    "No speedup, bottleneck, AMX/AVX overlap, bandwidth saturation, branch-miss rate, cache hit rate, or absence of indirect stack aliasing is established by this audit. Benchmark and hardware evidence are separate.",
+    "Baseline equality here covers the two dynamic pair reducers only; no claim of whole-application byte identity or identical placement is made."
+  ],
+  "status": "PASS",
+  "take3_paths": {
+    "dyn_i": {
+      "control": "take3 falls from row0 through bit1 test 0x4680ce into second independent row decode at 0x4680d8.",
+      "expected": [
+        16,
+        16,
+        16
+      ],
+      "observed_vpmovzxwd_vpslld_vaddps": [
+        16,
+        16,
+        16
+      ],
+      "ranges": [
+        [
+          "0x468027",
+          "0x4680c8"
+        ],
+        [
+          "0x4680df",
+          "0x468180"
+        ]
+      ],
+      "static_instruction_evidence": [
+        {
+          "address": "0x468027",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%r8,1),%zmm16"
+        },
+        {
+          "address": "0x46802f",
+          "instruction": "vpmovzxwd 0x80(%rsi,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x468037",
+          "instruction": "vpmovzxwd 0x60(%rsi,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x46803f",
+          "instruction": "vpmovzxwd 0x40(%rsi,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x468047",
+          "instruction": "vpmovzxwd 0x20(%rsi,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x46804f",
+          "instruction": "vpmovzxwd (%rsi,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x468056",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x46805e",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x468066",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x46806d",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x468074",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x46807b",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x468082",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x468089",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x468090",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x468097",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x46809e",
+          "instruction": "vaddps %zmm16,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4680a4",
+          "instruction": "vaddps %zmm17,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4680aa",
+          "instruction": "vaddps %zmm18,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x4680b0",
+          "instruction": "vaddps %zmm19,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4680b6",
+          "instruction": "vaddps %zmm20,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4680bc",
+          "instruction": "vaddps %zmm21,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4680c2",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x4680c8",
+          "instruction": "vaddps %zmm23,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x4680df",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%r8,1),%zmm16"
+        },
+        {
+          "address": "0x4680e7",
+          "instruction": "vpmovzxwd 0x80(%rsi,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x4680ef",
+          "instruction": "vpmovzxwd 0x60(%rsi,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x4680f7",
+          "instruction": "vpmovzxwd 0x40(%rsi,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x4680ff",
+          "instruction": "vpmovzxwd 0x20(%rsi,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x468107",
+          "instruction": "vpmovzxwd (%rsi,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x46810e",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x468116",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x46811e",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x468125",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x46812c",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x468133",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x46813a",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x468141",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x468148",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x46814f",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x468156",
+          "instruction": "vaddps %zmm16,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x46815c",
+          "instruction": "vaddps %zmm17,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x468162",
+          "instruction": "vaddps %zmm18,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x468168",
+          "instruction": "vaddps %zmm19,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x46816e",
+          "instruction": "vaddps %zmm20,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x468174",
+          "instruction": "vaddps %zmm21,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x46817a",
+          "instruction": "vaddps %zmm22,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x468180",
+          "instruction": "vaddps %zmm23,%zmm5,%zmm5"
+        }
+      ]
+    },
+    "dyn_s": {
+      "control": "cmp3 at 0x468a90 falls through shared decode block; each decoded zmm value then feeds both row accumulators.",
+      "expected": [
+        8,
+        8,
+        16
+      ],
+      "observed_vpmovzxwd_vpslld_vaddps": [
+        8,
+        8,
+        16
+      ],
+      "ranges": [
+        [
+          "0x468aa0",
+          "0x468b71"
+        ]
+      ],
+      "static_instruction_evidence": [
+        {
+          "address": "0x468aa0",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%r8,1),%zmm16"
+        },
+        {
+          "address": "0x468aa8",
+          "instruction": "vpmovzxwd 0x80(%rsi,%r8,1),%zmm17"
+        },
+        {
+          "address": "0x468ab0",
+          "instruction": "vpmovzxwd 0x60(%rsi,%r8,1),%zmm18"
+        },
+        {
+          "address": "0x468ab8",
+          "instruction": "vpmovzxwd 0x40(%rsi,%r8,1),%zmm19"
+        },
+        {
+          "address": "0x468ac0",
+          "instruction": "vpmovzxwd 0x20(%rsi,%r8,1),%zmm20"
+        },
+        {
+          "address": "0x468ac8",
+          "instruction": "vpmovzxwd (%rsi,%r8,1),%zmm21"
+        },
+        {
+          "address": "0x468acf",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%r8,1),%zmm22"
+        },
+        {
+          "address": "0x468ad7",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%r8,1),%zmm23"
+        },
+        {
+          "address": "0x468adf",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x468ae6",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x468aed",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x468af4",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x468afb",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x468b02",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x468b09",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x468b10",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x468b17",
+          "instruction": "vaddps %zmm16,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x468b1d",
+          "instruction": "vaddps %zmm17,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x468b23",
+          "instruction": "vaddps %zmm18,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x468b29",
+          "instruction": "vaddps %zmm19,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x468b2f",
+          "instruction": "vaddps %zmm20,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x468b35",
+          "instruction": "vaddps %zmm21,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x468b3b",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x468b41",
+          "instruction": "vaddps %zmm23,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x468b47",
+          "instruction": "vaddps %zmm16,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x468b4d",
+          "instruction": "vaddps %zmm17,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x468b53",
+          "instruction": "vaddps %zmm18,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x468b59",
+          "instruction": "vaddps %zmm19,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x468b5f",
+          "instruction": "vaddps %zmm20,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x468b65",
+          "instruction": "vaddps %zmm21,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x468b6b",
+          "instruction": "vaddps %zmm22,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x468b71",
+          "instruction": "vaddps %zmm23,%zmm5,%zmm5"
+        }
+      ]
+    },
+    "trace_i": {
+      "control": "take bit0 at 0x46361c selects row0; take bit1 test at 0x4636fe falls through to second decode at 0x463708 for mask11; no equality/CSE bypass.",
+      "expected": [
+        16,
+        16,
+        16
+      ],
+      "observed_vpmovzxwd_vpslld_vaddps": [
+        16,
+        16,
+        16
+      ],
+      "ranges": [
+        [
+          "0x463657",
+          "0x4636f8"
+        ],
+        [
+          "0x46370f",
+          "0x4637b0"
+        ]
+      ],
+      "static_instruction_evidence": [
+        {
+          "address": "0x463657",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%r10,1),%zmm16"
+        },
+        {
+          "address": "0x46365f",
+          "instruction": "vpmovzxwd 0x80(%rsi,%r10,1),%zmm17"
+        },
+        {
+          "address": "0x463667",
+          "instruction": "vpmovzxwd 0x60(%rsi,%r10,1),%zmm18"
+        },
+        {
+          "address": "0x46366f",
+          "instruction": "vpmovzxwd 0x40(%rsi,%r10,1),%zmm19"
+        },
+        {
+          "address": "0x463677",
+          "instruction": "vpmovzxwd 0x20(%rsi,%r10,1),%zmm20"
+        },
+        {
+          "address": "0x46367f",
+          "instruction": "vpmovzxwd (%rsi,%r10,1),%zmm21"
+        },
+        {
+          "address": "0x463686",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%r10,1),%zmm22"
+        },
+        {
+          "address": "0x46368e",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%r10,1),%zmm23"
+        },
+        {
+          "address": "0x463696",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x46369d",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4636a4",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4636ab",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4636b2",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4636b9",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4636c0",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4636c7",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x4636ce",
+          "instruction": "vaddps %zmm16,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x4636d4",
+          "instruction": "vaddps %zmm17,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x4636da",
+          "instruction": "vaddps %zmm18,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x4636e0",
+          "instruction": "vaddps %zmm19,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x4636e6",
+          "instruction": "vaddps %zmm20,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x4636ec",
+          "instruction": "vaddps %zmm21,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x4636f2",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x4636f8",
+          "instruction": "vaddps %zmm23,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x46370f",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%r10,1),%zmm16"
+        },
+        {
+          "address": "0x463717",
+          "instruction": "vpmovzxwd 0x80(%rsi,%r10,1),%zmm17"
+        },
+        {
+          "address": "0x46371f",
+          "instruction": "vpmovzxwd 0x60(%rsi,%r10,1),%zmm18"
+        },
+        {
+          "address": "0x463727",
+          "instruction": "vpmovzxwd 0x40(%rsi,%r10,1),%zmm19"
+        },
+        {
+          "address": "0x46372f",
+          "instruction": "vpmovzxwd 0x20(%rsi,%r10,1),%zmm20"
+        },
+        {
+          "address": "0x463737",
+          "instruction": "vpmovzxwd (%rsi,%r10,1),%zmm21"
+        },
+        {
+          "address": "0x46373e",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%r10,1),%zmm22"
+        },
+        {
+          "address": "0x463746",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%r10,1),%zmm23"
+        },
+        {
+          "address": "0x46374e",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x463755",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x46375c",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x463763",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x46376a",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x463771",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x463778",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x46377f",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x463786",
+          "instruction": "vaddps %zmm16,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x46378c",
+          "instruction": "vaddps %zmm17,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x463792",
+          "instruction": "vaddps %zmm18,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x463798",
+          "instruction": "vaddps %zmm19,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x46379e",
+          "instruction": "vaddps %zmm20,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4637a4",
+          "instruction": "vaddps %zmm21,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x4637aa",
+          "instruction": "vaddps %zmm22,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4637b0",
+          "instruction": "vaddps %zmm23,%zmm5,%zmm5"
+        }
+      ]
+    },
+    "trace_s_cached": {
+      "control": "cmp3 at 0x464174 selects shared block; jump 0x46422b -> 0x4642ae reuses row1-add suffix, skipping row1 decode.",
+      "expected": [
+        8,
+        8,
+        16
+      ],
+      "observed_vpmovzxwd_vpslld_vaddps": [
+        8,
+        8,
+        16
+      ],
+      "ranges": [
+        [
+          "0x464184",
+          "0x464225"
+        ],
+        [
+          "0x4642ae",
+          "0x4642d8"
+        ]
+      ],
+      "static_instruction_evidence": [
+        {
+          "address": "0x464184",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%rbx,1),%zmm16"
+        },
+        {
+          "address": "0x46418c",
+          "instruction": "vpmovzxwd 0x80(%rsi,%rbx,1),%zmm17"
+        },
+        {
+          "address": "0x464194",
+          "instruction": "vpmovzxwd 0x60(%rsi,%rbx,1),%zmm18"
+        },
+        {
+          "address": "0x46419c",
+          "instruction": "vpmovzxwd 0x40(%rsi,%rbx,1),%zmm19"
+        },
+        {
+          "address": "0x4641a4",
+          "instruction": "vpmovzxwd 0x20(%rsi,%rbx,1),%zmm20"
+        },
+        {
+          "address": "0x4641ac",
+          "instruction": "vpmovzxwd (%rsi,%rbx,1),%zmm21"
+        },
+        {
+          "address": "0x4641b3",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%rbx,1),%zmm22"
+        },
+        {
+          "address": "0x4641bb",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%rbx,1),%zmm23"
+        },
+        {
+          "address": "0x4641c3",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x4641ca",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x4641d1",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x4641d8",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x4641df",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x4641e6",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x4641ed",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x4641f4",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x4641fb",
+          "instruction": "vaddps %zmm16,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x464201",
+          "instruction": "vaddps %zmm17,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x464207",
+          "instruction": "vaddps %zmm18,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x46420d",
+          "instruction": "vaddps %zmm19,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x464213",
+          "instruction": "vaddps %zmm20,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x464219",
+          "instruction": "vaddps %zmm21,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x46421f",
+          "instruction": "vaddps %zmm22,%zmm1,%zmm1"
+        },
+        {
+          "address": "0x464225",
+          "instruction": "vaddps %zmm23,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x4642ae",
+          "instruction": "vaddps %zmm16,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x4642b4",
+          "instruction": "vaddps %zmm17,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x4642ba",
+          "instruction": "vaddps %zmm18,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x4642c0",
+          "instruction": "vaddps %zmm19,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x4642c6",
+          "instruction": "vaddps %zmm20,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x4642cc",
+          "instruction": "vaddps %zmm21,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x4642d2",
+          "instruction": "vaddps %zmm22,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x4642d8",
+          "instruction": "vaddps %zmm23,%zmm5,%zmm5"
+        }
+      ]
+    },
+    "trace_s_rep": {
+      "control": "cmp3 at 0x464c10 selects shared block; jump 0x464cc7 -> 0x464afe reuses row1-add suffix, skipping row1 decode.",
+      "expected": [
+        8,
+        8,
+        16
+      ],
+      "observed_vpmovzxwd_vpslld_vaddps": [
+        8,
+        8,
+        16
+      ],
+      "ranges": [
+        [
+          "0x464c20",
+          "0x464cc1"
+        ],
+        [
+          "0x464afe",
+          "0x464b28"
+        ]
+      ],
+      "static_instruction_evidence": [
+        {
+          "address": "0x464c20",
+          "instruction": "vpmovzxwd 0xa0(%rsi,%r10,1),%zmm16"
+        },
+        {
+          "address": "0x464c28",
+          "instruction": "vpmovzxwd 0x80(%rsi,%r10,1),%zmm17"
+        },
+        {
+          "address": "0x464c30",
+          "instruction": "vpmovzxwd 0x60(%rsi,%r10,1),%zmm18"
+        },
+        {
+          "address": "0x464c38",
+          "instruction": "vpmovzxwd 0x40(%rsi,%r10,1),%zmm19"
+        },
+        {
+          "address": "0x464c40",
+          "instruction": "vpmovzxwd 0x20(%rsi,%r10,1),%zmm20"
+        },
+        {
+          "address": "0x464c48",
+          "instruction": "vpmovzxwd (%rsi,%r10,1),%zmm21"
+        },
+        {
+          "address": "0x464c4f",
+          "instruction": "vpmovzxwd 0xc0(%rsi,%r10,1),%zmm22"
+        },
+        {
+          "address": "0x464c57",
+          "instruction": "vpmovzxwd 0xe0(%rsi,%r10,1),%zmm23"
+        },
+        {
+          "address": "0x464c5f",
+          "instruction": "vpslld $0x10,%zmm23,%zmm23"
+        },
+        {
+          "address": "0x464c66",
+          "instruction": "vpslld $0x10,%zmm22,%zmm22"
+        },
+        {
+          "address": "0x464c6d",
+          "instruction": "vpslld $0x10,%zmm21,%zmm21"
+        },
+        {
+          "address": "0x464c74",
+          "instruction": "vpslld $0x10,%zmm20,%zmm20"
+        },
+        {
+          "address": "0x464c7b",
+          "instruction": "vpslld $0x10,%zmm19,%zmm19"
+        },
+        {
+          "address": "0x464c82",
+          "instruction": "vpslld $0x10,%zmm18,%zmm18"
+        },
+        {
+          "address": "0x464c89",
+          "instruction": "vpslld $0x10,%zmm17,%zmm17"
+        },
+        {
+          "address": "0x464c90",
+          "instruction": "vpslld $0x10,%zmm16,%zmm16"
+        },
+        {
+          "address": "0x464c97",
+          "instruction": "vaddps %zmm16,%zmm4,%zmm4"
+        },
+        {
+          "address": "0x464c9d",
+          "instruction": "vaddps %zmm17,%zmm6,%zmm6"
+        },
+        {
+          "address": "0x464ca3",
+          "instruction": "vaddps %zmm18,%zmm9,%zmm9"
+        },
+        {
+          "address": "0x464ca9",
+          "instruction": "vaddps %zmm19,%zmm12,%zmm12"
+        },
+        {
+          "address": "0x464caf",
+          "instruction": "vaddps %zmm20,%zmm15,%zmm15"
+        },
+        {
+          "address": "0x464cb5",
+          "instruction": "vaddps %zmm21,%zmm13,%zmm13"
+        },
+        {
+          "address": "0x464cbb",
+          "instruction": "vaddps %zmm22,%zmm2,%zmm2"
+        },
+        {
+          "address": "0x464cc1",
+          "instruction": "vaddps %zmm23,%zmm0,%zmm0"
+        },
+        {
+          "address": "0x464afe",
+          "instruction": "vaddps %zmm16,%zmm5,%zmm5"
+        },
+        {
+          "address": "0x464b04",
+          "instruction": "vaddps %zmm17,%zmm7,%zmm7"
+        },
+        {
+          "address": "0x464b0a",
+          "instruction": "vaddps %zmm18,%zmm8,%zmm8"
+        },
+        {
+          "address": "0x464b10",
+          "instruction": "vaddps %zmm19,%zmm11,%zmm11"
+        },
+        {
+          "address": "0x464b16",
+          "instruction": "vaddps %zmm20,%zmm14,%zmm14"
+        },
+        {
+          "address": "0x464b1c",
+          "instruction": "vaddps %zmm21,%zmm10,%zmm10"
+        },
+        {
+          "address": "0x464b22",
+          "instruction": "vaddps %zmm22,%zmm3,%zmm3"
+        },
+        {
+          "address": "0x464b28",
+          "instruction": "vaddps %zmm23,%zmm1,%zmm1"
+        }
+      ]
+    }
+  }
+}

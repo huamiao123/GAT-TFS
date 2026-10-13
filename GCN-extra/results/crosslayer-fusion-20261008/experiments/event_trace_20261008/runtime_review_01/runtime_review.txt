@@ -1,0 +1,101 @@
+事件 trace 第 01 轮：独立运行复核与后续机制边界
+复核性质：本文件是运行期补充审查，不替代 pf_audit 的最终全矩阵审计。仅已完成图用于完整计数及汇总交叉检查；共享与独享不混合，未完成或排队图不视为通过。原始路径和取样时刻见 runtime_review.json。
+
+一、运行与测量口径
+本轮保持 128→128→128、16 行 AMX tile、S64、FULL、PF1、32 worker、默认 NUMA 策略。没有使用 NUMA interleave。固定候选为 trace_s_rep，不能用图上最快方法代替它。连续计时与交替计时分别统计，不能混用分母。
+所有方法，包括 PACK，预先常驻同一个 trace 对象。因此当前同进程比较不回答 baseline-only 内存占用问题。必须区分持久 vector payload、capacity 占用、TracePlan 对象、进程 RSS。inspector build/validator、独立审计和 opportunity diagnostic 均在核心计时外；后者不是候选必要的 setup。
+PMU 记录覆盖运行前后的 32 线程快照，不能证明未观测瞬时线程覆盖；AMX busy 为 speculative arithmetic busy cycles，线程求和不能解释成整核利用率。AVX/AMX 计数同时非零也不证明有效重叠。generic cache 事件不能直接定位哪一级 cache 或归因于某种访问机制。
+本审查从 methods.log 重算 timing 的 median/min/max 并与 summary.csv 比较；检查每种协议重复数、核心 gate 记录数、PMU 每区域 32 线程与原始/缩放计数汇总、固定输入与计划地址。原始 stderr 非空和 pass=0 等异常单独记录。最终数值公式、trace 字节重放和完整 provenance 仍由独立最终审计负责。
+
+二、取消 S64 的结构机会
+固定当前 degree 相邻 pair，Reddit 的共享头由 1,916,748 到 2,879,498，增 962,750，只占 E=114,615,892 的 0.840%。Mycielskian19 由 85,133,168 到 99,729,155，增 14,595,987，占 E=903,194,710 的 1.616%。RoadNet-CA 和 Amazon0601 没有增量。synthetic reuse1/4/16 也未增加共享。
+四个实际图均为逐行有序 CSR。在固定 pair、每个消费事件每行至多消费一条边、游标只向前的模型下，full greedy 的匹配数是该 pair 的上限；这一上限不包括同源连续 run 多次消费复用一个 decoded feature，更不包括多行共享、重配对或放宽数值契约。无序 CSR 的 full greedy 也不是通用最优序列匹配算法。
+若仅假设 decode 工作与 E−shared 成正比，旧/新工作量比为 Reddit 1.0086、Myc 1.0182；这不是整体性能上限。128E 次行特征加法、FULL 最终投影、PF1 逐行下一索引读取/预取均未减少。在线 greedy 的比较还会增加：Reddit 97.94M→111.49M，Myc 611.36M→803.22M。离线 trace 可以消除在线比较，但预处理与每事件元数据执行不是免费。不能将 shared 数相对提升 50% 等同于整核可提速 50%。
+
+三、按 K 个消费 event 轮换 pair，M 仍 FULL
+访问边界必须与行 CSR 位置解耦。每个未完成目的行保存累计 FP32[128]、独立 k 游标、base/end 与初始化/完成状态。cached-head 模式还需保留 head 和有效位，或者接受重读当前 head 的额外成本；representative 模式不必常驻两个 head，但仍需两个行游标。
+每个 pair 的 trace event 游标、byte/2bit 位置及范围也须跨 slice 存活。当前 window→pair 布局的一条 tile cursor 不能直接支持独立 pair 续跑。可以改成 pair-stream，也可以重编码为 round→pair records，两者都需要重新核算 offsets、headers、padding 和解析成本。现 u8 count 至多 128，完整 pair 事件更多时须分段或换格式。
+严格保序要求恢复原来的累计 FP32，再按该行原 CSR 次序逐项累加；不能另算一个 chunk sum 再与旧 partial 相加，否则改变括号结构。FP32 store/load 在同一浮点环境下只搬运状态；每行归约完成后再量化一次。已完成行可以直接写 hi 并退出后续 FP32 搬运。新切片仍需重新跑四边界的 bitwise gate，不能仅靠代数推理认定等价。
+每行 FP32 状态 512B，16 行共 8KiB。所有累加器同时常驻需 128 个 zmm，而硬件只有 32 个；当前 active pair 的 16 个 zmm 已占一半，另需 decode 临时量。改变 K 不一定增加 buffer 容量，但会改变其读写次数和寿命。一次 pair 切换若两行都未完成，保存再恢复共 2048B；一行未完成则 1024B。
+例如两条 degree128、source ID 有序交错且互不共享的行，S64 只有一次两行状态边界，交通约 2048B；K64 events 切成四段，两行前三个边界均未结束，约 6144B。完全相同两行只有 128 个共享 events，K64 则仍为一个边界。这个反例表明 K events 不等价于每行 K 邻居：它代表 K 到 2K 次行消费。
+M=FULL 时 AMX 必须等该 tile 所有行归约结果可用，AVX slice 之间不需要保存 AMX 累加状态；仅改变 pair 轮转不建立 AVX–AMX 流水。若同时改变投影时机，问题和状态合同都已扩大，应作为另一个因子验证。
+在固定 full event 序列下，K 不改变总共享数，只改变状态交通、元数据与访问交错。收益可能来自较少状态搬运或更好的访存调度，但当前证据未证明其原因。它适合机制探针，不宜仅换名称便宣称新融合算法。下一步若做，必须固定事件序列与实际共享数，记录 slice 数、行完成分布、状态 bytes、解析成本，并对 PACKdegree/PACKqguard 得到真实图净收益。
+
+四、结论边界
+本轮 trace 是将在线找共享的成本与共享收益分开的探针。共享潜力、找到共享的成本、保存 partial 的成本应分别度量。严格行内顺序是当前因果实验合同，并非所有未来研究都必须永久保持；若要放宽，需要新的任务精度和数值验证，不能继承本轮 bitwise 结论。更多行 group 或 feature tile 目前只能作理论成本分析，本复核未实现或运行任何新内核。
+
+
+Automatic snapshot: 2026-10-08T05:22:07.252742+00:00
+Queue: 10896230 PENDING  0:00
+10896229 PENDING  0:00
+10896227 PENDING  0:00
+Detected issues: 0
+Job 10896227 exclusive-synthetic exists=False
+Job 10896229 exclusive-myc exists=False
+Job 10896230 exclusive-other exists=False
+Job 10896231 shared-synthetic exists=True
+  regular128_reuse1 complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=1.001665, pack_epi_qguard=1.001616
+      pack_epi_degree median/min/max_ms=208.825111,208.738089,209.270954
+      pack_epi_qguard median/min/max_ms=208.814859,208.567142,209.234953
+      trace_s_rep median/min/max_ms=208.477974,207.675934,208.678961
+    alternating baseline/trace_s_rep: pack_epi_degree=1.002436, pack_epi_qguard=1.003585
+      pack_epi_degree median/min/max_ms=208.888531,208.327055,209.606886
+      pack_epi_qguard median/min/max_ms=209.127903,208.230972,209.403038
+      trace_s_rep median/min/max_ms=208.380938,208.122015,209.020853
+  regular128_reuse16 complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=1.146977, pack_epi_qguard=1.147224
+      pack_epi_degree median/min/max_ms=32.104015,32.071114,32.186031
+      pack_epi_qguard median/min/max_ms=32.110929,32.081127,32.134056
+      trace_s_rep median/min/max_ms=27.990103,27.945995,28.048038
+    alternating baseline/trace_s_rep: pack_epi_degree=1.155379, pack_epi_qguard=1.156009
+      pack_epi_degree median/min/max_ms=32.351851,32.310963,32.418013
+      pack_epi_qguard median/min/max_ms=32.369494,32.341003,32.409906
+      trace_s_rep median/min/max_ms=28.001070,27.947903,28.048992
+  regular128_reuse4 complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=1.024847, pack_epi_qguard=1.021961
+      pack_epi_degree median/min/max_ms=68.836927,68.787098,69.003105
+      pack_epi_qguard median/min/max_ms=68.643093,68.508863,68.720102
+      trace_s_rep median/min/max_ms=67.167997,67.100048,67.295790
+    alternating baseline/trace_s_rep: pack_epi_degree=1.024382, pack_epi_qguard=1.024554
+      pack_epi_degree median/min/max_ms=68.895340,68.677902,69.051981
+      pack_epi_qguard median/min/max_ms=68.906903,68.751097,69.003820
+      trace_s_rep median/min/max_ms=67.255497,66.992998,67.673922
+Job 10896233 shared-myc exists=True
+  mycielskian19 complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=0.991269, pack_epi_qguard=0.814648
+      pack_epi_degree median/min/max_ms=1037.291050,1008.440971,1058.197975
+      pack_epi_qguard median/min/max_ms=852.469206,830.192089,875.419140
+      trace_s_rep median/min/max_ms=1046.427011,1010.275841,1067.410946
+    alternating baseline/trace_s_rep: pack_epi_degree=0.991495, pack_epi_qguard=0.835308
+      pack_epi_degree median/min/max_ms=1028.475046,1000.455856,1058.956146
+      pack_epi_qguard median/min/max_ms=866.462469,840.226889,881.809950
+      trace_s_rep median/min/max_ms=1037.297010,998.330832,1072.669029
+Job 10896234 shared-other exists=True
+  amazon0601 complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=1.003386, pack_epi_qguard=0.985541
+      pack_epi_degree median/min/max_ms=8.901119,8.772135,9.036064
+      pack_epi_qguard median/min/max_ms=8.742809,8.687019,9.096146
+      trace_s_rep median/min/max_ms=8.871078,8.737087,8.992910
+    alternating baseline/trace_s_rep: pack_epi_degree=0.991671, pack_epi_qguard=0.993300
+      pack_epi_degree median/min/max_ms=8.927941,8.815050,9.106159
+      pack_epi_qguard median/min/max_ms=8.942604,8.769989,9.149075
+      trace_s_rep median/min/max_ms=9.002924,8.764982,9.155035
+  reddit complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=0.944143, pack_epi_qguard=0.725795
+      pack_epi_degree median/min/max_ms=118.624926,116.167068,121.473074
+      pack_epi_qguard median/min/max_ms=91.191053,89.668989,91.664076
+      trace_s_rep median/min/max_ms=125.643015,123.958826,128.424883
+    alternating baseline/trace_s_rep: pack_epi_degree=0.935057, pack_epi_qguard=0.718267
+      pack_epi_degree median/min/max_ms=117.547512,113.979816,118.900061
+      pack_epi_qguard median/min/max_ms=90.294480,88.747025,94.304085
+      trace_s_rep median/min/max_ms=125.711560,123.322964,127.866030
+  roadNet-CA complete=True timings=120 PMU=24 issues=0
+    consecutive baseline/trace_s_rep: pack_epi_degree=0.972169, pack_epi_qguard=0.972327
+      pack_epi_degree median/min/max_ms=23.502111,23.434877,23.578882
+      pack_epi_qguard median/min/max_ms=23.505926,23.482084,23.524046
+      trace_s_rep median/min/max_ms=24.174929,24.138927,24.205923
+    alternating baseline/trace_s_rep: pack_epi_degree=0.966060, pack_epi_qguard=0.965992
+      pack_epi_degree median/min/max_ms=23.806095,23.463011,23.859978
+      pack_epi_qguard median/min/max_ms=23.804426,23.519993,23.844004
+      trace_s_rep median/min/max_ms=24.642467,24.482965,24.681091

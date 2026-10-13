@@ -1,0 +1,398 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-plan-20261007-01/logs/plan-10889177/fixtures/plan_exact_mismatch/plan_exact_mismatch.csrbin
+METHOD_SETUP graph=plan_exact_mismatch phase=csr_file_load ms=0.312089920044
+Matrix: plan_exact_mismatch  N=16  NNZ=1040  avg_deg=65.0
+
+METHOD_SETUP graph=plan_exact_mismatch phase=tensor_allocation ms=0.079870223999
+METHOD_SETUP graph=plan_exact_mismatch phase=weight_generation ms=0.257015228271
+METHOD_SETUP graph=plan_exact_mismatch phase=feature_generation ms=0.0171661376953
+METHOD_SETUP graph=plan_exact_mismatch phase=degree_sort ms=0.00190734863281
+METHOD_SETUP graph=plan_exact_mismatch phase=packed_weight_allocation ms=0.00476837158203
+METHOD_SETUP graph=plan_exact_mismatch phase=weight_vnni_packing ms=0.0200271606445
+METHOD_SETUP graph=plan_exact_mismatch phase=input_bf16_allocation ms=0
+METHOD_SETUP graph=plan_exact_mismatch phase=input_bf16_conversion ms=1.62982940674
+METHOD_SETUP graph=plan_exact_mismatch phase=tfs_output_allocation ms=0.00691413879395
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.12 ms
+  run 1: 0.08 ms
+  run 2: 0.10 ms
+  run 3: 0.07 ms
+  run 4: 0.10 ms
+  TFS V3 E2E BEST: 0.07 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=plan_exact_mismatch phase=mkl_index_allocation ms=0.000953674316406
+METHOD_SETUP graph=plan_exact_mismatch phase=mkl_index_conversion ms=0
+METHOD_SETUP graph=plan_exact_mismatch phase=mkl_csr_create ms=1.95288658142
+METHOD_SETUP graph=plan_exact_mismatch phase=mkl_hint_and_optimize ms=1.15084648132
+METHOD_SETUP graph=plan_exact_mismatch phase=mkl_output_allocation ms=0.00309944152832
+  run 0: 0.02 ms
+  run 1: 0.02 ms
+  run 2: 0.02 ms
+  run 3: 0.02 ms
+  run 4: 0.02 ms
+  MKL E2E BEST: 0.02 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.07 ms
+  MKL (FP32):      0.02 ms
+  E2E Speedup:     0.26×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009950  RMSE=8.4374e+02
+First 8:
+  TFS: 130071.28 -150629.06 -94113.55 48995.28 32694.78 38166.61 -69949.33 -78398.27 
+  MKL: 131418.58 -152136.97 -94894.83 49558.16 33065.98 38348.20 -70974.59 -79204.02 
+PAIRPLAN_SEMANTIC graph=plan_exact_mismatch values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+TRACE_REJECT_CASE graph=plan_exact_mismatch case=used_code_zero valid_fixture=1 rejected=1 reason_present=1 pass=1
+TRACE_REJECT_CASE graph=plan_exact_mismatch case=tile_offset_oob valid_fixture=1 rejected=1 reason_present=1 pass=1
+TRACE_REJECT_AUDIT graph=plan_exact_mismatch cases=2 rejected=2 valid_fixture=1 pass=1
+GROUP_NATIVE_PERM graph=plan_exact_mismatch fnv64=615731795747517251
+GROUP_SETUP graph=plan_exact_mismatch phase=schedule_signature_allocation ms=0.00214576721191
+GROUP_SETUP graph=plan_exact_mismatch phase=signature_pass ms=0.0238418579102 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=plan_exact_mismatch phase=segment_construction ms=0 segments=1 cap=4096
+GROUP_SETUP graph=plan_exact_mismatch phase=schedule_sort schedule=qsource ms=0.00286102294922 signature_ms=0.0238418579102 shared_signature_pass=1
+GROUP_SETUP graph=plan_exact_mismatch phase=schedule_sort schedule=qpage ms=0.00190734863281 signature_ms=0.0238418579102 shared_signature_pass=1
+GROUP_SETUP graph=plan_exact_mismatch phase=schedule_sort schedule=qsamplepage ms=0.00214576721191 signature_ms=0.0238418579102 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=plan_exact_mismatch candidate=degree sampled_tiles=1 sampled_windows=2 requests=1040 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=plan_exact_mismatch candidate=qsource sampled_tiles=1 sampled_windows=2 requests=1040 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=plan_exact_mismatch candidate=qpage sampled_tiles=1 sampled_windows=2 requests=1040 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=plan_exact_mismatch candidate=qsamplepage sampled_tiles=1 sampled_windows=2 requests=1040 misses256=16 misses1024=16 misses4096=16 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=plan_exact_mismatch schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=1 high_q_tiles=1 low_q_fallback=1 uses_timing=0 probe_ms=0.127792358398 assembly_ms=0
+GROUP_SETUP graph=plan_exact_mismatch phase=guard_probe ms=0.127792358398
+GROUP_SETUP graph=plan_exact_mismatch phase=guard_schedule_assembly ms=0
+GROUP_AUDIT graph=plan_exact_mismatch schedule=degree pass=1 rows=16 moved=0 fnv64=615731795747517251 full_projections=1 b64_projections=2 b256_projections=1 windows=2 state_load_bytes=8192 state_store_bytes=16384 padded_steps=1040 audit_ms=0.00190734863281
+GROUP_AUDIT graph=plan_exact_mismatch schedule=qsource pass=1 rows=16 moved=12 fnv64=8582260031459473605 full_projections=1 b64_projections=2 b256_projections=1 windows=2 state_load_bytes=8192 state_store_bytes=16384 padded_steps=1040 audit_ms=0
+GROUP_AUDIT graph=plan_exact_mismatch schedule=qpage pass=1 rows=16 moved=0 fnv64=615731795747517251 full_projections=1 b64_projections=2 b256_projections=1 windows=2 state_load_bytes=8192 state_store_bytes=16384 padded_steps=1040 audit_ms=0
+GROUP_AUDIT graph=plan_exact_mismatch schedule=qsamplepage pass=1 rows=16 moved=0 fnv64=615731795747517251 full_projections=1 b64_projections=2 b256_projections=1 windows=2 state_load_bytes=8192 state_store_bytes=16384 padded_steps=1040 audit_ms=0
+GROUP_AUDIT graph=plan_exact_mismatch schedule=qguard pass=1 rows=16 moved=0 fnv64=615731795747517251 full_projections=1 b64_projections=2 b256_projections=1 windows=2 state_load_bytes=8192 state_store_bytes=16384 padded_steps=1040 audit_ms=0
+GROUP_SETUP graph=plan_exact_mismatch phase=all_schedules_total ms=0.173091888428 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+TRACE_SCHEDULE_SETUP graph=plan_exact_mismatch phase=all_five_frozen_schedules ms=0.174045562744 included_in_primary=0
+PAIRPLAN_SETUP graph=plan_exact_mismatch plan=adj_degree kind=0 layout_ms=0.00309944152832 pairing_ms=0.0300407409668 verify_ms=0.0197887420654 audit_ms=0.0178813934326 total_ms=0.0720024108887 plan_bytes=34 allocated_bytes=34 sample_edge_probes=0 signature_probes=0 score_probes=0 score_pairs=0 full_verification_reads=1072 merge_index_reads=1040 exact_compare_reads=32 memcmp_requested_reads=0 audit_reads=32 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=plan_exact_mismatch plan=adj_degree kind=0 tiles=1 source_edges=1040 dynamic_shared_heads=252 exact_shared_edges=0 merge_steps=788 comparisons=523 exact_windows=0 nonempty_pair_windows=16 neighbor_windows=2 full_projections=1 b64_projections=2 b256_projections=1 changed_tiles=0 zero_score_tiles=0 score_fallback_tiles=0 adjacent_sample_score=0 selected_sample_score=0 fnv64=517977803776071833 exact_masks_bytes=2
+PLAN_GATE graph=plan_exact_mismatch plan=adj_degree pass=1 invalid=0 source_edges=1040 expected_edges=1040 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+TRACE_PLAN_SETUP graph=plan_exact_mismatch source_edges=1040 shared_heads=252 merge_steps=788 comparisons=523 nonempty_tiles=1 windows=2 headers=16 payload_bytes=204 data_bytes=220 offset_bytes=16 plan_bytes=236 allocated_bytes=236 take1=268 take2=268 take3=252 fnv64=10550655547669771205 build_ms=0.0259876251221 validate_ms=0.00476837158203 total_ms=0.0319480895996 format=count_u8_plus_lsb2 source_ids_stored=0 inspector_includes_full_validator=1 bytes_semantics=persistent_vector_payload object_bytes=1232
+TRACE_PLAN_GATE graph=plan_exact_mismatch pass=1 independent_scalar_validator=1 original_greedy=1 source_ids_stored=0
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=0 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=1 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=2 builder_records=8 validator_records=8 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=3 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=4 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=5 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=6 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=7 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=8 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=9 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=10 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=11 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=12 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=13 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=14 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=15 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=16 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=17 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=18 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=19 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=20 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=21 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=22 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=23 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=24 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=25 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=26 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=27 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=28 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=29 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=30 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=31 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=32 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=33 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=34 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=35 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=36 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=37 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=38 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=39 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=40 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=41 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=42 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=43 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=44 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=45 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=46 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=47 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=48 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=49 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=50 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=51 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=52 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=53 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=54 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=55 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=56 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=57 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=58 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=59 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=60 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=61 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=62 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=63 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=64 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=65 builder_records=4 validator_records=4 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=66 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=67 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=68 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=69 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=70 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=71 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=72 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=73 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=74 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=75 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=76 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=77 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=78 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=79 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=80 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=81 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=82 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=83 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=84 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=85 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=86 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=87 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=88 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=89 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=90 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=91 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=92 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=93 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=94 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=95 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=96 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=97 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=98 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=99 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=100 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=101 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=102 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=103 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=104 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=105 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=106 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=107 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=108 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=109 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=110 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=111 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=112 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=113 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=114 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=115 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=116 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=117 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=118 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=119 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=120 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=121 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=122 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=123 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=124 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=125 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=126 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=127 builder_records=0 validator_records=0 pass=1
+TRACE_PLAN_HIST graph=plan_exact_mismatch event_count=128 builder_records=4 validator_records=4 pass=1
+TRACE_PLAN graph=plan_exact_mismatch tiles=1 nonempty_tiles=1 windows=2 source_edges=1040 events=788 shared_heads=252 comparisons=523 take1=268 take2=268 take3=252 headers=16 payload_bytes=204 data_bytes=220 offset_bytes=16 plan_bytes=236 allocated_bytes=236 data_size=220 data_capacity=220 offsets_size=2 offsets_capacity=2 offset_element_bytes=8 object_bytes=1232 plan_fnv64=10550655547669771205 payload_hash=10550655547669771205 independent_audit_ms=0.0360012054443 order_preserved=1 exact_exhaustion=1 padding_zero=1 header_hist_checked=1 pass=1
+TRACE_SMOKE_DUMP graph=plan_exact_mismatch degree_perm=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 tile_offsets=0,220 data_hex=41f9ffffffffffffffffffffffffffffff0341f9ffffffffffffffffffffffffffffff0341f9ffffffffffffffffffffffffffffff0341fdffffffffffffffffffffffffffffff028055555555555555555555555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa8055555555555555555555555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa8055555555555555555555555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa8055555555555555555555555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa02090209020902090209020902090206
+TRACE_OPPORTUNITY graph=plan_exact_mismatch diagnostic_only=1 semantics=full_row_greedy source_level=1 diagnostic_ms=0.0100135803223 rows=16 sorted_rows=2 unsorted_rows=14 pairs=8 odd_rows=0 sorted_pairs=1 unsorted_pairs=7 gain_pairs=5 loss_pairs=0 tie_pairs=3 sorted_gain_pairs=1 sorted_loss_pairs=0 sorted_tie_pairs=0 shared_s64=252 shared_full=257 sorted_shared_s64=63 sorted_shared_full=64 unsorted_shared_s64=189 unsorted_shared_full=193 source_reads=1040 events=783 comparisons=523 invalid=0 pass=1
+TRACE_CONFIG graph=plan_exact_mismatch N=16 E=1040 D=128 H=128 F=128 S=64 M=FULL R=64 TR=16 methods=8 pf=1 warmup_consecutive=1 warmup_each_alternating_switch=1 consecutive=5 alternating=10 numa=default smoke=1 final_output=BF16 copy_in_compute=0 purpose=mechanism_not_deployment fixed_expansion_candidate=trace_s_rep trace_resident_for_all_methods=1
+TRACE_METHOD graph=plan_exact_mismatch method=pack_epi_degree kind=3 mode=0 scope=0 schedule=degree schedule_index=0 plan_index=-1 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=pack_epi_qguard kind=3 mode=0 scope=0 schedule=qguard schedule_index=4 plan_index=-1 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=dyn_i kind=4 mode=1 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=dyn_s kind=4 mode=2 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=exact_s kind=4 mode=4 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=trace_i kind=5 mode=0 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=trace_s_cached kind=5 mode=1 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_METHOD graph=plan_exact_mismatch method=trace_s_rep kind=5 mode=2 scope=0 schedule=degree schedule_index=0 plan_index=0 epilogue=1 accurate=0 pf=1
+TRACE_IMMUTABLE graph=plan_exact_mismatch phase=before base_hash=517977803776071833 expected_base_hash=517977803776071833 trace_hash=10550655547669771205 expected_trace_hash=10550655547669771205 hash_checked=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=pack_epi_degree phase=correctness repeat=0 serial=0 kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=kernel_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=H1_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=pack_epi_degree layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=pack_epi_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=0 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=0 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=pack_epi_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=pack_epi_degree layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=pack_epi_degree layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=pack_epi_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=0 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=pack_epi_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=pack_epi_degree layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=kernel_FP32 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_FP32 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=H1_BF16 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_degree boundary=e2e_BF16 reference=pack_epi_degree kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_degree execution_method_ptr=0x171fa00 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=pack_epi_qguard phase=correctness repeat=0 serial=1 kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 schedule=qguard schedule_ptr=0x171f840 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=kernel_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_FP32 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=H1_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_BF16 reference=canonical_full kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=pack_epi_qguard layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=pack_epi_qguard layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=0 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=0 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=pack_epi_qguard layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=pack_epi_qguard layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=pack_epi_qguard layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=pack_epi_qguard layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=0 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=pack_epi_qguard layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=pack_epi_qguard layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=kernel_FP32 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_FP32 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=H1_BF16 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=pack_epi_qguard boundary=e2e_BF16 reference=pack_epi_qguard kind=3 mode=0 execution_kind=3 execution_mode=0 execution_name=pack_epi_qguard execution_method_ptr=0x171fa40 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=dyn_i phase=correctness repeat=0 serial=2 kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_i boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_i boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_i boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_i boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=kernel_FP32 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x171fa80 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=e2e_FP32 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x171fa80 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=H1_BF16 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x171fa80 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=e2e_BF16 reference=canonical_full kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=dyn_i execution_method_ptr=0x171fa80 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=dyn_i layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=dyn_i layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=523 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=523 relu_elements=2048 expected_hits=252 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=dyn_i layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=dyn_i layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=dyn_i layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=dyn_i layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=523 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=523 relu_elements=0 expected_hits=252 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=dyn_i layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=dyn_i layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=kernel_FP32 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=e2e_FP32 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=H1_BF16 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_i boundary=e2e_BF16 reference=dyn_i kind=4 mode=1 execution_kind=4 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=dyn_s phase=correctness repeat=0 serial=3 kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_s boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_s boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_s boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=dyn_s boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=kernel_FP32 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x171fac0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=e2e_FP32 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x171fac0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=H1_BF16 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x171fac0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=e2e_BF16 reference=canonical_full kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=dyn_s execution_method_ptr=0x171fac0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=dyn_s layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=dyn_s layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=788 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=523 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=523 relu_elements=2048 expected_hits=252 expected_decode=788 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=dyn_s layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=dyn_s layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=dyn_s layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=dyn_s layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=788 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=523 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=523 relu_elements=0 expected_hits=252 expected_decode=788 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=dyn_s layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=dyn_s layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=kernel_FP32 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=e2e_FP32 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=H1_BF16 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=dyn_s boundary=e2e_BF16 reference=dyn_s kind=4 mode=2 execution_kind=4 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=exact_s phase=correctness repeat=0 serial=4 kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=exact_s boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=exact_s boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=exact_s boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=exact_s boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=exact_s boundary=kernel_FP32 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x171fb00 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=exact_s boundary=e2e_FP32 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x171fb00 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=exact_s boundary=H1_BF16 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x171fb00 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=exact_s boundary=e2e_BF16 reference=canonical_full kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=exact_s execution_method_ptr=0x171fb00 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=exact_s layer=1 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=exact_s layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=0 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=32 exact_mask_bytes_read=2 exact_pair_flags_tested=16 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=0 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=exact_s layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=exact_s layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=exact_s layer=2 headers=0 payload_bytes=0 events=0 take1=0 take2=0 take3=0 tile_offset_reads=0 expected_headers=0 expected_payload_bytes=0 expected_events=0 expected_take1=0 expected_take2=0 expected_take3=0 expected_tile_offset_reads=0 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=exact_s layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=0 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=32 exact_mask_bytes_read=2 exact_pair_flags_tested=16 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=exact_s layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=exact_s layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=exact_s boundary=kernel_FP32 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=exact_s boundary=e2e_FP32 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=exact_s boundary=H1_BF16 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=exact_s boundary=e2e_BF16 reference=exact_s kind=4 mode=4 execution_kind=4 execution_mode=4 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=trace_i phase=correctness repeat=0 serial=5 kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=trace_i boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_i boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_i boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_i boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_i boundary=kernel_FP32 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x171fb40 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_i boundary=e2e_FP32 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x171fb40 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_i boundary=H1_BF16 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x171fb40 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_i boundary=e2e_BF16 reference=canonical_full kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_i execution_method_ptr=0x171fb40 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=trace_i layer=1 headers=16 payload_bytes=204 events=788 take1=268 take2=268 take3=252 tile_offset_reads=1 expected_headers=16 expected_payload_bytes=204 expected_events=788 expected_take1=268 expected_take2=268 expected_take3=252 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=trace_i layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=252 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=trace_i layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=trace_i layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=trace_i layer=2 headers=16 payload_bytes=204 events=788 take1=268 take2=268 take3=252 tile_offset_reads=1 expected_headers=16 expected_payload_bytes=204 expected_events=788 expected_take1=268 expected_take2=268 expected_take3=252 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=trace_i layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=1040 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=252 expected_decode=1040 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=trace_i layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=trace_i layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_i boundary=kernel_FP32 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_i boundary=e2e_FP32 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_i boundary=H1_BF16 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_i boundary=e2e_BF16 reference=trace_i kind=5 mode=0 execution_kind=5 execution_mode=0 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=trace_s_cached phase=correctness repeat=0 serial=6 kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_cached boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=kernel_FP32 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_FP32 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=H1_BF16 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_BF16 reference=canonical_full kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=kernel_FP32 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_FP32 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=H1_BF16 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_BF16 reference=dyn_s_reference kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_s_cached execution_method_ptr=0x171fb80 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=trace_s_cached layer=1 headers=16 payload_bytes=204 events=788 take1=268 take2=268 take3=252 tile_offset_reads=1 expected_headers=16 expected_payload_bytes=204 expected_events=788 expected_take1=268 expected_take2=268 expected_take3=252 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=trace_s_cached layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=788 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=252 expected_decode=788 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=trace_s_cached layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=trace_s_cached layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=trace_s_cached layer=2 headers=16 payload_bytes=204 events=788 take1=268 take2=268 take3=252 tile_offset_reads=1 expected_headers=16 expected_payload_bytes=204 expected_events=788 expected_take1=268 expected_take2=268 expected_take3=252 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=trace_s_cached layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=788 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=1040 comparisons=0 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=252 expected_decode=788 expected_csr=1040 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=trace_s_cached layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=trace_s_cached layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=kernel_FP32 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_FP32 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=H1_BF16 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_cached boundary=e2e_BF16 reference=trace_s_cached kind=5 mode=1 execution_kind=5 execution_mode=1 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_SLOT graph=plan_exact_mismatch method=trace_s_rep phase=correctness repeat=0 serial=7 kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 schedule=degree schedule_ptr=0x1707d50 base_plan_ptr=0x7ffe54864740 tiles_ptr=0x16bb700 masks_ptr=0x1736450 trace_plan_ptr=0x7ffe54864900 offsets_ptr=0x1736390 data_ptr=0x16b8ec0 tiles_size=1 tiles_capacity=1 masks_size=2 masks_capacity=2 offsets_size=2 offsets_capacity=2 data_size=220 data_capacity=220 h0_ptr=0x16f1000 w1_ptr=0x16bfec0 w2_ptr=0x16e0f80 wv1_ptr=0x16f3040 wv2_ptr=0x16fb0c0 h0b_ptr=0x16bbdc0 h1_ptr=0x1704cc0 h1b_ptr=0x1706d40 h2b_ptr=0x1707dc0 h2f_ptr=0x1708e40 perm_ptr=0x16bbd70 row_ptr=0x16bdd80 col_ptr=0x16bddd0 hash_checked=0 stable=1 pass=1 copy_in_compute=0
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_rep boundary=kernel_FP32 reference=paper_tfs max_abs=2.49670410156 mean_abs=0.554053091968 relative_L2=0.0028813565574 normalized_max=0.00342160161001 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_FP32_final reference=paper_tfs max_abs=1271.625 mean_abs=307.358884275 relative_L2=0.00498473217384 normalized_max=0.00570393850983 gate=0.01 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_BF16_final reference=paper_tfs max_abs=2048 mean_abs=297.217750549 relative_L2=0.00551458928752 normalized_max=0.00921658986175 gate=0.02 pass=1
+METHOD_CHECK graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=3989.421875 mean_abs=1128.12176149 relative_L2=0.0171313899646 normalized_max=0.0177171081817 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=kernel_FP32 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_FP32 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=H1_BF16 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_BF16 reference=canonical_full kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=kernel_FP32 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_FP32 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=H1_BF16 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_DYNS_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_BF16 reference=dyn_s_reference kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_s_rep execution_method_ptr=0x171fbc0 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=trace_s_rep layer=1 headers=16 payload_bytes=204 events=788 take1=268 take2=268 take3=252 tile_offset_reads=1 expected_headers=16 expected_payload_bytes=204 expected_events=788 expected_take1=268 expected_take2=268 expected_take3=252 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=trace_s_rep layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=788 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=788 comparisons=0 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=2048 expected_hits=252 expected_decode=788 expected_csr=788 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=trace_s_rep layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=trace_s_rep layer=1 bitwise=1 pass=1
+TRACE_LOGICAL graph=plan_exact_mismatch method=trace_s_rep layer=2 headers=16 payload_bytes=204 events=788 take1=268 take2=268 take3=252 tile_offset_reads=1 expected_headers=16 expected_payload_bytes=204 expected_events=788 expected_take1=268 expected_take2=268 expected_take3=252 expected_tile_offset_reads=1 pass=1 unit=source_level_not_retired
+PAIRPLAN_COUNTERS graph=plan_exact_mismatch method=trace_s_rep layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1040 feature_adds=133120 decode_rows=788 shared_heads=252 projection_scopes=1 windows=2 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8192 partial_store_bytes=8192 packing_load_bytes=0 direct_rows=16 packed_bytes=4096 prefetch_requests=4096 prefetch_index_reads=1024 csr_reads=788 comparisons=0 order_index_reads=32 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=252 expected_decode=788 expected_csr=788 expected_scopes=1 expected_windows=2 expected_loads=8192 expected_stores=8192 expected_packed=4096 expected_direct=16 expected_prefetch=4096
+PAIRPLAN_WORK_GATE graph=plan_exact_mismatch method=trace_s_rep layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=plan_exact_mismatch method=trace_s_rep layer=2 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=kernel_FP32 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_FP32 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=H1_BF16 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_EXEC_EQUIV graph=plan_exact_mismatch method=trace_s_rep boundary=e2e_BF16 reference=trace_s_rep kind=5 mode=2 execution_kind=5 execution_mode=2 execution_name=trace_exec execution_method_ptr=0x7ffe54864200 scope=0 accurate=0 bitwise=1 pass=1
+TRACE_GATE_COMPLETE graph=plan_exact_mismatch pass=1
+TRACE_IMMUTABLE graph=plan_exact_mismatch phase=after base_hash=517977803776071833 expected_base_hash=517977803776071833 trace_hash=10550655547669771205 expected_trace_hash=10550655547669771205 hash_checked=1 pass=1
+TRACE_COMPLETE graph=plan_exact_mismatch pass=1 methods=8 smoke=1 slot_checks=8 max_rss_kib=29240

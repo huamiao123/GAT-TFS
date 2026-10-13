@@ -1,0 +1,3316 @@
+{
+  "METHOD_SETUP": [
+    {
+      "graph": "email-Enron",
+      "phase": "csr_file_load",
+      "ms": "1.73807144165"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "tensor_allocation",
+      "ms": "0.0948905944824"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "weight_generation",
+      "ms": "0.258922576904"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "feature_generation",
+      "ms": "32.5231552124"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "degree_sort",
+      "ms": "1.06501579285"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "packed_weight_allocation",
+      "ms": "0.00619888305664"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "weight_vnni_packing",
+      "ms": "0.032901763916"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "input_bf16_allocation",
+      "ms": "0.00500679016113"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "input_bf16_conversion",
+      "ms": "12.9528045654"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "tfs_output_allocation",
+      "ms": "0.0169277191162"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "mkl_index_allocation",
+      "ms": "0.0250339508057"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "mkl_index_conversion",
+      "ms": "0.701904296875"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "mkl_csr_create",
+      "ms": "2.39300727844"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "mkl_hint_and_optimize",
+      "ms": "1.72710418701"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "mkl_output_allocation",
+      "ms": "0.0131130218506"
+    }
+  ],
+  "STATE_SEMANTIC": [
+    {
+      "graph": "email-Enron",
+      "values": "19",
+      "bitwise": "1",
+      "pass": "1",
+      "kind": "relu_truncation_signedzero_nan_vector_tail"
+    }
+  ],
+  "GROUP_NATIVE_PERM": [
+    {
+      "graph": "email-Enron",
+      "fnv64": "11144897479636163663"
+    }
+  ],
+  "GROUP_SETUP": [
+    {
+      "graph": "email-Enron",
+      "phase": "schedule_signature_allocation",
+      "ms": "0.759124755859"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "signature_pass",
+      "ms": "0.685930252075",
+      "sample": "first64_and_uniform64",
+      "seed": "0x20261007",
+      "shared_candidates": "3",
+      "page_model": "relative_source_id_div16"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "segment_construction",
+      "ms": "0.0300407409668",
+      "segments": "27",
+      "cap": "4096"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "schedule_sort",
+      "schedule": "qsource",
+      "ms": "0.34499168396",
+      "signature_ms": "0.685930252075",
+      "shared_signature_pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "schedule_sort",
+      "schedule": "qpage",
+      "ms": "0.357866287231",
+      "signature_ms": "0.685930252075",
+      "shared_signature_pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "schedule_sort",
+      "schedule": "qsamplepage",
+      "ms": "0.363111495972",
+      "signature_ms": "0.685930252075",
+      "shared_signature_pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "guard_probe",
+      "ms": "65.3998851776"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "guard_schedule_assembly",
+      "ms": "0.0321865081787"
+    },
+    {
+      "graph": "email-Enron",
+      "phase": "all_schedules_total",
+      "ms": "68.7630176544",
+      "measurement": "actual_complete_construction",
+      "includes_all_candidates_and_guard": "1"
+    }
+  ],
+  "GROUP_GUARD_PROBE": [
+    {
+      "graph": "email-Enron",
+      "candidate": "degree",
+      "sampled_tiles": "63",
+      "sampled_windows": "151",
+      "requests": "110591",
+      "misses256": "94739",
+      "misses1024": "77850",
+      "misses4096": "38193",
+      "ratio256": "1",
+      "ratio1024": "1",
+      "ratio4096": "1",
+      "mean_ratio": "1",
+      "no_worse": "1",
+      "improvements_ge5pct": "0",
+      "eligible": "0",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    },
+    {
+      "graph": "email-Enron",
+      "candidate": "qsource",
+      "sampled_tiles": "63",
+      "sampled_windows": "151",
+      "requests": "111144",
+      "misses256": "87426",
+      "misses1024": "71059",
+      "misses4096": "38504",
+      "ratio256": "0.918217519239",
+      "ratio1024": "0.908226641099",
+      "ratio4096": "1.00312681117",
+      "mean_ratio": "0.943190323836",
+      "no_worse": "0",
+      "improvements_ge5pct": "2",
+      "eligible": "0",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    },
+    {
+      "graph": "email-Enron",
+      "candidate": "qpage",
+      "sampled_tiles": "63",
+      "sampled_windows": "151",
+      "requests": "111251",
+      "misses256": "88405",
+      "misses1024": "70376",
+      "misses4096": "37673",
+      "ratio256": "0.927606736423",
+      "ratio1024": "0.898631884423",
+      "ratio4096": "0.980533180472",
+      "mean_ratio": "0.935590600439",
+      "no_worse": "1",
+      "improvements_ge5pct": "2",
+      "eligible": "1",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    },
+    {
+      "graph": "email-Enron",
+      "candidate": "qsamplepage",
+      "sampled_tiles": "63",
+      "sampled_windows": "151",
+      "requests": "111393",
+      "misses256": "89357",
+      "misses1024": "70071",
+      "misses4096": "37781",
+      "ratio256": "0.93640056729",
+      "ratio1024": "0.893596755551",
+      "ratio4096": "0.982090614495",
+      "mean_ratio": "0.937362645779",
+      "no_worse": "1",
+      "improvements_ge5pct": "2",
+      "eligible": "1",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    }
+  ],
+  "GROUP_GUARD_SELECT": [
+    {
+      "graph": "email-Enron",
+      "schedule": "qguard",
+      "selected": "qpage",
+      "predicted_mean_miss_rate_ratio": "0.935590600439",
+      "sampled_tiles": "63",
+      "high_q_tiles": "63",
+      "low_q_fallback": "1",
+      "uses_timing": "0",
+      "probe_ms": "65.3998851776",
+      "assembly_ms": "0.0321865081787"
+    }
+  ],
+  "GROUP_AUDIT": [
+    {
+      "graph": "email-Enron",
+      "schedule": "degree",
+      "pass": "1",
+      "rows": "36692",
+      "moved": "0",
+      "fnv64": "11144897479636163663",
+      "full_projections": "2294",
+      "b64_projections": "2447",
+      "b256_projections": "2311",
+      "windows": "2447",
+      "state_load_bytes": "1034240",
+      "state_store_bytes": "19820544",
+      "padded_steps": "395248",
+      "audit_ms": "0.193119049072"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qsource",
+      "pass": "1",
+      "rows": "36692",
+      "moved": "36660",
+      "fnv64": "9819103699055832903",
+      "full_projections": "2294",
+      "b64_projections": "2447",
+      "b256_projections": "2311",
+      "windows": "2447",
+      "state_load_bytes": "1034240",
+      "state_store_bytes": "19820544",
+      "padded_steps": "514224",
+      "audit_ms": "0.132083892822"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qpage",
+      "pass": "1",
+      "rows": "36692",
+      "moved": "36657",
+      "fnv64": "16179176912598392505",
+      "full_projections": "2294",
+      "b64_projections": "2447",
+      "b256_projections": "2311",
+      "windows": "2447",
+      "state_load_bytes": "1034240",
+      "state_store_bytes": "19820544",
+      "padded_steps": "478432",
+      "audit_ms": "0.130891799927"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qsamplepage",
+      "pass": "1",
+      "rows": "36692",
+      "moved": "36663",
+      "fnv64": "10683156720639137147",
+      "full_projections": "2294",
+      "b64_projections": "2447",
+      "b256_projections": "2311",
+      "windows": "2447",
+      "state_load_bytes": "1034240",
+      "state_store_bytes": "19820544",
+      "padded_steps": "474208",
+      "audit_ms": "0.137805938721"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qguard",
+      "pass": "1",
+      "rows": "36692",
+      "moved": "951",
+      "fnv64": "10328562111352381089",
+      "full_projections": "2294",
+      "b64_projections": "2447",
+      "b256_projections": "2311",
+      "windows": "2447",
+      "state_load_bytes": "1034240",
+      "state_store_bytes": "19820544",
+      "padded_steps": "414064",
+      "audit_ms": "0.136137008667"
+    }
+  ],
+  "STATE_SETUP": [
+    {
+      "graph": "email-Enron",
+      "phase": "all_five_frozen_schedules",
+      "ms": "68.8498020172",
+      "included_in_primary": "0"
+    }
+  ],
+  "STATE_CONFIG": [
+    {
+      "graph": "email-Enron",
+      "N": "36692",
+      "E": "367662",
+      "D": "128",
+      "H": "128",
+      "F": "128",
+      "S": "64",
+      "R": "64",
+      "TR": "16",
+      "methods": "11",
+      "warmups": "1",
+      "consecutive": "5",
+      "alternating": "10",
+      "numa": "default",
+      "smoke": "0",
+      "ablations": "0",
+      "mkl_threads": "32",
+      "mkl_dynamic": "1",
+      "final_output": "BF16"
+    }
+  ],
+  "STATE_PLAN": [
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "0",
+      "scope": "1",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "1",
+      "scope": "256",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "1",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "2",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "1",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "2",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "2",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "1",
+      "accurate": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "2",
+      "accurate": "0"
+    }
+  ],
+  "METHOD_CHECK": [
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "0",
+      "mean_abs": "0",
+      "relative_L2": "0",
+      "normalized_max": "0",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "0",
+      "mean_abs": "0",
+      "relative_L2": "0",
+      "normalized_max": "0",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "0",
+      "mean_abs": "0",
+      "relative_L2": "0",
+      "normalized_max": "0",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "3058.8125",
+      "mean_abs": "12.317174065",
+      "relative_L2": "0.0130503761638",
+      "normalized_max": "0.0134196176461",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.4231262207",
+      "mean_abs": "0.0187577392385",
+      "relative_L2": "0.00318902712421",
+      "normalized_max": "0.0033096400212",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1311.9375",
+      "mean_abs": "5.39550229141",
+      "relative_L2": "0.00581440022581",
+      "normalized_max": "0.0058191897005",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.37692034873",
+      "relative_L2": "0.00622341637315",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4703.890625",
+      "mean_abs": "17.2798980184",
+      "relative_L2": "0.0185480378699",
+      "normalized_max": "0.0206369019469",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "1.63317871094",
+      "mean_abs": "0.0187412289992",
+      "relative_L2": "0.00317622504898",
+      "normalized_max": "0.00379814070239",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "1465.328125",
+      "mean_abs": "5.36762317403",
+      "relative_L2": "0.00582180153671",
+      "normalized_max": "0.00649956444789",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "2048",
+      "mean_abs": "5.3539862212",
+      "relative_L2": "0.00622168735811",
+      "normalized_max": "0.00909090909091",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "4082.8125",
+      "mean_abs": "17.2455459245",
+      "relative_L2": "0.0185067194323",
+      "normalized_max": "0.0179121089215",
+      "gate": "0.03",
+      "pass": "1"
+    }
+  ],
+  "STATE_EQUIV": [
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    }
+  ],
+  "STATE_GATE_COMPLETE": [
+    {
+      "graph": "email-Enron",
+      "pass": "1"
+    }
+  ],
+  "STATE_TIME": [
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "0",
+      "ms": "2.26902961731"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "0",
+      "ms": "2.32911109924"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "0",
+      "ms": "2.21395492554"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "0",
+      "ms": "2.29001045227"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "0",
+      "ms": "2.24685668945"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "1",
+      "ms": "1.21808052063"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "1",
+      "ms": "1.12891197205"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "1",
+      "ms": "1.18613243103"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "1",
+      "ms": "1.13701820374"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "1",
+      "ms": "1.11413002014"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "2",
+      "ms": "1.12199783325"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "2",
+      "ms": "1.18684768677"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "2",
+      "ms": "1.14512443542"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "2",
+      "ms": "1.13391876221"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "2",
+      "ms": "1.12700462341"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "3",
+      "ms": "1.2149810791"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "3",
+      "ms": "1.22594833374"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "3",
+      "ms": "1.13391876221"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "3",
+      "ms": "1.16109848022"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "3",
+      "ms": "1.12986564636"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "4",
+      "ms": "0.88906288147"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "4",
+      "ms": "0.898122787476"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "4",
+      "ms": "0.836849212646"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "4",
+      "ms": "0.904083251953"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "4",
+      "ms": "0.904083251953"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "5",
+      "ms": "0.964879989624"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "5",
+      "ms": "0.98180770874"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "5",
+      "ms": "0.92601776123"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "5",
+      "ms": "0.996112823486"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "5",
+      "ms": "0.979900360107"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "6",
+      "ms": "0.964164733887"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "6",
+      "ms": "0.95009803772"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "6",
+      "ms": "0.998020172119"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "6",
+      "ms": "0.996112823486"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "6",
+      "ms": "0.983953475952"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "7",
+      "ms": "1.15299224854"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "7",
+      "ms": "1.11389160156"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "7",
+      "ms": "1.14297866821"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "7",
+      "ms": "1.17111206055"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "7",
+      "ms": "1.15585327148"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "8",
+      "ms": "0.888824462891"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "8",
+      "ms": "0.886917114258"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "8",
+      "ms": "0.897884368896"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "8",
+      "ms": "0.864028930664"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "8",
+      "ms": "0.874042510986"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "9",
+      "ms": "0.967979431152"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "9",
+      "ms": "0.952005386353"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "9",
+      "ms": "0.933170318604"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "9",
+      "ms": "0.931978225708"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "9",
+      "ms": "0.939130783081"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "10",
+      "ms": "0.963926315308"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "10",
+      "ms": "0.970125198364"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "10",
+      "ms": "1.00111961365"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "10",
+      "ms": "0.968933105469"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "10",
+      "ms": "0.95796585083"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "11",
+      "ms": "1.39403343201"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "11",
+      "ms": "1.39594078064"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "11",
+      "ms": "1.45411491394"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "11",
+      "ms": "1.38092041016"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "11",
+      "ms": "1.37281417847"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "0",
+      "ms": "2.35199928284"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "1",
+      "ms": "1.2218952179"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "2",
+      "ms": "1.12795829773"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "3",
+      "ms": "1.14488601685"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "4",
+      "ms": "0.901937484741"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "5",
+      "ms": "1.00588798523"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "6",
+      "ms": "0.967979431152"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "7",
+      "ms": "1.08408927917"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "8",
+      "ms": "0.898122787476"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "9",
+      "ms": "0.955820083618"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "10",
+      "ms": "0.974178314209"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "11",
+      "ms": "1.63888931274"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "0",
+      "ms": "1.38401985168"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "1",
+      "ms": "1.1260509491"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "2",
+      "ms": "0.997066497803"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "3",
+      "ms": "0.902891159058"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "4",
+      "ms": "1.22404098511"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "5",
+      "ms": "1.0359287262"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "6",
+      "ms": "1.00016593933"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "7",
+      "ms": "0.891923904419"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "8",
+      "ms": "1.17301940918"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "9",
+      "ms": "1.12199783325"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "10",
+      "ms": "1.15394592285"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "11",
+      "ms": "2.23398208618"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "0",
+      "ms": "2.22182273865"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "1",
+      "ms": "1.18803977966"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "2",
+      "ms": "1.15203857422"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "3",
+      "ms": "1.1088848114"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "4",
+      "ms": "0.946998596191"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "5",
+      "ms": "0.94199180603"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "6",
+      "ms": "0.975131988525"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "7",
+      "ms": "1.15084648132"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "8",
+      "ms": "0.921010971069"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "9",
+      "ms": "0.935077667236"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "10",
+      "ms": "0.951051712036"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "11",
+      "ms": "1.66201591492"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "0",
+      "ms": "1.37805938721"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "1",
+      "ms": "1.09696388245"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "2",
+      "ms": "1.00517272949"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "3",
+      "ms": "0.885963439941"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "4",
+      "ms": "1.22785568237"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "5",
+      "ms": "1.01089477539"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "6",
+      "ms": "0.948905944824"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "7",
+      "ms": "0.854015350342"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "8",
+      "ms": "1.10507011414"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "9",
+      "ms": "1.16109848022"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "10",
+      "ms": "1.19304656982"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "11",
+      "ms": "2.26402282715"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "0",
+      "ms": "2.21180915833"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "1",
+      "ms": "1.22690200806"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "2",
+      "ms": "1.10602378845"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "3",
+      "ms": "1.13916397095"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "4",
+      "ms": "0.875949859619"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "5",
+      "ms": "0.951051712036"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "6",
+      "ms": "0.952959060669"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "7",
+      "ms": "1.1420249939"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "8",
+      "ms": "0.911951065063"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "9",
+      "ms": "0.947952270508"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "10",
+      "ms": "0.954151153564"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "11",
+      "ms": "1.66296958923"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "0",
+      "ms": "1.41382217407"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "1",
+      "ms": "1.11389160156"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "2",
+      "ms": "1.00111961365"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "3",
+      "ms": "0.895023345947"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "4",
+      "ms": "1.19805335999"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "5",
+      "ms": "0.949859619141"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "6",
+      "ms": "0.978231430054"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "7",
+      "ms": "0.894069671631"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "8",
+      "ms": "1.12509727478"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "9",
+      "ms": "1.14107131958"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "10",
+      "ms": "1.15394592285"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "11",
+      "ms": "2.19893455505"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "0",
+      "ms": "2.20990180969"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "1",
+      "ms": "1.17492675781"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "2",
+      "ms": "1.13821029663"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "3",
+      "ms": "1.12104415894"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "4",
+      "ms": "0.910997390747"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "5",
+      "ms": "0.942945480347"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "6",
+      "ms": "0.963926315308"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "7",
+      "ms": "1.07407569885"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "8",
+      "ms": "0.843048095703"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "9",
+      "ms": "0.972032546997"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "10",
+      "ms": "1.02090835571"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "11",
+      "ms": "1.629114151"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "0",
+      "ms": "1.4328956604"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "1",
+      "ms": "1.12986564636"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "2",
+      "ms": "0.98705291748"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "3",
+      "ms": "0.890016555786"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "4",
+      "ms": "1.22809410095"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "5",
+      "ms": "1.051902771"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "6",
+      "ms": "0.931024551392"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "7",
+      "ms": "0.910043716431"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "8",
+      "ms": "1.15203857422"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "9",
+      "ms": "1.19280815125"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "10",
+      "ms": "1.12509727478"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "11",
+      "ms": "2.18200683594"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "0",
+      "ms": "2.24900245667"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "1",
+      "ms": "1.24716758728"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "2",
+      "ms": "1.15704536438"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "3",
+      "ms": "1.11293792725"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "4",
+      "ms": "0.869035720825"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "5",
+      "ms": "0.963926315308"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "6",
+      "ms": "0.936985015869"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "7",
+      "ms": "1.17111206055"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "8",
+      "ms": "0.906229019165"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "9",
+      "ms": "0.962018966675"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "10",
+      "ms": "0.949144363403"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "11",
+      "ms": "1.69682502747"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "0",
+      "ms": "1.384973526"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "1",
+      "ms": "1.0769367218"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "2",
+      "ms": "1.00588798523"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "3",
+      "ms": "0.854969024658"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "4",
+      "ms": "1.22404098511"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "5",
+      "ms": "0.990867614746"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "6",
+      "ms": "1.01709365845"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "7",
+      "ms": "0.856876373291"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "8",
+      "ms": "1.60217285156"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "9",
+      "ms": "1.18184089661"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "10",
+      "ms": "1.14512443542"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "11",
+      "ms": "2.22897529602"
+    }
+  ],
+  "STATE_COUNTERS": [
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "0",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "0",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "11394",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "268621"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "11394",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "268621"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "356268",
+      "shared_heads": "11394",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "268621"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "356268",
+      "shared_heads": "11394",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "268621"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "0",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "0",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "0"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "13329",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "272453"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "367662",
+      "shared_heads": "13329",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "272453"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "354333",
+      "shared_heads": "13329",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "272453"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "367662",
+      "feature_adds": "47060736",
+      "decode_rows": "354333",
+      "shared_heads": "13329",
+      "projection_scopes": "2294",
+      "amx_tdp": "73408",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "1034240",
+      "partial_store_bytes": "1034240",
+      "packing_load_bytes": "0",
+      "direct_rows": "36692",
+      "packed_bytes": "9396224",
+      "prefetch_requests": "1323880",
+      "csr_reads": "367662",
+      "comparisons": "272453"
+    }
+  ],
+  "STATE_WORK_GATE": [
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "layer": "2",
+      "pass": "1"
+    }
+  ],
+  "STATE_PROFILE_GATE": [
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_degree",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_degree",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_degree",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pack_epi_qguard",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_i_qguard",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "email-Enron",
+      "method": "pair_s_qguard",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    }
+  ],
+  "STATE_STRUCTURE": [
+    {
+      "graph": "email-Enron",
+      "schedule": "degree",
+      "scope": "64",
+      "edges": "367662",
+      "shared_heads": "11394",
+      "merge_steps": "356268",
+      "share_fraction": "0.0309904205493",
+      "projection_scopes": "2447",
+      "windows": "2447",
+      "scalar_adds": "47060736",
+      "direct_decode_rows": "367662",
+      "shared_decode_rows": "356268",
+      "amx_tdp_fast": "78304",
+      "baseline_partial_zero_bytes": "20045824",
+      "baseline_state_load_bytes": "0",
+      "baseline_state_store_bytes": "19910656",
+      "direct_saved_terminal_bytes": "39956480",
+      "prefetch_requests": "1315800",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "degree",
+      "scope": "256",
+      "edges": "367662",
+      "shared_heads": "11394",
+      "merge_steps": "356268",
+      "share_fraction": "0.0309904205493",
+      "projection_scopes": "2311",
+      "windows": "2447",
+      "scalar_adds": "47060736",
+      "direct_decode_rows": "367662",
+      "shared_decode_rows": "356268",
+      "amx_tdp_fast": "73952",
+      "baseline_partial_zero_bytes": "18931712",
+      "baseline_state_load_bytes": "941568",
+      "baseline_state_store_bytes": "19836416",
+      "direct_saved_terminal_bytes": "37826560",
+      "prefetch_requests": "1323156",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "degree",
+      "scope": "0",
+      "edges": "367662",
+      "shared_heads": "11394",
+      "merge_steps": "356268",
+      "share_fraction": "0.0309904205493",
+      "projection_scopes": "2294",
+      "windows": "2447",
+      "scalar_adds": "47060736",
+      "direct_decode_rows": "367662",
+      "shared_decode_rows": "356268",
+      "amx_tdp_fast": "73408",
+      "baseline_partial_zero_bytes": "18792448",
+      "baseline_state_load_bytes": "1034240",
+      "baseline_state_store_bytes": "19820544",
+      "direct_saved_terminal_bytes": "37578752",
+      "prefetch_requests": "1323880",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qguard",
+      "scope": "64",
+      "edges": "367662",
+      "shared_heads": "13329",
+      "merge_steps": "354333",
+      "share_fraction": "0.0362534066616",
+      "projection_scopes": "2447",
+      "windows": "2447",
+      "scalar_adds": "47060736",
+      "direct_decode_rows": "367662",
+      "shared_decode_rows": "354333",
+      "amx_tdp_fast": "78304",
+      "baseline_partial_zero_bytes": "20045824",
+      "baseline_state_load_bytes": "0",
+      "baseline_state_store_bytes": "19910656",
+      "direct_saved_terminal_bytes": "39956480",
+      "prefetch_requests": "1315800",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qguard",
+      "scope": "256",
+      "edges": "367662",
+      "shared_heads": "13329",
+      "merge_steps": "354333",
+      "share_fraction": "0.0362534066616",
+      "projection_scopes": "2311",
+      "windows": "2447",
+      "scalar_adds": "47060736",
+      "direct_decode_rows": "367662",
+      "shared_decode_rows": "354333",
+      "amx_tdp_fast": "73952",
+      "baseline_partial_zero_bytes": "18931712",
+      "baseline_state_load_bytes": "941568",
+      "baseline_state_store_bytes": "19836416",
+      "direct_saved_terminal_bytes": "37826560",
+      "prefetch_requests": "1323156",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "email-Enron",
+      "schedule": "qguard",
+      "scope": "0",
+      "edges": "367662",
+      "shared_heads": "13329",
+      "merge_steps": "354333",
+      "share_fraction": "0.0362534066616",
+      "projection_scopes": "2294",
+      "windows": "2447",
+      "scalar_adds": "47060736",
+      "direct_decode_rows": "367662",
+      "shared_decode_rows": "354333",
+      "amx_tdp_fast": "73408",
+      "baseline_partial_zero_bytes": "18792448",
+      "baseline_state_load_bytes": "1034240",
+      "baseline_state_store_bytes": "19820544",
+      "direct_saved_terminal_bytes": "37578752",
+      "prefetch_requests": "1323880",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    }
+  ],
+  "STATE_COMPLETE": [
+    {
+      "graph": "email-Enron",
+      "pass": "1",
+      "methods": "11",
+      "smoke": "0",
+      "max_rss_kib": "236448"
+    }
+  ]
+}

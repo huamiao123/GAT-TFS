@@ -1,0 +1,25 @@
+Independent audit memo — event_trace_20261008
+
+Scope: read-only analysis; no kernel execution or scheduler mutations. Fixed eight methods at 128->128->128, FULL projection, S64, PF1. Candidate trace_s_rep must clear both PACKdegree and PACKqguard in all four allocation/protocol cohorts; the eight resulting gates retain GM>=1.03 and >=3/4 wins.
+
+Source review found no blocking inconsistency in trace_opportunity.hpp. Full-row head-greedy is a legal per-row order-preserving schedule with duplicate and unsorted CSR. Sorted rows are detected while every entry is consumed, including drained tails. Each source CSR entry is read once in this diagnostic, so source_reads=E; events=E-shared_full. Odd rows have no sharing. Two-bit 11 popcounts are safe only because the trace is exhaustively validated first and unused high bits must be zero; the independent Python parser checks this precondition on smoke data.
+
+Counterexample retained: A=[0]*65, B=[0]*63+[1,0]. S64 shares64, full-row greedy shares63. Thus unsorted pairs may lose sharing and are never constrained by full>=S64. Sorted pairs do have this bound. These are fixed-pair structure statistics; they do not predict an execution-time winner or establish optimality for unsorted CSR.
+
+Independent parser reconstructs every smoke event directly from original CSR and dumped degree permutation, without using C++ builder or visitor. It checks offsets, count0 records, headers, all used codes, tail padding, exhaustion, duplicate edges, row order, histogram and content hash. It also independently recomputes every opportunity field. Performance inputs receive row-pointer work validation and file hashes; full CSR replay occurs in two separately written C++ validators inside the batch job, avoiding huge Python edge scans on the login node.
+
+Payload bytes are sum_record ceil(event_count/4), not ceil(total_events/4). The boundary counterexample has66 events across two records and18 payload bytes, versus17 under the invalid global-ceil formula. There is one count byte for every existing pair in every tile window, including exhausted pairs. Empty tiles have zero records; tile_offsets still has tiles+1 entries.
+
+Logical source counters distinguish decode rows, current CSR reads, next-index prefetch reads, trace headers, payload bytes and offset reads. Saving current reads E->E-S does not save PF1 next-index reads. These counters are not retired loads, cache traffic, DRAM bytes or instruction counts. trace_i/dyn_i, trace_s_cached/dyn_s and trace_s_rep/trace_s_cached isolate the intended mechanisms as far as their specified data flow allows; compiled code differences remain part of the mechanism.
+
+Frozen grouping preserves q64(degree) at every permutation position. FULL projection count, windows, state loads/stores, direct rows, packing, epilogue work and global PF1 counts therefore match degree for qguard. Padded neighbor steps may differ and are not asserted equal. The frozen source and all five GROUP_AUDIT budgets are checked.
+
+All variants retain immutable base and trace plans at the same addresses. This is a warmed incremental comparison, not standalone PACK memory consumption. Trace vector size/capacity bytes exclude object size and allocator overhead; these are reported separately. Schedule setup is the measured complete five-schedule pipeline, not an isolated qguard cost. Optional full-row opportunity diagnostic is never added to required preprocessing or break-even cost.
+
+PMU requires full32-thread coverage in every region, sums raw/scaled thread events, reports scale factors and retains all repetitions. Generic cache events cannot identify DRAM bottlenecks. AMX busy alone cannot prove AVX-AMX overlap. PMU-region timing never replaces primary end-to-end timing. Raw outliers are retained and sample extrema are not confidence intervals.
+
+Local independent parser regressions: odd empty row, unsorted repeats, cross-S64 rounding and loss example, all-zero odd tail, zero-count pair record, rejection of nonzero padding and used-code zero. All passed before upload.
+
+Post-dry-audit clarification: GROUP_AUDIT reports the frozen pre-PACK state-store budget, including final FP32 stores. Its independently checked formula is production partial_store_bytes + direct_rows*512; equating these two store counters directly was an analyzer bug corrected before acceptance. All13 smoke packets then passed, including independent per-event trace and opportunity replay. The raw dry-audit failure was retained in the tool record; no kernel/runtime or threshold changed.
+
+Any sorted-pair full-greedy optimality statement assumes at most one edge per row consumed by one source event. It does not cover reusing one decoded vector for an arbitrary same-row duplicate run; that broader model may have a lower decode-event minimum. Structure summaries label this event model explicitly.

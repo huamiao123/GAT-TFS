@@ -1,0 +1,145 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/pair-plan-20261007-01/logs/plan-10889177/fixtures/state_tail_15/state_tail_15.csrbin
+METHOD_SETUP graph=state_tail_15 phase=csr_file_load ms=0.173807144165
+Matrix: state_tail_15  N=15  NNZ=1473  avg_deg=98.2
+
+METHOD_SETUP graph=state_tail_15 phase=tensor_allocation ms=0.0851154327393
+METHOD_SETUP graph=state_tail_15 phase=weight_generation ms=0.257015228271
+METHOD_SETUP graph=state_tail_15 phase=feature_generation ms=0.0178813934326
+METHOD_SETUP graph=state_tail_15 phase=degree_sort ms=0.00405311584473
+METHOD_SETUP graph=state_tail_15 phase=packed_weight_allocation ms=0.00596046447754
+METHOD_SETUP graph=state_tail_15 phase=weight_vnni_packing ms=0.0181198120117
+METHOD_SETUP graph=state_tail_15 phase=input_bf16_allocation ms=0.00190734863281
+METHOD_SETUP graph=state_tail_15 phase=input_bf16_conversion ms=9.45806503296
+METHOD_SETUP graph=state_tail_15 phase=tfs_output_allocation ms=0.00691413879395
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.37 ms
+  run 1: 0.34 ms
+  run 2: 0.31 ms
+  run 3: 0.33 ms
+  run 4: 0.28 ms
+  TFS V3 E2E BEST: 0.28 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=state_tail_15 phase=mkl_index_allocation ms=0.00214576721191
+METHOD_SETUP graph=state_tail_15 phase=mkl_index_conversion ms=0.000953674316406
+METHOD_SETUP graph=state_tail_15 phase=mkl_csr_create ms=2.09593772888
+METHOD_SETUP graph=state_tail_15 phase=mkl_hint_and_optimize ms=1.36709213257
+METHOD_SETUP graph=state_tail_15 phase=mkl_output_allocation ms=0.00405311584473
+  run 0: 0.03 ms
+  run 1: 0.03 ms
+  run 2: 0.03 ms
+  run 3: 0.03 ms
+  run 4: 0.03 ms
+  MKL E2E BEST: 0.03 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.28 ms
+  MKL (FP32):      0.03 ms
+  E2E Speedup:     0.09×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010690  RMSE=7.7159e+02
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+PAIRPLAN_SEMANTIC graph=state_tail_15 values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+PAIRPLAN_SETUP graph=state_tail_15 plan=adj_degree kind=0 layout_ms=0.00596046447754 pairing_ms=0.342130661011 verify_ms=0.0269412994385 audit_ms=0.0209808349609 total_ms=0.396013259888 plan_bytes=40 allocated_bytes=40 sample_edge_probes=0 signature_probes=0 score_probes=0 score_pairs=0 full_verification_reads=1483 merge_index_reads=1473 exact_compare_reads=10 memcmp_requested_reads=0 audit_reads=10 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=state_tail_15 plan=adj_degree kind=0 tiles=1 source_edges=1473 dynamic_shared_heads=376 exact_shared_edges=0 merge_steps=1097 comparisons=510 exact_windows=0 nonempty_pair_windows=19 neighbor_windows=8 full_projections=1 b64_projections=8 b256_projections=2 changed_tiles=0 zero_score_tiles=0 score_fallback_tiles=0 adjacent_sample_score=0 selected_sample_score=0 fnv64=6369207588365913067 exact_masks_bytes=8
+PLAN_GATE graph=state_tail_15 plan=adj_degree pass=1 invalid=0 source_edges=1473 expected_edges=1473 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+PAIRPLAN_SETUP graph=state_tail_15 plan=opt_degree kind=1 layout_ms=0.00309944152832 pairing_ms=0.0448226928711 verify_ms=0.0200271606445 audit_ms=0.0181198120117 total_ms=0.0860691070557 plan_bytes=40 allocated_bytes=40 sample_edge_probes=5060 signature_probes=961 score_probes=4099 score_pairs=32 full_verification_reads=1485 merge_index_reads=1473 exact_compare_reads=12 memcmp_requested_reads=0 audit_reads=12 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=state_tail_15 plan=opt_degree kind=1 tiles=1 source_edges=1473 dynamic_shared_heads=394 exact_shared_edges=0 merge_steps=1079 comparisons=542 exact_windows=0 nonempty_pair_windows=19 neighbor_windows=8 full_projections=1 b64_projections=8 b256_projections=2 changed_tiles=1 zero_score_tiles=0 score_fallback_tiles=0 adjacent_sample_score=325 selected_sample_score=343 fnv64=1923360516985646575 exact_masks_bytes=8
+PLAN_GATE graph=state_tail_15 plan=opt_degree pass=1 invalid=0 source_edges=1473 expected_edges=1473 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+PAIRPLAN_SETUP graph=state_tail_15 plan=rand_degree kind=2 layout_ms=0.00190734863281 pairing_ms=0.0169277191162 verify_ms=0.02121925354 audit_ms=0.0169277191162 total_ms=0.0569820404053 plan_bytes=40 allocated_bytes=40 sample_edge_probes=0 signature_probes=0 score_probes=0 score_pairs=0 full_verification_reads=1477 merge_index_reads=1473 exact_compare_reads=4 memcmp_requested_reads=0 audit_reads=4 construction_includes_full_audit=1 uses_timing=0 seed=20261007 counter_semantics=logical_requests_not_retired_loads bytes_semantics=persistent_vector_payload_including_padding object_bytes=352 name_capacity_bytes=16 sampling_assignment_combined=1 score_pairs_per_tile_cap=64 signature_probes_per_row_cap=192
+PAIRPLAN_STRUCTURE graph=state_tail_15 plan=rand_degree kind=2 tiles=1 source_edges=1473 dynamic_shared_heads=168 exact_shared_edges=0 merge_steps=1305 comparisons=228 exact_windows=0 nonempty_pair_windows=23 neighbor_windows=8 full_projections=1 b64_projections=8 b256_projections=2 changed_tiles=1 zero_score_tiles=0 score_fallback_tiles=0 adjacent_sample_score=0 selected_sample_score=0 fnv64=11171384419049815003 exact_masks_bytes=8
+PLAN_GATE graph=state_tail_15 plan=rand_degree pass=1 invalid=0 source_edges=1473 expected_edges=1473 bijection=1 masks_independent=1 projection_budget_unchanged=1 feature_first_touch_changed=0
+ORDERCTRL_PAIR_PROOF graph=state_tail_15 seed=20261007 salt=5782984014387364946 tiles=1 changed_tiles=1 checked_pairs=7 checked_windows=8 pair_set_preserved=1 pair_direction_preserved=1 odd_row_last=1 exact_mask_remapped=1 invalid=0 pass=1 derive_ms=0.00190734863281 audit_ms=0.00190734863281 fnv64=16601853798737241719
+ORDERCTRL_PLAN graph=state_tail_15 plan=adj_degree slot_hash=6369207588365913067 tiles=1 mask_bytes=8 shared_heads=376 exact_shared_edges=0 source=immutable_prepared_plan
+ORDERCTRL_PLAN graph=state_tail_15 plan=opt_degree slot_hash=1923360516985646575 tiles=1 mask_bytes=8 shared_heads=394 exact_shared_edges=0 source=immutable_prepared_plan
+ORDERCTRL_PLAN graph=state_tail_15 plan=rand_degree slot_hash=11171384419049815003 tiles=1 mask_bytes=8 shared_heads=168 exact_shared_edges=0 source=immutable_prepared_plan
+ORDERCTRL_PLAN graph=state_tail_15 plan=pairs_degree slot_hash=16601853798737241719 tiles=1 mask_bytes=8 shared_heads=376 exact_shared_edges=0 source=immutable_prepared_plan
+ORDERCTRL_CONFIG graph=state_tail_15 N=15 E=1473 D=128 H=128 F=128 S=64 M=FULL R=64 TR=16 methods=5 planned_mode=0 warmup_consecutive=1 warmup_each_alternating_switch=1 consecutive=5 alternating=10 numa=default smoke=1 final_output=BF16 copy_in_compute=0 purpose=causal_control_not_deployment
+ORDERCTRL_METHOD graph=state_tail_15 method=pack_epi_degree kind=3 mode=0 scope=0 plan_index=-1 epilogue=1 accurate=0
+ORDERCTRL_METHOD graph=state_tail_15 method=slot_adj_scalar kind=4 mode=0 scope=0 plan_index=0 epilogue=1 accurate=0
+ORDERCTRL_METHOD graph=state_tail_15 method=slot_opt_scalar kind=4 mode=0 scope=0 plan_index=1 epilogue=1 accurate=0
+ORDERCTRL_METHOD graph=state_tail_15 method=slot_rand_scalar kind=4 mode=0 scope=0 plan_index=2 epilogue=1 accurate=0
+ORDERCTRL_METHOD graph=state_tail_15 method=slot_pairs_scalar kind=4 mode=0 scope=0 plan_index=3 epilogue=1 accurate=0
+ORDERCTRL_SLOT graph=state_tail_15 method=pack_epi_degree phase=correctness repeat=0 serial=0 uses_slot=0 mode=0 execution_method_ptr=0x88bc10 execution_name=pack_epi_degree plan_ptr=0x7fff6b837c00 tiles_ptr=0x832710 mask_ptr=0x88bbb0 tiles_size=1 mask_size=8 tiles_capacity=1 mask_capacity=8 h0_ptr=0x832dc0 w1_ptr=0x837c40 w2_ptr=0x858d00 wv1_ptr=0x868d80 wv2_ptr=0x870e00 h0b_ptr=0x878e80 h1_ptr=0x87c880 h1b_ptr=0x87e700 h2b_ptr=0x87f680 h2f_ptr=0x880600 perm_ptr=0x834c00 row_ptr=0x834d90 col_ptr=0x834de0 slot_hash=6369207588365913067 expected_hash=6369207588365913067 stable=1 pass=1 copy_ms=0 copy_in_compute=0
+METHOD_CHECK graph=state_tail_15 method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=5.28588867188 mean_abs=0.242908698786 relative_L2=0.00352650285841 normalized_max=0.00369198501106 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=3376 mean_abs=195.293438015 relative_L2=0.0059356525228 normalized_max=0.00535348926269 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=190.243432617 relative_L2=0.00619501312867 normalized_max=0.00653594771242 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_15 method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=12056.625 mean_abs=612.364876239 relative_L2=0.018844818847 normalized_max=0.0189144001468 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=pack_epi_degree layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=1920 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=pack_epi_degree layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=pack_epi_degree layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=pack_epi_degree layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=0 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=pack_epi_degree layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=pack_epi_degree layer=2 bitwise=1 pass=1
+ORDERCTRL_SLOT graph=state_tail_15 method=slot_adj_scalar phase=correctness repeat=0 serial=1 uses_slot=1 mode=0 execution_method_ptr=0x7fff6b837a40 execution_name=slot_mode0 plan_ptr=0x7fff6b837c00 tiles_ptr=0x832710 mask_ptr=0x88bbb0 tiles_size=1 mask_size=8 tiles_capacity=1 mask_capacity=8 h0_ptr=0x832dc0 w1_ptr=0x837c40 w2_ptr=0x858d00 wv1_ptr=0x868d80 wv2_ptr=0x870e00 h0b_ptr=0x878e80 h1_ptr=0x87c880 h1b_ptr=0x87e700 h2b_ptr=0x87f680 h2f_ptr=0x880600 perm_ptr=0x834c00 row_ptr=0x834d90 col_ptr=0x834de0 slot_hash=6369207588365913067 expected_hash=6369207588365913067 stable=1 pass=1 copy_ms=0.000953674316406 copy_in_compute=0
+METHOD_CHECK graph=state_tail_15 method=slot_adj_scalar boundary=kernel_FP32 reference=paper_tfs max_abs=5.28588867188 mean_abs=0.242908698786 relative_L2=0.00352650285841 normalized_max=0.00369198501106 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_adj_scalar boundary=e2e_FP32_final reference=paper_tfs max_abs=3376 mean_abs=195.293438015 relative_L2=0.0059356525228 normalized_max=0.00535348926269 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_adj_scalar boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=190.243432617 relative_L2=0.00619501312867 normalized_max=0.00653594771242 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_adj_scalar boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=12056.625 mean_abs=612.364876239 relative_L2=0.018844818847 normalized_max=0.0189144001468 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_adj_scalar boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_adj_scalar boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_adj_scalar boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_adj_scalar boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_adj_scalar layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=1920 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_adj_scalar layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_adj_scalar layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_adj_scalar layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_adj_scalar layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_adj_scalar layer=2 bitwise=1 pass=1
+ORDERCTRL_SLOT graph=state_tail_15 method=slot_opt_scalar phase=correctness repeat=0 serial=2 uses_slot=1 mode=0 execution_method_ptr=0x7fff6b837a40 execution_name=slot_mode0 plan_ptr=0x7fff6b837c00 tiles_ptr=0x832710 mask_ptr=0x88bbb0 tiles_size=1 mask_size=8 tiles_capacity=1 mask_capacity=8 h0_ptr=0x832dc0 w1_ptr=0x837c40 w2_ptr=0x858d00 wv1_ptr=0x868d80 wv2_ptr=0x870e00 h0b_ptr=0x878e80 h1_ptr=0x87c880 h1b_ptr=0x87e700 h2b_ptr=0x87f680 h2f_ptr=0x880600 perm_ptr=0x834c00 row_ptr=0x834d90 col_ptr=0x834de0 slot_hash=1923360516985646575 expected_hash=1923360516985646575 stable=1 pass=1 copy_ms=0 copy_in_compute=0
+METHOD_CHECK graph=state_tail_15 method=slot_opt_scalar boundary=kernel_FP32 reference=paper_tfs max_abs=5.28588867188 mean_abs=0.242908698786 relative_L2=0.00352650285841 normalized_max=0.00369198501106 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_opt_scalar boundary=e2e_FP32_final reference=paper_tfs max_abs=3376 mean_abs=195.293438015 relative_L2=0.0059356525228 normalized_max=0.00535348926269 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_opt_scalar boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=190.243432617 relative_L2=0.00619501312867 normalized_max=0.00653594771242 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_opt_scalar boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=12056.625 mean_abs=612.364876239 relative_L2=0.018844818847 normalized_max=0.0189144001468 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_opt_scalar boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_opt_scalar boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_opt_scalar boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_opt_scalar boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_opt_scalar layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=1920 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_opt_scalar layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_opt_scalar layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_opt_scalar layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_opt_scalar layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_opt_scalar layer=2 bitwise=1 pass=1
+ORDERCTRL_SLOT graph=state_tail_15 method=slot_rand_scalar phase=correctness repeat=0 serial=3 uses_slot=1 mode=0 execution_method_ptr=0x7fff6b837a40 execution_name=slot_mode0 plan_ptr=0x7fff6b837c00 tiles_ptr=0x832710 mask_ptr=0x88bbb0 tiles_size=1 mask_size=8 tiles_capacity=1 mask_capacity=8 h0_ptr=0x832dc0 w1_ptr=0x837c40 w2_ptr=0x858d00 wv1_ptr=0x868d80 wv2_ptr=0x870e00 h0b_ptr=0x878e80 h1_ptr=0x87c880 h1b_ptr=0x87e700 h2b_ptr=0x87f680 h2f_ptr=0x880600 perm_ptr=0x834c00 row_ptr=0x834d90 col_ptr=0x834de0 slot_hash=11171384419049815003 expected_hash=11171384419049815003 stable=1 pass=1 copy_ms=0 copy_in_compute=0
+METHOD_CHECK graph=state_tail_15 method=slot_rand_scalar boundary=kernel_FP32 reference=paper_tfs max_abs=5.28588867188 mean_abs=0.242908698786 relative_L2=0.00352650285841 normalized_max=0.00369198501106 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_rand_scalar boundary=e2e_FP32_final reference=paper_tfs max_abs=3376 mean_abs=195.293438015 relative_L2=0.0059356525228 normalized_max=0.00535348926269 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_rand_scalar boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=190.243432617 relative_L2=0.00619501312867 normalized_max=0.00653594771242 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_rand_scalar boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=12056.625 mean_abs=612.364876239 relative_L2=0.018844818847 normalized_max=0.0189144001468 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_rand_scalar boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_rand_scalar boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_rand_scalar boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_rand_scalar boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_rand_scalar layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=1920 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_rand_scalar layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_rand_scalar layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_rand_scalar layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_rand_scalar layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_rand_scalar layer=2 bitwise=1 pass=1
+ORDERCTRL_SLOT graph=state_tail_15 method=slot_pairs_scalar phase=correctness repeat=0 serial=4 uses_slot=1 mode=0 execution_method_ptr=0x7fff6b837a40 execution_name=slot_mode0 plan_ptr=0x7fff6b837c00 tiles_ptr=0x832710 mask_ptr=0x88bbb0 tiles_size=1 mask_size=8 tiles_capacity=1 mask_capacity=8 h0_ptr=0x832dc0 w1_ptr=0x837c40 w2_ptr=0x858d00 wv1_ptr=0x868d80 wv2_ptr=0x870e00 h0b_ptr=0x878e80 h1_ptr=0x87c880 h1b_ptr=0x87e700 h2b_ptr=0x87f680 h2f_ptr=0x880600 perm_ptr=0x834c00 row_ptr=0x834d90 col_ptr=0x834de0 slot_hash=16601853798737241719 expected_hash=16601853798737241719 stable=1 pass=1 copy_ms=0 copy_in_compute=0
+METHOD_CHECK graph=state_tail_15 method=slot_pairs_scalar boundary=kernel_FP32 reference=paper_tfs max_abs=5.28588867188 mean_abs=0.242908698786 relative_L2=0.00352650285841 normalized_max=0.00369198501106 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_pairs_scalar boundary=e2e_FP32_final reference=paper_tfs max_abs=3376 mean_abs=195.293438015 relative_L2=0.0059356525228 normalized_max=0.00535348926269 gate=0.01 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_pairs_scalar boundary=e2e_BF16_final reference=paper_tfs max_abs=4096 mean_abs=190.243432617 relative_L2=0.00619501312867 normalized_max=0.00653594771242 gate=0.02 pass=1
+METHOD_CHECK graph=state_tail_15 method=slot_pairs_scalar boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=12056.625 mean_abs=612.364876239 relative_L2=0.018844818847 normalized_max=0.0189144001468 gate=0.03 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_pairs_scalar boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_pairs_scalar boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_pairs_scalar boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_EQUIV graph=state_tail_15 method=slot_pairs_scalar boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_pairs_scalar layer=1 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=1920 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_pairs_scalar layer=1 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_pairs_scalar layer=1 bitwise=1 pass=1
+PAIRPLAN_COUNTERS graph=state_tail_15 method=slot_pairs_scalar layer=2 scope=0 accurate=0 profile_path=production_BF16_epilogue unit=source_level_not_DRAM source_visits=1473 feature_adds=188544 decode_rows=1473 shared_heads=0 projection_scopes=1 windows=8 amx_tdp=32 partial_zero_bytes=0 partial_load_bytes=8704 partial_store_bytes=8704 packing_load_bytes=0 direct_rows=15 packed_bytes=4096 prefetch_requests=5848 prefetch_index_reads=1462 csr_reads=1473 comparisons=0 order_index_reads=120 exact_mask_bytes_read=0 exact_pair_flags_tested=0 exact_pair_windows=0 exact_pair_edges=0 exact_shared_edges=0 runtime_head_comparisons=0 relu_elements=0 expected_hits=0 expected_decode=1473 expected_csr=1473 expected_scopes=1 expected_windows=8 expected_loads=8704 expected_stores=8704 expected_packed=4096 expected_direct=15 expected_prefetch=5848
+PAIRPLAN_WORK_GATE graph=state_tail_15 method=slot_pairs_scalar layer=2 pass=1
+PAIRPLAN_PROFILE_GATE graph=state_tail_15 method=slot_pairs_scalar layer=2 bitwise=1 pass=1
+ORDERCTRL_GATE_COMPLETE graph=state_tail_15 pass=1
+ORDERCTRL_COMPLETE graph=state_tail_15 pass=1 methods=5 smoke=1 slot_checks=5 max_rss_kib=39208

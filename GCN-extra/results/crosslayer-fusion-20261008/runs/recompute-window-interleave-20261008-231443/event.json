@@ -1,0 +1,20 @@
+{
+  "id": "recompute-window-interleave-20261008-231443",
+  "kind": "recompute_window_interleave",
+  "status": "PASS",
+  "exit_status": 0,
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-interleave-20261008-231443",
+  "paper_eligible": false,
+  "results": [
+    "PAR_RESULT order=degree graph=roadNet-CA threads=32 source_batch_blocks=64 baseline_median_ms=69.319963455 candidate_median_ms=119.016885757 exact=1 source_rows=3627178 source_projection_groups=227645 second_projection_groups=123206 peak_cache_rows=173160 checksum=12151273104846194773",
+    "PAR_RESULT order=identity graph=roadNet-CA threads=32 source_batch_blocks=64 baseline_median_ms=57.044982910 candidate_median_ms=40.901899338 exact=1 source_rows=2088038 source_projection_groups=131424 second_projection_groups=123206 peak_cache_rows=68068 checksum=12151273104846194773",
+    "PAR_RESULT order=min_source graph=roadNet-CA threads=32 source_batch_blocks=64 baseline_median_ms=59.428930283 candidate_median_ms=43.226003647 exact=1 source_rows=2043040 source_projection_groups=128585 second_projection_groups=123206 peak_cache_rows=66277 checksum=12151273104846194773"
+  ],
+  "gates": [
+    "PAR_GATE order=degree pass=1 speedup=0.589719818",
+    "PAR_GATE order=identity pass=1 speedup=1.396668355",
+    "PAR_GATE order=min_source pass=1 speedup=1.359052157"
+  ],
+  "issues": "Interleaved exclusive-node exploratory timing; no paper performance claim",
+  "next": "Compare interleaved ratios and finalize source-overlap/packing policy"
+}

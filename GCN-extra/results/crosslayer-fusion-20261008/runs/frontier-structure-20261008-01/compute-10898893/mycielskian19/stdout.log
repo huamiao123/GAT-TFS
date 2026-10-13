@@ -1,0 +1,24 @@
+GROUP_NATIVE_PERM graph=mycielskian19 fnv64=6004742885525239274
+GROUP_SETUP graph=mycielskian19 phase=schedule_signature_allocation ms=6.64401054382
+GROUP_SETUP graph=mycielskian19 phase=signature_pass ms=374.409914017 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=mycielskian19 phase=segment_construction ms=0.978946685791 segments=574 cap=4096
+GROUP_SETUP graph=mycielskian19 phase=schedule_sort schedule=qsource ms=30.6720733643 signature_ms=374.409914017 shared_signature_pass=1
+GROUP_SETUP graph=mycielskian19 phase=schedule_sort schedule=qpage ms=25.5959033966 signature_ms=374.409914017 shared_signature_pass=1
+GROUP_SETUP graph=mycielskian19 phase=schedule_sort schedule=qsamplepage ms=28.3319950104 signature_ms=374.409914017 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=mycielskian19 candidate=degree sampled_tiles=128 sampled_windows=379 requests=318553 misses256=167367 misses1024=134813 misses4096=79988 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=mycielskian19 candidate=qsource sampled_tiles=128 sampled_windows=379 requests=319395 misses256=123602 misses1024=107531 misses4096=77807 ratio256=0.736561904014 ratio1024=0.795528050765 ratio4096=0.970169056996 mean_ratio=0.834086337258 no_worse=1 improvements_ge5pct=2 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=mycielskian19 candidate=qpage sampled_tiles=128 sampled_windows=379 requests=315416 misses256=117477 misses1024=95826 misses4096=62831 ratio256=0.708893501951 ratio1024=0.717876218536 ratio4096=0.793317644156 mean_ratio=0.740029121548 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=mycielskian19 candidate=qsamplepage sampled_tiles=128 sampled_windows=379 requests=319016 misses256=123518 misses1024=101740 misses4096=65258 ratio256=0.736935797677 ratio1024=0.753579705857 ratio4096=0.814663306917 mean_ratio=0.768392936817 no_worse=1 improvements_ge5pct=3 eligible=1 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=mycielskian19 schedule=qguard selected=qpage predicted_mean_miss_rate_ratio=0.740029121548 sampled_tiles=128 high_q_tiles=24388 low_q_fallback=1 uses_timing=0 probe_ms=111.747980118 assembly_ms=0.940084457397
+GROUP_SETUP graph=mycielskian19 phase=guard_probe ms=111.747980118
+GROUP_SETUP graph=mycielskian19 phase=guard_schedule_assembly ms=0.940084457397
+GROUP_AUDIT graph=mycielskian19 schedule=degree pass=1 rows=393215 moved=0 fnv64=6004742885525239274 full_projections=24576 b64_projections=897060 b256_projections=234551 windows=897060 state_load_bytes=7132675584 state_store_bytes=7334001664 padded_steps=905019248 audit_ms=2.1538734436
+GROUP_AUDIT graph=mycielskian19 schedule=qsource pass=1 rows=393215 moved=392295 fnv64=9326182495712146088 full_projections=24576 b64_projections=897060 b256_projections=234551 windows=897060 state_load_bytes=7132675584 state_store_bytes=7334001664 padded_steps=907067376 audit_ms=1.94597244263
+GROUP_AUDIT graph=mycielskian19 schedule=qpage pass=1 rows=393215 moved=389746 fnv64=13075909832298554404 full_projections=24576 b64_projections=897060 b256_projections=234551 windows=897060 state_load_bytes=7132675584 state_store_bytes=7334001664 padded_steps=905932704 audit_ms=1.75905227661
+GROUP_AUDIT graph=mycielskian19 schedule=qsamplepage pass=1 rows=393215 moved=391765 fnv64=2136413956168571690 full_projections=24576 b64_projections=897060 b256_projections=234551 windows=897060 state_load_bytes=7132675584 state_store_bytes=7334001664 padded_steps=908408064 audit_ms=1.74903869629
+GROUP_AUDIT graph=mycielskian19 schedule=qguard pass=1 rows=393215 moved=386737 fnv64=146248671658608236 full_projections=24576 b64_projections=897060 b256_projections=234551 windows=897060 state_load_bytes=7132675584 state_store_bytes=7334001664 padded_steps=905924608 audit_ms=1.74403190613
+GROUP_SETUP graph=mycielskian19 phase=all_schedules_total ms=589.776039124 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+FRONTIER_ORDER graph=mycielskian19 order=nodeid fnv64=10468485175849783566 pass=1 forced_peak_rows=0 eager_segments=294350996
+FRONTIER_ORDER graph=mycielskian19 order=degree fnv64=6004742885525239274 pass=1 forced_peak_rows=393184 eager_segments=849512
+FRONTIER_ORDER graph=mycielskian19 order=qguard fnv64=146248671658608236 pass=1 forced_peak_rows=393184 eager_segments=849476
+FRONTIER_ANALYSIS graph=mycielskian19 pass=1 output=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-structure-20261008-01/compute-10898893/mycielskian19/structure.json values_read=0

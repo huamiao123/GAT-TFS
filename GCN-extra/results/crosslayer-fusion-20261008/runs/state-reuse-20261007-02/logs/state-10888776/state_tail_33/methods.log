@@ -1,0 +1,48 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/state-reuse-20261007-02/logs/state-10888776/fixtures/state_tail_33/state_tail_33.csrbin
+METHOD_SETUP graph=state_tail_33 phase=csr_file_load ms=0.370025634766
+Matrix: state_tail_33  N=33  NNZ=2738  avg_deg=83.0
+
+METHOD_SETUP graph=state_tail_33 phase=tensor_allocation ms=0.0951290130615
+METHOD_SETUP graph=state_tail_33 phase=weight_generation ms=0.264167785645
+METHOD_SETUP graph=state_tail_33 phase=feature_generation ms=0.0319480895996
+METHOD_SETUP graph=state_tail_33 phase=degree_sort ms=0.00500679016113
+METHOD_SETUP graph=state_tail_33 phase=packed_weight_allocation ms=0.00405311584473
+METHOD_SETUP graph=state_tail_33 phase=weight_vnni_packing ms=0.0178813934326
+METHOD_SETUP graph=state_tail_33 phase=input_bf16_allocation ms=0.00190734863281
+METHOD_SETUP graph=state_tail_33 phase=input_bf16_conversion ms=9.77897644043
+METHOD_SETUP graph=state_tail_33 phase=tfs_output_allocation ms=0.0112056732178
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.54 ms
+  run 1: 0.49 ms
+  run 2: 0.53 ms
+  run 3: 0.51 ms
+  run 4: 0.52 ms
+  TFS V3 E2E BEST: 0.49 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=state_tail_33 phase=mkl_index_allocation ms=0.00405311584473
+METHOD_SETUP graph=state_tail_33 phase=mkl_index_conversion ms=0.00596046447754
+METHOD_SETUP graph=state_tail_33 phase=mkl_csr_create ms=1.97696685791
+METHOD_SETUP graph=state_tail_33 phase=mkl_hint_and_optimize ms=1.36017799377
+METHOD_SETUP graph=state_tail_33 phase=mkl_output_allocation ms=0.00882148742676
+  run 0: 0.03 ms
+  run 1: 0.03 ms
+  run 2: 0.03 ms
+  run 3: 0.02 ms
+  run 4: 0.02 ms
+  MKL E2E BEST: 0.02 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.49 ms
+  MKL (FP32):      0.02 ms
+  E2E Speedup:     0.05×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.011432  RMSE=4.3529e+02
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+STATE_SEMANTIC graph=state_tail_33 values=19 bitwise=0 pass=0 kind=relu_truncation_signedzero_nan_vector_tail

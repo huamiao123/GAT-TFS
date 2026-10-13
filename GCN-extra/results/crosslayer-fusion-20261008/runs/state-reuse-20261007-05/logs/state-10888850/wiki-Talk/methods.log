@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/wiki-Talk/wiki-Talk.csrbin
+METHOD_SETUP graph=wiki-Talk phase=csr_file_load ms=14.9791240692
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+METHOD_SETUP graph=wiki-Talk phase=tensor_allocation ms=0.103950500488
+METHOD_SETUP graph=wiki-Talk phase=weight_generation ms=0.266075134277
+METHOD_SETUP graph=wiki-Talk phase=feature_generation ms=2108.066082
+METHOD_SETUP graph=wiki-Talk phase=degree_sort ms=38.3570194244
+METHOD_SETUP graph=wiki-Talk phase=packed_weight_allocation ms=0.0121593475342
+METHOD_SETUP graph=wiki-Talk phase=weight_vnni_packing ms=0.0369548797607
+METHOD_SETUP graph=wiki-Talk phase=input_bf16_allocation ms=0.0100135803223
+METHOD_SETUP graph=wiki-Talk phase=input_bf16_conversion ms=39.5469665527
+METHOD_SETUP graph=wiki-Talk phase=tfs_output_allocation ms=0.0269412994385
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 106.89 ms
+  run 1: 109.39 ms
+  run 2: 104.62 ms
+  run 3: 108.00 ms
+  run 4: 106.96 ms
+  TFS V3 E2E BEST: 104.62 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=wiki-Talk phase=mkl_index_allocation ms=0.0340938568115
+METHOD_SETUP graph=wiki-Talk phase=mkl_index_conversion ms=9.00816917419
+METHOD_SETUP graph=wiki-Talk phase=mkl_csr_create ms=2.4950504303
+METHOD_SETUP graph=wiki-Talk phase=mkl_hint_and_optimize ms=26.4921188354
+METHOD_SETUP graph=wiki-Talk phase=mkl_output_allocation ms=0.0159740447998
+  run 0: 90.32 ms
+  run 1: 90.32 ms
+  run 2: 90.03 ms
+  run 3: 90.20 ms
+  run 4: 90.36 ms
+  MKL E2E BEST: 90.03 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 104.62 ms
+  MKL (FP32):      90.03 ms
+  E2E Speedup:     0.86×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+STATE_SEMANTIC graph=wiki-Talk values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=wiki-Talk fnv64=2670896044009358309
+GROUP_SETUP graph=wiki-Talk phase=schedule_signature_allocation ms=23.1809616089
+GROUP_SETUP graph=wiki-Talk phase=signature_pass ms=13.98396492 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=wiki-Talk phase=segment_construction ms=2.58922576904 segments=726 cap=4096
+GROUP_SETUP graph=wiki-Talk phase=schedule_sort schedule=qsource ms=6.80899620056 signature_ms=13.98396492 shared_signature_pass=1
+GROUP_SETUP graph=wiki-Talk phase=schedule_sort schedule=qpage ms=7.35187530518 signature_ms=13.98396492 shared_signature_pass=1
+GROUP_SETUP graph=wiki-Talk phase=schedule_sort schedule=qsamplepage ms=7.41815567017 signature_ms=13.98396492 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=wiki-Talk candidate=degree sampled_tiles=128 sampled_windows=340 requests=269485 misses256=261789 misses1024=254551 misses4096=232076 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=wiki-Talk candidate=qsource sampled_tiles=128 sampled_windows=340 requests=272175 misses256=262117 misses1024=255052 misses4096=233963 ratio256=0.991357187297 ratio1024=0.992065372175 ratio4096=0.998167248918 mean_ratio=0.993863269463 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=wiki-Talk candidate=qpage sampled_tiles=128 sampled_windows=340 requests=270384 misses256=260336 misses1024=253251 misses4096=233063 ratio256=0.991143281819 ratio1024=0.991585047895 ratio4096=1.00091387574 mean_ratio=0.994547401817 no_worse=0 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=wiki-Talk candidate=qsamplepage sampled_tiles=128 sampled_windows=340 requests=272230 misses256=263320 misses1024=255648 misses4096=234188 ratio256=0.995705866036 ratio1024=0.994182708755 ratio4096=0.998925318199 mean_ratio=0.996271297663 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=wiki-Talk schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=128 high_q_tiles=489 low_q_fallback=1 uses_timing=0 probe_ms=212.05997467 assembly_ms=2.8920173645
+GROUP_SETUP graph=wiki-Talk phase=guard_probe ms=212.05997467
+GROUP_SETUP graph=wiki-Talk phase=guard_schedule_assembly ms=2.8920173645
+GROUP_AUDIT graph=wiki-Talk schedule=degree pass=1 rows=2394385 moved=0 fnv64=2670896044009358309 full_projections=9227 b64_projections=15131 b256_projections=10526 windows=15131 state_load_bytes=33653760 state_store_bytes=109233664 padded_steps=6863856 audit_ms=9.68790054321
+GROUP_AUDIT graph=wiki-Talk schedule=qsource pass=1 rows=2394385 moved=147439 fnv64=11753890113791174807 full_projections=9227 b64_projections=15131 b256_projections=10526 windows=15131 state_load_bytes=33653760 state_store_bytes=109233664 padded_steps=7195968 audit_ms=9.29498672485
+GROUP_AUDIT graph=wiki-Talk schedule=qpage pass=1 rows=2394385 moved=147413 fnv64=826481088180733399 full_projections=9227 b64_projections=15131 b256_projections=10526 windows=15131 state_load_bytes=33653760 state_store_bytes=109233664 padded_steps=7161008 audit_ms=8.17823410034
+GROUP_AUDIT graph=wiki-Talk schedule=qsamplepage pass=1 rows=2394385 moved=147426 fnv64=8185856604223818317 full_projections=9227 b64_projections=15131 b256_projections=10526 windows=15131 state_load_bytes=33653760 state_store_bytes=109233664 padded_steps=7170752 audit_ms=8.12602043152
+GROUP_AUDIT graph=wiki-Talk schedule=qguard pass=1 rows=2394385 moved=0 fnv64=2670896044009358309 full_projections=9227 b64_projections=15131 b256_projections=10526 windows=15131 state_load_bytes=33653760 state_store_bytes=109233664 padded_steps=6863856 audit_ms=7.9288482666
+GROUP_SETUP graph=wiki-Talk phase=all_schedules_total ms=322.289943695 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=wiki-Talk phase=all_five_frozen_schedules ms=322.858095169 included_in_primary=0
+STATE_CONFIG graph=wiki-Talk N=2394385 E=5021410 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=wiki-Talk method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=wiki-Talk method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=wiki-Talk method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=wiki-Talk method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=wiki-Talk method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89094870253 relative_L2=0.0120588659797 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=26.2861328125 mean_abs=0.00120471954838 relative_L2=0.00314548800772 normalized_max=0.00287818571115 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=19329 mean_abs=0.880869643337 relative_L2=0.00575251828102 normalized_max=0.00560747948236 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.878552268391 relative_L2=0.0061327777034 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70021939816 relative_L2=0.0175247712705 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=wiki-Talk pass=1
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=consecutive repeat=0 order=0 ms=107.599020004
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=consecutive repeat=1 order=0 ms=106.40501976
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=consecutive repeat=2 order=0 ms=105.856180191
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=consecutive repeat=3 order=0 ms=105.249881744
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=consecutive repeat=4 order=0 ms=105.692148209
+STATE_TIME graph=wiki-Talk method=b256_fast kind=consecutive repeat=0 order=1 ms=47.8467941284
+STATE_TIME graph=wiki-Talk method=b256_fast kind=consecutive repeat=1 order=1 ms=46.9028949738
+STATE_TIME graph=wiki-Talk method=b256_fast kind=consecutive repeat=2 order=1 ms=48.6991405487
+STATE_TIME graph=wiki-Talk method=b256_fast kind=consecutive repeat=3 order=1 ms=47.2528934479
+STATE_TIME graph=wiki-Talk method=b256_fast kind=consecutive repeat=4 order=1 ms=46.3030338287
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=consecutive repeat=0 order=2 ms=46.462059021
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=consecutive repeat=1 order=2 ms=48.1219291687
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=consecutive repeat=2 order=2 ms=47.0950603485
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=consecutive repeat=3 order=2 ms=46.2670326233
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=consecutive repeat=4 order=2 ms=47.6651191711
+STATE_TIME graph=wiki-Talk method=p0_degree kind=consecutive repeat=0 order=3 ms=44.6259975433
+STATE_TIME graph=wiki-Talk method=p0_degree kind=consecutive repeat=1 order=3 ms=46.373128891
+STATE_TIME graph=wiki-Talk method=p0_degree kind=consecutive repeat=2 order=3 ms=47.0988750458
+STATE_TIME graph=wiki-Talk method=p0_degree kind=consecutive repeat=3 order=3 ms=45.2389717102
+STATE_TIME graph=wiki-Talk method=p0_degree kind=consecutive repeat=4 order=3 ms=47.4100112915
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=37.3690128326
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=34.8339080811
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=37.328004837
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=37.3380184174
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=35.4239940643
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=consecutive repeat=0 order=5 ms=35.728931427
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=consecutive repeat=1 order=5 ms=37.5270843506
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=consecutive repeat=2 order=5 ms=38.7680530548
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=consecutive repeat=3 order=5 ms=36.8349552155
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=consecutive repeat=4 order=5 ms=37.5800132751
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=consecutive repeat=0 order=6 ms=35.2330207825
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=consecutive repeat=1 order=6 ms=36.8649959564
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=consecutive repeat=2 order=6 ms=37.2970104218
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=consecutive repeat=3 order=6 ms=39.0729904175
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=consecutive repeat=4 order=6 ms=37.9009246826
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=consecutive repeat=0 order=7 ms=46.3662147522
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=consecutive repeat=1 order=7 ms=47.394990921
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=consecutive repeat=2 order=7 ms=46.2348461151
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=consecutive repeat=3 order=7 ms=46.942949295
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=consecutive repeat=4 order=7 ms=47.3010540009
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=37.045955658
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=35.2909564972
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=38.8569831848
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=36.3240242004
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=37.3029708862
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=37.3320579529
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=37.4031066895
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=37.3890399933
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=37.4820232391
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=38.6731624603
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=38.7008190155
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=38.2349491119
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=39.2601490021
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=38.6428833008
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=38.5539531708
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=90.1958942413
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=90.1319980621
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=90.1038646698
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=90.2559757233
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=90.2020931244
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=0 order=0 ms=105.934858322
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=0 order=1 ms=57.4741363525
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=0 order=2 ms=47.71900177
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=0 order=3 ms=46.5190410614
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=0 order=4 ms=34.3430042267
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=0 order=5 ms=36.9291305542
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=0 order=6 ms=37.2641086578
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=0 order=7 ms=47.9459762573
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=35.6349945068
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=0 order=9 ms=37.5299453735
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=0 order=10 ms=35.4061126709
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=90.7688140869
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=90.7909870148
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=1 order=1 ms=39.8011207581
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=1 order=2 ms=38.3059978485
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=36.2241268158
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=1 order=4 ms=46.7011928558
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=1 order=5 ms=37.9869937897
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=1 order=6 ms=37.1761322021
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=1 order=7 ms=34.9190235138
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=1 order=8 ms=45.5451011658
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=1 order=9 ms=47.7211475372
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=1 order=10 ms=47.8239059448
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=1 order=11 ms=107.198953629
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=2 order=0 ms=105.637073517
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=2 order=1 ms=46.5490818024
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=2 order=2 ms=46.0369586945
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=2 order=3 ms=47.1529960632
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=2 order=4 ms=34.8119735718
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=2 order=5 ms=36.2830162048
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=2 order=6 ms=38.2709503174
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=2 order=7 ms=46.6837882996
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=35.0949764252
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=2 order=9 ms=35.4828834534
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=2 order=10 ms=36.9920730591
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=90.5659198761
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=90.5649662018
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=3 order=1 ms=39.7319793701
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=3 order=2 ms=36.3819599152
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=35.8610153198
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=3 order=4 ms=47.5370883942
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=3 order=5 ms=36.9441509247
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=3 order=6 ms=36.7951393127
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=3 order=7 ms=37.0230674744
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=3 order=8 ms=47.2409725189
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=3 order=9 ms=48.3250617981
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=3 order=10 ms=46.7889308929
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=3 order=11 ms=107.11312294
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=4 order=0 ms=107.691049576
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=4 order=1 ms=46.7269420624
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=4 order=2 ms=48.2161045074
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=4 order=3 ms=45.8250045776
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=4 order=4 ms=35.4061126709
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=4 order=5 ms=34.744977951
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=4 order=6 ms=36.4809036255
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=4 order=7 ms=46.9431877136
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=37.7051830292
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=4 order=9 ms=36.1700057983
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=4 order=10 ms=37.8332138062
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=90.9488201141
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=90.1989936829
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=5 order=1 ms=38.391828537
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=5 order=2 ms=35.7978343964
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=35.4940891266
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=5 order=4 ms=47.217130661
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=5 order=5 ms=38.0809307098
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=5 order=6 ms=36.7069244385
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=5 order=7 ms=36.2329483032
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=5 order=8 ms=46.1790561676
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=5 order=9 ms=45.2239513397
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=5 order=10 ms=47.1868515015
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=5 order=11 ms=107.156038284
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=6 order=0 ms=104.681015015
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=6 order=1 ms=46.5960502625
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=6 order=2 ms=47.9080677032
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=6 order=3 ms=45.2089309692
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=6 order=4 ms=35.3238582611
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=6 order=5 ms=37.2240543365
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=6 order=6 ms=35.434961319
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=6 order=7 ms=46.9629764557
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=35.2618694305
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=6 order=9 ms=39.0691757202
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=6 order=10 ms=38.3570194244
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=90.765953064
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=90.2299880981
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=7 order=1 ms=36.4260673523
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=7 order=2 ms=38.0260944366
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=36.6461277008
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=7 order=4 ms=46.3359355927
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=7 order=5 ms=35.660982132
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=7 order=6 ms=35.0871086121
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=7 order=7 ms=37.5030040741
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=7 order=8 ms=47.2700595856
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=7 order=9 ms=46.9818115234
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=7 order=10 ms=46.2830066681
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=7 order=11 ms=106.354951859
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=8 order=0 ms=109.93885994
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=8 order=1 ms=48.1929779053
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=8 order=2 ms=45.802116394
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=8 order=3 ms=45.7110404968
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=8 order=4 ms=35.9210968018
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=8 order=5 ms=36.8559360504
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=8 order=6 ms=44.8710918427
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=8 order=7 ms=46.8890666962
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=35.5060100555
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=8 order=9 ms=38.5010242462
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=8 order=10 ms=38.7210845947
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=90.4729366302
+STATE_TIME graph=wiki-Talk method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=90.4309749603
+STATE_TIME graph=wiki-Talk method=pair_s_qguard kind=alternating repeat=9 order=1 ms=38.2571220398
+STATE_TIME graph=wiki-Talk method=pair_i_qguard kind=alternating repeat=9 order=2 ms=37.230014801
+STATE_TIME graph=wiki-Talk method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=35.4990959167
+STATE_TIME graph=wiki-Talk method=p0_qguard kind=alternating repeat=9 order=4 ms=45.4869270325
+STATE_TIME graph=wiki-Talk method=pair_s_degree kind=alternating repeat=9 order=5 ms=37.8270149231
+STATE_TIME graph=wiki-Talk method=pair_i_degree kind=alternating repeat=9 order=6 ms=38.4619235992
+STATE_TIME graph=wiki-Talk method=pack_epi_degree kind=alternating repeat=9 order=7 ms=36.1919403076
+STATE_TIME graph=wiki-Talk method=p0_degree kind=alternating repeat=9 order=8 ms=45.9420681
+STATE_TIME graph=wiki-Talk method=bfull_fast kind=alternating repeat=9 order=9 ms=48.052072525
+STATE_TIME graph=wiki-Talk method=b256_fast kind=alternating repeat=9 order=10 ms=47.3778247833
+STATE_TIME graph=wiki-Talk method=paper_tfs kind=alternating repeat=9 order=11 ms=107.10811615
+STATE_COUNTERS graph=wiki-Talk method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=0 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=0
+STATE_WORK_GATE graph=wiki-Talk method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=0 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=0
+STATE_WORK_GATE graph=wiki-Talk method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=4999865 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=4999865 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=0 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=0
+STATE_WORK_GATE graph=wiki-Talk method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=0 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=0
+STATE_WORK_GATE graph=wiki-Talk method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=5021410 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=4999865 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=wiki-Talk method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=5021410 feature_adds=642740480 decode_rows=4999865 shared_heads=21545 projection_scopes=9227 amx_tdp=295264 partial_zero_bytes=0 partial_load_bytes=33653760 partial_store_bytes=33653760 packing_load_bytes=0 direct_rows=147617 packed_bytes=37793792 prefetch_requests=19495232 csr_reads=5021410 comparisons=2851803
+STATE_WORK_GATE graph=wiki-Talk method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=wiki-Talk schedule=degree scope=64 edges=5021410 shared_heads=21545 merge_steps=4999865 share_fraction=0.0042906275329 projection_scopes=15131 windows=15131 scalar_adds=642740480 direct_decode_rows=5021410 shared_decode_rows=4999865 amx_tdp_fast=484192 baseline_partial_zero_bytes=123953152 baseline_state_load_bytes=0 baseline_state_store_bytes=111949312 direct_saved_terminal_bytes=235902464 prefetch_requests=19232312 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=wiki-Talk schedule=degree scope=256 edges=5021410 shared_heads=21545 merge_steps=4999865 share_fraction=0.0042906275329 projection_scopes=10526 windows=15131 scalar_adds=642740480 direct_decode_rows=5021410 shared_decode_rows=4999865 amx_tdp_fast=336832 baseline_partial_zero_bytes=86228992 baseline_state_load_bytes=26692096 baseline_state_store_bytes=109918208 direct_saved_terminal_bytes=169455104 prefetch_requests=19440844 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=wiki-Talk schedule=degree scope=0 edges=5021410 shared_heads=21545 merge_steps=4999865 share_fraction=0.0042906275329 projection_scopes=9227 windows=15131 scalar_adds=642740480 direct_decode_rows=5021410 shared_decode_rows=4999865 amx_tdp_fast=295264 baseline_partial_zero_bytes=75587584 baseline_state_load_bytes=33653760 baseline_state_store_bytes=109233664 direct_saved_terminal_bytes=151167488 prefetch_requests=19495232 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=wiki-Talk schedule=qguard scope=64 edges=5021410 shared_heads=21545 merge_steps=4999865 share_fraction=0.0042906275329 projection_scopes=15131 windows=15131 scalar_adds=642740480 direct_decode_rows=5021410 shared_decode_rows=4999865 amx_tdp_fast=484192 baseline_partial_zero_bytes=123953152 baseline_state_load_bytes=0 baseline_state_store_bytes=111949312 direct_saved_terminal_bytes=235902464 prefetch_requests=19232312 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=wiki-Talk schedule=qguard scope=256 edges=5021410 shared_heads=21545 merge_steps=4999865 share_fraction=0.0042906275329 projection_scopes=10526 windows=15131 scalar_adds=642740480 direct_decode_rows=5021410 shared_decode_rows=4999865 amx_tdp_fast=336832 baseline_partial_zero_bytes=86228992 baseline_state_load_bytes=26692096 baseline_state_store_bytes=109918208 direct_saved_terminal_bytes=169455104 prefetch_requests=19440844 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=wiki-Talk schedule=qguard scope=0 edges=5021410 shared_heads=21545 merge_steps=4999865 share_fraction=0.0042906275329 projection_scopes=9227 windows=15131 scalar_adds=642740480 direct_decode_rows=5021410 shared_decode_rows=4999865 amx_tdp_fast=295264 baseline_partial_zero_bytes=75587584 baseline_state_load_bytes=33653760 baseline_state_store_bytes=109233664 direct_saved_terminal_bytes=151167488 prefetch_requests=19495232 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=wiki-Talk pass=1 methods=11 smoke=0 max_rss_kib=13392328

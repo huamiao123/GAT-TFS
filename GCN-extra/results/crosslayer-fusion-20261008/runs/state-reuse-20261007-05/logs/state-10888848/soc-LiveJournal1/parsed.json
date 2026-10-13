@@ -1,0 +1,3316 @@
+{
+  "METHOD_SETUP": [
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "csr_file_load",
+      "ms": "147.211074829"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "tensor_allocation",
+      "ms": "0.0979900360107"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "weight_generation",
+      "ms": "0.246047973633"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "feature_generation",
+      "ms": "4221.34685516"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "degree_sort",
+      "ms": "204.294919968"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "packed_weight_allocation",
+      "ms": "0.0131130218506"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "weight_vnni_packing",
+      "ms": "0.0340938568115"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "input_bf16_allocation",
+      "ms": "0.0100135803223"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "input_bf16_conversion",
+      "ms": "35.2649688721"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "tfs_output_allocation",
+      "ms": "0.0259876251221"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "mkl_index_allocation",
+      "ms": "0.03981590271"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "mkl_index_conversion",
+      "ms": "63.5788440704"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "mkl_csr_create",
+      "ms": "2.57706642151"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "mkl_hint_and_optimize",
+      "ms": "44.4741249084"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "mkl_output_allocation",
+      "ms": "0.0171661376953"
+    }
+  ],
+  "STATE_SEMANTIC": [
+    {
+      "graph": "soc-LiveJournal1",
+      "values": "19",
+      "bitwise": "1",
+      "pass": "1",
+      "kind": "relu_truncation_signedzero_nan_vector_tail"
+    }
+  ],
+  "GROUP_NATIVE_PERM": [
+    {
+      "graph": "soc-LiveJournal1",
+      "fnv64": "16532132850263622394"
+    }
+  ],
+  "GROUP_SETUP": [
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "schedule_signature_allocation",
+      "ms": "42.720079422"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "signature_pass",
+      "ms": "133.514881134",
+      "sample": "first64_and_uniform64",
+      "seed": "0x20261007",
+      "shared_candidates": "3",
+      "page_model": "relative_source_id_div16"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "segment_construction",
+      "ms": "14.3568515778",
+      "segments": "1225",
+      "cap": "4096"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "schedule_sort",
+      "schedule": "qsource",
+      "ms": "12.1209621429",
+      "signature_ms": "133.514881134",
+      "shared_signature_pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "schedule_sort",
+      "schedule": "qpage",
+      "ms": "13.4069919586",
+      "signature_ms": "133.514881134",
+      "shared_signature_pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "schedule_sort",
+      "schedule": "qsamplepage",
+      "ms": "13.31782341",
+      "signature_ms": "133.514881134",
+      "shared_signature_pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "guard_probe",
+      "ms": "159.955024719"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "guard_schedule_assembly",
+      "ms": "13.3450031281"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "all_schedules_total",
+      "ms": "678.848981857",
+      "measurement": "actual_complete_construction",
+      "includes_all_candidates_and_guard": "1"
+    }
+  ],
+  "GROUP_GUARD_PROBE": [
+    {
+      "graph": "soc-LiveJournal1",
+      "candidate": "degree",
+      "sampled_tiles": "128",
+      "sampled_windows": "293",
+      "requests": "217162",
+      "misses256": "212723",
+      "misses1024": "210118",
+      "misses4096": "205738",
+      "ratio256": "1",
+      "ratio1024": "1",
+      "ratio4096": "1",
+      "mean_ratio": "1",
+      "no_worse": "1",
+      "improvements_ge5pct": "0",
+      "eligible": "0",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "candidate": "qsource",
+      "sampled_tiles": "128",
+      "sampled_windows": "293",
+      "requests": "217769",
+      "misses256": "192469",
+      "misses1024": "190943",
+      "misses4096": "188338",
+      "ratio256": "0.902265011956",
+      "ratio1024": "0.906208766719",
+      "ratio4096": "0.912874795668",
+      "mean_ratio": "0.907116191448",
+      "no_worse": "1",
+      "improvements_ge5pct": "3",
+      "eligible": "1",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "candidate": "qpage",
+      "sampled_tiles": "128",
+      "sampled_windows": "293",
+      "requests": "218604",
+      "misses256": "201918",
+      "misses1024": "199791",
+      "misses4096": "197197",
+      "ratio256": "0.942944898174",
+      "ratio1024": "0.944579227494",
+      "ratio4096": "0.952163475834",
+      "mean_ratio": "0.946562533834",
+      "no_worse": "1",
+      "improvements_ge5pct": "2",
+      "eligible": "1",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "candidate": "qsamplepage",
+      "sampled_tiles": "128",
+      "sampled_windows": "293",
+      "requests": "217586",
+      "misses256": "195382",
+      "misses1024": "193779",
+      "misses4096": "190428",
+      "ratio256": "0.916691039196",
+      "ratio1024": "0.920441807101",
+      "ratio4096": "0.923781321713",
+      "mean_ratio": "0.92030472267",
+      "no_worse": "1",
+      "improvements_ge5pct": "3",
+      "eligible": "1",
+      "low_q_fallback": "1",
+      "model": "sampled_trace_LRU_not_hardware_cache"
+    }
+  ],
+  "GROUP_GUARD_SELECT": [
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qguard",
+      "selected": "qsource",
+      "predicted_mean_miss_rate_ratio": "0.907116191448",
+      "sampled_tiles": "128",
+      "high_q_tiles": "12677",
+      "low_q_fallback": "1",
+      "uses_timing": "0",
+      "probe_ms": "159.955024719",
+      "assembly_ms": "13.3450031281"
+    }
+  ],
+  "GROUP_AUDIT": [
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "degree",
+      "pass": "1",
+      "rows": "4847571",
+      "moved": "0",
+      "fnv64": "16532132850263622394",
+      "full_projections": "269280",
+      "b64_projections": "290166",
+      "b256_projections": "270458",
+      "windows": "290166",
+      "state_load_bytes": "168190464",
+      "state_store_bytes": "2374125568",
+      "padded_steps": "69358688",
+      "audit_ms": "53.5559654236"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qsource",
+      "pass": "1",
+      "rows": "4847571",
+      "moved": "4307357",
+      "fnv64": "8196888164062966988",
+      "full_projections": "269280",
+      "b64_projections": "290166",
+      "b256_projections": "270458",
+      "windows": "290166",
+      "state_load_bytes": "168190464",
+      "state_store_bytes": "2374125568",
+      "padded_steps": "70091008",
+      "audit_ms": "52.6051521301"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qpage",
+      "pass": "1",
+      "rows": "4847571",
+      "moved": "4307406",
+      "fnv64": "14796298017951298620",
+      "full_projections": "269280",
+      "b64_projections": "290166",
+      "b256_projections": "270458",
+      "windows": "290166",
+      "state_load_bytes": "168190464",
+      "state_store_bytes": "2374125568",
+      "padded_steps": "70040272",
+      "audit_ms": "52.1819591522"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qsamplepage",
+      "pass": "1",
+      "rows": "4847571",
+      "moved": "4307317",
+      "fnv64": "11525430399520126914",
+      "full_projections": "269280",
+      "b64_projections": "290166",
+      "b256_projections": "270458",
+      "windows": "290166",
+      "state_load_bytes": "168190464",
+      "state_store_bytes": "2374125568",
+      "padded_steps": "70096336",
+      "audit_ms": "52.1800518036"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qguard",
+      "pass": "1",
+      "rows": "4847571",
+      "moved": "202725",
+      "fnv64": "2957491915834144510",
+      "full_projections": "269280",
+      "b64_projections": "290166",
+      "b256_projections": "270458",
+      "windows": "290166",
+      "state_load_bytes": "168190464",
+      "state_store_bytes": "2374125568",
+      "padded_steps": "69979648",
+      "audit_ms": "50.6119728088"
+    }
+  ],
+  "STATE_SETUP": [
+    {
+      "graph": "soc-LiveJournal1",
+      "phase": "all_five_frozen_schedules",
+      "ms": "679.461956024",
+      "included_in_primary": "0"
+    }
+  ],
+  "STATE_CONFIG": [
+    {
+      "graph": "soc-LiveJournal1",
+      "N": "4847571",
+      "E": "68993773",
+      "D": "128",
+      "H": "128",
+      "F": "128",
+      "S": "64",
+      "R": "64",
+      "TR": "16",
+      "methods": "11",
+      "warmups": "1",
+      "consecutive": "5",
+      "alternating": "10",
+      "numa": "default",
+      "smoke": "0",
+      "ablations": "0",
+      "mkl_threads": "32",
+      "mkl_dynamic": "1",
+      "final_output": "BF16"
+    }
+  ],
+  "STATE_PLAN": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "0",
+      "scope": "1",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "1",
+      "scope": "256",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "1",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "2",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "1",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "degree",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "2",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "2",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "0",
+      "direct_pack": "0",
+      "epilogue": "0",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "0",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "1",
+      "accurate": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "3",
+      "scope": "0",
+      "schedule": "qguard",
+      "partial_nozero": "1",
+      "direct_pack": "1",
+      "epilogue": "1",
+      "pair": "2",
+      "accurate": "0"
+    }
+  ],
+  "METHOD_CHECK": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "0",
+      "mean_abs": "0",
+      "relative_L2": "0",
+      "normalized_max": "0",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "0",
+      "mean_abs": "0",
+      "relative_L2": "0",
+      "normalized_max": "0",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "0",
+      "mean_abs": "0",
+      "relative_L2": "0",
+      "normalized_max": "0",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "66260",
+      "mean_abs": "13.2248135724",
+      "relative_L2": "0.0128773740708",
+      "normalized_max": "0.0144412546499",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.19409179688",
+      "mean_abs": "0.0245019427835",
+      "relative_L2": "0.0032379436355",
+      "normalized_max": "0.0030919106564",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "26336",
+      "mean_abs": "5.9749102464",
+      "relative_L2": "0.0058427523995",
+      "normalized_max": "0.00580065874127",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.95765711716",
+      "relative_L2": "0.00622524330269",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8469981876",
+      "relative_L2": "0.0183933121241",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "kernel_FP32",
+      "reference": "paper_tfs",
+      "max_abs": "7.9365234375",
+      "mean_abs": "0.0245026906471",
+      "relative_L2": "0.00323954448119",
+      "normalized_max": "0.00341099642374",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_FP32_final",
+      "reference": "paper_tfs",
+      "max_abs": "23714.5",
+      "mean_abs": "5.98659947406",
+      "relative_L2": "0.00588794429307",
+      "normalized_max": "0.00522325796324",
+      "gate": "0.01",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "paper_tfs",
+      "max_abs": "32768",
+      "mean_abs": "5.97030326947",
+      "relative_L2": "0.00628301249673",
+      "normalized_max": "0.00724637681159",
+      "gate": "0.02",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_BF16_final",
+      "reference": "source_MKL_FP32",
+      "max_abs": "99028",
+      "mean_abs": "18.8515393465",
+      "relative_L2": "0.0183946727007",
+      "normalized_max": "0.0215829846887",
+      "gate": "0.03",
+      "pass": "1"
+    }
+  ],
+  "STATE_EQUIV": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "kernel_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_FP32",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "H1_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "boundary": "e2e_BF16",
+      "scope": "0",
+      "accurate": "0",
+      "bitwise": "1",
+      "pass": "1"
+    }
+  ],
+  "STATE_GATE_COMPLETE": [
+    {
+      "graph": "soc-LiveJournal1",
+      "pass": "1"
+    }
+  ],
+  "STATE_TIME": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "0",
+      "ms": "250.139951706"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "0",
+      "ms": "257.040023804"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "0",
+      "ms": "257.388114929"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "0",
+      "ms": "255.858898163"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "0",
+      "ms": "273.220062256"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "1",
+      "ms": "275.540113449"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "1",
+      "ms": "275.78997612"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "1",
+      "ms": "274.402141571"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "1",
+      "ms": "275.44593811"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "1",
+      "ms": "277.456045151"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "2",
+      "ms": "277.101993561"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "2",
+      "ms": "272.96090126"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "2",
+      "ms": "274.642944336"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "2",
+      "ms": "275.135993958"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "2",
+      "ms": "278.119087219"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "3",
+      "ms": "279.939174652"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "3",
+      "ms": "280.311107635"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "3",
+      "ms": "278.891086578"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "3",
+      "ms": "279.833078384"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "3",
+      "ms": "277.652025223"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "4",
+      "ms": "260.012865067"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "4",
+      "ms": "260.144948959"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "4",
+      "ms": "259.644985199"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "4",
+      "ms": "262.985944748"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "4",
+      "ms": "260.434865952"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "5",
+      "ms": "252.12597847"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "5",
+      "ms": "253.010034561"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "5",
+      "ms": "251.745939255"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "5",
+      "ms": "252.126932144"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "5",
+      "ms": "254.617929459"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "6",
+      "ms": "247.313976288"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "6",
+      "ms": "247.761011124"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "6",
+      "ms": "251.035928726"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "6",
+      "ms": "249.732017517"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "6",
+      "ms": "247.01499939"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "7",
+      "ms": "284.278154373"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "7",
+      "ms": "283.318996429"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "7",
+      "ms": "284.715890884"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "7",
+      "ms": "280.39598465"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "7",
+      "ms": "283.107042313"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "8",
+      "ms": "265.161037445"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "8",
+      "ms": "264.861106873"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "8",
+      "ms": "266.607046127"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "8",
+      "ms": "263.302087784"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "8",
+      "ms": "263.095140457"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "9",
+      "ms": "254.191875458"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "9",
+      "ms": "257.953882217"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "9",
+      "ms": "258.689880371"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "9",
+      "ms": "257.441997528"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "9",
+      "ms": "255.887985229"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "10",
+      "ms": "252.532958984"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "10",
+      "ms": "253.625154495"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "10",
+      "ms": "249.377965927"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "10",
+      "ms": "251.667022705"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "10",
+      "ms": "250.88596344"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "0",
+      "order": "11",
+      "ms": "682.525873184"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "1",
+      "order": "11",
+      "ms": "682.34205246"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "2",
+      "order": "11",
+      "ms": "681.807041168"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "3",
+      "order": "11",
+      "ms": "681.382894516"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "consecutive",
+      "repeat": "4",
+      "order": "11",
+      "ms": "682.129859924"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "0",
+      "ms": "252.264976501"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "1",
+      "ms": "274.101018906"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "2",
+      "ms": "275.610923767"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "3",
+      "ms": "277.93598175"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "4",
+      "ms": "258.371829987"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "5",
+      "ms": "251.6310215"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "6",
+      "ms": "249.216079712"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "7",
+      "ms": "280.260801315"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "8",
+      "ms": "262.054920197"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "9",
+      "ms": "253.596782684"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "10",
+      "ms": "249.420881271"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "0",
+      "order": "11",
+      "ms": "682.517051697"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "0",
+      "ms": "682.544946671"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "1",
+      "ms": "244.757890701"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "2",
+      "ms": "249.997138977"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "3",
+      "ms": "264.661073685"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "4",
+      "ms": "282.174825668"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "5",
+      "ms": "248.869895935"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "6",
+      "ms": "251.321077347"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "7",
+      "ms": "260.340929031"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "8",
+      "ms": "281.847000122"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "9",
+      "ms": "276.448965073"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "10",
+      "ms": "276.169061661"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "1",
+      "order": "11",
+      "ms": "268.003940582"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "0",
+      "ms": "263.349056244"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "1",
+      "ms": "275.236129761"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "2",
+      "ms": "274.62887764"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "3",
+      "ms": "277.059078217"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "4",
+      "ms": "259.208917618"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "5",
+      "ms": "254.289150238"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "6",
+      "ms": "249.179124832"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "7",
+      "ms": "280.513048172"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "8",
+      "ms": "263.716936111"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "9",
+      "ms": "253.672122955"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "10",
+      "ms": "250.038862228"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "2",
+      "order": "11",
+      "ms": "683.82692337"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "0",
+      "ms": "683.617115021"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "1",
+      "ms": "246.464967728"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "2",
+      "ms": "250.167131424"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "3",
+      "ms": "264.545202255"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "4",
+      "ms": "281.233072281"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "5",
+      "ms": "246.934890747"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "6",
+      "ms": "251.374006271"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "7",
+      "ms": "261.325120926"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "8",
+      "ms": "280.41100502"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "9",
+      "ms": "275.823116302"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "10",
+      "ms": "276.598930359"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "3",
+      "order": "11",
+      "ms": "268.238067627"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "0",
+      "ms": "262.345075607"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "1",
+      "ms": "273.808956146"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "2",
+      "ms": "278.380155563"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "3",
+      "ms": "279.402017593"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "4",
+      "ms": "259.27901268"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "5",
+      "ms": "252.120018005"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "6",
+      "ms": "248.990058899"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "7",
+      "ms": "282.696008682"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "8",
+      "ms": "265.537977219"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "9",
+      "ms": "254.528045654"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "10",
+      "ms": "251.392126083"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "4",
+      "order": "11",
+      "ms": "683.356046677"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "0",
+      "ms": "682.084083557"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "1",
+      "ms": "241.807937622"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "2",
+      "ms": "250.090837479"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "3",
+      "ms": "263.109922409"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "4",
+      "ms": "280.945062637"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "5",
+      "ms": "246.846914291"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "6",
+      "ms": "251.697063446"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "7",
+      "ms": "261.936903"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "8",
+      "ms": "280.850887299"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "9",
+      "ms": "275.575876236"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "10",
+      "ms": "276.791095734"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "5",
+      "order": "11",
+      "ms": "261.103153229"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "0",
+      "ms": "257.994890213"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "1",
+      "ms": "276.793956757"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "2",
+      "ms": "272.020816803"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "3",
+      "ms": "278.658151627"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "4",
+      "ms": "262.406110764"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "5",
+      "ms": "252.024173737"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "6",
+      "ms": "247.219085693"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "7",
+      "ms": "280.300140381"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "8",
+      "ms": "264.467954636"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "9",
+      "ms": "256.948947906"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "10",
+      "ms": "251.044034958"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "6",
+      "order": "11",
+      "ms": "683.430194855"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "0",
+      "ms": "681.682109833"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "1",
+      "ms": "244.46606636"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "2",
+      "ms": "249.068975449"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "3",
+      "ms": "265.661001205"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "4",
+      "ms": "281.871080399"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "5",
+      "ms": "247.740983963"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "6",
+      "ms": "251.924991608"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "7",
+      "ms": "260.906934738"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "8",
+      "ms": "276.762008667"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "9",
+      "ms": "272.262096405"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "10",
+      "ms": "276.193857193"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "7",
+      "order": "11",
+      "ms": "273.396968842"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "0",
+      "ms": "270.173072815"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "1",
+      "ms": "275.121927261"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "2",
+      "ms": "273.773908615"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "3",
+      "ms": "279.084920883"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "4",
+      "ms": "259.06586647"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "5",
+      "ms": "252.270936966"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "6",
+      "ms": "245.501041412"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "7",
+      "ms": "282.591104507"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "8",
+      "ms": "262.309074402"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "9",
+      "ms": "255.761861801"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "10",
+      "ms": "251.961946487"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "8",
+      "order": "11",
+      "ms": "683.022975922"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "source_mkl_fp32",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "0",
+      "ms": "682.857990265"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "1",
+      "ms": "243.011951447"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "2",
+      "ms": "249.494075775"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "3",
+      "ms": "264.698982239"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_qguard",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "4",
+      "ms": "281.448841095"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "5",
+      "ms": "247.902154922"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "6",
+      "ms": "254.760980606"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "7",
+      "ms": "259.390115738"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "p0_degree",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "8",
+      "ms": "276.643037796"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "bfull_fast",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "9",
+      "ms": "274.426937103"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "b256_fast",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "10",
+      "ms": "278.72300148"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "paper_tfs",
+      "kind": "alternating",
+      "repeat": "9",
+      "order": "11",
+      "ms": "269.05298233"
+    }
+  ],
+  "STATE_COUNTERS": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "0",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "0",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "345019",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55147076"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "345019",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55147076"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68648754",
+      "shared_heads": "345019",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55147076"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68648754",
+      "shared_heads": "345019",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55147076"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "0",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "0",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "0"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "1572513",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55610189"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "68993773",
+      "shared_heads": "1572513",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55610189"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "layer": "1",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "67421260",
+      "shared_heads": "1572513",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55610189"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "layer": "2",
+      "unit": "source_level_not_DRAM",
+      "source_visits": "68993773",
+      "feature_adds": "8831202944",
+      "decode_rows": "67421260",
+      "shared_heads": "1572513",
+      "projection_scopes": "269280",
+      "amx_tdp": "8616960",
+      "partial_zero_bytes": "0",
+      "partial_load_bytes": "168190464",
+      "partial_store_bytes": "168190464",
+      "packing_load_bytes": "0",
+      "direct_rows": "4308467",
+      "packed_bytes": "1102970880",
+      "prefetch_requests": "258741284",
+      "csr_reads": "68993773",
+      "comparisons": "55610189"
+    }
+  ],
+  "STATE_WORK_GATE": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "layer": "2",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "layer": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "layer": "2",
+      "pass": "1"
+    }
+  ],
+  "STATE_PROFILE_GATE": [
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_degree",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_degree",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_degree",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pack_epi_qguard",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_i_qguard",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "layer": "1",
+      "bitwise": "1",
+      "pass": "1"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "method": "pair_s_qguard",
+      "layer": "2",
+      "bitwise": "1",
+      "pass": "1"
+    }
+  ],
+  "STATE_STRUCTURE": [
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "degree",
+      "scope": "64",
+      "edges": "68993773",
+      "shared_heads": "345019",
+      "merge_steps": "68648754",
+      "share_fraction": "0.00500072665978",
+      "projection_scopes": "290166",
+      "windows": "290166",
+      "scalar_adds": "8831202944",
+      "direct_decode_rows": "68993773",
+      "shared_decode_rows": "68648754",
+      "amx_tdp_fast": "9285312",
+      "baseline_partial_zero_bytes": "2377039872",
+      "baseline_state_load_bytes": "0",
+      "baseline_state_store_bytes": "2374923264",
+      "direct_saved_terminal_bytes": "4751963136",
+      "prefetch_requests": "257427296",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "degree",
+      "scope": "256",
+      "edges": "68993773",
+      "shared_heads": "345019",
+      "merge_steps": "68648754",
+      "share_fraction": "0.00500072665978",
+      "projection_scopes": "270458",
+      "windows": "290166",
+      "scalar_adds": "8831202944",
+      "direct_decode_rows": "68993773",
+      "shared_decode_rows": "68648754",
+      "amx_tdp_fast": "8654656",
+      "baseline_partial_zero_bytes": "2215591936",
+      "baseline_state_load_bytes": "159269888",
+      "baseline_state_store_bytes": "2374329344",
+      "direct_saved_terminal_bytes": "4430651392",
+      "prefetch_requests": "258671592",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "degree",
+      "scope": "0",
+      "edges": "68993773",
+      "shared_heads": "345019",
+      "merge_steps": "68648754",
+      "share_fraction": "0.00500072665978",
+      "projection_scopes": "269280",
+      "windows": "290166",
+      "scalar_adds": "8831202944",
+      "direct_decode_rows": "68993773",
+      "shared_decode_rows": "68648754",
+      "amx_tdp_fast": "8616960",
+      "baseline_partial_zero_bytes": "2205941760",
+      "baseline_state_load_bytes": "168190464",
+      "baseline_state_store_bytes": "2374125568",
+      "direct_saved_terminal_bytes": "4411876864",
+      "prefetch_requests": "258741284",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qguard",
+      "scope": "64",
+      "edges": "68993773",
+      "shared_heads": "1572513",
+      "merge_steps": "67421260",
+      "share_fraction": "0.0227921003827",
+      "projection_scopes": "290166",
+      "windows": "290166",
+      "scalar_adds": "8831202944",
+      "direct_decode_rows": "68993773",
+      "shared_decode_rows": "67421260",
+      "amx_tdp_fast": "9285312",
+      "baseline_partial_zero_bytes": "2377039872",
+      "baseline_state_load_bytes": "0",
+      "baseline_state_store_bytes": "2374923264",
+      "direct_saved_terminal_bytes": "4751963136",
+      "prefetch_requests": "257427296",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qguard",
+      "scope": "256",
+      "edges": "68993773",
+      "shared_heads": "1572513",
+      "merge_steps": "67421260",
+      "share_fraction": "0.0227921003827",
+      "projection_scopes": "270458",
+      "windows": "290166",
+      "scalar_adds": "8831202944",
+      "direct_decode_rows": "68993773",
+      "shared_decode_rows": "67421260",
+      "amx_tdp_fast": "8654656",
+      "baseline_partial_zero_bytes": "2215591936",
+      "baseline_state_load_bytes": "159269888",
+      "baseline_state_store_bytes": "2374329344",
+      "direct_saved_terminal_bytes": "4430651392",
+      "prefetch_requests": "258671592",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    },
+    {
+      "graph": "soc-LiveJournal1",
+      "schedule": "qguard",
+      "scope": "0",
+      "edges": "68993773",
+      "shared_heads": "1572513",
+      "merge_steps": "67421260",
+      "share_fraction": "0.0227921003827",
+      "projection_scopes": "269280",
+      "windows": "290166",
+      "scalar_adds": "8831202944",
+      "direct_decode_rows": "68993773",
+      "shared_decode_rows": "67421260",
+      "amx_tdp_fast": "8616960",
+      "baseline_partial_zero_bytes": "2205941760",
+      "baseline_state_load_bytes": "168190464",
+      "baseline_state_store_bytes": "2374125568",
+      "direct_saved_terminal_bytes": "4411876864",
+      "prefetch_requests": "258741284",
+      "unit": "source_level_requests_not_DRAM_or_retired"
+    }
+  ],
+  "STATE_COMPLETE": [
+    {
+      "graph": "soc-LiveJournal1",
+      "pass": "1",
+      "methods": "11",
+      "smoke": "0",
+      "max_rss_kib": "28232880"
+    }
+  ]
+}

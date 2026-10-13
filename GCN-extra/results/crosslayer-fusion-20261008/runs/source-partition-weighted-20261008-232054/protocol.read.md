@@ -1,0 +1,3 @@
+# Weighted source-overlap structural audit, 2026-10-08
+
+For each destination partition, count unique H1 source rows and the sum of each source row's own degree. The weighted duplication ratio approximates repeated AVX neighbor aggregation work and is more informative than unique-row duplication alone. Orders are identity, degree, degree_desc, min_source, avg_source, and max_source; partitions=32. This is a structural screening experiment, not a runtime claim and uses no NUMA interleave.

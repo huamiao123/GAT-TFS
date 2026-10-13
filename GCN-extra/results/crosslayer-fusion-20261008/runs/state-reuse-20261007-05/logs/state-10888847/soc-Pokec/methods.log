@@ -1,0 +1,381 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/soc-Pokec/soc-Pokec.csrbin
+METHOD_SETUP graph=soc-Pokec phase=csr_file_load ms=70.9807872772
+Matrix: soc-Pokec  N=1632803  NNZ=30622564  avg_deg=18.8
+
+METHOD_SETUP graph=soc-Pokec phase=tensor_allocation ms=0.107049942017
+METHOD_SETUP graph=soc-Pokec phase=weight_generation ms=0.263929367065
+METHOD_SETUP graph=soc-Pokec phase=feature_generation ms=1410.63499451
+METHOD_SETUP graph=soc-Pokec phase=degree_sort ms=67.1501159668
+METHOD_SETUP graph=soc-Pokec phase=packed_weight_allocation ms=0.0100135803223
+METHOD_SETUP graph=soc-Pokec phase=weight_vnni_packing ms=0.0360012054443
+METHOD_SETUP graph=soc-Pokec phase=input_bf16_allocation ms=0.00786781311035
+METHOD_SETUP graph=soc-Pokec phase=input_bf16_conversion ms=26.2191295624
+METHOD_SETUP graph=soc-Pokec phase=tfs_output_allocation ms=0.0259876251221
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 98.69 ms
+  run 1: 99.10 ms
+  run 2: 100.66 ms
+  run 3: 100.35 ms
+  run 4: 97.67 ms
+  TFS V3 E2E BEST: 97.67 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=soc-Pokec phase=mkl_index_allocation ms=0.0350475311279
+METHOD_SETUP graph=soc-Pokec phase=mkl_index_conversion ms=28.2700061798
+METHOD_SETUP graph=soc-Pokec phase=mkl_csr_create ms=2.53486633301
+METHOD_SETUP graph=soc-Pokec phase=mkl_hint_and_optimize ms=22.901058197
+METHOD_SETUP graph=soc-Pokec phase=mkl_output_allocation ms=0.0169277191162
+  run 0: 331.93 ms
+  run 1: 332.38 ms
+  run 2: 331.85 ms
+  run 3: 331.28 ms
+  run 4: 332.60 ms
+  MKL E2E BEST: 331.28 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 97.67 ms
+  MKL (FP32):      331.28 ms
+  E2E Speedup:     3.39×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010972  RMSE=2.7145e+01
+First 8:
+  TFS: -258.68 -946.01 -929.20 54.90 375.05 90.65 -826.39 -423.82 
+  MKL: -260.59 -953.13 -938.85 57.47 378.51 90.48 -835.36 -427.99 
+STATE_SEMANTIC graph=soc-Pokec values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+GROUP_NATIVE_PERM graph=soc-Pokec fnv64=1080429688564734280
+GROUP_SETUP graph=soc-Pokec phase=schedule_signature_allocation ms=17.2271728516
+GROUP_SETUP graph=soc-Pokec phase=signature_pass ms=34.2168807983 sample=first64_and_uniform64 seed=0x20261007 shared_candidates=3 page_model=relative_source_id_div16
+GROUP_SETUP graph=soc-Pokec phase=segment_construction ms=3.70907783508 segments=422 cap=4096
+GROUP_SETUP graph=soc-Pokec phase=schedule_sort schedule=qsource ms=4.16707992554 signature_ms=34.2168807983 shared_signature_pass=1
+GROUP_SETUP graph=soc-Pokec phase=schedule_sort schedule=qpage ms=5.0790309906 signature_ms=34.2168807983 shared_signature_pass=1
+GROUP_SETUP graph=soc-Pokec phase=schedule_sort schedule=qsamplepage ms=4.88591194153 signature_ms=34.2168807983 shared_signature_pass=1
+GROUP_GUARD_PROBE graph=soc-Pokec candidate=degree sampled_tiles=128 sampled_windows=278 requests=197865 misses256=197553 misses1024=197075 misses4096=195144 ratio256=1 ratio1024=1 ratio4096=1 mean_ratio=1 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=soc-Pokec candidate=qsource sampled_tiles=128 sampled_windows=278 requests=198205 misses256=195463 misses1024=194925 misses4096=193175 ratio256=0.987723312807 ratio1024=0.987393766322 ratio4096=0.988211927808 mean_ratio=0.987776335646 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=soc-Pokec candidate=qpage sampled_tiles=128 sampled_windows=278 requests=197624 misses256=194662 misses1024=193313 misses4096=191549 ratio256=0.986567593901 ratio1024=0.982107029249 ratio4096=0.982774728474 mean_ratio=0.983816450542 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_PROBE graph=soc-Pokec candidate=qsamplepage sampled_tiles=128 sampled_windows=278 requests=197704 misses256=196011 misses1024=195142 misses4096=193346 ratio256=0.993002492028 ratio1024=0.990997912666 ratio4096=0.9915931367 mean_ratio=0.991864513798 no_worse=1 improvements_ge5pct=0 eligible=0 low_q_fallback=1 model=sampled_trace_LRU_not_hardware_cache
+GROUP_GUARD_SELECT graph=soc-Pokec schedule=qguard selected=degree predicted_mean_miss_rate_ratio=1 sampled_tiles=128 high_q_tiles=6134 low_q_fallback=1 uses_timing=0 probe_ms=147.277116776 assembly_ms=3.18288803101
+GROUP_SETUP graph=soc-Pokec phase=guard_probe ms=147.277116776
+GROUP_SETUP graph=soc-Pokec phase=guard_schedule_assembly ms=3.18288803101
+GROUP_AUDIT graph=soc-Pokec schedule=degree pass=1 rows=1632803 moved=0 fnv64=1080429688564734280 full_projections=89545 b64_projections=97544 b256_projections=89741 windows=97544 state_load_bytes=63937024 state_store_bytes=797483008 padded_steps=30821616 audit_ms=11.2099647522
+GROUP_AUDIT graph=soc-Pokec schedule=qsource pass=1 rows=1632803 moved=1432295 fnv64=6493554245788806614 full_projections=89545 b64_projections=97544 b256_projections=89741 windows=97544 state_load_bytes=63937024 state_store_bytes=797483008 padded_steps=31316480 audit_ms=11.4319324493
+GROUP_AUDIT graph=soc-Pokec schedule=qpage pass=1 rows=1632803 moved=1432307 fnv64=12813008001635847050 full_projections=89545 b64_projections=97544 b256_projections=89741 windows=97544 state_load_bytes=63937024 state_store_bytes=797483008 padded_steps=31310960 audit_ms=11.0290050507
+GROUP_AUDIT graph=soc-Pokec schedule=qsamplepage pass=1 rows=1632803 moved=1432327 fnv64=4293756881643354166 full_projections=89545 b64_projections=97544 b256_projections=89741 windows=97544 state_load_bytes=63937024 state_store_bytes=797483008 padded_steps=31319760 audit_ms=12.2148990631
+GROUP_AUDIT graph=soc-Pokec schedule=qguard pass=1 rows=1632803 moved=0 fnv64=1080429688564734280 full_projections=89545 b64_projections=97544 b256_projections=89741 windows=97544 state_load_bytes=63937024 state_store_bytes=797483008 padded_steps=30821616 audit_ms=10.6298923492
+GROUP_SETUP graph=soc-Pokec phase=all_schedules_total ms=280.102014542 measurement=actual_complete_construction includes_all_candidates_and_guard=1
+STATE_SETUP graph=soc-Pokec phase=all_five_frozen_schedules ms=280.639886856 included_in_primary=0
+STATE_CONFIG graph=soc-Pokec N=1632803 E=30622564 D=128 H=128 F=128 S=64 R=64 TR=16 methods=11 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=0 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=soc-Pokec method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=b256_fast kind=1 scope=256 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=bfull_fast kind=1 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=pair_i_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=soc-Pokec method=pair_s_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+STATE_PLAN graph=soc-Pokec method=p0_qguard kind=2 scope=0 schedule=qguard partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=pack_epi_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0
+STATE_PLAN graph=soc-Pokec method=pair_i_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=1 accurate=0
+STATE_PLAN graph=soc-Pokec method=pair_s_qguard kind=3 scope=0 schedule=qguard partial_nozero=1 direct_pack=1 epilogue=1 pair=2 accurate=0
+METHOD_CHECK graph=soc-Pokec method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=24560.25 mean_abs=13.6608355281 relative_L2=0.0129342882828 normalized_max=0.0162940691287 gate=0.03 pass=1
+METHOD_CHECK graph=soc-Pokec method=b256_fast boundary=kernel_FP32 reference=paper_tfs max_abs=4.2265625 mean_abs=0.0318921786627 relative_L2=0.00326562993252 normalized_max=0.00302892772949 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=b256_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=8118.875 mean_abs=6.22594276105 relative_L2=0.00585087117942 normalized_max=0.00544607944496 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=b256_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20833870072 relative_L2=0.00624748150285 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=b256_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5166191243 relative_L2=0.0184469074649 normalized_max=0.0217289085258 gate=0.03 pass=1
+METHOD_CHECK graph=soc-Pokec method=bfull_fast boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=bfull_fast boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=bfull_fast boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=bfull_fast boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_degree boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_degree boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=p0_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=p0_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=pack_epi_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pack_epi_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_i_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_i_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_qguard boundary=kernel_FP32 reference=paper_tfs max_abs=4.73297119141 mean_abs=0.0318924909954 relative_L2=0.0032661749059 normalized_max=0.00339184093091 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_qguard boundary=e2e_FP32_final reference=paper_tfs max_abs=8185.375 mean_abs=6.21850247866 relative_L2=0.00587816919252 normalized_max=0.00549068713791 gate=0.01 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_qguard boundary=e2e_BF16_final reference=paper_tfs max_abs=8192 mean_abs=6.20118277799 relative_L2=0.00629675829904 normalized_max=0.00552486187845 gate=0.02 pass=1
+METHOD_CHECK graph=soc-Pokec method=pair_s_qguard boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=32752.25 mean_abs=19.5084609413 relative_L2=0.0184729933051 normalized_max=0.0217289085258 gate=0.03 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_qguard boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_qguard boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_qguard boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=soc-Pokec method=pair_s_qguard boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=soc-Pokec pass=1
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=consecutive repeat=0 order=0 ms=97.1570014954
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=consecutive repeat=1 order=0 ms=99.4050502777
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=consecutive repeat=2 order=0 ms=99.0631580353
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=consecutive repeat=3 order=0 ms=99.1749763489
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=consecutive repeat=4 order=0 ms=97.1999168396
+STATE_TIME graph=soc-Pokec method=b256_fast kind=consecutive repeat=0 order=1 ms=96.8561172485
+STATE_TIME graph=soc-Pokec method=b256_fast kind=consecutive repeat=1 order=1 ms=96.0509777069
+STATE_TIME graph=soc-Pokec method=b256_fast kind=consecutive repeat=2 order=1 ms=95.7880020142
+STATE_TIME graph=soc-Pokec method=b256_fast kind=consecutive repeat=3 order=1 ms=95.3359603882
+STATE_TIME graph=soc-Pokec method=b256_fast kind=consecutive repeat=4 order=1 ms=96.0268974304
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=consecutive repeat=0 order=2 ms=96.1267948151
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=consecutive repeat=1 order=2 ms=96.8680381775
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=consecutive repeat=2 order=2 ms=94.6660041809
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=consecutive repeat=3 order=2 ms=95.0901508331
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=consecutive repeat=4 order=2 ms=96.8880653381
+STATE_TIME graph=soc-Pokec method=p0_degree kind=consecutive repeat=0 order=3 ms=95.5529212952
+STATE_TIME graph=soc-Pokec method=p0_degree kind=consecutive repeat=1 order=3 ms=96.3039398193
+STATE_TIME graph=soc-Pokec method=p0_degree kind=consecutive repeat=2 order=3 ms=94.4011211395
+STATE_TIME graph=soc-Pokec method=p0_degree kind=consecutive repeat=3 order=3 ms=97.5761413574
+STATE_TIME graph=soc-Pokec method=p0_degree kind=consecutive repeat=4 order=3 ms=95.5510139465
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=consecutive repeat=0 order=4 ms=86.0590934753
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=consecutive repeat=1 order=4 ms=86.6501331329
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=consecutive repeat=2 order=4 ms=85.2878093719
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=consecutive repeat=3 order=4 ms=85.7260227203
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=consecutive repeat=4 order=4 ms=86.9181156158
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=consecutive repeat=0 order=5 ms=85.9789848328
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=consecutive repeat=1 order=5 ms=84.4309329987
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=consecutive repeat=2 order=5 ms=84.0041637421
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=consecutive repeat=3 order=5 ms=85.2398872375
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=consecutive repeat=4 order=5 ms=83.6420059204
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=consecutive repeat=0 order=6 ms=85.3450298309
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=consecutive repeat=1 order=6 ms=84.6350193024
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=consecutive repeat=2 order=6 ms=85.6058597565
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=consecutive repeat=3 order=6 ms=84.5079421997
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=consecutive repeat=4 order=6 ms=85.795879364
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=consecutive repeat=0 order=7 ms=95.4720973969
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=consecutive repeat=1 order=7 ms=95.113992691
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=consecutive repeat=2 order=7 ms=95.899105072
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=consecutive repeat=3 order=7 ms=94.8631763458
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=consecutive repeat=4 order=7 ms=95.0710773468
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=consecutive repeat=0 order=8 ms=86.3661766052
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=consecutive repeat=1 order=8 ms=85.5731964111
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=consecutive repeat=2 order=8 ms=86.4419937134
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=consecutive repeat=3 order=8 ms=86.2720012665
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=consecutive repeat=4 order=8 ms=87.1398448944
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=consecutive repeat=0 order=9 ms=85.5770111084
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=consecutive repeat=1 order=9 ms=84.841966629
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=consecutive repeat=2 order=9 ms=84.7299098969
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=consecutive repeat=3 order=9 ms=84.538936615
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=consecutive repeat=4 order=9 ms=86.5731239319
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=consecutive repeat=0 order=10 ms=83.9331150055
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=consecutive repeat=1 order=10 ms=83.7168693542
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=consecutive repeat=2 order=10 ms=84.6469402313
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=consecutive repeat=3 order=10 ms=85.9980583191
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=consecutive repeat=4 order=10 ms=85.1018428802
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=consecutive repeat=0 order=11 ms=331.655979156
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=consecutive repeat=1 order=11 ms=331.791877747
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=consecutive repeat=2 order=11 ms=331.807136536
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=consecutive repeat=3 order=11 ms=331.007957458
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=consecutive repeat=4 order=11 ms=331.479072571
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=0 order=0 ms=100.488185883
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=0 order=1 ms=91.5200710297
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=0 order=2 ms=93.4600830078
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=0 order=3 ms=95.3688621521
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=0 order=4 ms=84.8708152771
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=0 order=5 ms=83.0509662628
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=0 order=6 ms=83.3849906921
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=0 order=7 ms=96.3850021362
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=0 order=8 ms=85.1318836212
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=0 order=9 ms=83.0209255219
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=0 order=10 ms=84.9809646606
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=0 order=11 ms=333.507061005
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=1 order=0 ms=331.576108932
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=1 order=1 ms=81.2590122223
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=1 order=2 ms=81.3148021698
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=1 order=3 ms=83.0888748169
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=1 order=4 ms=93.8980579376
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=1 order=5 ms=83.4419727325
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=1 order=6 ms=85.6709480286
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=1 order=7 ms=86.4889621735
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=1 order=8 ms=95.5169200897
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=1 order=9 ms=94.7201251984
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=1 order=10 ms=95.0999259949
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=1 order=11 ms=100.783109665
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=2 order=0 ms=101.41992569
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=2 order=1 ms=102.687120438
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=2 order=2 ms=94.8488712311
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=2 order=3 ms=94.2680835724
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=2 order=4 ms=86.6870880127
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=2 order=5 ms=84.5508575439
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=2 order=6 ms=85.2401256561
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=2 order=7 ms=94.8421955109
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=2 order=8 ms=86.7087841034
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=2 order=9 ms=83.3439826965
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=2 order=10 ms=86.0350131989
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=2 order=11 ms=333.173036575
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=3 order=0 ms=331.081151962
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=3 order=1 ms=81.9120407104
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=3 order=2 ms=82.6551914215
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=3 order=3 ms=84.242105484
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=3 order=4 ms=93.83893013
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=3 order=5 ms=85.8998298645
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=3 order=6 ms=84.4309329987
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=3 order=7 ms=86.925983429
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=3 order=8 ms=95.9248542786
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=3 order=9 ms=95.7229137421
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=3 order=10 ms=94.0279960632
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=3 order=11 ms=101.794958115
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=4 order=0 ms=103.673934937
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=4 order=1 ms=96.2660312653
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=4 order=2 ms=94.7551727295
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=4 order=3 ms=95.1540470123
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=4 order=4 ms=85.688829422
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=4 order=5 ms=83.9338302612
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=4 order=6 ms=85.2410793304
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=4 order=7 ms=95.0429439545
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=4 order=8 ms=86.3130092621
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=4 order=9 ms=84.5921039581
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=4 order=10 ms=85.9591960907
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=4 order=11 ms=333.741188049
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=5 order=0 ms=330.326080322
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=5 order=1 ms=82.7119350433
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=5 order=2 ms=81.8750858307
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=5 order=3 ms=83.6591720581
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=5 order=4 ms=94.1569805145
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=5 order=5 ms=84.7718715668
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=5 order=6 ms=85.0460529327
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=5 order=7 ms=85.8640670776
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=5 order=8 ms=94.5930480957
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=5 order=9 ms=95.3979492188
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=5 order=10 ms=95.1387882233
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=5 order=11 ms=101.445913315
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=6 order=0 ms=102.337121964
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=6 order=1 ms=96.419095993
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=6 order=2 ms=95.4840183258
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=6 order=3 ms=93.9049720764
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=6 order=4 ms=85.0870609283
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=6 order=5 ms=83.0090045929
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=6 order=6 ms=85.2689743042
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=6 order=7 ms=94.6779251099
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=6 order=8 ms=86.0719680786
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=6 order=9 ms=83.80818367
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=6 order=10 ms=84.3839645386
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=6 order=11 ms=333.738088608
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=7 order=0 ms=330.591201782
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=7 order=1 ms=82.0651054382
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=7 order=2 ms=81.6338062286
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=7 order=3 ms=84.2070579529
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=7 order=4 ms=94.9010848999
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=7 order=5 ms=86.1520767212
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=7 order=6 ms=85.4189395905
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=7 order=7 ms=86.6219997406
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=7 order=8 ms=95.0319766998
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=7 order=9 ms=94.4581031799
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=7 order=10 ms=95.9868431091
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=7 order=11 ms=100.457191467
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=8 order=0 ms=104.110002518
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=8 order=1 ms=95.9558486938
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=8 order=2 ms=95.1111316681
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=8 order=3 ms=97.8360176086
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=8 order=4 ms=86.1530303955
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=8 order=5 ms=84.0101242065
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=8 order=6 ms=85.638999939
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=8 order=7 ms=96.4269638062
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=8 order=8 ms=85.8778953552
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=8 order=9 ms=84.7668647766
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=8 order=10 ms=85.0820541382
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=8 order=11 ms=333.230018616
+STATE_TIME graph=soc-Pokec method=source_mkl_fp32 kind=alternating repeat=9 order=0 ms=332.84497261
+STATE_TIME graph=soc-Pokec method=pair_s_qguard kind=alternating repeat=9 order=1 ms=82.4761390686
+STATE_TIME graph=soc-Pokec method=pair_i_qguard kind=alternating repeat=9 order=2 ms=81.2501907349
+STATE_TIME graph=soc-Pokec method=pack_epi_qguard kind=alternating repeat=9 order=3 ms=82.839012146
+STATE_TIME graph=soc-Pokec method=p0_qguard kind=alternating repeat=9 order=4 ms=94.1548347473
+STATE_TIME graph=soc-Pokec method=pair_s_degree kind=alternating repeat=9 order=5 ms=84.6450328827
+STATE_TIME graph=soc-Pokec method=pair_i_degree kind=alternating repeat=9 order=6 ms=83.9600563049
+STATE_TIME graph=soc-Pokec method=pack_epi_degree kind=alternating repeat=9 order=7 ms=86.550951004
+STATE_TIME graph=soc-Pokec method=p0_degree kind=alternating repeat=9 order=8 ms=95.123052597
+STATE_TIME graph=soc-Pokec method=bfull_fast kind=alternating repeat=9 order=9 ms=94.3210124969
+STATE_TIME graph=soc-Pokec method=b256_fast kind=alternating repeat=9 order=10 ms=95.9050655365
+STATE_TIME graph=soc-Pokec method=paper_tfs kind=alternating repeat=9 order=11 ms=99.4989871979
+STATE_COUNTERS graph=soc-Pokec method=pack_epi_degree layer=1 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=0 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=0
+STATE_WORK_GATE graph=soc-Pokec method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pack_epi_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pack_epi_degree layer=2 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=0 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=0
+STATE_WORK_GATE graph=soc-Pokec method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pack_epi_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_i_degree layer=1 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_i_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_i_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_i_degree layer=2 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_i_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_i_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_s_degree layer=1 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30610337 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_s_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_s_degree layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_s_degree layer=2 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30610337 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_s_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_s_degree layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pack_epi_qguard layer=1 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=0 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=0
+STATE_WORK_GATE graph=soc-Pokec method=pack_epi_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pack_epi_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pack_epi_qguard layer=2 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=0 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=0
+STATE_WORK_GATE graph=soc-Pokec method=pack_epi_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pack_epi_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_i_qguard layer=1 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_i_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_i_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_i_qguard layer=2 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30622564 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_i_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_i_qguard layer=2 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_s_qguard layer=1 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30610337 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_s_qguard layer=1 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_s_qguard layer=1 bitwise=1 pass=1
+STATE_COUNTERS graph=soc-Pokec method=pair_s_qguard layer=2 unit=source_level_not_DRAM source_visits=30622564 feature_adds=3919688192 decode_rows=30610337 shared_heads=12227 projection_scopes=89545 amx_tdp=2865440 partial_zero_bytes=0 partial_load_bytes=63937024 partial_store_bytes=63937024 packing_load_bytes=0 direct_rows=1432707 packed_bytes=366776320 prefetch_requests=116759484 csr_reads=30622564 comparisons=26242613
+STATE_WORK_GATE graph=soc-Pokec method=pair_s_qguard layer=2 pass=1
+STATE_PROFILE_GATE graph=soc-Pokec method=pair_s_qguard layer=2 bitwise=1 pass=1
+STATE_STRUCTURE graph=soc-Pokec schedule=degree scope=64 edges=30622564 shared_heads=12227 merge_steps=30610337 share_fraction=0.000399280739523 projection_scopes=97544 windows=97544 scalar_adds=3919688192 direct_decode_rows=30622564 shared_decode_rows=30610337 amx_tdp_fast=3121408 baseline_partial_zero_bytes=799080448 baseline_state_load_bytes=0 baseline_state_store_bytes=798168576 direct_saved_terminal_bytes=1597249024 prefetch_requests=116259976 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=soc-Pokec schedule=degree scope=256 edges=30622564 shared_heads=12227 merge_steps=30610337 share_fraction=0.000399280739523 projection_scopes=89741 windows=97544 scalar_adds=3919688192 direct_decode_rows=30622564 shared_decode_rows=30610337 amx_tdp_fast=2871712 baseline_partial_zero_bytes=735158272 baseline_state_load_bytes=62733824 baseline_state_store_bytes=797659136 direct_saved_terminal_bytes=1470083584 prefetch_requests=116750084 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=soc-Pokec schedule=degree scope=0 edges=30622564 shared_heads=12227 merge_steps=30610337 share_fraction=0.000399280739523 projection_scopes=89545 windows=97544 scalar_adds=3919688192 direct_decode_rows=30622564 shared_decode_rows=30610337 amx_tdp_fast=2865440 baseline_partial_zero_bytes=733552640 baseline_state_load_bytes=63937024 baseline_state_store_bytes=797483008 direct_saved_terminal_bytes=1467098624 prefetch_requests=116759484 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=soc-Pokec schedule=qguard scope=64 edges=30622564 shared_heads=12227 merge_steps=30610337 share_fraction=0.000399280739523 projection_scopes=97544 windows=97544 scalar_adds=3919688192 direct_decode_rows=30622564 shared_decode_rows=30610337 amx_tdp_fast=3121408 baseline_partial_zero_bytes=799080448 baseline_state_load_bytes=0 baseline_state_store_bytes=798168576 direct_saved_terminal_bytes=1597249024 prefetch_requests=116259976 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=soc-Pokec schedule=qguard scope=256 edges=30622564 shared_heads=12227 merge_steps=30610337 share_fraction=0.000399280739523 projection_scopes=89741 windows=97544 scalar_adds=3919688192 direct_decode_rows=30622564 shared_decode_rows=30610337 amx_tdp_fast=2871712 baseline_partial_zero_bytes=735158272 baseline_state_load_bytes=62733824 baseline_state_store_bytes=797659136 direct_saved_terminal_bytes=1470083584 prefetch_requests=116750084 unit=source_level_requests_not_DRAM_or_retired
+STATE_STRUCTURE graph=soc-Pokec schedule=qguard scope=0 edges=30622564 shared_heads=12227 merge_steps=30610337 share_fraction=0.000399280739523 projection_scopes=89545 windows=97544 scalar_adds=3919688192 direct_decode_rows=30622564 shared_decode_rows=30610337 amx_tdp_fast=2865440 baseline_partial_zero_bytes=733552640 baseline_state_load_bytes=63937024 baseline_state_store_bytes=797483008 direct_saved_terminal_bytes=1467098624 prefetch_requests=116759484 unit=source_level_requests_not_DRAM_or_retired
+STATE_COMPLETE graph=soc-Pokec pass=1 methods=11 smoke=0 max_rss_kib=9672564

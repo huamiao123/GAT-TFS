@@ -1,0 +1,10 @@
+{
+ "id":"p4-smoke-control-alignment-20261005",
+ "kind":"pre-formal_control_alignment",
+ "status":"RESOLVED",
+ "paper_eligible":false,
+ "evidence":"runs/selective-shape-build-20261005-122940/logs/smoke-10869522",
+ "issues":"First P4 smoke passed 144 numerical and degenerate/frozen controls using a continuous small-magnitude random generator. This is a valid independent implementation gate, but the journal shape study should inherit the original discrete H/W distribution.",
+ "resolution":"Before any real-graph timing, align to original 0.01*(rand()%200-100), preserving original interleaved W1/W2 order for width128. Add predefined project-used L1/full L2 strong control and sampled state-load/per-thread records. Build/run a new snapshot; preserve the earlier smoke as superseded. No previous measurement is overwritten.",
+ "next":"Repeat smoke, then controlled source-sharing graphs and five real graphs with the frozen aligned generator."
+}

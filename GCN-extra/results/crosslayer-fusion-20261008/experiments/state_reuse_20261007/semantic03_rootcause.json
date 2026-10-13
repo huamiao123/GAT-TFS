@@ -1,0 +1,10 @@
+{
+  "id": "state-reuse-semantic03-rootcause-20261007",
+  "kind": "state_semantic_issue",
+  "status": "ROOT_CAUSE_CONFIRMED",
+  "job": "10888795",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/state-reuse-20261007-03/logs/state-10888795",
+  "issues": "No-inline semantic fixture still fails only FP32 subnormals 0x00010000/0x80010000: fused BF16 0x0000/0x8000 vs original 0x0001/0x8001, MXCSR0x9fe1. icpx folds floating compare/select to vmaxps in production epilogue; original compare+conditional store preserves original bits when DAZ treats tiny operand as zero. Use compare-derived integer mask and integer bitwise clear; preserve compiler flags/MXCSR/gates.",
+  "next": "Build fixed integer-mask epilogue and rerun complete smoke. Preserve failed run02/03.",
+  "paper_eligible": false
+}

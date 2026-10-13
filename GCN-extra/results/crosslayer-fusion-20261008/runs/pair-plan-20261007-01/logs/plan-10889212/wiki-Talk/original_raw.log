@@ -1,0 +1,32 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/wiki-Talk/wiki-Talk.csrbin
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 104.34 ms
+  run 1: 108.78 ms
+  run 2: 105.61 ms
+  run 3: 106.34 ms
+  run 4: 107.60 ms
+  TFS V3 E2E BEST: 104.34 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 90.49 ms
+  run 1: 90.57 ms
+  run 2: 90.47 ms
+  run 3: 90.43 ms
+  run 4: 90.44 ms
+  MKL E2E BEST: 90.43 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 104.34 ms
+  MKL (FP32):      90.43 ms
+  E2E Speedup:     0.87×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 

@@ -1,0 +1,67 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/state-reuse-20261007-04/logs/state-10888814/fixtures/state_tail_31/state_tail_31.csrbin
+METHOD_SETUP graph=state_tail_31 phase=csr_file_load ms=0.379085540771
+Matrix: state_tail_31  N=31  NNZ=2673  avg_deg=86.2
+
+METHOD_SETUP graph=state_tail_31 phase=tensor_allocation ms=0.093936920166
+METHOD_SETUP graph=state_tail_31 phase=weight_generation ms=0.272035598755
+METHOD_SETUP graph=state_tail_31 phase=feature_generation ms=0.0300407409668
+METHOD_SETUP graph=state_tail_31 phase=degree_sort ms=0.00596046447754
+METHOD_SETUP graph=state_tail_31 phase=packed_weight_allocation ms=0.00381469726562
+METHOD_SETUP graph=state_tail_31 phase=weight_vnni_packing ms=0.0197887420654
+METHOD_SETUP graph=state_tail_31 phase=input_bf16_allocation ms=0
+METHOD_SETUP graph=state_tail_31 phase=input_bf16_conversion ms=10.7629299164
+METHOD_SETUP graph=state_tail_31 phase=tfs_output_allocation ms=0.0121593475342
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.59 ms
+  run 1: 0.37 ms
+  run 2: 0.46 ms
+  run 3: 0.51 ms
+  run 4: 0.36 ms
+  TFS V3 E2E BEST: 0.36 ms
+
+=== MKL FP32 Two-Step ===
+METHOD_SETUP graph=state_tail_31 phase=mkl_index_allocation ms=0.00286102294922
+METHOD_SETUP graph=state_tail_31 phase=mkl_index_conversion ms=0.00405311584473
+METHOD_SETUP graph=state_tail_31 phase=mkl_csr_create ms=2.10094451904
+METHOD_SETUP graph=state_tail_31 phase=mkl_hint_and_optimize ms=1.38187408447
+METHOD_SETUP graph=state_tail_31 phase=mkl_output_allocation ms=0.00905990600586
+  run 0: 0.04 ms
+  run 1: 0.03 ms
+  run 2: 0.04 ms
+  run 3: 0.02 ms
+  run 4: 0.03 ms
+  MKL E2E BEST: 0.02 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.36 ms
+  MKL (FP32):      0.02 ms
+  E2E Speedup:     0.06×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010378  RMSE=4.6719e+02
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=0 input=00000000 got=0000 expected=0000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=1 input=80000000 got=8000 expected=8000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=2 input=3f800000 got=3f80 expected=3f80 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=3 input=bf800000 got=0000 expected=0000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=4 input=7fc12345 got=0000 expected=7fc1 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=5 input=ffc12345 got=0000 expected=ffc1 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=6 input=7f800000 got=7f80 expected=7f80 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=7 input=ff800000 got=0000 expected=0000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=8 input=00000001 got=0000 expected=0000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=9 input=80000001 got=8000 expected=8000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=10 input=3f807fff got=3f80 expected=3f80 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=11 input=3f808000 got=3f80 expected=3f80 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=12 input=bf808000 got=0000 expected=0000 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=13 input=00010000 got=0001 expected=0001 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=14 input=80010000 got=8001 expected=8001 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=15 input=7fa12345 got=0000 expected=7fa1 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=16 input=ffa12345 got=ffa1 expected=ffa1 mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=17 input=3eabcdef got=3eab expected=3eab mxcsr=00009fe1
+STATE_SEMANTIC_DIFF graph=state_tail_31 index=18 input=beabcdef got=0000 expected=0000 mxcsr=00009fe1
+STATE_SEMANTIC graph=state_tail_31 values=19 bitwise=0 pass=0 kind=relu_truncation_signedzero_nan_vector_tail
