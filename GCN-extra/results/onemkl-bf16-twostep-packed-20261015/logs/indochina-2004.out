@@ -1,0 +1,51 @@
+GRAPH name=indochina-2004 n=7414866 edges=194109311 dim=128
+CHECK graph=indochina-2004 method=bf16_mkl_vs_tfs rel_l2=0.0063078427 norm_max=0.00662251656 max_abs=262144 nonfinite=0 pass=1
+CHECK graph=indochina-2004 method=bf16_mkl_packed_vs_tfs rel_l2=0.0063078427 norm_max=0.00662251656 max_abs=262144 nonfinite=0 pass=1
+CHECK graph=indochina-2004 method=full_identity_vs_degree bitwise=1
+TIME graph=indochina-2004 method=original_tfs repeat=0 order=0 e2e_ms=385.90312
+TIME graph=indochina-2004 method=full_degree repeat=0 order=1 e2e_ms=239.61091
+TIME graph=indochina-2004 method=full_identity repeat=0 order=2 e2e_ms=176.515102
+TIME graph=indochina-2004 method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=606.501102
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_twostep repeat=0 spmm1=196.718931 z_to_bf16_1=16.367197 gemm1=85.5708122 relu=19.9391842 interlayer_to_bf16=19.4478035 interlayer_to_fp32=16.3002014 spmm2=186.048985 z_to_bf16_2=16.0059929 gemm2=25.1238346 final_to_bf16=24.9760151
+TIME graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=605.995178
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=0 spmm1=186.568975 z_to_bf16_1=16.0970688 gemm1=86.4341259 relu=19.5939541 interlayer_to_bf16=19.2830563 interlayer_to_fp32=14.6670341 spmm2=187.674999 z_to_bf16_2=16.0098076 gemm2=34.7008705 final_to_bf16=24.9631405
+TIME graph=indochina-2004 method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=567.96813
+TIME graph=indochina-2004 method=full_degree repeat=1 order=0 e2e_ms=244.389057
+TIME graph=indochina-2004 method=full_identity repeat=1 order=1 e2e_ms=178.771019
+TIME graph=indochina-2004 method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=604.948044
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_twostep repeat=1 spmm1=195.457935 z_to_bf16_1=15.8290863 gemm1=85.7079029 relu=19.6800232 interlayer_to_bf16=19.4950104 interlayer_to_fp32=16.2789822 spmm2=185.997963 z_to_bf16_2=15.8989429 gemm2=25.0329971 final_to_bf16=25.5661011
+TIME graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=606.503963
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=1 spmm1=186.078072 z_to_bf16_1=16.1230564 gemm1=87.2049332 relu=19.6950436 interlayer_to_bf16=19.3281174 interlayer_to_fp32=15.0039196 spmm2=187.415123 z_to_bf16_2=15.9268379 gemm2=34.9051952 final_to_bf16=24.8208046
+TIME graph=indochina-2004 method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=569.645166
+TIME graph=indochina-2004 method=original_tfs repeat=1 order=5 e2e_ms=386.845827
+TIME graph=indochina-2004 method=full_identity repeat=2 order=0 e2e_ms=174.793959
+TIME graph=indochina-2004 method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=607.403994
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_twostep repeat=2 spmm1=197.144985 z_to_bf16_1=16.9620514 gemm1=85.9999657 relu=19.7379589 interlayer_to_bf16=19.2642212 interlayer_to_fp32=15.4337883 spmm2=186.546087 z_to_bf16_2=16.1309242 gemm2=25.2170563 final_to_bf16=24.9650478
+TIME graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=603.780985
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=2 spmm1=185.830116 z_to_bf16_1=16.2780285 gemm1=84.900856 relu=19.2182064 interlayer_to_bf16=19.5260048 interlayer_to_fp32=14.7008896 spmm2=187.810898 z_to_bf16_2=15.5169964 gemm2=34.8191261 final_to_bf16=25.1779556
+TIME graph=indochina-2004 method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=567.587137
+TIME graph=indochina-2004 method=original_tfs repeat=2 order=4 e2e_ms=385.748863
+TIME graph=indochina-2004 method=full_degree repeat=2 order=5 e2e_ms=238.689899
+TIME graph=indochina-2004 method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=609.320879
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_twostep repeat=3 spmm1=199.599981 z_to_bf16_1=16.3691044 gemm1=86.2689018 relu=19.149065 interlayer_to_bf16=19.4299221 interlayer_to_fp32=15.7670975 spmm2=185.973883 z_to_bf16_2=16.1130428 gemm2=25.1002312 final_to_bf16=25.5467892
+TIME graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=607.583046
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=3 spmm1=187.163115 z_to_bf16_1=16.2928104 gemm1=87.4681473 relu=19.204855 interlayer_to_bf16=19.5400715 interlayer_to_fp32=14.4519806 spmm2=187.177181 z_to_bf16_2=16.4577961 gemm2=35.0210667 final_to_bf16=24.8031616
+TIME graph=indochina-2004 method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=569.761992
+TIME graph=indochina-2004 method=original_tfs repeat=3 order=3 e2e_ms=387.248039
+TIME graph=indochina-2004 method=full_degree repeat=3 order=4 e2e_ms=239.63809
+TIME graph=indochina-2004 method=full_identity repeat=3 order=5 e2e_ms=175.315857
+TIME graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=617.055893
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_packed_twostep repeat=4 spmm1=196.541071 z_to_bf16_1=17.0769691 gemm1=86.6968632 relu=19.616127 interlayer_to_bf16=19.2270279 interlayer_to_fp32=15.4299736 spmm2=186.681032 z_to_bf16_2=15.9971714 gemm2=35.0139141 final_to_bf16=24.7700214
+TIME graph=indochina-2004 method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=565.357924
+TIME graph=indochina-2004 method=original_tfs repeat=4 order=2 e2e_ms=386.330843
+TIME graph=indochina-2004 method=full_degree repeat=4 order=3 e2e_ms=239.027023
+TIME graph=indochina-2004 method=full_identity repeat=4 order=4 e2e_ms=175.676107
+TIME graph=indochina-2004 method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=606.12011
+STAGE_BF16 graph=indochina-2004 method=bf16_mkl_twostep repeat=4 spmm1=196.668148 z_to_bf16_1=17.0149803 gemm1=85.8881474 relu=19.1278458 interlayer_to_bf16=19.7169781 interlayer_to_fp32=15.7270432 spmm2=186.254978 z_to_bf16_2=15.5670643 gemm2=25.1159668 final_to_bf16=25.0351429
+MEDIAN graph=indochina-2004 method=original_tfs ms=386.330843
+MEDIAN graph=indochina-2004 method=full_degree ms=239.61091
+MEDIAN graph=indochina-2004 method=full_identity ms=175.676107
+MEDIAN graph=indochina-2004 method=bf16_mkl_twostep ms=606.501102
+MEDIAN graph=indochina-2004 method=bf16_mkl_packed_twostep ms=606.503963
+MEDIAN graph=indochina-2004 method=fp32_mkl_twostep ms=567.96813
+DONE graph=indochina-2004 pass=1

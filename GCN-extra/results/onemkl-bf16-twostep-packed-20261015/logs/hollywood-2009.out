@@ -1,0 +1,51 @@
+GRAPH name=hollywood-2009 n=1139905 edges=113891327 dim=128
+CHECK graph=hollywood-2009 method=bf16_mkl_vs_tfs rel_l2=0.00627885038 norm_max=0.00591715976 max_abs=65536 nonfinite=0 pass=1
+CHECK graph=hollywood-2009 method=bf16_mkl_packed_vs_tfs rel_l2=0.00627885038 norm_max=0.00591715976 max_abs=65536 nonfinite=0 pass=1
+CHECK graph=hollywood-2009 method=full_identity_vs_degree bitwise=1
+TIME graph=hollywood-2009 method=original_tfs repeat=0 order=0 e2e_ms=332.355022
+TIME graph=hollywood-2009 method=full_degree repeat=0 order=1 e2e_ms=228.574991
+TIME graph=hollywood-2009 method=full_identity repeat=0 order=2 e2e_ms=111.957073
+TIME graph=hollywood-2009 method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=479.197025
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_twostep repeat=0 spmm1=214.987993 z_to_bf16_1=3.37290764 gemm1=14.2431259 relu=4.67085838 interlayer_to_bf16=2.80404091 interlayer_to_fp32=2.03204155 spmm2=224.682093 z_to_bf16_2=3.32093239 gemm2=4.81295586 final_to_bf16=4.26506996
+TIME graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=477.911949
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=0 spmm1=210.422039 z_to_bf16_1=3.36408615 gemm1=16.5908337 relu=4.06813622 interlayer_to_bf16=2.98810005 interlayer_to_fp32=1.98793411 spmm2=224.586964 z_to_bf16_2=3.36408615 gemm2=6.28614426 final_to_bf16=4.2488575
+TIME graph=hollywood-2009 method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=1698.02094
+TIME graph=hollywood-2009 method=full_degree repeat=1 order=0 e2e_ms=218.763113
+TIME graph=hollywood-2009 method=full_identity repeat=1 order=1 e2e_ms=121.541023
+TIME graph=hollywood-2009 method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=484.493971
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_twostep repeat=1 spmm1=213.37986 z_to_bf16_1=3.61013412 gemm1=14.3671036 relu=4.66990471 interlayer_to_bf16=2.8989315 interlayer_to_fp32=2.29811668 spmm2=230.947971 z_to_bf16_2=3.33595276 gemm2=4.75811958 final_to_bf16=4.22310829
+TIME graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=477.654934
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=1 spmm1=206.897974 z_to_bf16_1=3.52191925 gemm1=16.6430473 relu=4.03499603 interlayer_to_bf16=2.98500061 interlayer_to_fp32=2.0339489 spmm2=227.748871 z_to_bf16_2=3.29208374 gemm2=6.27398491 final_to_bf16=4.22096252
+TIME graph=hollywood-2009 method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=1709.73206
+TIME graph=hollywood-2009 method=original_tfs repeat=1 order=5 e2e_ms=333.732128
+TIME graph=hollywood-2009 method=full_identity repeat=2 order=0 e2e_ms=112.355947
+TIME graph=hollywood-2009 method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=476.177931
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_twostep repeat=2 spmm1=208.007812 z_to_bf16_1=3.38983536 gemm1=14.2631531 relu=4.7109127 interlayer_to_bf16=2.79998779 interlayer_to_fp32=2.04110146 spmm2=228.240967 z_to_bf16_2=3.47208977 gemm2=5.01298904 final_to_bf16=4.23598289
+TIME graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=480.785847
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=2 spmm1=212.97884 z_to_bf16_1=3.36003304 gemm1=16.5710449 relu=4.07600403 interlayer_to_bf16=2.97498703 interlayer_to_fp32=2.03299522 spmm2=224.782944 z_to_bf16_2=3.35288048 gemm2=6.33502007 final_to_bf16=4.31704521
+TIME graph=hollywood-2009 method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=1672.86515
+TIME graph=hollywood-2009 method=original_tfs repeat=2 order=4 e2e_ms=346.197128
+TIME graph=hollywood-2009 method=full_degree repeat=2 order=5 e2e_ms=221.332073
+TIME graph=hollywood-2009 method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=474.218845
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_twostep repeat=3 spmm1=210.526943 z_to_bf16_1=3.47208977 gemm1=14.8289204 relu=4.64487076 interlayer_to_bf16=2.83813477 interlayer_to_fp32=2.03895569 spmm2=223.155022 z_to_bf16_2=3.49092484 gemm2=4.9841404 final_to_bf16=4.23693657
+TIME graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=480.611086
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=3 spmm1=217.873096 z_to_bf16_1=3.4930706 gemm1=16.6189671 relu=3.92103195 interlayer_to_bf16=2.95090675 interlayer_to_fp32=2.29001045 spmm2=219.527006 z_to_bf16_2=3.33786011 gemm2=6.28495216 final_to_bf16=4.30798531
+TIME graph=hollywood-2009 method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=1690.09495
+TIME graph=hollywood-2009 method=original_tfs repeat=3 order=3 e2e_ms=331.68292
+TIME graph=hollywood-2009 method=full_degree repeat=3 order=4 e2e_ms=220.749855
+TIME graph=hollywood-2009 method=full_identity repeat=3 order=5 e2e_ms=115.298033
+TIME graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=477.03886
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_packed_twostep repeat=4 spmm1=209.30481 z_to_bf16_1=3.50809097 gemm1=16.7229176 relu=4.06908989 interlayer_to_bf16=2.92897224 interlayer_to_fp32=2.05206871 spmm2=223.993063 z_to_bf16_2=3.5378933 gemm2=6.57010078 final_to_bf16=4.34803963
+TIME graph=hollywood-2009 method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=1679.83508
+TIME graph=hollywood-2009 method=original_tfs repeat=4 order=2 e2e_ms=334.852934
+TIME graph=hollywood-2009 method=full_degree repeat=4 order=3 e2e_ms=223.341942
+TIME graph=hollywood-2009 method=full_identity repeat=4 order=4 e2e_ms=116.518974
+TIME graph=hollywood-2009 method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=475.839138
+STAGE_BF16 graph=hollywood-2009 method=bf16_mkl_twostep repeat=4 spmm1=208.683014 z_to_bf16_1=3.37219238 gemm1=14.2068863 relu=4.67896461 interlayer_to_bf16=2.8398037 interlayer_to_fp32=2.03800201 spmm2=227.607965 z_to_bf16_2=3.32999229 gemm2=4.77695465 final_to_bf16=4.30202484
+MEDIAN graph=hollywood-2009 method=original_tfs ms=333.732128
+MEDIAN graph=hollywood-2009 method=full_degree ms=221.332073
+MEDIAN graph=hollywood-2009 method=full_identity ms=115.298033
+MEDIAN graph=hollywood-2009 method=bf16_mkl_twostep ms=476.177931
+MEDIAN graph=hollywood-2009 method=bf16_mkl_packed_twostep ms=477.911949
+MEDIAN graph=hollywood-2009 method=fp32_mkl_twostep ms=1690.09495
+DONE graph=hollywood-2009 pass=1

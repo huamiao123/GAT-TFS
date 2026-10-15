@@ -1,0 +1,51 @@
+GRAPH name=amazon0601 n=403394 edges=3387388 dim=128
+CHECK graph=amazon0601 method=bf16_mkl_vs_tfs rel_l2=0.0062122843 norm_max=0.00662251656 max_abs=16 nonfinite=0 pass=1
+CHECK graph=amazon0601 method=bf16_mkl_packed_vs_tfs rel_l2=0.0062122843 norm_max=0.00662251656 max_abs=16 nonfinite=0 pass=1
+CHECK graph=amazon0601 method=full_identity_vs_degree bitwise=1
+TIME graph=amazon0601 method=original_tfs repeat=0 order=0 e2e_ms=14.1749382
+TIME graph=amazon0601 method=full_degree repeat=0 order=1 e2e_ms=13.0341053
+TIME graph=amazon0601 method=full_identity repeat=0 order=2 e2e_ms=11.950016
+TIME graph=amazon0601 method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=30.9989452
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_twostep repeat=0 spmm1=8.02993774 z_to_bf16_1=1.3461113 gemm1=5.23376465 relu=1.40500069 interlayer_to_bf16=1.25789642 interlayer_to_fp32=0.869035721 spmm2=7.56597519 z_to_bf16_2=1.13606453 gemm2=2.44188309 final_to_bf16=1.71113014
+TIME graph=amazon0601 method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=31.6669941
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_packed_twostep repeat=0 spmm1=7.85684586 z_to_bf16_1=1.24406815 gemm1=5.5539608 relu=1.31392479 interlayer_to_bf16=1.25002861 interlayer_to_fp32=0.929117203 spmm2=7.41195679 z_to_bf16_2=1.29699707 gemm2=3.09896469 final_to_bf16=1.70898438
+TIME graph=amazon0601 method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=34.0840816
+TIME graph=amazon0601 method=full_degree repeat=1 order=0 e2e_ms=13.3559704
+TIME graph=amazon0601 method=full_identity repeat=1 order=1 e2e_ms=11.8229389
+TIME graph=amazon0601 method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=30.9050083
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_twostep repeat=1 spmm1=8.20016861 z_to_bf16_1=1.33395195 gemm1=5.14006615 relu=1.36590004 interlayer_to_bf16=1.25598907 interlayer_to_fp32=0.864982605 spmm2=7.49516487 z_to_bf16_2=1.14202499 gemm2=2.43401527 final_to_bf16=1.6708374
+TIME graph=amazon0601 method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=31.1179161
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_packed_twostep repeat=1 spmm1=7.73906708 z_to_bf16_1=1.23596191 gemm1=5.45096397 relu=1.30414963 interlayer_to_bf16=1.21283531 interlayer_to_fp32=0.885009766 spmm2=7.32707977 z_to_bf16_2=1.1639595 gemm2=3.10301781 final_to_bf16=1.69301033
+TIME graph=amazon0601 method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=34.4591141
+TIME graph=amazon0601 method=original_tfs repeat=1 order=5 e2e_ms=14.2121315
+TIME graph=amazon0601 method=full_identity repeat=2 order=0 e2e_ms=11.9488239
+TIME graph=amazon0601 method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=30.9238434
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_twostep repeat=2 spmm1=8.0280304 z_to_bf16_1=1.30581856 gemm1=5.03015518 relu=1.38497353 interlayer_to_bf16=1.27601624 interlayer_to_fp32=0.865936279 spmm2=7.69209862 z_to_bf16_2=1.13487244 gemm2=2.45404243 final_to_bf16=1.74999237
+TIME graph=amazon0601 method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=31.3229561
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_packed_twostep repeat=2 spmm1=7.85493851 z_to_bf16_1=1.23000145 gemm1=5.43808937 relu=1.32489204 interlayer_to_bf16=1.27100945 interlayer_to_fp32=0.865221024 spmm2=7.37190247 z_to_bf16_2=1.14703178 gemm2=3.11803818 final_to_bf16=1.69897079
+TIME graph=amazon0601 method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=34.1858864
+TIME graph=amazon0601 method=original_tfs repeat=2 order=4 e2e_ms=14.2440796
+TIME graph=amazon0601 method=full_degree repeat=2 order=5 e2e_ms=13.2100582
+TIME graph=amazon0601 method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=30.6890011
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_twostep repeat=3 spmm1=8.02993774 z_to_bf16_1=1.14202499 gemm1=5.1150322 relu=1.42097473 interlayer_to_bf16=1.32703781 interlayer_to_fp32=0.879049301 spmm2=7.48801231 z_to_bf16_2=1.14989281 gemm2=2.4471283 final_to_bf16=1.68681145
+TIME graph=amazon0601 method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=31.6979885
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_packed_twostep repeat=3 spmm1=7.93099403 z_to_bf16_1=1.23810768 gemm1=5.53107262 relu=1.3229847 interlayer_to_bf16=1.33490562 interlayer_to_fp32=0.908136368 spmm2=7.46297836 z_to_bf16_2=1.13987923 gemm2=3.10707092 final_to_bf16=1.71995163
+TIME graph=amazon0601 method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=34.5230103
+TIME graph=amazon0601 method=original_tfs repeat=3 order=3 e2e_ms=14.2159462
+TIME graph=amazon0601 method=full_degree repeat=3 order=4 e2e_ms=13.0841732
+TIME graph=amazon0601 method=full_identity repeat=3 order=5 e2e_ms=12.018919
+TIME graph=amazon0601 method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=31.6958427
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_packed_twostep repeat=4 spmm1=8.03399086 z_to_bf16_1=1.33180618 gemm1=5.49983978 relu=1.31917 interlayer_to_bf16=1.24287605 interlayer_to_fp32=0.83899498 spmm2=7.44104385 z_to_bf16_2=1.14703178 gemm2=3.11207771 final_to_bf16=1.72686577
+TIME graph=amazon0601 method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=35.5288982
+TIME graph=amazon0601 method=original_tfs repeat=4 order=2 e2e_ms=14.0249729
+TIME graph=amazon0601 method=full_degree repeat=4 order=3 e2e_ms=13.2169724
+TIME graph=amazon0601 method=full_identity repeat=4 order=4 e2e_ms=12.2170448
+TIME graph=amazon0601 method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=30.7850838
+STAGE_BF16 graph=amazon0601 method=bf16_mkl_twostep repeat=4 spmm1=7.93504715 z_to_bf16_1=1.31988525 gemm1=5.09810448 relu=1.40690804 interlayer_to_bf16=1.31797791 interlayer_to_fp32=0.87594986 spmm2=7.50589371 z_to_bf16_2=1.15704536 gemm2=2.50315666 final_to_bf16=1.66201591
+MEDIAN graph=amazon0601 method=original_tfs ms=14.2121315
+MEDIAN graph=amazon0601 method=full_degree ms=13.2100582
+MEDIAN graph=amazon0601 method=full_identity ms=11.950016
+MEDIAN graph=amazon0601 method=bf16_mkl_twostep ms=30.9050083
+MEDIAN graph=amazon0601 method=bf16_mkl_packed_twostep ms=31.6669941
+MEDIAN graph=amazon0601 method=fp32_mkl_twostep ms=34.4591141
+DONE graph=amazon0601 pass=1

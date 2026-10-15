@@ -1,0 +1,51 @@
+GRAPH name=roadNet-CA n=1971281 edges=5533214 dim=128
+CHECK graph=roadNet-CA method=bf16_mkl_vs_tfs rel_l2=0.00561707779 norm_max=0.0103092784 max_abs=8 nonfinite=0 pass=1
+CHECK graph=roadNet-CA method=bf16_mkl_packed_vs_tfs rel_l2=0.00561707779 norm_max=0.0103092784 max_abs=8 nonfinite=0 pass=1
+CHECK graph=roadNet-CA method=full_identity_vs_degree bitwise=1
+TIME graph=roadNet-CA method=original_tfs repeat=0 order=0 e2e_ms=41.5129662
+TIME graph=roadNet-CA method=full_degree repeat=0 order=1 e2e_ms=45.7251072
+TIME graph=roadNet-CA method=full_identity repeat=0 order=2 e2e_ms=36.6849899
+TIME graph=roadNet-CA method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=73.8408566
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_twostep repeat=0 spmm1=8.02087784 z_to_bf16_1=3.83901596 gemm1=20.6079483 relu=7.01618195 interlayer_to_bf16=6.12401962 interlayer_to_fp32=3.67903709 spmm2=7.97080994 z_to_bf16_2=3.65304947 gemm2=7.09199905 final_to_bf16=5.83600998
+TIME graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=79.0009499
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=0 spmm1=8.01491737 z_to_bf16_1=3.66210938 gemm1=22.1629143 relu=7.59100914 interlayer_to_bf16=6.1378479 interlayer_to_fp32=3.69215012 spmm2=7.96604156 z_to_bf16_2=3.59797478 gemm2=10.3719234 final_to_bf16=5.80096245
+TIME graph=roadNet-CA method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=77.6350498
+TIME graph=roadNet-CA method=full_degree repeat=1 order=0 e2e_ms=44.9490547
+TIME graph=roadNet-CA method=full_identity repeat=1 order=1 e2e_ms=36.8919373
+TIME graph=roadNet-CA method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=73.941946
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_twostep repeat=1 spmm1=8.05807114 z_to_bf16_1=3.69691849 gemm1=20.7870007 relu=7.01498985 interlayer_to_bf16=5.6681633 interlayer_to_fp32=3.69095802 spmm2=7.94792175 z_to_bf16_2=3.75509262 gemm2=7.23910332 final_to_bf16=6.08086586
+TIME graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=77.2199631
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=1 spmm1=7.9729557 z_to_bf16_1=3.60798836 gemm1=21.5079784 relu=6.97803497 interlayer_to_bf16=5.67388535 interlayer_to_fp32=3.66616249 spmm2=7.95388222 z_to_bf16_2=3.60798836 gemm2=10.4880333 final_to_bf16=5.75995445
+TIME graph=roadNet-CA method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=77.190876
+TIME graph=roadNet-CA method=original_tfs repeat=1 order=5 e2e_ms=41.5019989
+TIME graph=roadNet-CA method=full_identity repeat=2 order=0 e2e_ms=37.1367931
+TIME graph=roadNet-CA method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=73.6169815
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_twostep repeat=2 spmm1=8.15200806 z_to_bf16_1=3.68714333 gemm1=20.9589005 relu=7.01093674 interlayer_to_bf16=5.67221642 interlayer_to_fp32=3.68881226 spmm2=7.96508789 z_to_bf16_2=3.64303589 gemm2=7.05289841 final_to_bf16=5.78308105
+TIME graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=78.2239437
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=2 spmm1=8.06093216 z_to_bf16_1=3.6110878 gemm1=21.5659142 relu=7.53998756 interlayer_to_bf16=5.71703911 interlayer_to_fp32=3.87501717 spmm2=8.05807114 z_to_bf16_2=3.61299515 gemm2=10.3290081 final_to_bf16=5.8529377
+TIME graph=roadNet-CA method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=77.8949261
+TIME graph=roadNet-CA method=original_tfs repeat=2 order=4 e2e_ms=42.7019596
+TIME graph=roadNet-CA method=full_degree repeat=2 order=5 e2e_ms=44.3968773
+TIME graph=roadNet-CA method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=76.9059658
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_twostep repeat=3 spmm1=8.08978081 z_to_bf16_1=3.63612175 gemm1=23.4260559 relu=7.79795647 interlayer_to_bf16=5.70607185 interlayer_to_fp32=3.68189812 spmm2=7.94792175 z_to_bf16_2=3.63707542 gemm2=7.20000267 final_to_bf16=5.78212738
+TIME graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=77.8529644
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=3 spmm1=8.02302361 z_to_bf16_1=3.65400314 gemm1=21.420002 relu=7.6379776 interlayer_to_bf16=5.68318367 interlayer_to_fp32=3.67593765 spmm2=7.94386864 z_to_bf16_2=3.57818604 gemm2=10.4529858 final_to_bf16=5.78284264
+TIME graph=roadNet-CA method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=77.9130459
+TIME graph=roadNet-CA method=original_tfs repeat=3 order=3 e2e_ms=43.6339378
+TIME graph=roadNet-CA method=full_degree repeat=3 order=4 e2e_ms=46.036005
+TIME graph=roadNet-CA method=full_identity repeat=3 order=5 e2e_ms=37.9190445
+TIME graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=79.709053
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_packed_twostep repeat=4 spmm1=8.26406479 z_to_bf16_1=3.71479988 gemm1=22.5241184 relu=7.28607178 interlayer_to_bf16=5.85389137 interlayer_to_fp32=3.7560463 spmm2=8.12697411 z_to_bf16_2=3.72409821 gemm2=10.5638504 final_to_bf16=5.89299202
+TIME graph=roadNet-CA method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=78.8981915
+TIME graph=roadNet-CA method=original_tfs repeat=4 order=2 e2e_ms=43.3239937
+TIME graph=roadNet-CA method=full_degree repeat=4 order=3 e2e_ms=45.7930565
+TIME graph=roadNet-CA method=full_identity repeat=4 order=4 e2e_ms=37.5669003
+TIME graph=roadNet-CA method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=74.477911
+STAGE_BF16 graph=roadNet-CA method=bf16_mkl_twostep repeat=4 spmm1=8.19396973 z_to_bf16_1=3.72004509 gemm1=21.2440491 relu=7.08389282 interlayer_to_bf16=5.71417809 interlayer_to_fp32=3.65996361 spmm2=8.06498528 z_to_bf16_2=3.67689133 gemm2=7.30514526 final_to_bf16=5.81383705
+MEDIAN graph=roadNet-CA method=original_tfs ms=42.7019596
+MEDIAN graph=roadNet-CA method=full_degree ms=45.7251072
+MEDIAN graph=roadNet-CA method=full_identity ms=37.1367931
+MEDIAN graph=roadNet-CA method=bf16_mkl_twostep ms=73.941946
+MEDIAN graph=roadNet-CA method=bf16_mkl_packed_twostep ms=78.2239437
+MEDIAN graph=roadNet-CA method=fp32_mkl_twostep ms=77.8949261
+DONE graph=roadNet-CA pass=1

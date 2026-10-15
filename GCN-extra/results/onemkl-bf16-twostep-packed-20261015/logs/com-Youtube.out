@@ -1,0 +1,51 @@
+GRAPH name=com-Youtube n=1134890 edges=5975248 dim=128
+CHECK graph=com-Youtube method=bf16_mkl_vs_tfs rel_l2=0.00619086039 norm_max=0.00900900901 max_abs=32768 nonfinite=0 pass=1
+CHECK graph=com-Youtube method=bf16_mkl_packed_vs_tfs rel_l2=0.00619086039 norm_max=0.00900900901 max_abs=32768 nonfinite=0 pass=1
+CHECK graph=com-Youtube method=full_identity_vs_degree bitwise=1
+TIME graph=com-Youtube method=original_tfs repeat=0 order=0 e2e_ms=54.651022
+TIME graph=com-Youtube method=full_degree repeat=0 order=1 e2e_ms=40.3530598
+TIME graph=com-Youtube method=full_identity repeat=0 order=2 e2e_ms=28.5079479
+TIME graph=com-Youtube method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=69.8850155
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_twostep repeat=0 spmm1=14.8129463 z_to_bf16_1=3.71408463 gemm1=14.6968365 relu=4.1949749 interlayer_to_bf16=3.54099274 interlayer_to_fp32=2.31909752 spmm2=14.537096 z_to_bf16_2=3.56698036 gemm2=4.46391106 final_to_bf16=4.03690338
+TIME graph=com-Youtube method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=72.9820728
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_packed_twostep repeat=0 spmm1=14.936924 z_to_bf16_1=3.80897522 gemm1=15.679121 relu=4.21500206 interlayer_to_bf16=3.30901146 interlayer_to_fp32=2.16507912 spmm2=14.4958496 z_to_bf16_2=3.51810455 gemm2=6.94990158 final_to_bf16=3.90219688
+TIME graph=com-Youtube method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=87.3918533
+TIME graph=com-Youtube method=full_degree repeat=1 order=0 e2e_ms=39.6900177
+TIME graph=com-Youtube method=full_identity repeat=1 order=1 e2e_ms=28.4800529
+TIME graph=com-Youtube method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=69.8318481
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_twostep repeat=1 spmm1=14.7678852 z_to_bf16_1=3.98206711 gemm1=14.854908 relu=4.21905518 interlayer_to_bf16=3.34191322 interlayer_to_fp32=2.11596489 spmm2=14.6310329 z_to_bf16_2=3.51905823 gemm2=4.44197655 final_to_bf16=3.95607948
+TIME graph=com-Youtube method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=73.513031
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_packed_twostep repeat=1 spmm1=14.9099827 z_to_bf16_1=3.77511978 gemm1=15.8917904 relu=4.19807434 interlayer_to_bf16=3.32593918 interlayer_to_fp32=2.21419334 spmm2=14.7259235 z_to_bf16_2=3.56388092 gemm2=6.99710846 final_to_bf16=3.9100647
+TIME graph=com-Youtube method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=88.1149769
+TIME graph=com-Youtube method=original_tfs repeat=1 order=5 e2e_ms=54.8679829
+TIME graph=com-Youtube method=full_identity repeat=2 order=0 e2e_ms=28.3198357
+TIME graph=com-Youtube method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=69.8201656
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_twostep repeat=2 spmm1=14.8692131 z_to_bf16_1=3.68189812 gemm1=14.6961212 relu=4.23789024 interlayer_to_bf16=3.48901749 interlayer_to_fp32=2.38609314 spmm2=14.5499706 z_to_bf16_2=3.51691246 gemm2=4.45199013 final_to_bf16=3.93605232
+TIME graph=com-Youtube method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=73.0149746
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_packed_twostep repeat=2 spmm1=14.8499012 z_to_bf16_1=3.7651062 gemm1=15.5780315 relu=4.18686867 interlayer_to_bf16=3.31616402 interlayer_to_fp32=2.18987465 spmm2=14.6901608 z_to_bf16_2=3.55601311 gemm2=6.93202019 final_to_bf16=3.94701958
+TIME graph=com-Youtube method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=87.911129
+TIME graph=com-Youtube method=original_tfs repeat=2 order=4 e2e_ms=55.7370186
+TIME graph=com-Youtube method=full_degree repeat=2 order=5 e2e_ms=40.225029
+TIME graph=com-Youtube method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=70.4460144
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_twostep repeat=3 spmm1=14.9981976 z_to_bf16_1=3.87787819 gemm1=14.9919987 relu=4.24218178 interlayer_to_bf16=3.34787369 interlayer_to_fp32=2.20799446 spmm2=14.8251057 z_to_bf16_2=3.56698036 gemm2=4.43696976 final_to_bf16=3.94797325
+TIME graph=com-Youtube method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=73.1418133
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_packed_twostep repeat=3 spmm1=14.9619579 z_to_bf16_1=3.81803513 gemm1=15.7828331 relu=4.17804718 interlayer_to_bf16=3.3121109 interlayer_to_fp32=2.17294693 spmm2=14.4760609 z_to_bf16_2=3.54790688 gemm2=6.95300102 final_to_bf16=3.93795967
+TIME graph=com-Youtube method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=88.0169868
+TIME graph=com-Youtube method=original_tfs repeat=3 order=3 e2e_ms=68.7558651
+TIME graph=com-Youtube method=full_degree repeat=3 order=4 e2e_ms=44.5110798
+TIME graph=com-Youtube method=full_identity repeat=3 order=5 e2e_ms=28.2700062
+TIME graph=com-Youtube method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=72.4680424
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_packed_twostep repeat=4 spmm1=14.7528648 z_to_bf16_1=3.64899635 gemm1=15.486002 relu=4.20284271 interlayer_to_bf16=3.32117081 interlayer_to_fp32=2.14982033 spmm2=14.4741535 z_to_bf16_2=3.53097916 gemm2=7.00306892 final_to_bf16=3.89385223
+TIME graph=com-Youtube method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=87.8360271
+TIME graph=com-Youtube method=original_tfs repeat=4 order=2 e2e_ms=54.639101
+TIME graph=com-Youtube method=full_degree repeat=4 order=3 e2e_ms=39.2858982
+TIME graph=com-Youtube method=full_identity repeat=4 order=4 e2e_ms=28.6798477
+TIME graph=com-Youtube method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=69.6518421
+STAGE_BF16 graph=com-Youtube method=bf16_mkl_twostep repeat=4 spmm1=14.8839951 z_to_bf16_1=3.62801552 gemm1=14.8539543 relu=4.23002243 interlayer_to_bf16=3.33499908 interlayer_to_fp32=2.12597847 spmm2=14.6620274 z_to_bf16_2=3.51715088 gemm2=4.44889069 final_to_bf16=3.9639473
+MEDIAN graph=com-Youtube method=original_tfs ms=54.8679829
+MEDIAN graph=com-Youtube method=full_degree ms=40.225029
+MEDIAN graph=com-Youtube method=full_identity ms=28.4800529
+MEDIAN graph=com-Youtube method=bf16_mkl_twostep ms=69.8318481
+MEDIAN graph=com-Youtube method=bf16_mkl_packed_twostep ms=73.0149746
+MEDIAN graph=com-Youtube method=fp32_mkl_twostep ms=87.911129
+DONE graph=com-Youtube pass=1

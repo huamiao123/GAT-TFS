@@ -1,0 +1,51 @@
+GRAPH name=com-LiveJournal n=3997962 edges=69362378 dim=128
+CHECK graph=com-LiveJournal method=bf16_mkl_vs_tfs rel_l2=0.00627983342 norm_max=0.00584795322 max_abs=16384 nonfinite=0 pass=1
+CHECK graph=com-LiveJournal method=bf16_mkl_packed_vs_tfs rel_l2=0.00627983342 norm_max=0.00584795322 max_abs=16384 nonfinite=0 pass=1
+CHECK graph=com-LiveJournal method=full_identity_vs_degree bitwise=1
+TIME graph=com-LiveJournal method=original_tfs repeat=0 order=0 e2e_ms=277.179003
+TIME graph=com-LiveJournal method=full_degree repeat=0 order=1 e2e_ms=267.637968
+TIME graph=com-LiveJournal method=full_identity repeat=0 order=2 e2e_ms=190.520048
+TIME graph=com-LiveJournal method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=465.1649
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_twostep repeat=0 spmm1=166.62693 z_to_bf16_1=17.2660351 gemm1=46.323061 relu=14.1949654 interlayer_to_bf16=10.3061199 interlayer_to_fp32=7.9240799 spmm2=159.441948 z_to_bf16_2=16.4568424 gemm2=13.7591362 final_to_bf16=12.8629208
+TIME graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=471.559048
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=0 spmm1=164.927006 z_to_bf16_1=16.4120197 gemm1=48.8011837 relu=12.6678944 interlayer_to_bf16=10.0679398 interlayer_to_fp32=7.11917877 spmm2=162.881851 z_to_bf16_2=16.3919926 gemm2=19.2289352 final_to_bf16=13.0591393
+TIME graph=com-LiveJournal method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=701.889038
+TIME graph=com-LiveJournal method=full_degree repeat=1 order=0 e2e_ms=257.507801
+TIME graph=com-LiveJournal method=full_identity repeat=1 order=1 e2e_ms=190.77301
+TIME graph=com-LiveJournal method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=463.611126
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_twostep repeat=1 spmm1=167.907 z_to_bf16_1=16.505003 gemm1=45.4747677 relu=13.0140781 interlayer_to_bf16=10.1969242 interlayer_to_fp32=7.91716576 spmm2=159.533978 z_to_bf16_2=16.7820454 gemm2=13.5660172 final_to_bf16=12.7110481
+TIME graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=472.657919
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=1 spmm1=166.610956 z_to_bf16_1=16.7791843 gemm1=50.4980087 relu=11.5067959 interlayer_to_bf16=10.2119446 interlayer_to_fp32=7.53188133 spmm2=161.206961 z_to_bf16_2=16.1728859 gemm2=19.2799568 final_to_bf16=12.8548145
+TIME graph=com-LiveJournal method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=703.425884
+TIME graph=com-LiveJournal method=original_tfs repeat=1 order=5 e2e_ms=276.869059
+TIME graph=com-LiveJournal method=full_identity repeat=2 order=0 e2e_ms=192.414999
+TIME graph=com-LiveJournal method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=462.980032
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_twostep repeat=2 spmm1=166.924 z_to_bf16_1=16.5679455 gemm1=46.2090969 relu=12.6509666 interlayer_to_bf16=9.99307632 interlayer_to_fp32=7.93290138 spmm2=160.012007 z_to_bf16_2=16.2520409 gemm2=13.6721134 final_to_bf16=12.7630234
+TIME graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=473.104
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=2 spmm1=166.404963 z_to_bf16_1=16.3080692 gemm1=50.2429008 relu=11.5549564 interlayer_to_bf16=10.4689598 interlayer_to_fp32=7.61508942 spmm2=162.565947 z_to_bf16_2=16.1950588 gemm2=19.151926 final_to_bf16=12.5920773
+TIME graph=com-LiveJournal method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=703.094006
+TIME graph=com-LiveJournal method=original_tfs repeat=2 order=4 e2e_ms=281.097174
+TIME graph=com-LiveJournal method=full_degree repeat=2 order=5 e2e_ms=270.367146
+TIME graph=com-LiveJournal method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=463.961124
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_twostep repeat=3 spmm1=165.899992 z_to_bf16_1=17.316103 gemm1=46.530962 relu=12.9098892 interlayer_to_bf16=10.0569725 interlayer_to_fp32=7.45010376 spmm2=160.418034 z_to_bf16_2=16.4060593 gemm2=13.7679577 final_to_bf16=13.2050514
+TIME graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=471.912146
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=3 spmm1=166.115046 z_to_bf16_1=16.283989 gemm1=49.7691631 relu=11.4748478 interlayer_to_bf16=10.174036 interlayer_to_fp32=7.57288933 spmm2=161.782026 z_to_bf16_2=16.3350105 gemm2=19.2170143 final_to_bf16=13.1831169
+TIME graph=com-LiveJournal method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=702.163935
+TIME graph=com-LiveJournal method=original_tfs repeat=3 order=3 e2e_ms=276.710033
+TIME graph=com-LiveJournal method=full_degree repeat=3 order=4 e2e_ms=266.735077
+TIME graph=com-LiveJournal method=full_identity repeat=3 order=5 e2e_ms=190.310955
+TIME graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=473.351002
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_packed_twostep repeat=4 spmm1=168.5431 z_to_bf16_1=17.0638561 gemm1=49.6342182 relu=11.4898682 interlayer_to_bf16=10.1060867 interlayer_to_fp32=7.91597366 spmm2=159.467936 z_to_bf16_2=16.274929 gemm2=19.244194 final_to_bf16=13.6089325
+TIME graph=com-LiveJournal method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=703.660011
+TIME graph=com-LiveJournal method=original_tfs repeat=4 order=2 e2e_ms=273.563862
+TIME graph=com-LiveJournal method=full_degree repeat=4 order=3 e2e_ms=263.306141
+TIME graph=com-LiveJournal method=full_identity repeat=4 order=4 e2e_ms=190.477133
+TIME graph=com-LiveJournal method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=465.650082
+STAGE_BF16 graph=com-LiveJournal method=bf16_mkl_twostep repeat=4 spmm1=168.271065 z_to_bf16_1=16.9520378 gemm1=46.1819172 relu=13.6151314 interlayer_to_bf16=10.2159977 interlayer_to_fp32=7.85183907 spmm2=159.224033 z_to_bf16_2=16.8111324 gemm2=13.6239529 final_to_bf16=12.8998756
+MEDIAN graph=com-LiveJournal method=original_tfs ms=276.869059
+MEDIAN graph=com-LiveJournal method=full_degree ms=266.735077
+MEDIAN graph=com-LiveJournal method=full_identity ms=190.520048
+MEDIAN graph=com-LiveJournal method=bf16_mkl_twostep ms=463.961124
+MEDIAN graph=com-LiveJournal method=bf16_mkl_packed_twostep ms=472.657919
+MEDIAN graph=com-LiveJournal method=fp32_mkl_twostep ms=703.094006
+DONE graph=com-LiveJournal pass=1
