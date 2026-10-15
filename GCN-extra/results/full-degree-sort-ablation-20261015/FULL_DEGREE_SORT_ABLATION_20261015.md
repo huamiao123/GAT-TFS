@@ -62,6 +62,32 @@ The fixed primary result uses the first four-graph run plus the 13 validation gr
 
 **17/17 graphs favor identity; fixed-set geometric mean = 1.3553×.** The weakest ratios, Products and Reddit, each remained above 1.04× in their independent reverse-order run. web-Google's first-run CV was 10.4% for DegreeSort and 12.0% for identity, so a separate same-node repeat was run: 21.55 versus 18.80 ms, **1.146×**, with CV 0.25% and 1.03%. The repeat confirms direction without replacing the noisy primary sample. All measurements are on shared nodes and remain diagnostic rather than exclusive-node paper evidence.
 
+### Comparison with the original source oneMKL baseline
+
+`compare_onemkl.py` parses the five `run 0`–`run 4` times under `=== MKL FP32 Two-Step ===` from **the same graph/process/node logs** as each fixed-set FULL comparison, takes their median, and divides it by the corresponding FULL median. Thus every ratio below is `source oneMKL median / FULL median`; values above 1 mean FULL is faster. The original source oneMKL uses FP32 while FULL uses BF16 input/weights and BF16 final output, matching the original paper's baseline convention but **not an equal-precision comparison**. oneMKL was measured in five consecutive runs before the FULL alternating sweeps, so these are same-run derived diagnostics, not a fully interleaved oneMKL/FULL timing experiment. No historical MKL time or cross-node absolute denominator was used.
+
+| Graph | Source oneMKL FP32 ms | FULL DegreeSort vs oneMKL | FULL Identity vs oneMKL |
+|---|---:|---:|---:|
+| ogbn-products | 1347.30 | 4.572× | 4.847× |
+| reddit | 442.54 | 3.267× | 3.464× |
+| mycielskian19 | 4797.55 | 1.982× | 2.313× |
+| hollywood-2009 | 391.09 | 1.961× | 3.913× |
+| indochina-2004 | 692.04 | 3.299× | 4.489× |
+| soc-Pokec | 333.13 | 3.544× | 4.137× |
+| cit-Patents | 272.85 | 3.307× | 3.756× |
+| soc-LiveJournal1 | 684.97 | 2.532× | 3.507× |
+| com-LiveJournal | 649.76 | 2.592× | 3.763× |
+| as-Skitter | 164.57 | 2.089× | 3.196× |
+| rgg_n_2_24_s0 | 2017.97 | 2.174× | 4.739× |
+| web-Google | 47.40 | 2.184× | 2.483× |
+| roadNet-CA | 65.34 | 1.721× | 2.167× |
+| wiki-Talk | 91.32 | 2.006× | 2.929× |
+| email-Enron | 1.47 | 1.231× | 1.907× |
+| amazon0601 | 25.73 | 2.194× | 2.614× |
+| com-Youtube | 54.09 | 1.606× | 2.308× |
+
+**17-graph geometric mean: FULL+DegreeSort = 2.3601× oneMKL; FULL+Identity = 3.1987× oneMKL.** Both are faster on 17/17 graphs under this derived comparison. The complete five source-oneMKL samples and exact ratios are in `summary_17_vs_onemkl.csv`.
+
 ## Work and setup
 
 `nonempty_tiles × 32` gives logical AMX `TDPBF16PS` calls per layer in FULL FAST (two panels, four K blocks, four dot-products per K/panel). Both schedules process the same real edges and use identical precision. Identity does **not** reduce AMX projection work here; it equals or increases that count. Across all 17 graphs, eight have equal nonempty Tile counts and nine have more under identity.
@@ -103,4 +129,5 @@ One code-level distinction is certain: the kernel scatters each output to `c[row
 - web-Google robustness repeat: `.../logs/web_repeat-20261015-120308/`.
 - Each run has `summary.csv`, `results.json`, per-graph raw stdout/stderr, graph hashes, preflight hashes, Slurm logs, CPU affinity, NUMA policy and environment.
 - `summary_17.csv` combines the fixed primary 17 graph runs and records per-graph node, run, CV, work counts and SHA-256 checked against the fixed inventory.
+- `summary_17_vs_onemkl.csv` and `../../experiments/full_degree_sort_ablation_20261015/compare_onemkl.py` reproduce the same-process source-oneMKL median comparison.
 - Server master location: `/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/full-degree-sort-ablation-20261015-113936`.
