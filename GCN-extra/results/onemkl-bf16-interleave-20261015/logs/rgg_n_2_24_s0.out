@@ -1,0 +1,51 @@
+GRAPH name=rgg_n_2_24_s0 n=16777216 edges=265114400 dim=128
+CHECK graph=rgg_n_2_24_s0 method=bf16_mkl_vs_tfs rel_l2=0.00627735989 norm_max=0.00518134715 max_abs=64 nonfinite=0 pass=1
+CHECK graph=rgg_n_2_24_s0 method=bf16_mkl_packed_vs_tfs rel_l2=0.00627735989 norm_max=0.00518134715 max_abs=64 nonfinite=0 pass=1
+CHECK graph=rgg_n_2_24_s0 method=full_identity_vs_degree bitwise=1
+TIME graph=rgg_n_2_24_s0 method=original_tfs repeat=0 order=0 e2e_ms=1665.23194
+TIME graph=rgg_n_2_24_s0 method=full_degree repeat=0 order=1 e2e_ms=1664.49404
+TIME graph=rgg_n_2_24_s0 method=full_identity repeat=0 order=2 e2e_ms=1585.57606
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=3234.38811
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=0 spmm1=1166.70799 z_to_bf16_1=86.2221718 gemm1=215.782881 relu=64.677 interlayer_to_bf16=87.35919 interlayer_to_fp32=112.489939 spmm2=1113.10697 z_to_bf16_2=87.635994 gemm2=215.343952 final_to_bf16=85.0551128
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=3377.54297
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=0 spmm1=1191.56694 z_to_bf16_1=86.1909389 gemm1=229.073048 relu=64.3060207 interlayer_to_bf16=90.8210278 interlayer_to_fp32=107.086182 spmm2=1189.70394 z_to_bf16_2=89.0500546 gemm2=236.903906 final_to_bf16=92.8349495
+TIME graph=rgg_n_2_24_s0 method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=2955.20401
+TIME graph=rgg_n_2_24_s0 method=full_degree repeat=1 order=0 e2e_ms=1651.18098
+TIME graph=rgg_n_2_24_s0 method=full_identity repeat=1 order=1 e2e_ms=1493.07394
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=3344.99907
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=1 spmm1=1192.02805 z_to_bf16_1=86.8711472 gemm1=212.838888 relu=66.4811134 interlayer_to_bf16=87.7258778 interlayer_to_fp32=112.547159 spmm2=1186.61189 z_to_bf16_2=88.6769295 gemm2=220.25919 final_to_bf16=90.9540653
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=3335.23178
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=1 spmm1=1207.97682 z_to_bf16_1=86.6470337 gemm1=230.303049 relu=67.7881241 interlayer_to_bf16=90.8110142 interlayer_to_fp32=110.019922 spmm2=1133.86703 z_to_bf16_2=87.7931118 gemm2=228.739023 final_to_bf16=91.2828445
+TIME graph=rgg_n_2_24_s0 method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=2943.398
+TIME graph=rgg_n_2_24_s0 method=original_tfs repeat=1 order=5 e2e_ms=1685.89711
+TIME graph=rgg_n_2_24_s0 method=full_identity repeat=2 order=0 e2e_ms=1570.23215
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=3345.19792
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=2 spmm1=1215.35087 z_to_bf16_1=86.9300365 gemm1=214.37192 relu=64.8617744 interlayer_to_bf16=87.5351429 interlayer_to_fp32=111.707926 spmm2=1175.39001 z_to_bf16_2=86.4169598 gemm2=215.393066 final_to_bf16=87.2380733
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=3188.18712
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=2 spmm1=1103.58095 z_to_bf16_1=86.5898132 gemm1=226.737022 relu=66.049099 interlayer_to_bf16=87.9981518 interlayer_to_fp32=107.764959 spmm2=1087.72397 z_to_bf16_2=89.7450447 gemm2=236.669064 final_to_bf16=95.3249931
+TIME graph=rgg_n_2_24_s0 method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=3182.68085
+TIME graph=rgg_n_2_24_s0 method=original_tfs repeat=2 order=4 e2e_ms=1681.26893
+TIME graph=rgg_n_2_24_s0 method=full_degree repeat=2 order=5 e2e_ms=1650.08211
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=3294.75498
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=3 spmm1=1143.64696 z_to_bf16_1=86.179018 gemm1=213.800907 relu=67.3611164 interlayer_to_bf16=87.1050358 interlayer_to_fp32=111.804008 spmm2=1186.80906 z_to_bf16_2=86.4028931 gemm2=221.608162 final_to_bf16=90.0330544
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=3428.72787
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=3 spmm1=1236.727 z_to_bf16_1=88.2148743 gemm1=231.93121 relu=65.4227734 interlayer_to_bf16=92.5621986 interlayer_to_fp32=110.813856 spmm2=1198.55499 z_to_bf16_2=85.4110718 gemm2=228.95813 final_to_bf16=90.1279449
+TIME graph=rgg_n_2_24_s0 method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=2877.32005
+TIME graph=rgg_n_2_24_s0 method=original_tfs repeat=3 order=3 e2e_ms=1688.04908
+TIME graph=rgg_n_2_24_s0 method=full_degree repeat=3 order=4 e2e_ms=1689.56304
+TIME graph=rgg_n_2_24_s0 method=full_identity repeat=3 order=5 e2e_ms=1526.97182
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=3364.41708
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep repeat=4 spmm1=1213.02485 z_to_bf16_1=87.6591206 gemm1=225.414038 relu=67.045927 interlayer_to_bf16=86.384058 interlayer_to_fp32=110.058069 spmm2=1172.94788 z_to_bf16_2=83.4860802 gemm2=228.53303 final_to_bf16=89.8602009
+TIME graph=rgg_n_2_24_s0 method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=2895.76912
+TIME graph=rgg_n_2_24_s0 method=original_tfs repeat=4 order=2 e2e_ms=1706.25806
+TIME graph=rgg_n_2_24_s0 method=full_degree repeat=4 order=3 e2e_ms=1660.96497
+TIME graph=rgg_n_2_24_s0 method=full_identity repeat=4 order=4 e2e_ms=1513.48305
+TIME graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=3347.29409
+STAGE_BF16 graph=rgg_n_2_24_s0 method=bf16_mkl_twostep repeat=4 spmm1=1155.27415 z_to_bf16_1=89.5750523 gemm1=220.41297 relu=65.3500557 interlayer_to_bf16=91.6280746 interlayer_to_fp32=116.513968 spmm2=1211.70998 z_to_bf16_2=89.304924 gemm2=219.429016 final_to_bf16=88.0899429
+MEDIAN graph=rgg_n_2_24_s0 method=original_tfs ms=1685.89711
+MEDIAN graph=rgg_n_2_24_s0 method=full_degree ms=1660.96497
+MEDIAN graph=rgg_n_2_24_s0 method=full_identity ms=1526.97182
+MEDIAN graph=rgg_n_2_24_s0 method=bf16_mkl_twostep ms=3344.99907
+MEDIAN graph=rgg_n_2_24_s0 method=bf16_mkl_packed_twostep ms=3364.41708
+MEDIAN graph=rgg_n_2_24_s0 method=fp32_mkl_twostep ms=2943.398
+DONE graph=rgg_n_2_24_s0 pass=1

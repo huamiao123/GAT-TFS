@@ -1,0 +1,51 @@
+GRAPH name=email-Enron n=36692 edges=367662 dim=128
+CHECK graph=email-Enron method=bf16_mkl_vs_tfs rel_l2=0.00622168736 norm_max=0.00909090909 max_abs=2048 nonfinite=0 pass=1
+CHECK graph=email-Enron method=bf16_mkl_packed_vs_tfs rel_l2=0.00622168736 norm_max=0.00909090909 max_abs=2048 nonfinite=0 pass=1
+CHECK graph=email-Enron method=full_identity_vs_degree bitwise=1
+TIME graph=email-Enron method=original_tfs repeat=0 order=0 e2e_ms=4.40502167
+TIME graph=email-Enron method=full_degree repeat=0 order=1 e2e_ms=2.67314911
+TIME graph=email-Enron method=full_identity repeat=0 order=2 e2e_ms=1.9929409
+TIME graph=email-Enron method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=7.33184814
+STAGE_BF16 graph=email-Enron method=bf16_mkl_twostep repeat=0 spmm1=1.01804733 z_to_bf16_1=0.473976135 gemm1=1.36590004 relu=0.195026398 interlayer_to_bf16=0.689029694 interlayer_to_fp32=1.01304054 spmm2=0.837087631 z_to_bf16_2=0.329971313 gemm2=1.04093552 final_to_bf16=0.367879868
+TIME graph=email-Enron method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=6.72602654
+STAGE_BF16 graph=email-Enron method=bf16_mkl_packed_twostep repeat=0 spmm1=0.931024551 z_to_bf16_1=0.195980072 gemm1=1.06501579 relu=0.120162964 interlayer_to_bf16=0.813961029 interlayer_to_fp32=0.933885574 spmm2=0.813007355 z_to_bf16_2=0.277996063 gemm2=1.27220154 final_to_bf16=0.299930573
+TIME graph=email-Enron method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=4.13703918
+TIME graph=email-Enron method=full_degree repeat=1 order=0 e2e_ms=3.49092484
+TIME graph=email-Enron method=full_identity repeat=1 order=1 e2e_ms=2.14505196
+TIME graph=email-Enron method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=7.04598427
+STAGE_BF16 graph=email-Enron method=bf16_mkl_twostep repeat=1 spmm1=1.06096268 z_to_bf16_1=0.472068787 gemm1=1.38187408 relu=0.174045563 interlayer_to_bf16=0.704050064 interlayer_to_fp32=0.766038895 spmm2=0.823974609 z_to_bf16_2=0.335931778 gemm2=1.01709366 final_to_bf16=0.309944153
+TIME graph=email-Enron method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=6.98804855
+STAGE_BF16 graph=email-Enron method=bf16_mkl_packed_twostep repeat=1 spmm1=0.909090042 z_to_bf16_1=0.196933746 gemm1=1.15323067 relu=0.14090538 interlayer_to_bf16=0.828027725 interlayer_to_fp32=1.10602379 spmm2=0.820875168 z_to_bf16_2=0.285148621 gemm2=1.26481056 final_to_bf16=0.281095505
+TIME graph=email-Enron method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=5.03110886
+TIME graph=email-Enron method=original_tfs repeat=1 order=5 e2e_ms=4.56786156
+TIME graph=email-Enron method=full_identity repeat=2 order=0 e2e_ms=2.10499763
+TIME graph=email-Enron method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=6.82806969
+STAGE_BF16 graph=email-Enron method=bf16_mkl_twostep repeat=2 spmm1=1.05619431 z_to_bf16_1=0.520944595 gemm1=1.10387802 relu=0.161886215 interlayer_to_bf16=0.596046448 interlayer_to_fp32=0.780105591 spmm2=0.806808472 z_to_bf16_2=0.393152237 gemm2=1.0869503 final_to_bf16=0.319957733
+TIME graph=email-Enron method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=6.84714317
+STAGE_BF16 graph=email-Enron method=bf16_mkl_packed_twostep repeat=2 spmm1=0.886201859 z_to_bf16_1=0.204801559 gemm1=1.11103058 relu=0.125169754 interlayer_to_bf16=0.92792511 interlayer_to_fp32=0.911951065 spmm2=0.833034515 z_to_bf16_2=0.277996063 gemm2=1.25908852 final_to_bf16=0.309944153
+TIME graph=email-Enron method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=4.35996056
+TIME graph=email-Enron method=original_tfs repeat=2 order=4 e2e_ms=4.42099571
+TIME graph=email-Enron method=full_degree repeat=2 order=5 e2e_ms=2.628088
+TIME graph=email-Enron method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=7.42506981
+STAGE_BF16 graph=email-Enron method=bf16_mkl_twostep repeat=3 spmm1=1.03092194 z_to_bf16_1=0.491142273 gemm1=1.17492676 relu=0.164031982 interlayer_to_bf16=0.888109207 interlayer_to_fp32=1.04999542 spmm2=0.846862793 z_to_bf16_2=0.334978104 gemm2=1.08408928 final_to_bf16=0.35905838
+TIME graph=email-Enron method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=6.53409958
+STAGE_BF16 graph=email-Enron method=bf16_mkl_packed_twostep repeat=3 spmm1=0.889062881 z_to_bf16_1=0.193119049 gemm1=1.18780136 relu=0.151157379 interlayer_to_bf16=0.63586235 interlayer_to_fp32=0.782012939 spmm2=0.825166702 z_to_bf16_2=0.304937363 gemm2=1.25408173 final_to_bf16=0.309944153
+TIME graph=email-Enron method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=4.16398048
+TIME graph=email-Enron method=original_tfs repeat=3 order=3 e2e_ms=4.42004204
+TIME graph=email-Enron method=full_degree repeat=3 order=4 e2e_ms=3.16095352
+TIME graph=email-Enron method=full_identity repeat=3 order=5 e2e_ms=1.8761158
+TIME graph=email-Enron method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=7.27891922
+STAGE_BF16 graph=email-Enron method=bf16_mkl_packed_twostep repeat=4 spmm1=1.06501579 z_to_bf16_1=0.451087952 gemm1=1.4770031 relu=0.144004822 interlayer_to_bf16=0.535011292 interlayer_to_fp32=0.793933868 spmm2=0.839948654 z_to_bf16_2=0.352144241 gemm2=1.27506256 final_to_bf16=0.342845917
+TIME graph=email-Enron method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=4.1680336
+TIME graph=email-Enron method=original_tfs repeat=4 order=2 e2e_ms=4.4400692
+TIME graph=email-Enron method=full_degree repeat=4 order=3 e2e_ms=2.72107124
+TIME graph=email-Enron method=full_identity repeat=4 order=4 e2e_ms=1.91497803
+TIME graph=email-Enron method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=7.02619553
+STAGE_BF16 graph=email-Enron method=bf16_mkl_twostep repeat=4 spmm1=1.10602379 z_to_bf16_1=0.468969345 gemm1=1.4090538 relu=0.153064728 interlayer_to_bf16=0.515937805 interlayer_to_fp32=0.808000565 spmm2=0.835180283 z_to_bf16_2=0.342845917 gemm2=1.07812881 final_to_bf16=0.308036804
+MEDIAN graph=email-Enron method=original_tfs ms=4.42099571
+MEDIAN graph=email-Enron method=full_degree ms=2.72107124
+MEDIAN graph=email-Enron method=full_identity ms=1.9929409
+MEDIAN graph=email-Enron method=bf16_mkl_twostep ms=7.04598427
+MEDIAN graph=email-Enron method=bf16_mkl_packed_twostep ms=6.84714317
+MEDIAN graph=email-Enron method=fp32_mkl_twostep ms=4.1680336
+DONE graph=email-Enron pass=1

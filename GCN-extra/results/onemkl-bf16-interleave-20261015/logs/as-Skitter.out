@@ -1,0 +1,51 @@
+GRAPH name=as-Skitter n=1696415 edges=22190596 dim=128
+CHECK graph=as-Skitter method=bf16_mkl_vs_tfs rel_l2=0.00643978347 norm_max=0.00925925926 max_abs=65536 nonfinite=0 pass=1
+CHECK graph=as-Skitter method=bf16_mkl_packed_vs_tfs rel_l2=0.00643978347 norm_max=0.00925925926 max_abs=65536 nonfinite=0 pass=1
+CHECK graph=as-Skitter method=full_identity_vs_degree bitwise=1
+TIME graph=as-Skitter method=original_tfs repeat=0 order=0 e2e_ms=254.179955
+TIME graph=as-Skitter method=full_degree repeat=0 order=1 e2e_ms=209.006071
+TIME graph=as-Skitter method=full_identity repeat=0 order=2 e2e_ms=142.843008
+TIME graph=as-Skitter method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=280.739069
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_twostep repeat=0 spmm1=91.8579102 z_to_bf16_1=8.56018066 gemm1=21.3739872 relu=6.9129467 interlayer_to_bf16=8.33106041 interlayer_to_fp32=10.6239319 spmm2=95.3500271 z_to_bf16_2=8.67795944 gemm2=20.8930969 final_to_bf16=8.15415382
+TIME graph=as-Skitter method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=283.481121
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_packed_twostep repeat=0 spmm1=91.1860466 z_to_bf16_1=8.53300095 gemm1=23.3910084 relu=6.6421032 interlayer_to_bf16=8.41784477 interlayer_to_fp32=10.9989643 spmm2=92.8459167 z_to_bf16_2=9.06300545 gemm2=24.1589546 final_to_bf16=8.24022293
+TIME graph=as-Skitter method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=241.899014
+TIME graph=as-Skitter method=full_degree repeat=1 order=0 e2e_ms=192.14797
+TIME graph=as-Skitter method=full_identity repeat=1 order=1 e2e_ms=140.222073
+TIME graph=as-Skitter method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=271.481991
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_twostep repeat=1 spmm1=89.1108513 z_to_bf16_1=8.06307793 gemm1=20.6460953 relu=7.03001022 interlayer_to_bf16=8.07189941 interlayer_to_fp32=11.1320019 spmm2=90.2600288 z_to_bf16_2=8.60095024 gemm2=20.6401348 final_to_bf16=7.92503357
+TIME graph=as-Skitter method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=285.516977
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_packed_twostep repeat=1 spmm1=93.9781666 z_to_bf16_1=8.49986076 gemm1=23.6051083 relu=6.70003891 interlayer_to_bf16=8.15796852 interlayer_to_fp32=11.5721226 spmm2=93.1680202 z_to_bf16_2=8.56590271 gemm2=23.2889652 final_to_bf16=7.97700882
+TIME graph=as-Skitter method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=236.634016
+TIME graph=as-Skitter method=original_tfs repeat=1 order=5 e2e_ms=228.774071
+TIME graph=as-Skitter method=full_identity repeat=2 order=0 e2e_ms=134.383917
+TIME graph=as-Skitter method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=267.456055
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_twostep repeat=2 spmm1=83.6129189 z_to_bf16_1=8.57996941 gemm1=21.3670731 relu=6.81400299 interlayer_to_bf16=8.30292702 interlayer_to_fp32=11.4061832 spmm2=88.97686 z_to_bf16_2=8.34012032 gemm2=21.531105 final_to_bf16=8.51988792
+TIME graph=as-Skitter method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=274.618864
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_packed_twostep repeat=2 spmm1=84.6920013 z_to_bf16_1=8.39090347 gemm1=24.7831345 relu=6.72793388 interlayer_to_bf16=8.5542202 interlayer_to_fp32=11.4409924 spmm2=89.3888474 z_to_bf16_2=8.5849762 gemm2=23.7448215 final_to_bf16=8.30507278
+TIME graph=as-Skitter method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=232.48601
+TIME graph=as-Skitter method=original_tfs repeat=2 order=4 e2e_ms=252.272844
+TIME graph=as-Skitter method=full_degree repeat=2 order=5 e2e_ms=195.201159
+TIME graph=as-Skitter method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=268.846989
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_twostep repeat=3 spmm1=85.2880478 z_to_bf16_1=8.41879845 gemm1=21.6221809 relu=6.94203377 interlayer_to_bf16=8.20302963 interlayer_to_fp32=11.5430355 spmm2=88.3808136 z_to_bf16_2=8.30507278 gemm2=21.5120316 final_to_bf16=8.63003731
+TIME graph=as-Skitter method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=273.277044
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_packed_twostep repeat=3 spmm1=83.8220119 z_to_bf16_1=8.68582726 gemm1=24.2660046 relu=6.95085526 interlayer_to_bf16=8.49699974 interlayer_to_fp32=10.8730793 spmm2=89.1270638 z_to_bf16_2=8.59498978 gemm2=24.2099762 final_to_bf16=8.24594498
+TIME graph=as-Skitter method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=231.137037
+TIME graph=as-Skitter method=original_tfs repeat=3 order=3 e2e_ms=254.611015
+TIME graph=as-Skitter method=full_degree repeat=3 order=4 e2e_ms=217.221022
+TIME graph=as-Skitter method=full_identity repeat=3 order=5 e2e_ms=142.599106
+TIME graph=as-Skitter method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=275.202036
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_packed_twostep repeat=4 spmm1=86.0631466 z_to_bf16_1=10.5760098 gemm1=23.9238739 relu=6.77895546 interlayer_to_bf16=8.3360672 interlayer_to_fp32=10.6241703 spmm2=87.8388882 z_to_bf16_2=8.25095177 gemm2=24.1310596 final_to_bf16=8.67414474
+TIME graph=as-Skitter method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=230.956078
+TIME graph=as-Skitter method=original_tfs repeat=4 order=2 e2e_ms=253.612995
+TIME graph=as-Skitter method=full_degree repeat=4 order=3 e2e_ms=207.493782
+TIME graph=as-Skitter method=full_identity repeat=4 order=4 e2e_ms=137.526989
+TIME graph=as-Skitter method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=267.22312
+STAGE_BF16 graph=as-Skitter method=bf16_mkl_twostep repeat=4 spmm1=84.9821568 z_to_bf16_1=8.20183754 gemm1=21.2140083 relu=6.80994987 interlayer_to_bf16=8.14008713 interlayer_to_fp32=10.8299255 spmm2=89.0350342 z_to_bf16_2=8.85605812 gemm2=21.1360455 final_to_bf16=8.01301003
+MEDIAN graph=as-Skitter method=original_tfs ms=253.612995
+MEDIAN graph=as-Skitter method=full_degree ms=207.493782
+MEDIAN graph=as-Skitter method=full_identity ms=140.222073
+MEDIAN graph=as-Skitter method=bf16_mkl_twostep ms=268.846989
+MEDIAN graph=as-Skitter method=bf16_mkl_packed_twostep ms=275.202036
+MEDIAN graph=as-Skitter method=fp32_mkl_twostep ms=232.48601
+DONE graph=as-Skitter pass=1

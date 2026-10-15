@@ -1,0 +1,51 @@
+GRAPH name=reddit n=232965 edges=114615892 dim=128
+CHECK graph=reddit method=bf16_mkl_vs_tfs rel_l2=0.00625788269 norm_max=0.00806451613 max_abs=262144 nonfinite=0 pass=1
+CHECK graph=reddit method=bf16_mkl_packed_vs_tfs rel_l2=0.00625788269 norm_max=0.00806451613 max_abs=262144 nonfinite=0 pass=1
+CHECK graph=reddit method=full_identity_vs_degree bitwise=1
+TIME graph=reddit method=original_tfs repeat=0 order=0 e2e_ms=638.691902
+TIME graph=reddit method=full_degree repeat=0 order=1 e2e_ms=312.080145
+TIME graph=reddit method=full_identity repeat=0 order=2 e2e_ms=331.284046
+TIME graph=reddit method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=1034.55186
+STAGE_BF16 graph=reddit method=bf16_mkl_twostep repeat=0 spmm1=511.456013 z_to_bf16_1=2.37989426 gemm1=3.80802155 relu=0.964164734 interlayer_to_bf16=1.28507614 interlayer_to_fp32=1.82986259 spmm2=505.237103 z_to_bf16_2=2.31003761 gemm2=4.07886505 final_to_bf16=1.19900703
+TIME graph=reddit method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=1008.46219
+STAGE_BF16 graph=reddit method=bf16_mkl_packed_twostep repeat=0 spmm1=486.428976 z_to_bf16_1=2.17890739 gemm1=4.02593613 relu=1.11508369 interlayer_to_bf16=1.28388405 interlayer_to_fp32=1.82008743 spmm2=503.708124 z_to_bf16_2=2.35891342 gemm2=4.2488575 final_to_bf16=1.2922287
+TIME graph=reddit method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=1021.14701
+TIME graph=reddit method=full_degree repeat=1 order=0 e2e_ms=311.473846
+TIME graph=reddit method=full_identity repeat=1 order=1 e2e_ms=340.059996
+TIME graph=reddit method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=1011.88803
+STAGE_BF16 graph=reddit method=bf16_mkl_twostep repeat=1 spmm1=494.997978 z_to_bf16_1=2.59208679 gemm1=3.91697884 relu=1.00183487 interlayer_to_bf16=1.30701065 interlayer_to_fp32=1.76811218 spmm2=498.33107 z_to_bf16_2=2.31289864 gemm2=4.41908836 final_to_bf16=1.2409687
+TIME graph=reddit method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=1024.80888
+STAGE_BF16 graph=reddit method=bf16_mkl_packed_twostep repeat=1 spmm1=496.157885 z_to_bf16_1=2.40015984 gemm1=3.88288498 relu=1.07598305 interlayer_to_bf16=1.37400627 interlayer_to_fp32=1.83081627 spmm2=510.123014 z_to_bf16_2=2.45499611 gemm2=4.23884392 final_to_bf16=1.26504898
+TIME graph=reddit method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=1031.90494
+TIME graph=reddit method=original_tfs repeat=1 order=5 e2e_ms=608.915091
+TIME graph=reddit method=full_identity repeat=2 order=0 e2e_ms=330.322981
+TIME graph=reddit method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=1010.11801
+STAGE_BF16 graph=reddit method=bf16_mkl_twostep repeat=2 spmm1=499.196053 z_to_bf16_1=2.14409828 gemm1=3.73482704 relu=1.01804733 interlayer_to_bf16=1.32703781 interlayer_to_fp32=1.75118446 spmm2=493.165016 z_to_bf16_2=2.24685669 gemm2=4.28009033 final_to_bf16=1.25098228
+TIME graph=reddit method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=1022.49384
+STAGE_BF16 graph=reddit method=bf16_mkl_packed_twostep repeat=2 spmm1=499.093056 z_to_bf16_1=2.37298012 gemm1=3.83996964 relu=1.101017 interlayer_to_bf16=1.4269352 interlayer_to_fp32=1.88612938 spmm2=504.756927 z_to_bf16_2=2.46191025 gemm2=4.27007675 final_to_bf16=1.28293037
+TIME graph=reddit method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=1026.74699
+TIME graph=reddit method=original_tfs repeat=2 order=4 e2e_ms=634.989023
+TIME graph=reddit method=full_degree repeat=2 order=5 e2e_ms=328.637838
+TIME graph=reddit method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=1034.84106
+STAGE_BF16 graph=reddit method=bf16_mkl_twostep repeat=3 spmm1=497.089148 z_to_bf16_1=2.62188911 gemm1=3.90315056 relu=1.02901459 interlayer_to_bf16=1.28293037 interlayer_to_fp32=1.82294846 spmm2=519.089222 z_to_bf16_2=2.41398811 gemm2=4.43887711 final_to_bf16=1.14703178
+TIME graph=reddit method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=1042.09709
+STAGE_BF16 graph=reddit method=bf16_mkl_packed_twostep repeat=3 spmm1=509.643078 z_to_bf16_1=2.32386589 gemm1=3.9460659 relu=1.16801262 interlayer_to_bf16=1.21903419 interlayer_to_fp32=1.69706345 spmm2=514.308929 z_to_bf16_2=2.30813026 gemm2=4.19402122 final_to_bf16=1.28293037
+TIME graph=reddit method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=1048.7051
+TIME graph=reddit method=original_tfs repeat=3 order=3 e2e_ms=626.584053
+TIME graph=reddit method=full_degree repeat=3 order=4 e2e_ms=314.972878
+TIME graph=reddit method=full_identity repeat=3 order=5 e2e_ms=331.537008
+TIME graph=reddit method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=1007.16686
+STAGE_BF16 graph=reddit method=bf16_mkl_packed_twostep repeat=4 spmm1=490.822077 z_to_bf16_1=2.09379196 gemm1=3.82399559 relu=1.10292435 interlayer_to_bf16=1.36208534 interlayer_to_fp32=1.76286697 spmm2=498.212099 z_to_bf16_2=2.50196457 gemm2=4.26912308 final_to_bf16=1.21378899
+TIME graph=reddit method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=1025.64907
+TIME graph=reddit method=original_tfs repeat=4 order=2 e2e_ms=624.168158
+TIME graph=reddit method=full_degree repeat=4 order=3 e2e_ms=311.33008
+TIME graph=reddit method=full_identity repeat=4 order=4 e2e_ms=337.883949
+TIME graph=reddit method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=1008.32891
+STAGE_BF16 graph=reddit method=bf16_mkl_twostep repeat=4 spmm1=490.283012 z_to_bf16_1=2.43210793 gemm1=3.88884544 relu=1.1048317 interlayer_to_bf16=1.35302544 interlayer_to_fp32=1.87397003 spmm2=499.250174 z_to_bf16_2=2.43592262 gemm2=4.41598892 final_to_bf16=1.28698349
+MEDIAN graph=reddit method=original_tfs ms=626.584053
+MEDIAN graph=reddit method=full_degree ms=312.080145
+MEDIAN graph=reddit method=full_identity ms=331.537008
+MEDIAN graph=reddit method=bf16_mkl_twostep ms=1011.88803
+MEDIAN graph=reddit method=bf16_mkl_packed_twostep ms=1022.49384
+MEDIAN graph=reddit method=fp32_mkl_twostep ms=1026.74699
+DONE graph=reddit pass=1

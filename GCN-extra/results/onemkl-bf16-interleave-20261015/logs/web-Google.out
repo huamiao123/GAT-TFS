@@ -1,0 +1,51 @@
+GRAPH name=web-Google n=916428 edges=5105039 dim=128
+CHECK graph=web-Google method=bf16_mkl_vs_tfs rel_l2=0.00622767757 norm_max=0.00598802395 max_abs=256 nonfinite=0 pass=1
+CHECK graph=web-Google method=bf16_mkl_packed_vs_tfs rel_l2=0.00622767757 norm_max=0.00598802395 max_abs=256 nonfinite=0 pass=1
+CHECK graph=web-Google method=full_identity_vs_degree bitwise=1
+TIME graph=web-Google method=original_tfs repeat=0 order=0 e2e_ms=51.7179966
+TIME graph=web-Google method=full_degree repeat=0 order=1 e2e_ms=55.9728146
+TIME graph=web-Google method=full_identity repeat=0 order=2 e2e_ms=51.7749786
+TIME graph=web-Google method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=131.459951
+STAGE_BF16 graph=web-Google method=bf16_mkl_twostep repeat=0 spmm1=39.1299725 z_to_bf16_1=6.0031414 gemm1=11.4588737 relu=3.13401222 interlayer_to_bf16=4.68206406 interlayer_to_fp32=6.17218018 spmm2=38.6228561 z_to_bf16_2=5.96308708 gemm2=11.8050575 final_to_bf16=4.48203087
+TIME graph=web-Google method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=138.812065
+STAGE_BF16 graph=web-Google method=bf16_mkl_packed_twostep repeat=0 spmm1=38.3598804 z_to_bf16_1=6.25491142 gemm1=14.508009 relu=3.41415405 interlayer_to_bf16=4.73999977 interlayer_to_fp32=6.42490387 spmm2=40.0791168 z_to_bf16_2=6.34598732 gemm2=14.5890713 final_to_bf16=4.09388542
+TIME graph=web-Google method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=108.459949
+TIME graph=web-Google method=full_degree repeat=1 order=0 e2e_ms=54.58498
+TIME graph=web-Google method=full_identity repeat=1 order=1 e2e_ms=52.6161194
+TIME graph=web-Google method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=133.655071
+STAGE_BF16 graph=web-Google method=bf16_mkl_twostep repeat=1 spmm1=39.8650169 z_to_bf16_1=5.79881668 gemm1=11.6021633 relu=3.25107574 interlayer_to_bf16=4.69088554 interlayer_to_fp32=6.48403168 spmm2=39.1800404 z_to_bf16_2=6.54101372 gemm2=11.6670132 final_to_bf16=4.57000732
+TIME graph=web-Google method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=134.345055
+STAGE_BF16 graph=web-Google method=bf16_mkl_packed_twostep repeat=1 spmm1=38.3281708 z_to_bf16_1=6.26993179 gemm1=14.703989 relu=3.18598747 interlayer_to_bf16=4.32109833 interlayer_to_fp32=6.53195381 spmm2=36.4789963 z_to_bf16_2=5.18608093 gemm2=14.9929523 final_to_bf16=4.34494019
+TIME graph=web-Google method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=103.317976
+TIME graph=web-Google method=original_tfs repeat=1 order=5 e2e_ms=51.6228676
+TIME graph=web-Google method=full_identity repeat=2 order=0 e2e_ms=50.9459972
+TIME graph=web-Google method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=127.774954
+STAGE_BF16 graph=web-Google method=bf16_mkl_twostep repeat=2 spmm1=38.064003 z_to_bf16_1=5.12290001 gemm1=11.7809772 relu=3.19099426 interlayer_to_bf16=4.63700294 interlayer_to_fp32=6.43396378 spmm2=36.6840363 z_to_bf16_2=4.98318672 gemm2=12.0828152 final_to_bf16=4.79221344
+TIME graph=web-Google method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=132.315874
+STAGE_BF16 graph=web-Google method=bf16_mkl_packed_twostep repeat=2 spmm1=36.5488529 z_to_bf16_1=5.23805618 gemm1=14.840126 relu=3.44395638 interlayer_to_bf16=4.57406044 interlayer_to_fp32=6.47187233 spmm2=36.6871357 z_to_bf16_2=5.1510334 gemm2=14.8558617 final_to_bf16=4.49991226
+TIME graph=web-Google method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=109.382868
+TIME graph=web-Google method=original_tfs repeat=2 order=4 e2e_ms=52.3741245
+TIME graph=web-Google method=full_degree repeat=2 order=5 e2e_ms=55.9639931
+TIME graph=web-Google method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=131.22797
+STAGE_BF16 graph=web-Google method=bf16_mkl_twostep repeat=3 spmm1=38.1481647 z_to_bf16_1=5.50794601 gemm1=12.3550892 relu=3.48901749 interlayer_to_bf16=4.68301773 interlayer_to_fp32=6.80398941 spmm2=37.9080772 z_to_bf16_2=5.34200668 gemm2=12.3171806 final_to_bf16=4.66489792
+TIME graph=web-Google method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=137.040138
+STAGE_BF16 graph=web-Google method=bf16_mkl_packed_twostep repeat=3 spmm1=37.902832 z_to_bf16_1=5.38992882 gemm1=15.2170658 relu=3.48496437 interlayer_to_bf16=4.71901894 interlayer_to_fp32=7.02595711 spmm2=38.0067825 z_to_bf16_2=5.35821915 gemm2=15.3419971 final_to_bf16=4.58598137
+TIME graph=web-Google method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=107.043982
+TIME graph=web-Google method=original_tfs repeat=3 order=3 e2e_ms=52.7200699
+TIME graph=web-Google method=full_degree repeat=3 order=4 e2e_ms=56.363821
+TIME graph=web-Google method=full_identity repeat=3 order=5 e2e_ms=51.4640808
+TIME graph=web-Google method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=137.192011
+STAGE_BF16 graph=web-Google method=bf16_mkl_packed_twostep repeat=4 spmm1=38.533926 z_to_bf16_1=5.41996956 gemm1=15.1078701 relu=3.40008736 interlayer_to_bf16=4.59909439 interlayer_to_fp32=7.01999664 spmm2=37.7578735 z_to_bf16_2=5.31697273 gemm2=15.433073 final_to_bf16=4.59814072
+TIME graph=web-Google method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=113.795996
+TIME graph=web-Google method=original_tfs repeat=4 order=2 e2e_ms=52.767992
+TIME graph=web-Google method=full_degree repeat=4 order=3 e2e_ms=56.7729473
+TIME graph=web-Google method=full_identity repeat=4 order=4 e2e_ms=51.6037941
+TIME graph=web-Google method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=129.064083
+STAGE_BF16 graph=web-Google method=bf16_mkl_twostep repeat=4 spmm1=38.2108688 z_to_bf16_1=5.46717644 gemm1=12.0458603 relu=3.23414803 interlayer_to_bf16=4.80604172 interlayer_to_fp32=6.41679764 spmm2=36.9980335 z_to_bf16_2=5.2921772 gemm2=12.0849609 final_to_bf16=4.5030117
+MEDIAN graph=web-Google method=original_tfs ms=52.3741245
+MEDIAN graph=web-Google method=full_degree ms=55.9728146
+MEDIAN graph=web-Google method=full_identity ms=51.6037941
+MEDIAN graph=web-Google method=bf16_mkl_twostep ms=131.22797
+MEDIAN graph=web-Google method=bf16_mkl_packed_twostep ms=137.040138
+MEDIAN graph=web-Google method=fp32_mkl_twostep ms=108.459949
+DONE graph=web-Google pass=1

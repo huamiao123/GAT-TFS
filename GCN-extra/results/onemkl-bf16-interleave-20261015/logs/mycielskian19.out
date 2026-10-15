@@ -1,0 +1,51 @@
+GRAPH name=mycielskian19 n=393215 edges=903194710 dim=128
+CHECK graph=mycielskian19 method=bf16_mkl_vs_tfs rel_l2=0.00629538593 norm_max=0.00724637681 max_abs=2097152 nonfinite=0 pass=1
+CHECK graph=mycielskian19 method=bf16_mkl_packed_vs_tfs rel_l2=0.00629538593 norm_max=0.00724637681 max_abs=2097152 nonfinite=0 pass=1
+CHECK graph=mycielskian19 method=full_identity_vs_degree bitwise=1
+TIME graph=mycielskian19 method=original_tfs repeat=0 order=0 e2e_ms=4737.93483
+TIME graph=mycielskian19 method=full_degree repeat=0 order=1 e2e_ms=5306.54502
+TIME graph=mycielskian19 method=full_identity repeat=0 order=2 e2e_ms=3739.35008
+TIME graph=mycielskian19 method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=9319.62895
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_twostep repeat=0 spmm1=4698.60005 z_to_bf16_1=3.61204147 gemm1=6.1841011 relu=1.55496597 interlayer_to_bf16=2.35486031 interlayer_to_fp32=3.12018394 spmm2=4590.70182 z_to_bf16_2=4.11105156 gemm2=6.93106651 final_to_bf16=2.45594978
+TIME graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=9433.074
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=0 spmm1=4726.77493 z_to_bf16_1=3.29709053 gemm1=7.00211525 relu=1.52993202 interlayer_to_bf16=2.26306915 interlayer_to_fp32=2.83002853 spmm2=4676.91207 z_to_bf16_2=3.44896317 gemm2=6.84785843 final_to_bf16=2.16317177
+TIME graph=mycielskian19 method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=9595.92986
+TIME graph=mycielskian19 method=full_degree repeat=1 order=0 e2e_ms=5358.12402
+TIME graph=mycielskian19 method=full_identity repeat=1 order=1 e2e_ms=3772.04585
+TIME graph=mycielskian19 method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=9244.35997
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_twostep repeat=1 spmm1=4636.21998 z_to_bf16_1=3.96800041 gemm1=6.22415543 relu=1.55901909 interlayer_to_bf16=1.93595886 interlayer_to_fp32=2.79307365 spmm2=4579.99396 z_to_bf16_2=3.42702866 gemm2=6.04295731 final_to_bf16=2.19202042
+TIME graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=9360.91709
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=1 spmm1=4658.97202 z_to_bf16_1=3.28588486 gemm1=6.87789917 relu=1.67703629 interlayer_to_bf16=2.47383118 interlayer_to_fp32=2.85315514 spmm2=4672.3578 z_to_bf16_2=3.1979084 gemm2=7.05289841 final_to_bf16=2.16197968
+TIME graph=mycielskian19 method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=9284.46293
+TIME graph=mycielskian19 method=original_tfs repeat=1 order=5 e2e_ms=4890.55705
+TIME graph=mycielskian19 method=full_identity repeat=2 order=0 e2e_ms=3783.07509
+TIME graph=mycielskian19 method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=9211.19905
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_twostep repeat=2 spmm1=4617.82694 z_to_bf16_1=3.40199471 gemm1=6.44111633 relu=1.68585777 interlayer_to_bf16=2.37202644 interlayer_to_fp32=2.95901299 spmm2=4564.6131 z_to_bf16_2=3.38411331 gemm2=6.21795654 final_to_bf16=2.29597092
+TIME graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=9260.31518
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=2 spmm1=4608.11281 z_to_bf16_1=3.35693359 gemm1=7.07006454 relu=1.61600113 interlayer_to_bf16=2.29001045 interlayer_to_fp32=2.88796425 spmm2=4622.52498 z_to_bf16_2=3.34191322 gemm2=6.83617592 final_to_bf16=2.27499008
+TIME graph=mycielskian19 method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=9246.0022
+TIME graph=mycielskian19 method=original_tfs repeat=2 order=4 e2e_ms=4849.38002
+TIME graph=mycielskian19 method=full_degree repeat=2 order=5 e2e_ms=5230.61895
+TIME graph=mycielskian19 method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=9223.60301
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_twostep repeat=3 spmm1=4620.78595 z_to_bf16_1=3.92198563 gemm1=6.08205795 relu=1.50799751 interlayer_to_bf16=2.14195251 interlayer_to_fp32=2.97307968 spmm2=4574.48292 z_to_bf16_2=3.23200226 gemm2=6.23512268 final_to_bf16=2.23708153
+TIME graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=9233.2139
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=3 spmm1=4594.63692 z_to_bf16_1=3.30400467 gemm1=6.89291954 relu=1.5938282 interlayer_to_bf16=2.41279602 interlayer_to_fp32=3.09109688 spmm2=4608.50501 z_to_bf16_2=3.87692451 gemm2=6.92200661 final_to_bf16=1.97410583
+TIME graph=mycielskian19 method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=9288.6281
+TIME graph=mycielskian19 method=original_tfs repeat=3 order=3 e2e_ms=4807.7302
+TIME graph=mycielskian19 method=full_degree repeat=3 order=4 e2e_ms=5280.76291
+TIME graph=mycielskian19 method=full_identity repeat=3 order=5 e2e_ms=3784.75499
+TIME graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=9275.7771
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_packed_twostep repeat=4 spmm1=4665.7629 z_to_bf16_1=3.14307213 gemm1=7.16996193 relu=1.64914131 interlayer_to_bf16=2.47001648 interlayer_to_fp32=2.80594826 spmm2=4580.15585 z_to_bf16_2=3.49521637 gemm2=6.82497025 final_to_bf16=2.29597092
+TIME graph=mycielskian19 method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=9318.32194
+TIME graph=mycielskian19 method=original_tfs repeat=4 order=2 e2e_ms=4879.64702
+TIME graph=mycielskian19 method=full_degree repeat=4 order=3 e2e_ms=5334.82504
+TIME graph=mycielskian19 method=full_identity repeat=4 order=4 e2e_ms=3773.39602
+TIME graph=mycielskian19 method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=9295.17388
+STAGE_BF16 graph=mycielskian19 method=bf16_mkl_twostep repeat=4 spmm1=4661.03101 z_to_bf16_1=3.36289406 gemm1=6.10804558 relu=1.61600113 interlayer_to_bf16=2.58302689 interlayer_to_fp32=2.92396545 spmm2=4606.0729 z_to_bf16_2=3.28302383 gemm2=5.99098206 final_to_bf16=2.19988823
+MEDIAN graph=mycielskian19 method=original_tfs ms=4849.38002
+MEDIAN graph=mycielskian19 method=full_degree ms=5306.54502
+MEDIAN graph=mycielskian19 method=full_identity ms=3773.39602
+MEDIAN graph=mycielskian19 method=bf16_mkl_twostep ms=9244.35997
+MEDIAN graph=mycielskian19 method=bf16_mkl_packed_twostep ms=9275.7771
+MEDIAN graph=mycielskian19 method=fp32_mkl_twostep ms=9288.6281
+DONE graph=mycielskian19 pass=1

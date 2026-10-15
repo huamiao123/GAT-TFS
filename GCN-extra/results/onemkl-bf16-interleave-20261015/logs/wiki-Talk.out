@@ -1,0 +1,51 @@
+GRAPH name=wiki-Talk n=2394385 edges=5021410 dim=128
+CHECK graph=wiki-Talk method=bf16_mkl_vs_tfs rel_l2=0.00624648648 norm_max=0.00476190476 max_abs=16384 nonfinite=0 pass=1
+CHECK graph=wiki-Talk method=bf16_mkl_packed_vs_tfs rel_l2=0.00624648648 norm_max=0.00476190476 max_abs=16384 nonfinite=0 pass=1
+CHECK graph=wiki-Talk method=full_identity_vs_degree bitwise=1
+TIME graph=wiki-Talk method=original_tfs repeat=0 order=0 e2e_ms=184.967041
+TIME graph=wiki-Talk method=full_degree repeat=0 order=1 e2e_ms=92.0789242
+TIME graph=wiki-Talk method=full_identity repeat=0 order=2 e2e_ms=71.8929768
+TIME graph=wiki-Talk method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=197.654009
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_twostep repeat=0 spmm1=38.6850834 z_to_bf16_1=11.1889839 gemm1=27.80509 relu=6.56199455 interlayer_to_bf16=11.9109154 interlayer_to_fp32=16.0260201 spmm2=34.7399712 z_to_bf16_2=11.3110542 gemm2=27.493 final_to_bf16=11.9299889
+TIME graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=203.567982
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=0 spmm1=35.1209641 z_to_bf16_1=11.4629269 gemm1=33.6611271 relu=6.75392151 interlayer_to_bf16=10.8790398 interlayer_to_fp32=15.9959793 spmm2=33.12397 z_to_bf16_2=10.9620094 gemm2=33.921957 final_to_bf16=11.6841793
+TIME graph=wiki-Talk method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=142.193079
+TIME graph=wiki-Talk method=full_degree repeat=1 order=0 e2e_ms=91.4731026
+TIME graph=wiki-Talk method=full_identity repeat=1 order=1 e2e_ms=75.3848553
+TIME graph=wiki-Talk method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=199.378967
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_twostep repeat=1 spmm1=38.2528305 z_to_bf16_1=11.3630295 gemm1=28.5260677 relu=6.77990913 interlayer_to_bf16=11.9280815 interlayer_to_fp32=16.3309574 spmm2=35.1531506 z_to_bf16_2=11.1479759 gemm2=28.0849934 final_to_bf16=11.8088722
+TIME graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=209.583044
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=1 spmm1=36.2889767 z_to_bf16_1=11.7340088 gemm1=34.0969563 relu=6.76989555 interlayer_to_bf16=11.8029118 interlayer_to_fp32=16.7140961 spmm2=34.4879627 z_to_bf16_2=11.6140842 gemm2=34.0759754 final_to_bf16=11.9950771
+TIME graph=wiki-Talk method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=144.673109
+TIME graph=wiki-Talk method=original_tfs repeat=1 order=5 e2e_ms=179.51107
+TIME graph=wiki-Talk method=full_identity repeat=2 order=0 e2e_ms=73.1608868
+TIME graph=wiki-Talk method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=199.031115
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_twostep repeat=2 spmm1=38.5191441 z_to_bf16_1=11.3179684 gemm1=28.4330845 relu=6.79802895 interlayer_to_bf16=11.7619038 interlayer_to_fp32=16.1869526 spmm2=34.6431732 z_to_bf16_2=11.3589764 gemm2=28.2919407 final_to_bf16=11.7161274
+TIME graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=209.960938
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=2 spmm1=37.4219418 z_to_bf16_1=10.9429359 gemm1=33.8439941 relu=7.06982613 interlayer_to_bf16=11.346817 interlayer_to_fp32=16.5150166 spmm2=33.9820385 z_to_bf16_2=11.7120743 gemm2=35.0859165 final_to_bf16=12.0341778
+TIME graph=wiki-Talk method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=144.013882
+TIME graph=wiki-Talk method=original_tfs repeat=2 order=4 e2e_ms=181.500196
+TIME graph=wiki-Talk method=full_degree repeat=2 order=5 e2e_ms=90.5270576
+TIME graph=wiki-Talk method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=197.88003
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_twostep repeat=3 spmm1=38.367033 z_to_bf16_1=11.4450455 gemm1=27.7647972 relu=6.66999817 interlayer_to_bf16=11.4278793 interlayer_to_fp32=15.7859325 spmm2=35.3860855 z_to_bf16_2=11.2409592 gemm2=27.8949738 final_to_bf16=11.8951797
+TIME graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=210.581064
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=3 spmm1=34.265995 z_to_bf16_1=11.4021301 gemm1=35.6638432 relu=7.09819794 interlayer_to_bf16=12.0089054 interlayer_to_fp32=16.1800385 spmm2=35.3989601 z_to_bf16_2=11.5001202 gemm2=34.7540379 final_to_bf16=12.3050213
+TIME graph=wiki-Talk method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=146.708965
+TIME graph=wiki-Talk method=original_tfs repeat=3 order=3 e2e_ms=180.310965
+TIME graph=wiki-Talk method=full_degree repeat=3 order=4 e2e_ms=93.3899879
+TIME graph=wiki-Talk method=full_identity repeat=3 order=5 e2e_ms=70.2681541
+TIME graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=210.090876
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_packed_twostep repeat=4 spmm1=40.5259132 z_to_bf16_1=11.2798214 gemm1=33.1931114 relu=6.52194023 interlayer_to_bf16=11.6090775 interlayer_to_fp32=16.1468983 spmm2=34.1761112 z_to_bf16_2=11.081934 gemm2=34.0049267 final_to_bf16=11.5458965
+TIME graph=wiki-Talk method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=142.136097
+TIME graph=wiki-Talk method=original_tfs repeat=4 order=2 e2e_ms=181.355953
+TIME graph=wiki-Talk method=full_degree repeat=4 order=3 e2e_ms=94.0690041
+TIME graph=wiki-Talk method=full_identity repeat=4 order=4 e2e_ms=70.9989071
+TIME graph=wiki-Talk method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=194.877863
+STAGE_BF16 graph=wiki-Talk method=bf16_mkl_twostep repeat=4 spmm1=39.6089554 z_to_bf16_1=11.3070011 gemm1=27.5430679 relu=6.77490234 interlayer_to_bf16=11.1069679 interlayer_to_fp32=15.3050423 spmm2=33.6198807 z_to_bf16_2=11.3689899 gemm2=27.0900726 final_to_bf16=11.1479759
+MEDIAN graph=wiki-Talk method=original_tfs ms=181.355953
+MEDIAN graph=wiki-Talk method=full_degree ms=92.0789242
+MEDIAN graph=wiki-Talk method=full_identity ms=71.8929768
+MEDIAN graph=wiki-Talk method=bf16_mkl_twostep ms=197.88003
+MEDIAN graph=wiki-Talk method=bf16_mkl_packed_twostep ms=209.960938
+MEDIAN graph=wiki-Talk method=fp32_mkl_twostep ms=144.013882
+DONE graph=wiki-Talk pass=1

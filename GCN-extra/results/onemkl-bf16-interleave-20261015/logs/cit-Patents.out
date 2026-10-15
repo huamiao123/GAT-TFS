@@ -1,0 +1,51 @@
+GRAPH name=cit-Patents n=3774768 edges=16518948 dim=128
+CHECK graph=cit-Patents method=bf16_mkl_vs_tfs rel_l2=0.00612542568 norm_max=0.00485436893 max_abs=256 nonfinite=0 pass=1
+CHECK graph=cit-Patents method=bf16_mkl_packed_vs_tfs rel_l2=0.00612542568 norm_max=0.00485436893 max_abs=256 nonfinite=0 pass=1
+CHECK graph=cit-Patents method=full_identity_vs_degree bitwise=1
+TIME graph=cit-Patents method=original_tfs repeat=0 order=0 e2e_ms=194.885969
+TIME graph=cit-Patents method=full_degree repeat=0 order=1 e2e_ms=196.613073
+TIME graph=cit-Patents method=full_identity repeat=0 order=2 e2e_ms=179.690838
+TIME graph=cit-Patents method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=380.940914
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_twostep repeat=0 spmm1=93.2929516 z_to_bf16_1=18.8341141 gemm1=45.042038 relu=13.2119656 interlayer_to_bf16=18.4340477 interlayer_to_fp32=23.5359669 spmm2=86.7640972 z_to_bf16_2=18.5289383 gemm2=44.670105 final_to_bf16=18.6228752
+TIME graph=cit-Patents method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=388.355017
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_packed_twostep repeat=0 spmm1=89.7181034 z_to_bf16_1=19.2830563 gemm1=49.0000248 relu=13.1797791 interlayer_to_bf16=18.3880329 interlayer_to_fp32=23.1351852 spmm2=89.1289711 z_to_bf16_2=18.7249184 gemm2=49.2839813 final_to_bf16=18.5110569
+TIME graph=cit-Patents method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=299.139977
+TIME graph=cit-Patents method=full_degree repeat=1 order=0 e2e_ms=195.858955
+TIME graph=cit-Patents method=full_identity repeat=1 order=1 e2e_ms=176.567078
+TIME graph=cit-Patents method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=395.887136
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_twostep repeat=1 spmm1=90.6419754 z_to_bf16_1=19.6130276 gemm1=46.2200642 relu=14.7590637 interlayer_to_bf16=18.6929703 interlayer_to_fp32=24.2388248 spmm2=99.1530418 z_to_bf16_2=19.2871094 gemm2=44.631958 final_to_bf16=18.6491013
+TIME graph=cit-Patents method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=388.695955
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_packed_twostep repeat=1 spmm1=90.5389786 z_to_bf16_1=18.5790062 gemm1=45.9990501 relu=13.9050484 interlayer_to_bf16=19.245863 interlayer_to_fp32=24.1780281 spmm2=89.329958 z_to_bf16_2=19.1941261 gemm2=49.1468906 final_to_bf16=18.5751915
+TIME graph=cit-Patents method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=299.089909
+TIME graph=cit-Patents method=original_tfs repeat=1 order=5 e2e_ms=193.400145
+TIME graph=cit-Patents method=full_identity repeat=2 order=0 e2e_ms=175.462961
+TIME graph=cit-Patents method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=378.269911
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_twostep repeat=2 spmm1=88.3328915 z_to_bf16_1=18.8159943 gemm1=45.8409786 relu=13.5831833 interlayer_to_bf16=18.8798904 interlayer_to_fp32=22.947073 spmm2=88.5570049 z_to_bf16_2=19.1290379 gemm2=44.3580151 final_to_bf16=17.8229809
+TIME graph=cit-Patents method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=384.331226
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_packed_twostep repeat=2 spmm1=87.1460438 z_to_bf16_1=18.9290047 gemm1=47.878027 relu=13.6809349 interlayer_to_bf16=19.0291405 interlayer_to_fp32=23.870945 spmm2=86.2059593 z_to_bf16_2=19.2170143 gemm2=49.3078232 final_to_bf16=19.0620422
+TIME graph=cit-Patents method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=301.481009
+TIME graph=cit-Patents method=original_tfs repeat=2 order=4 e2e_ms=194.68379
+TIME graph=cit-Patents method=full_degree repeat=2 order=5 e2e_ms=200.353861
+TIME graph=cit-Patents method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=384.419203
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_twostep repeat=3 spmm1=88.0010128 z_to_bf16_1=19.5481777 gemm1=46.779871 relu=14.7871971 interlayer_to_bf16=19.1018581 interlayer_to_fp32=24.2581367 spmm2=88.3438587 z_to_bf16_2=19.2699432 gemm2=45.7699299 final_to_bf16=18.556118
+TIME graph=cit-Patents method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=397.139072
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_packed_twostep repeat=3 spmm1=87.0680809 z_to_bf16_1=19.151926 gemm1=49.284935 relu=14.2781734 interlayer_to_bf16=19.3018913 interlayer_to_fp32=24.4820118 spmm2=88.2301331 z_to_bf16_2=25.138855 gemm2=51.1379242 final_to_bf16=19.0629959
+TIME graph=cit-Patents method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=299.443007
+TIME graph=cit-Patents method=original_tfs repeat=3 order=3 e2e_ms=193.578959
+TIME graph=cit-Patents method=full_degree repeat=3 order=4 e2e_ms=197.392941
+TIME graph=cit-Patents method=full_identity repeat=3 order=5 e2e_ms=176.625967
+TIME graph=cit-Patents method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=390.890837
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_packed_twostep repeat=4 spmm1=87.8529549 z_to_bf16_1=19.482851 gemm1=49.0260124 relu=13.890028 interlayer_to_bf16=19.5429325 interlayer_to_fp32=24.8720646 spmm2=88.6089802 z_to_bf16_2=19.7579861 gemm2=49.8149395 final_to_bf16=18.0389881
+TIME graph=cit-Patents method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=300.004005
+TIME graph=cit-Patents method=original_tfs repeat=4 order=2 e2e_ms=194.322824
+TIME graph=cit-Patents method=full_degree repeat=4 order=3 e2e_ms=197.195053
+TIME graph=cit-Patents method=full_identity repeat=4 order=4 e2e_ms=177.079916
+TIME graph=cit-Patents method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=376.322031
+STAGE_BF16 graph=cit-Patents method=bf16_mkl_twostep repeat=4 spmm1=86.452961 z_to_bf16_1=19.0811157 gemm1=44.946909 relu=14.1401291 interlayer_to_bf16=19.0799236 interlayer_to_fp32=23.5831738 spmm2=86.7359638 z_to_bf16_2=19.4580555 gemm2=44.4879532 final_to_bf16=18.3520317
+MEDIAN graph=cit-Patents method=original_tfs ms=194.322824
+MEDIAN graph=cit-Patents method=full_degree ms=197.195053
+MEDIAN graph=cit-Patents method=full_identity ms=176.625967
+MEDIAN graph=cit-Patents method=bf16_mkl_twostep ms=380.940914
+MEDIAN graph=cit-Patents method=bf16_mkl_packed_twostep ms=388.695955
+MEDIAN graph=cit-Patents method=fp32_mkl_twostep ms=299.443007
+DONE graph=cit-Patents pass=1

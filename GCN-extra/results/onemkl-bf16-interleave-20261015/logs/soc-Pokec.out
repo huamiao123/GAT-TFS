@@ -1,0 +1,51 @@
+GRAPH name=soc-Pokec n=1632803 edges=30622564 dim=128
+CHECK graph=soc-Pokec method=bf16_mkl_vs_tfs rel_l2=0.0062967583 norm_max=0.00552486188 max_abs=8192 nonfinite=0 pass=1
+CHECK graph=soc-Pokec method=bf16_mkl_packed_vs_tfs rel_l2=0.0062967583 norm_max=0.00552486188 max_abs=8192 nonfinite=0 pass=1
+CHECK graph=soc-Pokec method=full_identity_vs_degree bitwise=1
+TIME graph=soc-Pokec method=original_tfs repeat=0 order=0 e2e_ms=277.909994
+TIME graph=soc-Pokec method=full_degree repeat=0 order=1 e2e_ms=279.628038
+TIME graph=soc-Pokec method=full_identity repeat=0 order=2 e2e_ms=247.823954
+TIME graph=soc-Pokec method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=498.865843
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_twostep repeat=0 spmm1=207.123041 z_to_bf16_1=9.70196724 gemm1=19.8988914 relu=6.23703003 interlayer_to_bf16=8.23712349 interlayer_to_fp32=9.9978447 spmm2=200.738192 z_to_bf16_2=8.82792473 gemm2=20.2000141 final_to_bf16=7.90190697
+TIME graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=513.674021
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=0 spmm1=205.430031 z_to_bf16_1=9.45281982 gemm1=23.5979557 relu=6.0441494 interlayer_to_bf16=8.00800323 interlayer_to_fp32=10.1079941 spmm2=210.92701 z_to_bf16_2=9.03701782 gemm2=23.1490135 final_to_bf16=7.91597366
+TIME graph=soc-Pokec method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=443.887949
+TIME graph=soc-Pokec method=full_degree repeat=1 order=0 e2e_ms=267.627954
+TIME graph=soc-Pokec method=full_identity repeat=1 order=1 e2e_ms=242.903948
+TIME graph=soc-Pokec method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=485.208988
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_twostep repeat=1 spmm1=197.174072 z_to_bf16_1=9.1240406 gemm1=20.5490589 relu=6.29687309 interlayer_to_bf16=8.48913193 interlayer_to_fp32=10.3878975 spmm2=195.403099 z_to_bf16_2=8.76998901 gemm2=20.6911564 final_to_bf16=8.31890106
+TIME graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=490.805149
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=1 spmm1=195.089102 z_to_bf16_1=9.06014442 gemm1=23.7219334 relu=6.38699532 interlayer_to_bf16=7.81702995 interlayer_to_fp32=10.8020306 spmm2=196.881056 z_to_bf16_2=8.92782211 gemm2=23.5259533 final_to_bf16=8.58807564
+TIME graph=soc-Pokec method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=462.745905
+TIME graph=soc-Pokec method=original_tfs repeat=1 order=5 e2e_ms=273.26107
+TIME graph=soc-Pokec method=full_identity repeat=2 order=0 e2e_ms=243.376017
+TIME graph=soc-Pokec method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=482.046127
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_twostep repeat=2 spmm1=196.388006 z_to_bf16_1=8.70490074 gemm1=19.8600292 relu=6.47306442 interlayer_to_bf16=7.60912895 interlayer_to_fp32=10.4579926 spmm2=194.224119 z_to_bf16_2=9.09686089 gemm2=21.0361481 final_to_bf16=8.18991661
+TIME graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=485.536098
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=2 spmm1=195.310116 z_to_bf16_1=8.75282288 gemm1=23.3988762 relu=6.26015663 interlayer_to_bf16=8.2859993 interlayer_to_fp32=10.4539394 spmm2=192.035913 z_to_bf16_2=9.02915001 gemm2=23.3659744 final_to_bf16=8.63814354
+TIME graph=soc-Pokec method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=449.973822
+TIME graph=soc-Pokec method=original_tfs repeat=2 order=4 e2e_ms=275.038004
+TIME graph=soc-Pokec method=full_degree repeat=2 order=5 e2e_ms=278.205872
+TIME graph=soc-Pokec method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=502.104044
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_twostep repeat=3 spmm1=203.990936 z_to_bf16_1=9.48619843 gemm1=19.6368694 relu=6.38008118 interlayer_to_bf16=7.96198845 interlayer_to_fp32=9.95206833 spmm2=206.882954 z_to_bf16_2=9.56606865 gemm2=19.9649334 final_to_bf16=8.27813148
+TIME graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=503.349066
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=3 spmm1=206.649065 z_to_bf16_1=9.13906097 gemm1=22.5539207 relu=6.1519146 interlayer_to_bf16=8.29386711 interlayer_to_fp32=10.1392269 spmm2=198.812962 z_to_bf16_2=9.06395912 gemm2=24.2540836 final_to_bf16=8.28886032
+TIME graph=soc-Pokec method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=459.078074
+TIME graph=soc-Pokec method=original_tfs repeat=3 order=3 e2e_ms=274.353027
+TIME graph=soc-Pokec method=full_degree repeat=3 order=4 e2e_ms=279.855967
+TIME graph=soc-Pokec method=full_identity repeat=3 order=5 e2e_ms=236.454964
+TIME graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=481.436968
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_packed_twostep repeat=4 spmm1=192.119122 z_to_bf16_1=8.73494148 gemm1=23.1101513 relu=6.44493103 interlayer_to_bf16=7.92789459 interlayer_to_fp32=10.201931 spmm2=191.683054 z_to_bf16_2=8.59904289 gemm2=24.3148804 final_to_bf16=8.2950592
+TIME graph=soc-Pokec method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=453.904152
+TIME graph=soc-Pokec method=original_tfs repeat=4 order=2 e2e_ms=273.981094
+TIME graph=soc-Pokec method=full_degree repeat=4 order=3 e2e_ms=273.200989
+TIME graph=soc-Pokec method=full_identity repeat=4 order=4 e2e_ms=242.805004
+TIME graph=soc-Pokec method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=490.07082
+STAGE_BF16 graph=soc-Pokec method=bf16_mkl_twostep repeat=4 spmm1=196.871042 z_to_bf16_1=9.21082497 gemm1=20.5631256 relu=6.01100922 interlayer_to_bf16=7.52186775 interlayer_to_fp32=9.9811554 spmm2=202.00491 z_to_bf16_2=8.86917114 gemm2=20.6270218 final_to_bf16=8.40878487
+MEDIAN graph=soc-Pokec method=original_tfs ms=274.353027
+MEDIAN graph=soc-Pokec method=full_degree ms=278.205872
+MEDIAN graph=soc-Pokec method=full_identity ms=242.903948
+MEDIAN graph=soc-Pokec method=bf16_mkl_twostep ms=490.07082
+MEDIAN graph=soc-Pokec method=bf16_mkl_packed_twostep ms=490.805149
+MEDIAN graph=soc-Pokec method=fp32_mkl_twostep ms=453.904152
+DONE graph=soc-Pokec pass=1

@@ -1,0 +1,51 @@
+GRAPH name=ogbn-products n=2449029 edges=123718152 dim=128
+CHECK graph=ogbn-products method=bf16_mkl_vs_tfs rel_l2=0.00628402292 norm_max=0.00512820513 max_abs=32768 nonfinite=0 pass=1
+CHECK graph=ogbn-products method=bf16_mkl_packed_vs_tfs rel_l2=0.00628402292 norm_max=0.00512820513 max_abs=32768 nonfinite=0 pass=1
+CHECK graph=ogbn-products method=full_identity_vs_degree bitwise=1
+TIME graph=ogbn-products method=original_tfs repeat=0 order=0 e2e_ms=967.361927
+TIME graph=ogbn-products method=full_degree repeat=0 order=1 e2e_ms=898.084164
+TIME graph=ogbn-products method=full_identity repeat=0 order=2 e2e_ms=881.705999
+TIME graph=ogbn-products method=bf16_mkl_twostep repeat=0 order=3 e2e_ms=1522.59398
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_twostep repeat=0 spmm1=690.581083 z_to_bf16_1=12.3429298 gemm1=29.7441483 relu=9.75203514 interlayer_to_bf16=11.6269588 interlayer_to_fp32=15.9509182 spmm2=698.625088 z_to_bf16_2=13.1499767 gemm2=29.1850567 final_to_bf16=11.631012
+TIME graph=ogbn-products method=bf16_mkl_packed_twostep repeat=0 order=4 e2e_ms=1491.46008
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_packed_twostep repeat=0 spmm1=682.639122 z_to_bf16_1=12.2528076 gemm1=34.4371796 relu=9.68599319 interlayer_to_bf16=11.7218494 interlayer_to_fp32=15.8309937 spmm2=663.348198 z_to_bf16_2=12.5210285 gemm2=37.2858047 final_to_bf16=11.7349625
+TIME graph=ogbn-products method=fp32_mkl_twostep repeat=0 order=5 e2e_ms=1436.47695
+TIME graph=ogbn-products method=full_degree repeat=1 order=0 e2e_ms=892.870903
+TIME graph=ogbn-products method=full_identity repeat=1 order=1 e2e_ms=873.754025
+TIME graph=ogbn-products method=bf16_mkl_twostep repeat=1 order=2 e2e_ms=1472.48721
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_twostep repeat=1 spmm1=673.499823 z_to_bf16_1=12.3701096 gemm1=29.8919678 relu=9.78207588 interlayer_to_bf16=11.5308762 interlayer_to_fp32=16.1972046 spmm2=665.344954 z_to_bf16_2=12.5670433 gemm2=29.253006 final_to_bf16=12.0470524
+TIME graph=ogbn-products method=bf16_mkl_packed_twostep repeat=1 order=3 e2e_ms=1509.92012
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_packed_twostep repeat=1 spmm1=680.918932 z_to_bf16_1=11.8658543 gemm1=35.118103 relu=9.56392288 interlayer_to_bf16=12.0339394 interlayer_to_fp32=15.9389973 spmm2=686.073065 z_to_bf16_2=12.2039318 gemm2=34.771204 final_to_bf16=11.4300251
+TIME graph=ogbn-products method=fp32_mkl_twostep repeat=1 order=4 e2e_ms=1467.55505
+TIME graph=ogbn-products method=original_tfs repeat=1 order=5 e2e_ms=981.440067
+TIME graph=ogbn-products method=full_identity repeat=2 order=0 e2e_ms=897.883177
+TIME graph=ogbn-products method=bf16_mkl_twostep repeat=2 order=1 e2e_ms=1498.59691
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_twostep repeat=2 spmm1=668.330908 z_to_bf16_1=12.4080181 gemm1=30.4391384 relu=9.71698761 interlayer_to_bf16=11.950016 interlayer_to_fp32=16.3619518 spmm2=672.662973 z_to_bf16_2=33.9400768 gemm2=31.1670303 final_to_bf16=11.6159916
+TIME graph=ogbn-products method=bf16_mkl_packed_twostep repeat=2 order=2 e2e_ms=1472.29004
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_packed_twostep repeat=2 spmm1=676.580906 z_to_bf16_1=12.17103 gemm1=34.9919796 relu=10.0209713 interlayer_to_bf16=11.9919777 interlayer_to_fp32=16.4418221 spmm2=650.05517 z_to_bf16_2=12.5510693 gemm2=35.3059769 final_to_bf16=12.1750832
+TIME graph=ogbn-products method=fp32_mkl_twostep repeat=2 order=3 e2e_ms=1442.95907
+TIME graph=ogbn-products method=original_tfs repeat=2 order=4 e2e_ms=978.797913
+TIME graph=ogbn-products method=full_degree repeat=2 order=5 e2e_ms=890.682936
+TIME graph=ogbn-products method=bf16_mkl_twostep repeat=3 order=0 e2e_ms=1468.30893
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_twostep repeat=3 spmm1=684.979916 z_to_bf16_1=12.2358799 gemm1=30.4470062 relu=9.7091198 interlayer_to_bf16=12.0608807 interlayer_to_fp32=15.7217979 spmm2=648.45705 z_to_bf16_2=12.5250816 gemm2=30.0869942 final_to_bf16=12.0799541
+TIME graph=ogbn-products method=bf16_mkl_packed_twostep repeat=3 order=1 e2e_ms=1483.80804
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_packed_twostep repeat=3 spmm1=674.733162 z_to_bf16_1=12.2950077 gemm1=34.414053 relu=9.98592377 interlayer_to_bf16=12.3820305 interlayer_to_fp32=16.0441399 spmm2=664.214849 z_to_bf16_2=12.1598244 gemm2=35.8550549 final_to_bf16=11.7199421
+TIME graph=ogbn-products method=fp32_mkl_twostep repeat=3 order=2 e2e_ms=1421.67306
+TIME graph=ogbn-products method=original_tfs repeat=3 order=3 e2e_ms=982.674837
+TIME graph=ogbn-products method=full_degree repeat=3 order=4 e2e_ms=887.775898
+TIME graph=ogbn-products method=full_identity repeat=3 order=5 e2e_ms=891.023874
+TIME graph=ogbn-products method=bf16_mkl_packed_twostep repeat=4 order=0 e2e_ms=1524.24407
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_packed_twostep repeat=4 spmm1=705.195189 z_to_bf16_1=13.4108067 gemm1=34.2409611 relu=9.4230175 interlayer_to_bf16=11.7070675 interlayer_to_fp32=16.5607929 spmm2=675.304174 z_to_bf16_2=11.8370056 gemm2=34.760952 final_to_bf16=11.8019581
+TIME graph=ogbn-products method=fp32_mkl_twostep repeat=4 order=1 e2e_ms=1489.03298
+TIME graph=ogbn-products method=original_tfs repeat=4 order=2 e2e_ms=977.726936
+TIME graph=ogbn-products method=full_degree repeat=4 order=3 e2e_ms=887.797117
+TIME graph=ogbn-products method=full_identity repeat=4 order=4 e2e_ms=875.192881
+TIME graph=ogbn-products method=bf16_mkl_twostep repeat=4 order=5 e2e_ms=1460.21795
+STAGE_BF16 graph=ogbn-products method=bf16_mkl_twostep repeat=4 spmm1=672.621965 z_to_bf16_1=12.9599571 gemm1=29.8469067 relu=9.59300995 interlayer_to_bf16=11.3852024 interlayer_to_fp32=16.5598392 spmm2=653.658152 z_to_bf16_2=12.652874 gemm2=29.3369293 final_to_bf16=11.6012096
+MEDIAN graph=ogbn-products method=original_tfs ms=978.797913
+MEDIAN graph=ogbn-products method=full_degree ms=890.682936
+MEDIAN graph=ogbn-products method=full_identity ms=881.705999
+MEDIAN graph=ogbn-products method=bf16_mkl_twostep ms=1472.48721
+MEDIAN graph=ogbn-products method=bf16_mkl_packed_twostep ms=1491.46008
+MEDIAN graph=ogbn-products method=fp32_mkl_twostep ms=1442.95907
+DONE graph=ogbn-products pass=1
