@@ -1,0 +1,958 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/reddit/reddit.csrbin
+Matrix: reddit  N=232965  NNZ=114615892  avg_deg=492.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 296.98 ms
+  run 1: 290.57 ms
+  run 2: 298.83 ms
+  run 3: 297.45 ms
+  run 4: 297.01 ms
+  TFS V3 E2E BEST: 290.57 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 446.30 ms
+  run 1: 445.09 ms
+  run 2: 445.74 ms
+  run 3: 445.36 ms
+  run 4: 445.62 ms
+  MKL E2E BEST: 445.09 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 290.57 ms
+  MKL (FP32):      445.09 ms
+  E2E Speedup:     1.53×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009665  RMSE=5.6776e+03
+First 8:
+  TFS: -1817809.38 -1559857.00 -1456105.00 -168724.73 170550.45 229760.09 -1456822.00 -2919221.25 
+  MKL: -1835311.88 -1573869.62 -1469937.12 -176028.23 172793.00 233258.53 -1473026.62 -2942951.50 
+STATE_SEMANTIC graph=reddit values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+STATE_SETUP graph=reddit phase=degree_schedule_copy ms=0.416040420532 included_in_primary=0
+EVENT_PLAN graph=reddit E=114615892 total_pair_windows=958225 all_matches=1916748 eligible_matches=235936 partial_matches=118700 exact_matches=117726 eligible_windows=3913 exact_windows=2122 run_count=9484 plan_bytes=723880 allocated_bytes=787180 construct_ms=882.905006409 audit_ms=0.675916671753 min_matches=8 max_runs=8 pass=1
+STATE_CONFIG graph=reddit N=232965 E=114615892 D=128 H=128 F=128 S=64 R=64 TR=16 methods=8 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=1 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=reddit method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=reddit method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=reddit method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=0
+STATE_PLAN graph=reddit method=dynamic_all_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=1
+STATE_PLAN graph=reddit method=event_independent kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=2
+STATE_PLAN graph=reddit method=event_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=3
+STATE_PLAN graph=reddit method=dynamic_selected_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=4
+STATE_PLAN graph=reddit method=exact_only_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=5
+METHOD_CHECK graph=reddit method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=388622 mean_abs=2831.50670601 relative_L2=0.0120236734565 normalized_max=0.0118142017636 gate=0.03 pass=1
+METHOD_CHECK graph=reddit method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=reddit method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=reddit method=dynamic_all_share boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=dynamic_all_share boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=dynamic_all_share boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=dynamic_all_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=dynamic_all_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=dynamic_all_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=dynamic_all_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=dynamic_all_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=reddit method=event_independent boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=event_independent boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=event_independent boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=event_independent boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=event_independent boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=event_independent boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=event_independent boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=event_independent boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=reddit method=event_share boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=event_share boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=event_share boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=event_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=event_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=event_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=event_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=event_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=reddit method=dynamic_selected_share boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=dynamic_selected_share boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=dynamic_selected_share boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=dynamic_selected_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=dynamic_selected_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=dynamic_selected_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=dynamic_selected_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=dynamic_selected_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=reddit method=exact_only_share boundary=kernel_FP32 reference=paper_tfs max_abs=8.81042480469 mean_abs=0.184078272728 relative_L2=0.00328614283687 normalized_max=0.00363354421566 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=exact_only_share boundary=e2e_FP32_final reference=paper_tfs max_abs=197034 mean_abs=1371.64503125 relative_L2=0.00585589609114 normalized_max=0.00604833622406 gate=0.01 pass=1
+METHOD_CHECK graph=reddit method=exact_only_share boundary=e2e_BF16_final reference=paper_tfs max_abs=262144 mean_abs=1367.38437275 relative_L2=0.00625788269038 normalized_max=0.00806451612903 gate=0.02 pass=1
+METHOD_CHECK graph=reddit method=exact_only_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=595806 mean_abs=4147.15709347 relative_L2=0.0175517640027 normalized_max=0.0181126449248 gate=0.03 pass=1
+STATE_EQUIV graph=reddit method=exact_only_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=exact_only_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=exact_only_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=reddit method=exact_only_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=reddit pass=1
+STATE_WORK_GATE graph=reddit method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=reddit method=pack_epi_degree layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=pack_epi_degree layer=1 edges=114615892 decoded_rows=114615892 saved_decode_rows=0 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=row_schedule sampled_thread_ms=0.0355243682861 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=partial_zero sampled_thread_ms=0.018835067749 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=csr_prefetch sampled_thread_ms=98.1960296631 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=feature_gather_decode sampled_thread_ms=69.8759555817 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=27.7407169342 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.443696975708 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=tile_load sampled_thread_ms=0.117540359497 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=tile_compute sampled_thread_ms=0.174522399902 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=tile_store sampled_thread_ms=0.011682510376 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=output_scatter sampled_thread_ms=0.0712871551514 diagnostic_wall_ms=102.097988129
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=1 phase=thread_amx_setup sampled_thread_ms=0.0264644622803 diagnostic_wall_ms=102.097988129
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=partial_init sampled_thread_ms=0.000953674316406 events=58
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=csr_index_read sampled_thread_ms=13.7844085693 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=csr_next_index_read sampled_thread_ms=13.712644577 events=505972
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=prefetch_issue sampled_thread_ms=13.7465000153 events=505972
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=source_bf16_load sampled_thread_ms=14.030456543 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=source_bf16_decode sampled_thread_ms=13.4854316711 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=feature_fp32_add sampled_thread_ms=13.6339664459 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=partial_state_load sampled_thread_ms=0.234365463257 events=7486
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=partial_state_store sampled_thread_ms=0.205516815186 events=7486
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=partial_hi_pack sampled_thread_ms=0.200748443604 events=7336
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=amx_a_load sampled_thread_ms=0.0107288360596 events=464
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=amx_b_load sampled_thread_ms=0.0560283660889 events=928
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=amx_tdp_compute sampled_thread_ms=0.139713287354 events=928
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=amx_c_zero sampled_thread_ms=0.00286102294922 events=116
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=amx_c_store sampled_thread_ms=0.00882148742676 events=116
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=thread_permission sampled_thread_ms=0.0176429748535 events=32
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=thread_tile_config sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=thread_tile_release sampled_thread_ms=0.00119209289551 events=32
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=1 phase=row_metadata_read sampled_thread_ms=0.0243186950684 events=58
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=0 active_ms=62.1659755707 finish_ms=62.175989151 edges=3247365 tiles=1048
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=1 active_ms=64.2428398132 finish_ms=64.2569065094 edges=3761663 tiles=988
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=2 active_ms=62.9999637604 finish_ms=63.0140304565 edges=3428155 tiles=884
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=3 active_ms=76.9369602203 finish_ms=76.956987381 edges=3646770 tiles=872
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=4 active_ms=67.4269199371 finish_ms=67.4469470978 edges=4051765 tiles=824
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=5 active_ms=62.2570514679 finish_ms=62.2720718384 edges=3454887 tiles=692
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=6 active_ms=62.8340244293 finish_ms=62.8490447998 edges=3650310 tiles=692
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=7 active_ms=61.0721111298 finish_ms=61.0880851746 edges=3446654 tiles=620
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=8 active_ms=61.7270469666 finish_ms=61.7430210114 edges=3028730 tiles=596
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=9 active_ms=61.1929893494 finish_ms=61.2111091614 edges=3046541 tiles=564
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=10 active_ms=102.053880692 finish_ms=102.072000504 edges=3311632 tiles=545
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=11 active_ms=65.1099681854 finish_ms=65.1240348816 edges=3067686 tiles=504
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=12 active_ms=62.0999336243 finish_ms=62.1149539948 edges=3788783 tiles=492
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=13 active_ms=61.341047287 finish_ms=61.3560676575 edges=3316481 tiles=432
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=14 active_ms=61.066865921 finish_ms=61.0809326172 edges=3359382 tiles=452
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=15 active_ms=61.6250038147 finish_ms=61.6390705109 edges=3829674 tiles=436
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=16 active_ms=62.0949268341 finish_ms=62.108039856 edges=3703768 tiles=384
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=17 active_ms=61.2759590149 finish_ms=61.2919330597 edges=3740329 tiles=360
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=18 active_ms=63.7269020081 finish_ms=63.7409687042 edges=3501928 tiles=344
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=19 active_ms=66.1070346832 finish_ms=66.123008728 edges=4152314 tiles=352
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=20 active_ms=61.4459514618 finish_ms=61.4659786224 edges=3731576 tiles=312
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=21 active_ms=66.7979717255 finish_ms=66.8170452118 edges=3407486 tiles=264
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=22 active_ms=61.840057373 finish_ms=61.8550777435 edges=3541610 tiles=272
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=23 active_ms=62.1960163116 finish_ms=62.2169971466 edges=3621739 tiles=256
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=24 active_ms=61.3589286804 finish_ms=61.3739490509 edges=3574099 tiles=236
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=25 active_ms=61.7189407349 finish_ms=61.7349147797 edges=3449640 tiles=200
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=26 active_ms=61.4590644836 finish_ms=61.47813797 edges=3519437 tiles=196
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=27 active_ms=61.4809989929 finish_ms=61.5019798279 edges=3956765 tiles=204
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=28 active_ms=62.9930496216 finish_ms=63.0071163177 edges=3569377 tiles=156
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=29 active_ms=86.6639614105 finish_ms=86.6830348969 edges=3460485 tiles=140
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=30 active_ms=63.7588500977 finish_ms=63.777923584 edges=4293877 tiles=140
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=1 tid=31 active_ms=61.1679553986 finish_ms=61.182975769 edges=3954984 tiles=104
+STATE_WORK_GATE graph=reddit method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=reddit method=pack_epi_degree layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=pack_epi_degree layer=2 edges=114615892 decoded_rows=114615892 saved_decode_rows=0 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=row_schedule sampled_thread_ms=0.0274181365967 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=partial_zero sampled_thread_ms=0.0109672546387 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=csr_prefetch sampled_thread_ms=97.8791713715 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=feature_gather_decode sampled_thread_ms=70.1403617859 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.9021263123 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.456571578979 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=tile_load sampled_thread_ms=0.137567520142 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=tile_compute sampled_thread_ms=0.173330307007 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=tile_store sampled_thread_ms=0.0100135803223 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=output_scatter sampled_thread_ms=0.1220703125 diagnostic_wall_ms=102.648973465
+EVENT_PROFILE graph=reddit method=pack_epi_degree layer=2 phase=thread_amx_setup sampled_thread_ms=0.030517578125 diagnostic_wall_ms=102.648973465
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=partial_init sampled_thread_ms=0.00405311584473 events=58
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=csr_index_read sampled_thread_ms=13.7548446655 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=csr_next_index_read sampled_thread_ms=13.6609077454 events=505972
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=prefetch_issue sampled_thread_ms=13.7703418732 events=505972
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=source_bf16_load sampled_thread_ms=14.0371322632 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=source_bf16_decode sampled_thread_ms=13.3428573608 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=feature_fp32_add sampled_thread_ms=13.6754512787 events=506889
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=partial_state_load sampled_thread_ms=0.234365463257 events=7486
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=partial_state_store sampled_thread_ms=0.227212905884 events=7486
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=partial_hi_pack sampled_thread_ms=0.222682952881 events=7336
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=amx_a_load sampled_thread_ms=0.0114440917969 events=464
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=amx_b_load sampled_thread_ms=0.0710487365723 events=928
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=amx_tdp_compute sampled_thread_ms=0.147104263306 events=928
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=116
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=amx_c_store sampled_thread_ms=0.00691413879395 events=116
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0321865081787 events=917
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=output_store sampled_thread_ms=0.0338554382324 events=917
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=thread_permission sampled_thread_ms=0.0152587890625 events=32
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=thread_tile_config sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=pack_epi_degree layer=2 phase=row_metadata_read sampled_thread_ms=0.0169277191162 events=58
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=0 active_ms=59.5700740814 finish_ms=59.5741271973 edges=3439085 tiles=1060
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=1 active_ms=58.6462020874 finish_ms=58.6512088776 edges=2860735 tiles=972
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=2 active_ms=60.2509975433 finish_ms=60.2560043335 edges=2279433 tiles=852
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=3 active_ms=67.3241615295 finish_ms=67.3291683197 edges=3945949 tiles=792
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=4 active_ms=58.5281848907 finish_ms=58.5331916809 edges=3469120 tiles=792
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=5 active_ms=59.011220932 finish_ms=59.0162277222 edges=3744022 tiles=776
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=6 active_ms=60.9772205353 finish_ms=60.9822273254 edges=3642207 tiles=696
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=7 active_ms=60.8530044556 finish_ms=60.8580112457 edges=3423640 tiles=632
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=8 active_ms=60.8561038971 finish_ms=60.8611106873 edges=3451813 tiles=556
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=9 active_ms=59.4429969788 finish_ms=59.4480037689 edges=3563282 tiles=552
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=10 active_ms=102.627038956 finish_ms=102.632045746 edges=3648326 tiles=561
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=11 active_ms=60.9531402588 finish_ms=60.958147049 edges=3970371 tiles=544
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=12 active_ms=60.9931945801 finish_ms=60.9982013702 edges=3883108 tiles=476
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=13 active_ms=67.6920413971 finish_ms=67.6970481873 edges=3361683 tiles=468
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=14 active_ms=61.0520839691 finish_ms=61.0570907593 edges=3918150 tiles=460
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=15 active_ms=60.5881214142 finish_ms=60.5931282043 edges=3980761 tiles=428
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=16 active_ms=61.3210201263 finish_ms=61.3260269165 edges=3989116 tiles=424
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=17 active_ms=59.5200061798 finish_ms=59.52501297 edges=3245507 tiles=380
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=18 active_ms=62.432050705 finish_ms=62.4370574951 edges=3589694 tiles=376
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=19 active_ms=61.8340969086 finish_ms=61.8391036987 edges=3391499 tiles=292
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=20 active_ms=58.580160141 finish_ms=58.5851669312 edges=3598552 tiles=340
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=21 active_ms=60.6610774994 finish_ms=60.6660842896 edges=3813670 tiles=284
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=22 active_ms=61.0201358795 finish_ms=61.0251426697 edges=3125174 tiles=280
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=23 active_ms=59.1521263123 finish_ms=59.1571331024 edges=3571427 tiles=240
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=24 active_ms=61.065196991 finish_ms=61.0702037811 edges=3762564 tiles=232
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=25 active_ms=59.6561431885 finish_ms=59.6611499786 edges=3058124 tiles=172
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=26 active_ms=70.0252056122 finish_ms=70.0302124023 edges=3180303 tiles=204
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=27 active_ms=58.482170105 finish_ms=58.4871768951 edges=3926573 tiles=196
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=28 active_ms=59.3781471252 finish_ms=59.3831539154 edges=3518571 tiles=152
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=29 active_ms=61.0721111298 finish_ms=61.0771179199 edges=3504768 tiles=132
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=30 active_ms=60.7771873474 finish_ms=60.7821941376 edges=4286410 tiles=136
+EVENT_THREAD graph=reddit method=pack_epi_degree layer=2 tid=31 active_ms=65.0501251221 finish_ms=65.0551319122 edges=4472255 tiles=104
+STATE_WORK_GATE graph=reddit method=dynamic_all_share layer=1 pass=1
+STATE_PROFILE_GATE graph=reddit method=dynamic_all_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=dynamic_all_share layer=1 edges=114615892 decoded_rows=112699144 saved_decode_rows=1916748 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=97943113 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=row_schedule sampled_thread_ms=0.0276565551758 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=partial_zero sampled_thread_ms=0.0178813934326 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=csr_prefetch sampled_thread_ms=53.8251399994 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=feature_gather_decode sampled_thread_ms=67.3673152924 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=28.4235477448 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.427007675171 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=tile_load sampled_thread_ms=0.113010406494 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=tile_compute sampled_thread_ms=0.185489654541 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=tile_store sampled_thread_ms=0.00667572021484 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=output_scatter sampled_thread_ms=0.0782012939453 diagnostic_wall_ms=130.178928375
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0302791595459 diagnostic_wall_ms=130.178928375
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=partial_init sampled_thread_ms=0.00405311584473 events=58
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=csr_index_read sampled_thread_ms=13.4551525116 events=506889
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=csr_next_index_read sampled_thread_ms=12.9528045654 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=prefetch_issue sampled_thread_ms=13.2489204407 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=source_bf16_load sampled_thread_ms=13.466835022 events=495526
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=source_bf16_decode sampled_thread_ms=14.0345096588 events=495526
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=feature_fp32_add sampled_thread_ms=14.9035453796 events=495526
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=partial_state_load sampled_thread_ms=0.221252441406 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=partial_state_store sampled_thread_ms=0.199794769287 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.180721282959 events=7336
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=amx_a_load sampled_thread_ms=0.0159740447998 events=464
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=amx_b_load sampled_thread_ms=0.053882598877 events=928
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.158071517944 events=928
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=116
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=amx_c_store sampled_thread_ms=0.00476837158203 events=116
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=thread_permission sampled_thread_ms=0.0166893005371 events=32
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00119209289551 events=32
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0147819519043 events=58
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=0 active_ms=93.8429832458 finish_ms=93.8458442688 edges=3213159 tiles=1088
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=1 active_ms=130.144834518 finish_ms=130.149841309 edges=3104972 tiles=1041
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=2 active_ms=93.3508872986 finish_ms=93.3558940887 edges=3533809 tiles=916
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=3 active_ms=102.840185165 finish_ms=102.843999863 edges=3874787 tiles=832
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=4 active_ms=94.7618484497 finish_ms=94.7668552399 edges=3502811 tiles=792
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=5 active_ms=112.833023071 finish_ms=112.838029861 edges=3391472 tiles=740
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=6 active_ms=105.466842651 finish_ms=105.471849442 edges=4104883 tiles=680
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=7 active_ms=95.2019691467 finish_ms=95.2069759369 edges=3694275 tiles=660
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=8 active_ms=93.0068492889 finish_ms=93.0118560791 edges=3196297 tiles=584
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=9 active_ms=92.8428173065 finish_ms=92.8478240967 edges=3603580 tiles=568
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=10 active_ms=108.112812042 finish_ms=108.117818832 edges=3529529 tiles=540
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=11 active_ms=94.3059921265 finish_ms=94.3109989166 edges=3532792 tiles=492
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=12 active_ms=95.8030223846 finish_ms=95.8068370819 edges=3783781 tiles=492
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=13 active_ms=92.6299095154 finish_ms=92.6349163055 edges=3487099 tiles=460
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=14 active_ms=103.442907333 finish_ms=103.447914124 edges=4041472 tiles=432
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=15 active_ms=95.7541465759 finish_ms=95.7579612732 edges=3620778 tiles=404
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=16 active_ms=94.9838161469 finish_ms=94.988822937 edges=3686254 tiles=396
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=17 active_ms=102.470874786 finish_ms=102.475881577 edges=3030056 tiles=340
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=18 active_ms=93.1119918823 finish_ms=93.1169986725 edges=3509074 tiles=360
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=19 active_ms=93.9419269562 finish_ms=93.9469337463 edges=2849022 tiles=304
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=20 active_ms=93.8739776611 finish_ms=93.8789844513 edges=3568580 tiles=300
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=21 active_ms=95.1879024506 finish_ms=95.1929092407 edges=3345711 tiles=296
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=22 active_ms=93.416929245 finish_ms=93.4219360352 edges=3629292 tiles=276
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=23 active_ms=93.6059951782 finish_ms=93.6110019684 edges=3193931 tiles=216
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=24 active_ms=106.716871262 finish_ms=106.721878052 edges=4196831 tiles=240
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=25 active_ms=94.7740077972 finish_ms=94.7790145874 edges=3506518 tiles=208
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=26 active_ms=110.89015007 finish_ms=110.893964767 edges=4649192 tiles=212
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=27 active_ms=92.5898551941 finish_ms=92.5948619843 edges=3676048 tiles=184
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=28 active_ms=95.4508781433 finish_ms=95.4558849335 edges=3603538 tiles=148
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=29 active_ms=92.6258563995 finish_ms=92.6308631897 edges=3318139 tiles=136
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=30 active_ms=94.1820144653 finish_ms=94.1870212555 edges=3836612 tiles=128
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=1 tid=31 active_ms=94.4888591766 finish_ms=94.4938659668 edges=3801598 tiles=96
+STATE_WORK_GATE graph=reddit method=dynamic_all_share layer=2 pass=1
+STATE_PROFILE_GATE graph=reddit method=dynamic_all_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=dynamic_all_share layer=2 edges=114615892 decoded_rows=112699144 saved_decode_rows=1916748 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=97943113 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=row_schedule sampled_thread_ms=0.0267028808594 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=partial_zero sampled_thread_ms=0.0166893005371 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=csr_prefetch sampled_thread_ms=53.9450645447 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=feature_gather_decode sampled_thread_ms=67.2733783722 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=28.772354126 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.449180603027 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=tile_load sampled_thread_ms=0.13542175293 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=tile_compute sampled_thread_ms=0.189781188965 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=tile_store sampled_thread_ms=0.00810623168945 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=output_scatter sampled_thread_ms=0.118017196655 diagnostic_wall_ms=131.680011749
+EVENT_PROFILE graph=reddit method=dynamic_all_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0276565551758 diagnostic_wall_ms=131.680011749
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=partial_init sampled_thread_ms=0.00190734863281 events=58
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=csr_index_read sampled_thread_ms=13.4313106537 events=506889
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=csr_next_index_read sampled_thread_ms=12.9923820496 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=prefetch_issue sampled_thread_ms=13.2048130035 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=source_bf16_load sampled_thread_ms=13.649225235 events=495526
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.8030052185 events=495526
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=feature_fp32_add sampled_thread_ms=15.0737762451 events=495526
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=partial_state_load sampled_thread_ms=0.221490859985 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=partial_state_store sampled_thread_ms=0.227689743042 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.215530395508 events=7336
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=amx_a_load sampled_thread_ms=0.0154972076416 events=464
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=amx_b_load sampled_thread_ms=0.0603199005127 events=928
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.156402587891 events=928
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00309944152832 events=116
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=amx_c_store sampled_thread_ms=0.00429153442383 events=116
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0231266021729 events=917
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=output_store sampled_thread_ms=0.0357627868652 events=917
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=thread_permission sampled_thread_ms=0.0104904174805 events=32
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00762939453125 events=32
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=reddit method=dynamic_all_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0145435333252 events=58
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=0 active_ms=95.468044281 finish_ms=95.4720973969 edges=3419190 tiles=1144
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=1 active_ms=90.1570320129 finish_ms=90.1620388031 edges=3261181 tiles=996
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=2 active_ms=90.2271270752 finish_ms=90.2321338654 edges=3278349 tiles=916
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=3 active_ms=91.1581516266 finish_ms=91.1631584167 edges=3294558 tiles=848
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=4 active_ms=93.3401584625 finish_ms=93.3451652527 edges=2553029 tiles=760
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=5 active_ms=95.2789783478 finish_ms=95.2839851379 edges=3505097 tiles=732
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=6 active_ms=95.587015152 finish_ms=95.5920219421 edges=3608819 tiles=644
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=7 active_ms=95.4911708832 finish_ms=95.4961776733 edges=3292772 tiles=636
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=8 active_ms=95.5421924591 finish_ms=95.5471992493 edges=3718308 tiles=568
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=9 active_ms=90.3341770172 finish_ms=90.3391838074 edges=3620975 tiles=580
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=10 active_ms=90.6360149384 finish_ms=90.6410217285 edges=3454104 tiles=540
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=11 active_ms=104.461193085 finish_ms=104.466199875 edges=3464316 tiles=516
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=12 active_ms=98.5491275787 finish_ms=98.5541343689 edges=3982323 tiles=508
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=13 active_ms=102.609157562 finish_ms=102.614164352 edges=3814445 tiles=460
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=14 active_ms=90.7061100006 finish_ms=90.7111167908 edges=3126912 tiles=424
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=15 active_ms=131.65807724 finish_ms=131.66308403 edges=3420200 tiles=389
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=16 active_ms=92.0271873474 finish_ms=92.0321941376 edges=3694775 tiles=384
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=17 active_ms=95.3521728516 finish_ms=95.3571796417 edges=3787412 tiles=372
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=18 active_ms=90.5501842499 finish_ms=90.55519104 edges=3445741 tiles=332
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=19 active_ms=95.5591201782 finish_ms=95.5641269684 edges=3790931 tiles=328
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=20 active_ms=95.1972007751 finish_ms=95.2022075653 edges=3643702 tiles=328
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=21 active_ms=95.5431461334 finish_ms=95.5481529236 edges=3797094 tiles=300
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=22 active_ms=94.5160388947 finish_ms=94.5210456848 edges=3789843 tiles=272
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=23 active_ms=95.2751636505 finish_ms=95.2801704407 edges=3625974 tiles=240
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=24 active_ms=100.676059723 finish_ms=100.681066513 edges=3519557 tiles=224
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=25 active_ms=96.2431430817 finish_ms=96.2481498718 edges=3665626 tiles=208
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=26 active_ms=91.432094574 finish_ms=91.4371013641 edges=3827410 tiles=204
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=27 active_ms=91.5620326996 finish_ms=91.5670394897 edges=3712637 tiles=192
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=28 active_ms=95.5331325531 finish_ms=95.5381393433 edges=3674633 tiles=156
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=29 active_ms=95.4520702362 finish_ms=95.4570770264 edges=3572002 tiles=132
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=30 active_ms=106.302976608 finish_ms=106.307983398 edges=4523496 tiles=136
+EVENT_THREAD graph=reddit method=dynamic_all_share layer=2 tid=31 active_ms=90.136051178 finish_ms=90.1410579681 edges=3730481 tiles=92
+STATE_WORK_GATE graph=reddit method=event_independent layer=1 pass=1
+STATE_PROFILE_GATE graph=reddit method=event_independent layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=event_independent layer=1 edges=114615892 decoded_rows=114615892 saved_decode_rows=0 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=27160 selected_windows=3913 run_dispatches=9484 run_bytes=18968 tile_fallback_scopes=14121
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=row_schedule sampled_thread_ms=0.0350475311279 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=partial_zero sampled_thread_ms=0.0162124633789 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=csr_prefetch sampled_thread_ms=95.6196784973 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=feature_gather_decode sampled_thread_ms=69.7429180145 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=27.8820991516 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.444173812866 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=tile_load sampled_thread_ms=0.138521194458 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=tile_compute sampled_thread_ms=0.157117843628 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=tile_store sampled_thread_ms=0.0104904174805 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=output_scatter sampled_thread_ms=0.0717639923096 diagnostic_wall_ms=100.697040558
+EVENT_PROFILE graph=reddit method=event_independent layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 diagnostic_wall_ms=100.697040558
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=partial_init sampled_thread_ms=0.000953674316406 events=58
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=csr_index_read sampled_thread_ms=13.8473510742 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=csr_next_index_read sampled_thread_ms=13.5869979858 events=505972
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=prefetch_issue sampled_thread_ms=13.6177539825 events=505972
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=source_bf16_load sampled_thread_ms=14.0445232391 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=source_bf16_decode sampled_thread_ms=13.5374069214 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=feature_fp32_add sampled_thread_ms=13.5238170624 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=partial_state_load sampled_thread_ms=0.236988067627 events=7486
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=partial_state_store sampled_thread_ms=0.213623046875 events=7486
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=partial_hi_pack sampled_thread_ms=0.201225280762 events=7336
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=amx_a_load sampled_thread_ms=0.0166893005371 events=464
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=amx_b_load sampled_thread_ms=0.0576972961426 events=928
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=amx_tdp_compute sampled_thread_ms=0.128507614136 events=928
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=amx_c_zero sampled_thread_ms=0.00286102294922 events=116
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=amx_c_store sampled_thread_ms=0.00381469726562 events=116
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=thread_permission sampled_thread_ms=0.00667572021484 events=32
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=thread_tile_config sampled_thread_ms=0.0104904174805 events=32
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=event_independent layer=1 phase=row_metadata_read sampled_thread_ms=0.0145435333252 events=58
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=0 active_ms=62.4470710754 finish_ms=62.4511241913 edges=2866300 tiles=1000
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=1 active_ms=63.2960796356 finish_ms=63.3010864258 edges=3334746 tiles=976
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=2 active_ms=78.3541202545 finish_ms=78.3591270447 edges=3699863 tiles=916
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=3 active_ms=61.0771179199 finish_ms=61.0821247101 edges=3650736 tiles=852
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=4 active_ms=60.9021186829 finish_ms=60.907125473 edges=3238294 tiles=796
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=5 active_ms=64.581155777 finish_ms=64.5861625671 edges=3517748 tiles=684
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=6 active_ms=60.8110427856 finish_ms=60.8160495758 edges=3485797 tiles=692
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=7 active_ms=60.8031749725 finish_ms=60.8081817627 edges=3476707 tiles=608
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=8 active_ms=61.6691112518 finish_ms=61.674118042 edges=3355004 tiles=588
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=9 active_ms=62.4580383301 finish_ms=62.4630451202 edges=3560372 tiles=576
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=10 active_ms=61.1460208893 finish_ms=61.1510276794 edges=3691568 tiles=568
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=11 active_ms=63.2500648499 finish_ms=63.25507164 edges=4011198 tiles=548
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=12 active_ms=63.4670257568 finish_ms=63.472032547 edges=3120303 tiles=504
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=13 active_ms=62.2410774231 finish_ms=62.2460842133 edges=3559758 tiles=472
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=14 active_ms=61.9530677795 finish_ms=61.9580745697 edges=3330715 tiles=436
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=15 active_ms=65.0501251221 finish_ms=65.0551319122 edges=3696194 tiles=372
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=16 active_ms=86.3029956818 finish_ms=86.3080024719 edges=3963921 tiles=424
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=17 active_ms=60.8232021332 finish_ms=60.8282089233 edges=3639011 tiles=384
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=18 active_ms=61.5890026093 finish_ms=61.5940093994 edges=3663044 tiles=384
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=19 active_ms=61.0041618347 finish_ms=61.0091686249 edges=3315926 tiles=324
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=20 active_ms=62.4070167542 finish_ms=62.4120235443 edges=3827784 tiles=324
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=21 active_ms=62.81208992 finish_ms=62.8170967102 edges=3497281 tiles=268
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=22 active_ms=61.5060329437 finish_ms=61.5110397339 edges=3848840 tiles=304
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=23 active_ms=69.9591636658 finish_ms=69.9641704559 edges=3412709 tiles=240
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=24 active_ms=63.5941028595 finish_ms=63.5991096497 edges=3817389 tiles=228
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=25 active_ms=64.7630691528 finish_ms=64.768075943 edges=3645299 tiles=200
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=26 active_ms=62.3881816864 finish_ms=62.3931884766 edges=3522790 tiles=192
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=27 active_ms=62.0760917664 finish_ms=62.0810985565 edges=4018784 tiles=200
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=28 active_ms=61.9020462036 finish_ms=61.9070529938 edges=3542128 tiles=148
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=29 active_ms=63.3640289307 finish_ms=63.3690357208 edges=3491990 tiles=128
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=30 active_ms=100.674152374 finish_ms=100.679159164 edges=3682112 tiles=129
+EVENT_THREAD graph=reddit method=event_independent layer=1 tid=31 active_ms=63.0221366882 finish_ms=63.0271434784 edges=4131581 tiles=96
+STATE_WORK_GATE graph=reddit method=event_independent layer=2 pass=1
+STATE_PROFILE_GATE graph=reddit method=event_independent layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=event_independent layer=2 edges=114615892 decoded_rows=114615892 saved_decode_rows=0 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=27160 selected_windows=3913 run_dispatches=9484 run_bytes=18968 tile_fallback_scopes=14121
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=row_schedule sampled_thread_ms=0.0312328338623 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=partial_zero sampled_thread_ms=0.0112056732178 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=csr_prefetch sampled_thread_ms=96.0328578949 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=feature_gather_decode sampled_thread_ms=69.7038173676 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.8890132904 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.462293624878 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=tile_load sampled_thread_ms=0.123739242554 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=tile_compute sampled_thread_ms=0.178813934326 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=tile_store sampled_thread_ms=0.0154972076416 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=output_scatter sampled_thread_ms=0.120401382446 diagnostic_wall_ms=101.034879684
+EVENT_PROFILE graph=reddit method=event_independent layer=2 phase=thread_amx_setup sampled_thread_ms=0.035285949707 diagnostic_wall_ms=101.034879684
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=partial_init sampled_thread_ms=0.000953674316406 events=58
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=csr_index_read sampled_thread_ms=13.9412879944 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=csr_next_index_read sampled_thread_ms=13.5941505432 events=505972
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=prefetch_issue sampled_thread_ms=13.6358737946 events=505972
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=source_bf16_load sampled_thread_ms=13.9429569244 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=source_bf16_decode sampled_thread_ms=13.466835022 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=feature_fp32_add sampled_thread_ms=13.662815094 events=506889
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=partial_state_load sampled_thread_ms=0.234603881836 events=7486
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=partial_state_store sampled_thread_ms=0.198125839233 events=7486
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=partial_hi_pack sampled_thread_ms=0.184774398804 events=7336
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=amx_a_load sampled_thread_ms=0.0157356262207 events=464
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=amx_b_load sampled_thread_ms=0.0576972961426 events=928
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=amx_tdp_compute sampled_thread_ms=0.149726867676 events=928
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=116
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=amx_c_store sampled_thread_ms=0.00929832458496 events=116
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0269412994385 events=917
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=output_store sampled_thread_ms=0.0355243682861 events=917
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=thread_permission sampled_thread_ms=0.0331401824951 events=32
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=thread_tile_release sampled_thread_ms=0.00119209289551 events=32
+EVENT_DETAIL graph=reddit method=event_independent layer=2 phase=row_metadata_read sampled_thread_ms=0.0200271606445 events=58
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=0 active_ms=62.0801448822 finish_ms=62.0830059052 edges=3696676 tiles=1084
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=1 active_ms=58.4650039673 finish_ms=58.4690570831 edges=3068856 tiles=940
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=2 active_ms=101.013898849 finish_ms=101.017951965 edges=2595195 tiles=845
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=3 active_ms=61.4938735962 finish_ms=61.497926712 edges=3695463 tiles=868
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=4 active_ms=62.6938343048 finish_ms=62.698841095 edges=3435859 tiles=788
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=5 active_ms=61.6869926453 finish_ms=61.6910457611 edges=3548387 tiles=692
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=6 active_ms=61.607837677 finish_ms=61.6118907928 edges=3635563 tiles=704
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=7 active_ms=61.2578392029 finish_ms=61.2618923187 edges=3796066 tiles=680
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=8 active_ms=81.1839103699 finish_ms=81.1879634857 edges=3294987 tiles=564
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=9 active_ms=61.851978302 finish_ms=61.8560314178 edges=3578711 tiles=544
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=10 active_ms=58.052778244 finish_ms=58.0568313599 edges=3492733 tiles=544
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=11 active_ms=58.4478378296 finish_ms=58.4528446198 edges=3744525 tiles=548
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=12 active_ms=58.4077835083 finish_ms=58.4118366241 edges=3270190 tiles=496
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=13 active_ms=59.5598220825 finish_ms=59.5638751984 edges=2688442 tiles=436
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=14 active_ms=58.3879947662 finish_ms=58.3920478821 edges=3439600 tiles=424
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=15 active_ms=60.8289241791 finish_ms=60.8329772949 edges=3935937 tiles=432
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=16 active_ms=58.4709644318 finish_ms=58.4750175476 edges=3679150 tiles=412
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=17 active_ms=58.7508678436 finish_ms=58.7558746338 edges=2958080 tiles=344
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=18 active_ms=63.6520385742 finish_ms=63.6570453644 edges=4021213 tiles=364
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=19 active_ms=61.1128807068 finish_ms=61.1169338226 edges=3947486 tiles=364
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=20 active_ms=61.9349479675 finish_ms=61.9390010834 edges=4031169 tiles=324
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=21 active_ms=58.611869812 finish_ms=58.6159229279 edges=3647609 tiles=288
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=22 active_ms=71.2468624115 finish_ms=71.2509155273 edges=3496365 tiles=296
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=23 active_ms=58.6199760437 finish_ms=58.6240291595 edges=2367822 tiles=196
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=24 active_ms=62.3359680176 finish_ms=62.3400211334 edges=3843862 tiles=240
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=25 active_ms=61.8839263916 finish_ms=61.8879795074 edges=3569884 tiles=200
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=26 active_ms=60.8170032501 finish_ms=60.821056366 edges=4136180 tiles=216
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=27 active_ms=58.6228370667 finish_ms=58.6268901825 edges=3830019 tiles=204
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=28 active_ms=62.7980232239 finish_ms=62.803030014 edges=3784594 tiles=152
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=29 active_ms=65.3338432312 finish_ms=65.337896347 edges=3823070 tiles=132
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=30 active_ms=62.0558261871 finish_ms=62.059879303 edges=4338617 tiles=136
+EVENT_THREAD graph=reddit method=event_independent layer=2 tid=31 active_ms=62.5779628754 finish_ms=62.5829696655 edges=4223582 tiles=104
+STATE_WORK_GATE graph=reddit method=event_share layer=1 pass=1
+STATE_PROFILE_GATE graph=reddit method=event_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=event_share layer=1 edges=114615892 decoded_rows=114379956 saved_decode_rows=235936 adds=14670834176 tdp=465952 csr_reads=114379956 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=27160 selected_windows=3913 run_dispatches=9484 run_bytes=18968 tile_fallback_scopes=14121
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=row_schedule sampled_thread_ms=0.0321865081787 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=partial_zero sampled_thread_ms=0.0443458557129 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=csr_prefetch sampled_thread_ms=95.7427024841 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=feature_gather_decode sampled_thread_ms=69.1511631012 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=27.496099472 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.428915023804 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=tile_load sampled_thread_ms=0.128984451294 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=tile_compute sampled_thread_ms=0.16450881958 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=tile_store sampled_thread_ms=0.0126361846924 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=output_scatter sampled_thread_ms=0.0739097595215 diagnostic_wall_ms=93.316078186
+EVENT_PROFILE graph=reddit method=event_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.030517578125 diagnostic_wall_ms=93.316078186
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=partial_init sampled_thread_ms=0 events=58
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=csr_index_read sampled_thread_ms=13.6966705322 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.466835022 events=505972
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=prefetch_issue sampled_thread_ms=13.6759281158 events=505972
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=source_bf16_load sampled_thread_ms=13.952255249 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=source_bf16_decode sampled_thread_ms=13.2555961609 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=feature_fp32_add sampled_thread_ms=13.4086608887 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=partial_state_load sampled_thread_ms=0.211477279663 events=7486
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=partial_state_store sampled_thread_ms=0.219345092773 events=7486
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.19645690918 events=7336
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=amx_a_load sampled_thread_ms=0.0145435333252 events=464
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=amx_b_load sampled_thread_ms=0.0507831573486 events=928
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.128269195557 events=928
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00476837158203 events=116
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=amx_c_store sampled_thread_ms=0.00786781311035 events=116
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=thread_permission sampled_thread_ms=0.00500679016113 events=32
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=reddit method=event_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0123977661133 events=58
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=0 active_ms=62.1027946472 finish_ms=62.1068477631 edges=3529360 tiles=1064
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=1 active_ms=93.2929515839 finish_ms=93.297958374 edges=2739870 tiles=969
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=2 active_ms=63.4059906006 finish_ms=63.4100437164 edges=3498900 tiles=900
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=3 active_ms=62.1569156647 finish_ms=62.1609687805 edges=3747204 tiles=864
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=4 active_ms=66.6348934174 finish_ms=66.6389465332 edges=2843600 tiles=740
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=5 active_ms=62.9727840424 finish_ms=62.9768371582 edges=3756022 tiles=712
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=6 active_ms=62.1418952942 finish_ms=62.14594841 edges=3489236 tiles=680
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=7 active_ms=62.264919281 finish_ms=62.2699260712 edges=3756147 tiles=692
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=8 active_ms=62.0589256287 finish_ms=62.0629787445 edges=3350750 tiles=552
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=9 active_ms=64.22996521 finish_ms=64.2340183258 edges=3930146 tiles=588
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=10 active_ms=63.5008811951 finish_ms=63.5049343109 edges=3666834 tiles=536
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=11 active_ms=69.4699287415 finish_ms=69.4749355316 edges=3588010 tiles=552
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=12 active_ms=63.1527900696 finish_ms=63.1568431854 edges=3306967 tiles=468
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=13 active_ms=62.5069141388 finish_ms=62.5109672546 edges=2781603 tiles=444
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=14 active_ms=62.7148151398 finish_ms=62.7188682556 edges=3830269 tiles=472
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=15 active_ms=86.8680477142 finish_ms=86.8730545044 edges=3160748 tiles=384
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=16 active_ms=62.9320144653 finish_ms=62.9370212555 edges=3750294 tiles=392
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=17 active_ms=62.2448921204 finish_ms=62.2498989105 edges=3747411 tiles=372
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=18 active_ms=65.2389526367 finish_ms=65.2439594269 edges=4007918 tiles=360
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=19 active_ms=64.0759468079 finish_ms=64.080953598 edges=3594433 tiles=328
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=20 active_ms=63.4369850159 finish_ms=63.441991806 edges=3817172 tiles=324
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=21 active_ms=61.9900226593 finish_ms=61.9950294495 edges=3763040 tiles=304
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=22 active_ms=62.479019165 finish_ms=62.4840259552 edges=2990278 tiles=260
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=23 active_ms=62.3519420624 finish_ms=62.3569488525 edges=3247021 tiles=232
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=24 active_ms=63.2548332214 finish_ms=63.2598400116 edges=3838802 tiles=240
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=25 active_ms=63.1740093231 finish_ms=63.1790161133 edges=3529832 tiles=200
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=26 active_ms=62.2808933258 finish_ms=62.285900116 edges=4087872 tiles=216
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=27 active_ms=63.0600452423 finish_ms=63.0650520325 edges=4013434 tiles=196
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=28 active_ms=62.0360374451 finish_ms=62.0410442352 edges=3512244 tiles=152
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=29 active_ms=62.1688365936 finish_ms=62.1728897095 edges=3407075 tiles=128
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=30 active_ms=62.6118183136 finish_ms=62.6158714294 edges=4213642 tiles=136
+EVENT_THREAD graph=reddit method=event_share layer=1 tid=31 active_ms=63.2989406586 finish_ms=63.3039474487 edges=4119758 tiles=104
+STATE_WORK_GATE graph=reddit method=event_share layer=2 pass=1
+STATE_PROFILE_GATE graph=reddit method=event_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=event_share layer=2 edges=114615892 decoded_rows=114379956 saved_decode_rows=235936 adds=14670834176 tdp=465952 csr_reads=114379956 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=27160 selected_windows=3913 run_dispatches=9484 run_bytes=18968 tile_fallback_scopes=14121
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=row_schedule sampled_thread_ms=0.0317096710205 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=partial_zero sampled_thread_ms=0.0162124633789 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=csr_prefetch sampled_thread_ms=95.7736968994 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=feature_gather_decode sampled_thread_ms=69.7014331818 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.6143550873 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.462055206299 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=tile_load sampled_thread_ms=0.133514404297 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=tile_compute sampled_thread_ms=0.171899795532 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=tile_store sampled_thread_ms=0.00929832458496 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=output_scatter sampled_thread_ms=0.117301940918 diagnostic_wall_ms=98.6258983612
+EVENT_PROFILE graph=reddit method=event_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.030517578125 diagnostic_wall_ms=98.6258983612
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=partial_init sampled_thread_ms=0.000953674316406 events=58
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=csr_index_read sampled_thread_ms=13.6737823486 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.7212276459 events=505972
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=prefetch_issue sampled_thread_ms=13.6702060699 events=505972
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=source_bf16_load sampled_thread_ms=14.0466690063 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.320684433 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=feature_fp32_add sampled_thread_ms=13.5998725891 events=505886
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=partial_state_load sampled_thread_ms=0.206470489502 events=7486
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=partial_state_store sampled_thread_ms=0.225782394409 events=7486
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.230073928833 events=7336
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=amx_a_load sampled_thread_ms=0.0176429748535 events=464
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=amx_b_load sampled_thread_ms=0.0700950622559 events=928
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.145673751831 events=928
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=amx_c_zero sampled_thread_ms=0 events=116
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=amx_c_store sampled_thread_ms=0.00643730163574 events=116
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.030517578125 events=917
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=output_store sampled_thread_ms=0.0271797180176 events=917
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=thread_permission sampled_thread_ms=0.0295639038086 events=32
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=thread_tile_config sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=reddit method=event_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0174045562744 events=58
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=0 active_ms=58.8381290436 finish_ms=58.8419437408 edges=2446395 tiles=1008
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=1 active_ms=98.6061096191 finish_ms=98.6099243164 edges=3007889 tiles=921
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=2 active_ms=59.2370033264 finish_ms=59.2408180237 edges=3561258 tiles=912
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=3 active_ms=60.6210231781 finish_ms=60.6248378754 edges=3362669 tiles=896
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=4 active_ms=61.4042282104 finish_ms=61.4080429077 edges=3559951 tiles=728
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=5 active_ms=72.420835495 finish_ms=72.4258422852 edges=2830993 tiles=732
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=6 active_ms=60.2970123291 finish_ms=60.3020191193 edges=3303942 tiles=656
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=7 active_ms=60.4491233826 finish_ms=60.4529380798 edges=3841007 tiles=632
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=8 active_ms=60.1360797882 finish_ms=60.1398944855 edges=3299456 tiles=604
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=9 active_ms=58.9020252228 finish_ms=58.90583992 edges=3646236 tiles=604
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=10 active_ms=58.9711666107 finish_ms=58.974981308 edges=3474471 tiles=556
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=11 active_ms=59.4902038574 finish_ms=59.4940185547 edges=3781728 tiles=560
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=12 active_ms=59.7171783447 finish_ms=59.720993042 edges=3818416 tiles=512
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=13 active_ms=60.2550506592 finish_ms=60.2588653564 edges=3641421 tiles=460
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=14 active_ms=61.6340637207 finish_ms=61.637878418 edges=3358236 tiles=392
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=15 active_ms=59.8521232605 finish_ms=59.8559379578 edges=3907929 tiles=432
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=16 active_ms=65.2031898499 finish_ms=65.2070045471 edges=3782217 tiles=408
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=17 active_ms=64.2042160034 finish_ms=64.2080307007 edges=4144909 tiles=376
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=18 active_ms=67.8431987762 finish_ms=67.8470134735 edges=3233736 tiles=344
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=19 active_ms=60.1770877838 finish_ms=60.1809024811 edges=3893955 tiles=356
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=20 active_ms=59.6442222595 finish_ms=59.6480369568 edges=3870416 tiles=320
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=21 active_ms=60.7211589813 finish_ms=60.7249736786 edges=3786049 tiles=300
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=22 active_ms=59.2601299286 finish_ms=59.2639446259 edges=3322249 tiles=280
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=23 active_ms=60.7380867004 finish_ms=60.7419013977 edges=3611977 tiles=244
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=24 active_ms=59.7200393677 finish_ms=59.7238540649 edges=3665955 tiles=236
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=25 active_ms=63.0910396576 finish_ms=63.0948543549 edges=3665509 tiles=196
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=26 active_ms=59.1068267822 finish_ms=59.1118335724 edges=3470912 tiles=196
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=27 active_ms=62.8859996796 finish_ms=62.8910064697 edges=4317408 tiles=192
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=28 active_ms=60.4219436646 finish_ms=60.4269504547 edges=3560817 tiles=152
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=29 active_ms=59.3271255493 finish_ms=59.3309402466 edges=3355373 tiles=128
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=30 active_ms=74.7141838074 finish_ms=74.7179985046 edges=4063584 tiles=136
+EVENT_THREAD graph=reddit method=event_share layer=2 tid=31 active_ms=59.1161251068 finish_ms=59.1199398041 edges=4028829 tiles=92
+STATE_WORK_GATE graph=reddit method=dynamic_selected_share layer=1 pass=1
+STATE_PROFILE_GATE graph=reddit method=dynamic_selected_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=dynamic_selected_share layer=1 edges=114615892 decoded_rows=114379956 saved_decode_rows=235936 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=239101 window_entries=27160 selected_windows=3913 run_dispatches=0 run_bytes=0 tile_fallback_scopes=14121
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=row_schedule sampled_thread_ms=0.0345706939697 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=partial_zero sampled_thread_ms=0.0166893005371 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=csr_prefetch sampled_thread_ms=95.6528186798 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=feature_gather_decode sampled_thread_ms=69.6985721588 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=27.7535915375 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.42724609375 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=tile_load sampled_thread_ms=0.138759613037 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=tile_compute sampled_thread_ms=0.157356262207 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=tile_store sampled_thread_ms=0.00882148742676 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=output_scatter sampled_thread_ms=0.0705718994141 diagnostic_wall_ms=106.127023697
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.267267227173 diagnostic_wall_ms=106.127023697
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=partial_init sampled_thread_ms=0.000953674316406 events=58
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=csr_index_read sampled_thread_ms=13.8721466064 events=506889
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.6585235596 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=prefetch_issue sampled_thread_ms=13.6320590973 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=source_bf16_load sampled_thread_ms=13.8986110687 events=505886
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=source_bf16_decode sampled_thread_ms=13.4060382843 events=505886
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=feature_fp32_add sampled_thread_ms=13.5836601257 events=505886
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=partial_state_load sampled_thread_ms=0.22029876709 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=partial_state_store sampled_thread_ms=0.212669372559 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.202178955078 events=7336
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=amx_a_load sampled_thread_ms=0.016450881958 events=464
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=amx_b_load sampled_thread_ms=0.0607967376709 events=928
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.133514404297 events=928
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00286102294922 events=116
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=amx_c_store sampled_thread_ms=0.00572204589844 events=116
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=thread_permission sampled_thread_ms=0.0410079956055 events=32
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=thread_tile_config sampled_thread_ms=0.225305557251 events=32
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0214576721191 events=58
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=0 active_ms=62.0141029358 finish_ms=62.0200634003 edges=3264395 tiles=1032
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=1 active_ms=63.4009838104 finish_ms=63.4109973907 edges=3832590 tiles=1012
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=2 active_ms=61.803817749 finish_ms=61.8159770966 edges=3451305 tiles=912
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=3 active_ms=60.8320236206 finish_ms=60.8410835266 edges=3391005 tiles=780
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=4 active_ms=61.0671043396 finish_ms=61.0761642456 edges=3390888 tiles=792
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=5 active_ms=60.8539581299 finish_ms=60.8630180359 edges=3175919 tiles=672
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=6 active_ms=63.4489059448 finish_ms=63.4620189667 edges=3279783 tiles=668
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=7 active_ms=71.4571475983 finish_ms=71.4681148529 edges=2787427 tiles=632
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=8 active_ms=62.3288154602 finish_ms=62.3409748077 edges=3739766 tiles=588
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=9 active_ms=61.7861747742 finish_ms=61.7971420288 edges=3722210 tiles=580
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=10 active_ms=60.8239173889 finish_ms=60.8370304108 edges=3713244 tiles=572
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=11 active_ms=63.3139610291 finish_ms=63.3270740509 edges=3584218 tiles=488
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=12 active_ms=61.7959499359 finish_ms=61.8081092834 edges=3276102 tiles=524
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=13 active_ms=63.5411739349 finish_ms=63.5521411896 edges=3662645 tiles=480
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=14 active_ms=71.3739395142 finish_ms=71.3860988617 edges=3283043 tiles=444
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=15 active_ms=62.3290538788 finish_ms=62.3400211334 edges=2471950 tiles=376
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=16 active_ms=66.0190582275 finish_ms=66.0321712494 edges=4231987 tiles=400
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=17 active_ms=62.8750324249 finish_ms=62.8840923309 edges=3748339 tiles=368
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=18 active_ms=62.8399848938 finish_ms=62.8530979156 edges=3703753 tiles=400
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=19 active_ms=106.086015701 finish_ms=106.098175049 edges=3742000 tiles=349
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=20 active_ms=60.7850551605 finish_ms=60.7981681824 edges=3384626 tiles=296
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=21 active_ms=75.5689144135 finish_ms=75.581073761 edges=3568509 tiles=292
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=22 active_ms=61.1619949341 finish_ms=61.1751079559 edges=3831410 tiles=296
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=23 active_ms=62.6358985901 finish_ms=62.6499652863 edges=3688551 tiles=244
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=24 active_ms=61.7520809174 finish_ms=61.763048172 edges=3647303 tiles=240
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=25 active_ms=62.8299713135 finish_ms=62.8440380096 edges=3551409 tiles=188
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=26 active_ms=63.2889270782 finish_ms=63.3010864258 edges=3671513 tiles=208
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=27 active_ms=60.7328414917 finish_ms=60.7450008392 edges=3893337 tiles=200
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=28 active_ms=61.2809658051 finish_ms=61.2940788269 edges=3482118 tiles=156
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=29 active_ms=63.3969306946 finish_ms=63.4100437164 edges=3463881 tiles=132
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=30 active_ms=70.1191425323 finish_ms=70.130109787 edges=4850971 tiles=136
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=1 tid=31 active_ms=63.4748935699 finish_ms=63.4889602661 edges=4129695 tiles=104
+STATE_WORK_GATE graph=reddit method=dynamic_selected_share layer=2 pass=1
+STATE_PROFILE_GATE graph=reddit method=dynamic_selected_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=dynamic_selected_share layer=2 edges=114615892 decoded_rows=114379956 saved_decode_rows=235936 adds=14670834176 tdp=465952 csr_reads=114615892 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=239101 window_entries=27160 selected_windows=3913 run_dispatches=0 run_bytes=0 tile_fallback_scopes=14121
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=row_schedule sampled_thread_ms=0.0283718109131 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=partial_zero sampled_thread_ms=0.0109672546387 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=csr_prefetch sampled_thread_ms=96.0652828217 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=feature_gather_decode sampled_thread_ms=69.8688030243 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.7590751648 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.447750091553 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=tile_load sampled_thread_ms=0.128030776978 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=tile_compute sampled_thread_ms=0.169992446899 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=tile_store sampled_thread_ms=0.0123977661133 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=output_scatter sampled_thread_ms=0.122308731079 diagnostic_wall_ms=102.22196579
+EVENT_PROFILE graph=reddit method=dynamic_selected_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0386238098145 diagnostic_wall_ms=102.22196579
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=partial_init sampled_thread_ms=0.000953674316406 events=58
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=csr_index_read sampled_thread_ms=13.7813091278 events=506889
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.6034488678 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=prefetch_issue sampled_thread_ms=13.8025283813 events=505972
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=source_bf16_load sampled_thread_ms=14.1251087189 events=505886
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.3793354034 events=505886
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=feature_fp32_add sampled_thread_ms=13.5293006897 events=505886
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=partial_state_load sampled_thread_ms=0.213384628296 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=partial_state_store sampled_thread_ms=0.226974487305 events=7486
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.223636627197 events=7336
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=amx_a_load sampled_thread_ms=0.0197887420654 events=464
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=amx_b_load sampled_thread_ms=0.0584125518799 events=928
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.145196914673 events=928
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00309944152832 events=116
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=amx_c_store sampled_thread_ms=0.00715255737305 events=116
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0216960906982 events=917
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=output_store sampled_thread_ms=0.0343322753906 events=917
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=thread_permission sampled_thread_ms=0.0271797180176 events=32
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00214576721191 events=32
+EVENT_DETAIL graph=reddit method=dynamic_selected_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0226497650146 events=58
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=0 active_ms=61.4449977875 finish_ms=61.4490509033 edges=3235236 tiles=1072
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=1 active_ms=59.278011322 finish_ms=59.2820644379 edges=3520150 tiles=996
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=2 active_ms=59.3907833099 finish_ms=59.3948364258 edges=3457154 tiles=876
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=3 active_ms=61.8770122528 finish_ms=61.8810653687 edges=3649194 tiles=864
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=4 active_ms=59.9999427795 finish_ms=60.0049495697 edges=3707112 tiles=832
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=5 active_ms=59.4489574432 finish_ms=59.4530105591 edges=3459073 tiles=708
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=6 active_ms=61.2509250641 finish_ms=61.2549781799 edges=3350635 tiles=672
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=7 active_ms=60.0228309631 finish_ms=60.0278377533 edges=3657188 tiles=628
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=8 active_ms=59.0598583221 finish_ms=59.063911438 edges=3568774 tiles=608
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=9 active_ms=64.4948482513 finish_ms=64.4989013672 edges=4061594 tiles=608
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=10 active_ms=61.6037845612 finish_ms=61.607837677 edges=3541526 tiles=496
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=11 active_ms=59.2219829559 finish_ms=59.2260360718 edges=3537407 tiles=524
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=12 active_ms=61.0280036926 finish_ms=61.0320568085 edges=3528936 tiles=452
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=13 active_ms=68.1338310242 finish_ms=68.1388378143 edges=2628253 tiles=444
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=14 active_ms=66.2198066711 finish_ms=66.223859787 edges=4377884 tiles=452
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=15 active_ms=61.173915863 finish_ms=61.1789226532 edges=3937557 tiles=440
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=16 active_ms=60.3938102722 finish_ms=60.3978633881 edges=3329529 tiles=388
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=17 active_ms=61.9399547577 finish_ms=61.9440078735 edges=3944312 tiles=376
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=18 active_ms=58.9988231659 finish_ms=59.0028762817 edges=2816007 tiles=348
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=19 active_ms=61.3439083099 finish_ms=61.3479614258 edges=3709302 tiles=328
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=20 active_ms=59.1909885406 finish_ms=59.1950416565 edges=3338039 tiles=292
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=21 active_ms=75.3238201141 finish_ms=75.32787323 edges=3715903 tiles=284
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=22 active_ms=61.3548755646 finish_ms=61.3589286804 edges=3957968 tiles=316
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=23 active_ms=59.0829849243 finish_ms=59.0879917145 edges=3453216 tiles=240
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=24 active_ms=59.3369007111 finish_ms=59.3409538269 edges=3651061 tiles=224
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=25 active_ms=102.201938629 finish_ms=102.205991745 edges=3209687 tiles=197
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=26 active_ms=59.1859817505 finish_ms=59.1900348663 edges=3495687 tiles=196
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=27 active_ms=59.8239898682 finish_ms=59.828042984 edges=4021052 tiles=192
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=28 active_ms=61.7759227753 finish_ms=61.7799758911 edges=3699764 tiles=152
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=29 active_ms=63.8840198517 finish_ms=63.8880729675 edges=2861925 tiles=124
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=30 active_ms=59.8709583282 finish_ms=59.8750114441 edges=4163441 tiles=136
+EVENT_THREAD graph=reddit method=dynamic_selected_share layer=2 tid=31 active_ms=59.2517852783 finish_ms=59.2558383942 edges=4031326 tiles=96
+STATE_WORK_GATE graph=reddit method=exact_only_share layer=1 pass=1
+STATE_PROFILE_GATE graph=reddit method=exact_only_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=exact_only_share layer=1 edges=114615892 decoded_rows=114498166 saved_decode_rows=117726 adds=14670834176 tdp=465952 csr_reads=114498166 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=21952 selected_windows=2122 run_dispatches=0 run_bytes=0 tile_fallback_scopes=14186
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=row_schedule sampled_thread_ms=0.0324249267578 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=partial_zero sampled_thread_ms=0.0150203704834 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=csr_prefetch sampled_thread_ms=96.4827537537 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=feature_gather_decode sampled_thread_ms=69.7481632233 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=27.4982452393 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.469446182251 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=tile_load sampled_thread_ms=0.130414962769 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=tile_compute sampled_thread_ms=0.161647796631 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=tile_store sampled_thread_ms=0.0109672546387 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=output_scatter sampled_thread_ms=0.0817775726318 diagnostic_wall_ms=104.23707962
+EVENT_PROFILE graph=reddit method=exact_only_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.030517578125 diagnostic_wall_ms=104.23707962
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=partial_init sampled_thread_ms=0.00190734863281 events=58
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=csr_index_read sampled_thread_ms=13.7236118317 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.4630203247 events=505972
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=prefetch_issue sampled_thread_ms=13.5984420776 events=505972
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=source_bf16_load sampled_thread_ms=14.16015625 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=source_bf16_decode sampled_thread_ms=13.2601261139 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=feature_fp32_add sampled_thread_ms=13.4024620056 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=partial_state_load sampled_thread_ms=0.226974487305 events=7486
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=partial_state_store sampled_thread_ms=0.20170211792 events=7486
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.210523605347 events=7336
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=amx_a_load sampled_thread_ms=0.0176429748535 events=464
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=amx_b_load sampled_thread_ms=0.0514984130859 events=928
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.131130218506 events=928
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=116
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=amx_c_store sampled_thread_ms=0.00500679016113 events=116
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=thread_permission sampled_thread_ms=0.0190734863281 events=32
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=exact_only_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0176429748535 events=58
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=0 active_ms=60.6570243835 finish_ms=60.6610774994 edges=3396573 tiles=1056
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=1 active_ms=61.6180896759 finish_ms=61.6230964661 edges=2807557 tiles=1008
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=2 active_ms=62.9169940948 finish_ms=62.922000885 edges=3638997 tiles=892
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=3 active_ms=66.2620067596 finish_ms=66.2670135498 edges=3787273 tiles=844
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=4 active_ms=61.2819194794 finish_ms=61.2878799438 edges=2205048 tiles=752
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=5 active_ms=63.69805336 finish_ms=63.7040138245 edges=3916448 tiles=756
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=6 active_ms=64.7940635681 finish_ms=64.7990703583 edges=3723205 tiles=684
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=7 active_ms=61.518907547 finish_ms=61.5239143372 edges=3144486 tiles=620
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=8 active_ms=64.131975174 finish_ms=64.1369819641 edges=3615487 tiles=564
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=9 active_ms=65.4909610748 finish_ms=65.495967865 edges=3369261 tiles=540
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=10 active_ms=62.6220703125 finish_ms=62.6270771027 edges=3874367 tiles=576
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=11 active_ms=63.1439685822 finish_ms=63.1489753723 edges=3955938 tiles=532
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=12 active_ms=62.9289150238 finish_ms=62.933921814 edges=4024830 tiles=516
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=13 active_ms=63.0180835724 finish_ms=63.0230903625 edges=3709614 tiles=468
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=14 active_ms=64.4559860229 finish_ms=64.4609928131 edges=2977499 tiles=404
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=15 active_ms=68.7661170959 finish_ms=68.7720775604 edges=3846354 tiles=396
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=16 active_ms=104.208946228 finish_ms=104.213953018 edges=3025015 tiles=349
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=17 active_ms=61.9559288025 finish_ms=61.9609355927 edges=3570988 tiles=344
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=18 active_ms=63.530921936 finish_ms=63.5368824005 edges=3870021 tiles=372
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=19 active_ms=61.5379810333 finish_ms=61.5429878235 edges=3821346 tiles=352
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=20 active_ms=61.0949993134 finish_ms=61.1000061035 edges=3732720 tiles=344
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=21 active_ms=61.6600513458 finish_ms=61.665058136 edges=2815270 tiles=268
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=22 active_ms=78.6368846893 finish_ms=78.6418914795 edges=3518330 tiles=296
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=23 active_ms=61.133146286 finish_ms=61.1391067505 edges=3539514 tiles=252
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=24 active_ms=61.2020492554 finish_ms=61.2070560455 edges=3632719 tiles=228
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=25 active_ms=66.4360523224 finish_ms=66.4410591125 edges=3766457 tiles=204
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=26 active_ms=60.8298778534 finish_ms=60.8348846436 edges=3959536 tiles=232
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=27 active_ms=62.8459453583 finish_ms=62.8509521484 edges=3992445 tiles=196
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=28 active_ms=63.5409355164 finish_ms=63.5459423065 edges=3661957 tiles=152
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=29 active_ms=64.435005188 finish_ms=64.4400119781 edges=3564089 tiles=128
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=30 active_ms=60.6479644775 finish_ms=60.6529712677 edges=4051604 tiles=136
+EVENT_THREAD graph=reddit method=exact_only_share layer=1 tid=31 active_ms=63.0009174347 finish_ms=63.0059242249 edges=4100944 tiles=100
+STATE_WORK_GATE graph=reddit method=exact_only_share layer=2 pass=1
+STATE_PROFILE_GATE graph=reddit method=exact_only_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=reddit method=exact_only_share layer=2 edges=114615892 decoded_rows=114498166 saved_decode_rows=117726 adds=14670834176 tdp=465952 csr_reads=114498166 prefetch=457531708 partial_load_bytes=860610048 partial_store_bytes=860610048 packed_bytes=59641856 head_comparisons=0 window_entries=21952 selected_windows=2122 run_dispatches=0 run_bytes=0 tile_fallback_scopes=14186
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=row_schedule sampled_thread_ms=0.0245571136475 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=partial_zero sampled_thread_ms=0.0219345092773 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=csr_prefetch sampled_thread_ms=96.647977829 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=feature_gather_decode sampled_thread_ms=70.0399875641 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.7278423309 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.473499298096 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=tile_load sampled_thread_ms=0.123023986816 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=tile_compute sampled_thread_ms=0.180959701538 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=tile_store sampled_thread_ms=0.00762939453125 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=output_scatter sampled_thread_ms=0.119209289551 diagnostic_wall_ms=102.607965469
+EVENT_PROFILE graph=reddit method=exact_only_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0407695770264 diagnostic_wall_ms=102.607965469
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=partial_init sampled_thread_ms=0.00810623168945 events=58
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=csr_index_read sampled_thread_ms=13.7937068939 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.608455658 events=505972
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=prefetch_issue sampled_thread_ms=13.6506557465 events=505972
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=source_bf16_load sampled_thread_ms=14.0137672424 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.4181976318 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=feature_fp32_add sampled_thread_ms=13.356924057 events=506812
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=partial_state_load sampled_thread_ms=0.236034393311 events=7486
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=partial_state_store sampled_thread_ms=0.218629837036 events=7486
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.210285186768 events=7336
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=amx_a_load sampled_thread_ms=0.0100135803223 events=464
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=amx_b_load sampled_thread_ms=0.0684261322021 events=928
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.162601470947 events=928
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00286102294922 events=116
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=amx_c_store sampled_thread_ms=0.00572204589844 events=116
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0236034393311 events=917
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=output_store sampled_thread_ms=0.0317096710205 events=917
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=thread_permission sampled_thread_ms=0.0340938568115 events=32
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00214576721191 events=32
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=reddit method=exact_only_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0145435333252 events=58
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=0 active_ms=60.8251094818 finish_ms=60.830116272 edges=3395843 tiles=1024
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=1 active_ms=67.1429634094 finish_ms=67.1491622925 edges=4348172 tiles=1000
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=2 active_ms=60.4619979858 finish_ms=60.4681968689 edges=3611028 tiles=916
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=3 active_ms=60.3158473969 finish_ms=60.3220462799 edges=3653322 tiles=872
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=4 active_ms=57.7700138092 finish_ms=57.7762126923 edges=2975841 tiles=804
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=5 active_ms=60.4858398438 finish_ms=60.4920387268 edges=3744464 tiles=708
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=6 active_ms=60.5528354645 finish_ms=60.5590343475 edges=3542415 tiles=720
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=7 active_ms=60.674905777 finish_ms=60.68110466 edges=3426216 tiles=620
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=8 active_ms=62.3579025269 finish_ms=62.3641014099 edges=3759841 tiles=596
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=9 active_ms=60.4119300842 finish_ms=60.4181289673 edges=3828995 tiles=580
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=10 active_ms=59.2169761658 finish_ms=59.2231750488 edges=2967253 tiles=548
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=11 active_ms=60.389995575 finish_ms=60.3971481323 edges=3894850 tiles=548
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=12 active_ms=102.582931519 finish_ms=102.589130402 edges=3390426 tiles=477
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=13 active_ms=60.122013092 finish_ms=60.1282119751 edges=3220114 tiles=388
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=14 active_ms=71.9819068909 finish_ms=71.9881057739 edges=3079014 tiles=448
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=15 active_ms=60.2679252625 finish_ms=60.2741241455 edges=3893069 tiles=436
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=16 active_ms=60.6019496918 finish_ms=60.6081485748 edges=3424654 tiles=360
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=17 active_ms=60.3199005127 finish_ms=60.3270530701 edges=3592906 tiles=352
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=18 active_ms=60.7860088348 finish_ms=60.7922077179 edges=3178814 tiles=368
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=19 active_ms=58.4850311279 finish_ms=58.4921836853 edges=3569465 tiles=316
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=20 active_ms=60.2869987488 finish_ms=60.2931976318 edges=3778420 tiles=320
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=21 active_ms=61.9738101959 finish_ms=61.980009079 edges=3894483 tiles=284
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=22 active_ms=64.749956131 finish_ms=64.756155014 edges=3869056 tiles=272
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=23 active_ms=60.4608058929 finish_ms=60.467004776 edges=3597915 tiles=252
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=24 active_ms=58.2449436188 finish_ms=58.2520961761 edges=3163708 tiles=208
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=25 active_ms=58.8049888611 finish_ms=58.8111877441 edges=2569455 tiles=184
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=26 active_ms=60.2090358734 finish_ms=60.2161884308 edges=4135520 tiles=228
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=27 active_ms=60.3029727936 finish_ms=60.3091716766 edges=3976242 tiles=200
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=28 active_ms=61.0718727112 finish_ms=61.0780715942 edges=3640184 tiles=160
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=29 active_ms=71.4437961578 finish_ms=71.4499950409 edges=3074101 tiles=124
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=30 active_ms=61.7787837982 finish_ms=61.7849826813 edges=4325386 tiles=140
+EVENT_THREAD graph=reddit method=exact_only_share layer=2 tid=31 active_ms=60.6229305267 finish_ms=60.6291294098 edges=4094720 tiles=108
+STATE_COMPLETE graph=reddit pass=1 methods=8 smoke=0 max_rss_kib=3555292

@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/reddit/reddit.csrbin
+Matrix: reddit  N=232965  NNZ=114615892  avg_deg=492.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 307.68 ms
+  run 1: 299.36 ms
+  run 2: 302.48 ms
+  run 3: 297.76 ms
+  run 4: 296.52 ms
+  TFS V3 E2E BEST: 296.52 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 441.99 ms
+  run 1: 441.16 ms
+  run 2: 441.57 ms
+  run 3: 441.00 ms
+  run 4: 441.88 ms
+  MKL E2E BEST: 441.00 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 296.52 ms
+  MKL (FP32):      441.00 ms
+  E2E Speedup:     1.49×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009665  RMSE=5.6776e+03
+First 8:
+  TFS: -1817809.38 -1559857.00 -1456105.00 -168724.73 170550.45 229760.09 -1456822.00 -2919221.25 
+  MKL: -1835311.88 -1573869.62 -1469937.12 -176028.23 172793.00 233258.53 -1473026.62 -2942951.50 
+ABLATION_CHECK graph=reddit l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=reddit schedule=degree nonempty_tiles=14561 padded_row_steps=114761997 real_edges=114615892 max_degree=21657 amx_dpbf16ps_per_layer=465952
+ABLATION_WORK graph=reddit schedule=identity nonempty_tiles=14561 padded_row_steps=570515015 real_edges=114615892 max_degree=21657 amx_dpbf16ps_per_layer=465952
+ABLATION_SETUP graph=reddit degree_sort_ms=15.0139332 identity_init_ms=0.0228881836 included_in_prepared_e2e=0
+ABLATION_TIME graph=reddit schedule=degree repeat=0 order=0 prepared_e2e_ms=132.347822
+ABLATION_TIME graph=reddit schedule=identity repeat=0 order=1 prepared_e2e_ms=129.188061
+ABLATION_TIME graph=reddit schedule=identity repeat=1 order=0 prepared_e2e_ms=128.259182
+ABLATION_TIME graph=reddit schedule=degree repeat=1 order=1 prepared_e2e_ms=136.637926
+ABLATION_TIME graph=reddit schedule=degree repeat=2 order=0 prepared_e2e_ms=133.518934
+ABLATION_TIME graph=reddit schedule=identity repeat=2 order=1 prepared_e2e_ms=128.45397
+ABLATION_TIME graph=reddit schedule=identity repeat=3 order=0 prepared_e2e_ms=128.443956
+ABLATION_TIME graph=reddit schedule=degree repeat=3 order=1 prepared_e2e_ms=133.464098
+ABLATION_TIME graph=reddit schedule=degree repeat=4 order=0 prepared_e2e_ms=140.295029
+ABLATION_TIME graph=reddit schedule=identity repeat=4 order=1 prepared_e2e_ms=128.546
+ABLATION_TIME graph=reddit schedule=identity repeat=5 order=0 prepared_e2e_ms=129.398108
+ABLATION_TIME graph=reddit schedule=degree repeat=5 order=1 prepared_e2e_ms=134.70912
+ABLATION_TIME graph=reddit schedule=degree repeat=6 order=0 prepared_e2e_ms=137.017012
+ABLATION_TIME graph=reddit schedule=identity repeat=6 order=1 prepared_e2e_ms=128.684998
+ABLATION_TIME graph=reddit schedule=identity repeat=7 order=0 prepared_e2e_ms=128.473043
+ABLATION_TIME graph=reddit schedule=degree repeat=7 order=1 prepared_e2e_ms=134.88698
+ABLATION_STAGE graph=reddit schedule=degree repeat=0 layer1_ms=69.0970421 relu_ms=0.366926193 interlayer_ms=1.8248558 layer2_ms=66.4350986 total_ms=137.723923
+ABLATION_STAGE graph=reddit schedule=degree repeat=1 layer1_ms=68.6910152 relu_ms=0.365018845 interlayer_ms=1.80697441 layer2_ms=64.57901 total_ms=135.442019
+ABLATION_STAGE graph=reddit schedule=degree repeat=2 layer1_ms=69.4818497 relu_ms=0.380039215 interlayer_ms=1.79696083 layer2_ms=63.0860329 total_ms=134.744883
+ABLATION_STAGE graph=reddit schedule=identity repeat=0 layer1_ms=62.3700619 relu_ms=0.445127487 interlayer_ms=1.86991692 layer2_ms=62.6950264 total_ms=127.380133
+ABLATION_STAGE graph=reddit schedule=identity repeat=1 layer1_ms=63.9948845 relu_ms=0.442028046 interlayer_ms=1.88803673 layer2_ms=62.2589588 total_ms=128.583908
+ABLATION_STAGE graph=reddit schedule=identity repeat=2 layer1_ms=63.860178 relu_ms=0.454902649 interlayer_ms=1.89113617 layer2_ms=62.0148182 total_ms=128.221035
+ABLATION_COMPLETE graph=reddit pass=1

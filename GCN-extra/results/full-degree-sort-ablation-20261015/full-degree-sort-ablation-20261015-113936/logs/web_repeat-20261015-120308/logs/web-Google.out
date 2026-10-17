@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/web-Google/web-Google.csrbin
+Matrix: web-Google  N=916428  NNZ=5105039  avg_deg=5.6
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 20.75 ms
+  run 1: 20.56 ms
+  run 2: 20.89 ms
+  run 3: 20.57 ms
+  run 4: 20.91 ms
+  TFS V3 E2E BEST: 20.56 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 46.92 ms
+  run 1: 47.20 ms
+  run 2: 47.03 ms
+  run 3: 47.68 ms
+  run 4: 46.88 ms
+  MKL E2E BEST: 46.88 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 20.56 ms
+  MKL (FP32):      46.88 ms
+  E2E Speedup:     2.28×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010098  RMSE=4.2428e+00
+First 8:
+  TFS: 1.26 -199.48 -333.10 5.93 33.54 46.40 -79.69 -134.20 
+  MKL: 1.78 -200.73 -336.73 6.12 33.62 46.02 -80.46 -135.35 
+ABLATION_CHECK graph=web-Google l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=web-Google schedule=degree nonempty_tiles=46217 padded_row_steps=5108864 real_edges=5105039 max_degree=456 amx_dpbf16ps_per_layer=1478944
+ABLATION_WORK graph=web-Google schedule=identity nonempty_tiles=57277 padded_row_steps=17806296 real_edges=5105039 max_degree=456 amx_dpbf16ps_per_layer=1832864
+ABLATION_SETUP graph=web-Google degree_sort_ms=30.3449631 identity_init_ms=0.240802765 included_in_prepared_e2e=0
+ABLATION_TIME graph=web-Google schedule=degree repeat=0 order=0 prepared_e2e_ms=21.5380192
+ABLATION_TIME graph=web-Google schedule=identity repeat=0 order=1 prepared_e2e_ms=18.7160969
+ABLATION_TIME graph=web-Google schedule=identity repeat=1 order=0 prepared_e2e_ms=18.7799931
+ABLATION_TIME graph=web-Google schedule=degree repeat=1 order=1 prepared_e2e_ms=21.5620995
+ABLATION_TIME graph=web-Google schedule=degree repeat=2 order=0 prepared_e2e_ms=21.4679241
+ABLATION_TIME graph=web-Google schedule=identity repeat=2 order=1 prepared_e2e_ms=19.2198753
+ABLATION_TIME graph=web-Google schedule=identity repeat=3 order=0 prepared_e2e_ms=19.2279816
+ABLATION_TIME graph=web-Google schedule=degree repeat=3 order=1 prepared_e2e_ms=21.5790272
+ABLATION_TIME graph=web-Google schedule=degree repeat=4 order=0 prepared_e2e_ms=21.5981007
+ABLATION_TIME graph=web-Google schedule=identity repeat=4 order=1 prepared_e2e_ms=18.7950134
+ABLATION_TIME graph=web-Google schedule=identity repeat=5 order=0 prepared_e2e_ms=18.802166
+ABLATION_TIME graph=web-Google schedule=degree repeat=5 order=1 prepared_e2e_ms=21.4569569
+ABLATION_TIME graph=web-Google schedule=degree repeat=6 order=0 prepared_e2e_ms=21.5339661
+ABLATION_TIME graph=web-Google schedule=identity repeat=6 order=1 prepared_e2e_ms=19.037962
+ABLATION_TIME graph=web-Google schedule=identity repeat=7 order=0 prepared_e2e_ms=18.8019276
+ABLATION_TIME graph=web-Google schedule=degree repeat=7 order=1 prepared_e2e_ms=21.6109753
+ABLATION_STAGE graph=web-Google schedule=degree repeat=0 layer1_ms=9.79399681 relu_ms=1.3999939 interlayer_ms=1.90782547 layer2_ms=8.46004486 total_ms=21.561861
+ABLATION_STAGE graph=web-Google schedule=degree repeat=1 layer1_ms=9.84597206 relu_ms=1.37996674 interlayer_ms=1.89995766 layer2_ms=8.52203369 total_ms=21.6479301
+ABLATION_STAGE graph=web-Google schedule=degree repeat=2 layer1_ms=9.66000557 relu_ms=1.38497353 interlayer_ms=1.91092491 layer2_ms=8.56399536 total_ms=21.5198994
+ABLATION_STAGE graph=web-Google schedule=identity repeat=0 layer1_ms=8.27503204 relu_ms=1.45888329 interlayer_ms=1.94811821 layer2_ms=7.48085976 total_ms=19.1628933
+ABLATION_STAGE graph=web-Google schedule=identity repeat=1 layer1_ms=8.29601288 relu_ms=1.43909454 interlayer_ms=2.02894211 layer2_ms=10.1561546 total_ms=21.9202042
+ABLATION_STAGE graph=web-Google schedule=identity repeat=2 layer1_ms=8.35800171 relu_ms=1.62196159 interlayer_ms=1.77598 layer2_ms=7.36999512 total_ms=19.1259384
+ABLATION_COMPLETE graph=web-Google pass=1

@@ -1,0 +1,958 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/roadNet-CA/roadNet-CA.csrbin
+Matrix: roadNet-CA  N=1971281  NNZ=5533214  avg_deg=2.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 35.22 ms
+  run 1: 36.18 ms
+  run 2: 35.94 ms
+  run 3: 35.17 ms
+  run 4: 35.48 ms
+  TFS V3 E2E BEST: 35.17 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 65.27 ms
+  run 1: 65.26 ms
+  run 2: 64.93 ms
+  run 3: 65.08 ms
+  run 4: 64.78 ms
+  MKL E2E BEST: 64.78 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 35.17 ms
+  MKL (FP32):      64.78 ms
+  E2E Speedup:     1.84×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.011806  RMSE=8.0874e-01
+First 8:
+  TFS: 6.10 -52.73 -71.34 -1.16 36.92 -0.90 -104.09 -96.44 
+  MKL: 6.14 -53.15 -72.05 -1.12 37.09 -0.75 -105.36 -97.44 
+STATE_SEMANTIC graph=roadNet-CA values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+STATE_SETUP graph=roadNet-CA phase=degree_schedule_copy ms=1.82104110718 included_in_primary=0
+EVENT_PLAN graph=roadNet-CA E=5533214 total_pair_windows=982609 all_matches=83098 eligible_matches=0 partial_matches=0 exact_matches=5679 eligible_windows=0 exact_windows=5601 run_count=0 plan_bytes=2587744 allocated_bytes=3019872 construct_ms=62.7241134644 audit_ms=1.12891197205 min_matches=8 max_runs=8 pass=1
+STATE_CONFIG graph=roadNet-CA N=1971281 E=5533214 D=128 H=128 F=128 S=64 R=64 TR=16 methods=8 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=1 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=roadNet-CA method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=roadNet-CA method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=roadNet-CA method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=0
+STATE_PLAN graph=roadNet-CA method=dynamic_all_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=1
+STATE_PLAN graph=roadNet-CA method=event_independent kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=2
+STATE_PLAN graph=roadNet-CA method=event_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=3
+STATE_PLAN graph=roadNet-CA method=dynamic_selected_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=4
+STATE_PLAN graph=roadNet-CA method=exact_only_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=5
+METHOD_CHECK graph=roadNet-CA method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=12.6315307617 mean_abs=0.767823984775 relative_L2=0.0132329376713 normalized_max=0.0160488692742 gate=0.03 pass=1
+METHOD_CHECK graph=roadNet-CA method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=roadNet-CA method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_all_share boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_all_share boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_all_share boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_all_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_all_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_all_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_all_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_all_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_independent boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_independent boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_independent boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_independent boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_independent boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_independent boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_independent boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_independent boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_share boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_share boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_share boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=event_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=event_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_selected_share boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_selected_share boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_selected_share boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=dynamic_selected_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_selected_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_selected_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_selected_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=dynamic_selected_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=roadNet-CA method=exact_only_share boundary=kernel_FP32 reference=paper_tfs max_abs=0.146816253662 mean_abs=0.0124401047832 relative_L2=0.00276077147962 normalized_max=0.00328926536493 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=exact_only_share boundary=e2e_FP32_final reference=paper_tfs max_abs=4.62408447266 mean_abs=0.286809950805 relative_L2=0.00508033488093 normalized_max=0.00593296898577 gate=0.01 pass=1
+METHOD_CHECK graph=roadNet-CA method=exact_only_share boundary=e2e_BF16_final reference=paper_tfs max_abs=8 mean_abs=0.28601018643 relative_L2=0.00561707779365 normalized_max=0.0103092783505 gate=0.02 pass=1
+METHOD_CHECK graph=roadNet-CA method=exact_only_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=16.6315307617 mean_abs=1.01011954163 relative_L2=0.0175083451157 normalized_max=0.0211310305979 gate=0.03 pass=1
+STATE_EQUIV graph=roadNet-CA method=exact_only_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=exact_only_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=exact_only_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=roadNet-CA method=exact_only_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=roadNet-CA pass=1
+STATE_WORK_GATE graph=roadNet-CA method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=pack_epi_degree layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=pack_epi_degree layer=1 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=row_schedule sampled_thread_ms=0.1380443573 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_zero sampled_thread_ms=0.110864639282 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=csr_prefetch sampled_thread_ms=3.72529029846 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=feature_gather_decode sampled_thread_ms=3.94248962402 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.30319595337 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_bf16_conversion sampled_thread_ms=3.94916534424 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=tile_load sampled_thread_ms=0.902891159058 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=tile_compute sampled_thread_ms=1.42121315002 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=tile_store sampled_thread_ms=0.084400177002 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=output_scatter sampled_thread_ms=0.473976135254 diagnostic_wall_ms=24.6620178223
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=1 phase=thread_amx_setup sampled_thread_ms=0.0245571136475 diagnostic_wall_ms=24.6620178223
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_init sampled_thread_ms=0.0157356262207 events=481
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=csr_index_read sampled_thread_ms=0.715494155884 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=csr_next_index_read sampled_thread_ms=0.393390655518 events=13995
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=prefetch_issue sampled_thread_ms=0.397682189941 events=13995
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=source_bf16_load sampled_thread_ms=1.37329101562 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=source_bf16_decode sampled_thread_ms=0.633955001831 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=feature_fp32_add sampled_thread_ms=0.626564025879 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_hi_pack sampled_thread_ms=1.79195404053 events=61448
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=amx_a_load sampled_thread_ms=0.11157989502 events=3848
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=amx_b_load sampled_thread_ms=0.327587127686 events=7696
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=amx_tdp_compute sampled_thread_ms=1.18613243103 events=7696
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=amx_c_zero sampled_thread_ms=0.0238418579102 events=962
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=amx_c_store sampled_thread_ms=0.0438690185547 events=962
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=output_store sampled_thread_ms=0 events=2
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=thread_permission sampled_thread_ms=0.0107288360596 events=32
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=thread_tile_config sampled_thread_ms=0.00405311584473 events=32
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=1 phase=row_metadata_read sampled_thread_ms=0.0689029693604 events=483
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=0 active_ms=24.6200561523 finish_ms=24.628162384 edges=61829 tiles=4140
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=1 active_ms=24.610042572 finish_ms=24.6272087097 edges=64896 tiles=3936
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=2 active_ms=24.6119499207 finish_ms=24.6241092682 edges=62976 tiles=3836
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=3 active_ms=24.5888233185 finish_ms=24.610042572 edges=64768 tiles=3940
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=4 active_ms=24.5888233185 finish_ms=24.6050357819 edges=61056 tiles=3704
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=5 active_ms=24.6078968048 finish_ms=24.6300697327 edges=88514 tiles=3348
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=6 active_ms=24.6059894562 finish_ms=24.6250629425 edges=110336 tiles=3440
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=7 active_ms=24.6140956879 finish_ms=24.6291160583 edges=107072 tiles=3328
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=8 active_ms=24.612903595 finish_ms=24.631023407 edges=122608 tiles=3360
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=9 active_ms=24.6131420135 finish_ms=24.6322154999 edges=198720 tiles=4092
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=10 active_ms=24.5888233185 finish_ms=24.6109962463 edges=205888 tiles=4224
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=11 active_ms=24.59192276 finish_ms=24.6140956879 edges=196352 tiles=4040
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=12 active_ms=24.5909690857 finish_ms=24.6031284332 edges=194688 tiles=4028
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=13 active_ms=24.6050357819 finish_ms=24.6250629425 edges=206429 tiles=4188
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=14 active_ms=24.5990753174 finish_ms=24.6181488037 edges=201024 tiles=4060
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=15 active_ms=24.6090888977 finish_ms=24.6291160583 edges=206336 tiles=4244
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=16 active_ms=24.5819091797 finish_ms=24.6031284332 edges=203008 tiles=4196
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=17 active_ms=24.5969295502 finish_ms=24.619102478 edges=198370 tiles=4058
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=18 active_ms=24.6050357819 finish_ms=24.6181488037 edges=190784 tiles=3944
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=19 active_ms=24.5850086212 finish_ms=24.6031284332 edges=205248 tiles=4220
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=20 active_ms=24.5878696442 finish_ms=24.6059894562 edges=198720 tiles=4080
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=21 active_ms=24.6188640594 finish_ms=24.631023407 edges=199296 tiles=4124
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=22 active_ms=24.6090888977 finish_ms=24.628162384 edges=200000 tiles=4132
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=23 active_ms=24.5909690857 finish_ms=24.6140956879 edges=198848 tiles=4092
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=24 active_ms=24.600982666 finish_ms=24.6222019196 edges=205476 tiles=3612
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=25 active_ms=24.5831012726 finish_ms=24.6021747589 edges=207808 tiles=3284
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=26 active_ms=24.6071815491 finish_ms=24.6272087097 edges=207424 tiles=3288
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=27 active_ms=24.600982666 finish_ms=24.6200561523 edges=234944 tiles=3700
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=28 active_ms=24.59192276 finish_ms=24.6090888977 edges=230368 tiles=3632
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=29 active_ms=24.5990753174 finish_ms=24.6131420135 edges=231488 tiles=3652
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=30 active_ms=24.6050357819 finish_ms=24.628162384 edges=237440 tiles=3756
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=1 tid=31 active_ms=24.6119499207 finish_ms=24.6341228485 edges=230500 tiles=3528
+STATE_WORK_GATE graph=roadNet-CA method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=pack_epi_degree layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=pack_epi_degree layer=2 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=row_schedule sampled_thread_ms=0.123977661133 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_zero sampled_thread_ms=0.112533569336 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=csr_prefetch sampled_thread_ms=3.69024276733 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=feature_gather_decode sampled_thread_ms=4.01020050049 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.27005577087 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.01449203491 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=tile_load sampled_thread_ms=0.926494598389 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=tile_compute sampled_thread_ms=1.49297714233 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=tile_store sampled_thread_ms=0.0932216644287 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=output_scatter sampled_thread_ms=0.990629196167 diagnostic_wall_ms=23.0059623718
+EVENT_PROFILE graph=roadNet-CA method=pack_epi_degree layer=2 phase=thread_amx_setup sampled_thread_ms=0.0317096710205 diagnostic_wall_ms=23.0059623718
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_init sampled_thread_ms=0.0224113464355 events=481
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=csr_index_read sampled_thread_ms=0.757932662964 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=csr_next_index_read sampled_thread_ms=0.382423400879 events=13995
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=prefetch_issue sampled_thread_ms=0.403642654419 events=13995
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=source_bf16_load sampled_thread_ms=1.33442878723 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=source_bf16_decode sampled_thread_ms=0.619649887085 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=feature_fp32_add sampled_thread_ms=0.586986541748 events=21676
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_hi_pack sampled_thread_ms=1.81722640991 events=61448
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=amx_a_load sampled_thread_ms=0.126600265503 events=3848
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=amx_b_load sampled_thread_ms=0.346660614014 events=7696
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=amx_tdp_compute sampled_thread_ms=1.25956535339 events=7696
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=amx_c_zero sampled_thread_ms=0.0324249267578 events=962
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=amx_c_store sampled_thread_ms=0.0543594360352 events=962
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=output_bf16_conversion sampled_thread_ms=0.2281665802 events=7681
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=output_store sampled_thread_ms=0.271797180176 events=7683
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=thread_permission sampled_thread_ms=0.0183582305908 events=32
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=pack_epi_degree layer=2 phase=row_metadata_read sampled_thread_ms=0.0569820404053 events=483
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=0 active_ms=22.9730606079 finish_ms=22.9771137238 edges=61189 tiles=4132
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=1 active_ms=22.9771137238 finish_ms=22.9821205139 edges=62720 tiles=3832
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=2 active_ms=22.9749679565 finish_ms=22.9790210724 edges=62016 tiles=3820
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=3 active_ms=22.9630470276 finish_ms=22.9671001434 edges=62464 tiles=3836
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=4 active_ms=22.9520797729 finish_ms=22.9561328888 edges=62144 tiles=3824
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=5 active_ms=22.9680538177 finish_ms=22.9721069336 edges=94402 tiles=3532
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=6 active_ms=22.9799747467 finish_ms=22.9840278625 edges=115072 tiles=3588
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=7 active_ms=22.9558944702 finish_ms=22.9599475861 edges=111168 tiles=3464
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=8 active_ms=22.9570865631 finish_ms=22.961139679 edges=125936 tiles=3432
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=9 active_ms=22.9740142822 finish_ms=22.9780673981 edges=197760 tiles=4072
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=10 active_ms=22.9690074921 finish_ms=22.9730606079 edges=203968 tiles=4208
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=11 active_ms=22.971868515 finish_ms=22.9759216309 edges=196061 tiles=4044
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=12 active_ms=22.9659080505 finish_ms=22.9699611664 edges=192704 tiles=3980
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=13 active_ms=22.9759216309 finish_ms=22.9799747467 edges=198272 tiles=4076
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=14 active_ms=22.9561328888 finish_ms=22.961139679 edges=194240 tiles=4000
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=15 active_ms=22.9668617249 finish_ms=22.9709148407 edges=202880 tiles=4176
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=16 active_ms=22.9740142822 finish_ms=22.9780673981 edges=203008 tiles=4176
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=17 active_ms=22.9649543762 finish_ms=22.9690074921 edges=193920 tiles=3996
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=18 active_ms=22.9580402374 finish_ms=22.9620933533 edges=196544 tiles=4044
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=19 active_ms=22.9759216309 finish_ms=22.9799747467 edges=205824 tiles=4200
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=20 active_ms=22.9730606079 finish_ms=22.9780673981 edges=193408 tiles=3980
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=21 active_ms=22.9799747467 finish_ms=22.9849815369 edges=198146 tiles=4062
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=22 active_ms=22.9759216309 finish_ms=22.980928421 edges=201280 tiles=4140
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=23 active_ms=22.9840278625 finish_ms=22.9880809784 edges=195520 tiles=4012
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=24 active_ms=22.9740142822 finish_ms=22.9780673981 edges=205412 tiles=3596
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=25 active_ms=22.9630470276 finish_ms=22.9680538177 edges=204992 tiles=3224
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=26 active_ms=22.9740142822 finish_ms=22.9780673981 edges=216320 tiles=3396
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=27 active_ms=22.9511260986 finish_ms=22.9561328888 edges=240256 tiles=3780
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=28 active_ms=22.9759216309 finish_ms=22.9799747467 edges=231040 tiles=3632
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=29 active_ms=22.9549407959 finish_ms=22.9599475861 edges=234368 tiles=3676
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=30 active_ms=22.9790210724 finish_ms=22.9830741882 edges=237952 tiles=3744
+EVENT_THREAD graph=roadNet-CA method=pack_epi_degree layer=2 tid=31 active_ms=22.9511260986 finish_ms=22.9561328888 edges=232228 tiles=3532
+STATE_WORK_GATE graph=roadNet-CA method=dynamic_all_share layer=1 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=dynamic_all_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=dynamic_all_share layer=1 edges=5533214 decoded_rows=5450116 saved_decode_rows=83098 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=3392739 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=row_schedule sampled_thread_ms=0.143051147461 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_zero sampled_thread_ms=0.0975131988525 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=csr_prefetch sampled_thread_ms=1.73830986023 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=feature_gather_decode sampled_thread_ms=4.10985946655 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.45268440247 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.19688224792 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=tile_load sampled_thread_ms=0.969648361206 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=tile_compute sampled_thread_ms=1.75261497498 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=tile_store sampled_thread_ms=0.107049942017 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=output_scatter sampled_thread_ms=0.551700592041 diagnostic_wall_ms=20.977973938
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0402927398682 diagnostic_wall_ms=20.977973938
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_init sampled_thread_ms=0.0121593475342 events=481
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=csr_index_read sampled_thread_ms=0.841617584229 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=csr_next_index_read sampled_thread_ms=0.399112701416 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=prefetch_issue sampled_thread_ms=0.434160232544 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=source_bf16_load sampled_thread_ms=1.35588645935 events=21392
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=source_bf16_decode sampled_thread_ms=0.724792480469 events=21392
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=feature_fp32_add sampled_thread_ms=0.729560852051 events=21392
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_hi_pack sampled_thread_ms=1.91688537598 events=61448
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=amx_a_load sampled_thread_ms=0.123739242554 events=3848
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=amx_b_load sampled_thread_ms=0.376224517822 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.52277946472 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0214576721191 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=amx_c_store sampled_thread_ms=0.0653266906738 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=output_store sampled_thread_ms=0.0460147857666 events=2
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=thread_permission sampled_thread_ms=0.0324249267578 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0603199005127 events=483
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=0 active_ms=20.8599567413 finish_ms=20.8637714386 edges=85893 tiles=4664
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=1 active_ms=20.8568572998 finish_ms=20.8628177643 edges=87872 tiles=4504
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=2 active_ms=20.8640098572 finish_ms=20.8687782288 edges=90193 tiles=4426
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=3 active_ms=20.8830833435 finish_ms=20.8878517151 edges=91072 tiles=4496
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=4 active_ms=20.8768844604 finish_ms=20.8828449249 edges=85440 tiles=4224
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=5 active_ms=20.8821296692 finish_ms=20.8868980408 edges=106818 tiles=3716
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=6 active_ms=20.8630561829 finish_ms=20.8678245544 edges=124352 tiles=3600
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=7 active_ms=20.859003067 finish_ms=20.8649635315 edges=120384 tiles=3488
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=8 active_ms=20.8659172058 finish_ms=20.8718776703 edges=123184 tiles=3312
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=9 active_ms=20.8811759949 finish_ms=20.8859443665 edges=198592 tiles=4064
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=10 active_ms=20.8840370178 finish_ms=20.8899974823 edges=203328 tiles=4156
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=11 active_ms=20.8520889282 finish_ms=20.8568572998 edges=200384 tiles=4104
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=12 active_ms=20.8671092987 finish_ms=20.8718776703 edges=191488 tiles=3916
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=13 active_ms=20.8730697632 finish_ms=20.8778381348 edges=203968 tiles=4164
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=14 active_ms=20.8840370178 finish_ms=20.8899974823 edges=206464 tiles=4216
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=15 active_ms=20.8802223206 finish_ms=20.8849906921 edges=208849 tiles=4268
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=16 active_ms=20.8480358124 finish_ms=20.8539962769 edges=196928 tiles=4020
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=17 active_ms=20.8678245544 finish_ms=20.8737850189 edges=193792 tiles=3944
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=18 active_ms=20.8828449249 finish_ms=20.8888053894 edges=195392 tiles=4000
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=19 active_ms=20.9438800812 finish_ms=20.9498405457 edges=203136 tiles=4152
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=20 active_ms=20.889043808 finish_ms=20.8950042725 edges=199453 tiles=4060
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=21 active_ms=20.8809375763 finish_ms=20.8868980408 edges=195328 tiles=3988
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=22 active_ms=20.8659172058 finish_ms=20.8718776703 edges=197824 tiles=4048
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=23 active_ms=20.8551883698 finish_ms=20.8599567413 edges=190400 tiles=3896
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=24 active_ms=20.8768844604 finish_ms=20.8828449249 edges=185892 tiles=3280
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=25 active_ms=20.8778381348 finish_ms=20.8837985992 edges=180416 tiles=2816
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=26 active_ms=20.8871364594 finish_ms=20.8919048309 edges=186752 tiles=2912
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=27 active_ms=20.8752155304 finish_ms=20.879983902 edges=226720 tiles=3540
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=28 active_ms=20.8721160889 finish_ms=20.8768844604 edges=204160 tiles=3184
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=29 active_ms=20.8990573883 finish_ms=20.9038257599 edges=216640 tiles=3376
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=30 active_ms=20.8740234375 finish_ms=20.8787918091 edges=218688 tiles=3408
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=1 tid=31 active_ms=20.8539962769 finish_ms=20.8599567413 edges=213412 tiles=3264
+STATE_WORK_GATE graph=roadNet-CA method=dynamic_all_share layer=2 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=dynamic_all_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=dynamic_all_share layer=2 edges=5533214 decoded_rows=5450116 saved_decode_rows=83098 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=3392739 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=row_schedule sampled_thread_ms=0.133275985718 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_zero sampled_thread_ms=0.102758407593 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=csr_prefetch sampled_thread_ms=1.7101764679 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=feature_gather_decode sampled_thread_ms=4.17113304138 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.34754180908 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.04381752014 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=tile_load sampled_thread_ms=0.94199180603 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=tile_compute sampled_thread_ms=1.53923034668 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=tile_store sampled_thread_ms=0.0901222229004 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=output_scatter sampled_thread_ms=1.03330612183 diagnostic_wall_ms=18.9828872681
+EVENT_PROFILE graph=roadNet-CA method=dynamic_all_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 diagnostic_wall_ms=18.9828872681
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_init sampled_thread_ms=0.0133514404297 events=481
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=csr_index_read sampled_thread_ms=0.840663909912 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=csr_next_index_read sampled_thread_ms=0.408887863159 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=prefetch_issue sampled_thread_ms=0.43511390686 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=source_bf16_load sampled_thread_ms=1.44124031067 events=21392
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=source_bf16_decode sampled_thread_ms=0.723123550415 events=21392
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=feature_fp32_add sampled_thread_ms=0.706672668457 events=21392
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_hi_pack sampled_thread_ms=1.88207626343 events=61448
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=amx_a_load sampled_thread_ms=0.133037567139 events=3848
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=amx_b_load sampled_thread_ms=0.315189361572 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.30176544189 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0269412994385 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=amx_c_store sampled_thread_ms=0.053882598877 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.247001647949 events=7681
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=output_store sampled_thread_ms=0.286817550659 events=7683
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=thread_permission sampled_thread_ms=0.0267028808594 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_all_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0641345977783 events=483
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=0 active_ms=18.9490318298 finish_ms=18.9518928528 edges=87813 tiles=4680
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=1 active_ms=18.9430713654 finish_ms=18.9468860626 edges=90752 tiles=4468
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=2 active_ms=18.9461708069 finish_ms=18.9499855042 edges=87104 tiles=4352
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=3 active_ms=18.9430713654 finish_ms=18.9468860626 edges=89408 tiles=4512
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=4 active_ms=18.933057785 finish_ms=18.9368724823 edges=88768 tiles=4332
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=5 active_ms=18.944978714 finish_ms=18.9487934113 edges=110978 tiles=3816
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=6 active_ms=18.9461708069 finish_ms=18.9499855042 edges=126208 tiles=3644
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=7 active_ms=18.944978714 finish_ms=18.9487934113 edges=123200 tiles=3556
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=8 active_ms=18.9599990845 finish_ms=18.9638137817 edges=129200 tiles=3436
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=9 active_ms=18.9270973206 finish_ms=18.9318656921 edges=198816 tiles=4056
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=10 active_ms=18.9411640167 finish_ms=18.944978714 edges=206272 tiles=4220
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=11 active_ms=18.933057785 finish_ms=18.9378261566 edges=198737 tiles=4082
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=12 active_ms=18.9299583435 finish_ms=18.9337730408 edges=192285 tiles=3924
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=13 active_ms=18.9480781555 finish_ms=18.9518928528 edges=202944 tiles=4148
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=14 active_ms=18.944978714 finish_ms=18.9487934113 edges=191889 tiles=3916
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=15 active_ms=18.9361572266 finish_ms=18.9409255981 edges=201280 tiles=4112
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=16 active_ms=18.9599990845 finish_ms=18.9638137817 edges=200384 tiles=4100
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=17 active_ms=18.9311504364 finish_ms=18.935918808 edges=191808 tiles=3920
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=18 active_ms=18.9402103424 finish_ms=18.944978714 edges=193600 tiles=3948
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=19 active_ms=18.9399719238 finish_ms=18.9437866211 edges=204224 tiles=4172
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=20 active_ms=18.9361572266 finish_ms=18.9409255981 edges=190400 tiles=3884
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=21 active_ms=18.951177597 finish_ms=18.9559459686 edges=196544 tiles=4020
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=22 active_ms=18.9411640167 finish_ms=18.9459323883 edges=201344 tiles=4108
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=23 active_ms=18.9402103424 finish_ms=18.944978714 edges=199616 tiles=4072
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=24 active_ms=18.9611911774 finish_ms=18.965959549 edges=185380 tiles=3272
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=25 active_ms=18.9371109009 finish_ms=18.9418792725 edges=184064 tiles=2868
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=26 active_ms=18.951177597 finish_ms=18.9559459686 edges=187264 tiles=2916
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=27 active_ms=18.9390182495 finish_ms=18.9437866211 edges=217536 tiles=3396
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=28 active_ms=18.951177597 finish_ms=18.9549922943 edges=211968 tiles=3304
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=29 active_ms=18.9270973206 finish_ms=18.9309120178 edges=217792 tiles=3396
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=30 active_ms=18.9321041107 finish_ms=18.9368724823 edges=212288 tiles=3312
+EVENT_THREAD graph=roadNet-CA method=dynamic_all_share layer=2 tid=31 active_ms=18.9361572266 finish_ms=18.9409255981 edges=213348 tiles=3264
+STATE_WORK_GATE graph=roadNet-CA method=event_independent layer=1 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=event_independent layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=event_independent layer=1 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=122827
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=row_schedule sampled_thread_ms=0.135898590088 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=partial_zero sampled_thread_ms=0.11134147644 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=csr_prefetch sampled_thread_ms=3.79633903503 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=feature_gather_decode sampled_thread_ms=3.88717651367 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.20377540588 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.02760505676 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=tile_load sampled_thread_ms=0.894546508789 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=tile_compute sampled_thread_ms=1.33275985718 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=tile_store sampled_thread_ms=0.0803470611572 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=output_scatter sampled_thread_ms=0.446796417236 diagnostic_wall_ms=24.9328613281
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=1 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 diagnostic_wall_ms=24.9328613281
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=partial_init sampled_thread_ms=0.0145435333252 events=481
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=csr_index_read sampled_thread_ms=0.767946243286 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=csr_next_index_read sampled_thread_ms=0.413417816162 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=prefetch_issue sampled_thread_ms=0.429630279541 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=source_bf16_load sampled_thread_ms=1.34921073914 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=source_bf16_decode sampled_thread_ms=0.606298446655 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=feature_fp32_add sampled_thread_ms=0.581741333008 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=partial_hi_pack sampled_thread_ms=1.86944007874 events=61448
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=amx_a_load sampled_thread_ms=0.113248825073 events=3848
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=amx_b_load sampled_thread_ms=0.309228897095 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=amx_tdp_compute sampled_thread_ms=1.10912322998 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=amx_c_zero sampled_thread_ms=0.0209808349609 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=amx_c_store sampled_thread_ms=0.051736831665 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=output_store sampled_thread_ms=0 events=2
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=thread_permission sampled_thread_ms=0.00667572021484 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=thread_tile_config sampled_thread_ms=0.00381469726562 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=1 phase=row_metadata_read sampled_thread_ms=0.0622272491455 events=483
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=0 active_ms=24.8658657074 finish_ms=24.8699188232 edges=61893 tiles=4148
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=1 active_ms=24.8699188232 finish_ms=24.8749256134 edges=63616 tiles=3900
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=2 active_ms=24.9059200287 finish_ms=24.9099731445 edges=62144 tiles=3772
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=3 active_ms=24.8670578003 finish_ms=24.8711109161 edges=65280 tiles=3968
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=4 active_ms=24.8839855194 finish_ms=24.8889923096 edges=60689 tiles=3670
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=5 active_ms=24.8670578003 finish_ms=24.8720645905 edges=93762 tiles=3508
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=6 active_ms=24.8818397522 finish_ms=24.885892868 edges=113792 tiles=3536
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=7 active_ms=24.8830318451 finish_ms=24.8880386353 edges=107968 tiles=3352
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=8 active_ms=24.8849391937 finish_ms=24.8889923096 edges=119873 tiles=3300
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=9 active_ms=24.8680114746 finish_ms=24.8720645905 edges=200448 tiles=4116
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=10 active_ms=24.8830318451 finish_ms=24.8870849609 edges=201984 tiles=4152
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=11 active_ms=24.8599052429 finish_ms=24.8639583588 edges=196544 tiles=4064
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=12 active_ms=24.8770713806 finish_ms=24.8811244965 edges=199680 tiles=4116
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=13 active_ms=24.9099731445 finish_ms=24.9140262604 edges=206464 tiles=4252
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=14 active_ms=24.8630046844 finish_ms=24.8670578003 edges=201856 tiles=4092
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=15 active_ms=24.8689651489 finish_ms=24.8739719391 edges=207616 tiles=4284
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=16 active_ms=24.8649120331 finish_ms=24.8699188232 edges=204736 tiles=4176
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=17 active_ms=24.8610973358 finish_ms=24.866104126 edges=194269 tiles=3940
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=18 active_ms=24.8680114746 finish_ms=24.8730182648 edges=191296 tiles=3936
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=19 active_ms=24.8720645905 finish_ms=24.8770713806 edges=210368 tiles=4308
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=20 active_ms=24.8849391937 finish_ms=24.8899459839 edges=195840 tiles=4032
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=21 active_ms=24.8808860779 finish_ms=24.885892868 edges=199424 tiles=4104
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=22 active_ms=24.8880386353 finish_ms=24.8930454254 edges=197504 tiles=4080
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=23 active_ms=24.8670578003 finish_ms=24.8720645905 edges=196992 tiles=4072
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=24 active_ms=24.866104126 finish_ms=24.8711109161 edges=200100 tiles=3504
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=25 active_ms=24.8830318451 finish_ms=24.8880386353 edges=202496 tiles=3200
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=26 active_ms=24.8789787292 finish_ms=24.8839855194 edges=206208 tiles=3264
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=27 active_ms=24.8799324036 finish_ms=24.8849391937 edges=236032 tiles=3736
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=28 active_ms=24.8610973358 finish_ms=24.866104126 edges=232512 tiles=3664
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=29 active_ms=24.8799324036 finish_ms=24.8849391937 edges=233152 tiles=3680
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=30 active_ms=24.8599052429 finish_ms=24.8649120331 edges=240096 tiles=3784
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=1 tid=31 active_ms=24.8830318451 finish_ms=24.8880386353 edges=228580 tiles=3496
+STATE_WORK_GATE graph=roadNet-CA method=event_independent layer=2 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=event_independent layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=event_independent layer=2 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=122827
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=row_schedule sampled_thread_ms=0.141859054565 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=partial_zero sampled_thread_ms=0.119209289551 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=csr_prefetch sampled_thread_ms=3.81898880005 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=feature_gather_decode sampled_thread_ms=3.92055511475 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.29151344299 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.04906272888 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=tile_load sampled_thread_ms=0.890254974365 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=tile_compute sampled_thread_ms=1.48296356201 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=tile_store sampled_thread_ms=0.0889301300049 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=output_scatter sampled_thread_ms=0.976800918579 diagnostic_wall_ms=22.8450298309
+EVENT_PROFILE graph=roadNet-CA method=event_independent layer=2 phase=thread_amx_setup sampled_thread_ms=0.0355243682861 diagnostic_wall_ms=22.8450298309
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=partial_init sampled_thread_ms=0.0181198120117 events=481
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=csr_index_read sampled_thread_ms=0.803709030151 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=csr_next_index_read sampled_thread_ms=0.407457351685 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=prefetch_issue sampled_thread_ms=0.43249130249 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=source_bf16_load sampled_thread_ms=1.35660171509 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=source_bf16_decode sampled_thread_ms=0.631093978882 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=feature_fp32_add sampled_thread_ms=0.621318817139 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=partial_hi_pack sampled_thread_ms=1.87063217163 events=61448
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=amx_a_load sampled_thread_ms=0.118494033813 events=3848
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=amx_b_load sampled_thread_ms=0.30779838562 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=amx_tdp_compute sampled_thread_ms=1.25551223755 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=amx_c_zero sampled_thread_ms=0.0319480895996 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=amx_c_store sampled_thread_ms=0.0460147857666 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=output_bf16_conversion sampled_thread_ms=0.227928161621 events=7681
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=output_store sampled_thread_ms=0.28133392334 events=7683
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=thread_permission sampled_thread_ms=0.018835067749 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=thread_tile_config sampled_thread_ms=0.00715255737305 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=thread_tile_release sampled_thread_ms=0.00214576721191 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_independent layer=2 phase=row_metadata_read sampled_thread_ms=0.058650970459 events=483
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=0 active_ms=22.794008255 finish_ms=22.7980613708 edges=62149 tiles=4180
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=1 active_ms=22.8078365326 finish_ms=22.8118896484 edges=63296 tiles=3880
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=2 active_ms=22.7978229523 finish_ms=22.8018760681 edges=62592 tiles=3828
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=3 active_ms=22.7909088135 finish_ms=22.7949619293 edges=63488 tiles=3896
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=4 active_ms=22.7999687195 finish_ms=22.8040218353 edges=60928 tiles=3712
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=5 active_ms=22.8028297424 finish_ms=22.8068828583 edges=94146 tiles=3524
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=6 active_ms=22.8099822998 finish_ms=22.8140354156 edges=114176 tiles=3548
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=7 active_ms=22.8118896484 finish_ms=22.8159427643 edges=111744 tiles=3484
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=8 active_ms=22.7990150452 finish_ms=22.803068161 edges=126576 tiles=3444
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=9 active_ms=22.8250026703 finish_ms=22.8278636932 edges=194129 tiles=3988
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=10 active_ms=22.8009223938 finish_ms=22.8049755096 edges=204288 tiles=4216
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=11 active_ms=22.8109359741 finish_ms=22.81498909 edges=196800 tiles=4052
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=12 active_ms=22.8018760681 finish_ms=22.805929184 edges=199904 tiles=4124
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=13 active_ms=22.8078365326 finish_ms=22.8118896484 edges=197632 tiles=4080
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=14 active_ms=22.8090286255 finish_ms=22.8130817413 edges=192192 tiles=3956
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=15 active_ms=22.7978229523 finish_ms=22.8018760681 edges=201088 tiles=4140
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=16 active_ms=22.8137969971 finish_ms=22.8178501129 edges=198976 tiles=4100
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=17 active_ms=22.8109359741 finish_ms=22.81498909 edges=195968 tiles=4036
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=18 active_ms=22.8099822998 finish_ms=22.8140354156 edges=191360 tiles=3936
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=19 active_ms=22.8090286255 finish_ms=22.8130817413 edges=205649 tiles=4238
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=20 active_ms=22.8118896484 finish_ms=22.8159427643 edges=192768 tiles=3960
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=21 active_ms=22.8068828583 finish_ms=22.8109359741 edges=198656 tiles=4036
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=22 active_ms=22.8128433228 finish_ms=22.8168964386 edges=198877 tiles=4052
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=23 active_ms=22.7899551392 finish_ms=22.794008255 edges=200640 tiles=4120
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=24 active_ms=22.7878093719 finish_ms=22.7918624878 edges=203620 tiles=3592
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=25 active_ms=22.8137969971 finish_ms=22.8178501129 edges=209920 tiles=3308
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=26 active_ms=22.7928161621 finish_ms=22.796869278 edges=215808 tiles=3404
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=27 active_ms=22.7899551392 finish_ms=22.794008255 edges=237440 tiles=3736
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=28 active_ms=22.8188037872 finish_ms=22.8228569031 edges=232576 tiles=3652
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=29 active_ms=22.8099822998 finish_ms=22.8140354156 edges=237120 tiles=3724
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=30 active_ms=22.8028297424 finish_ms=22.8068828583 edges=236736 tiles=3728
+EVENT_THREAD graph=roadNet-CA method=event_independent layer=2 tid=31 active_ms=22.8128433228 finish_ms=22.8168964386 edges=231972 tiles=3532
+STATE_WORK_GATE graph=roadNet-CA method=event_share layer=1 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=event_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=event_share layer=1 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=122827
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=row_schedule sampled_thread_ms=0.129699707031 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=partial_zero sampled_thread_ms=0.11157989502 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=csr_prefetch sampled_thread_ms=3.6997795105 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=feature_gather_decode sampled_thread_ms=3.85689735413 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.3108253479 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=3.91554832458 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=tile_load sampled_thread_ms=0.913858413696 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=tile_compute sampled_thread_ms=1.3256072998 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=tile_store sampled_thread_ms=0.0827312469482 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=output_scatter sampled_thread_ms=0.506162643433 diagnostic_wall_ms=25.1588821411
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 diagnostic_wall_ms=25.1588821411
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=partial_init sampled_thread_ms=0.0152587890625 events=481
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=csr_index_read sampled_thread_ms=0.761985778809 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=csr_next_index_read sampled_thread_ms=0.380039215088 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=prefetch_issue sampled_thread_ms=0.380039215088 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=source_bf16_load sampled_thread_ms=1.28889083862 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=source_bf16_decode sampled_thread_ms=0.607252120972 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=feature_fp32_add sampled_thread_ms=0.636339187622 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=partial_hi_pack sampled_thread_ms=1.82747840881 events=61448
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=amx_a_load sampled_thread_ms=0.109910964966 events=3848
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=amx_b_load sampled_thread_ms=0.341415405273 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.10077857971 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0379085540771 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=amx_c_store sampled_thread_ms=0.0419616699219 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=output_store sampled_thread_ms=0.0200271606445 events=2
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=thread_permission sampled_thread_ms=0.0135898590088 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0567436218262 events=483
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=0 active_ms=25.1080989838 finish_ms=25.1109600067 edges=61445 tiles=4100
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=1 active_ms=25.0849723816 finish_ms=25.0890254974 edges=65984 tiles=4012
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=2 active_ms=25.1069068909 finish_ms=25.1109600067 edges=63168 tiles=3856
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=3 active_ms=25.1019001007 finish_ms=25.1069068909 edges=63936 tiles=3892
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=4 active_ms=25.102853775 finish_ms=25.1078605652 edges=59136 tiles=3612
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=5 active_ms=25.0949859619 finish_ms=25.0990390778 edges=89346 tiles=3376
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=6 active_ms=25.0828266144 finish_ms=25.0868797302 edges=113024 tiles=3520
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=7 active_ms=25.0918865204 finish_ms=25.0968933105 edges=108800 tiles=3388
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=8 active_ms=25.1038074493 finish_ms=25.1078605652 edges=116208 tiles=3232
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=9 active_ms=25.1359939575 finish_ms=25.1410007477 edges=209472 tiles=4272
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=10 active_ms=25.0949859619 finish_ms=25.0990390778 edges=205184 tiles=4220
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=11 active_ms=25.0990390778 finish_ms=25.1040458679 edges=196864 tiles=4040
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=12 active_ms=25.1009464264 finish_ms=25.1059532166 edges=194946 tiles=4002
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=13 active_ms=25.0899791718 finish_ms=25.0940322876 edges=205312 tiles=4204
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=14 active_ms=25.1049995422 finish_ms=25.1100063324 edges=201472 tiles=4132
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=15 active_ms=25.1040458679 finish_ms=25.1090526581 edges=205568 tiles=4248
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=16 active_ms=25.0859260559 finish_ms=25.0909328461 edges=201949 tiles=4120
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=17 active_ms=25.1140594482 finish_ms=25.1190662384 edges=194688 tiles=4012
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=18 active_ms=25.1009464264 finish_ms=25.1059532166 edges=196160 tiles=4060
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=19 active_ms=25.0840187073 finish_ms=25.0880718231 edges=201792 tiles=4172
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=20 active_ms=25.0928401947 finish_ms=25.0978469849 edges=198656 tiles=4092
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=21 active_ms=25.0818729401 finish_ms=25.0868797302 edges=194624 tiles=3984
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=22 active_ms=25.102853775 finish_ms=25.1078605652 edges=201664 tiles=4172
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=23 active_ms=25.1080989838 finish_ms=25.1140594482 edges=195456 tiles=4040
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=24 active_ms=25.102853775 finish_ms=25.1078605652 edges=199012 tiles=3536
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=25 active_ms=25.0878334045 finish_ms=25.0928401947 edges=202688 tiles=3176
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=26 active_ms=25.0790119171 finish_ms=25.0840187073 edges=206080 tiles=3256
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=27 active_ms=25.0940322876 finish_ms=25.0990390778 edges=242112 tiles=3808
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=28 active_ms=25.0840187073 finish_ms=25.0880718231 edges=230720 tiles=3604
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=29 active_ms=25.1019001007 finish_ms=25.1069068909 edges=235904 tiles=3728
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=30 active_ms=25.0968933105 finish_ms=25.1019001007 edges=242368 tiles=3824
+EVENT_THREAD graph=roadNet-CA method=event_share layer=1 tid=31 active_ms=25.1009464264 finish_ms=25.1059532166 edges=229476 tiles=3516
+STATE_WORK_GATE graph=roadNet-CA method=event_share layer=2 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=event_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=event_share layer=2 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=122827
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=row_schedule sampled_thread_ms=0.13256072998 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=partial_zero sampled_thread_ms=0.100135803223 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=csr_prefetch sampled_thread_ms=3.69429588318 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=feature_gather_decode sampled_thread_ms=3.98921966553 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.28865242004 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.08005714417 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=tile_load sampled_thread_ms=0.941038131714 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=tile_compute sampled_thread_ms=1.47986412048 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=tile_store sampled_thread_ms=0.0739097595215 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=output_scatter sampled_thread_ms=0.980377197266 diagnostic_wall_ms=23.069858551
+EVENT_PROFILE graph=roadNet-CA method=event_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0355243682861 diagnostic_wall_ms=23.069858551
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=partial_init sampled_thread_ms=0.0221729278564 events=481
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=csr_index_read sampled_thread_ms=0.758409500122 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=csr_next_index_read sampled_thread_ms=0.399351119995 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=prefetch_issue sampled_thread_ms=0.378847122192 events=13995
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=source_bf16_load sampled_thread_ms=1.36017799377 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=source_bf16_decode sampled_thread_ms=0.627517700195 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=feature_fp32_add sampled_thread_ms=0.627517700195 events=21676
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=partial_hi_pack sampled_thread_ms=1.89924240112 events=61448
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=amx_a_load sampled_thread_ms=0.112771987915 events=3848
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=amx_b_load sampled_thread_ms=0.373125076294 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.25122070312 events=7696
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0200271606445 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=amx_c_store sampled_thread_ms=0.0450611114502 events=962
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.245332717896 events=7681
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=output_store sampled_thread_ms=0.231266021729 events=7683
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=thread_permission sampled_thread_ms=0.011682510376 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00214576721191 events=32
+EVENT_DETAIL graph=roadNet-CA method=event_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0593662261963 events=483
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=0 active_ms=23.0250358582 finish_ms=23.0278968811 edges=62469 tiles=4192
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=1 active_ms=23.0247974396 finish_ms=23.0288505554 edges=63168 tiles=3856
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=2 active_ms=23.0169296265 finish_ms=23.0209827423 edges=62080 tiles=3808
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=3 active_ms=23.0319499969 finish_ms=23.0360031128 edges=64960 tiles=3964
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=4 active_ms=23.0169296265 finish_ms=23.0209827423 edges=60672 tiles=3708
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=5 active_ms=23.0388641357 finish_ms=23.0429172516 edges=93250 tiles=3496
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=6 active_ms=23.0188369751 finish_ms=23.0228900909 edges=113216 tiles=3528
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=7 active_ms=23.0319499969 finish_ms=23.0360031128 edges=111232 tiles=3464
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=8 active_ms=23.0329036713 finish_ms=23.0369567871 edges=119344 tiles=3296
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=9 active_ms=23.0360031128 finish_ms=23.0400562286 edges=199296 tiles=4084
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=10 active_ms=23.0159759521 finish_ms=23.020029068 edges=205853 tiles=4236
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=11 active_ms=23.0388641357 finish_ms=23.0429172516 edges=197120 tiles=4048
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=12 active_ms=23.0360031128 finish_ms=23.0400562286 edges=201600 tiles=4156
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=13 active_ms=23.0360031128 finish_ms=23.0400562286 edges=202112 tiles=4156
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=14 active_ms=23.0388641357 finish_ms=23.0429172516 edges=195840 tiles=4020
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=15 active_ms=23.0269432068 finish_ms=23.0309963226 edges=202432 tiles=4164
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=16 active_ms=23.041009903 finish_ms=23.0460166931 edges=201088 tiles=4144
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=17 active_ms=23.0178833008 finish_ms=23.0228900909 edges=193536 tiles=3992
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=18 active_ms=23.0228900909 finish_ms=23.0278968811 edges=189632 tiles=3904
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=19 active_ms=23.0238437653 finish_ms=23.0288505554 edges=201984 tiles=4156
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=20 active_ms=23.0479240417 finish_ms=23.0529308319 edges=195776 tiles=4028
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=21 active_ms=23.0369567871 finish_ms=23.0419635773 edges=198336 tiles=4060
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=22 active_ms=23.0309963226 finish_ms=23.0360031128 edges=201856 tiles=4116
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=23 active_ms=23.0369567871 finish_ms=23.0419635773 edges=200832 tiles=4120
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=24 active_ms=23.0150222778 finish_ms=23.0190753937 edges=203430 tiles=3570
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=25 active_ms=23.0488777161 finish_ms=23.0538845062 edges=204992 tiles=3228
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=26 active_ms=23.0219364166 finish_ms=23.0269432068 edges=211136 tiles=3320
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=27 active_ms=23.0338573456 finish_ms=23.0379104614 edges=245120 tiles=3856
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=28 active_ms=23.041009903 finish_ms=23.0450630188 edges=232064 tiles=3652
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=29 active_ms=23.0169296265 finish_ms=23.0219364166 edges=239040 tiles=3752
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=30 active_ms=23.0178833008 finish_ms=23.0228900909 edges=232448 tiles=3656
+EVENT_THREAD graph=roadNet-CA method=event_share layer=2 tid=31 active_ms=23.0338573456 finish_ms=23.0388641357 edges=227300 tiles=3476
+STATE_WORK_GATE graph=roadNet-CA method=dynamic_selected_share layer=1 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=dynamic_selected_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=dynamic_selected_share layer=1 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=122827
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=row_schedule sampled_thread_ms=0.136137008667 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_zero sampled_thread_ms=0.104904174805 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=csr_prefetch sampled_thread_ms=3.74937057495 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=feature_gather_decode sampled_thread_ms=4.02021408081 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.27935409546 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=3.97539138794 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=tile_load sampled_thread_ms=0.906944274902 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=tile_compute sampled_thread_ms=1.34778022766 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=tile_store sampled_thread_ms=0.0879764556885 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=output_scatter sampled_thread_ms=0.475645065308 diagnostic_wall_ms=24.7600078583
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.437498092651 diagnostic_wall_ms=24.7600078583
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_init sampled_thread_ms=0.0107288360596 events=481
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=csr_index_read sampled_thread_ms=0.756978988647 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=csr_next_index_read sampled_thread_ms=0.41937828064 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=prefetch_issue sampled_thread_ms=0.421524047852 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=source_bf16_load sampled_thread_ms=1.36947631836 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=source_bf16_decode sampled_thread_ms=0.635147094727 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=feature_fp32_add sampled_thread_ms=0.637054443359 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_hi_pack sampled_thread_ms=1.83439254761 events=61448
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=amx_a_load sampled_thread_ms=0.119209289551 events=3848
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=amx_b_load sampled_thread_ms=0.305891036987 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.11556053162 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0317096710205 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=amx_c_store sampled_thread_ms=0.0593662261963 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=output_store sampled_thread_ms=0.0131130218506 events=2
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=thread_permission sampled_thread_ms=0.00500679016113 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=thread_tile_config sampled_thread_ms=0.407218933105 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0591278076172 events=483
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=0 active_ms=24.6870517731 finish_ms=24.6949195862 edges=60933 tiles=4104
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=1 active_ms=24.6541500092 finish_ms=24.6720314026 edges=64128 tiles=3932
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=2 active_ms=24.6529579163 finish_ms=24.6748924255 edges=63232 tiles=3868
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=3 active_ms=24.6601104736 finish_ms=24.6789455414 edges=65024 tiles=3960
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=4 active_ms=24.670124054 finish_ms=24.6889591217 edges=62016 tiles=3772
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=5 active_ms=24.6820449829 finish_ms=24.7008800507 edges=94274 tiles=3524
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=6 active_ms=24.6939659119 finish_ms=24.7049331665 edges=111168 tiles=3460
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=7 active_ms=24.6720314026 finish_ms=24.6908664703 edges=109120 tiles=3400
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=8 active_ms=24.6798992157 finish_ms=24.6968269348 edges=123120 tiles=3376
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=9 active_ms=24.6720314026 finish_ms=24.6849060059 edges=201728 tiles=4152
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=10 active_ms=24.6710777283 finish_ms=24.6820449829 edges=204608 tiles=4212
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=11 active_ms=24.6698856354 finish_ms=24.689912796 edges=197824 tiles=4076
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=12 active_ms=24.6579647064 finish_ms=24.6789455414 edges=199936 tiles=4080
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=13 active_ms=24.6951580048 finish_ms=24.7039794922 edges=202432 tiles=4156
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=14 active_ms=24.6810913086 finish_ms=24.6999263763 edges=197440 tiles=4032
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=15 active_ms=24.7130393982 finish_ms=24.7309207916 edges=205149 tiles=4212
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=16 active_ms=24.6739387512 finish_ms=24.6939659119 edges=200578 tiles=4094
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=17 active_ms=24.6629714966 finish_ms=24.6739387512 edges=196224 tiles=4028
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=18 active_ms=24.6829986572 finish_ms=24.6980190277 edges=195456 tiles=4000
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=19 active_ms=24.6698856354 finish_ms=24.6908664703 edges=204288 tiles=4216
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=20 active_ms=24.6798992157 finish_ms=24.6958732605 edges=192704 tiles=3964
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=21 active_ms=24.6980190277 finish_ms=24.7068405151 edges=198912 tiles=4068
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=22 active_ms=24.6651172638 finish_ms=24.6820449829 edges=200448 tiles=4120
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=23 active_ms=24.6729850769 finish_ms=24.689912796 edges=197952 tiles=4072
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=24 active_ms=24.6529579163 finish_ms=24.6739387512 edges=196388 tiles=3472
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=25 active_ms=24.6870517731 finish_ms=24.7049331665 edges=206848 tiles=3260
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=26 active_ms=24.6539115906 finish_ms=24.6739387512 edges=210304 tiles=3280
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=27 active_ms=24.6670246124 finish_ms=24.6889591217 edges=237824 tiles=3748
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=28 active_ms=24.6779918671 finish_ms=24.7008800507 edges=236096 tiles=3708
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=29 active_ms=24.6689319611 finish_ms=24.6889591217 edges=231808 tiles=3648
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=30 active_ms=24.6629714966 finish_ms=24.6798992157 edges=236608 tiles=3720
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=1 tid=31 active_ms=24.6510505676 finish_ms=24.6720314026 edges=228644 tiles=3492
+STATE_WORK_GATE graph=roadNet-CA method=dynamic_selected_share layer=2 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=dynamic_selected_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=dynamic_selected_share layer=2 edges=5533214 decoded_rows=5533214 saved_decode_rows=0 adds=708251392 tdp=3930464 csr_reads=5533214 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=122827
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=row_schedule sampled_thread_ms=0.1380443573 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_zero sampled_thread_ms=0.103235244751 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=csr_prefetch sampled_thread_ms=3.77893447876 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=feature_gather_decode sampled_thread_ms=3.9587020874 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.23691558838 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=3.99112701416 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=tile_load sampled_thread_ms=0.914096832275 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=tile_compute sampled_thread_ms=1.45959854126 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=tile_store sampled_thread_ms=0.0791549682617 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=output_scatter sampled_thread_ms=0.981092453003 diagnostic_wall_ms=23.118019104
+EVENT_PROFILE graph=roadNet-CA method=dynamic_selected_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0333786010742 diagnostic_wall_ms=23.118019104
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_init sampled_thread_ms=0.0162124633789 events=481
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=csr_index_read sampled_thread_ms=0.810384750366 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=csr_next_index_read sampled_thread_ms=0.367879867554 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=prefetch_issue sampled_thread_ms=0.418901443481 events=13995
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=source_bf16_load sampled_thread_ms=1.33085250854 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=source_bf16_decode sampled_thread_ms=0.619411468506 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=feature_fp32_add sampled_thread_ms=0.576972961426 events=21676
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_hi_pack sampled_thread_ms=1.79243087769 events=61448
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=amx_a_load sampled_thread_ms=0.138521194458 events=3848
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=amx_b_load sampled_thread_ms=0.315189361572 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.24192237854 events=7696
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0278949737549 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=amx_c_store sampled_thread_ms=0.044584274292 events=962
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.228881835938 events=7681
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=output_store sampled_thread_ms=0.241756439209 events=7683
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=thread_permission sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=dynamic_selected_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0600814819336 events=483
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=0 active_ms=23.0619907379 finish_ms=23.0660438538 edges=61125 tiles=4140
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=1 active_ms=23.0760574341 finish_ms=23.0801105499 edges=64256 tiles=3924
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=2 active_ms=23.0820178986 finish_ms=23.0860710144 edges=61888 tiles=3796
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=3 active_ms=23.0779647827 finish_ms=23.0820178986 edges=62400 tiles=3832
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=4 active_ms=23.0779647827 finish_ms=23.0820178986 edges=60672 tiles=3724
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=5 active_ms=23.0751037598 finish_ms=23.0801105499 edges=94018 tiles=3516
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=6 active_ms=23.078918457 finish_ms=23.0839252472 edges=115072 tiles=3584
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=7 active_ms=23.0739116669 finish_ms=23.0779647827 edges=112704 tiles=3512
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=8 active_ms=23.0751037598 finish_ms=23.0801105499 edges=126320 tiles=3440
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=9 active_ms=23.0538845062 finish_ms=23.0579376221 edges=197376 tiles=4084
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=10 active_ms=23.0648517609 finish_ms=23.0689048767 edges=197248 tiles=4072
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=11 active_ms=23.0689048767 finish_ms=23.0739116669 edges=195200 tiles=4044
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=12 active_ms=23.0779647827 finish_ms=23.0820178986 edges=192960 tiles=3972
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=13 active_ms=23.0760574341 finish_ms=23.0801105499 edges=198464 tiles=4068
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=14 active_ms=23.0550765991 finish_ms=23.0600833893 edges=194624 tiles=4028
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=15 active_ms=23.0710506439 finish_ms=23.0760574341 edges=202880 tiles=4172
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=16 active_ms=23.0610370636 finish_ms=23.0660438538 edges=203456 tiles=4176
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=17 active_ms=23.0700969696 finish_ms=23.0751037598 edges=194944 tiles=4024
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=18 active_ms=23.0679512024 finish_ms=23.0729579926 edges=196672 tiles=4048
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=19 active_ms=23.0689048767 finish_ms=23.0739116669 edges=202304 tiles=4152
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=20 active_ms=23.0679512024 finish_ms=23.0729579926 edges=188701 tiles=3896
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=21 active_ms=23.0679512024 finish_ms=23.0729579926 edges=194688 tiles=4024
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=22 active_ms=23.0529308319 finish_ms=23.0579376221 edges=200832 tiles=4136
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=23 active_ms=23.0550765991 finish_ms=23.0600833893 edges=200194 tiles=4074
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=24 active_ms=23.0650901794 finish_ms=23.0700969696 edges=204772 tiles=3604
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=25 active_ms=23.0600833893 finish_ms=23.0650901794 edges=209664 tiles=3280
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=26 active_ms=23.0760574341 finish_ms=23.0810642242 edges=217088 tiles=3420
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=27 active_ms=23.0600833893 finish_ms=23.0650901794 edges=244160 tiles=3832
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=28 active_ms=23.078918457 finish_ms=23.0839252472 edges=230400 tiles=3596
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=29 active_ms=23.0679512024 finish_ms=23.0729579926 edges=235904 tiles=3716
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=30 active_ms=23.0958461761 finish_ms=23.099899292 edges=237504 tiles=3748
+EVENT_THREAD graph=roadNet-CA method=dynamic_selected_share layer=2 tid=31 active_ms=23.0720043182 finish_ms=23.0770111084 edges=234724 tiles=3572
+STATE_WORK_GATE graph=roadNet-CA method=exact_only_share layer=1 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=exact_only_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=exact_only_share layer=1 edges=5533214 decoded_rows=5527535 saved_decode_rows=5679 adds=708251392 tdp=3930464 csr_reads=5527535 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=38528 selected_windows=5601 run_dispatches=0 run_bytes=0 tile_fallback_scopes=118011
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=row_schedule sampled_thread_ms=0.134229660034 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=partial_zero sampled_thread_ms=0.114917755127 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=csr_prefetch sampled_thread_ms=3.72862815857 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=feature_gather_decode sampled_thread_ms=3.88193130493 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=1.30558013916 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.02283668518 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=tile_load sampled_thread_ms=0.903129577637 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=tile_compute sampled_thread_ms=1.40404701233 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=tile_store sampled_thread_ms=0.0748634338379 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=output_scatter sampled_thread_ms=0.512838363647 diagnostic_wall_ms=24.671792984
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0400543212891 diagnostic_wall_ms=24.671792984
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=partial_init sampled_thread_ms=0.0166893005371 events=481
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=csr_index_read sampled_thread_ms=0.766038894653 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=csr_next_index_read sampled_thread_ms=0.415086746216 events=13995
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=prefetch_issue sampled_thread_ms=0.421524047852 events=13995
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=source_bf16_load sampled_thread_ms=1.33776664734 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=source_bf16_decode sampled_thread_ms=0.601053237915 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=feature_fp32_add sampled_thread_ms=0.61297416687 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=partial_hi_pack sampled_thread_ms=1.87206268311 events=61448
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=amx_a_load sampled_thread_ms=0.114917755127 events=3848
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=amx_b_load sampled_thread_ms=0.35834312439 events=7696
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.20115280151 events=7696
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0262260437012 events=962
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=amx_c_store sampled_thread_ms=0.0476837158203 events=962
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=output_store sampled_thread_ms=0.018835067749 events=2
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=thread_permission sampled_thread_ms=0.02121925354 events=32
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00452995300293 events=32
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0588893890381 events=483
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=0 active_ms=24.6040821075 finish_ms=24.6078968048 edges=67397 tiles=4308
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=1 active_ms=24.6160030365 finish_ms=24.6210098267 edges=72192 tiles=4240
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=2 active_ms=24.6109962463 finish_ms=24.6169567108 edges=68096 tiles=4012
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=3 active_ms=24.6098041534 finish_ms=24.6148109436 edges=71360 tiles=4132
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=4 active_ms=24.6109962463 finish_ms=24.6160030365 edges=63872 tiles=3772
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=5 active_ms=24.6109962463 finish_ms=24.6169567108 edges=88706 tiles=3344
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=6 active_ms=24.6229171753 finish_ms=24.6279239655 edges=110144 tiles=3424
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=7 active_ms=24.610042572 finish_ms=24.6160030365 edges=105920 tiles=3288
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=8 active_ms=24.5959758759 finish_ms=24.600982666 edges=117936 tiles=3264
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=9 active_ms=24.6119499207 finish_ms=24.6169567108 edges=202077 tiles=4144
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=10 active_ms=24.5997905731 finish_ms=24.6047973633 edges=200256 tiles=4108
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=11 active_ms=24.6229171753 finish_ms=24.6279239655 edges=196288 tiles=4020
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=12 active_ms=24.6109962463 finish_ms=24.6169567108 edges=196608 tiles=4048
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=13 active_ms=24.6069431305 finish_ms=24.6119499207 edges=204096 tiles=4176
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=14 active_ms=24.6088504791 finish_ms=24.6138572693 edges=200721 tiles=4122
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=15 active_ms=24.6338844299 finish_ms=24.6388912201 edges=207040 tiles=4208
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=16 active_ms=24.6248245239 finish_ms=24.6298313141 edges=201792 tiles=4144
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=17 active_ms=24.594783783 finish_ms=24.5997905731 edges=193792 tiles=3980
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=18 active_ms=24.6078968048 finish_ms=24.6138572693 edges=195968 tiles=3996
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=19 active_ms=24.6229171753 finish_ms=24.6288776398 edges=205056 tiles=4208
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=20 active_ms=24.6059894562 finish_ms=24.6109962463 edges=193152 tiles=3972
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=21 active_ms=24.600982666 finish_ms=24.6069431305 edges=194432 tiles=3972
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=22 active_ms=24.6078968048 finish_ms=24.612903595 edges=200704 tiles=4112
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=23 active_ms=24.600982666 finish_ms=24.6069431305 edges=196608 tiles=4040
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=24 active_ms=24.631023407 finish_ms=24.6369838715 edges=203253 tiles=3564
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=25 active_ms=24.621963501 finish_ms=24.6279239655 edges=205504 tiles=3232
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=26 active_ms=24.6298313141 finish_ms=24.6348381042 edges=208224 tiles=3260
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=27 active_ms=24.6479511261 finish_ms=24.6539115906 edges=237120 tiles=3716
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=28 active_ms=24.6179103851 finish_ms=24.6229171753 edges=227968 tiles=3572
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=29 active_ms=24.6298313141 finish_ms=24.6348381042 edges=232576 tiles=3648
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=30 active_ms=24.5959758759 finish_ms=24.600982666 edges=237120 tiles=3716
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=1 tid=31 active_ms=24.6098041534 finish_ms=24.6148109436 edges=227236 tiles=3464
+STATE_WORK_GATE graph=roadNet-CA method=exact_only_share layer=2 pass=1
+STATE_PROFILE_GATE graph=roadNet-CA method=exact_only_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=roadNet-CA method=exact_only_share layer=2 edges=5533214 decoded_rows=5527535 saved_decode_rows=5679 adds=708251392 tdp=3930464 csr_reads=5527535 prefetch=14272032 partial_load_bytes=0 partial_store_bytes=0 packed_bytes=503099392 head_comparisons=0 window_entries=38528 selected_windows=5601 run_dispatches=0 run_bytes=0 tile_fallback_scopes=118011
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=row_schedule sampled_thread_ms=0.123262405396 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=partial_zero sampled_thread_ms=0.114679336548 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=csr_prefetch sampled_thread_ms=3.57866287231 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=feature_gather_decode sampled_thread_ms=3.98373603821 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=1.3382434845 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.02545928955 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=tile_load sampled_thread_ms=0.926733016968 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=tile_compute sampled_thread_ms=1.45030021667 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=tile_store sampled_thread_ms=0.0889301300049 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=output_scatter sampled_thread_ms=0.993490219116 diagnostic_wall_ms=22.6409435272
+EVENT_PROFILE graph=roadNet-CA method=exact_only_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0429153442383 diagnostic_wall_ms=22.6409435272
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=partial_init sampled_thread_ms=0.0195503234863 events=481
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=csr_index_read sampled_thread_ms=0.751733779907 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=csr_next_index_read sampled_thread_ms=0.394821166992 events=13995
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=prefetch_issue sampled_thread_ms=0.441074371338 events=13995
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=source_bf16_load sampled_thread_ms=1.42812728882 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=source_bf16_decode sampled_thread_ms=0.597238540649 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=feature_fp32_add sampled_thread_ms=0.661611557007 events=21649
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=partial_state_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=partial_state_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=partial_hi_pack sampled_thread_ms=1.81603431702 events=61448
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=amx_a_load sampled_thread_ms=0.1220703125 events=3848
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=amx_b_load sampled_thread_ms=0.354528427124 events=7696
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.24430656433 events=7696
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0369548797607 events=962
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=amx_c_store sampled_thread_ms=0.0598430633545 events=962
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.241994857788 events=7681
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=output_store sampled_thread_ms=0.271558761597 events=7683
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=thread_permission sampled_thread_ms=0.0286102294922 events=32
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00119209289551 events=32
+EVENT_DETAIL graph=roadNet-CA method=exact_only_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0619888305664 events=483
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=0 active_ms=22.5830078125 finish_ms=22.5858688354 edges=69829 tiles=4444
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=1 active_ms=22.5658416748 finish_ms=22.5698947906 edges=72768 tiles=4192
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=2 active_ms=22.5639343262 finish_ms=22.567987442 edges=70368 tiles=4060
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=3 active_ms=22.5720405579 finish_ms=22.577047348 edges=71168 tiles=4084
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=4 active_ms=22.579908371 finish_ms=22.5839614868 edges=67520 tiles=3892
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=5 active_ms=22.5439071655 finish_ms=22.5479602814 edges=94402 tiles=3508
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=6 active_ms=22.5789546967 finish_ms=22.5830078125 edges=114269 tiles=3536
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=7 active_ms=22.5758552551 finish_ms=22.579908371 edges=108160 tiles=3352
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=8 active_ms=22.5667953491 finish_ms=22.570848465 edges=123696 tiles=3380
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=9 active_ms=22.5849151611 finish_ms=22.5899219513 edges=190976 tiles=3940
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=10 active_ms=22.5780010223 finish_ms=22.5820541382 edges=201280 tiles=4140
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=11 active_ms=22.5899219513 finish_ms=22.5939750671 edges=190976 tiles=3916
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=12 active_ms=22.5448608398 finish_ms=22.5489139557 edges=198016 tiles=4052
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=13 active_ms=22.5508213043 finish_ms=22.5548744202 edges=203345 tiles=4178
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=14 active_ms=22.540807724 finish_ms=22.5448608398 edges=194688 tiles=4000
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=15 active_ms=22.5739479065 finish_ms=22.5780010223 edges=198080 tiles=4076
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=16 active_ms=22.5789546967 finish_ms=22.5830078125 edges=197120 tiles=4048
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=17 active_ms=22.5398540497 finish_ms=22.5448608398 edges=191744 tiles=3944
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=18 active_ms=22.570848465 finish_ms=22.5758552551 edges=195456 tiles=4004
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=19 active_ms=22.5648880005 finish_ms=22.5698947906 edges=196672 tiles=4032
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=20 active_ms=22.5780010223 finish_ms=22.5830078125 edges=190080 tiles=3912
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=21 active_ms=22.5689411163 finish_ms=22.5729942322 edges=193920 tiles=3992
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=22 active_ms=22.5648880005 finish_ms=22.5698947906 edges=200320 tiles=4096
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=23 active_ms=22.5658416748 finish_ms=22.570848465 edges=198848 tiles=4072
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=24 active_ms=22.6199626923 finish_ms=22.6240158081 edges=207716 tiles=3612
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=25 active_ms=22.5749015808 finish_ms=22.579908371 edges=204096 tiles=3192
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=26 active_ms=22.5648880005 finish_ms=22.5698947906 edges=215040 tiles=3352
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=27 active_ms=22.5830078125 finish_ms=22.5880146027 edges=242240 tiles=3776
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=28 active_ms=22.5467681885 finish_ms=22.5508213043 edges=230784 tiles=3608
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=29 active_ms=22.588968277 finish_ms=22.5930213928 edges=232017 tiles=3624
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=30 active_ms=22.5389003754 finish_ms=22.5439071655 edges=236864 tiles=3704
+EVENT_THREAD graph=roadNet-CA method=exact_only_share layer=2 tid=31 active_ms=22.5419998169 finish_ms=22.5460529327 edges=230756 tiles=3488
+STATE_COMPLETE graph=roadNet-CA pass=1 methods=8 smoke=0 max_rss_kib=11028456

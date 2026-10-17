@@ -1,0 +1,20 @@
+MKL Two-Step Baseline: SpMM + GeMM
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/email-Enron/email-Enron.csrbin
+  csrbin: N=36692  NNZ=367662
+Matrix: email-Enron  N=36692  NNZ=367662  avg_deg=10.0  K=128
+MKL_VERBOSE oneMKL 2023.0 Update 2 Product build 20230613 for Intel(R) 64 architecture Intel(R) Advanced Vector Extensions 512 (Intel(R) AVX-512) with Intel(R) DL Boost, bfloat16 support, Intel(R) AMX with bfloat16 and 8-bit integer support, and FP16 instructions, Lnx 3.10GHz lp64 intel_thread
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffcfd4555e8,0xc0cf80,128,0x145882e15080,128,0x7ffcfd4555f0,0x145881c2a080,128) 168.14ms CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffcfd4555e8,0xc0cf80,128,0x145882e15080,128,0x7ffcfd4555f0,0x145881c2a080,128) 398.18us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 0: SpMM=0.50  GeMM=0.42  Total=0.92 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffcfd4555e8,0xc0cf80,128,0x145882e15080,128,0x7ffcfd4555f0,0x145881c2a080,128) 269.72us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 1: SpMM=0.47  GeMM=0.28  Total=0.75 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffcfd4555e8,0xc0cf80,128,0x145882e15080,128,0x7ffcfd4555f0,0x145881c2a080,128) 274.62us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 2: SpMM=0.49  GeMM=0.29  Total=0.78 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffcfd4555e8,0xc0cf80,128,0x145882e15080,128,0x7ffcfd4555f0,0x145881c2a080,128) 265.65us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 3: SpMM=0.49  GeMM=0.28  Total=0.77 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffcfd4555e8,0xc0cf80,128,0x145882e15080,128,0x7ffcfd4555f0,0x145881c2a080,128) 286.28us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 4: SpMM=0.47  GeMM=0.30  Total=0.77 ms
+  BEST: SpMM=0.47  GeMM=0.28  Total=0.75 ms
+

@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/hollywood-2009/hollywood-2009.csrbin
+Matrix: hollywood-2009  N=1139905  NNZ=113891327  avg_deg=99.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 293.81 ms
+  run 1: 292.76 ms
+  run 2: 291.24 ms
+  run 3: 289.78 ms
+  run 4: 295.85 ms
+  TFS V3 E2E BEST: 289.78 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 391.09 ms
+  run 1: 391.40 ms
+  run 2: 391.38 ms
+  run 3: 390.95 ms
+  run 4: 391.08 ms
+  MKL E2E BEST: 390.95 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 289.78 ms
+  MKL (FP32):      390.95 ms
+  E2E Speedup:     1.35×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.009100  RMSE=1.3300e+03
+First 8:
+  TFS: -109.29 -272.39 -461.88 -26.25 265.81 31.79 -482.19 -364.36 
+  MKL: -111.37 -274.80 -467.26 -26.29 268.55 32.86 -487.14 -367.36 
+ABLATION_CHECK graph=hollywood-2009 l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=hollywood-2009 schedule=degree nonempty_tiles=71245 padded_row_steps=113982188 real_edges=113891327 max_degree=11468 amx_dpbf16ps_per_layer=2279840
+ABLATION_WORK graph=hollywood-2009 schedule=identity nonempty_tiles=71245 padded_row_steps=242123105 real_edges=113891327 max_degree=11468 amx_dpbf16ps_per_layer=2279840
+ABLATION_SETUP graph=hollywood-2009 degree_sort_ms=47.2068787 identity_init_ms=0.299930573 included_in_prepared_e2e=0
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=0 order=0 prepared_e2e_ms=192.392111
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=0 order=1 prepared_e2e_ms=100.610018
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=1 order=0 prepared_e2e_ms=96.5681076
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=1 order=1 prepared_e2e_ms=201.251984
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=2 order=0 prepared_e2e_ms=200.128078
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=2 order=1 prepared_e2e_ms=99.6699333
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=3 order=0 prepared_e2e_ms=100.615025
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=3 order=1 prepared_e2e_ms=198.819876
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=4 order=0 prepared_e2e_ms=200.983047
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=4 order=1 prepared_e2e_ms=100.189924
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=5 order=0 prepared_e2e_ms=99.3778706
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=5 order=1 prepared_e2e_ms=197.696924
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=6 order=0 prepared_e2e_ms=202.40593
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=6 order=1 prepared_e2e_ms=100.975037
+ABLATION_TIME graph=hollywood-2009 schedule=identity repeat=7 order=0 prepared_e2e_ms=99.6949673
+ABLATION_TIME graph=hollywood-2009 schedule=degree repeat=7 order=1 prepared_e2e_ms=198.280096
+ABLATION_STAGE graph=hollywood-2009 schedule=degree repeat=0 layer1_ms=101.362944 relu_ms=1.94001198 interlayer_ms=2.40898132 layer2_ms=95.6549644 total_ms=201.366901
+ABLATION_STAGE graph=hollywood-2009 schedule=degree repeat=1 layer1_ms=100.020885 relu_ms=1.94191933 interlayer_ms=2.40206718 layer2_ms=98.3200073 total_ms=202.684879
+ABLATION_STAGE graph=hollywood-2009 schedule=degree repeat=2 layer1_ms=100.951195 relu_ms=1.95980072 interlayer_ms=2.41708755 layer2_ms=98.8709927 total_ms=204.199076
+ABLATION_STAGE graph=hollywood-2009 schedule=identity repeat=0 layer1_ms=46.7381477 relu_ms=1.94406509 interlayer_ms=2.40182877 layer2_ms=46.8349457 total_ms=97.9189873
+ABLATION_STAGE graph=hollywood-2009 schedule=identity repeat=1 layer1_ms=47.9159355 relu_ms=1.95097923 interlayer_ms=2.42590904 layer2_ms=46.9400883 total_ms=99.2329121
+ABLATION_STAGE graph=hollywood-2009 schedule=identity repeat=2 layer1_ms=47.8899479 relu_ms=1.95813179 interlayer_ms=2.40492821 layer2_ms=47.4059582 total_ms=99.6589661
+ABLATION_COMPLETE graph=hollywood-2009 pass=1

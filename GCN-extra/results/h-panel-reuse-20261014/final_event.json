@@ -1,0 +1,21 @@
+{
+  "id": "h-panel-reuse-four-graph-summary-20261014-2350",
+  "kind": "h_panel_reuse_shared_diagnostic_summary",
+  "status": "PASS_DIAGNOSTIC",
+  "paper_eligible": false,
+  "purpose": "Original TFS V3 H duplicate-gather versus AMX C tile staging, with per-step and window 8/16/32/64 methods",
+  "jobs": ["10964915", "10964919", "10964921"],
+  "node": "qhcn132",
+  "cpu": "32 physical cores, one socket, CPU IDs 32-63",
+  "binding": "OMP_PROC_BIND=close; OMP_PLACES=cores; default NUMA policy",
+  "timing_boundary": "Prepared two-layer BF16-input TFS, including L1, ReLU, interlayer FP32-to-BF16 conversion and L2; initial H conversion and W packing excluded",
+  "repeats": "5 per graph-method in each of two independent graph-order runs",
+  "graphs": ["roadNet-CA", "reddit", "ogbn-products", "mycielskian19"],
+  "correctness": "56 real-graph method checks pass bitwise at L1 FP32, interlayer BF16 and final L2 BF16; cross-run artifact audit PASS",
+  "result": "Fixed window 64 versus original TFS: four-graph geometric mean speedup 1.220x first order, 1.219x reverse order; per graph 1.117-1.320x across runs. Naive per-step A1 regresses on Reddit/Products.",
+  "source_build": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/h-panel-reuse-build-20261014-231751",
+  "binary_sha256": "eda207b215fa947cc4e314d1b9e77e90cf6bf573d8e14e2ac5f3b1ec5b0f65d7",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/results/h-panel-reuse-20261014/H_PANEL_REUSE_REAL_GRAPH_RESULTS_20261014.md",
+  "limitations": "Shared node; logical access counts are not DRAM bytes; no PMU counters; no isolated phase wall-time for H gather/C state/AMX; exact W32-vs-W64 ranking unresolved on two graphs",
+  "next": "Collect sampled phase and PMU evidence, then repeat on exclusive node before paper claim; keep original TFS and D16 matched-gather control"
+}

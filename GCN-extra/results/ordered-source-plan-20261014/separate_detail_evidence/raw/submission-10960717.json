@@ -1,0 +1,30 @@
+{
+  "id": "ordered-detail-gate-submit-10960717",
+  "kind": "submission",
+  "status": "SUBMITTED",
+  "job": "10960717",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-detail-build-20261014-135515",
+  "threads": 1,
+  "node_cap": 5,
+  "round_node_limit": 2,
+  "cmd": [
+    "sbatch",
+    "--parsable",
+    "-p",
+    "intel",
+    "-N1",
+    "-n1",
+    "-c1",
+    "--hint=nomultithread",
+    "--mem=16G",
+    "--time=00:15:00",
+    "--job-name=gcn-detail-gate",
+    "--chdir=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra",
+    "-o",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-detail-build-20261014-135515/logs/slurm-gate-%j.out",
+    "-e",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-detail-build-20261014-135515/logs/slurm-gate-%j.err",
+    "--wrap=srun -n1 -c1 --cpu-bind=cores bash /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-detail-build-20261014-135515/source_snapshot/ordered_job.sh /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-detail-build-20261014-135515 smoke_detail 1"
+  ],
+  "issues": "Parent load/decode detailed slots were unmeasured zeros; outer gather_decode combined load+decode; add separately timed. New split sampled diagnostics have timer/register overhead and never replace parent E2E timing."
+}

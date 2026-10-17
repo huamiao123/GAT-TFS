@@ -1,0 +1,958 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/wiki-Talk/wiki-Talk.csrbin
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 108.14 ms
+  run 1: 107.24 ms
+  run 2: 107.35 ms
+  run 3: 108.17 ms
+  run 4: 109.62 ms
+  TFS V3 E2E BEST: 107.24 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 90.69 ms
+  run 1: 90.25 ms
+  run 2: 90.20 ms
+  run 3: 90.26 ms
+  run 4: 90.09 ms
+  MKL E2E BEST: 90.09 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 107.24 ms
+  MKL (FP32):      90.09 ms
+  E2E Speedup:     0.84×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+STATE_SEMANTIC graph=wiki-Talk values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+STATE_SETUP graph=wiki-Talk phase=degree_schedule_copy ms=2.50816345215 included_in_primary=0
+EVENT_PLAN graph=wiki-Talk E=5021410 total_pair_windows=110107 all_matches=21545 eligible_matches=8 partial_matches=0 exact_matches=12226 eligible_windows=1 exact_windows=12175 run_count=1 plan_bytes=2936610 allocated_bytes=3442978 construct_ms=32.4687957764 audit_ms=1.05714797974 min_matches=8 max_runs=8 pass=1
+STATE_CONFIG graph=wiki-Talk N=2394385 E=5021410 D=128 H=128 F=128 S=64 R=64 TR=16 methods=8 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=1 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=wiki-Talk method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=wiki-Talk method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=wiki-Talk method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=0
+STATE_PLAN graph=wiki-Talk method=dynamic_all_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=1
+STATE_PLAN graph=wiki-Talk method=event_independent kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=2
+STATE_PLAN graph=wiki-Talk method=event_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=3
+STATE_PLAN graph=wiki-Talk method=dynamic_selected_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=4
+STATE_PLAN graph=wiki-Talk method=exact_only_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=5
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=41242.5 mean_abs=1.89094870253 relative_L2=0.0120588659797 normalized_max=0.011844885633 gate=0.03 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_all_share boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_all_share boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_all_share boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_all_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_all_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_all_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_all_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_all_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_independent boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_independent boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_independent boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_independent boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_independent boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_independent boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_independent boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_independent boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_share boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_share boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_share boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=event_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=event_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_selected_share boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_selected_share boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_selected_share boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=dynamic_selected_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_selected_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_selected_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_selected_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=dynamic_selected_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=wiki-Talk method=exact_only_share boundary=kernel_FP32 reference=paper_tfs max_abs=37.0361328125 mean_abs=0.00121145641839 relative_L2=0.00327674697925 normalized_max=0.00405525107163 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=exact_only_share boundary=e2e_FP32_final reference=paper_tfs max_abs=18391.5 mean_abs=0.88873566301 relative_L2=0.00584344591256 normalized_max=0.00533550410781 gate=0.01 pass=1
+METHOD_CHECK graph=wiki-Talk method=exact_only_share boundary=e2e_BF16_final reference=paper_tfs max_abs=16384 mean_abs=0.886109368894 relative_L2=0.00624648647755 normalized_max=0.0047619047619 gate=0.02 pass=1
+METHOD_CHECK graph=wiki-Talk method=exact_only_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=57626.5 mean_abs=2.70411876665 relative_L2=0.0175631921176 normalized_max=0.0165503861776 gate=0.03 pass=1
+STATE_EQUIV graph=wiki-Talk method=exact_only_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=exact_only_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=exact_only_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=wiki-Talk method=exact_only_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=wiki-Talk pass=1
+STATE_WORK_GATE graph=wiki-Talk method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pack_epi_degree layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=pack_epi_degree layer=1 edges=5021410 decoded_rows=5021410 saved_decode_rows=0 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=row_schedule sampled_thread_ms=0.164031982422 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_zero sampled_thread_ms=0.0107288360596 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=csr_prefetch sampled_thread_ms=20.5264091492 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=feature_gather_decode sampled_thread_ms=14.6636962891 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.83577156067 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.277280807495 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=tile_load sampled_thread_ms=0.0669956207275 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=tile_compute sampled_thread_ms=0.122547149658 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=tile_store sampled_thread_ms=0.00286102294922 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=output_scatter sampled_thread_ms=0.158786773682 diagnostic_wall_ms=63.9598369598
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=1 phase=thread_amx_setup sampled_thread_ms=0.0252723693848 diagnostic_wall_ms=63.9598369598
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_init sampled_thread_ms=0.000953674316406 events=37
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=csr_index_read sampled_thread_ms=2.94232368469 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=csr_next_index_read sampled_thread_ms=2.88224220276 events=109450
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=prefetch_issue sampled_thread_ms=2.86936759949 events=109450
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=source_bf16_load sampled_thread_ms=2.96664237976 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=source_bf16_decode sampled_thread_ms=2.81882286072 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=feature_fp32_add sampled_thread_ms=2.86030769348 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_state_load sampled_thread_ms=0.0476837158203 events=1674
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_state_store sampled_thread_ms=0.0531673431396 events=1674
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_hi_pack sampled_thread_ms=0.122308731079 events=4616
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=amx_a_load sampled_thread_ms=0.014066696167 events=296
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=amx_b_load sampled_thread_ms=0.018835067749 events=592
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=amx_tdp_compute sampled_thread_ms=0.0960826873779 events=592
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=amx_c_zero sampled_thread_ms=0.00405311584473 events=74
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=amx_c_store sampled_thread_ms=0.00190734863281 events=74
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=output_store sampled_thread_ms=0.0789165496826 events=549
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=thread_permission sampled_thread_ms=0.0112056732178 events=32
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=thread_tile_config sampled_thread_ms=0.00643730163574 events=32
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=thread_tile_release sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=1 phase=row_metadata_read sampled_thread_ms=0.132322311401 events=586
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=0 active_ms=7.87615776062 finish_ms=7.88712501526 edges=103967 tiles=5008
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=1 active_ms=11.4469528198 finish_ms=11.4669799805 edges=218965 tiles=5048
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=2 active_ms=8.83603096008 finish_ms=8.85415077209 edges=135933 tiles=4816
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=3 active_ms=13.2069587708 finish_ms=13.2310390472 edges=253990 tiles=5164
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=4 active_ms=7.87210464478 finish_ms=7.88807868958 edges=112523 tiles=5036
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=5 active_ms=10.5509757996 finish_ms=10.5710029602 edges=188473 tiles=5140
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=6 active_ms=7.95888900757 finish_ms=7.97700881958 edges=110286 tiles=4832
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=7 active_ms=8.01491737366 finish_ms=8.0349445343 edges=120724 tiles=4980
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=8 active_ms=8.81218910217 finish_ms=8.82911682129 edges=143331 tiles=4780
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=9 active_ms=7.9619884491 finish_ms=7.98106193542 edges=112634 tiles=4928
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=10 active_ms=8.18085670471 finish_ms=8.19993019104 edges=110496 tiles=4912
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=11 active_ms=9.05799865723 finish_ms=9.07611846924 edges=146377 tiles=4888
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=12 active_ms=8.09693336487 finish_ms=8.11100006104 edges=127355 tiles=5164
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=13 active_ms=7.94506072998 finish_ms=7.9619884491 edges=121395 tiles=4812
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=14 active_ms=63.9171600342 finish_ms=63.9340877533 edges=396407 tiles=5058
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=15 active_ms=8.78095626831 finish_ms=8.81004333496 edges=130915 tiles=5244
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=16 active_ms=8.03399085999 finish_ms=8.04805755615 edges=127668 tiles=4920
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=17 active_ms=8.3179473877 finish_ms=8.35394859314 edges=91566 tiles=5060
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=18 active_ms=7.96103477478 finish_ms=7.97605514526 edges=116978 tiles=4520
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=19 active_ms=8.73994827271 finish_ms=8.76998901367 edges=123128 tiles=5084
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=20 active_ms=8.75902175903 finish_ms=8.78000259399 edges=135755 tiles=4820
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=21 active_ms=14.9419307709 finish_ms=14.965057373 edges=296987 tiles=4868
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=22 active_ms=7.87281990051 finish_ms=7.90596008301 edges=119236 tiles=4752
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=23 active_ms=9.85789299011 finish_ms=9.88602638245 edges=168488 tiles=4512
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=24 active_ms=7.88497924805 finish_ms=7.90596008301 edges=45584 tiles=5448
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=25 active_ms=7.86709785461 finish_ms=7.89308547974 edges=87915 tiles=4976
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=26 active_ms=25.071144104 finish_ms=25.0971317291 edges=578797 tiles=4992
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=27 active_ms=7.86900520325 finish_ms=7.88807868958 edges=107369 tiles=4944
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=28 active_ms=8.04591178894 finish_ms=8.06903839111 edges=112418 tiles=4992
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=29 active_ms=8.58402252197 finish_ms=8.60095024109 edges=131968 tiles=4700
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=30 active_ms=7.87281990051 finish_ms=7.89093971252 edges=121406 tiles=708
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=1 tid=31 active_ms=7.89213180542 finish_ms=7.9071521759 edges=122376 tiles=544
+STATE_WORK_GATE graph=wiki-Talk method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=pack_epi_degree layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=pack_epi_degree layer=2 edges=5021410 decoded_rows=5021410 saved_decode_rows=0 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=row_schedule sampled_thread_ms=0.0772476196289 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_zero sampled_thread_ms=0.00953674316406 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=csr_prefetch sampled_thread_ms=20.3886032104 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=feature_gather_decode sampled_thread_ms=14.6591663361 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.78618049622 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.303030014038 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=tile_load sampled_thread_ms=0.0584125518799 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=tile_compute sampled_thread_ms=0.137567520142 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=tile_store sampled_thread_ms=0.00572204589844 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=output_scatter sampled_thread_ms=0.18835067749 diagnostic_wall_ms=60.6460571289
+EVENT_PROFILE graph=wiki-Talk method=pack_epi_degree layer=2 phase=thread_amx_setup sampled_thread_ms=0.0240802764893 diagnostic_wall_ms=60.6460571289
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_init sampled_thread_ms=0.00119209289551 events=37
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=csr_index_read sampled_thread_ms=2.83408164978 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=csr_next_index_read sampled_thread_ms=2.88391113281 events=109450
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=prefetch_issue sampled_thread_ms=2.88724899292 events=109450
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=source_bf16_load sampled_thread_ms=2.97474861145 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=source_bf16_decode sampled_thread_ms=2.75087356567 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=feature_fp32_add sampled_thread_ms=2.76398658752 events=110027
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_state_load sampled_thread_ms=0.0555515289307 events=1674
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_state_store sampled_thread_ms=0.0407695770264 events=1674
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_hi_pack sampled_thread_ms=0.135898590088 events=4616
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=amx_a_load sampled_thread_ms=0.00667572021484 events=296
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=amx_b_load sampled_thread_ms=0.0185966491699 events=592
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=amx_tdp_compute sampled_thread_ms=0.109910964966 events=592
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=amx_c_zero sampled_thread_ms=0 events=74
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=amx_c_store sampled_thread_ms=0.000953674316406 events=74
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0209808349609 events=577
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=output_store sampled_thread_ms=0.104665756226 events=1126
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=thread_permission sampled_thread_ms=0.00953674316406 events=32
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=thread_tile_release sampled_thread_ms=0.00500679016113 events=32
+EVENT_DETAIL graph=wiki-Talk method=pack_epi_degree layer=2 phase=row_metadata_read sampled_thread_ms=0.0426769256592 events=586
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=0 active_ms=7.31897354126 finish_ms=7.3230266571 edges=115459 tiles=5320
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=1 active_ms=14.8251056671 finish_ms=14.829158783 edges=319014 tiles=5336
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=2 active_ms=7.38096237183 finish_ms=7.38501548767 edges=119874 tiles=4908
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=3 active_ms=10.073184967 finish_ms=10.0781917572 edges=193083 tiles=5244
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=4 active_ms=7.728099823 finish_ms=7.73310661316 edges=126270 tiles=5440
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=5 active_ms=7.20405578613 finish_ms=7.20906257629 edges=114737 tiles=5384
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=6 active_ms=7.080078125 finish_ms=7.08508491516 edges=111337 tiles=5000
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=7 active_ms=21.4030742645 finish_ms=21.4080810547 edges=495038 tiles=5380
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=8 active_ms=6.70504570007 finish_ms=6.71005249023 edges=92976 tiles=5108
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=9 active_ms=60.6250762939 finish_ms=60.6300830841 edges=386176 tiles=5162
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=10 active_ms=15.0370597839 finish_ms=15.0420665741 edges=305243 tiles=5320
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=11 active_ms=7.81917572021 finish_ms=7.82418251038 edges=142133 tiles=5208
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=12 active_ms=6.74819946289 finish_ms=6.75320625305 edges=85289 tiles=5312
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=13 active_ms=9.06801223755 finish_ms=9.07206535339 edges=176412 tiles=5008
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=14 active_ms=10.2441310883 finish_ms=10.2491378784 edges=116253 tiles=5344
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=15 active_ms=7.8330039978 finish_ms=7.83801078796 edges=129744 tiles=4996
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=16 active_ms=7.65109062195 finish_ms=7.65609741211 edges=121068 tiles=5264
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=17 active_ms=10.9510421753 finish_ms=10.9560489655 edges=213329 tiles=5052
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=18 active_ms=6.7310333252 finish_ms=6.73604011536 edges=101573 tiles=5096
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=19 active_ms=0.00715255737305 finish_ms=17.8351402283 edges=0 tiles=0
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=20 active_ms=8.84699821472 finish_ms=8.85200500488 edges=156537 tiles=4776
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=21 active_ms=9.35506820679 finish_ms=9.36007499695 edges=161422 tiles=5068
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=22 active_ms=7.79318809509 finish_ms=7.79819488525 edges=109227 tiles=5084
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=23 active_ms=7.72404670715 finish_ms=7.72905349731 edges=128258 tiles=4760
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=24 active_ms=7.81607627869 finish_ms=7.82012939453 edges=127912 tiles=5016
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=25 active_ms=8.20183753967 finish_ms=8.20803642273 edges=125325 tiles=4900
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=26 active_ms=7.04717636108 finish_ms=7.05218315125 edges=106025 tiles=4964
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=27 active_ms=6.99615478516 finish_ms=7.00116157532 edges=101279 tiles=4888
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=28 active_ms=7.55596160889 finish_ms=7.56001472473 edges=116929 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=29 active_ms=8.56900215149 finish_ms=8.57400894165 edges=154186 tiles=4864
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=30 active_ms=8.43715667725 finish_ms=8.44216346741 edges=153188 tiles=744
+EVENT_THREAD graph=wiki-Talk method=pack_epi_degree layer=2 tid=31 active_ms=7.20000267029 finish_ms=7.20620155334 edges=116114 tiles=692
+STATE_WORK_GATE graph=wiki-Talk method=dynamic_all_share layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=dynamic_all_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=dynamic_all_share layer=1 edges=5021410 decoded_rows=4999865 saved_decode_rows=21545 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=2851803 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=row_schedule sampled_thread_ms=0.0731945037842 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_zero sampled_thread_ms=0.0119209289551 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=csr_prefetch sampled_thread_ms=11.7740631104 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=feature_gather_decode sampled_thread_ms=15.0401592255 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=6.37340545654 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.31590461731 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=tile_load sampled_thread_ms=0.0808238983154 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=tile_compute sampled_thread_ms=0.138521194458 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=tile_store sampled_thread_ms=0.00810623168945 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=output_scatter sampled_thread_ms=0.365972518921 diagnostic_wall_ms=67.6050186157
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0238418579102 diagnostic_wall_ms=67.6050186157
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_init sampled_thread_ms=0.00119209289551 events=37
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=csr_index_read sampled_thread_ms=2.8989315033 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=csr_next_index_read sampled_thread_ms=2.86889076233 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=prefetch_issue sampled_thread_ms=2.85339355469 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=source_bf16_load sampled_thread_ms=3.0689239502 events=109943
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=source_bf16_decode sampled_thread_ms=3.09705734253 events=109943
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=feature_fp32_add sampled_thread_ms=3.33404541016 events=109943
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_state_load sampled_thread_ms=0.0510215759277 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_state_store sampled_thread_ms=0.0383853912354 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.149488449097 events=4616
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=amx_a_load sampled_thread_ms=0.00810623168945 events=296
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=amx_b_load sampled_thread_ms=0.0300407409668 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.128269195557 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00405311584473 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=amx_c_store sampled_thread_ms=0.00619888305664 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=output_store sampled_thread_ms=0.285387039185 events=549
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=thread_permission sampled_thread_ms=0.00762939453125 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00572204589844 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0302791595459 events=586
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=0 active_ms=33.6730480194 finish_ms=33.6771011353 edges=545572 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=1 active_ms=7.42506980896 finish_ms=7.43007659912 edges=79902 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=2 active_ms=10.3929042816 finish_ms=10.3969573975 edges=134122 tiles=4748
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=3 active_ms=23.5240459442 finish_ms=23.5290527344 edges=364251 tiles=5160
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=4 active_ms=12.9480361938 finish_ms=12.953042984 edges=177281 tiles=5132
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=5 active_ms=8.02206993103 finish_ms=8.02612304688 edges=88705 tiles=5072
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=6 active_ms=9.81092453003 finish_ms=9.81497764587 edges=117581 tiles=4784
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=7 active_ms=7.43103027344 finish_ms=7.43508338928 edges=64190 tiles=5544
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=8 active_ms=17.1880722046 finish_ms=17.1930789948 edges=254686 tiles=4776
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=9 active_ms=7.40313529968 finish_ms=7.40814208984 edges=59803 tiles=5332
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=10 active_ms=12.2430324554 finish_ms=12.2480392456 edges=165776 tiles=4764
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=11 active_ms=19.7379589081 finish_ms=19.7429656982 edges=285960 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=12 active_ms=7.47299194336 finish_ms=7.47799873352 edges=78274 tiles=5248
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=13 active_ms=9.92608070374 finish_ms=9.9310874939 edges=66543 tiles=5040
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=14 active_ms=7.5249671936 finish_ms=7.52997398376 edges=78851 tiles=4952
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=15 active_ms=8.07213783264 finish_ms=8.0771446228 edges=87763 tiles=5036
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=16 active_ms=11.461019516 finish_ms=11.4660263062 edges=144099 tiles=5044
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=17 active_ms=11.8250846863 finish_ms=11.8300914764 edges=152893 tiles=4852
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=18 active_ms=7.74598121643 finish_ms=7.75098800659 edges=78185 tiles=4496
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=19 active_ms=8.22901725769 finish_ms=8.23402404785 edges=86819 tiles=4984
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=20 active_ms=14.9779319763 finish_ms=14.9829387665 edges=199996 tiles=4672
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=21 active_ms=8.38708877563 finish_ms=8.3920955658 edges=90829 tiles=4748
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=22 active_ms=7.5421333313 finish_ms=7.54714012146 edges=74401 tiles=4864
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=23 active_ms=67.5721168518 finish_ms=67.577123642 edges=432407 tiles=4518
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=24 active_ms=7.42793083191 finish_ms=7.43198394775 edges=69585 tiles=4912
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=25 active_ms=7.68613815308 finish_ms=7.69114494324 edges=78682 tiles=4804
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=26 active_ms=14.1110420227 finish_ms=14.1160488129 edges=197373 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=27 active_ms=13.5650634766 finish_ms=13.5700702667 edges=178212 tiles=4840
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=28 active_ms=8.29410552979 finish_ms=8.29911231995 edges=90177 tiles=4920
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=29 active_ms=8.41498374939 finish_ms=8.41999053955 edges=91778 tiles=4816
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=30 active_ms=16.2489414215 finish_ms=16.2529945374 edges=238274 tiles=792
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=1 tid=31 active_ms=12.2690200806 finish_ms=12.2740268707 edges=168440 tiles=692
+STATE_WORK_GATE graph=wiki-Talk method=dynamic_all_share layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=dynamic_all_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=dynamic_all_share layer=2 edges=5021410 decoded_rows=4999865 saved_decode_rows=21545 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=2851803 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=row_schedule sampled_thread_ms=0.075101852417 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_zero sampled_thread_ms=0.00715255737305 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=csr_prefetch sampled_thread_ms=11.5752220154 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=feature_gather_decode sampled_thread_ms=15.061378479 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=6.30664825439 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.314235687256 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=tile_load sampled_thread_ms=0.0710487365723 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=tile_compute sampled_thread_ms=0.130891799927 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=tile_store sampled_thread_ms=0.00905990600586 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=output_scatter sampled_thread_ms=0.208377838135 diagnostic_wall_ms=65.3290748596
+EVENT_PROFILE graph=wiki-Talk method=dynamic_all_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0226497650146 diagnostic_wall_ms=65.3290748596
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_init sampled_thread_ms=0 events=37
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=csr_index_read sampled_thread_ms=2.94280052185 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=csr_next_index_read sampled_thread_ms=2.81643867493 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=prefetch_issue sampled_thread_ms=2.88152694702 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=source_bf16_load sampled_thread_ms=3.08084487915 events=109943
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=source_bf16_decode sampled_thread_ms=3.04436683655 events=109943
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=feature_fp32_add sampled_thread_ms=3.31592559814 events=109943
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_state_load sampled_thread_ms=0.0369548797607 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_state_store sampled_thread_ms=0.0591278076172 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.155925750732 events=4616
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=amx_a_load sampled_thread_ms=0.0102519989014 events=296
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=amx_b_load sampled_thread_ms=0.0333786010742 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.106811523438 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00190734863281 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=amx_c_store sampled_thread_ms=0.00596046447754 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0295639038086 events=577
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=output_store sampled_thread_ms=0.086784362793 events=1126
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=thread_permission sampled_thread_ms=0.0145435333252 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_all_share layer=2 phase=row_metadata_read sampled_thread_ms=0.042200088501 events=586
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=0 active_ms=7.63392448425 finish_ms=7.6379776001 edges=97123 tiles=4992
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=1 active_ms=6.19387626648 finish_ms=6.19792938232 edges=67602 tiles=5140
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=2 active_ms=14.9788856506 finish_ms=14.9829387665 edges=226150 tiles=4600
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=3 active_ms=10.4160308838 finish_ms=10.4200839996 edges=96723 tiles=4976
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=4 active_ms=65.3078556061 finish_ms=65.3119087219 edges=417377 tiles=5246
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=5 active_ms=6.55198097229 finish_ms=6.55698776245 edges=74915 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=6 active_ms=8.3019733429 finish_ms=8.30602645874 edges=112333 tiles=4668
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=7 active_ms=7.62796401978 finish_ms=7.63297080994 edges=101269 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=8 active_ms=11.0139846802 finish_ms=11.0189914703 edges=160239 tiles=4760
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=9 active_ms=10.5738639832 finish_ms=10.5788707733 edges=148857 tiles=5072
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=10 active_ms=7.82990455627 finish_ms=7.83395767212 edges=97590 tiles=4984
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=11 active_ms=13.1919384003 finish_ms=13.1969451904 edges=194616 tiles=5068
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=12 active_ms=7.06696510315 finish_ms=7.07101821899 edges=86435 tiles=5016
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=13 active_ms=8.3589553833 finish_ms=8.36396217346 edges=113862 tiles=4864
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=14 active_ms=7.18688964844 finish_ms=7.1918964386 edges=75327 tiles=4836
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=15 active_ms=15.3000354767 finish_ms=15.3050422668 edges=244747 tiles=4696
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=16 active_ms=7.66897201538 finish_ms=7.67397880554 edges=93820 tiles=5064
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=17 active_ms=11.834859848 finish_ms=11.8398666382 edges=173871 tiles=5040
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=18 active_ms=7.60388374329 finish_ms=7.60889053345 edges=91804 tiles=4936
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=19 active_ms=17.786026001 finish_ms=17.7910327911 edges=282049 tiles=4756
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=20 active_ms=6.19506835938 finish_ms=6.20007514954 edges=65693 tiles=4852
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=21 active_ms=7.59196281433 finish_ms=7.59792327881 edges=95418 tiles=4992
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=22 active_ms=8.0418586731 finish_ms=8.04686546326 edges=99656 tiles=5052
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=23 active_ms=10.9179019928 finish_ms=10.922908783 edges=155191 tiles=4660
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=24 active_ms=7.1918964386 finish_ms=7.19690322876 edges=83730 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=25 active_ms=21.6979980469 finish_ms=21.703004837 edges=340078 tiles=4772
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=26 active_ms=31.3930511475 finish_ms=31.3980579376 edges=517077 tiles=5040
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=27 active_ms=8.08191299438 finish_ms=8.08691978455 edges=100881 tiles=4876
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=28 active_ms=12.3879909515 finish_ms=12.3929977417 edges=181046 tiles=5052
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=29 active_ms=10.3769302368 finish_ms=10.381937027 edges=143772 tiles=4940
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=30 active_ms=7.47895240784 finish_ms=7.483959198 edges=103091 tiles=908
+EVENT_THREAD graph=wiki-Talk method=dynamic_all_share layer=2 tid=31 active_ms=11.7979049683 finish_ms=11.8029117584 edges=179068 tiles=716
+STATE_WORK_GATE graph=wiki-Talk method=event_independent layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=event_independent layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=event_independent layer=1 edges=5021410 decoded_rows=5021410 saved_decode_rows=0 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=8 selected_windows=1 run_dispatches=1 run_bytes=2 tile_fallback_scopes=9226
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=row_schedule sampled_thread_ms=0.0817775726318 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=partial_zero sampled_thread_ms=0.00810623168945 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=csr_prefetch sampled_thread_ms=20.4262733459 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=feature_gather_decode sampled_thread_ms=14.6362781525 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.82146644592 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.319957733154 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=tile_load sampled_thread_ms=0.0650882720947 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=tile_compute sampled_thread_ms=0.109910964966 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=tile_store sampled_thread_ms=0.00619888305664 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=output_scatter sampled_thread_ms=0.200748443604 diagnostic_wall_ms=61.1848831177
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=1 phase=thread_amx_setup sampled_thread_ms=0.030517578125 diagnostic_wall_ms=61.1848831177
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=partial_init sampled_thread_ms=0 events=37
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=csr_index_read sampled_thread_ms=2.91728973389 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=csr_next_index_read sampled_thread_ms=2.85911560059 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=prefetch_issue sampled_thread_ms=2.88772583008 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=source_bf16_load sampled_thread_ms=2.91967391968 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=source_bf16_decode sampled_thread_ms=2.83360481262 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=feature_fp32_add sampled_thread_ms=2.83575057983 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=partial_state_load sampled_thread_ms=0.0388622283936 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=partial_state_store sampled_thread_ms=0.0514984130859 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=partial_hi_pack sampled_thread_ms=0.14328956604 events=4616
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=amx_a_load sampled_thread_ms=0.00309944152832 events=296
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=amx_b_load sampled_thread_ms=0.0298023223877 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=amx_tdp_compute sampled_thread_ms=0.096321105957 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=amx_c_zero sampled_thread_ms=0.00500679016113 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=amx_c_store sampled_thread_ms=0.00429153442383 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=output_store sampled_thread_ms=0.134944915771 events=549
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=thread_permission sampled_thread_ms=0.0162124633789 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=1 phase=row_metadata_read sampled_thread_ms=0.0383853912354 events=586
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=0 active_ms=7.50494003296 finish_ms=7.5089931488 edges=105431 tiles=4944
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=1 active_ms=7.53998756409 finish_ms=7.54499435425 edges=113779 tiles=5072
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=2 active_ms=11.3508701324 finish_ms=11.3558769226 edges=198070 tiles=5180
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=3 active_ms=21.8949317932 finish_ms=21.8999385834 edges=478174 tiles=5272
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=4 active_ms=8.4240436554 finish_ms=8.42905044556 edges=132151 tiles=5192
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=5 active_ms=15.606880188 finish_ms=15.6118869781 edges=304605 tiles=5136
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=6 active_ms=7.49492645264 finish_ms=7.4999332428 edges=92345 tiles=4776
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=7 active_ms=7.55310058594 finish_ms=7.5581073761 edges=121551 tiles=5076
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=8 active_ms=8.52108001709 finish_ms=8.52608680725 edges=126453 tiles=4700
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=9 active_ms=7.69591331482 finish_ms=7.70092010498 edges=97525 tiles=5084
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=10 active_ms=10.2229118347 finish_ms=10.2279186249 edges=172097 tiles=4844
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=11 active_ms=12.6399993896 finish_ms=12.6450061798 edges=234186 tiles=5024
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=12 active_ms=7.4770450592 finish_ms=7.48205184937 edges=95338 tiles=5304
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=13 active_ms=61.1610412598 finish_ms=61.1660480499 edges=376077 tiles=4830
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=14 active_ms=8.41999053955 finish_ms=8.42499732971 edges=146630 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=15 active_ms=7.41195678711 finish_ms=7.41696357727 edges=94958 tiles=5048
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=16 active_ms=10.134935379 finish_ms=10.1408958435 edges=183352 tiles=4904
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=17 active_ms=7.57694244385 finish_ms=7.58290290833 edges=101697 tiles=4876
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=18 active_ms=7.51900672913 finish_ms=7.52401351929 edges=91619 tiles=4564
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=19 active_ms=9.81998443604 finish_ms=9.8249912262 edges=158079 tiles=4952
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=20 active_ms=7.5318813324 finish_ms=7.53688812256 edges=113933 tiles=4716
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=21 active_ms=7.57193565369 finish_ms=7.57694244385 edges=93647 tiles=4960
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=22 active_ms=10.6430053711 finish_ms=10.6480121613 edges=170352 tiles=5036
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=23 active_ms=8.43596458435 finish_ms=8.44097137451 edges=123575 tiles=4452
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=24 active_ms=9.97710227966 finish_ms=9.98210906982 edges=169447 tiles=4896
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=25 active_ms=13.1320953369 finish_ms=13.1371021271 edges=236093 tiles=4708
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=26 active_ms=7.45606422424 finish_ms=7.4610710144 edges=94766 tiles=4840
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=27 active_ms=9.41896438599 finish_ms=9.42397117615 edges=135048 tiles=4924
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=28 active_ms=7.42888450623 finish_ms=7.43389129639 edges=100647 tiles=4960
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=29 active_ms=10.3058815002 finish_ms=10.3108882904 edges=159375 tiles=4908
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=30 active_ms=9.57202911377 finish_ms=9.57703590393 edges=152513 tiles=792
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=1 tid=31 active_ms=8.22305679321 finish_ms=8.22901725769 edges=47897 tiles=668
+STATE_WORK_GATE graph=wiki-Talk method=event_independent layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=event_independent layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=event_independent layer=2 edges=5021410 decoded_rows=5021410 saved_decode_rows=0 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=8 selected_windows=1 run_dispatches=1 run_bytes=2 tile_fallback_scopes=9226
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=row_schedule sampled_thread_ms=0.068187713623 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=partial_zero sampled_thread_ms=0.0109672546387 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=csr_prefetch sampled_thread_ms=20.4932689667 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=feature_gather_decode sampled_thread_ms=14.5485401154 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.79333305359 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.317573547363 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=tile_load sampled_thread_ms=0.0817775726318 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=tile_compute sampled_thread_ms=0.110387802124 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=tile_store sampled_thread_ms=0.011682510376 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=output_scatter sampled_thread_ms=0.192165374756 diagnostic_wall_ms=60.8489513397
+EVENT_PROFILE graph=wiki-Talk method=event_independent layer=2 phase=thread_amx_setup sampled_thread_ms=0.0362396240234 diagnostic_wall_ms=60.8489513397
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=partial_init sampled_thread_ms=0.00286102294922 events=37
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=csr_index_read sampled_thread_ms=2.83098220825 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=csr_next_index_read sampled_thread_ms=2.90536880493 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=prefetch_issue sampled_thread_ms=2.84838676453 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=source_bf16_load sampled_thread_ms=3.0152797699 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=source_bf16_decode sampled_thread_ms=2.75301933289 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=feature_fp32_add sampled_thread_ms=2.86960601807 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=partial_state_load sampled_thread_ms=0.0510215759277 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=partial_state_store sampled_thread_ms=0.0462532043457 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=partial_hi_pack sampled_thread_ms=0.142812728882 events=4616
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=amx_a_load sampled_thread_ms=0.0157356262207 events=296
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=amx_b_load sampled_thread_ms=0.0283718109131 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=amx_tdp_compute sampled_thread_ms=0.0901222229004 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=amx_c_store sampled_thread_ms=0.00500679016113 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=output_bf16_conversion sampled_thread_ms=0.00667572021484 events=577
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=output_store sampled_thread_ms=0.098705291748 events=1126
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=thread_permission sampled_thread_ms=0.0209808349609 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=thread_tile_config sampled_thread_ms=0.00572204589844 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_independent layer=2 phase=row_metadata_read sampled_thread_ms=0.0300407409668 events=586
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=0 active_ms=7.90500640869 finish_ms=7.90905952454 edges=136455 tiles=5000
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=1 active_ms=6.85501098633 finish_ms=6.86001777649 edges=105981 tiles=4944
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=2 active_ms=6.81209564209 finish_ms=6.81710243225 edges=101707 tiles=4904
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=3 active_ms=6.86883926392 finish_ms=6.87289237976 edges=107234 tiles=4916
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=4 active_ms=7.9870223999 finish_ms=7.99107551575 edges=141232 tiles=5204
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=5 active_ms=7.82799720764 finish_ms=7.8330039978 edges=123730 tiles=4964
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=6 active_ms=6.90293312073 finish_ms=6.90793991089 edges=104684 tiles=4696
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=7 active_ms=7.21383094788 finish_ms=7.21788406372 edges=111918 tiles=5128
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=8 active_ms=7.94196128845 finish_ms=7.9460144043 edges=140340 tiles=4816
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=9 active_ms=8.14199447632 finish_ms=8.14604759216 edges=135304 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=10 active_ms=7.92694091797 finish_ms=7.93099403381 edges=132092 tiles=5064
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=11 active_ms=9.84692573547 finish_ms=9.85097885132 edges=184347 tiles=5096
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=12 active_ms=7.86805152893 finish_ms=7.87210464478 edges=134843 tiles=5044
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=13 active_ms=6.92296028137 finish_ms=6.92701339722 edges=105963 tiles=4888
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=14 active_ms=7.03287124634 finish_ms=7.03692436218 edges=111345 tiles=4916
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=15 active_ms=8.54802131653 finish_ms=8.55302810669 edges=150886 tiles=4808
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=16 active_ms=14.8949623108 finish_ms=14.8990154266 edges=313529 tiles=5092
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=17 active_ms=24.0278244019 finish_ms=24.0318775177 edges=558319 tiles=5112
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=18 active_ms=60.8279705048 finish_ms=60.8320236206 edges=396372 tiles=4842
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=19 active_ms=12.2470855713 finish_ms=12.2520923615 edges=244635 tiles=4788
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=20 active_ms=7.94291496277 finish_ms=7.94792175293 edges=115691 tiles=4840
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=21 active_ms=6.9260597229 finish_ms=6.93106651306 edges=105670 tiles=5000
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=22 active_ms=6.88004493713 finish_ms=6.88409805298 edges=106449 tiles=5084
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=23 active_ms=7.29990005493 finish_ms=7.30395317078 edges=116553 tiles=4668
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=24 active_ms=6.86192512512 finish_ms=6.86597824097 edges=113655 tiles=4944
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=25 active_ms=10.7700824738 finish_ms=10.7750892639 edges=204172 tiles=4828
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=26 active_ms=7.15088844299 finish_ms=7.15589523315 edges=108127 tiles=5068
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=27 active_ms=6.81185722351 finish_ms=6.81591033936 edges=102349 tiles=4804
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=28 active_ms=6.81495666504 finish_ms=6.81900978088 edges=105859 tiles=4904
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=29 active_ms=9.16600227356 finish_ms=9.1700553894 edges=163734 tiles=4888
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=30 active_ms=7.43103027344 finish_ms=7.43508338928 edges=130968 tiles=716
+EVENT_THREAD graph=wiki-Talk method=event_independent layer=2 tid=31 active_ms=9.57608222961 finish_ms=9.58108901978 edges=107267 tiles=652
+STATE_WORK_GATE graph=wiki-Talk method=event_share layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=event_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=event_share layer=1 edges=5021410 decoded_rows=5021402 saved_decode_rows=8 adds=642740480 tdp=295264 csr_reads=5021402 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=8 selected_windows=1 run_dispatches=1 run_bytes=2 tile_fallback_scopes=9226
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=row_schedule sampled_thread_ms=0.0889301300049 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=partial_zero sampled_thread_ms=0.0112056732178 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=csr_prefetch sampled_thread_ms=20.473241806 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=feature_gather_decode sampled_thread_ms=14.7173404694 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.70845603943 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.305891036987 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=tile_load sampled_thread_ms=0.0693798065186 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=tile_compute sampled_thread_ms=0.106573104858 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=tile_store sampled_thread_ms=0.00309944152832 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=output_scatter sampled_thread_ms=0.436305999756 diagnostic_wall_ms=60.8289241791
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0355243682861 diagnostic_wall_ms=60.8289241791
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=partial_init sampled_thread_ms=0 events=37
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=csr_index_read sampled_thread_ms=2.80570983887 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=csr_next_index_read sampled_thread_ms=2.83670425415 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=prefetch_issue sampled_thread_ms=2.90822982788 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=source_bf16_load sampled_thread_ms=3.05962562561 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=source_bf16_decode sampled_thread_ms=2.71058082581 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=feature_fp32_add sampled_thread_ms=2.74443626404 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=partial_state_load sampled_thread_ms=0.0481605529785 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=partial_state_store sampled_thread_ms=0.0524520874023 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.159502029419 events=4616
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=amx_a_load sampled_thread_ms=0.00691413879395 events=296
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=amx_b_load sampled_thread_ms=0.0236034393311 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.08225440979 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00333786010742 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=amx_c_store sampled_thread_ms=0.00214576721191 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=output_store sampled_thread_ms=0.351667404175 events=549
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=thread_permission sampled_thread_ms=0.0202655792236 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00381469726562 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0400543212891 events=586
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=0 active_ms=9.00983810425 finish_ms=9.01389122009 edges=140235 tiles=4908
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=1 active_ms=15.2020454407 finish_ms=15.2080059052 edges=302332 tiles=4968
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=2 active_ms=8.98003578186 finish_ms=8.98504257202 edges=141260 tiles=5040
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=3 active_ms=8.19396972656 finish_ms=8.19993019104 edges=119945 tiles=5160
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=4 active_ms=7.96103477478 finish_ms=7.96604156494 edges=118784 tiles=4996
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=5 active_ms=7.80487060547 finish_ms=7.80987739563 edges=91756 tiles=5268
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=6 active_ms=8.32986831665 finish_ms=8.33487510681 edges=122948 tiles=4752
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=7 active_ms=8.90207290649 finish_ms=8.90707969666 edges=132240 tiles=5112
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=8 active_ms=11.2850666046 finish_ms=11.2900733948 edges=91394 tiles=4988
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=9 active_ms=8.84795188904 finish_ms=8.85391235352 edges=134208 tiles=5052
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=10 active_ms=7.86590576172 finish_ms=7.87091255188 edges=112271 tiles=4816
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=11 active_ms=8.34608078003 finish_ms=8.35204124451 edges=109944 tiles=4984
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=12 active_ms=60.8050823212 finish_ms=60.8100891113 edges=376430 tiles=5150
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=13 active_ms=16.1468982697 finish_ms=16.1519050598 edges=330620 tiles=4780
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=14 active_ms=8.27598571777 finish_ms=8.28194618225 edges=128623 tiles=5052
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=15 active_ms=8.8369846344 finish_ms=8.84199142456 edges=121004 tiles=5240
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=16 active_ms=8.73804092407 finish_ms=8.74304771423 edges=130807 tiles=5304
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=17 active_ms=22.0839977264 finish_ms=22.0899581909 edges=477389 tiles=4756
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=18 active_ms=8.2540512085 finish_ms=8.26001167297 edges=112756 tiles=4584
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=19 active_ms=8.00013542175 finish_ms=8.00609588623 edges=80277 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=20 active_ms=8.20207595825 finish_ms=8.20803642273 edges=114927 tiles=4848
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=21 active_ms=8.90302658081 finish_ms=8.90898704529 edges=127632 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=22 active_ms=8.13102722168 finish_ms=8.13698768616 edges=115856 tiles=4676
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=23 active_ms=10.272026062 finish_ms=10.2779865265 edges=165330 tiles=4424
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=24 active_ms=7.80606269836 finish_ms=7.81106948853 edges=93743 tiles=5164
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=25 active_ms=8.01396369934 finish_ms=8.01992416382 edges=100664 tiles=4804
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=26 active_ms=10.9889507294 finish_ms=10.9939575195 edges=189817 tiles=4888
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=27 active_ms=8.46290588379 finish_ms=8.46886634827 edges=125361 tiles=4972
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=28 active_ms=9.40608978271 finish_ms=9.41109657288 edges=151077 tiles=4872
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=29 active_ms=8.85486602783 finish_ms=8.85987281799 edges=136624 tiles=4688
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=30 active_ms=10.2870464325 finish_ms=10.2920532227 edges=181693 tiles=688
+EVENT_THREAD graph=wiki-Talk method=event_share layer=1 tid=31 active_ms=9.18388366699 finish_ms=9.18889045715 edges=143463 tiles=692
+STATE_WORK_GATE graph=wiki-Talk method=event_share layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=event_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=event_share layer=2 edges=5021410 decoded_rows=5021402 saved_decode_rows=8 adds=642740480 tdp=295264 csr_reads=5021402 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=8 selected_windows=1 run_dispatches=1 run_bytes=2 tile_fallback_scopes=9226
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=row_schedule sampled_thread_ms=0.0724792480469 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=partial_zero sampled_thread_ms=0.0102519989014 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=csr_prefetch sampled_thread_ms=20.5433368683 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=feature_gather_decode sampled_thread_ms=14.6005153656 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.75923919678 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.27060508728 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=tile_load sampled_thread_ms=0.0743865966797 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=tile_compute sampled_thread_ms=0.111103057861 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=tile_store sampled_thread_ms=0.00381469726562 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=output_scatter sampled_thread_ms=0.211238861084 diagnostic_wall_ms=61.1798763275
+EVENT_PROFILE graph=wiki-Talk method=event_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.03981590271 diagnostic_wall_ms=61.1798763275
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=partial_init sampled_thread_ms=0.00214576721191 events=37
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=csr_index_read sampled_thread_ms=2.96688079834 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=csr_next_index_read sampled_thread_ms=2.89463996887 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=prefetch_issue sampled_thread_ms=2.78759002686 events=109450
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=source_bf16_load sampled_thread_ms=2.87055969238 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=source_bf16_decode sampled_thread_ms=2.84624099731 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=feature_fp32_add sampled_thread_ms=2.86459922791 events=110027
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=partial_state_load sampled_thread_ms=0.0548362731934 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=partial_state_store sampled_thread_ms=0.0438690185547 events=1674
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.135660171509 events=4616
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=amx_a_load sampled_thread_ms=0.0107288360596 events=296
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=amx_b_load sampled_thread_ms=0.0185966491699 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.0953674316406 events=592
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00119209289551 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=amx_c_store sampled_thread_ms=0.00190734863281 events=74
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0154972076416 events=577
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=output_store sampled_thread_ms=0.121593475342 events=1126
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=thread_permission sampled_thread_ms=0.0214576721191 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00214576721191 events=32
+EVENT_DETAIL graph=wiki-Talk method=event_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0424385070801 events=586
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=0 active_ms=7.26819038391 finish_ms=7.27105140686 edges=108989 tiles=4964
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=1 active_ms=10.2868080139 finish_ms=10.2908611298 edges=198935 tiles=4984
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=2 active_ms=6.64901733398 finish_ms=6.65307044983 edges=95215 tiles=5028
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=3 active_ms=21.8880176544 finish_ms=21.8930244446 edges=518908 tiles=4952
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=4 active_ms=14.5478248596 finish_ms=14.5518779755 edges=312523 tiles=5040
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=5 active_ms=7.90596008301 finish_ms=7.91096687317 edges=135996 tiles=4936
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=6 active_ms=8.79096984863 finish_ms=8.79597663879 edges=158555 tiles=4776
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=7 active_ms=6.71100616455 finish_ms=6.71601295471 edges=101617 tiles=5088
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=8 active_ms=6.32286071777 finish_ms=6.32786750793 edges=88314 tiles=4788
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=9 active_ms=61.1579418182 finish_ms=61.1629486084 edges=412936 tiles=5034
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=10 active_ms=6.66284561157 finish_ms=6.66689872742 edges=94338 tiles=5044
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=11 active_ms=9.30786132812 finish_ms=9.31286811829 edges=166522 tiles=5096
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=12 active_ms=8.96596908569 finish_ms=8.97002220154 edges=166269 tiles=5060
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=13 active_ms=6.38198852539 finish_ms=6.38604164124 edges=89483 tiles=4764
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=14 active_ms=7.13300704956 finish_ms=7.13706016541 edges=109365 tiles=4976
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=15 active_ms=8.08191299438 finish_ms=8.08596611023 edges=120396 tiles=4880
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=16 active_ms=9.16385650635 finish_ms=9.16886329651 edges=169988 tiles=5080
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=17 active_ms=6.35695457458 finish_ms=6.36196136475 edges=87966 tiles=4968
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=18 active_ms=7.15804100037 finish_ms=7.16304779053 edges=115164 tiles=4856
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=19 active_ms=6.62684440613 finish_ms=6.63185119629 edges=95298 tiles=4808
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=20 active_ms=6.6249370575 finish_ms=6.62994384766 edges=100474 tiles=4776
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=21 active_ms=6.44993782043 finish_ms=6.4549446106 edges=94702 tiles=4980
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=22 active_ms=6.34288787842 finish_ms=6.34789466858 edges=90425 tiles=5064
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=23 active_ms=9.88292694092 finish_ms=9.88793373108 edges=109486 tiles=4660
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=24 active_ms=6.67405128479 finish_ms=6.67905807495 edges=93020 tiles=5192
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=25 active_ms=8.90493392944 finish_ms=8.9099407196 edges=155558 tiles=4732
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=26 active_ms=6.65903091431 finish_ms=6.66403770447 edges=91247 tiles=4992
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=27 active_ms=9.80687141418 finish_ms=9.81187820435 edges=182438 tiles=4972
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=28 active_ms=12.6688480377 finish_ms=12.6738548279 edges=261287 tiles=4868
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=29 active_ms=8.44407081604 finish_ms=8.4490776062 edges=143708 tiles=4908
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=30 active_ms=6.33788108826 finish_ms=6.34288787842 edges=96720 tiles=728
+EVENT_THREAD graph=wiki-Talk method=event_share layer=2 tid=31 active_ms=12.3178958893 finish_ms=12.3229026794 edges=255568 tiles=656
+STATE_WORK_GATE graph=wiki-Talk method=dynamic_selected_share layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=dynamic_selected_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=dynamic_selected_share layer=1 edges=5021410 decoded_rows=5021402 saved_decode_rows=8 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=8 window_entries=8 selected_windows=1 run_dispatches=0 run_bytes=0 tile_fallback_scopes=9226
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=row_schedule sampled_thread_ms=0.0846385955811 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_zero sampled_thread_ms=0.00667572021484 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=csr_prefetch sampled_thread_ms=20.4737186432 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=feature_gather_decode sampled_thread_ms=14.6627426147 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.79690933228 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.315189361572 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=tile_load sampled_thread_ms=0.070333480835 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=tile_compute sampled_thread_ms=0.116348266602 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=tile_store sampled_thread_ms=0.0102519989014 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=output_scatter sampled_thread_ms=0.229120254517 diagnostic_wall_ms=61.6679191589
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.515460968018 diagnostic_wall_ms=61.6679191589
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_init sampled_thread_ms=0 events=37
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=csr_index_read sampled_thread_ms=2.95734405518 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=csr_next_index_read sampled_thread_ms=2.82192230225 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=prefetch_issue sampled_thread_ms=2.87961959839 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=source_bf16_load sampled_thread_ms=2.94375419617 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=source_bf16_decode sampled_thread_ms=2.83026695251 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=feature_fp32_add sampled_thread_ms=2.81953811646 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_state_load sampled_thread_ms=0.0522136688232 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_state_store sampled_thread_ms=0.046968460083 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.155448913574 events=4616
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=amx_a_load sampled_thread_ms=0.0112056732178 events=296
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=amx_b_load sampled_thread_ms=0.0269412994385 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.100374221802 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=amx_c_store sampled_thread_ms=0.00619888305664 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=output_store sampled_thread_ms=0.148773193359 events=549
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=thread_permission sampled_thread_ms=0.0193119049072 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=thread_tile_config sampled_thread_ms=0.490188598633 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0443458557129 events=586
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=0 active_ms=10.293006897 finish_ms=10.3001594543 edges=166943 tiles=4904
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=1 active_ms=13.5898590088 finish_ms=13.6070251465 edges=257511 tiles=5048
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=2 active_ms=11.7890834808 finish_ms=11.815071106 edges=219679 tiles=5000
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=3 active_ms=8.81600379944 finish_ms=8.84103775024 edges=136570 tiles=5292
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=4 active_ms=22.5620269775 finish_ms=22.5720405579 edges=494352 tiles=5048
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=5 active_ms=61.6228580475 finish_ms=61.6390705109 edges=391172 tiles=5158
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=6 active_ms=8.05807113647 finish_ms=8.08906555176 edges=114970 tiles=4840
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=7 active_ms=9.01508331299 finish_ms=9.04512405396 edges=142879 tiles=5004
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=8 active_ms=7.25817680359 finish_ms=7.27820396423 edges=93863 tiles=4824
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=9 active_ms=16.1519050598 finish_ms=16.184091568 edges=322052 tiles=5020
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=10 active_ms=8.76593589783 finish_ms=8.78310203552 edges=136859 tiles=5036
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=11 active_ms=9.28807258606 finish_ms=9.31310653687 edges=147240 tiles=5076
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=12 active_ms=9.28401947021 finish_ms=9.30118560791 edges=150733 tiles=5160
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=13 active_ms=7.22980499268 finish_ms=7.24601745605 edges=93183 tiles=4860
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=14 active_ms=7.89213180542 finish_ms=7.91716575623 edges=114764 tiles=5120
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=15 active_ms=8.63313674927 finish_ms=8.66222381592 edges=139603 tiles=5040
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=16 active_ms=11.0409259796 finish_ms=11.0530853271 edges=190591 tiles=4980
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=17 active_ms=8.64386558533 finish_ms=8.66508483887 edges=133464 tiles=4920
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=18 active_ms=8.75997543335 finish_ms=8.77118110657 edges=115226 tiles=4564
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=19 active_ms=7.67683982849 finish_ms=7.69400596619 edges=101278 tiles=4988
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=20 active_ms=7.39216804504 finish_ms=7.40718841553 edges=103312 tiles=4572
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=21 active_ms=7.64989852905 finish_ms=7.67803192139 edges=104348 tiles=4892
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=22 active_ms=7.42197036743 finish_ms=7.44199752808 edges=90981 tiles=4888
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=23 active_ms=7.40194320679 finish_ms=7.40814208984 edges=91944 tiles=4404
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=24 active_ms=7.27009773254 finish_ms=7.28511810303 edges=99330 tiles=4964
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=25 active_ms=8.957862854 finish_ms=8.97002220154 edges=136857 tiles=4824
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=26 active_ms=9.96994972229 finish_ms=9.99903678894 edges=82071 tiles=5104
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=27 active_ms=7.94100761414 finish_ms=7.9710483551 edges=103433 tiles=4900
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=28 active_ms=8.19087028503 finish_ms=8.20899009705 edges=109758 tiles=5020
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=29 active_ms=9.82594490051 finish_ms=9.84215736389 edges=161552 tiles=4812
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=30 active_ms=7.88998603821 finish_ms=7.91811943054 edges=118036 tiles=696
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=1 tid=31 active_ms=9.63091850281 finish_ms=9.6549987793 edges=156856 tiles=692
+STATE_WORK_GATE graph=wiki-Talk method=dynamic_selected_share layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=dynamic_selected_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=dynamic_selected_share layer=2 edges=5021410 decoded_rows=5021402 saved_decode_rows=8 adds=642740480 tdp=295264 csr_reads=5021410 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=8 window_entries=8 selected_windows=1 run_dispatches=0 run_bytes=0 tile_fallback_scopes=9226
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=row_schedule sampled_thread_ms=0.0729560852051 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_zero sampled_thread_ms=0.00953674316406 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=csr_prefetch sampled_thread_ms=20.4842090607 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=feature_gather_decode sampled_thread_ms=14.6322250366 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.82194328308 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.312089920044 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=tile_load sampled_thread_ms=0.0734329223633 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=tile_compute sampled_thread_ms=0.117301940918 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=tile_store sampled_thread_ms=0.00572204589844 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=output_scatter sampled_thread_ms=0.213146209717 diagnostic_wall_ms=60.1069927216
+EVENT_PROFILE graph=wiki-Talk method=dynamic_selected_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0295639038086 diagnostic_wall_ms=60.1069927216
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_init sampled_thread_ms=0.00405311584473 events=37
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=csr_index_read sampled_thread_ms=2.87389755249 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=csr_next_index_read sampled_thread_ms=2.87818908691 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=prefetch_issue sampled_thread_ms=2.92825698853 events=109450
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=source_bf16_load sampled_thread_ms=3.01718711853 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=source_bf16_decode sampled_thread_ms=2.79068946838 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=feature_fp32_add sampled_thread_ms=2.8247833252 events=110027
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_state_load sampled_thread_ms=0.046968460083 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_state_store sampled_thread_ms=0.0467300415039 events=1674
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.144720077515 events=4616
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=amx_a_load sampled_thread_ms=0.0109672546387 events=296
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=amx_b_load sampled_thread_ms=0.0276565551758 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.102758407593 events=592
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00214576721191 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=amx_c_store sampled_thread_ms=0.00381469726562 events=74
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.02121925354 events=577
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=output_store sampled_thread_ms=0.107526779175 events=1126
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=thread_permission sampled_thread_ms=0.0152587890625 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00381469726562 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=wiki-Talk method=dynamic_selected_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0393390655518 events=586
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=0 active_ms=10.4188919067 finish_ms=10.4229450226 edges=199189 tiles=4964
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=1 active_ms=14.5559310913 finish_ms=14.5609378815 edges=307717 tiles=5016
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=2 active_ms=6.47687911987 finish_ms=6.48093223572 edges=82832 tiles=4868
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=3 active_ms=8.65793228149 finish_ms=8.66293907166 edges=158480 tiles=4968
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=4 active_ms=8.98194313049 finish_ms=8.98599624634 edges=166768 tiles=5136
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=5 active_ms=8.51011276245 finish_ms=8.51511955261 edges=149917 tiles=5016
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=6 active_ms=9.13095474243 finish_ms=9.13596153259 edges=171606 tiles=4616
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=7 active_ms=9.34410095215 finish_ms=9.34910774231 edges=102871 tiles=5108
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=8 active_ms=8.81791114807 finish_ms=8.82196426392 edges=164974 tiles=4840
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=9 active_ms=6.28304481506 finish_ms=6.28900527954 edges=89815 tiles=5056
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=10 active_ms=6.33907318115 finish_ms=6.34407997131 edges=98661 tiles=4952
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=11 active_ms=7.34210014343 finish_ms=7.34806060791 edges=132673 tiles=4948
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=12 active_ms=21.2419033051 finish_ms=21.2459564209 edges=484832 tiles=5092
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=13 active_ms=6.51001930237 finish_ms=6.51502609253 edges=92274 tiles=4764
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=14 active_ms=6.29806518555 finish_ms=6.30307197571 edges=94291 tiles=4868
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=15 active_ms=7.55310058594 finish_ms=7.5581073761 edges=135424 tiles=4744
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=16 active_ms=12.0389461517 finish_ms=12.0439529419 edges=233597 tiles=5172
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=17 active_ms=7.71594047546 finish_ms=7.72094726562 edges=131828 tiles=4948
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=18 active_ms=7.6150894165 finish_ms=7.62009620667 edges=131309 tiles=4856
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=19 active_ms=9.0160369873 finish_ms=9.02104377747 edges=164360 tiles=4872
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=20 active_ms=9.2499256134 finish_ms=9.25493240356 edges=169758 tiles=4772
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=21 active_ms=7.58504867554 finish_ms=7.59100914001 edges=129674 tiles=4948
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=22 active_ms=8.37397575378 finish_ms=8.37898254395 edges=138420 tiles=5140
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=23 active_ms=6.27994537354 finish_ms=6.2849521637 edges=95245 tiles=4768
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=24 active_ms=6.32190704346 finish_ms=6.3259601593 edges=74289 tiles=5152
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=25 active_ms=7.5671672821 finish_ms=7.57312774658 edges=124202 tiles=4784
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=26 active_ms=7.02810287476 finish_ms=7.03310966492 edges=108115 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=27 active_ms=60.0869655609 finish_ms=60.0919723511 edges=375344 tiles=4922
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=28 active_ms=11.1150741577 finish_ms=11.1200809479 edges=189121 tiles=5184
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=29 active_ms=7.50589370728 finish_ms=7.51090049744 edges=126469 tiles=4860
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=30 active_ms=6.28709793091 finish_ms=6.29210472107 edges=100942 tiles=672
+EVENT_THREAD graph=wiki-Talk method=dynamic_selected_share layer=2 tid=31 active_ms=6.54792785645 finish_ms=6.55293464661 edges=96413 tiles=612
+STATE_WORK_GATE graph=wiki-Talk method=exact_only_share layer=1 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=exact_only_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=exact_only_share layer=1 edges=5021410 decoded_rows=5009184 saved_decode_rows=12226 adds=642740480 tdp=295264 csr_reads=5009184 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=33888 selected_windows=12175 run_dispatches=0 run_bytes=0 tile_fallback_scopes=4991
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=row_schedule sampled_thread_ms=0.086784362793 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=partial_zero sampled_thread_ms=0.0100135803223 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=csr_prefetch sampled_thread_ms=20.4787254333 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=feature_gather_decode sampled_thread_ms=14.8041248322 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=5.80620765686 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.321626663208 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=tile_load sampled_thread_ms=0.0708103179932 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=tile_compute sampled_thread_ms=0.123023986816 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=tile_store sampled_thread_ms=0.00786781311035 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=output_scatter sampled_thread_ms=0.520944595337 diagnostic_wall_ms=60.6851577759
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0429153442383 diagnostic_wall_ms=60.6851577759
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=partial_init sampled_thread_ms=0 events=37
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=csr_index_read sampled_thread_ms=2.88033485413 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=csr_next_index_read sampled_thread_ms=2.8657913208 events=109450
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=prefetch_issue sampled_thread_ms=2.87914276123 events=109450
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=source_bf16_load sampled_thread_ms=2.94780731201 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=source_bf16_decode sampled_thread_ms=2.79498100281 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=feature_fp32_add sampled_thread_ms=2.84361839294 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=partial_state_load sampled_thread_ms=0.0505447387695 events=1674
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=partial_state_store sampled_thread_ms=0.0512599945068 events=1674
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.152349472046 events=4616
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=amx_a_load sampled_thread_ms=0.00929832458496 events=296
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=amx_b_load sampled_thread_ms=0.0264644622803 events=592
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.102996826172 events=592
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00405311584473 events=74
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=amx_c_store sampled_thread_ms=0.00596046447754 events=74
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=output_store sampled_thread_ms=0.415086746216 events=549
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=thread_permission sampled_thread_ms=0.0324249267578 events=32
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00381469726562 events=32
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0431537628174 events=586
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=0 active_ms=9.26303863525 finish_ms=9.26613807678 edges=154093 tiles=4948
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=1 active_ms=8.42213630676 finish_ms=8.42714309692 edges=131491 tiles=5204
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=2 active_ms=6.84213638306 finish_ms=6.8461894989 edges=92450 tiles=4964
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=3 active_ms=10.7769966125 finish_ms=10.7820034027 edges=193430 tiles=5068
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=4 active_ms=9.53102111816 finish_ms=9.53507423401 edges=74912 tiles=5024
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=5 active_ms=8.58402252197 finish_ms=8.58807563782 edges=126670 tiles=5320
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=6 active_ms=7.00306892395 finish_ms=7.00712203979 edges=94718 tiles=4924
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=7 active_ms=15.0630474091 finish_ms=15.0680541992 edges=302747 tiles=4924
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=8 active_ms=8.31413269043 finish_ms=8.31913948059 edges=129982 tiles=4760
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=9 active_ms=6.90007209778 finish_ms=6.90507888794 edges=85791 tiles=4988
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=10 active_ms=9.31715965271 finish_ms=9.32121276855 edges=155845 tiles=4868
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=11 active_ms=60.6610774994 finish_ms=60.6660842896 edges=373680 tiles=4946
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=12 active_ms=8.98814201355 finish_ms=8.99314880371 edges=124118 tiles=5372
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=13 active_ms=24.3711471558 finish_ms=24.3761539459 edges=551170 tiles=4744
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=14 active_ms=9.2761516571 finish_ms=9.28020477295 edges=155273 tiles=5068
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=15 active_ms=8.78405570984 finish_ms=8.78810882568 edges=132946 tiles=5352
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=16 active_ms=8.73112678528 finish_ms=8.73613357544 edges=140372 tiles=5036
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=17 active_ms=8.50319862366 finish_ms=8.50820541382 edges=144927 tiles=4720
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=18 active_ms=6.86812400818 finish_ms=6.87217712402 edges=74706 tiles=4788
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=19 active_ms=6.85906410217 finish_ms=6.86407089233 edges=82458 tiles=4824
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=20 active_ms=8.14294815063 finish_ms=8.14700126648 edges=120638 tiles=4456
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=21 active_ms=8.6510181427 finish_ms=8.65507125854 edges=109806 tiles=5136
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=22 active_ms=6.84309005737 finish_ms=6.84809684753 edges=87753 tiles=4756
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=23 active_ms=9.43803787231 finish_ms=9.44304466248 edges=132316 tiles=4940
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=24 active_ms=6.91699981689 finish_ms=6.92105293274 edges=84438 tiles=4980
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=25 active_ms=9.23705101013 finish_ms=9.24205780029 edges=141389 tiles=4692
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=26 active_ms=9.50813293457 finish_ms=9.51313972473 edges=162595 tiles=5008
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=27 active_ms=6.88600540161 finish_ms=6.89101219177 edges=87211 tiles=4956
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=28 active_ms=15.1829719543 finish_ms=15.1870250702 edges=305192 tiles=4772
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=29 active_ms=8.89801979065 finish_ms=8.90302658081 edges=140581 tiles=4668
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=30 active_ms=9.14812088013 finish_ms=9.15312767029 edges=154360 tiles=792
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=1 tid=31 active_ms=10.1940631866 finish_ms=10.1990699768 edges=173352 tiles=652
+STATE_WORK_GATE graph=wiki-Talk method=exact_only_share layer=2 pass=1
+STATE_PROFILE_GATE graph=wiki-Talk method=exact_only_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=wiki-Talk method=exact_only_share layer=2 edges=5021410 decoded_rows=5009184 saved_decode_rows=12226 adds=642740480 tdp=295264 csr_reads=5009184 prefetch=19495232 partial_load_bytes=33653760 partial_store_bytes=33653760 packed_bytes=37793792 head_comparisons=0 window_entries=33888 selected_windows=12175 run_dispatches=0 run_bytes=0 tile_fallback_scopes=4991
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=row_schedule sampled_thread_ms=0.0619888305664 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=partial_zero sampled_thread_ms=0.011682510376 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=csr_prefetch sampled_thread_ms=20.4095840454 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=feature_gather_decode sampled_thread_ms=14.657497406 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=5.85722923279 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.311136245728 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=tile_load sampled_thread_ms=0.0796318054199 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=tile_compute sampled_thread_ms=0.122547149658 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=tile_store sampled_thread_ms=0.0100135803223 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=output_scatter sampled_thread_ms=0.212669372559 diagnostic_wall_ms=60.9829425812
+EVENT_PROFILE graph=wiki-Talk method=exact_only_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0364780426025 diagnostic_wall_ms=60.9829425812
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=partial_init sampled_thread_ms=0.000953674316406 events=37
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=csr_index_read sampled_thread_ms=2.9878616333 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=csr_next_index_read sampled_thread_ms=2.82335281372 events=109450
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=prefetch_issue sampled_thread_ms=2.84934043884 events=109450
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=source_bf16_load sampled_thread_ms=2.94518470764 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=source_bf16_decode sampled_thread_ms=2.84647941589 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=feature_fp32_add sampled_thread_ms=2.87866592407 events=109971
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=partial_state_load sampled_thread_ms=0.044584274292 events=1674
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=partial_state_store sampled_thread_ms=0.0438690185547 events=1674
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.143766403198 events=4616
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=amx_a_load sampled_thread_ms=0.00953674316406 events=296
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=amx_b_load sampled_thread_ms=0.0364780426025 events=592
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.107288360596 events=592
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00286102294922 events=74
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=amx_c_store sampled_thread_ms=0.00810623168945 events=74
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0181198120117 events=577
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=output_store sampled_thread_ms=0.116109848022 events=1126
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=thread_permission sampled_thread_ms=0.0255107879639 events=32
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00429153442383 events=32
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00429153442383 events=32
+EVENT_DETAIL graph=wiki-Talk method=exact_only_share layer=2 phase=row_metadata_read sampled_thread_ms=0.037670135498 events=586
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=0 active_ms=7.57503509521 finish_ms=7.57884979248 edges=132037 tiles=4932
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=1 active_ms=6.19196891785 finish_ms=6.19697570801 edges=94567 tiles=4952
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=2 active_ms=5.59496879578 finish_ms=5.59997558594 edges=79632 tiles=4936
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=3 active_ms=5.6529045105 finish_ms=5.65791130066 edges=79374 tiles=4924
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=4 active_ms=9.23991203308 finish_ms=9.24491882324 edges=178768 tiles=5168
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=5 active_ms=6.36792182922 finish_ms=6.3738822937 edges=100864 tiles=5032
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=6 active_ms=11.1398696899 finish_ms=11.1448764801 edges=229187 tiles=4720
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=7 active_ms=5.6209564209 finish_ms=5.62596321106 edges=73039 tiles=5108
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=8 active_ms=6.71100616455 finish_ms=6.71601295471 edges=103988 tiles=4812
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=9 active_ms=5.55205345154 finish_ms=5.55801391602 edges=76011 tiles=5064
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=10 active_ms=6.41798973083 finish_ms=6.42395019531 edges=96087 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=11 active_ms=6.53481483459 finish_ms=6.53982162476 edges=100005 tiles=5048
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=12 active_ms=8.61692428589 finish_ms=8.62288475037 edges=165599 tiles=4972
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=13 active_ms=5.79595565796 finish_ms=5.80191612244 edges=79325 tiles=4828
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=14 active_ms=8.49795341492 finish_ms=8.50296020508 edges=75451 tiles=4940
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=15 active_ms=60.9619617462 finish_ms=60.9669685364 edges=418864 tiles=4794
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=16 active_ms=10.4358196259 finish_ms=10.4417800903 edges=216066 tiles=5036
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=17 active_ms=7.91382789612 finish_ms=7.9197883606 edges=140128 tiles=5000
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=18 active_ms=7.0219039917 finish_ms=7.02691078186 edges=111265 tiles=4860
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=19 active_ms=9.93394851685 finish_ms=9.93895530701 edges=193906 tiles=4800
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=20 active_ms=8.79979133606 finish_ms=8.80479812622 edges=162904 tiles=4732
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=21 active_ms=9.57202911377 finish_ms=9.57798957825 edges=180782 tiles=5012
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=22 active_ms=8.92877578735 finish_ms=8.93378257751 edges=170171 tiles=5024
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=23 active_ms=22.2859382629 finish_ms=22.2918987274 edges=498243 tiles=4712
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=24 active_ms=6.85477256775 finish_ms=6.85977935791 edges=105238 tiles=5024
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=25 active_ms=6.38794898987 finish_ms=6.39295578003 edges=94373 tiles=4780
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=26 active_ms=6.58583641052 finish_ms=6.59084320068 edges=102257 tiles=4984
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=27 active_ms=5.81884384155 finish_ms=5.82385063171 edges=64153 tiles=5076
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=28 active_ms=11.2287998199 finish_ms=11.2338066101 edges=230033 tiles=4928
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=29 active_ms=12.8788948059 finish_ms=12.8839015961 edges=268096 tiles=4932
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=30 active_ms=5.54084777832 finish_ms=5.54585456848 edges=74232 tiles=832
+EVENT_THREAD graph=wiki-Talk method=exact_only_share layer=2 tid=31 active_ms=15.2199268341 finish_ms=15.2249336243 edges=326765 tiles=676
+STATE_COMPLETE graph=wiki-Talk pass=1 methods=8 smoke=0 max_rss_kib=13355596

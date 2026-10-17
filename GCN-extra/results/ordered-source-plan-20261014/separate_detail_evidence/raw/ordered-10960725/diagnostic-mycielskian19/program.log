@@ -1,0 +1,958 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/mycielskian19/mycielskian19.csrbin
+Matrix: mycielskian19  N=393215  NNZ=903194710  avg_deg=2296.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2210.28 ms
+  run 1: 2146.87 ms
+  run 2: 2173.94 ms
+  run 3: 2251.06 ms
+  run 4: 2226.06 ms
+  TFS V3 E2E BEST: 2146.87 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 4774.83 ms
+  run 1: 4774.67 ms
+  run 2: 4774.46 ms
+  run 3: 4775.88 ms
+  run 4: 4777.88 ms
+  MKL E2E BEST: 4774.46 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2146.87 ms
+  MKL (FP32):      4774.46 ms
+  E2E Speedup:     2.22×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008863  RMSE=5.6702e+04
+First 8:
+  TFS: -53909420.00 -97622240.00 -80814696.00 -13668678.00 12609145.00 -9723282.00 -81751856.00 -87493720.00 
+  MKL: -54318140.00 -98481840.00 -81665120.00 -13942624.00 12705349.00 -9879961.00 -82692264.00 -88055840.00 
+STATE_SEMANTIC graph=mycielskian19 values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+STATE_SETUP graph=mycielskian19 phase=degree_schedule_copy ms=0.720024108887 included_in_primary=0
+EVENT_PLAN graph=mycielskian19 E=903194710 total_pair_windows=7176480 all_matches=85133168 eligible_matches=11708708 partial_matches=5791496 exact_matches=5953578 eligible_windows=238362 exact_windows=105865 run_count=684507 plan_bytes=69396022 allocated_bytes=135748236 construct_ms=4121.11997604 audit_ms=43.1230068207 min_matches=8 max_runs=8 pass=1
+STATE_CONFIG graph=mycielskian19 N=393215 E=903194710 D=128 H=128 F=128 S=64 R=64 TR=16 methods=8 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=1 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=mycielskian19 method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=mycielskian19 method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=mycielskian19 method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=0
+STATE_PLAN graph=mycielskian19 method=dynamic_all_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=1
+STATE_PLAN graph=mycielskian19 method=event_independent kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=2
+STATE_PLAN graph=mycielskian19 method=event_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=3
+STATE_PLAN graph=mycielskian19 method=dynamic_selected_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=4
+STATE_PLAN graph=mycielskian19 method=exact_only_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=5
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=4399232 mean_abs=46905.9725516 relative_L2=0.0110781608543 normalized_max=0.0149732438601 gate=0.03 pass=1
+METHOD_CHECK graph=mycielskian19 method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=mycielskian19 method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_all_share boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_all_share boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_all_share boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_all_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_all_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_all_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_all_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_all_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_independent boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_independent boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_independent boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_independent boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_independent boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_independent boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_independent boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_independent boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_share boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_share boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_share boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=event_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=event_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_selected_share boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_selected_share boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_selected_share boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=dynamic_selected_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_selected_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_selected_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_selected_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=dynamic_selected_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=mycielskian19 method=exact_only_share boundary=kernel_FP32 reference=paper_tfs max_abs=72.32421875 mean_abs=0.453115868829 relative_L2=0.003259883094 normalized_max=0.00400776530232 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=exact_only_share boundary=e2e_FP32_final reference=paper_tfs max_abs=1773728 mean_abs=25575.3728534 relative_L2=0.00588971972333 normalized_max=0.00608871025323 gate=0.01 pass=1
+METHOD_CHECK graph=mycielskian19 method=exact_only_share boundary=e2e_BF16_final reference=paper_tfs max_abs=2097152 mean_abs=25506.0948911 relative_L2=0.00629538593344 normalized_max=0.00724637681159 gate=0.02 pass=1
+METHOD_CHECK graph=mycielskian19 method=exact_only_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=6012768 mean_abs=71300.1778745 relative_L2=0.0166271367838 normalized_max=0.0204650815275 gate=0.03 pass=1
+STATE_EQUIV graph=mycielskian19 method=exact_only_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=exact_only_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=exact_only_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=mycielskian19 method=exact_only_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=mycielskian19 pass=1
+STATE_WORK_GATE graph=mycielskian19 method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=pack_epi_degree layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=pack_epi_degree layer=1 edges=903194710 decoded_rows=903194710 saved_decode_rows=0 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=row_schedule sampled_thread_ms=0.0581741333008 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_zero sampled_thread_ms=0.0300407409668 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=csr_prefetch sampled_thread_ms=1150.60329437 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=feature_gather_decode sampled_thread_ms=822.274923325 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=326.177120209 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.765323638916 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=tile_load sampled_thread_ms=0.396251678467 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=tile_compute sampled_thread_ms=0.674247741699 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=tile_store sampled_thread_ms=0.0224113464355 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=output_scatter sampled_thread_ms=0.113010406494 diagnostic_wall_ms=1917.37604141
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=1 phase=thread_amx_setup sampled_thread_ms=0.0288486480713 diagnostic_wall_ms=1917.37604141
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_init sampled_thread_ms=0.00429153442383 events=97
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=csr_index_read sampled_thread_ms=161.002397537 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=csr_next_index_read sampled_thread_ms=160.623073578 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=prefetch_issue sampled_thread_ms=162.048578262 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=source_bf16_load sampled_thread_ms=165.267467499 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=source_bf16_decode sampled_thread_ms=157.137870789 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=feature_fp32_add sampled_thread_ms=158.948659897 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_state_load sampled_thread_ms=2.87961959839 events=94516
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_state_store sampled_thread_ms=2.82573699951 events=94516
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_hi_pack sampled_thread_ms=0.32901763916 events=12408
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=amx_a_load sampled_thread_ms=0.0364780426025 events=776
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=amx_b_load sampled_thread_ms=0.255346298218 events=1552
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=amx_tdp_compute sampled_thread_ms=0.618934631348 events=1552
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=amx_c_zero sampled_thread_ms=0.00619888305664 events=194
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=amx_c_store sampled_thread_ms=0.0166893005371 events=194
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=thread_permission sampled_thread_ms=0.0147819519043 events=32
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=thread_tile_config sampled_thread_ms=0.00500679016113 events=32
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=1 phase=row_metadata_read sampled_thread_ms=0.03981590271 events=97
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=0 active_ms=554.260015488 finish_ms=554.266929626 edges=29182119 tiles=1944
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=1 active_ms=630.46002388 finish_ms=630.475997925 edges=25231155 tiles=1612
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=2 active_ms=545.068025589 finish_ms=545.084953308 edges=28607114 tiles=1440
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=3 active_ms=544.373035431 finish_ms=544.387817383 edges=29450680 tiles=1308
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=4 active_ms=545.612812042 finish_ms=545.628786087 edges=30298341 tiles=1288
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=5 active_ms=567.599058151 finish_ms=567.612886429 edges=27159943 tiles=1192
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=6 active_ms=567.499876022 finish_ms=567.515850067 edges=28545596 tiles=1116
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=7 active_ms=544.445037842 finish_ms=544.458866119 edges=23868793 tiles=1032
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=8 active_ms=544.539928436 finish_ms=544.555902481 edges=29285108 tiles=1040
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=9 active_ms=536.299943924 finish_ms=536.315917969 edges=26693817 tiles=924
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=10 active_ms=542.142152786 finish_ms=542.155981064 edges=26357165 tiles=908
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=11 active_ms=545.658826828 finish_ms=545.674800873 edges=22499572 tiles=896
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=12 active_ms=567.505121231 finish_ms=567.519903183 edges=31570321 tiles=876
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=13 active_ms=543.572902679 finish_ms=543.588876724 edges=27293797 tiles=784
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=14 active_ms=550.9121418 finish_ms=550.926923752 edges=29553734 tiles=780
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=15 active_ms=573.791027069 finish_ms=573.805809021 edges=30627355 tiles=704
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=16 active_ms=541.944026947 finish_ms=541.957855225 edges=23893425 tiles=636
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=17 active_ms=546.237945557 finish_ms=546.253919601 edges=29095610 tiles=620
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=18 active_ms=1917.29712486 finish_ms=1917.31190681 edges=33828559 tiles=576
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=19 active_ms=545.089006424 finish_ms=545.105934143 edges=29755762 tiles=584
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=20 active_ms=566.971063614 finish_ms=566.987991333 edges=31303889 tiles=568
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=21 active_ms=567.0170784 finish_ms=567.034006119 edges=27885592 tiles=484
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=22 active_ms=534.390926361 finish_ms=534.40785408 edges=28386298 tiles=520
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=23 active_ms=543.483972549 finish_ms=543.499946594 edges=26187753 tiles=416
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=24 active_ms=535.664081573 finish_ms=535.681962967 edges=27490233 tiles=420
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=25 active_ms=544.627189636 finish_ms=544.641971588 edges=28054393 tiles=368
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=26 active_ms=546.344995499 finish_ms=546.359777451 edges=29047150 tiles=364
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=27 active_ms=536.816120148 finish_ms=536.834001541 edges=28259343 tiles=332
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=28 active_ms=566.123962402 finish_ms=566.139936447 edges=30287518 tiles=280
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=29 active_ms=544.74902153 finish_ms=544.764995575 edges=27161639 tiles=224
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=30 active_ms=542.78421402 finish_ms=542.798995972 edges=30389249 tiles=212
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=1 tid=31 active_ms=534.420013428 finish_ms=534.436941147 edges=25943687 tiles=128
+STATE_WORK_GATE graph=mycielskian19 method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=pack_epi_degree layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=pack_epi_degree layer=2 edges=903194710 decoded_rows=903194710 saved_decode_rows=0 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=row_schedule sampled_thread_ms=0.0574588775635 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_zero sampled_thread_ms=0.0309944152832 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=csr_prefetch sampled_thread_ms=1143.17750931 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=feature_gather_decode sampled_thread_ms=816.224575043 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=324.462175369 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.759124755859 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=tile_load sampled_thread_ms=0.351428985596 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=tile_compute sampled_thread_ms=0.618696212769 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=tile_store sampled_thread_ms=0.0236034393311 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=output_scatter sampled_thread_ms=0.218152999878 diagnostic_wall_ms=1896.02708817
+EVENT_PROFILE graph=mycielskian19 method=pack_epi_degree layer=2 phase=thread_amx_setup sampled_thread_ms=0.0343322753906 diagnostic_wall_ms=1896.02708817
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_init sampled_thread_ms=0.00286102294922 events=97
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=csr_index_read sampled_thread_ms=161.356687546 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=csr_next_index_read sampled_thread_ms=159.539699554 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=prefetch_issue sampled_thread_ms=160.305976868 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=source_bf16_load sampled_thread_ms=162.740945816 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=source_bf16_decode sampled_thread_ms=157.201528549 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=feature_fp32_add sampled_thread_ms=158.624649048 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_state_load sampled_thread_ms=2.93493270874 events=94516
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_state_store sampled_thread_ms=2.70771980286 events=94516
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_hi_pack sampled_thread_ms=0.354051589966 events=12408
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=amx_a_load sampled_thread_ms=0.0300407409668 events=776
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=amx_b_load sampled_thread_ms=0.215530395508 events=1552
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=amx_tdp_compute sampled_thread_ms=0.575065612793 events=1552
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=amx_c_zero sampled_thread_ms=0.00810623168945 events=194
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=amx_c_store sampled_thread_ms=0.0100135803223 events=194
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0514984130859 events=1551
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=output_store sampled_thread_ms=0.0543594360352 events=1551
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=thread_permission sampled_thread_ms=0.0255107879639 events=32
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=mycielskian19 method=pack_epi_degree layer=2 phase=row_metadata_read sampled_thread_ms=0.035285949707 events=97
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=0 active_ms=514.168024063 finish_ms=514.17183876 edges=28620297 tiles=1900
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=1 active_ms=542.019844055 finish_ms=542.024850845 edges=31256508 tiles=1636
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=2 active_ms=510.046005249 finish_ms=510.051965714 edges=28356666 tiles=1488
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=3 active_ms=535.181045532 finish_ms=535.187005997 edges=30665424 tiles=1388
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=4 active_ms=540.082931519 finish_ms=540.087938309 edges=31858168 tiles=1308
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=5 active_ms=517.426967621 finish_ms=517.432928085 edges=23300667 tiles=1152
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=6 active_ms=502.112865448 finish_ms=502.117872238 edges=24142584 tiles=1056
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=7 active_ms=550.172805786 finish_ms=550.177812576 edges=32279893 tiles=1092
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=8 active_ms=531.215906143 finish_ms=531.220912933 edges=28309436 tiles=920
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=9 active_ms=503.248929977 finish_ms=503.254890442 edges=28225090 tiles=960
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=10 active_ms=500.622987747 finish_ms=500.628948212 edges=28500173 tiles=928
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=11 active_ms=541.234970093 finish_ms=541.239976883 edges=27476457 tiles=856
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=12 active_ms=541.399002075 finish_ms=541.40496254 edges=27968051 tiles=864
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=13 active_ms=554.543018341 finish_ms=554.548025131 edges=29937756 tiles=808
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=14 active_ms=501.40786171 finish_ms=501.413822174 edges=28639647 tiles=788
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=15 active_ms=500.108003616 finish_ms=500.113010406 edges=25540760 tiles=720
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=16 active_ms=501.73997879 finish_ms=501.74498558 edges=28099492 tiles=648
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=17 active_ms=505.218029022 finish_ms=505.223989487 edges=27121127 tiles=588
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=18 active_ms=500.441074371 finish_ms=500.447034836 edges=27383935 tiles=620
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=19 active_ms=541.775941849 finish_ms=541.782855988 edges=31188564 tiles=608
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=20 active_ms=507.917881012 finish_ms=507.923841476 edges=30001409 tiles=564
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=21 active_ms=1895.96891403 finish_ms=1895.9748745 edges=34672458 tiles=532
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=22 active_ms=525.814056396 finish_ms=525.820016861 edges=25744730 tiles=448
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=23 active_ms=500.751972198 finish_ms=500.757932663 edges=27140562 tiles=432
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=24 active_ms=515.711069107 finish_ms=515.717029572 edges=28955596 tiles=408
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=25 active_ms=503.02195549 finish_ms=503.027915955 edges=23201047 tiles=360
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=26 active_ms=523.594856262 finish_ms=523.600816727 edges=27952818 tiles=320
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=27 active_ms=607.829093933 finish_ms=607.836008072 edges=25491984 tiles=328
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=28 active_ms=521.940946579 finish_ms=521.946907043 edges=29565310 tiles=284
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=29 active_ms=505.505084991 finish_ms=505.51199913 edges=27001814 tiles=232
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=30 active_ms=510.787963867 finish_ms=510.793924332 edges=29351442 tiles=212
+EVENT_THREAD graph=mycielskian19 method=pack_epi_degree layer=2 tid=31 active_ms=500.593900681 finish_ms=500.600814819 edges=25244845 tiles=128
+STATE_WORK_GATE graph=mycielskian19 method=dynamic_all_share layer=1 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=dynamic_all_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=dynamic_all_share layer=1 edges=903194710 decoded_rows=818061542 saved_decode_rows=85133168 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=611360843 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=row_schedule sampled_thread_ms=0.0522136688232 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_zero sampled_thread_ms=0.0400543212891 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=csr_prefetch sampled_thread_ms=647.28307724 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=feature_gather_decode sampled_thread_ms=776.078462601 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=318.472623825 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.785350799561 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=tile_load sampled_thread_ms=0.293731689453 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=tile_compute sampled_thread_ms=0.603437423706 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=tile_store sampled_thread_ms=0.0298023223877 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=output_scatter sampled_thread_ms=0.110387802124 diagnostic_wall_ms=1951.42793655
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.035285949707 diagnostic_wall_ms=1951.42793655
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_init sampled_thread_ms=0.00429153442383 events=97
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=csr_index_read sampled_thread_ms=158.697605133 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=csr_next_index_read sampled_thread_ms=156.645774841 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=prefetch_issue sampled_thread_ms=159.143924713 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=source_bf16_load sampled_thread_ms=164.429664612 events=5495702
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=source_bf16_decode sampled_thread_ms=168.801546097 events=5495702
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=feature_fp32_add sampled_thread_ms=167.886734009 events=5495702
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_state_load sampled_thread_ms=2.78997421265 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_state_store sampled_thread_ms=2.77423858643 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.379085540771 events=12408
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=amx_a_load sampled_thread_ms=0.0283718109131 events=776
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=amx_b_load sampled_thread_ms=0.191926956177 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.543117523193 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00596046447754 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=amx_c_store sampled_thread_ms=0.0138282775879 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=thread_permission sampled_thread_ms=0.0247955322266 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0338554382324 events=97
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=0 active_ms=667.084932327 finish_ms=667.088985443 edges=29997610 tiles=1908
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=1 active_ms=662.456989288 finish_ms=662.461996078 edges=29867879 tiles=1596
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=2 active_ms=663.516998291 finish_ms=663.522005081 edges=30783898 tiles=1500
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=3 active_ms=644.845962524 finish_ms=644.850969315 edges=28028012 tiles=1372
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=4 active_ms=643.383979797 finish_ms=643.388986588 edges=29258481 tiles=1316
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=5 active_ms=638.580083847 finish_ms=638.585090637 edges=27727823 tiles=1220
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=6 active_ms=649.529933929 finish_ms=649.53494072 edges=28636259 tiles=1140
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=7 active_ms=638.45705986 finish_ms=638.46206665 edges=29562912 tiles=1060
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=8 active_ms=710.347890854 finish_ms=710.352897644 edges=26717355 tiles=964
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=9 active_ms=697.005033493 finish_ms=697.010993958 edges=20316826 tiles=896
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=10 active_ms=663.733959198 finish_ms=663.738965988 edges=30331837 tiles=936
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=11 active_ms=716.042995453 finish_ms=716.048002243 edges=29951301 tiles=876
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=12 active_ms=645.685911179 finish_ms=645.690917969 edges=29554937 tiles=856
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=13 active_ms=663.680076599 finish_ms=663.685083389 edges=29672597 tiles=808
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=14 active_ms=635.996103287 finish_ms=636.001110077 edges=27104023 tiles=700
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=15 active_ms=1951.36499405 finish_ms=1951.37000084 edges=34765084 tiles=744
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=16 active_ms=707.522153854 finish_ms=707.528114319 edges=27349555 tiles=676
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=17 active_ms=637.629985809 finish_ms=637.635946274 edges=27217167 tiles=632
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=18 active_ms=634.19508934 finish_ms=634.201049805 edges=26426038 tiles=584
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=19 active_ms=663.344144821 finish_ms=663.350105286 edges=28056923 tiles=580
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=20 active_ms=649.188041687 finish_ms=649.194002151 edges=28554171 tiles=544
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=21 active_ms=646.474123001 finish_ms=646.480083466 edges=24320493 tiles=484
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=22 active_ms=644.951105118 finish_ms=644.957065582 edges=26934194 tiles=472
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=23 active_ms=636.337041855 finish_ms=636.342048645 edges=27349698 tiles=424
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=24 active_ms=664.202928543 finish_ms=664.207935333 edges=29030733 tiles=412
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=25 active_ms=641.445159912 finish_ms=641.451120377 edges=27424214 tiles=372
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=26 active_ms=643.039941788 finish_ms=643.045902252 edges=28479254 tiles=360
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=27 active_ms=657.743930817 finish_ms=657.749891281 edges=28750804 tiles=328
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=28 active_ms=643.24593544 finish_ms=643.251895905 edges=27807760 tiles=268
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=29 active_ms=679.337024689 finish_ms=679.342985153 edges=28551135 tiles=212
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=30 active_ms=636.294126511 finish_ms=636.300086975 edges=28108961 tiles=204
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=1 tid=31 active_ms=648.272037506 finish_ms=648.277997971 edges=26556776 tiles=132
+STATE_WORK_GATE graph=mycielskian19 method=dynamic_all_share layer=2 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=dynamic_all_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=dynamic_all_share layer=2 edges=903194710 decoded_rows=818061542 saved_decode_rows=85133168 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=611360843 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=row_schedule sampled_thread_ms=0.0617504119873 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_zero sampled_thread_ms=0.0290870666504 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=csr_prefetch sampled_thread_ms=647.428750992 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=feature_gather_decode sampled_thread_ms=746.525526047 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=317.232608795 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.747203826904 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=tile_load sampled_thread_ms=0.277042388916 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=tile_compute sampled_thread_ms=0.570058822632 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=tile_store sampled_thread_ms=0.0205039978027 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=output_scatter sampled_thread_ms=0.21767616272 diagnostic_wall_ms=1892.12417603
+EVENT_PROFILE graph=mycielskian19 method=dynamic_all_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0338554382324 diagnostic_wall_ms=1892.12417603
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_init sampled_thread_ms=0.00190734863281 events=97
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=csr_index_read sampled_thread_ms=158.448696136 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=csr_next_index_read sampled_thread_ms=157.452106476 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=prefetch_issue sampled_thread_ms=159.063816071 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=source_bf16_load sampled_thread_ms=149.553537369 events=5495702
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=source_bf16_decode sampled_thread_ms=154.486179352 events=5495702
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=feature_fp32_add sampled_thread_ms=167.187213898 events=5495702
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_state_load sampled_thread_ms=2.72846221924 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_state_store sampled_thread_ms=2.67553329468 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.330209732056 events=12408
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=amx_a_load sampled_thread_ms=0.0178813934326 events=776
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=amx_b_load sampled_thread_ms=0.1540184021 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.526189804077 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=amx_c_zero sampled_thread_ms=0.000953674316406 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=amx_c_store sampled_thread_ms=0.0147819519043 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0431537628174 events=1551
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=output_store sampled_thread_ms=0.065803527832 events=1551
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=thread_permission sampled_thread_ms=0.0190734863281 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00619888305664 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_all_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0419616699219 events=97
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=0 active_ms=655.766963959 finish_ms=655.771017075 edges=26378397 tiles=1856
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=1 active_ms=650.091171265 finish_ms=650.096178055 edges=22066603 tiles=1572
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=2 active_ms=639.508962631 finish_ms=639.513969421 edges=29482586 tiles=1460
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=3 active_ms=648.671150208 finish_ms=648.676156998 edges=29407507 tiles=1400
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=4 active_ms=645.663022995 finish_ms=645.668029785 edges=28968878 tiles=1248
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=5 active_ms=637.349128723 finish_ms=637.354135513 edges=29284574 tiles=1204
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=6 active_ms=649.533987045 finish_ms=649.538993835 edges=28121441 tiles=1132
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=7 active_ms=695.219993591 finish_ms=695.225000381 edges=31671380 tiles=1112
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=8 active_ms=636.85297966 finish_ms=636.85798645 edges=28393728 tiles=1020
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=9 active_ms=640.45715332 finish_ms=640.46216011 edges=29479180 tiles=964
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=10 active_ms=750.887870789 finish_ms=750.894069672 edges=26798205 tiles=896
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=11 active_ms=677.476167679 finish_ms=677.481174469 edges=30232556 tiles=888
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=12 active_ms=647.660017014 finish_ms=647.665023804 edges=28843862 tiles=848
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=13 active_ms=645.764827728 finish_ms=645.771026611 edges=27396556 tiles=812
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=14 active_ms=648.602962494 finish_ms=648.607969284 edges=29435533 tiles=796
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=15 active_ms=649.882078171 finish_ms=649.887084961 edges=29315970 tiles=768
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=16 active_ms=650.869846344 finish_ms=650.876045227 edges=27203044 tiles=644
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=17 active_ms=649.443149567 finish_ms=649.448156357 edges=25121475 tiles=624
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=18 active_ms=668.445825577 finish_ms=668.45202446 edges=29147884 tiles=624
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=19 active_ms=658.912181854 finish_ms=658.917188644 edges=30193154 tiles=580
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=20 active_ms=640.029907227 finish_ms=640.03610611 edges=28293746 tiles=552
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=21 active_ms=647.557973862 finish_ms=647.562980652 edges=28413773 tiles=496
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=22 active_ms=642.127037048 finish_ms=642.132043839 edges=27899004 tiles=488
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=23 active_ms=636.695146561 finish_ms=636.700153351 edges=27500760 tiles=436
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=24 active_ms=651.408195496 finish_ms=651.413202286 edges=23938915 tiles=368
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=25 active_ms=695.425987244 finish_ms=695.430994034 edges=30959362 tiles=344
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=26 active_ms=1892.05503464 finish_ms=1892.06004143 edges=32507386 tiles=344
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=27 active_ms=662.084102631 finish_ms=662.089109421 edges=27386440 tiles=284
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=28 active_ms=642.564058304 finish_ms=642.569065094 edges=27992944 tiles=256
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=29 active_ms=646.603822708 finish_ms=646.610021591 edges=26942808 tiles=228
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=30 active_ms=637.032032013 finish_ms=637.037038803 edges=27814203 tiles=204
+EVENT_THREAD graph=mycielskian19 method=dynamic_all_share layer=2 tid=31 active_ms=650.019884109 finish_ms=650.026082993 edges=26602856 tiles=128
+STATE_WORK_GATE graph=mycielskian19 method=event_independent layer=1 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=event_independent layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=event_independent layer=1 edges=903194710 decoded_rows=903194710 saved_decode_rows=0 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=3270672 selected_windows=238362 run_dispatches=684507 run_bytes=1369014 tile_fallback_scopes=16274
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=row_schedule sampled_thread_ms=0.0686645507812 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=partial_zero sampled_thread_ms=0.0381469726562 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=csr_prefetch sampled_thread_ms=798.800945282 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=feature_gather_decode sampled_thread_ms=830.674886703 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=338.414669037 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.782012939453 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=tile_load sampled_thread_ms=0.391006469727 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=tile_compute sampled_thread_ms=0.616312026978 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=tile_store sampled_thread_ms=0.0269412994385 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=output_scatter sampled_thread_ms=0.110387802124 diagnostic_wall_ms=1795.39489746
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=1 phase=thread_amx_setup sampled_thread_ms=0.0381469726562 diagnostic_wall_ms=1795.39489746
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=partial_init sampled_thread_ms=0.00572204589844 events=97
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=csr_index_read sampled_thread_ms=158.971309662 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=csr_next_index_read sampled_thread_ms=159.964799881 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=prefetch_issue sampled_thread_ms=159.86084938 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=source_bf16_load sampled_thread_ms=166.87297821 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=source_bf16_decode sampled_thread_ms=168.749332428 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=feature_fp32_add sampled_thread_ms=170.692682266 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=partial_state_load sampled_thread_ms=2.84552574158 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=partial_state_store sampled_thread_ms=2.74252891541 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=partial_hi_pack sampled_thread_ms=0.326871871948 events=12408
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=amx_a_load sampled_thread_ms=0.0264644622803 events=776
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=amx_b_load sampled_thread_ms=0.252485275269 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=amx_tdp_compute sampled_thread_ms=0.556707382202 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=amx_c_zero sampled_thread_ms=0.011682510376 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=amx_c_store sampled_thread_ms=0.011682510376 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=thread_permission sampled_thread_ms=0.0200271606445 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=thread_tile_config sampled_thread_ms=0.00572204589844 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=1 phase=row_metadata_read sampled_thread_ms=0.0407695770264 events=97
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=0 active_ms=515.573978424 finish_ms=515.578985214 edges=28451063 tiles=1912
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=1 active_ms=505.100011826 finish_ms=505.105018616 edges=29142167 tiles=1564
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=2 active_ms=511.193990707 finish_ms=511.199951172 edges=28372106 tiles=1432
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=3 active_ms=512.485027313 finish_ms=512.490987778 edges=28845274 tiles=1384
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=4 active_ms=510.990858078 finish_ms=510.995864868 edges=29651018 tiles=1256
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=5 active_ms=611.532926559 finish_ms=611.538887024 edges=24905176 tiles=1116
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=6 active_ms=502.516031265 finish_ms=502.52199173 edges=21105970 tiles=1028
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=7 active_ms=511.01899147 finish_ms=511.02399826 edges=28695824 tiles=1040
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=8 active_ms=502.300024033 finish_ms=502.305030823 edges=28227377 tiles=1064
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=9 active_ms=506.084918976 finish_ms=506.09087944 edges=26488825 tiles=1020
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=10 active_ms=502.750873566 finish_ms=502.755880356 edges=29166246 tiles=944
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=11 active_ms=514.127016068 finish_ms=514.132022858 edges=29264735 tiles=872
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=12 active_ms=505.429983139 finish_ms=505.434989929 edges=29082895 tiles=872
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=13 active_ms=530.790090561 finish_ms=530.796051025 edges=26491438 tiles=812
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=14 active_ms=506.503105164 finish_ms=506.509065628 edges=27870672 tiles=724
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=15 active_ms=571.402072906 finish_ms=571.408033371 edges=27788296 tiles=712
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=16 active_ms=511.940002441 finish_ms=511.945962906 edges=30095717 tiles=772
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=17 active_ms=505.626916885 finish_ms=505.63287735 edges=27478814 tiles=644
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=18 active_ms=1795.34506798 finish_ms=1795.35102844 edges=33043259 tiles=576
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=19 active_ms=506.236076355 finish_ms=506.242036819 edges=30496041 tiles=628
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=20 active_ms=512.505054474 finish_ms=512.511014938 edges=26596137 tiles=504
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=21 active_ms=506.410121918 finish_ms=506.416082382 edges=27106821 tiles=508
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=22 active_ms=520.405054092 finish_ms=520.411014557 edges=30048335 tiles=480
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=23 active_ms=515.501022339 finish_ms=515.507936478 edges=27020379 tiles=400
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=24 active_ms=514.663934708 finish_ms=514.669895172 edges=25344176 tiles=376
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=25 active_ms=532.867908478 finish_ms=532.873868942 edges=30094547 tiles=384
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=26 active_ms=506.138086319 finish_ms=506.144046783 edges=29149163 tiles=376
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=27 active_ms=507.578134537 finish_ms=507.584095001 edges=28917160 tiles=336
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=28 active_ms=505.021095276 finish_ms=505.02705574 edges=27167538 tiles=260
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=29 active_ms=530.623912811 finish_ms=530.629873276 edges=30195438 tiles=228
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=30 active_ms=502.175092697 finish_ms=502.181053162 edges=28925331 tiles=212
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=1 tid=31 active_ms=507.20500946 finish_ms=507.210969925 edges=27966772 tiles=140
+STATE_WORK_GATE graph=mycielskian19 method=event_independent layer=2 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=event_independent layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=event_independent layer=2 edges=903194710 decoded_rows=903194710 saved_decode_rows=0 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=3270672 selected_windows=238362 run_dispatches=684507 run_bytes=1369014 tile_fallback_scopes=16274
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=row_schedule sampled_thread_ms=0.0672340393066 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=partial_zero sampled_thread_ms=0.032901763916 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=csr_prefetch sampled_thread_ms=793.020248413 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=feature_gather_decode sampled_thread_ms=826.793909073 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=338.153123856 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.773906707764 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=tile_load sampled_thread_ms=0.397920608521 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=tile_compute sampled_thread_ms=0.601768493652 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=tile_store sampled_thread_ms=0.0214576721191 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=output_scatter sampled_thread_ms=0.227928161621 diagnostic_wall_ms=1781.34202957
+EVENT_PROFILE graph=mycielskian19 method=event_independent layer=2 phase=thread_amx_setup sampled_thread_ms=0.035285949707 diagnostic_wall_ms=1781.34202957
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=partial_init sampled_thread_ms=0.00309944152832 events=97
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=csr_index_read sampled_thread_ms=158.994436264 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=csr_next_index_read sampled_thread_ms=159.073829651 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=prefetch_issue sampled_thread_ms=159.165382385 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=source_bf16_load sampled_thread_ms=166.299581528 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=source_bf16_decode sampled_thread_ms=168.360948563 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=feature_fp32_add sampled_thread_ms=170.602560043 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=partial_state_load sampled_thread_ms=2.73942947388 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=partial_state_store sampled_thread_ms=2.73752212524 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=partial_hi_pack sampled_thread_ms=0.357389450073 events=12408
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=amx_a_load sampled_thread_ms=0.0290870666504 events=776
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=amx_b_load sampled_thread_ms=0.262022018433 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=amx_tdp_compute sampled_thread_ms=0.553846359253 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=amx_c_zero sampled_thread_ms=0.00596046447754 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=amx_c_store sampled_thread_ms=0.00953674316406 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0443458557129 events=1551
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=output_store sampled_thread_ms=0.0567436218262 events=1551
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=thread_permission sampled_thread_ms=0.0209808349609 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_independent layer=2 phase=row_metadata_read sampled_thread_ms=0.049352645874 events=97
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=0 active_ms=513.120889664 finish_ms=513.125896454 edges=25591365 tiles=1848
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=1 active_ms=495.713949203 finish_ms=495.718955994 edges=25978084 tiles=1516
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=2 active_ms=521.49605751 finish_ms=521.501064301 edges=27916824 tiles=1432
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=3 active_ms=512.290000916 finish_ms=512.29596138 edges=25065728 tiles=1324
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=4 active_ms=512.993097305 finish_ms=512.99905777 edges=28861881 tiles=1256
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=5 active_ms=501.672029495 finish_ms=501.67798996 edges=28139828 tiles=1204
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=6 active_ms=511.708974838 finish_ms=511.713981628 edges=24232283 tiles=1012
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=7 active_ms=510.209083557 finish_ms=510.214090347 edges=24646777 tiles=972
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=8 active_ms=495.716094971 finish_ms=495.722055435 edges=28322074 tiles=1036
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=9 active_ms=505.506038666 finish_ms=505.51199913 edges=29352326 tiles=1028
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=10 active_ms=1781.29601479 finish_ms=1781.30102158 edges=32567265 tiles=936
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=11 active_ms=512.302875519 finish_ms=512.307882309 edges=28809184 tiles=876
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=12 active_ms=504.838943481 finish_ms=504.844903946 edges=29095999 tiles=892
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=13 active_ms=516.142129898 finish_ms=516.148090363 edges=30040884 tiles=828
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=14 active_ms=510.177135468 finish_ms=510.183095932 edges=29565255 tiles=772
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=15 active_ms=513.682126999 finish_ms=513.688087463 edges=26795472 tiles=692
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=16 active_ms=523.947000504 finish_ms=523.952960968 edges=32003879 tiles=720
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=17 active_ms=519.854068756 finish_ms=519.860029221 edges=30578952 tiles=684
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=18 active_ms=499.90105629 finish_ms=499.907970428 edges=27134284 tiles=580
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=19 active_ms=499.680995941 finish_ms=499.686956406 edges=30238614 tiles=652
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=20 active_ms=517.040014267 finish_ms=517.046928406 edges=30795887 tiles=564
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=21 active_ms=506.724119186 finish_ms=506.731033325 edges=29519091 tiles=520
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=22 active_ms=511.917114258 finish_ms=511.923074722 edges=29142307 tiles=484
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=23 active_ms=500.766038895 finish_ms=500.772953033 edges=27834506 tiles=456
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=24 active_ms=523.850917816 finish_ms=523.856878281 edges=24841328 tiles=428
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=25 active_ms=649.351119995 finish_ms=649.358034134 edges=23262335 tiles=332
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=26 active_ms=521.724939346 finish_ms=521.730899811 edges=30179408 tiles=360
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=27 active_ms=514.161109924 finish_ms=514.167070389 edges=29646954 tiles=324
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=28 active_ms=513.891935349 finish_ms=513.897895813 edges=30442069 tiles=300
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=29 active_ms=504.662036896 finish_ms=504.66799736 edges=24311795 tiles=208
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=30 active_ms=499.792098999 finish_ms=499.798059464 edges=28905136 tiles=208
+EVENT_THREAD graph=mycielskian19 method=event_independent layer=2 tid=31 active_ms=519.431114197 finish_ms=519.437074661 edges=29376936 tiles=132
+STATE_WORK_GATE graph=mycielskian19 method=event_share layer=1 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=event_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=event_share layer=1 edges=903194710 decoded_rows=891486002 saved_decode_rows=11708708 adds=115608922880 tdp=786432 csr_reads=891486002 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=3270672 selected_windows=238362 run_dispatches=684507 run_bytes=1369014 tile_fallback_scopes=16274
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=row_schedule sampled_thread_ms=0.079870223999 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=partial_zero sampled_thread_ms=0.0317096710205 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=csr_prefetch sampled_thread_ms=793.309211731 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=feature_gather_decode sampled_thread_ms=784.742355347 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=320.949077606 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.787019729614 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=tile_load sampled_thread_ms=0.41675567627 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=tile_compute sampled_thread_ms=0.630378723145 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=tile_store sampled_thread_ms=0.0169277191162 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=output_scatter sampled_thread_ms=0.124454498291 diagnostic_wall_ms=1711.28702164
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0381469726562 diagnostic_wall_ms=1711.28702164
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=partial_init sampled_thread_ms=0.00214576721191 events=97
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=csr_index_read sampled_thread_ms=151.179075241 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=csr_next_index_read sampled_thread_ms=158.605098724 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=prefetch_issue sampled_thread_ms=158.206224442 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=source_bf16_load sampled_thread_ms=157.361745834 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=source_bf16_decode sampled_thread_ms=159.475803375 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=feature_fp32_add sampled_thread_ms=162.387132645 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=partial_state_load sampled_thread_ms=2.82382965088 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=partial_state_store sampled_thread_ms=2.84028053284 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.327825546265 events=12408
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=amx_a_load sampled_thread_ms=0.0286102294922 events=776
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=amx_b_load sampled_thread_ms=0.293731689453 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.588178634644 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00286102294922 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=amx_c_store sampled_thread_ms=0.00667572021484 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=thread_permission sampled_thread_ms=0.025749206543 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00214576721191 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0498294830322 events=97
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=0 active_ms=604.073047638 finish_ms=604.078054428 edges=23974089 tiles=1920
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=1 active_ms=523.905992508 finish_ms=523.911952972 edges=27436300 tiles=1520
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=2 active_ms=511.736154556 finish_ms=511.743068695 edges=24894190 tiles=1420
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=3 active_ms=542.140007019 finish_ms=542.145967484 edges=30781336 tiles=1360
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=4 active_ms=503.833055496 finish_ms=503.839015961 edges=23947934 tiles=1196
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=5 active_ms=504.279136658 finish_ms=504.286050797 edges=27695684 tiles=1168
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=6 active_ms=503.845930099 finish_ms=503.851890564 edges=26556496 tiles=1036
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=7 active_ms=506.438016891 finish_ms=506.443977356 edges=26948682 tiles=1020
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=8 active_ms=506.709098816 finish_ms=506.716012955 edges=28628091 tiles=1068
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=9 active_ms=517.822027206 finish_ms=517.828941345 edges=27510462 tiles=984
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=10 active_ms=512.30597496 finish_ms=512.311935425 edges=31433449 tiles=916
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=11 active_ms=506.608963013 finish_ms=506.614923477 edges=30240656 tiles=924
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=12 active_ms=503.036022186 finish_ms=503.042936325 edges=29025932 tiles=904
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=13 active_ms=505.734920502 finish_ms=505.740880966 edges=28610631 tiles=800
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=14 active_ms=518.356084824 finish_ms=518.362045288 edges=29870625 tiles=820
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=15 active_ms=505.141019821 finish_ms=505.146980286 edges=22813966 tiles=696
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=16 active_ms=503.039121628 finish_ms=503.046035767 edges=30075302 tiles=696
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=17 active_ms=516.538143158 finish_ms=516.545057297 edges=29820921 tiles=668
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=18 active_ms=518.680095673 finish_ms=518.686056137 edges=28848180 tiles=588
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=19 active_ms=519.370079041 finish_ms=519.376993179 edges=25412386 tiles=576
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=20 active_ms=505.162000656 finish_ms=505.167961121 edges=28784917 tiles=556
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=21 active_ms=517.841100693 finish_ms=517.847061157 edges=28746449 tiles=560
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=22 active_ms=517.660140991 finish_ms=517.66705513 edges=26907188 tiles=476
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=23 active_ms=520.250082016 finish_ms=520.256996155 edges=29274865 tiles=436
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=24 active_ms=506.045103073 finish_ms=506.051063538 edges=29651797 tiles=400
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=25 active_ms=506.256103516 finish_ms=506.263017654 edges=25631573 tiles=360
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=26 active_ms=511.372089386 finish_ms=511.37804985 edges=25688826 tiles=356
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=27 active_ms=533.543109894 finish_ms=533.550024033 edges=31406996 tiles=324
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=28 active_ms=517.358064651 finish_ms=517.36497879 edges=30951526 tiles=280
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=29 active_ms=513.242006302 finish_ms=513.248920441 edges=28333866 tiles=220
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=30 active_ms=1711.22193336 finish_ms=1711.2288475 edges=34768472 tiles=200
+EVENT_THREAD graph=mycielskian19 method=event_share layer=1 tid=31 active_ms=505.764007568 finish_ms=505.770921707 edges=28522923 tiles=128
+STATE_WORK_GATE graph=mycielskian19 method=event_share layer=2 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=event_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=event_share layer=2 edges=903194710 decoded_rows=891486002 saved_decode_rows=11708708 adds=115608922880 tdp=786432 csr_reads=891486002 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=3270672 selected_windows=238362 run_dispatches=684507 run_bytes=1369014 tile_fallback_scopes=16274
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=row_schedule sampled_thread_ms=0.0591278076172 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=partial_zero sampled_thread_ms=0.0343322753906 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=csr_prefetch sampled_thread_ms=794.236898422 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=feature_gather_decode sampled_thread_ms=784.829854965 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=319.497346878 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.751256942749 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=tile_load sampled_thread_ms=0.372886657715 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=tile_compute sampled_thread_ms=0.604152679443 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=tile_store sampled_thread_ms=0.0133514404297 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=output_scatter sampled_thread_ms=0.229597091675 diagnostic_wall_ms=1709.90204811
+EVENT_PROFILE graph=mycielskian19 method=event_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0350475311279 diagnostic_wall_ms=1709.90204811
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=partial_init sampled_thread_ms=0.00524520874023 events=97
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=csr_index_read sampled_thread_ms=150.966644287 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=csr_next_index_read sampled_thread_ms=158.944606781 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=prefetch_issue sampled_thread_ms=158.767223358 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=source_bf16_load sampled_thread_ms=157.246589661 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=source_bf16_decode sampled_thread_ms=159.295082092 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=feature_fp32_add sampled_thread_ms=161.377191544 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=partial_state_load sampled_thread_ms=2.89011001587 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=partial_state_store sampled_thread_ms=2.7003288269 events=94516
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.329256057739 events=12408
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=amx_a_load sampled_thread_ms=0.035285949707 events=776
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=amx_b_load sampled_thread_ms=0.238180160522 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.559091567993 events=1552
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00786781311035 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=amx_c_store sampled_thread_ms=0.00762939453125 events=194
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0479221343994 events=1551
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=output_store sampled_thread_ms=0.0598430633545 events=1551
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=thread_permission sampled_thread_ms=0.0185966491699 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00381469726562 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=mycielskian19 method=event_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0481605529785 events=97
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=0 active_ms=501.2819767 finish_ms=501.288175583 edges=27488733 tiles=1912
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=1 active_ms=500.733852386 finish_ms=500.74005127 edges=27659174 tiles=1636
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=2 active_ms=509.083032608 finish_ms=509.090185165 edges=28457041 tiles=1412
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=3 active_ms=504.416942596 finish_ms=504.423141479 edges=25792282 tiles=1324
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=4 active_ms=501.329898834 finish_ms=501.336097717 edges=26202356 tiles=1172
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=5 active_ms=507.324934006 finish_ms=507.332086563 edges=21898379 tiles=1164
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=6 active_ms=514.88494873 finish_ms=514.891147614 edges=29180278 tiles=1068
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=7 active_ms=507.803916931 finish_ms=507.810115814 edges=27805575 tiles=1064
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=8 active_ms=502.449989319 finish_ms=502.456188202 edges=25961959 tiles=984
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=9 active_ms=513.878822327 finish_ms=513.88502121 edges=28977599 tiles=964
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=10 active_ms=505.392789841 finish_ms=505.398988724 edges=29598100 tiles=960
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=11 active_ms=499.773979187 finish_ms=499.78017807 edges=29884385 tiles=864
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=12 active_ms=515.533924103 finish_ms=515.540122986 edges=28443854 tiles=868
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=13 active_ms=509.5038414 finish_ms=509.510993958 edges=27022676 tiles=812
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=14 active_ms=509.327888489 finish_ms=509.334087372 edges=28106250 tiles=744
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=15 active_ms=506.286859512 finish_ms=506.29401207 edges=27852974 tiles=700
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=16 active_ms=1709.86485481 finish_ms=1709.8710537 edges=34788405 tiles=692
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=17 active_ms=502.831935883 finish_ms=502.840042114 edges=28116090 tiles=684
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=18 active_ms=514.545917511 finish_ms=514.553070068 edges=29596832 tiles=628
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=19 active_ms=513.909816742 finish_ms=513.916969299 edges=31185164 tiles=652
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=20 active_ms=526.887893677 finish_ms=526.895046234 edges=30552436 tiles=536
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=21 active_ms=548.099040985 finish_ms=548.106193542 edges=21225630 tiles=500
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=22 active_ms=505.53894043 finish_ms=505.546092987 edges=29074812 tiles=496
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=23 active_ms=507.838010788 finish_ms=507.845163345 edges=29186463 tiles=420
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=24 active_ms=517.112970352 finish_ms=517.119169235 edges=25599505 tiles=408
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=25 active_ms=499.919891357 finish_ms=499.927997589 edges=24090082 tiles=364
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=26 active_ms=502.157926559 finish_ms=502.165079117 edges=27770472 tiles=356
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=27 active_ms=509.218931198 finish_ms=509.226083755 edges=29546129 tiles=340
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=28 active_ms=508.251905441 finish_ms=508.258104324 edges=30490267 tiles=280
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=29 active_ms=531.558036804 finish_ms=531.565189362 edges=29488401 tiles=228
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=30 active_ms=532.279968262 finish_ms=532.287120819 edges=32448535 tiles=208
+EVENT_THREAD graph=mycielskian19 method=event_share layer=2 tid=31 active_ms=524.40404892 finish_ms=524.411201477 edges=29703872 tiles=136
+STATE_WORK_GATE graph=mycielskian19 method=dynamic_selected_share layer=1 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=dynamic_selected_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=dynamic_selected_share layer=1 edges=903194710 decoded_rows=891486002 saved_decode_rows=11708708 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=16291809 window_entries=3270672 selected_windows=238362 run_dispatches=0 run_bytes=0 tile_fallback_scopes=16274
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=row_schedule sampled_thread_ms=0.0672340393066 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_zero sampled_thread_ms=0.0224113464355 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=csr_prefetch sampled_thread_ms=797.291040421 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=feature_gather_decode sampled_thread_ms=826.208591461 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=321.086168289 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.790119171143 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=tile_load sampled_thread_ms=0.411033630371 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=tile_compute sampled_thread_ms=0.665187835693 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=tile_store sampled_thread_ms=0.0169277191162 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=output_scatter sampled_thread_ms=0.118494033813 diagnostic_wall_ms=1769.64497566
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.304460525513 diagnostic_wall_ms=1769.64497566
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_init sampled_thread_ms=0.00381469726562 events=97
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=csr_index_read sampled_thread_ms=160.242080688 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=csr_next_index_read sampled_thread_ms=159.607172012 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=prefetch_issue sampled_thread_ms=159.890890121 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=source_bf16_load sampled_thread_ms=175.364017487 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=source_bf16_decode sampled_thread_ms=182.797193527 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=feature_fp32_add sampled_thread_ms=162.121772766 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_state_load sampled_thread_ms=2.85124778748 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_state_store sampled_thread_ms=2.69794464111 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.33164024353 events=12408
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=amx_a_load sampled_thread_ms=0.0262260437012 events=776
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=amx_b_load sampled_thread_ms=0.283479690552 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.628471374512 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=amx_c_zero sampled_thread_ms=0.00476837158203 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=amx_c_store sampled_thread_ms=0.00953674316406 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=thread_permission sampled_thread_ms=0.0300407409668 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=thread_tile_config sampled_thread_ms=0.264644622803 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00119209289551 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0393390655518 events=97
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=0 active_ms=540.060997009 finish_ms=540.068864822 edges=28274360 tiles=1828
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=1 active_ms=495.474100113 finish_ms=495.486021042 edges=24974790 tiles=1576
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=2 active_ms=494.455099106 finish_ms=494.46606636 edges=27227582 tiles=1472
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=3 active_ms=1769.58608627 finish_ms=1769.5980072 edges=33414857 tiles=1336
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=4 active_ms=499.237060547 finish_ms=499.248981476 edges=27744656 tiles=1276
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=5 active_ms=505.527973175 finish_ms=505.539894104 edges=27962917 tiles=1200
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=6 active_ms=502.166032791 finish_ms=502.176046371 edges=26199045 tiles=1032
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=7 active_ms=493.738889694 finish_ms=493.749856949 edges=24918398 tiles=956
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=8 active_ms=507.510185242 finish_ms=507.523059845 edges=27885184 tiles=996
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=9 active_ms=521.876096725 finish_ms=521.888971329 edges=31541110 tiles=1016
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=10 active_ms=522.469997406 finish_ms=522.485017776 edges=28541008 tiles=936
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=11 active_ms=511.427879333 finish_ms=511.44194603 edges=28714756 tiles=892
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=12 active_ms=540.031909943 finish_ms=540.045976639 edges=19851754 tiles=820
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=13 active_ms=504.782915115 finish_ms=504.797935486 edges=27112455 tiles=812
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=14 active_ms=530.337095261 finish_ms=530.34901619 edges=32026027 tiles=816
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=15 active_ms=543.044090271 finish_ms=543.056964874 edges=28223239 tiles=696
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=16 active_ms=497.833013535 finish_ms=497.848033905 edges=27644438 tiles=700
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=17 active_ms=511.696815491 finish_ms=511.710882187 edges=26062471 tiles=656
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=18 active_ms=511.803865433 finish_ms=511.817932129 edges=29072993 tiles=636
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=19 active_ms=521.493911743 finish_ms=521.509885788 edges=30993834 tiles=664
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=20 active_ms=521.909952164 finish_ms=521.92401886 edges=30581141 tiles=524
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=21 active_ms=493.619918823 finish_ms=493.633985519 edges=28050198 tiles=532
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=22 active_ms=521.610975266 finish_ms=521.625041962 edges=30560412 tiles=476
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=23 active_ms=516.129016876 finish_ms=516.141891479 edges=28936133 tiles=440
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=24 active_ms=496.467113495 finish_ms=496.479988098 edges=27873503 tiles=416
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=25 active_ms=525.17080307 finish_ms=525.184869766 edges=26605351 tiles=344
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=26 active_ms=530.073165894 finish_ms=530.085086823 edges=30539477 tiles=352
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=27 active_ms=532.779932022 finish_ms=532.793998718 edges=30748391 tiles=332
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=28 active_ms=504.600048065 finish_ms=504.615068436 edges=29354004 tiles=284
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=29 active_ms=526.052951813 finish_ms=526.067972183 edges=22898939 tiles=208
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=30 active_ms=521.936893463 finish_ms=521.951913834 edges=31233956 tiles=212
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=1 tid=31 active_ms=498.856067657 finish_ms=498.868942261 edges=27427331 tiles=140
+STATE_WORK_GATE graph=mycielskian19 method=dynamic_selected_share layer=2 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=dynamic_selected_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=dynamic_selected_share layer=2 edges=903194710 decoded_rows=891486002 saved_decode_rows=11708708 adds=115608922880 tdp=786432 csr_reads=903194710 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=16291809 window_entries=3270672 selected_windows=238362 run_dispatches=0 run_bytes=0 tile_fallback_scopes=16274
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=row_schedule sampled_thread_ms=0.0672340393066 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_zero sampled_thread_ms=0.0369548797607 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=csr_prefetch sampled_thread_ms=792.782068253 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=feature_gather_decode sampled_thread_ms=787.38284111 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=319.913387299 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.741720199585 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=tile_load sampled_thread_ms=0.315427780151 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=tile_compute sampled_thread_ms=0.65803527832 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=tile_store sampled_thread_ms=0.0176429748535 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=output_scatter sampled_thread_ms=0.225067138672 diagnostic_wall_ms=1753.20792198
+EVENT_PROFILE graph=mycielskian19 method=dynamic_selected_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.030517578125 diagnostic_wall_ms=1753.20792198
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_init sampled_thread_ms=0.00524520874023 events=97
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=csr_index_read sampled_thread_ms=159.111499786 events=6091897
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=csr_next_index_read sampled_thread_ms=157.994031906 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=prefetch_issue sampled_thread_ms=159.313440323 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=source_bf16_load sampled_thread_ms=158.993959427 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=source_bf16_decode sampled_thread_ms=160.458087921 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=feature_fp32_add sampled_thread_ms=160.908460617 events=5776914
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_state_load sampled_thread_ms=2.75921821594 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_state_store sampled_thread_ms=2.72703170776 events=94516
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.333547592163 events=12408
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=amx_a_load sampled_thread_ms=0.037670135498 events=776
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=amx_b_load sampled_thread_ms=0.190496444702 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.609159469604 events=1552
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00643730163574 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=amx_c_store sampled_thread_ms=0.00977516174316 events=194
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0460147857666 events=1551
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=output_store sampled_thread_ms=0.0665187835693 events=1551
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=thread_permission sampled_thread_ms=0.0209808349609 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00524520874023 events=32
+EVENT_DETAIL graph=mycielskian19 method=dynamic_selected_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0436305999756 events=97
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=0 active_ms=495.913028717 finish_ms=495.917081833 edges=25662412 tiles=1864
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=1 active_ms=497.097015381 finish_ms=497.102022171 edges=27626032 tiles=1640
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=2 active_ms=494.55499649 finish_ms=494.560003281 edges=26535916 tiles=1424
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=3 active_ms=522.055864334 finish_ms=522.05991745 edges=28672610 tiles=1316
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=4 active_ms=531.124830246 finish_ms=531.128883362 edges=27837420 tiles=1216
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=5 active_ms=606.379032135 finish_ms=606.384038925 edges=21905883 tiles=1116
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=6 active_ms=494.941949844 finish_ms=494.946956635 edges=25412721 tiles=992
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=7 active_ms=494.312047958 finish_ms=494.317054749 edges=27788273 tiles=1072
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=8 active_ms=497.47300148 finish_ms=497.47800827 edges=26740849 tiles=1024
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=9 active_ms=497.190952301 finish_ms=497.196912766 edges=30103050 tiles=1016
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=10 active_ms=519.068002701 finish_ms=519.073009491 edges=29289765 tiles=924
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=11 active_ms=498.354911804 finish_ms=498.359918594 edges=28798604 tiles=884
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=12 active_ms=523.505926132 finish_ms=523.510932922 edges=31092357 tiles=872
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=13 active_ms=520.092010498 finish_ms=520.097970963 edges=24231803 tiles=784
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=14 active_ms=530.848026276 finish_ms=530.852079391 edges=31494533 tiles=816
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=15 active_ms=497.088909149 finish_ms=497.093915939 edges=27618330 tiles=680
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=16 active_ms=1753.1709671 finish_ms=1753.17597389 edges=36914676 tiles=740
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=17 active_ms=497.642040253 finish_ms=497.648000717 edges=28712330 tiles=684
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=18 active_ms=496.177911758 finish_ms=496.182918549 edges=27431944 tiles=576
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=19 active_ms=496.437072754 finish_ms=496.442079544 edges=28568597 tiles=600
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=20 active_ms=515.450000763 finish_ms=515.455007553 edges=29978639 tiles=608
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=21 active_ms=494.737148285 finish_ms=494.743108749 edges=28429173 tiles=548
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=22 active_ms=499.783992767 finish_ms=499.789953232 edges=28941681 tiles=488
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=23 active_ms=531.825065613 finish_ms=531.830072403 edges=28351950 tiles=396
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=24 active_ms=495.937824249 finish_ms=495.941877365 edges=28436384 tiles=408
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=25 active_ms=531.196117401 finish_ms=531.202077866 edges=26137534 tiles=356
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=26 active_ms=529.284000397 finish_ms=529.289960861 edges=29511258 tiles=356
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=27 active_ms=500.036001205 finish_ms=500.041007996 edges=29010801 tiles=340
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=28 active_ms=502.373933792 finish_ms=502.378940582 edges=23255877 tiles=264
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=29 active_ms=531.063079834 finish_ms=531.068086624 edges=29812266 tiles=220
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=30 active_ms=519.108057022 finish_ms=519.113063812 edges=30842774 tiles=212
+EVENT_THREAD graph=mycielskian19 method=dynamic_selected_share layer=2 tid=31 active_ms=495.312929153 finish_ms=495.318889618 edges=28048268 tiles=140
+STATE_WORK_GATE graph=mycielskian19 method=exact_only_share layer=1 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=exact_only_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=exact_only_share layer=1 edges=903194710 decoded_rows=897241132 saved_decode_rows=5953578 adds=115608922880 tdp=786432 csr_reads=897241132 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=2954296 selected_windows=105865 run_dispatches=0 run_bytes=0 tile_fallback_scopes=18850
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=row_schedule sampled_thread_ms=0.0712871551514 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=partial_zero sampled_thread_ms=0.0360012054443 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=csr_prefetch sampled_thread_ms=775.890350342 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=feature_gather_decode sampled_thread_ms=825.065612793 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=334.173679352 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=0.785350799561 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=tile_load sampled_thread_ms=0.377178192139 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=tile_compute sampled_thread_ms=0.638484954834 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=tile_store sampled_thread_ms=0.0107288360596 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=output_scatter sampled_thread_ms=0.110387802124 diagnostic_wall_ms=1788.94901276
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0455379486084 diagnostic_wall_ms=1788.94901276
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=partial_init sampled_thread_ms=0.00691413879395 events=97
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=csr_index_read sampled_thread_ms=157.416820526 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=csr_next_index_read sampled_thread_ms=158.266067505 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=prefetch_issue sampled_thread_ms=158.742427826 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=source_bf16_load sampled_thread_ms=166.921615601 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=source_bf16_decode sampled_thread_ms=170.42517662 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=feature_fp32_add sampled_thread_ms=168.905973434 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=partial_state_load sampled_thread_ms=2.79068946838 events=94516
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=partial_state_store sampled_thread_ms=2.67100334167 events=94516
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=partial_hi_pack sampled_thread_ms=0.362396240234 events=12408
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=amx_a_load sampled_thread_ms=0.0224113464355 events=776
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=amx_b_load sampled_thread_ms=0.254392623901 events=1552
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=amx_tdp_compute sampled_thread_ms=0.596046447754 events=1552
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0114440917969 events=194
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=amx_c_store sampled_thread_ms=0.00786781311035 events=194
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=output_store sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=thread_permission sampled_thread_ms=0.0171661376953 events=32
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00500679016113 events=32
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=1 phase=row_metadata_read sampled_thread_ms=0.0510215759277 events=97
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=0 active_ms=506.11782074 finish_ms=506.121873856 edges=27426338 tiles=1920
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=1 active_ms=506.019830704 finish_ms=506.024837494 edges=27619337 tiles=1568
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=2 active_ms=628.135919571 finish_ms=628.140926361 edges=26954760 tiles=1480
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=3 active_ms=500.679969788 finish_ms=500.684976578 edges=26666784 tiles=1360
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=4 active_ms=505.993843079 finish_ms=505.998849869 edges=27696066 tiles=1224
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=5 active_ms=521.152019501 finish_ms=521.157026291 edges=29253805 tiles=1144
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=6 active_ms=503.268003464 finish_ms=503.273010254 edges=25587260 tiles=1044
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=7 active_ms=1788.9008522 finish_ms=1788.90585899 edges=33509716 tiles=1056
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=8 active_ms=506.546020508 finish_ms=506.551027298 edges=29251467 tiles=1052
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=9 active_ms=503.599882126 finish_ms=503.604888916 edges=29161139 tiles=948
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=10 active_ms=547.838926315 finish_ms=547.843933105 edges=32172117 tiles=936
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=11 active_ms=525.882959366 finish_ms=525.887012482 edges=30140414 tiles=900
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=12 active_ms=541.970968246 finish_ms=541.975975037 edges=29743523 tiles=880
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=13 active_ms=524.953842163 finish_ms=524.958848953 edges=30274729 tiles=844
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=14 active_ms=506.052970886 finish_ms=506.057977676 edges=30908935 tiles=780
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=15 active_ms=512.932062149 finish_ms=512.938022614 edges=28784494 tiles=680
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=16 active_ms=501.015901566 finish_ms=501.020908356 edges=28751899 tiles=704
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=17 active_ms=503.294944763 finish_ms=503.300905228 edges=26665915 tiles=612
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=18 active_ms=505.276918411 finish_ms=505.282878876 edges=22975871 tiles=576
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=19 active_ms=504.796981812 finish_ms=504.802942276 edges=27895077 tiles=568
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=20 active_ms=503.400087357 finish_ms=503.406047821 edges=26654414 tiles=552
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=21 active_ms=503.650903702 finish_ms=503.656864166 edges=28665152 tiles=520
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=22 active_ms=571.336984634 finish_ms=571.341991425 edges=25750833 tiles=476
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=23 active_ms=507.085084915 finish_ms=507.09104538 edges=24473751 tiles=416
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=24 active_ms=532.991886139 finish_ms=532.996892929 edges=28704704 tiles=412
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=25 active_ms=502.454042435 finish_ms=502.460002899 edges=27341018 tiles=384
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=26 active_ms=501.758098602 finish_ms=501.764059067 edges=28869648 tiles=356
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=27 active_ms=501.430034637 finish_ms=501.435041428 edges=29302255 tiles=332
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=28 active_ms=504.124879837 finish_ms=504.129886627 edges=25331582 tiles=272
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=29 active_ms=502.295970917 finish_ms=502.301931381 edges=27847412 tiles=232
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=30 active_ms=503.756046295 finish_ms=503.761053085 edges=30438436 tiles=212
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=1 tid=31 active_ms=506.036996841 finish_ms=506.042957306 edges=28375859 tiles=136
+STATE_WORK_GATE graph=mycielskian19 method=exact_only_share layer=2 pass=1
+STATE_PROFILE_GATE graph=mycielskian19 method=exact_only_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=mycielskian19 method=exact_only_share layer=2 edges=903194710 decoded_rows=897241132 saved_decode_rows=5953578 adds=115608922880 tdp=786432 csr_reads=897241132 prefetch=3611205980 partial_load_bytes=7132675584 partial_store_bytes=7132675584 packed_bytes=100663296 head_comparisons=0 window_entries=2954296 selected_windows=105865 run_dispatches=0 run_bytes=0 tile_fallback_scopes=18850
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=row_schedule sampled_thread_ms=0.0679492950439 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=partial_zero sampled_thread_ms=0.0231266021729 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=csr_prefetch sampled_thread_ms=775.986433029 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=feature_gather_decode sampled_thread_ms=823.285102844 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=333.498239517 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=0.771522521973 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=tile_load sampled_thread_ms=0.328063964844 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=tile_compute sampled_thread_ms=0.595808029175 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=tile_store sampled_thread_ms=0.0200271606445 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=output_scatter sampled_thread_ms=0.224590301514 diagnostic_wall_ms=1786.60297394
+EVENT_PROFILE graph=mycielskian19 method=exact_only_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0360012054443 diagnostic_wall_ms=1786.60297394
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=partial_init sampled_thread_ms=0.00309944152832 events=97
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=csr_index_read sampled_thread_ms=156.761407852 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=csr_next_index_read sampled_thread_ms=158.673763275 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=prefetch_issue sampled_thread_ms=158.61749649 events=6090346
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=source_bf16_load sampled_thread_ms=166.616916656 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=source_bf16_decode sampled_thread_ms=169.537067413 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=feature_fp32_add sampled_thread_ms=168.747901917 events=6019665
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=partial_state_load sampled_thread_ms=2.88367271423 events=94516
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=partial_state_store sampled_thread_ms=2.72679328918 events=94516
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=partial_hi_pack sampled_thread_ms=0.378370285034 events=12408
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=amx_a_load sampled_thread_ms=0.0147819519043 events=776
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=amx_b_load sampled_thread_ms=0.216245651245 events=1552
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=amx_tdp_compute sampled_thread_ms=0.555515289307 events=1552
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=amx_c_zero sampled_thread_ms=0.00500679016113 events=194
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=amx_c_store sampled_thread_ms=0.0150203704834 events=194
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.0553131103516 events=1551
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=output_store sampled_thread_ms=0.0650882720947 events=1551
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=thread_permission sampled_thread_ms=0.0243186950684 events=32
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00238418579102 events=32
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=mycielskian19 method=exact_only_share layer=2 phase=row_metadata_read sampled_thread_ms=0.0526905059814 events=97
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=0 active_ms=487.185001373 finish_ms=487.188816071 edges=27033740 tiles=1896
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=1 active_ms=495.862960815 finish_ms=495.867967606 edges=28668552 tiles=1652
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=2 active_ms=512.782812119 finish_ms=512.787818909 edges=29668566 tiles=1416
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=3 active_ms=644.114971161 finish_ms=644.119977951 edges=28795443 tiles=1344
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=4 active_ms=514.272928238 finish_ms=514.277935028 edges=29699353 tiles=1260
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=5 active_ms=535.660982132 finish_ms=535.665988922 edges=30851353 tiles=1192
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=6 active_ms=498.701810837 finish_ms=498.706817627 edges=26760138 tiles=1044
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=7 active_ms=490.042924881 finish_ms=490.047931671 edges=27430142 tiles=1004
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=8 active_ms=485.445976257 finish_ms=485.450983047 edges=28248943 tiles=1016
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=9 active_ms=498.970985413 finish_ms=498.976945877 edges=29841058 tiles=1032
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=10 active_ms=513.93699646 finish_ms=513.94200325 edges=28589227 tiles=884
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=11 active_ms=485.22400856 finish_ms=485.22901535 edges=27905775 tiles=900
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=12 active_ms=510.603904724 finish_ms=510.608911514 edges=31500952 tiles=884
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=13 active_ms=487.658977509 finish_ms=487.664937973 edges=27538936 tiles=824
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=14 active_ms=487.608909607 finish_ms=487.613916397 edges=28179952 tiles=792
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=15 active_ms=507.635831833 finish_ms=507.641792297 edges=29527305 tiles=716
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=16 active_ms=509.355783463 finish_ms=509.360790253 edges=30943198 tiles=756
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=17 active_ms=1786.54694557 finish_ms=1786.55290604 edges=29541459 tiles=612
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=18 active_ms=485.771894455 finish_ms=485.776901245 edges=22835764 tiles=504
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=19 active_ms=487.88690567 finish_ms=487.892866135 edges=28830947 tiles=576
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=20 active_ms=513.605833054 finish_ms=513.611793518 edges=26910574 tiles=548
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=21 active_ms=505.691051483 finish_ms=505.697011948 edges=25945926 tiles=524
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=22 active_ms=486.032009125 finish_ms=486.037969589 edges=27691287 tiles=520
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=23 active_ms=512.528896332 finish_ms=512.534856796 edges=28271200 tiles=432
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=24 active_ms=498.986005783 finish_ms=498.991966248 edges=28028380 tiles=388
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=25 active_ms=503.134012222 finish_ms=503.140926361 edges=27417702 tiles=356
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=26 active_ms=512.101888657 finish_ms=512.107849121 edges=25617401 tiles=332
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=27 active_ms=521.121025085 finish_ms=521.12698555 edges=27646757 tiles=312
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=28 active_ms=508.414030075 finish_ms=508.41999054 edges=24048083 tiles=268
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=29 active_ms=505.54895401 finish_ms=505.554914474 edges=28302333 tiles=232
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=30 active_ms=529.230833054 finish_ms=529.235839844 edges=32550303 tiles=212
+EVENT_THREAD graph=mycielskian19 method=exact_only_share layer=2 tid=31 active_ms=499.186038971 finish_ms=499.191999435 edges=28373961 tiles=148
+STATE_COMPLETE graph=mycielskian19 pass=1 methods=8 smoke=0 max_rss_kib=19911792

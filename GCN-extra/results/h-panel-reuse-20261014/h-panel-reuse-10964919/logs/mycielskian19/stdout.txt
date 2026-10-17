@@ -1,0 +1,51 @@
+CONFIG graph=mycielskian19 N=393215 E=903194710 threads=32 repeats=5 seed=12345 R=64 TR=16 D=128 F=128
+WORK method=A0_original gathered_neighbors=1806389420 h_source_logical_bytes=462435691520 hbuf_copy_bytes=462435691520 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=0 c_state_load_tiles=0 c_state_store_tiles=0
+WORK method=A1_step gathered_neighbors=903194710 h_source_logical_bytes=231217845760 hbuf_copy_bytes=231217845760 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=56563703 c_state_load_tiles=452313016 c_state_store_tiles=452313016
+WORK method=A2_window8 gathered_neighbors=903194710 h_source_logical_bytes=231217845760 hbuf_copy_bytes=231217845760 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=7080781 c_state_load_tiles=56449640 c_state_store_tiles=56449640
+WORK method=A3_window16 gathered_neighbors=903194710 h_source_logical_bytes=231217845760 hbuf_copy_bytes=231217845760 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=7094162 c_state_load_tiles=56556688 c_state_store_tiles=56556688
+WORK method=A4_window32 gathered_neighbors=903194710 h_source_logical_bytes=231217845760 hbuf_copy_bytes=231217845760 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=1780356 c_state_load_tiles=14046240 c_state_store_tiles=14046240
+WORK method=A5_window64 gathered_neighbors=903194710 h_source_logical_bytes=231217845760 hbuf_copy_bytes=231217845760 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=897060 c_state_load_tiles=6979872 c_state_store_tiles=6979872
+WORK method=control_window16_duplicate_gather gathered_neighbors=1806389420 h_source_logical_bytes=462435691520 hbuf_copy_bytes=462435691520 h_tile_loads=452509624 w_tile_loads=1810038496 tdp=1810038496 windows=7094162 c_state_load_tiles=56556688 c_state_store_tiles=56556688
+CHECK method=A0_original l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A1_step l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A2_window8 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A3_window16 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A4_window32 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A5_window64 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=control_window16_duplicate_gather l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+TIME graph=mycielskian19 method=A0_original rep=0 order=0 layer1_ms=1116.106933594 relu_ms=1.062255859 conversion_ms=0.817871094 layer2_ms=1124.049072266 total_ms=2242.036132812
+TIME graph=mycielskian19 method=A1_step rep=0 order=1 layer1_ms=922.347656250 relu_ms=0.730957031 conversion_ms=0.859130859 layer2_ms=865.326171875 total_ms=1789.263916016
+TIME graph=mycielskian19 method=A2_window8 rep=0 order=2 layer1_ms=1015.350830078 relu_ms=0.763183594 conversion_ms=0.856933594 layer2_ms=969.977050781 total_ms=1986.947998047
+TIME graph=mycielskian19 method=A3_window16 rep=0 order=3 layer1_ms=902.284912109 relu_ms=0.789062500 conversion_ms=0.980957031 layer2_ms=925.885009766 total_ms=1829.939941406
+TIME graph=mycielskian19 method=A4_window32 rep=0 order=4 layer1_ms=887.566162109 relu_ms=0.754882812 conversion_ms=0.941894531 layer2_ms=873.771240234 total_ms=1763.034179688
+TIME graph=mycielskian19 method=A5_window64 rep=0 order=5 layer1_ms=817.256103516 relu_ms=0.759765625 conversion_ms=0.910156250 layer2_ms=838.500976562 total_ms=1657.427001953
+TIME graph=mycielskian19 method=control_window16_duplicate_gather rep=0 order=6 layer1_ms=1152.723876953 relu_ms=0.750244141 conversion_ms=0.809814453 layer2_ms=1137.499023438 total_ms=2291.782958984
+TIME graph=mycielskian19 method=control_window16_duplicate_gather rep=1 order=0 layer1_ms=1175.894042969 relu_ms=0.752929688 conversion_ms=0.846923828 layer2_ms=1152.068847656 total_ms=2329.562744141
+TIME graph=mycielskian19 method=A5_window64 rep=1 order=1 layer1_ms=874.799804688 relu_ms=0.739257812 conversion_ms=0.843017578 layer2_ms=796.393798828 total_ms=1672.775878906
+TIME graph=mycielskian19 method=A4_window32 rep=1 order=2 layer1_ms=840.650634766 relu_ms=0.748291016 conversion_ms=0.888671875 layer2_ms=848.439208984 total_ms=1690.726806641
+TIME graph=mycielskian19 method=A3_window16 rep=1 order=3 layer1_ms=932.981933594 relu_ms=0.742187500 conversion_ms=0.847900391 layer2_ms=905.871826172 total_ms=1840.443847656
+TIME graph=mycielskian19 method=A2_window8 rep=1 order=4 layer1_ms=1003.318115234 relu_ms=0.750976562 conversion_ms=0.827880859 layer2_ms=980.929199219 total_ms=1985.826171875
+TIME graph=mycielskian19 method=A1_step rep=1 order=5 layer1_ms=919.900878906 relu_ms=0.740966797 conversion_ms=0.862060547 layer2_ms=789.116943359 total_ms=1710.620849609
+TIME graph=mycielskian19 method=A0_original rep=1 order=6 layer1_ms=1114.027099609 relu_ms=0.741943359 conversion_ms=0.875000000 layer2_ms=1137.313232422 total_ms=2252.957275391
+TIME graph=mycielskian19 method=A0_original rep=2 order=0 layer1_ms=1111.911132812 relu_ms=0.738769531 conversion_ms=0.819091797 layer2_ms=1086.547119141 total_ms=2200.016113281
+TIME graph=mycielskian19 method=A1_step rep=2 order=1 layer1_ms=892.266113281 relu_ms=0.736816406 conversion_ms=0.829101562 layer2_ms=910.761962891 total_ms=1804.593994141
+TIME graph=mycielskian19 method=A2_window8 rep=2 order=2 layer1_ms=948.600830078 relu_ms=0.733886719 conversion_ms=0.914062500 layer2_ms=943.893066406 total_ms=1894.141845703
+TIME graph=mycielskian19 method=A3_window16 rep=2 order=3 layer1_ms=889.598876953 relu_ms=0.734130859 conversion_ms=0.819091797 layer2_ms=886.890136719 total_ms=1778.042236328
+TIME graph=mycielskian19 method=A4_window32 rep=2 order=4 layer1_ms=821.025146484 relu_ms=0.758056641 conversion_ms=0.864990234 layer2_ms=784.006103516 total_ms=1606.654296875
+TIME graph=mycielskian19 method=A5_window64 rep=2 order=5 layer1_ms=853.941894531 relu_ms=0.748046875 conversion_ms=0.907958984 layer2_ms=859.170898438 total_ms=1714.768798828
+TIME graph=mycielskian19 method=control_window16_duplicate_gather rep=2 order=6 layer1_ms=1152.920898438 relu_ms=0.728027344 conversion_ms=0.867919922 layer2_ms=1076.946044922 total_ms=2231.462890625
+TIME graph=mycielskian19 method=control_window16_duplicate_gather rep=3 order=0 layer1_ms=1162.539062500 relu_ms=0.752929688 conversion_ms=0.833007812 layer2_ms=1114.373046875 total_ms=2278.498046875
+TIME graph=mycielskian19 method=A5_window64 rep=3 order=1 layer1_ms=853.686279297 relu_ms=0.742919922 conversion_ms=0.855957031 layer2_ms=850.508056641 total_ms=1705.793212891
+TIME graph=mycielskian19 method=A4_window32 rep=3 order=2 layer1_ms=893.708007812 relu_ms=0.744140625 conversion_ms=0.870849609 layer2_ms=789.044189453 total_ms=1684.367187500
+TIME graph=mycielskian19 method=A3_window16 rep=3 order=3 layer1_ms=922.140136719 relu_ms=0.745849609 conversion_ms=0.866943359 layer2_ms=892.121093750 total_ms=1815.874023438
+TIME graph=mycielskian19 method=A2_window8 rep=3 order=4 layer1_ms=974.925048828 relu_ms=0.732666016 conversion_ms=0.869140625 layer2_ms=978.261962891 total_ms=1954.788818359
+TIME graph=mycielskian19 method=A1_step rep=3 order=5 layer1_ms=871.211914062 relu_ms=0.761962891 conversion_ms=0.936035156 layer2_ms=910.141113281 total_ms=1783.051025391
+TIME graph=mycielskian19 method=A0_original rep=3 order=6 layer1_ms=1133.461181641 relu_ms=0.749023438 conversion_ms=0.803955078 layer2_ms=1100.110107422 total_ms=2235.124267578
+TIME graph=mycielskian19 method=A0_original rep=4 order=0 layer1_ms=1089.956054688 relu_ms=0.761962891 conversion_ms=0.847656250 layer2_ms=1079.399169922 total_ms=2170.964843750
+TIME graph=mycielskian19 method=A1_step rep=4 order=1 layer1_ms=929.433105469 relu_ms=0.730957031 conversion_ms=0.807861328 layer2_ms=876.082031250 total_ms=1807.053955078
+TIME graph=mycielskian19 method=A2_window8 rep=4 order=2 layer1_ms=1002.263183594 relu_ms=0.739746094 conversion_ms=0.882080078 layer2_ms=923.635986328 total_ms=1927.520996094
+TIME graph=mycielskian19 method=A3_window16 rep=4 order=3 layer1_ms=875.677246094 relu_ms=0.735839844 conversion_ms=0.817138672 layer2_ms=842.004882812 total_ms=1719.235107422
+TIME graph=mycielskian19 method=A4_window32 rep=4 order=4 layer1_ms=930.105957031 relu_ms=0.742919922 conversion_ms=0.891113281 layer2_ms=832.032958984 total_ms=1763.772949219
+TIME graph=mycielskian19 method=A5_window64 rep=4 order=5 layer1_ms=889.611083984 relu_ms=0.734863281 conversion_ms=0.857910156 layer2_ms=845.781250000 total_ms=1736.985107422
+TIME graph=mycielskian19 method=control_window16_duplicate_gather rep=4 order=6 layer1_ms=1216.196044922 relu_ms=0.747802734 conversion_ms=0.857177734 layer2_ms=1198.792968750 total_ms=2416.593994141
+COMPLETE graph=mycielskian19 checks=7 times=35 pass=1

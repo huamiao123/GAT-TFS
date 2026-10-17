@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/ogbn-products/ogbn-products.csrbin
+Matrix: ogbn-products  N=2449029  NNZ=123718152  avg_deg=50.5
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 329.27 ms
+  run 1: 329.51 ms
+  run 2: 335.98 ms
+  run 3: 329.71 ms
+  run 4: 337.05 ms
+  TFS V3 E2E BEST: 329.27 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1349.77 ms
+  run 1: 1346.63 ms
+  run 2: 1349.95 ms
+  run 3: 1350.80 ms
+  run 4: 1347.55 ms
+  MKL E2E BEST: 1346.63 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 329.27 ms
+  MKL (FP32):      1346.63 ms
+  E2E Speedup:     4.09×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010501  RMSE=1.5255e+02
+First 8:
+  TFS: -12991.84 -28908.69 -36407.58 -4621.78 10116.61 -6913.75 -18725.19 -24380.31 
+  MKL: -13114.39 -29165.52 -36805.82 -4675.34 10199.56 -6997.17 -18939.52 -24603.59 
+ABLATION_CHECK graph=ogbn-products l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=ogbn-products schedule=degree nonempty_tiles=150039 padded_row_steps=123813901 real_edges=123718152 max_degree=17481 amx_dpbf16ps_per_layer=4801248
+ABLATION_WORK graph=ogbn-products schedule=identity nonempty_tiles=153065 padded_row_steps=524555537 real_edges=123718152 max_degree=17481 amx_dpbf16ps_per_layer=4898080
+ABLATION_SETUP graph=ogbn-products degree_sort_ms=127.316952 identity_init_ms=0.645160675 included_in_prepared_e2e=0
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=0 order=0 prepared_e2e_ms=287.849903
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=0 order=1 prepared_e2e_ms=277.666807
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=1 order=0 prepared_e2e_ms=279.149055
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=1 order=1 prepared_e2e_ms=299.515963
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=2 order=0 prepared_e2e_ms=294.8699
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=2 order=1 prepared_e2e_ms=279.196024
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=3 order=0 prepared_e2e_ms=279.704809
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=3 order=1 prepared_e2e_ms=297.503948
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=4 order=0 prepared_e2e_ms=292.938948
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=4 order=1 prepared_e2e_ms=280.336142
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=5 order=0 prepared_e2e_ms=280.522108
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=5 order=1 prepared_e2e_ms=301.091909
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=6 order=0 prepared_e2e_ms=296.75293
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=6 order=1 prepared_e2e_ms=280.448914
+ABLATION_TIME graph=ogbn-products schedule=identity repeat=7 order=0 prepared_e2e_ms=280.236006
+ABLATION_TIME graph=ogbn-products schedule=degree repeat=7 order=1 prepared_e2e_ms=298.360109
+ABLATION_STAGE graph=ogbn-products schedule=degree repeat=0 layer1_ms=145.56694 relu_ms=4.39691544 interlayer_ms=4.76408005 layer2_ms=140.928984 total_ms=295.656919
+ABLATION_STAGE graph=ogbn-products schedule=degree repeat=1 layer1_ms=147.631884 relu_ms=4.16302681 interlayer_ms=4.6710968 layer2_ms=141.213894 total_ms=297.679901
+ABLATION_STAGE graph=ogbn-products schedule=degree repeat=2 layer1_ms=146.317959 relu_ms=4.40907478 interlayer_ms=4.75096703 layer2_ms=138.993979 total_ms=294.471979
+ABLATION_STAGE graph=ogbn-products schedule=identity repeat=0 layer1_ms=137.320995 relu_ms=4.18519974 interlayer_ms=4.66895103 layer2_ms=134.291887 total_ms=280.467033
+ABLATION_STAGE graph=ogbn-products schedule=identity repeat=1 layer1_ms=136.995077 relu_ms=4.41813469 interlayer_ms=4.71997261 layer2_ms=134.36985 total_ms=280.503035
+ABLATION_STAGE graph=ogbn-products schedule=identity repeat=2 layer1_ms=136.880159 relu_ms=4.39500809 interlayer_ms=4.74190712 layer2_ms=134.357929 total_ms=280.375004
+ABLATION_COMPLETE graph=ogbn-products pass=1

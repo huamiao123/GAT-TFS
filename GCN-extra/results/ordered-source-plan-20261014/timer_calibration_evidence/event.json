@@ -1,0 +1,33 @@
+{
+  "id": "ordered-source-timer-cal-20261014-140724-build-submit",
+  "kind": "timer_calibration_build_submit",
+  "status": "PASS",
+  "job": "10960745",
+  "evidence": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-timer-cal-20261014-140724",
+  "threads": 32,
+  "node": "qhcn017",
+  "node_cap": 5,
+  "round_node_limit": 2,
+  "cmd": [
+    "sbatch",
+    "--parsable",
+    "-p",
+    "intel",
+    "-N1",
+    "-n1",
+    "-c32",
+    "--nodelist=qhcn017",
+    "--hint=nomultithread",
+    "--mem=2G",
+    "--time=00:05:00",
+    "--job-name=gcn-timer-cal",
+    "--chdir=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra",
+    "-o",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-timer-cal-20261014-140724/logs/slurm-%j.out",
+    "-e",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-timer-cal-20261014-140724/logs/slurm-%j.err",
+    "--wrap=srun -n1 -c32 --cpu-bind=cores bash /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-timer-cal-20261014-140724/source_snapshot/timer_job.sh /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-timer-cal-20261014-140724"
+  ],
+  "flags": "-O3 -march=sapphirerapids -mamx-bf16 -mamx-tile -mavx512bf16 -qopenmp -qmkl=parallel",
+  "issues": "Same main/diagnostic node empty tick/tock calibration; no GNN source/parameter/timing changes"
+}

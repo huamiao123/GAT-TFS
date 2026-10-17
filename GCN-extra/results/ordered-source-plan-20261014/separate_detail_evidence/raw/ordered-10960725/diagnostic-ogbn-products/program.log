@@ -1,0 +1,958 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/ogbn-products/ogbn-products.csrbin
+Matrix: ogbn-products  N=2449029  NNZ=123718152  avg_deg=50.5
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 324.22 ms
+  run 1: 322.45 ms
+  run 2: 333.35 ms
+  run 3: 323.22 ms
+  run 4: 335.78 ms
+  TFS V3 E2E BEST: 322.45 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1376.40 ms
+  run 1: 1350.14 ms
+  run 2: 1352.32 ms
+  run 3: 1350.69 ms
+  run 4: 1359.91 ms
+  MKL E2E BEST: 1350.14 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 322.45 ms
+  MKL (FP32):      1350.14 ms
+  E2E Speedup:     4.19×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010501  RMSE=1.5255e+02
+First 8:
+  TFS: -12991.84 -28908.69 -36407.58 -4621.78 10116.61 -6913.75 -18725.19 -24380.31 
+  MKL: -13114.39 -29165.52 -36805.82 -4675.34 10199.56 -6997.17 -18939.52 -24603.59 
+STATE_SEMANTIC graph=ogbn-products values=19 bitwise=1 pass=1 kind=relu_truncation_signedzero_nan_vector_tail
+STATE_SETUP graph=ogbn-products phase=degree_schedule_copy ms=2.21800804138 included_in_primary=0
+EVENT_PLAN graph=ogbn-products E=123718152 total_pair_windows=1742774 all_matches=22642 eligible_matches=428 partial_matches=10 exact_matches=420 eligible_windows=11 exact_windows=12 run_count=18 plan_bytes=2453428 allocated_bytes=2455480 construct_ms=1162.88781166 audit_ms=0.264167785645 min_matches=8 max_runs=8 pass=1
+STATE_CONFIG graph=ogbn-products N=2449029 E=123718152 D=128 H=128 F=128 S=64 R=64 TR=16 methods=8 warmups=1 consecutive=5 alternating=10 numa=default smoke=0 ablations=1 mkl_threads=32 mkl_dynamic=1 final_output=BF16
+STATE_PLAN graph=ogbn-products method=paper_tfs kind=0 scope=1 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=ogbn-products method=p0_degree kind=2 scope=0 schedule=degree partial_nozero=0 direct_pack=0 epilogue=0 pair=0 accurate=0 mode=0
+STATE_PLAN graph=ogbn-products method=pack_epi_degree kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=0
+STATE_PLAN graph=ogbn-products method=dynamic_all_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=1
+STATE_PLAN graph=ogbn-products method=event_independent kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=2
+STATE_PLAN graph=ogbn-products method=event_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=3
+STATE_PLAN graph=ogbn-products method=dynamic_selected_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=4
+STATE_PLAN graph=ogbn-products method=exact_only_share kind=3 scope=0 schedule=degree partial_nozero=1 direct_pack=1 epilogue=1 pair=0 accurate=0 mode=5
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=kernel_FP32 reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=e2e_FP32_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=e2e_BF16_final reference=paper_tfs max_abs=0 mean_abs=0 relative_L2=0 normalized_max=0 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=paper_tfs boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=87793.5 mean_abs=79.6746653957 relative_L2=0.0127954883771 normalized_max=0.0135534967021 gate=0.03 pass=1
+METHOD_CHECK graph=ogbn-products method=p0_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=p0_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=p0_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=p0_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=p0_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=p0_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=p0_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=p0_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=pack_epi_degree boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=pack_epi_degree boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=pack_epi_degree boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=pack_epi_degree boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=pack_epi_degree boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_all_share boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_all_share boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_all_share boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_all_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_all_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_all_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_all_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_all_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=event_independent boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=event_independent boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=event_independent boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=event_independent boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=event_independent boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=event_independent boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=event_independent boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=event_independent boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=event_share boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=event_share boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=event_share boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=event_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=event_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=event_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=event_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=event_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_selected_share boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_selected_share boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_selected_share boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=dynamic_selected_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_selected_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_selected_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_selected_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=dynamic_selected_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+METHOD_CHECK graph=ogbn-products method=exact_only_share boundary=kernel_FP32 reference=paper_tfs max_abs=6.76220703125 mean_abs=0.0565733405329 relative_L2=0.00329457783311 normalized_max=0.00264136948399 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=exact_only_share boundary=e2e_FP32_final reference=paper_tfs max_abs=35290.5 mean_abs=36.7816148971 relative_L2=0.00588307246424 normalized_max=0.00550594236285 gate=0.01 pass=1
+METHOD_CHECK graph=ogbn-products method=exact_only_share boundary=e2e_BF16_final reference=paper_tfs max_abs=32768 mean_abs=36.6786260634 relative_L2=0.00628402291847 normalized_max=0.00512820512821 gate=0.02 pass=1
+METHOD_CHECK graph=ogbn-products method=exact_only_share boundary=e2e_BF16_final reference=source_MKL_FP32 max_abs=120561.5 mean_abs=114.659691528 relative_L2=0.0183357711407 normalized_max=0.018612196719 gate=0.03 pass=1
+STATE_EQUIV graph=ogbn-products method=exact_only_share boundary=kernel_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=exact_only_share boundary=e2e_FP32 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=exact_only_share boundary=H1_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_EQUIV graph=ogbn-products method=exact_only_share boundary=e2e_BF16 scope=0 accurate=0 bitwise=1 pass=1
+STATE_GATE_COMPLETE graph=ogbn-products pass=1
+STATE_WORK_GATE graph=ogbn-products method=pack_epi_degree layer=1 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=pack_epi_degree layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=pack_epi_degree layer=1 edges=123718152 decoded_rows=123718152 saved_decode_rows=0 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=row_schedule sampled_thread_ms=0.360250473022 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_zero sampled_thread_ms=0.145196914673 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=csr_prefetch sampled_thread_ms=99.023103714 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=feature_gather_decode sampled_thread_ms=71.60115242 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=28.0976295471 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.55546379089 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=tile_load sampled_thread_ms=1.2481212616 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=tile_compute sampled_thread_ms=1.72686576843 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=tile_store sampled_thread_ms=0.0975131988525 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=output_scatter sampled_thread_ms=0.799179077148 diagnostic_wall_ms=199.059009552
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=1 phase=thread_amx_setup sampled_thread_ms=0.023365020752 diagnostic_wall_ms=199.059009552
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_init sampled_thread_ms=0.0181198120117 events=587
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=csr_index_read sampled_thread_ms=15.4156684875 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=csr_next_index_read sampled_thread_ms=13.4966373444 events=514595
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=prefetch_issue sampled_thread_ms=13.5262012482 events=514595
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=source_bf16_load sampled_thread_ms=14.9209499359 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=source_bf16_decode sampled_thread_ms=13.6992931366 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=feature_fp32_add sampled_thread_ms=13.546705246 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_state_load sampled_thread_ms=0.143766403198 events=4879
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_state_store sampled_thread_ms=0.160455703735 events=4879
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_hi_pack sampled_thread_ms=2.07567214966 events=75048
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=amx_a_load sampled_thread_ms=0.156164169312 events=4696
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=amx_b_load sampled_thread_ms=0.587701797485 events=9392
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=amx_tdp_compute sampled_thread_ms=1.45387649536 events=9392
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=amx_c_zero sampled_thread_ms=0.0350475311279 events=1174
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=amx_c_store sampled_thread_ms=0.0572204589844 events=1174
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=output_store sampled_thread_ms=0.00238418579102 events=12
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=thread_permission sampled_thread_ms=0.016450881958 events=32
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=thread_tile_config sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=1 phase=row_metadata_read sampled_thread_ms=0.208139419556 events=599
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=0 active_ms=180.099010468 finish_ms=180.109024048 edges=3316085 tiles=10672
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=1 active_ms=184.425115585 finish_ms=184.443950653 edges=3294096 tiles=8252
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=2 active_ms=180.431842804 finish_ms=180.462837219 edges=3337955 tiles=7768
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=3 active_ms=198.984146118 finish_ms=198.997974396 edges=3129743 tiles=7557
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=4 active_ms=180.27305603 finish_ms=180.286884308 edges=3561098 tiles=7336
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=5 active_ms=180.40895462 finish_ms=180.447816849 edges=3427858 tiles=7332
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=6 active_ms=180.326938629 finish_ms=180.358886719 edges=3419666 tiles=6960
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=7 active_ms=181.208133698 finish_ms=181.257009506 edges=3606660 tiles=6736
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=8 active_ms=181.267976761 finish_ms=181.310892105 edges=3567538 tiles=6444
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=9 active_ms=181.21099472 finish_ms=181.224822998 edges=3561250 tiles=6040
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=10 active_ms=181.198835373 finish_ms=181.219816208 edges=3707570 tiles=5952
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=11 active_ms=181.296110153 finish_ms=181.309938431 edges=3745434 tiles=5808
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=12 active_ms=180.146932602 finish_ms=180.171966553 edges=3700808 tiles=5400
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=13 active_ms=181.246042252 finish_ms=181.272029877 edges=3767131 tiles=5252
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=14 active_ms=180.132865906 finish_ms=180.148839951 edges=3848455 tiles=5000
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=15 active_ms=180.20606041 finish_ms=180.229902267 edges=3852614 tiles=4580
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=16 active_ms=180.265903473 finish_ms=180.287837982 edges=4011538 tiles=4508
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=17 active_ms=180.193901062 finish_ms=180.209875107 edges=4041612 tiles=4228
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=18 active_ms=180.466890335 finish_ms=180.486917496 edges=3943055 tiles=3944
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=19 active_ms=180.463075638 finish_ms=180.491924286 edges=4037328 tiles=3992
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=20 active_ms=180.109024048 finish_ms=180.137872696 edges=4133941 tiles=3556
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=21 active_ms=180.469036102 finish_ms=180.490016937 edges=4299728 tiles=3388
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=22 active_ms=181.27989769 finish_ms=181.31685257 edges=4112974 tiles=3216
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=23 active_ms=180.160999298 finish_ms=180.179834366 edges=4199873 tiles=2972
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=24 active_ms=180.21607399 finish_ms=180.264949799 edges=4250201 tiles=2704
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=25 active_ms=181.313991547 finish_ms=181.327819824 edges=4111968 tiles=2536
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=26 active_ms=181.233882904 finish_ms=181.249856949 edges=4314541 tiles=2428
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=27 active_ms=180.109024048 finish_ms=180.135965347 edges=4205612 tiles=2156
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=28 active_ms=181.236028671 finish_ms=181.258916855 edges=4378638 tiles=2032
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=29 active_ms=182.034015656 finish_ms=182.047843933 edges=4268728 tiles=1772
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=30 active_ms=180.194854736 finish_ms=180.219888687 edges=4330923 tiles=1480
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=1 tid=31 active_ms=180.335998535 finish_ms=180.367946625 edges=4233531 tiles=1064
+STATE_WORK_GATE graph=ogbn-products method=pack_epi_degree layer=2 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=pack_epi_degree layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=pack_epi_degree layer=2 edges=123718152 decoded_rows=123718152 saved_decode_rows=0 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=row_schedule sampled_thread_ms=0.344514846802 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_zero sampled_thread_ms=0.153779983521 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=csr_prefetch sampled_thread_ms=99.0705490112 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=feature_gather_decode sampled_thread_ms=71.1381435394 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.9200077057 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.56428527832 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=tile_load sampled_thread_ms=1.24001502991 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=tile_compute sampled_thread_ms=1.75905227661 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=tile_store sampled_thread_ms=0.0977516174316 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=output_scatter sampled_thread_ms=1.18160247803 diagnostic_wall_ms=190.751075745
+EVENT_PROFILE graph=ogbn-products method=pack_epi_degree layer=2 phase=thread_amx_setup sampled_thread_ms=0.0324249267578 diagnostic_wall_ms=190.751075745
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_init sampled_thread_ms=0.0152587890625 events=587
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=csr_index_read sampled_thread_ms=14.9941444397 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=csr_next_index_read sampled_thread_ms=13.7445926666 events=514595
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=prefetch_issue sampled_thread_ms=13.5314464569 events=514595
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=source_bf16_load sampled_thread_ms=15.0201320648 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=source_bf16_decode sampled_thread_ms=13.3745670319 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=feature_fp32_add sampled_thread_ms=13.6005878448 events=523976
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_state_load sampled_thread_ms=0.126838684082 events=4879
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_state_store sampled_thread_ms=0.141143798828 events=4879
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_hi_pack sampled_thread_ms=2.14576721191 events=75048
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=amx_a_load sampled_thread_ms=0.155687332153 events=4696
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=amx_b_load sampled_thread_ms=0.553131103516 events=9392
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=amx_tdp_compute sampled_thread_ms=1.48987770081 events=9392
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=amx_c_zero sampled_thread_ms=0.0364780426025 events=1174
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=amx_c_store sampled_thread_ms=0.0545978546143 events=1174
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=output_bf16_conversion sampled_thread_ms=0.277519226074 events=9381
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=output_store sampled_thread_ms=0.330209732056 events=9393
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=thread_permission sampled_thread_ms=0.0190734863281 events=32
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=thread_tile_config sampled_thread_ms=0.00572204589844 events=32
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=pack_epi_degree layer=2 phase=row_metadata_read sampled_thread_ms=0.213623046875 events=599
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=0 active_ms=177.953958511 finish_ms=177.958011627 edges=3222156 tiles=10776
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=1 active_ms=177.211046219 finish_ms=177.217006683 edges=3307631 tiles=8212
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=2 active_ms=177.23608017 finish_ms=177.24108696 edges=3339658 tiles=7852
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=3 active_ms=178.026914597 finish_ms=178.031921387 edges=3500861 tiles=7872
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=4 active_ms=177.41894722 finish_ms=177.42395401 edges=3442313 tiles=7528
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=5 active_ms=177.410125732 finish_ms=177.415132523 edges=3505747 tiles=7468
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=6 active_ms=177.237033844 finish_ms=177.242040634 edges=3583533 tiles=6888
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=7 active_ms=177.365064621 finish_ms=177.370071411 edges=3599235 tiles=6924
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=8 active_ms=178.116083145 finish_ms=178.121089935 edges=3601579 tiles=6344
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=9 active_ms=177.586078644 finish_ms=177.591085434 edges=3803767 tiles=6004
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=10 active_ms=177.489995956 finish_ms=177.495002747 edges=3746049 tiles=5896
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=11 active_ms=180.108070374 finish_ms=180.113077164 edges=3857605 tiles=5452
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=12 active_ms=179.197072983 finish_ms=179.202079773 edges=3693788 tiles=5356
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=13 active_ms=177.415132523 finish_ms=177.420139313 edges=3876556 tiles=5028
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=14 active_ms=177.995920181 finish_ms=178.000926971 edges=3932729 tiles=5032
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=15 active_ms=177.200078964 finish_ms=177.206039429 edges=4004532 tiles=4672
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=16 active_ms=177.304029465 finish_ms=177.309989929 edges=3899732 tiles=4220
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=17 active_ms=177.379131317 finish_ms=177.385091782 edges=4054592 tiles=4300
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=18 active_ms=178.012132645 finish_ms=178.018093109 edges=3959914 tiles=3956
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=19 active_ms=177.311182022 finish_ms=177.317142487 edges=4025849 tiles=3732
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=20 active_ms=177.352190018 finish_ms=177.359104156 edges=4131000 tiles=3688
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=21 active_ms=177.334070206 finish_ms=177.34003067 edges=4049375 tiles=3572
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=22 active_ms=177.504062653 finish_ms=177.510023117 edges=4123908 tiles=3448
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=23 active_ms=178.161144257 finish_ms=178.167104721 edges=4280150 tiles=2900
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=24 active_ms=177.220106125 finish_ms=177.225112915 edges=4243457 tiles=2784
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=25 active_ms=177.461147308 finish_ms=177.467107773 edges=4085410 tiles=2520
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=26 active_ms=177.541017532 finish_ms=177.546977997 edges=4178367 tiles=2304
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=27 active_ms=177.356958389 finish_ms=177.362918854 edges=4153487 tiles=2148
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=28 active_ms=177.758932114 finish_ms=177.763938904 edges=4307810 tiles=1992
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=29 active_ms=177.38699913 finish_ms=177.39200592 edges=4112342 tiles=1684
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=30 active_ms=190.729141235 finish_ms=190.7351017 edges=3965851 tiles=1409
+EVENT_THREAD graph=ogbn-products method=pack_epi_degree layer=2 tid=31 active_ms=178.059101105 finish_ms=178.064107895 edges=4129169 tiles=1104
+STATE_WORK_GATE graph=ogbn-products method=dynamic_all_share layer=1 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=dynamic_all_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=dynamic_all_share layer=1 edges=123718152 decoded_rows=123695510 saved_decode_rows=22642 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=108526301 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=row_schedule sampled_thread_ms=0.339269638062 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_zero sampled_thread_ms=0.138282775879 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=csr_prefetch sampled_thread_ms=55.8063983917 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=feature_gather_decode sampled_thread_ms=73.4243392944 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=30.294418335 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.63128089905 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=tile_load sampled_thread_ms=1.26481056213 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=tile_compute sampled_thread_ms=1.72996520996 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=tile_store sampled_thread_ms=0.104904174805 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=output_scatter sampled_thread_ms=0.79083442688 diagnostic_wall_ms=245.977163315
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0419616699219 diagnostic_wall_ms=245.977163315
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_init sampled_thread_ms=0.0131130218506 events=587
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=csr_index_read sampled_thread_ms=15.0511264801 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.6976242065 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=prefetch_issue sampled_thread_ms=13.6597156525 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=source_bf16_load sampled_thread_ms=15.4280662537 events=523865
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=source_bf16_decode sampled_thread_ms=14.7292613983 events=523865
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=feature_fp32_add sampled_thread_ms=15.6664848328 events=523865
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_state_load sampled_thread_ms=0.128507614136 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_state_store sampled_thread_ms=0.142574310303 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_hi_pack sampled_thread_ms=2.16007232666 events=75048
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=amx_a_load sampled_thread_ms=0.152826309204 events=4696
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=amx_b_load sampled_thread_ms=0.57578086853 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.46460533142 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0243186950684 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=amx_c_store sampled_thread_ms=0.0629425048828 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=output_store sampled_thread_ms=0.0169277191162 events=12
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=thread_permission sampled_thread_ms=0.0154972076416 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00596046447754 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=1 phase=row_metadata_read sampled_thread_ms=0.197887420654 events=599
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=0 active_ms=230.709075928 finish_ms=230.714082718 edges=3581649 tiles=11508
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=1 active_ms=230.152130127 finish_ms=230.158090591 edges=3623637 tiles=9280
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=2 active_ms=230.650186539 finish_ms=230.656147003 edges=3558281 tiles=8548
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=3 active_ms=230.715990067 finish_ms=230.723142624 edges=3696977 tiles=8188
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=4 active_ms=231.284141541 finish_ms=231.290102005 edges=3604719 tiles=7840
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=5 active_ms=230.678081512 finish_ms=230.684041977 edges=3758390 tiles=7320
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=6 active_ms=230.741977692 finish_ms=230.747938156 edges=3729010 tiles=7008
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=7 active_ms=232.106208801 finish_ms=232.112169266 edges=3836028 tiles=6724
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=8 active_ms=230.213165283 finish_ms=230.219125748 edges=3668072 tiles=6224
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=9 active_ms=230.530023575 finish_ms=230.535984039 edges=3695774 tiles=6124
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=10 active_ms=235.041856766 finish_ms=235.049009323 edges=3907923 tiles=5760
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=11 active_ms=245.941162109 finish_ms=245.947122574 edges=3710005 tiles=5561
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=12 active_ms=230.761051178 finish_ms=230.767011642 edges=3788834 tiles=5284
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=13 active_ms=230.216026306 finish_ms=230.221986771 edges=3812607 tiles=4888
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=14 active_ms=230.781078339 finish_ms=230.787038803 edges=3889896 tiles=4984
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=15 active_ms=234.939098358 finish_ms=234.945058823 edges=4026539 tiles=4512
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=16 active_ms=231.287002563 finish_ms=231.292963028 edges=3899066 tiles=4068
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=17 active_ms=231.257200241 finish_ms=231.263160706 edges=3903401 tiles=4060
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=18 active_ms=231.353998184 finish_ms=231.359958649 edges=3954920 tiles=3600
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=19 active_ms=230.982065201 finish_ms=230.988025665 edges=3992206 tiles=3608
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=20 active_ms=230.169057846 finish_ms=230.175018311 edges=3988267 tiles=3504
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=21 active_ms=230.664014816 finish_ms=230.671167374 edges=4001008 tiles=3300
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=22 active_ms=230.68189621 finish_ms=230.689048767 edges=4020499 tiles=3140
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=23 active_ms=232.715845108 finish_ms=232.722997665 edges=4055898 tiles=2668
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=24 active_ms=232.846021652 finish_ms=232.851982117 edges=4048781 tiles=2796
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=25 active_ms=230.692863464 finish_ms=230.700016022 edges=3951823 tiles=2468
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=26 active_ms=231.348991394 finish_ms=231.354951859 edges=4005932 tiles=2224
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=27 active_ms=230.092048645 finish_ms=230.098009109 edges=4065548 tiles=2028
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=28 active_ms=234.055995941 finish_ms=234.061956406 edges=4115303 tiles=1832
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=29 active_ms=232.690811157 finish_ms=232.697963715 edges=4010035 tiles=1584
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=30 active_ms=230.705022812 finish_ms=230.710983276 edges=3883480 tiles=1396
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=1 tid=31 active_ms=230.708122253 finish_ms=230.714082718 edges=3933644 tiles=1036
+STATE_WORK_GATE graph=ogbn-products method=dynamic_all_share layer=2 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=dynamic_all_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=dynamic_all_share layer=2 edges=123718152 decoded_rows=123695510 saved_decode_rows=22642 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=108526301 window_entries=0 selected_windows=0 run_dispatches=0 run_bytes=0 tile_fallback_scopes=0
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=row_schedule sampled_thread_ms=0.333547592163 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_zero sampled_thread_ms=0.136613845825 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=csr_prefetch sampled_thread_ms=55.689573288 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=feature_gather_decode sampled_thread_ms=73.4784603119 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=30.49492836 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.64081764221 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=tile_load sampled_thread_ms=1.21641159058 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=tile_compute sampled_thread_ms=1.79576873779 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=tile_store sampled_thread_ms=0.0944137573242 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=output_scatter sampled_thread_ms=1.20663642883 diagnostic_wall_ms=241.172075272
+EVENT_PROFILE graph=ogbn-products method=dynamic_all_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0417232513428 diagnostic_wall_ms=241.172075272
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_init sampled_thread_ms=0.0128746032715 events=587
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=csr_index_read sampled_thread_ms=15.0940418243 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.8440132141 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=prefetch_issue sampled_thread_ms=13.5586261749 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=source_bf16_load sampled_thread_ms=15.3954029083 events=523865
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=source_bf16_decode sampled_thread_ms=14.8918628693 events=523865
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=feature_fp32_add sampled_thread_ms=15.8989429474 events=523865
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_state_load sampled_thread_ms=0.134944915771 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_state_store sampled_thread_ms=0.156164169312 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_hi_pack sampled_thread_ms=2.14624404907 events=75048
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=amx_a_load sampled_thread_ms=0.13256072998 events=4696
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=amx_b_load sampled_thread_ms=0.545501708984 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.51491165161 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0333786010742 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=amx_c_store sampled_thread_ms=0.0569820404053 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.275611877441 events=9381
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=output_store sampled_thread_ms=0.308513641357 events=9393
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=thread_permission sampled_thread_ms=0.0262260437012 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_all_share layer=2 phase=row_metadata_read sampled_thread_ms=0.201940536499 events=599
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=0 active_ms=226.848840714 finish_ms=226.855993271 edges=3590906 tiles=11820
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=1 active_ms=227.123975754 finish_ms=227.132081985 edges=3667548 tiles=9532
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=2 active_ms=232.872009277 finish_ms=232.879161835 edges=3833224 tiles=8684
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=3 active_ms=228.589057922 finish_ms=228.597164154 edges=3792320 tiles=8336
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=4 active_ms=226.33099556 finish_ms=226.339101791 edges=3684887 tiles=7680
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=5 active_ms=226.727962494 finish_ms=226.736068726 edges=3665986 tiles=7640
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=6 active_ms=226.814031601 finish_ms=226.823091507 edges=3723814 tiles=7016
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=7 active_ms=226.610898972 finish_ms=226.619005203 edges=3804821 tiles=6788
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=8 active_ms=226.567983627 finish_ms=226.576089859 edges=3734166 tiles=6380
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=9 active_ms=226.673841476 finish_ms=226.681947708 edges=3691445 tiles=5904
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=10 active_ms=226.398944855 finish_ms=226.407051086 edges=3759632 tiles=5932
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=11 active_ms=226.598024368 finish_ms=226.6061306 edges=3873678 tiles=5644
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=12 active_ms=226.46689415 finish_ms=226.475000381 edges=3816263 tiles=5268
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=13 active_ms=226.855039597 finish_ms=226.863145828 edges=3769279 tiles=4948
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=14 active_ms=226.800918579 finish_ms=226.809024811 edges=3945661 tiles=4664
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=15 active_ms=227.150917053 finish_ms=227.159023285 edges=3926452 tiles=4492
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=16 active_ms=227.172851562 finish_ms=227.180957794 edges=3957123 tiles=4204
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=17 active_ms=227.187871933 finish_ms=227.195978165 edges=3878588 tiles=3816
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=18 active_ms=228.500843048 finish_ms=228.50894928 edges=3946059 tiles=3672
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=19 active_ms=226.56583786 finish_ms=226.573944092 edges=3978070 tiles=3408
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=20 active_ms=228.574037552 finish_ms=228.582143784 edges=4048370 tiles=3236
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=21 active_ms=226.608037949 finish_ms=226.617097855 edges=4013376 tiles=3140
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=22 active_ms=226.791858673 finish_ms=226.799964905 edges=3973400 tiles=2948
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=23 active_ms=226.470947266 finish_ms=226.479053497 edges=3962385 tiles=2884
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=24 active_ms=227.71692276 finish_ms=227.725028992 edges=4063981 tiles=2500
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=25 active_ms=228.693008423 finish_ms=228.701114655 edges=3912137 tiles=2368
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=26 active_ms=226.662874222 finish_ms=226.670980453 edges=4005052 tiles=2244
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=27 active_ms=228.940963745 finish_ms=228.949069977 edges=4064656 tiles=2048
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=28 active_ms=226.984977722 finish_ms=226.99213028 edges=3944516 tiles=1844
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=29 active_ms=226.326942444 finish_ms=226.335048676 edges=3941618 tiles=1608
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=30 active_ms=241.143941879 finish_ms=241.152048111 edges=3845125 tiles=1385
+EVENT_THREAD graph=ogbn-products method=dynamic_all_share layer=2 tid=31 active_ms=228.753089905 finish_ms=228.762149811 edges=3903614 tiles=1032
+STATE_WORK_GATE graph=ogbn-products method=event_independent layer=1 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=event_independent layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=event_independent layer=1 edges=123718152 decoded_rows=123718152 saved_decode_rows=0 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=152 selected_windows=11 run_dispatches=18 run_bytes=36 tile_fallback_scopes=150030
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=row_schedule sampled_thread_ms=0.343084335327 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=partial_zero sampled_thread_ms=0.147342681885 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=csr_prefetch sampled_thread_ms=98.7479686737 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=feature_gather_decode sampled_thread_ms=71.1395740509 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=28.1348228455 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.56094741821 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=tile_load sampled_thread_ms=1.24430656433 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=tile_compute sampled_thread_ms=1.71494483948 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=tile_store sampled_thread_ms=0.124931335449 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=output_scatter sampled_thread_ms=0.757217407227 diagnostic_wall_ms=199.434995651
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=1 phase=thread_amx_setup sampled_thread_ms=0.0391006469727 diagnostic_wall_ms=199.434995651
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=partial_init sampled_thread_ms=0.0178813934326 events=587
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=csr_index_read sampled_thread_ms=14.9009227753 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=csr_next_index_read sampled_thread_ms=13.7519836426 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=prefetch_issue sampled_thread_ms=13.4148597717 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=source_bf16_load sampled_thread_ms=14.9984359741 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=source_bf16_decode sampled_thread_ms=13.4525299072 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=feature_fp32_add sampled_thread_ms=13.899564743 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=partial_state_load sampled_thread_ms=0.160217285156 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=partial_state_store sampled_thread_ms=0.179529190063 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=partial_hi_pack sampled_thread_ms=2.05373764038 events=75048
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=amx_a_load sampled_thread_ms=0.13279914856 events=4696
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=amx_b_load sampled_thread_ms=0.578880310059 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=amx_tdp_compute sampled_thread_ms=1.44934654236 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=amx_c_zero sampled_thread_ms=0.0298023223877 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=amx_c_store sampled_thread_ms=0.0746250152588 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=output_store sampled_thread_ms=0.00286102294922 events=12
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=thread_permission sampled_thread_ms=0.0238418579102 events=32
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=thread_tile_config sampled_thread_ms=0.00381469726562 events=32
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=1 phase=row_metadata_read sampled_thread_ms=0.206470489502 events=599
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=0 active_ms=180.834054947 finish_ms=180.837154388 edges=3245264 tiles=10684
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=1 active_ms=185.160160065 finish_ms=185.165166855 edges=3545113 tiles=8016
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=2 active_ms=181.298017502 finish_ms=181.303024292 edges=3437366 tiles=7724
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=3 active_ms=181.51307106 finish_ms=181.51807785 edges=3307990 tiles=7500
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=4 active_ms=181.452989578 finish_ms=181.457996368 edges=3396469 tiles=7508
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=5 active_ms=181.040048599 finish_ms=181.045055389 edges=3317381 tiles=7124
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=6 active_ms=181.051015854 finish_ms=181.056022644 edges=3497892 tiles=7188
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=7 active_ms=181.101083755 finish_ms=181.106090546 edges=3507745 tiles=7092
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=8 active_ms=181.147098541 finish_ms=181.152105331 edges=3604934 tiles=6356
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=9 active_ms=181.410074234 finish_ms=181.415081024 edges=3700084 tiles=6028
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=10 active_ms=181.184053421 finish_ms=181.189060211 edges=3665701 tiles=5828
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=11 active_ms=181.07008934 finish_ms=181.07509613 edges=3774757 tiles=5600
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=12 active_ms=181.496143341 finish_ms=181.501150131 edges=3819438 tiles=5524
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=13 active_ms=180.773973465 finish_ms=180.778980255 edges=3671787 tiles=5108
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=14 active_ms=181.133985519 finish_ms=181.13899231 edges=3844102 tiles=4996
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=15 active_ms=181.038141251 finish_ms=181.042194366 edges=3895408 tiles=4924
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=16 active_ms=180.896043777 finish_ms=180.901050568 edges=3924033 tiles=4396
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=17 active_ms=181.177139282 finish_ms=181.182146072 edges=4107814 tiles=3960
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=18 active_ms=180.784225464 finish_ms=180.790185928 edges=3983894 tiles=3948
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=19 active_ms=180.824041367 finish_ms=180.829048157 edges=4037568 tiles=3912
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=20 active_ms=181.082963943 finish_ms=181.087970734 edges=4065420 tiles=3556
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=21 active_ms=182.301998138 finish_ms=182.307004929 edges=4249227 tiles=3520
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=22 active_ms=180.857181549 finish_ms=180.862188339 edges=4218632 tiles=3116
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=23 active_ms=181.376218796 finish_ms=181.38217926 edges=4125605 tiles=2992
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=24 active_ms=181.116104126 finish_ms=181.121110916 edges=4181383 tiles=2940
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=25 active_ms=180.720090866 finish_ms=180.726051331 edges=4165530 tiles=2564
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=26 active_ms=199.410200119 finish_ms=199.416160583 edges=4130058 tiles=2393
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=27 active_ms=180.758953094 finish_ms=180.763959885 edges=4147137 tiles=2088
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=28 active_ms=182.824134827 finish_ms=182.828187943 edges=4358273 tiles=2036
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=29 active_ms=181.487083435 finish_ms=181.492090225 edges=4345699 tiles=1816
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=30 active_ms=181.126117706 finish_ms=181.131124496 edges=4280357 tiles=1484
+EVENT_THREAD graph=ogbn-products method=event_independent layer=1 tid=31 active_ms=180.951118469 finish_ms=180.956125259 edges=4166091 tiles=1144
+STATE_WORK_GATE graph=ogbn-products method=event_independent layer=2 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=event_independent layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=event_independent layer=2 edges=123718152 decoded_rows=123718152 saved_decode_rows=0 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=152 selected_windows=11 run_dispatches=18 run_bytes=36 tile_fallback_scopes=150030
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=row_schedule sampled_thread_ms=0.33712387085 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=partial_zero sampled_thread_ms=0.162124633789 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=csr_prefetch sampled_thread_ms=98.8821983337 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=feature_gather_decode sampled_thread_ms=71.3493824005 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.8942584991 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.62603569031 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=tile_load sampled_thread_ms=1.22857093811 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=tile_compute sampled_thread_ms=1.7237663269 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=tile_store sampled_thread_ms=0.0984668731689 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=output_scatter sampled_thread_ms=1.20401382446 diagnostic_wall_ms=192.358016968
+EVENT_PROFILE graph=ogbn-products method=event_independent layer=2 phase=thread_amx_setup sampled_thread_ms=0.0343322753906 diagnostic_wall_ms=192.358016968
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=partial_init sampled_thread_ms=0.0193119049072 events=587
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=csr_index_read sampled_thread_ms=15.0809288025 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=csr_next_index_read sampled_thread_ms=13.7560367584 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=prefetch_issue sampled_thread_ms=13.5433673859 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=source_bf16_load sampled_thread_ms=14.8959159851 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=source_bf16_decode sampled_thread_ms=13.3419036865 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=feature_fp32_add sampled_thread_ms=13.5316848755 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=partial_state_load sampled_thread_ms=0.152587890625 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=partial_state_store sampled_thread_ms=0.16713142395 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=partial_hi_pack sampled_thread_ms=2.10523605347 events=75048
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=amx_a_load sampled_thread_ms=0.134229660034 events=4696
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=amx_b_load sampled_thread_ms=0.527381896973 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=amx_tdp_compute sampled_thread_ms=1.46770477295 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=amx_c_zero sampled_thread_ms=0.0333786010742 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=amx_c_store sampled_thread_ms=0.0593662261963 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=output_bf16_conversion sampled_thread_ms=0.28657913208 events=9381
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=output_store sampled_thread_ms=0.315427780151 events=9393
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=thread_permission sampled_thread_ms=0.0286102294922 events=32
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=thread_tile_config sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=ogbn-products method=event_independent layer=2 phase=row_metadata_read sampled_thread_ms=0.189781188965 events=599
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=0 active_ms=178.21097374 finish_ms=178.215026855 edges=3455368 tiles=10932
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=1 active_ms=177.282094955 finish_ms=177.287101746 edges=3420424 tiles=8128
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=2 active_ms=177.064180374 finish_ms=177.070140839 edges=3425527 tiles=8036
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=3 active_ms=177.146196365 finish_ms=177.15215683 edges=3536510 tiles=7560
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=4 active_ms=177.333116531 finish_ms=177.338123322 edges=3518930 tiles=7372
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=5 active_ms=177.798032761 finish_ms=177.803039551 edges=3538189 tiles=7320
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=6 active_ms=177.170991898 finish_ms=177.175998688 edges=3401912 tiles=7056
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=7 active_ms=177.552938461 finish_ms=177.557945251 edges=3596949 tiles=6592
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=8 active_ms=177.035093307 finish_ms=177.040100098 edges=3587990 tiles=6272
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=9 active_ms=192.336082458 finish_ms=192.342042923 edges=3470734 tiles=5985
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=10 active_ms=177.086114883 finish_ms=177.091121674 edges=3703242 tiles=5984
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=11 active_ms=177.725076675 finish_ms=177.730083466 edges=3643419 tiles=5516
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=12 active_ms=177.739143372 finish_ms=177.744150162 edges=3880578 tiles=5268
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=13 active_ms=177.202939987 finish_ms=177.207946777 edges=3822675 tiles=5176
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=14 active_ms=177.606105804 finish_ms=177.611112595 edges=3948224 tiles=4932
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=15 active_ms=177.550077438 finish_ms=177.555084229 edges=3926014 tiles=5040
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=16 active_ms=179.296970367 finish_ms=179.301977158 edges=3827961 tiles=4396
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=17 active_ms=177.79302597 finish_ms=177.798032761 edges=3986446 tiles=4252
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=18 active_ms=177.774190903 finish_ms=177.780151367 edges=3981040 tiles=4016
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=19 active_ms=177.298069 finish_ms=177.304029465 edges=4043737 tiles=3840
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=20 active_ms=177.212953568 finish_ms=177.217960358 edges=4082618 tiles=3536
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=21 active_ms=176.993131638 finish_ms=176.999092102 edges=4128196 tiles=3332
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=22 active_ms=177.859067917 finish_ms=177.864074707 edges=4075300 tiles=3188
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=23 active_ms=177.269935608 finish_ms=177.274942398 edges=4173517 tiles=3084
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=24 active_ms=177.735090256 finish_ms=177.740097046 edges=4179408 tiles=2796
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=25 active_ms=176.974058151 finish_ms=176.980018616 edges=4101453 tiles=2692
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=26 active_ms=177.599191666 finish_ms=177.60515213 edges=4156697 tiles=2240
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=27 active_ms=176.972150803 finish_ms=176.977157593 edges=4172726 tiles=2192
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=28 active_ms=177.750110626 finish_ms=177.755117416 edges=4276410 tiles=2040
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=29 active_ms=177.085161209 finish_ms=177.091121674 edges=4299630 tiles=1744
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=30 active_ms=177.074193954 finish_ms=177.080154419 edges=4285751 tiles=1476
+EVENT_THREAD graph=ogbn-products method=event_independent layer=2 tid=31 active_ms=177.253007889 finish_ms=177.258014679 edges=4070577 tiles=1072
+STATE_WORK_GATE graph=ogbn-products method=event_share layer=1 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=event_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=event_share layer=1 edges=123718152 decoded_rows=123717724 saved_decode_rows=428 adds=15835923456 tdp=4801248 csr_reads=123717724 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=152 selected_windows=11 run_dispatches=18 run_bytes=36 tile_fallback_scopes=150030
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=row_schedule sampled_thread_ms=0.324964523315 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=partial_zero sampled_thread_ms=0.14591217041 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=csr_prefetch sampled_thread_ms=99.2252826691 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=feature_gather_decode sampled_thread_ms=71.3968276978 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=28.2101631165 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.58145141602 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=tile_load sampled_thread_ms=1.26576423645 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=tile_compute sampled_thread_ms=1.71732902527 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=tile_store sampled_thread_ms=0.0917911529541 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=output_scatter sampled_thread_ms=0.782012939453 diagnostic_wall_ms=199.863910675
+EVENT_PROFILE graph=ogbn-products method=event_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.0317096710205 diagnostic_wall_ms=199.863910675
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=partial_init sampled_thread_ms=0.0138282775879 events=587
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=csr_index_read sampled_thread_ms=15.2816772461 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.6044025421 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=prefetch_issue sampled_thread_ms=13.676404953 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=source_bf16_load sampled_thread_ms=14.9340629578 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=source_bf16_decode sampled_thread_ms=13.6132240295 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=feature_fp32_add sampled_thread_ms=13.7455463409 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=partial_state_load sampled_thread_ms=0.136852264404 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=partial_state_store sampled_thread_ms=0.141143798828 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=partial_hi_pack sampled_thread_ms=2.09546089172 events=75048
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=amx_a_load sampled_thread_ms=0.129699707031 events=4696
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=amx_b_load sampled_thread_ms=0.586271286011 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.44147872925 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0293254852295 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=amx_c_store sampled_thread_ms=0.0553131103516 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=output_store sampled_thread_ms=0.0171661376953 events=12
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=thread_permission sampled_thread_ms=0.02121925354 events=32
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=thread_tile_config sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=ogbn-products method=event_share layer=1 phase=row_metadata_read sampled_thread_ms=0.186920166016 events=599
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=0 active_ms=179.476976395 finish_ms=179.48102951 edges=3277328 tiles=10584
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=1 active_ms=180.650949478 finish_ms=180.656909943 edges=3371031 tiles=8136
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=2 active_ms=179.410934448 finish_ms=179.415941238 edges=3333596 tiles=7740
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=3 active_ms=179.563045502 finish_ms=179.568052292 edges=3155974 tiles=7552
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=4 active_ms=180.631875992 finish_ms=180.636882782 edges=3422547 tiles=7372
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=5 active_ms=180.042028427 finish_ms=180.047988892 edges=3513555 tiles=7332
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=6 active_ms=179.909944534 finish_ms=179.914951324 edges=3504697 tiles=7096
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=7 active_ms=180.665016174 finish_ms=180.670022964 edges=3590173 tiles=6576
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=8 active_ms=179.65388298 finish_ms=179.658889771 edges=3543368 tiles=6256
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=9 active_ms=179.718971252 finish_ms=179.724931717 edges=3558561 tiles=5996
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=10 active_ms=180.60708046 finish_ms=180.613040924 edges=3756583 tiles=5984
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=11 active_ms=179.409980774 finish_ms=179.414987564 edges=3631114 tiles=5696
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=12 active_ms=180.500984192 finish_ms=180.505990982 edges=3767934 tiles=5512
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=13 active_ms=186.189889908 finish_ms=186.194896698 edges=4026385 tiles=5116
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=14 active_ms=180.616855621 finish_ms=180.621862411 edges=3959052 tiles=4932
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=15 active_ms=180.603027344 finish_ms=180.608987808 edges=3945293 tiles=4652
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=16 active_ms=179.702043533 finish_ms=179.708003998 edges=3923854 tiles=4388
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=17 active_ms=180.719852448 finish_ms=180.724859238 edges=4022627 tiles=4180
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=18 active_ms=180.282115936 finish_ms=180.288076401 edges=3953959 tiles=4108
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=19 active_ms=180.671930313 finish_ms=180.677890778 edges=4115807 tiles=3860
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=20 active_ms=180.907964706 finish_ms=180.913925171 edges=4049927 tiles=3664
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=21 active_ms=180.598974228 finish_ms=180.604934692 edges=4203798 tiles=3600
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=22 active_ms=180.501937866 finish_ms=180.507898331 edges=4026051 tiles=3192
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=23 active_ms=199.841022491 finish_ms=199.846982956 edges=4024146 tiles=3101
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=24 active_ms=179.826974869 finish_ms=179.831981659 edges=4219322 tiles=2812
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=25 active_ms=180.480003357 finish_ms=180.485963821 edges=4087172 tiles=2516
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=26 active_ms=180.018901825 finish_ms=180.024862289 edges=4171013 tiles=2408
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=27 active_ms=180.65905571 finish_ms=180.665016174 edges=4300075 tiles=2276
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=28 active_ms=180.094003677 finish_ms=180.099964142 edges=4326214 tiles=2064
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=29 active_ms=180.066108704 finish_ms=180.072069168 edges=4315773 tiles=1796
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=30 active_ms=184.60893631 finish_ms=184.614896774 edges=4487800 tiles=1504
+EVENT_THREAD graph=ogbn-products method=event_share layer=1 tid=31 active_ms=180.613040924 finish_ms=180.619001389 edges=4133423 tiles=1064
+STATE_WORK_GATE graph=ogbn-products method=event_share layer=2 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=event_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=event_share layer=2 edges=123718152 decoded_rows=123717724 saved_decode_rows=428 adds=15835923456 tdp=4801248 csr_reads=123717724 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=152 selected_windows=11 run_dispatches=18 run_bytes=36 tile_fallback_scopes=150030
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=row_schedule sampled_thread_ms=0.339984893799 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=partial_zero sampled_thread_ms=0.16713142395 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=csr_prefetch sampled_thread_ms=99.1313457489 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=feature_gather_decode sampled_thread_ms=71.1166858673 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.8413295746 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.56881523132 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=tile_load sampled_thread_ms=1.26576423645 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=tile_compute sampled_thread_ms=1.72781944275 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=tile_store sampled_thread_ms=0.0848770141602 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=output_scatter sampled_thread_ms=1.20854377747 diagnostic_wall_ms=195.540189743
+EVENT_PROFILE graph=ogbn-products method=event_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0319480895996 diagnostic_wall_ms=195.540189743
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=partial_init sampled_thread_ms=0.0231266021729 events=587
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=csr_index_read sampled_thread_ms=15.1188373566 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.7388706207 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=prefetch_issue sampled_thread_ms=13.6017799377 events=514595
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=source_bf16_load sampled_thread_ms=15.111207962 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.2360458374 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=feature_fp32_add sampled_thread_ms=13.4027004242 events=523976
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=partial_state_load sampled_thread_ms=0.131845474243 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=partial_state_store sampled_thread_ms=0.155210494995 events=4879
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=partial_hi_pack sampled_thread_ms=2.07829475403 events=75048
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=amx_a_load sampled_thread_ms=0.133752822876 events=4696
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=amx_b_load sampled_thread_ms=0.571489334106 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.48296356201 events=9392
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0302791595459 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=amx_c_store sampled_thread_ms=0.0510215759277 events=1174
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.286102294922 events=9381
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=output_store sampled_thread_ms=0.317811965942 events=9393
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=thread_permission sampled_thread_ms=0.0214576721191 events=32
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=thread_tile_config sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=event_share layer=2 phase=row_metadata_read sampled_thread_ms=0.186204910278 events=599
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=0 active_ms=178.49612236 finish_ms=178.50112915 edges=3423433 tiles=10816
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=1 active_ms=178.294181824 finish_ms=178.299188614 edges=3480497 tiles=8304
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=2 active_ms=175.543069839 finish_ms=175.54807663 edges=3399279 tiles=7780
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=3 active_ms=178.369998932 finish_ms=178.375005722 edges=3501891 tiles=7480
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=4 active_ms=175.97413063 finish_ms=175.979137421 edges=3407158 tiles=7372
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=5 active_ms=176.144838333 finish_ms=176.151037216 edges=3474082 tiles=7408
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=6 active_ms=175.490140915 finish_ms=175.495147705 edges=3460785 tiles=6980
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=7 active_ms=178.810119629 finish_ms=178.815126419 edges=3641240 tiles=6768
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=8 active_ms=176.123142242 finish_ms=176.128149033 edges=3519800 tiles=6292
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=9 active_ms=176.578044891 finish_ms=176.583051682 edges=3734679 tiles=6092
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=10 active_ms=195.518016815 finish_ms=195.523023605 edges=3618218 tiles=5881
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=11 active_ms=178.286075592 finish_ms=178.291082382 edges=3737033 tiles=5740
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=12 active_ms=176.151037216 finish_ms=176.156044006 edges=3761432 tiles=5388
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=13 active_ms=175.410032272 finish_ms=175.415039062 edges=3828284 tiles=5108
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=14 active_ms=179.027080536 finish_ms=179.032087326 edges=4007409 tiles=4960
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=15 active_ms=175.576210022 finish_ms=175.581216812 edges=3895605 tiles=4760
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=16 active_ms=179.095029831 finish_ms=179.100036621 edges=3929950 tiles=4340
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=17 active_ms=179.146051407 finish_ms=179.151058197 edges=4101417 tiles=4124
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=18 active_ms=178.249835968 finish_ms=178.256034851 edges=3949341 tiles=4032
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=19 active_ms=176.120042801 finish_ms=176.125049591 edges=4141969 tiles=3780
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=20 active_ms=177.477836609 finish_ms=177.484035492 edges=4110412 tiles=3684
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=21 active_ms=176.118850708 finish_ms=176.125049591 edges=4081162 tiles=3464
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=22 active_ms=175.420045853 finish_ms=175.42719841 edges=4053961 tiles=3220
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=23 active_ms=175.971031189 finish_ms=175.977230072 edges=4008442 tiles=2900
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=24 active_ms=175.706863403 finish_ms=175.713062286 edges=4122244 tiles=2912
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=25 active_ms=176.174879074 finish_ms=176.181077957 edges=4024515 tiles=2540
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=26 active_ms=176.937818527 finish_ms=176.94401741 edges=4173775 tiles=2360
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=27 active_ms=178.375005722 finish_ms=178.381204605 edges=4229485 tiles=2220
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=28 active_ms=176.401853561 finish_ms=176.408052444 edges=4293549 tiles=2036
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=29 active_ms=176.155805588 finish_ms=176.162004471 edges=4286262 tiles=1784
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=30 active_ms=175.587892532 finish_ms=175.594091415 edges=4180489 tiles=1500
+EVENT_THREAD graph=ogbn-products method=event_share layer=2 tid=31 active_ms=176.378011703 finish_ms=176.384210587 edges=4140354 tiles=1040
+STATE_WORK_GATE graph=ogbn-products method=dynamic_selected_share layer=1 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=dynamic_selected_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=dynamic_selected_share layer=1 edges=123718152 decoded_rows=123717724 saved_decode_rows=428 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=485 window_entries=152 selected_windows=11 run_dispatches=0 run_bytes=0 tile_fallback_scopes=150030
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=row_schedule sampled_thread_ms=0.339508056641 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_zero sampled_thread_ms=0.176191329956 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=csr_prefetch sampled_thread_ms=98.9789962769 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=feature_gather_decode sampled_thread_ms=71.6552734375 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=28.0747413635 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.59289550781 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=tile_load sampled_thread_ms=1.22022628784 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=tile_compute sampled_thread_ms=1.72829627991 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=tile_store sampled_thread_ms=0.0944137573242 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=output_scatter sampled_thread_ms=0.808000564575 diagnostic_wall_ms=197.072029114
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.509023666382 diagnostic_wall_ms=197.072029114
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_init sampled_thread_ms=0.0195503234863 events=587
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=csr_index_read sampled_thread_ms=15.1455402374 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.4425163269 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=prefetch_issue sampled_thread_ms=13.7438774109 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=source_bf16_load sampled_thread_ms=15.1343345642 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=source_bf16_decode sampled_thread_ms=13.5300159454 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=feature_fp32_add sampled_thread_ms=13.5779380798 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_state_load sampled_thread_ms=0.137329101562 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_state_store sampled_thread_ms=0.129461288452 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_hi_pack sampled_thread_ms=2.16293334961 events=75048
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=amx_a_load sampled_thread_ms=0.146150588989 events=4696
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=amx_b_load sampled_thread_ms=0.531196594238 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.47843360901 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0402927398682 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=amx_c_store sampled_thread_ms=0.0553131103516 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=output_store sampled_thread_ms=0.00882148742676 events=12
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=thread_permission sampled_thread_ms=0.00476837158203 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=thread_tile_config sampled_thread_ms=0.483274459839 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=thread_tile_release sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=1 phase=row_metadata_read sampled_thread_ms=0.183343887329 events=599
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=0 active_ms=182.88898468 finish_ms=182.895898819 edges=3271202 tiles=10808
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=1 active_ms=180.794000626 finish_ms=180.806875229 edges=3285094 tiles=8096
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=2 active_ms=180.416107178 finish_ms=180.429935455 edges=3409516 tiles=7800
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=3 active_ms=180.165052414 finish_ms=180.187940598 edges=3464735 tiles=7536
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=4 active_ms=180.037975311 finish_ms=180.050849915 edges=3423704 tiles=7596
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=5 active_ms=179.841995239 finish_ms=179.866790771 edges=3526700 tiles=7200
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=6 active_ms=180.767059326 finish_ms=180.791854858 edges=3558772 tiles=7028
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=7 active_ms=182.947158813 finish_ms=182.960987091 edges=3659126 tiles=6768
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=8 active_ms=184.18097496 finish_ms=184.204816818 edges=3678171 tiles=6300
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=9 active_ms=179.775953293 finish_ms=179.796934128 edges=3614495 tiles=6144
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=10 active_ms=180.152177811 finish_ms=180.176973343 edges=3595073 tiles=5812
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=11 active_ms=181.256055832 finish_ms=181.273937225 edges=3812546 tiles=5872
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=12 active_ms=180.05490303 finish_ms=180.077791214 edges=3762837 tiles=5588
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=13 active_ms=182.564973831 finish_ms=182.580947876 edges=3934355 tiles=5044
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=14 active_ms=180.814981461 finish_ms=180.837869644 edges=3792575 tiles=4848
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=15 active_ms=181.723117828 finish_ms=181.741952896 edges=3937028 tiles=4748
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=16 active_ms=180.812120438 finish_ms=180.83691597 edges=4015391 tiles=4468
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=17 active_ms=180.525064468 finish_ms=180.537939072 edges=4014647 tiles=4260
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=18 active_ms=182.398080826 finish_ms=182.422876358 edges=4025206 tiles=3928
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=19 active_ms=180.060148239 finish_ms=180.079936981 edges=4077363 tiles=3824
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=20 active_ms=180.491924286 finish_ms=180.512905121 edges=4046711 tiles=3608
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=21 active_ms=180.457115173 finish_ms=180.481910706 edges=4095635 tiles=3268
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=22 active_ms=180.561065674 finish_ms=180.575847626 edges=4126339 tiles=3140
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=23 active_ms=180.170059204 finish_ms=180.187940598 edges=4062596 tiles=2836
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=24 active_ms=180.197000504 finish_ms=180.217981339 edges=4151787 tiles=2840
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=25 active_ms=180.727958679 finish_ms=180.750846863 edges=4049740 tiles=2588
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=26 active_ms=197.026014328 finish_ms=197.042942047 edges=4010168 tiles=2361
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=27 active_ms=180.853843689 finish_ms=180.869817734 edges=4276001 tiles=2268
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=28 active_ms=179.789066315 finish_ms=179.812908173 edges=4311238 tiles=2092
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=29 active_ms=180.471897125 finish_ms=180.493831635 edges=4338122 tiles=1748
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=30 active_ms=180.67407608 finish_ms=180.693864822 edges=4236571 tiles=1524
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=1 tid=31 active_ms=180.031061172 finish_ms=180.04488945 edges=4154708 tiles=1124
+STATE_WORK_GATE graph=ogbn-products method=dynamic_selected_share layer=2 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=dynamic_selected_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=dynamic_selected_share layer=2 edges=123718152 decoded_rows=123717724 saved_decode_rows=428 adds=15835923456 tdp=4801248 csr_reads=123718152 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=485 window_entries=152 selected_windows=11 run_dispatches=0 run_bytes=0 tile_fallback_scopes=150030
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=row_schedule sampled_thread_ms=0.340461730957 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_zero sampled_thread_ms=0.16975402832 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=csr_prefetch sampled_thread_ms=99.03216362 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=feature_gather_decode sampled_thread_ms=71.2540149689 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=27.8589725494 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.60815429688 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=tile_load sampled_thread_ms=1.2469291687 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=tile_compute sampled_thread_ms=1.71566009521 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=tile_store sampled_thread_ms=0.098705291748 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=output_scatter sampled_thread_ms=1.19066238403 diagnostic_wall_ms=193.652868271
+EVENT_PROFILE graph=ogbn-products method=dynamic_selected_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0438690185547 diagnostic_wall_ms=193.652868271
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_init sampled_thread_ms=0.0143051147461 events=587
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=csr_index_read sampled_thread_ms=15.0039196014 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.6737823486 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=prefetch_issue sampled_thread_ms=13.4961605072 events=514595
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=source_bf16_load sampled_thread_ms=15.0098800659 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.4081840515 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=feature_fp32_add sampled_thread_ms=13.7107372284 events=523976
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_state_load sampled_thread_ms=0.169277191162 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_state_store sampled_thread_ms=0.153303146362 events=4879
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_hi_pack sampled_thread_ms=2.13408470154 events=75048
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=amx_a_load sampled_thread_ms=0.136852264404 events=4696
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=amx_b_load sampled_thread_ms=0.556468963623 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.46126747131 events=9392
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0402927398682 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=amx_c_store sampled_thread_ms=0.0691413879395 events=1174
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.303268432617 events=9381
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=output_store sampled_thread_ms=0.295639038086 events=9393
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=thread_permission sampled_thread_ms=0.0324249267578 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=thread_tile_config sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=thread_tile_release sampled_thread_ms=0 events=32
+EVENT_DETAIL graph=ogbn-products method=dynamic_selected_share layer=2 phase=row_metadata_read sampled_thread_ms=0.181674957275 events=599
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=0 active_ms=177.295923233 finish_ms=177.299976349 edges=3429044 tiles=10740
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=1 active_ms=176.648139954 finish_ms=176.653146744 edges=3352918 tiles=8352
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=2 active_ms=176.608085632 finish_ms=176.613092422 edges=3348748 tiles=7780
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=3 active_ms=176.640033722 finish_ms=176.645040512 edges=3488467 tiles=7628
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=4 active_ms=176.607131958 finish_ms=176.612138748 edges=3493570 tiles=7328
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=5 active_ms=178.794145584 finish_ms=178.800106049 edges=3644050 tiles=7604
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=6 active_ms=177.242994308 finish_ms=177.248001099 edges=3558554 tiles=7032
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=7 active_ms=177.386045456 finish_ms=177.391052246 edges=3523054 tiles=6708
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=8 active_ms=177.309989929 finish_ms=177.314996719 edges=3546151 tiles=6392
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=9 active_ms=176.614999771 finish_ms=176.620960236 edges=3694672 tiles=6108
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=10 active_ms=193.63117218 finish_ms=193.637132645 edges=3549055 tiles=5897
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=11 active_ms=176.522016525 finish_ms=176.52797699 edges=3715189 tiles=5744
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=12 active_ms=177.196025848 finish_ms=177.201032639 edges=3746805 tiles=5616
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=13 active_ms=176.646947861 finish_ms=176.651954651 edges=3751636 tiles=5168
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=14 active_ms=179.274082184 finish_ms=179.280042648 edges=3645235 tiles=4880
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=15 active_ms=178.734064102 finish_ms=178.739070892 edges=3997659 tiles=4828
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=16 active_ms=176.591157913 finish_ms=176.596164703 edges=3918034 tiles=4400
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=17 active_ms=178.723096848 finish_ms=178.729057312 edges=4070511 tiles=4144
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=18 active_ms=176.784038544 finish_ms=176.789999008 edges=3956757 tiles=3832
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=19 active_ms=177.093029022 finish_ms=177.098989487 edges=4098910 tiles=3736
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=20 active_ms=176.619052887 finish_ms=176.624059677 edges=3978163 tiles=3488
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=21 active_ms=176.528215408 finish_ms=176.534175873 edges=4177792 tiles=3360
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=22 active_ms=176.784038544 finish_ms=176.789999008 edges=4129307 tiles=3040
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=23 active_ms=177.880048752 finish_ms=177.886009216 edges=4113567 tiles=2908
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=24 active_ms=178.785085678 finish_ms=178.791046143 edges=4133352 tiles=2872
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=25 active_ms=177.030086517 finish_ms=177.036046982 edges=4180225 tiles=2464
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=26 active_ms=177.03294754 finish_ms=177.03795433 edges=4215844 tiles=2376
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=27 active_ms=178.780078888 finish_ms=178.786039352 edges=4198277 tiles=2240
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=28 active_ms=177.042961121 finish_ms=177.047967911 edges=4300254 tiles=2088
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=29 active_ms=177.173137665 finish_ms=177.179098129 edges=4306754 tiles=1740
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=30 active_ms=177.018165588 finish_ms=177.024126053 edges=4276057 tiles=1492
+EVENT_THREAD graph=ogbn-products method=dynamic_selected_share layer=2 tid=31 active_ms=177.15716362 finish_ms=177.163124084 edges=4179541 tiles=1080
+STATE_WORK_GATE graph=ogbn-products method=exact_only_share layer=1 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=exact_only_share layer=1 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=exact_only_share layer=1 edges=123718152 decoded_rows=123717732 saved_decode_rows=420 adds=15835923456 tdp=4801248 csr_reads=123717732 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=200 selected_windows=12 run_dispatches=0 run_bytes=0 tile_fallback_scopes=150029
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=row_schedule sampled_thread_ms=0.350952148438 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=partial_zero sampled_thread_ms=0.153064727783 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=csr_prefetch sampled_thread_ms=99.3399620056 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=feature_gather_decode sampled_thread_ms=71.2327957153 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=fp32_neighbor_reduction sampled_thread_ms=28.0058383942 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=partial_bf16_conversion sampled_thread_ms=4.63771820068 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=tile_load sampled_thread_ms=1.27553939819 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=tile_compute sampled_thread_ms=1.70660018921 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=tile_store sampled_thread_ms=0.103712081909 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=output_scatter sampled_thread_ms=0.81205368042 diagnostic_wall_ms=187.782049179
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=1 phase=thread_amx_setup sampled_thread_ms=0.046968460083 diagnostic_wall_ms=187.782049179
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=partial_init sampled_thread_ms=0.0150203704834 events=587
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=csr_index_read sampled_thread_ms=15.2633190155 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=csr_next_index_read sampled_thread_ms=13.6866569519 events=514595
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=prefetch_issue sampled_thread_ms=13.6435031891 events=514595
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=source_bf16_load sampled_thread_ms=14.9884223938 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=source_bf16_decode sampled_thread_ms=13.4792327881 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=feature_fp32_add sampled_thread_ms=13.8051509857 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=partial_state_load sampled_thread_ms=0.122785568237 events=4879
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=partial_state_store sampled_thread_ms=0.149488449097 events=4879
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=partial_hi_pack sampled_thread_ms=2.11453437805 events=75048
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=amx_a_load sampled_thread_ms=0.139951705933 events=4696
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=amx_b_load sampled_thread_ms=0.587224960327 events=9392
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=amx_tdp_compute sampled_thread_ms=1.4340877533 events=9392
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=amx_c_zero sampled_thread_ms=0.0348091125488 events=1174
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=amx_c_store sampled_thread_ms=0.0679492950439 events=1174
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=output_bf16_conversion sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=output_store sampled_thread_ms=0.014066696167 events=12
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=thread_permission sampled_thread_ms=0.0243186950684 events=32
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=thread_tile_config sampled_thread_ms=0.00309944152832 events=32
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=thread_tile_release sampled_thread_ms=0.000953674316406 events=32
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=1 phase=row_metadata_read sampled_thread_ms=0.189304351807 events=599
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=0 active_ms=181.710004807 finish_ms=181.714057922 edges=3335409 tiles=10704
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=1 active_ms=182.78503418 finish_ms=182.79004097 edges=3404702 tiles=8060
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=2 active_ms=181.695222855 finish_ms=181.700229645 edges=3386142 tiles=7916
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=3 active_ms=181.81681633 finish_ms=181.823015213 edges=3474582 tiles=7580
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=4 active_ms=180.972099304 finish_ms=180.977106094 edges=3393605 tiles=7332
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=5 active_ms=181.068181992 finish_ms=181.073188782 edges=3606475 tiles=7216
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=6 active_ms=181.759119034 finish_ms=181.764125824 edges=3587673 tiles=6896
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=7 active_ms=180.860996246 finish_ms=180.867195129 edges=3446289 tiles=6784
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=8 active_ms=181.291103363 finish_ms=181.296110153 edges=3503397 tiles=6244
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=9 active_ms=181.656837463 finish_ms=181.663036346 edges=3643775 tiles=6068
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=10 active_ms=181.787014008 finish_ms=181.792020798 edges=3667140 tiles=5904
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=11 active_ms=181.379079819 finish_ms=181.384086609 edges=3720200 tiles=5624
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=12 active_ms=183.279037476 finish_ms=183.284044266 edges=3766285 tiles=5456
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=13 active_ms=180.874824524 finish_ms=180.881023407 edges=3829447 tiles=5188
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=14 active_ms=181.582212448 finish_ms=181.587219238 edges=3929436 tiles=5000
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=15 active_ms=181.46109581 finish_ms=181.4661026 edges=3861438 tiles=4628
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=16 active_ms=181.823015213 finish_ms=181.829214096 edges=3963094 tiles=4552
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=17 active_ms=181.383132935 finish_ms=181.388139725 edges=3975226 tiles=4068
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=18 active_ms=181.806087494 finish_ms=181.811094284 edges=3921111 tiles=4012
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=19 active_ms=181.284189224 finish_ms=181.289196014 edges=4088557 tiles=3856
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=20 active_ms=180.895090103 finish_ms=180.900096893 edges=4025086 tiles=3776
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=21 active_ms=181.3352108 finish_ms=181.34021759 edges=4243944 tiles=3488
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=22 active_ms=181.02812767 finish_ms=181.03313446 edges=4150050 tiles=3272
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=23 active_ms=183.266162872 finish_ms=183.271169662 edges=4305183 tiles=3008
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=24 active_ms=181.176185608 finish_ms=181.181192398 edges=4316837 tiles=2720
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=25 active_ms=181.691884995 finish_ms=181.698083878 edges=4117999 tiles=2572
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=26 active_ms=180.96613884 finish_ms=180.97114563 edges=4277068 tiles=2428
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=27 active_ms=181.688070297 finish_ms=181.693077087 edges=4259996 tiles=2284
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=28 active_ms=181.656837463 finish_ms=181.663036346 edges=4372153 tiles=2076
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=29 active_ms=187.757968903 finish_ms=187.764167786 edges=3708561 tiles=1697
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=30 active_ms=181.51307106 finish_ms=181.51807785 edges=4229334 tiles=1524
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=1 tid=31 active_ms=180.926084518 finish_ms=180.931091309 edges=4207958 tiles=1132
+STATE_WORK_GATE graph=ogbn-products method=exact_only_share layer=2 pass=1
+STATE_PROFILE_GATE graph=ogbn-products method=exact_only_share layer=2 bitwise=1 pass=1
+EVENT_COUNTERS graph=ogbn-products method=exact_only_share layer=2 edges=123718152 decoded_rows=123717732 saved_decode_rows=420 adds=15835923456 tdp=4801248 csr_reads=123717732 prefetch=485270176 partial_load_bytes=554577408 partial_store_bytes=554577408 packed_bytes=614559744 head_comparisons=0 window_entries=200 selected_windows=12 run_dispatches=0 run_bytes=0 tile_fallback_scopes=150029
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=output_zero sampled_thread_ms=0 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=row_schedule sampled_thread_ms=0.350475311279 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=partial_zero sampled_thread_ms=0.149726867676 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=csr_prefetch sampled_thread_ms=98.9630222321 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=feature_gather_decode sampled_thread_ms=71.1886882782 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=fp32_neighbor_reduction sampled_thread_ms=28.0756950378 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=partial_bf16_conversion sampled_thread_ms=4.53352928162 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=tile_load sampled_thread_ms=1.31559371948 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=tile_compute sampled_thread_ms=1.74593925476 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=tile_store sampled_thread_ms=0.0936985015869 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=output_scatter sampled_thread_ms=1.17087364197 diagnostic_wall_ms=180.243968964
+EVENT_PROFILE graph=ogbn-products method=exact_only_share layer=2 phase=thread_amx_setup sampled_thread_ms=0.0286102294922 diagnostic_wall_ms=180.243968964
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=partial_init sampled_thread_ms=0.0200271606445 events=587
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=csr_index_read sampled_thread_ms=15.1762962341 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=csr_next_index_read sampled_thread_ms=13.5390758514 events=514595
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=prefetch_issue sampled_thread_ms=13.5250091553 events=514595
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=source_bf16_load sampled_thread_ms=14.9891376495 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=source_bf16_decode sampled_thread_ms=13.8914585114 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=feature_fp32_add sampled_thread_ms=13.7209892273 events=523976
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=partial_state_load sampled_thread_ms=0.130176544189 events=4879
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=partial_state_store sampled_thread_ms=0.143527984619 events=4879
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=partial_hi_pack sampled_thread_ms=2.10642814636 events=75048
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=partial_lo_residual sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=partial_lo_pack sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=amx_a_load sampled_thread_ms=0.152587890625 events=4696
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=amx_b_load sampled_thread_ms=0.59986114502 events=9392
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=amx_tdp_compute sampled_thread_ms=1.50227546692 events=9392
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=amx_c_zero sampled_thread_ms=0.0269412994385 events=1174
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=amx_c_load sampled_thread_ms=0 events=0
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=amx_c_store sampled_thread_ms=0.0598430633545 events=1174
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=output_bf16_conversion sampled_thread_ms=0.293970108032 events=9381
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=output_store sampled_thread_ms=0.292301177979 events=9393
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=thread_permission sampled_thread_ms=0.00572204589844 events=32
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=thread_tile_config sampled_thread_ms=0.00286102294922 events=32
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=thread_tile_release sampled_thread_ms=0.00190734863281 events=32
+EVENT_DETAIL graph=ogbn-products method=exact_only_share layer=2 phase=row_metadata_read sampled_thread_ms=0.197887420654 events=599
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=0 active_ms=177.299976349 finish_ms=177.304029465 edges=3367802 tiles=10856
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=1 active_ms=178.004980087 finish_ms=178.009986877 edges=3466226 tiles=8060
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=2 active_ms=178.109884262 finish_ms=178.113937378 edges=3442288 tiles=7564
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=3 active_ms=177.82998085 finish_ms=177.834033966 edges=3478224 tiles=7580
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=4 active_ms=177.33001709 finish_ms=177.33502388 edges=3388579 tiles=7256
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=5 active_ms=178.263902664 finish_ms=178.268909454 edges=3578423 tiles=7228
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=6 active_ms=177.290916443 finish_ms=177.295923233 edges=3446752 tiles=7024
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=7 active_ms=180.223941803 finish_ms=180.227994919 edges=3560882 tiles=6884
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=8 active_ms=177.253007889 finish_ms=177.258014679 edges=3526362 tiles=6460
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=9 active_ms=177.203893661 finish_ms=177.208900452 edges=3605446 tiles=6028
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=10 active_ms=177.654981613 finish_ms=177.659988403 edges=3744540 tiles=6016
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=11 active_ms=177.457094193 finish_ms=177.462100983 edges=3787462 tiles=5704
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=12 active_ms=178.251028061 finish_ms=178.256034851 edges=3755854 tiles=5664
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=13 active_ms=178.072929382 finish_ms=178.077936172 edges=3794043 tiles=5196
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=14 active_ms=177.541971207 finish_ms=177.546977997 edges=3875880 tiles=4916
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=15 active_ms=177.550077438 finish_ms=177.555084229 edges=3904065 tiles=4892
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=16 active_ms=177.860021591 finish_ms=177.865028381 edges=4018105 tiles=4536
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=17 active_ms=177.882909775 finish_ms=177.887916565 edges=4086419 tiles=4144
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=18 active_ms=177.554130554 finish_ms=177.560091019 edges=4053139 tiles=3984
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=19 active_ms=177.391052246 finish_ms=177.396059036 edges=4072927 tiles=4060
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=20 active_ms=178.194046021 finish_ms=178.199052811 edges=4099316 tiles=3392
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=21 active_ms=177.257061005 finish_ms=177.262067795 edges=4200554 tiles=3432
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=22 active_ms=177.793979645 finish_ms=177.799940109 edges=4169580 tiles=3200
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=23 active_ms=177.566051483 finish_ms=177.571058273 edges=4151814 tiles=2908
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=24 active_ms=177.526950836 finish_ms=177.531957626 edges=4181371 tiles=2672
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=25 active_ms=177.377939224 finish_ms=177.383899689 edges=4062819 tiles=2528
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=26 active_ms=177.87694931 finish_ms=177.8819561 edges=4171197 tiles=2480
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=27 active_ms=180.115938187 finish_ms=180.120944977 edges=3641874 tiles=2073
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=28 active_ms=178.040027618 finish_ms=178.045034409 edges=4281359 tiles=2044
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=29 active_ms=177.378892899 finish_ms=177.383899689 edges=4317891 tiles=1752
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=30 active_ms=178.286075592 finish_ms=178.291082382 edges=4312083 tiles=1456
+EVENT_THREAD graph=ogbn-products method=exact_only_share layer=2 tid=31 active_ms=178.052902222 finish_ms=178.057909012 edges=4174876 tiles=1076
+STATE_COMPLETE graph=ogbn-products pass=1 methods=8 smoke=0 max_rss_kib=15974308

@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/as-Skitter/as-Skitter.csrbin
+Matrix: as-Skitter  N=1696415  NNZ=22190596  avg_deg=13.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 104.66 ms
+  run 1: 103.16 ms
+  run 2: 104.36 ms
+  run 3: 105.24 ms
+  run 4: 104.15 ms
+  TFS V3 E2E BEST: 103.16 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 164.92 ms
+  run 1: 164.57 ms
+  run 2: 165.44 ms
+  run 3: 163.52 ms
+  run 4: 164.27 ms
+  MKL E2E BEST: 163.52 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 103.16 ms
+  MKL (FP32):      163.52 ms
+  E2E Speedup:     1.59×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010795  RMSE=1.7434e+02
+First 8:
+  TFS: -4624.96 -24859.84 -17876.94 -5137.20 84.81 398.49 -13633.83 -20492.36 
+  MKL: -4643.98 -25083.39 -18068.94 -5190.35 76.51 388.86 -13794.22 -20682.04 
+ABLATION_CHECK graph=as-Skitter l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=as-Skitter schedule=degree nonempty_tiles=106026 padded_row_steps=22474209 real_edges=22190596 max_degree=35455 amx_dpbf16ps_per_layer=3392832
+ABLATION_WORK graph=as-Skitter schedule=identity nonempty_tiles=106026 padded_row_steps=81284942 real_edges=22190596 max_degree=35455 amx_dpbf16ps_per_layer=3392832
+ABLATION_SETUP graph=as-Skitter degree_sort_ms=55.2270412 identity_init_ms=0.446081161 included_in_prepared_e2e=0
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=0 order=0 prepared_e2e_ms=81.5849304
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=0 order=1 prepared_e2e_ms=51.5789986
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=1 order=0 prepared_e2e_ms=50.9700775
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=1 order=1 prepared_e2e_ms=78.4528255
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=2 order=0 prepared_e2e_ms=78.7730217
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=2 order=1 prepared_e2e_ms=51.8929958
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=3 order=0 prepared_e2e_ms=51.9390106
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=3 order=1 prepared_e2e_ms=77.3000717
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=4 order=0 prepared_e2e_ms=78.7951946
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=4 order=1 prepared_e2e_ms=50.4560471
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=5 order=0 prepared_e2e_ms=51.4199734
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=5 order=1 prepared_e2e_ms=78.8719654
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=6 order=0 prepared_e2e_ms=80.1551342
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=6 order=1 prepared_e2e_ms=51.3629913
+ABLATION_TIME graph=as-Skitter schedule=identity repeat=7 order=0 prepared_e2e_ms=52.8171062
+ABLATION_TIME graph=as-Skitter schedule=degree repeat=7 order=1 prepared_e2e_ms=78.7119865
+ABLATION_STAGE graph=as-Skitter schedule=degree repeat=0 layer1_ms=38.8817787 relu_ms=3.21102142 interlayer_ms=3.5200119 layer2_ms=33.5850716 total_ms=79.1978836
+ABLATION_STAGE graph=as-Skitter schedule=degree repeat=1 layer1_ms=37.4422073 relu_ms=3.45897675 interlayer_ms=3.43990326 layer2_ms=36.9179249 total_ms=81.2590122
+ABLATION_STAGE graph=as-Skitter schedule=degree repeat=2 layer1_ms=38.230896 relu_ms=3.16095352 interlayer_ms=3.51715088 layer2_ms=34.044981 total_ms=78.9539814
+ABLATION_STAGE graph=as-Skitter schedule=identity repeat=0 layer1_ms=23.5021114 relu_ms=3.20601463 interlayer_ms=3.50189209 layer2_ms=21.9559669 total_ms=52.1659851
+ABLATION_STAGE graph=as-Skitter schedule=identity repeat=1 layer1_ms=23.9071846 relu_ms=3.42988968 interlayer_ms=3.44610214 layer2_ms=21.2190151 total_ms=52.0021915
+ABLATION_STAGE graph=as-Skitter schedule=identity repeat=2 layer1_ms=22.9358673 relu_ms=3.2351017 interlayer_ms=3.47495079 layer2_ms=22.5610733 total_ms=52.2069931
+ABLATION_COMPLETE graph=as-Skitter pass=1

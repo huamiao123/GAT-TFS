@@ -1,0 +1,47 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/email-Enron/email-Enron.csrbin
+Matrix: email-Enron  N=36692  NNZ=367662  avg_deg=10.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2.34 ms
+  run 1: 2.29 ms
+  run 2: 2.32 ms
+  run 3: 2.29 ms
+  run 4: 2.34 ms
+  TFS V3 E2E BEST: 2.29 ms
+
+=== MKL FP32 Two-Step ===
+MKL_VERBOSE oneMKL 2023.0 Update 2 Product build 20230613 for Intel(R) 64 architecture Intel(R) Advanced Vector Extensions 512 (Intel(R) AVX-512) with Intel(R) DL Boost, bfloat16 support, Intel(R) AMX with bfloat16 and 8-bit integer support, and FP16 instructions, Lnx 3.10GHz lp64 intel_thread
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 932.99us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 676.45us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 306.56us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 279.61us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 0: 1.49 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 369.52us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 268.45us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 1: 1.52 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 292.22us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 282.00us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 2: 1.48 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 306.83us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 266.58us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 3: 1.46 ms
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 363.51us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 270.20us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  run 4: 1.54 ms
+  MKL E2E BEST: 1.46 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2.29 ms
+  MKL (FP32):      1.46 ms
+  E2E Speedup:     0.64×
+
+=== Precision ===
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15c1dc0,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e3e84080,128) 276.37us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+MKL_VERBOSE SGEMM(N,N,128,36692,128,0x7ffde8adb908,0x15e2e80,128,0x14b7e506f080,128,0x7ffde8adb910,0x14b7e2c99080,128) 273.38us CNR:OFF Dyn:1 FastMM:1 TID:0  NThr:32
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010905  RMSE=3.4708e+01
+First 8:
+  TFS: -208.08 -116.93 -138.97 -239.93 -55.83 -102.99 -99.58 -119.38 
+  MKL: -210.59 -118.71 -140.64 -241.98 -56.62 -103.84 -101.04 -120.51 

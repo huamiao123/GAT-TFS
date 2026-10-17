@@ -1,0 +1,51 @@
+CONFIG graph=tail_37 N=37 E=1002 threads=4 repeats=5 seed=12345 R=64 TR=16 D=128 F=128
+WORK method=A0_original gathered_neighbors=2004 h_source_logical_bytes=513024 hbuf_copy_bytes=513024 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=0 c_state_load_tiles=0 c_state_store_tiles=0
+WORK method=A1_step gathered_neighbors=1002 h_source_logical_bytes=256512 hbuf_copy_bytes=256512 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=202 c_state_load_tiles=1592 c_state_store_tiles=1592
+WORK method=A2_window8 gathered_neighbors=1002 h_source_logical_bytes=256512 hbuf_copy_bytes=256512 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=27 c_state_load_tiles=192 c_state_store_tiles=192
+WORK method=A3_window16 gathered_neighbors=1002 h_source_logical_bytes=256512 hbuf_copy_bytes=256512 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=28 c_state_load_tiles=200 c_state_store_tiles=200
+WORK method=A4_window32 gathered_neighbors=1002 h_source_logical_bytes=256512 hbuf_copy_bytes=256512 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=8 c_state_load_tiles=40 c_state_store_tiles=40
+WORK method=A5_window64 gathered_neighbors=1002 h_source_logical_bytes=256512 hbuf_copy_bytes=256512 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=5 c_state_load_tiles=16 c_state_store_tiles=16
+WORK method=control_window16_duplicate_gather gathered_neighbors=2004 h_source_logical_bytes=513024 hbuf_copy_bytes=513024 h_tile_loads=1616 w_tile_loads=6464 tdp=6464 windows=28 c_state_load_tiles=200 c_state_store_tiles=200
+CHECK method=A0_original l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A1_step l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A2_window8 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A3_window16 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A4_window32 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A5_window64 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=control_window16_duplicate_gather l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+TIME graph=tail_37 method=A0_original rep=0 order=0 layer1_ms=0.058837891 relu_ms=0.001953125 conversion_ms=0.001220703 layer2_ms=0.058837891 total_ms=0.120849609
+TIME graph=tail_37 method=A1_step rep=0 order=1 layer1_ms=0.073974609 relu_ms=0.001953125 conversion_ms=0.001220703 layer2_ms=0.069824219 total_ms=0.146972656
+TIME graph=tail_37 method=A2_window8 rep=0 order=2 layer1_ms=0.085937500 relu_ms=0.001220703 conversion_ms=0.000976562 layer2_ms=0.083740234 total_ms=0.171875000
+TIME graph=tail_37 method=A3_window16 rep=0 order=3 layer1_ms=0.073974609 relu_ms=0.002197266 conversion_ms=0.000732422 layer2_ms=0.072998047 total_ms=0.149902344
+TIME graph=tail_37 method=A4_window32 rep=0 order=4 layer1_ms=0.097900391 relu_ms=0.000976562 conversion_ms=0.000976562 layer2_ms=0.078125000 total_ms=0.177978516
+TIME graph=tail_37 method=A5_window64 rep=0 order=5 layer1_ms=0.068115234 relu_ms=0.000732422 conversion_ms=0.000976562 layer2_ms=0.119384766 total_ms=0.189208984
+TIME graph=tail_37 method=control_window16_duplicate_gather rep=0 order=6 layer1_ms=0.100341797 relu_ms=0.000732422 conversion_ms=0.000976562 layer2_ms=0.101074219 total_ms=0.203125000
+TIME graph=tail_37 method=control_window16_duplicate_gather rep=1 order=0 layer1_ms=0.100097656 relu_ms=0.000976562 conversion_ms=0.001953125 layer2_ms=0.096923828 total_ms=0.199951172
+TIME graph=tail_37 method=A5_window64 rep=1 order=1 layer1_ms=0.073242188 relu_ms=0.000976562 conversion_ms=0.000976562 layer2_ms=0.068847656 total_ms=0.144042969
+TIME graph=tail_37 method=A4_window32 rep=1 order=2 layer1_ms=0.094970703 relu_ms=0.001953125 conversion_ms=0.001953125 layer2_ms=0.071044922 total_ms=0.169921875
+TIME graph=tail_37 method=A3_window16 rep=1 order=3 layer1_ms=0.076904297 relu_ms=0.002197266 conversion_ms=0.000976562 layer2_ms=0.097167969 total_ms=0.177246094
+TIME graph=tail_37 method=A2_window8 rep=1 order=4 layer1_ms=0.093017578 relu_ms=0.000976562 conversion_ms=0.001220703 layer2_ms=0.104980469 total_ms=0.200195312
+TIME graph=tail_37 method=A1_step rep=1 order=5 layer1_ms=0.073974609 relu_ms=0.000732422 conversion_ms=0.000976562 layer2_ms=0.073242188 total_ms=0.148925781
+TIME graph=tail_37 method=A0_original rep=1 order=6 layer1_ms=0.056884766 relu_ms=0.000976562 conversion_ms=0.001220703 layer2_ms=0.053955078 total_ms=0.113037109
+TIME graph=tail_37 method=A0_original rep=2 order=0 layer1_ms=0.059082031 relu_ms=0.000976562 conversion_ms=0.001953125 layer2_ms=0.052978516 total_ms=0.114990234
+TIME graph=tail_37 method=A1_step rep=2 order=1 layer1_ms=0.093017578 relu_ms=0.000976562 conversion_ms=0.002197266 layer2_ms=0.071044922 total_ms=0.167236328
+TIME graph=tail_37 method=A2_window8 rep=2 order=2 layer1_ms=0.107910156 relu_ms=0.001953125 conversion_ms=0.000976562 layer2_ms=0.082031250 total_ms=0.192871094
+TIME graph=tail_37 method=A3_window16 rep=2 order=3 layer1_ms=0.083007812 relu_ms=0.001953125 conversion_ms=0.000976562 layer2_ms=0.076904297 total_ms=0.162841797
+TIME graph=tail_37 method=A4_window32 rep=2 order=4 layer1_ms=0.069824219 relu_ms=0.001220703 conversion_ms=0.000976562 layer2_ms=0.068847656 total_ms=0.140869141
+TIME graph=tail_37 method=A5_window64 rep=2 order=5 layer1_ms=0.067871094 relu_ms=0.000976562 conversion_ms=0.000976562 layer2_ms=0.067138672 total_ms=0.136962891
+TIME graph=tail_37 method=control_window16_duplicate_gather rep=2 order=6 layer1_ms=0.132812500 relu_ms=0.002197266 conversion_ms=0.000976562 layer2_ms=0.099853516 total_ms=0.235839844
+TIME graph=tail_37 method=control_window16_duplicate_gather rep=3 order=0 layer1_ms=0.099853516 relu_ms=0.000976562 conversion_ms=0.001220703 layer2_ms=0.100830078 total_ms=0.202880859
+TIME graph=tail_37 method=A5_window64 rep=3 order=1 layer1_ms=0.070800781 relu_ms=0.001220703 conversion_ms=0.000976562 layer2_ms=0.072021484 total_ms=0.145019531
+TIME graph=tail_37 method=A4_window32 rep=3 order=2 layer1_ms=0.095214844 relu_ms=0.000976562 conversion_ms=0.000976562 layer2_ms=0.072998047 total_ms=0.170166016
+TIME graph=tail_37 method=A3_window16 rep=3 order=3 layer1_ms=0.077880859 relu_ms=0.000976562 conversion_ms=0.000976562 layer2_ms=0.075927734 total_ms=0.155761719
+TIME graph=tail_37 method=A2_window8 rep=3 order=4 layer1_ms=0.086914062 relu_ms=0.000976562 conversion_ms=0.001220703 layer2_ms=0.082031250 total_ms=0.171142578
+TIME graph=tail_37 method=A1_step rep=3 order=5 layer1_ms=0.071044922 relu_ms=0.001953125 conversion_ms=0.000976562 layer2_ms=0.068115234 total_ms=0.142089844
+TIME graph=tail_37 method=A0_original rep=3 order=6 layer1_ms=0.055908203 relu_ms=0.001953125 conversion_ms=0.000976562 layer2_ms=0.053222656 total_ms=0.112060547
+TIME graph=tail_37 method=A0_original rep=4 order=0 layer1_ms=0.055908203 relu_ms=0.001953125 conversion_ms=0.001220703 layer2_ms=0.052978516 total_ms=0.112060547
+TIME graph=tail_37 method=A1_step rep=4 order=1 layer1_ms=0.070312500 relu_ms=0.001708984 conversion_ms=0.000976562 layer2_ms=0.084228516 total_ms=0.157226562
+TIME graph=tail_37 method=A2_window8 rep=4 order=2 layer1_ms=0.085937500 relu_ms=0.001953125 conversion_ms=0.000976562 layer2_ms=0.082031250 total_ms=0.170898438
+TIME graph=tail_37 method=A3_window16 rep=4 order=3 layer1_ms=0.076904297 relu_ms=0.001953125 conversion_ms=0.000976562 layer2_ms=0.077880859 total_ms=0.157714844
+TIME graph=tail_37 method=A4_window32 rep=4 order=4 layer1_ms=0.069824219 relu_ms=0.002197266 conversion_ms=0.000976562 layer2_ms=0.102050781 total_ms=0.175048828
+TIME graph=tail_37 method=A5_window64 rep=4 order=5 layer1_ms=0.071044922 relu_ms=0.001708984 conversion_ms=0.001220703 layer2_ms=0.069091797 total_ms=0.143066406
+TIME graph=tail_37 method=control_window16_duplicate_gather rep=4 order=6 layer1_ms=0.100341797 relu_ms=0.000732422 conversion_ms=0.001953125 layer2_ms=0.100097656 total_ms=0.203125000
+COMPLETE graph=tail_37 checks=7 times=35 pass=1

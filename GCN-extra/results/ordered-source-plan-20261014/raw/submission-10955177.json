@@ -1,0 +1,33 @@
+{
+  "id": "ordered-source-gate-submit-10955177",
+  "kind": "submission",
+  "job": "10955177",
+  "status": "SUBMITTED",
+  "mode": "smoke_structure",
+  "threads": 1,
+  "cmd": [
+    "sbatch",
+    "--parsable",
+    "-p",
+    "intel",
+    "-N",
+    "1",
+    "-n",
+    "1",
+    "-c",
+    "1",
+    "--hint=nomultithread",
+    "--mem=16G",
+    "--time=00:20:00",
+    "--job-name=gcn-ordered-gate",
+    "--chdir=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra",
+    "-o",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737/logs/slurm-gate-%j.out",
+    "-e",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737/logs/slurm-gate-%j.err",
+    "--wrap=srun --ntasks=1 --cpus-per-task=1 --cpu-bind=cores bash /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737/source_snapshot/ordered_job.sh /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737 smoke_structure 1"
+  ],
+  "node_cap": 5,
+  "round_node_limit": 2,
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737"
+}

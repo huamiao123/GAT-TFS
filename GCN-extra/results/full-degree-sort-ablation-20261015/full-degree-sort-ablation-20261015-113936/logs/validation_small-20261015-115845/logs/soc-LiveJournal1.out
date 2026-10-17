@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/soc-LiveJournal1/soc-LiveJournal1.csrbin
+Matrix: soc-LiveJournal1  N=4847571  NNZ=68993773  avg_deg=14.2
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 253.18 ms
+  run 1: 248.36 ms
+  run 2: 255.01 ms
+  run 3: 245.59 ms
+  run 4: 245.66 ms
+  TFS V3 E2E BEST: 245.59 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 684.20 ms
+  run 1: 684.93 ms
+  run 2: 685.19 ms
+  run 3: 684.97 ms
+  run 4: 685.63 ms
+  MKL E2E BEST: 684.20 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 245.59 ms
+  MKL (FP32):      684.20 ms
+  E2E Speedup:     2.79×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010477  RMSE=4.7468e+01
+First 8:
+  TFS: -1141.54 -5977.87 -4698.88 -2085.13 -153.08 186.01 -3180.57 -4738.68 
+  MKL: -1152.32 -6034.86 -4747.99 -2104.23 -159.90 190.52 -3217.06 -4786.02 
+ABLATION_CHECK graph=soc-LiveJournal1 l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=soc-LiveJournal1 schedule=degree nonempty_tiles=269280 padded_row_steps=69094879 real_edges=68993773 max_degree=20293 amx_dpbf16ps_per_layer=8616960
+ABLATION_WORK graph=soc-LiveJournal1 schedule=identity nonempty_tiles=302890 padded_row_steps=235812078 real_edges=68993773 max_degree=20293 amx_dpbf16ps_per_layer=9692480
+ABLATION_SETUP graph=soc-LiveJournal1 degree_sort_ms=203.272104 identity_init_ms=1.28602982 included_in_prepared_e2e=0
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=0 order=0 prepared_e2e_ms=264.868021
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=0 order=1 prepared_e2e_ms=189.471006
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=1 order=0 prepared_e2e_ms=190.542936
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=1 order=1 prepared_e2e_ms=270.641088
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=2 order=0 prepared_e2e_ms=272.63093
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=2 order=1 prepared_e2e_ms=194.992065
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=3 order=0 prepared_e2e_ms=195.585012
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=3 order=1 prepared_e2e_ms=270.183086
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=4 order=0 prepared_e2e_ms=272.981167
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=4 order=1 prepared_e2e_ms=195.887089
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=5 order=0 prepared_e2e_ms=196.19894
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=5 order=1 prepared_e2e_ms=271.199942
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=6 order=0 prepared_e2e_ms=270.349979
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=6 order=1 prepared_e2e_ms=197.070837
+ABLATION_TIME graph=soc-LiveJournal1 schedule=identity repeat=7 order=0 prepared_e2e_ms=194.053888
+ABLATION_TIME graph=soc-LiveJournal1 schedule=degree repeat=7 order=1 prepared_e2e_ms=269.643068
+ABLATION_STAGE graph=soc-LiveJournal1 schedule=degree repeat=0 layer1_ms=130.620956 relu_ms=9.12904739 interlayer_ms=9.44876671 layer2_ms=125.394106 total_ms=274.592876
+ABLATION_STAGE graph=soc-LiveJournal1 schedule=degree repeat=1 layer1_ms=128.391981 relu_ms=8.43310356 interlayer_ms=9.38796997 layer2_ms=124.194145 total_ms=270.4072
+ABLATION_STAGE graph=soc-LiveJournal1 schedule=degree repeat=2 layer1_ms=130.373001 relu_ms=8.54802132 interlayer_ms=9.46903229 layer2_ms=123.523951 total_ms=271.914005
+ABLATION_STAGE graph=soc-LiveJournal1 schedule=identity repeat=0 layer1_ms=90.4760361 relu_ms=8.65602493 interlayer_ms=9.36484337 layer2_ms=87.1710777 total_ms=195.667982
+ABLATION_STAGE graph=soc-LiveJournal1 schedule=identity repeat=1 layer1_ms=89.9720192 relu_ms=8.85605812 interlayer_ms=9.33289528 layer2_ms=87.720871 total_ms=195.881844
+ABLATION_STAGE graph=soc-LiveJournal1 schedule=identity repeat=2 layer1_ms=90.3110504 relu_ms=9.12094116 interlayer_ms=9.4909668 layer2_ms=87.1529579 total_ms=196.075916
+ABLATION_COMPLETE graph=soc-LiveJournal1 pass=1

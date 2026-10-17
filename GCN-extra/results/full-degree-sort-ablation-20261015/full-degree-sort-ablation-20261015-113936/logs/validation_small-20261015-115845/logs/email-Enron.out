@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/email-Enron/email-Enron.csrbin
+Matrix: email-Enron  N=36692  NNZ=367662  avg_deg=10.0
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2.39 ms
+  run 1: 2.28 ms
+  run 2: 2.36 ms
+  run 3: 2.31 ms
+  run 4: 2.34 ms
+  TFS V3 E2E BEST: 2.28 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 1.47 ms
+  run 1: 1.51 ms
+  run 2: 1.42 ms
+  run 3: 1.44 ms
+  run 4: 1.54 ms
+  MKL E2E BEST: 1.42 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2.28 ms
+  MKL (FP32):      1.42 ms
+  E2E Speedup:     0.62×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010905  RMSE=3.4708e+01
+First 8:
+  TFS: -208.08 -116.93 -138.97 -239.93 -55.83 -102.99 -99.58 -119.38 
+  MKL: -210.59 -118.71 -140.64 -241.98 -56.62 -103.84 -101.04 -120.51 
+ABLATION_CHECK graph=email-Enron l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=email-Enron schedule=degree nonempty_tiles=2294 padded_row_steps=378652 real_edges=367662 max_degree=1383 amx_dpbf16ps_per_layer=73408
+ABLATION_WORK graph=email-Enron schedule=identity nonempty_tiles=2294 padded_row_steps=1561744 real_edges=367662 max_degree=1383 amx_dpbf16ps_per_layer=73408
+ABLATION_SETUP graph=email-Enron degree_sort_ms=1.05619431 identity_init_ms=0.00309944153 included_in_prepared_e2e=0
+ABLATION_TIME graph=email-Enron schedule=degree repeat=0 order=0 prepared_e2e_ms=1.2421608
+ABLATION_TIME graph=email-Enron schedule=identity repeat=0 order=1 prepared_e2e_ms=0.776052475
+ABLATION_TIME graph=email-Enron schedule=identity repeat=1 order=0 prepared_e2e_ms=0.769853592
+ABLATION_TIME graph=email-Enron schedule=degree repeat=1 order=1 prepared_e2e_ms=1.20091438
+ABLATION_TIME graph=email-Enron schedule=degree repeat=2 order=0 prepared_e2e_ms=1.25908852
+ABLATION_TIME graph=email-Enron schedule=identity repeat=2 order=1 prepared_e2e_ms=0.771999359
+ABLATION_TIME graph=email-Enron schedule=identity repeat=3 order=0 prepared_e2e_ms=0.773906708
+ABLATION_TIME graph=email-Enron schedule=degree repeat=3 order=1 prepared_e2e_ms=1.18803978
+ABLATION_TIME graph=email-Enron schedule=degree repeat=4 order=0 prepared_e2e_ms=1.16991997
+ABLATION_TIME graph=email-Enron schedule=identity repeat=4 order=1 prepared_e2e_ms=0.775098801
+ABLATION_TIME graph=email-Enron schedule=identity repeat=5 order=0 prepared_e2e_ms=0.756025314
+ABLATION_TIME graph=email-Enron schedule=degree repeat=5 order=1 prepared_e2e_ms=1.23715401
+ABLATION_TIME graph=email-Enron schedule=degree repeat=6 order=0 prepared_e2e_ms=1.17897987
+ABLATION_TIME graph=email-Enron schedule=identity repeat=6 order=1 prepared_e2e_ms=0.76007843
+ABLATION_TIME graph=email-Enron schedule=identity repeat=7 order=0 prepared_e2e_ms=0.764846802
+ABLATION_TIME graph=email-Enron schedule=degree repeat=7 order=1 prepared_e2e_ms=1.15799904
+ABLATION_STAGE graph=email-Enron schedule=degree repeat=0 layer1_ms=0.511884689 relu_ms=0.0660419464 interlayer_ms=0.163078308 layer2_ms=0.435829163 total_ms=1.17683411
+ABLATION_STAGE graph=email-Enron schedule=degree repeat=1 layer1_ms=0.467777252 relu_ms=0.0669956207 interlayer_ms=0.160217285 layer2_ms=0.446796417 total_ms=1.14178658
+ABLATION_STAGE graph=email-Enron schedule=degree repeat=2 layer1_ms=0.502109528 relu_ms=0.0650882721 interlayer_ms=0.147819519 layer2_ms=0.498056412 total_ms=1.21307373
+ABLATION_STAGE graph=email-Enron schedule=identity repeat=0 layer1_ms=0.309944153 relu_ms=0.0369548798 interlayer_ms=0.149011612 layer2_ms=0.301122665 total_ms=0.79703331
+ABLATION_STAGE graph=email-Enron schedule=identity repeat=1 layer1_ms=0.300168991 relu_ms=0.0369548798 interlayer_ms=0.148057938 layer2_ms=0.283956528 total_ms=0.769138336
+ABLATION_STAGE graph=email-Enron schedule=identity repeat=2 layer1_ms=0.303030014 relu_ms=0.0348091125 interlayer_ms=0.151157379 layer2_ms=0.286817551 total_ms=0.775814056
+ABLATION_COMPLETE graph=email-Enron pass=1

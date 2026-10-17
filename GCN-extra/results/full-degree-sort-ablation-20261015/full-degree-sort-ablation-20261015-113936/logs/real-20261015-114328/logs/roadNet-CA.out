@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/roadNet-CA/roadNet-CA.csrbin
+Matrix: roadNet-CA  N=1971281  NNZ=5533214  avg_deg=2.8
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 34.53 ms
+  run 1: 34.55 ms
+  run 2: 34.70 ms
+  run 3: 34.50 ms
+  run 4: 34.58 ms
+  TFS V3 E2E BEST: 34.50 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 65.75 ms
+  run 1: 65.34 ms
+  run 2: 65.14 ms
+  run 3: 65.29 ms
+  run 4: 65.55 ms
+  MKL E2E BEST: 65.14 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 34.50 ms
+  MKL (FP32):      65.14 ms
+  E2E Speedup:     1.89×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.011806  RMSE=8.0874e-01
+First 8:
+  TFS: 6.10 -52.73 -71.34 -1.16 36.92 -0.90 -104.09 -96.44 
+  MKL: 6.14 -53.15 -72.05 -1.12 37.09 -0.75 -105.36 -97.44 
+ABLATION_CHECK graph=roadNet-CA l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=roadNet-CA schedule=degree nonempty_tiles=122827 padded_row_steps=5533308 real_edges=5533214 max_degree=12 amx_dpbf16ps_per_layer=3930464
+ABLATION_WORK graph=roadNet-CA schedule=identity nonempty_tiles=123203 padded_row_steps=7896371 real_edges=5533214 max_degree=12 amx_dpbf16ps_per_layer=3942496
+ABLATION_SETUP graph=roadNet-CA degree_sort_ms=46.3540554 identity_init_ms=0.518083572 included_in_prepared_e2e=0
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=0 order=0 prepared_e2e_ms=38.2611752
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=0 order=1 prepared_e2e_ms=30.3750038
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=1 order=0 prepared_e2e_ms=30.164957
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=1 order=1 prepared_e2e_ms=38.0990505
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=2 order=0 prepared_e2e_ms=37.9588604
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=2 order=1 prepared_e2e_ms=30.1420689
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=3 order=0 prepared_e2e_ms=30.3738117
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=3 order=1 prepared_e2e_ms=37.8539562
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=4 order=0 prepared_e2e_ms=38.6919975
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=4 order=1 prepared_e2e_ms=30.0409794
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=5 order=0 prepared_e2e_ms=30.0748348
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=5 order=1 prepared_e2e_ms=37.7459526
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=6 order=0 prepared_e2e_ms=37.89711
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=6 order=1 prepared_e2e_ms=30.7321548
+ABLATION_TIME graph=roadNet-CA schedule=identity repeat=7 order=0 prepared_e2e_ms=30.1229954
+ABLATION_TIME graph=roadNet-CA schedule=degree repeat=7 order=1 prepared_e2e_ms=37.9741192
+ABLATION_STAGE graph=roadNet-CA schedule=degree repeat=0 layer1_ms=16.1230564 relu_ms=4.78482246 interlayer_ms=4.06503677 layer2_ms=12.9179955 total_ms=37.8909111
+ABLATION_STAGE graph=roadNet-CA schedule=degree repeat=1 layer1_ms=16.0582066 relu_ms=5.21492958 interlayer_ms=3.99303436 layer2_ms=13.0720139 total_ms=38.3381844
+ABLATION_STAGE graph=roadNet-CA schedule=degree repeat=2 layer1_ms=16.0889626 relu_ms=5.13792038 interlayer_ms=4.0500164 layer2_ms=12.9458904 total_ms=38.2227898
+ABLATION_STAGE graph=roadNet-CA schedule=identity repeat=0 layer1_ms=11.7218494 relu_ms=4.68802452 interlayer_ms=4.1000843 layer2_ms=9.60302353 total_ms=30.1129818
+ABLATION_STAGE graph=roadNet-CA schedule=identity repeat=1 layer1_ms=11.7018223 relu_ms=4.68111038 interlayer_ms=4.0769577 layer2_ms=9.6180439 total_ms=30.0779343
+ABLATION_STAGE graph=roadNet-CA schedule=identity repeat=2 layer1_ms=11.785984 relu_ms=4.63008881 interlayer_ms=4.09603119 layer2_ms=9.62090492 total_ms=30.133009
+ABLATION_COMPLETE graph=roadNet-CA pass=1

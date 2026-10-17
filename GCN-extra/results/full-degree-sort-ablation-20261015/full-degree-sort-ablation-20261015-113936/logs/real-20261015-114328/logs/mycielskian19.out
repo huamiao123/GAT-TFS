@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/mycielskian19/mycielskian19.csrbin
+Matrix: mycielskian19  N=393215  NNZ=903194710  avg_deg=2296.9
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 2228.82 ms
+  run 1: 2195.28 ms
+  run 2: 2081.02 ms
+  run 3: 2211.92 ms
+  run 4: 2223.75 ms
+  TFS V3 E2E BEST: 2081.02 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 4797.55 ms
+  run 1: 4793.86 ms
+  run 2: 4793.58 ms
+  run 3: 4797.78 ms
+  run 4: 4799.53 ms
+  MKL E2E BEST: 4793.58 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 2081.02 ms
+  MKL (FP32):      4793.58 ms
+  E2E Speedup:     2.30×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.008863  RMSE=5.6702e+04
+First 8:
+  TFS: -53909420.00 -97622240.00 -80814696.00 -13668678.00 12609145.00 -9723282.00 -81751856.00 -87493720.00 
+  MKL: -54318140.00 -98481840.00 -81665120.00 -13942624.00 12705349.00 -9879961.00 -82692264.00 -88055840.00 
+ABLATION_CHECK graph=mycielskian19 l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=mycielskian19 schedule=degree nonempty_tiles=24576 padded_row_steps=904822641 real_edges=903194710 max_degree=196607 amx_dpbf16ps_per_layer=786432
+ABLATION_WORK graph=mycielskian19 schedule=identity nonempty_tiles=24576 padded_row_steps=2306582529 real_edges=903194710 max_degree=196607 amx_dpbf16ps_per_layer=786432
+ABLATION_SETUP graph=mycielskian19 degree_sort_ms=18.941164 identity_init_ms=0.0581741333 included_in_prepared_e2e=0
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=0 order=0 prepared_e2e_ms=2452.58093
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=0 order=1 prepared_e2e_ms=2073.12799
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=1 order=0 prepared_e2e_ms=2072.91913
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=1 order=1 prepared_e2e_ms=2415.23409
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=2 order=0 prepared_e2e_ms=2410.70914
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=2 order=1 prepared_e2e_ms=2083.96411
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=3 order=0 prepared_e2e_ms=2073.93599
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=3 order=1 prepared_e2e_ms=2436.23495
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=4 order=0 prepared_e2e_ms=2474.23697
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=4 order=1 prepared_e2e_ms=2078.228
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=5 order=0 prepared_e2e_ms=2075.212
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=5 order=1 prepared_e2e_ms=2382.70116
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=6 order=0 prepared_e2e_ms=2425.33493
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=6 order=1 prepared_e2e_ms=2077.28696
+ABLATION_TIME graph=mycielskian19 schedule=identity repeat=7 order=0 prepared_e2e_ms=2072.73698
+ABLATION_TIME graph=mycielskian19 schedule=degree repeat=7 order=1 prepared_e2e_ms=2404.40512
+ABLATION_STAGE graph=mycielskian19 schedule=degree repeat=0 layer1_ms=1231.45103 relu_ms=0.681877136 interlayer_ms=0.802993774 layer2_ms=1243.11805 total_ms=2476.05395
+ABLATION_STAGE graph=mycielskian19 schedule=degree repeat=1 layer1_ms=1186.11598 relu_ms=0.679016113 interlayer_ms=0.897884369 layer2_ms=1252.352 total_ms=2440.04488
+ABLATION_STAGE graph=mycielskian19 schedule=degree repeat=2 layer1_ms=1191.79106 relu_ms=0.686883926 interlayer_ms=0.910997391 layer2_ms=1226.66693 total_ms=2420.05587
+ABLATION_STAGE graph=mycielskian19 schedule=identity repeat=0 layer1_ms=1017.47203 relu_ms=0.695943832 interlayer_ms=1.01208687 layer2_ms=1050.95506 total_ms=2070.13512
+ABLATION_STAGE graph=mycielskian19 schedule=identity repeat=1 layer1_ms=1018.49198 relu_ms=0.709056854 interlayer_ms=1.08408928 layer2_ms=1057.11198 total_ms=2077.39711
+ABLATION_STAGE graph=mycielskian19 schedule=identity repeat=2 layer1_ms=1020.25795 relu_ms=0.700950623 interlayer_ms=0.913143158 layer2_ms=1049.67499 total_ms=2071.54703
+ABLATION_COMPLETE graph=mycielskian19 pass=1

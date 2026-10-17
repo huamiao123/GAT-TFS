@@ -1,0 +1,77 @@
+{
+  "id": "ordered-source-perf-submit-10955178",
+  "kind": "submission",
+  "job": "10955178",
+  "status": "SUBMITTED",
+  "mode": "ogbn-products,reddit,mycielskian19,roadNet-CA,wiki-Talk",
+  "threads": 32,
+  "cmd": [
+    "sbatch",
+    "--parsable",
+    "-p",
+    "intel",
+    "-N",
+    "1",
+    "-n",
+    "1",
+    "-c",
+    "32",
+    "--hint=nomultithread",
+    "--mem=48G",
+    "--time=01:00:00",
+    "--job-name=gcn-ordered-5g",
+    "--chdir=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra",
+    "-o",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737/logs/slurm-perf-%j.out",
+    "-e",
+    "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737/logs/slurm-perf-%j.err",
+    "--wrap=srun --ntasks=1 --cpus-per-task=32 --cpu-bind=cores bash /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737/source_snapshot/ordered_job.sh /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737 ogbn-products,reddit,mycielskian19,roadNet-CA,wiki-Talk 32"
+  ],
+  "node_cap": 5,
+  "round_node_limit": 2,
+  "study": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/ordered-source-build-20261014-133737",
+  "gate_job": "10955177",
+  "coverage": [
+    {
+      "graph": "ogbn-products",
+      "eligible_fraction": 3.459476180989189e-06,
+      "partial_fraction": 8.082888273339226e-08,
+      "all_match_fraction": 0.00018301275628494678,
+      "plan_bytes": 2453428,
+      "construct_ms": 1174.48592186
+    },
+    {
+      "graph": "reddit",
+      "eligible_fraction": 0.002058492900792501,
+      "partial_fraction": 0.0010356329993051923,
+      "all_match_fraction": 0.016723230666825854,
+      "plan_bytes": 723880,
+      "construct_ms": 888.341903687
+    },
+    {
+      "graph": "mycielskian19",
+      "eligible_fraction": 0.012963658744192601,
+      "partial_fraction": 0.006412234190344184,
+      "all_match_fraction": 0.09425782398570515,
+      "plan_bytes": 69396022,
+      "construct_ms": 4143.97001266
+    },
+    {
+      "graph": "roadNet-CA",
+      "eligible_fraction": 0.0,
+      "partial_fraction": 0.0,
+      "all_match_fraction": 0.015018034726291086,
+      "plan_bytes": 2587744,
+      "construct_ms": 66.3959980011
+    },
+    {
+      "graph": "wiki-Talk",
+      "eligible_fraction": 1.5931780117536709e-06,
+      "partial_fraction": 0.0,
+      "all_match_fraction": 0.0042906275329041045,
+      "plan_bytes": 2936610,
+      "construct_ms": 32.0680141449
+    }
+  ],
+  "interpretation": "Low partial coverage; retain all five negative controls; fixed thresholds not retuned; no anticipated general acceleration claim"
+}

@@ -1,0 +1,51 @@
+CONFIG graph=roadNet-CA N=1971281 E=5533214 threads=32 repeats=5 seed=12345 R=64 TR=16 D=128 F=128
+WORK method=A0_original gathered_neighbors=11066428 h_source_logical_bytes=2833005568 hbuf_copy_bytes=2833005568 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=0 c_state_load_tiles=0 c_state_store_tiles=0
+WORK method=A1_step gathered_neighbors=5533214 h_source_logical_bytes=1416502784 hbuf_copy_bytes=1416502784 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=345843 c_state_load_tiles=1784128 c_state_store_tiles=1784128
+WORK method=A2_window8 gathered_neighbors=5533214 h_source_logical_bytes=1416502784 hbuf_copy_bytes=1416502784 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=122829 c_state_load_tiles=16 c_state_store_tiles=16
+WORK method=A3_window16 gathered_neighbors=5533214 h_source_logical_bytes=1416502784 hbuf_copy_bytes=1416502784 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=245654 c_state_load_tiles=982616 c_state_store_tiles=982616
+WORK method=A4_window32 gathered_neighbors=5533214 h_source_logical_bytes=1416502784 hbuf_copy_bytes=1416502784 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=122827 c_state_load_tiles=0 c_state_store_tiles=0
+WORK method=A5_window64 gathered_neighbors=5533214 h_source_logical_bytes=1416502784 hbuf_copy_bytes=1416502784 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=122827 c_state_load_tiles=0 c_state_store_tiles=0
+WORK method=control_window16_duplicate_gather gathered_neighbors=11066428 h_source_logical_bytes=2833005568 hbuf_copy_bytes=2833005568 h_tile_loads=2766744 w_tile_loads=11066976 tdp=11066976 windows=245654 c_state_load_tiles=982616 c_state_store_tiles=982616
+CHECK method=A0_original l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A1_step l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A2_window8 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A3_window16 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A4_window32 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A5_window64 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=control_window16_duplicate_gather l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+TIME graph=roadNet-CA method=A0_original rep=0 order=0 layer1_ms=14.271972656 relu_ms=6.128906250 conversion_ms=4.016845703 layer2_ms=11.355224609 total_ms=35.772949219
+TIME graph=roadNet-CA method=A1_step rep=0 order=1 layer1_ms=12.942138672 relu_ms=5.786865234 conversion_ms=4.093017578 layer2_ms=10.379882812 total_ms=33.201904297
+TIME graph=roadNet-CA method=A2_window8 rep=0 order=2 layer1_ms=12.432861328 relu_ms=5.644287109 conversion_ms=4.292724609 layer2_ms=9.743164062 total_ms=32.113037109
+TIME graph=roadNet-CA method=A3_window16 rep=0 order=3 layer1_ms=12.345214844 relu_ms=6.081054688 conversion_ms=4.269775391 layer2_ms=9.692138672 total_ms=32.388183594
+TIME graph=roadNet-CA method=A4_window32 rep=0 order=4 layer1_ms=12.395263672 relu_ms=5.529785156 conversion_ms=4.050048828 layer2_ms=9.744140625 total_ms=31.719238281
+TIME graph=roadNet-CA method=A5_window64 rep=0 order=5 layer1_ms=12.336914062 relu_ms=5.628173828 conversion_ms=4.051025391 layer2_ms=9.746826172 total_ms=31.762939453
+TIME graph=roadNet-CA method=control_window16_duplicate_gather rep=0 order=6 layer1_ms=14.373046875 relu_ms=6.322998047 conversion_ms=4.101806641 layer2_ms=11.734130859 total_ms=36.531982422
+TIME graph=roadNet-CA method=control_window16_duplicate_gather rep=1 order=0 layer1_ms=14.340087891 relu_ms=5.675781250 conversion_ms=4.176269531 layer2_ms=11.739990234 total_ms=35.932128906
+TIME graph=roadNet-CA method=A5_window64 rep=1 order=1 layer1_ms=12.383056641 relu_ms=5.590087891 conversion_ms=4.177978516 layer2_ms=9.751953125 total_ms=31.903076172
+TIME graph=roadNet-CA method=A4_window32 rep=1 order=2 layer1_ms=12.366210938 relu_ms=5.796875000 conversion_ms=4.154785156 layer2_ms=9.757080078 total_ms=32.074951172
+TIME graph=roadNet-CA method=A3_window16 rep=1 order=3 layer1_ms=12.350097656 relu_ms=5.615966797 conversion_ms=4.196289062 layer2_ms=9.711914062 total_ms=31.874267578
+TIME graph=roadNet-CA method=A2_window8 rep=1 order=4 layer1_ms=12.404052734 relu_ms=6.265136719 conversion_ms=4.097900391 layer2_ms=9.640869141 total_ms=32.407958984
+TIME graph=roadNet-CA method=A1_step rep=1 order=5 layer1_ms=13.172363281 relu_ms=5.825927734 conversion_ms=4.463867188 layer2_ms=10.378173828 total_ms=33.840332031
+TIME graph=roadNet-CA method=A0_original rep=1 order=6 layer1_ms=14.476806641 relu_ms=5.367187500 conversion_ms=4.092041016 layer2_ms=12.003906250 total_ms=35.939941406
+TIME graph=roadNet-CA method=A0_original rep=2 order=0 layer1_ms=15.102050781 relu_ms=6.130859375 conversion_ms=4.174072266 layer2_ms=11.504882812 total_ms=36.911865234
+TIME graph=roadNet-CA method=A1_step rep=2 order=1 layer1_ms=12.851074219 relu_ms=5.900878906 conversion_ms=4.098144531 layer2_ms=10.226806641 total_ms=33.076904297
+TIME graph=roadNet-CA method=A2_window8 rep=2 order=2 layer1_ms=12.452148438 relu_ms=5.599853516 conversion_ms=4.138916016 layer2_ms=9.733154297 total_ms=31.924072266
+TIME graph=roadNet-CA method=A3_window16 rep=2 order=3 layer1_ms=12.356933594 relu_ms=5.577148438 conversion_ms=4.093750000 layer2_ms=9.735107422 total_ms=31.762939453
+TIME graph=roadNet-CA method=A4_window32 rep=2 order=4 layer1_ms=12.342041016 relu_ms=5.755859375 conversion_ms=4.637939453 layer2_ms=9.761962891 total_ms=32.497802734
+TIME graph=roadNet-CA method=A5_window64 rep=2 order=5 layer1_ms=12.395019531 relu_ms=5.933837891 conversion_ms=4.123046875 layer2_ms=9.723144531 total_ms=32.175048828
+TIME graph=roadNet-CA method=control_window16_duplicate_gather rep=2 order=6 layer1_ms=14.520996094 relu_ms=6.119140625 conversion_ms=4.217773438 layer2_ms=11.759033203 total_ms=36.616943359
+TIME graph=roadNet-CA method=control_window16_duplicate_gather rep=3 order=0 layer1_ms=14.339111328 relu_ms=5.822021484 conversion_ms=4.125976562 layer2_ms=11.777099609 total_ms=36.064208984
+TIME graph=roadNet-CA method=A5_window64 rep=3 order=1 layer1_ms=12.359130859 relu_ms=5.694824219 conversion_ms=4.149169922 layer2_ms=9.765869141 total_ms=31.968994141
+TIME graph=roadNet-CA method=A4_window32 rep=3 order=2 layer1_ms=12.403076172 relu_ms=5.786132812 conversion_ms=4.230957031 layer2_ms=9.791015625 total_ms=32.211181641
+TIME graph=roadNet-CA method=A3_window16 rep=3 order=3 layer1_ms=12.355957031 relu_ms=5.893066406 conversion_ms=4.134765625 layer2_ms=9.708251953 total_ms=32.092041016
+TIME graph=roadNet-CA method=A2_window8 rep=3 order=4 layer1_ms=12.412841797 relu_ms=6.426269531 conversion_ms=4.312011719 layer2_ms=9.874755859 total_ms=33.025878906
+TIME graph=roadNet-CA method=A1_step rep=3 order=5 layer1_ms=13.241943359 relu_ms=6.167968750 conversion_ms=4.353027344 layer2_ms=10.564941406 total_ms=34.327880859
+TIME graph=roadNet-CA method=A0_original rep=3 order=6 layer1_ms=15.066162109 relu_ms=6.074951172 conversion_ms=4.376953125 layer2_ms=11.760986328 total_ms=37.279052734
+TIME graph=roadNet-CA method=A0_original rep=4 order=0 layer1_ms=15.258056641 relu_ms=6.364013672 conversion_ms=4.346923828 layer2_ms=11.906005859 total_ms=37.875000000
+TIME graph=roadNet-CA method=A1_step rep=4 order=1 layer1_ms=13.715820312 relu_ms=6.395019531 conversion_ms=4.367919922 layer2_ms=10.750976562 total_ms=35.229736328
+TIME graph=roadNet-CA method=A2_window8 rep=4 order=2 layer1_ms=13.000000000 relu_ms=6.469238281 conversion_ms=4.433837891 layer2_ms=10.115966797 total_ms=34.019042969
+TIME graph=roadNet-CA method=A3_window16 rep=4 order=3 layer1_ms=13.010009766 relu_ms=6.154052734 conversion_ms=4.444824219 layer2_ms=9.988037109 total_ms=33.596923828
+TIME graph=roadNet-CA method=A4_window32 rep=4 order=4 layer1_ms=12.949951172 relu_ms=6.358642578 conversion_ms=4.336181641 layer2_ms=9.978027344 total_ms=33.622802734
+TIME graph=roadNet-CA method=A5_window64 rep=4 order=5 layer1_ms=12.858886719 relu_ms=6.336914062 conversion_ms=4.351318359 layer2_ms=9.990722656 total_ms=33.537841797
+TIME graph=roadNet-CA method=control_window16_duplicate_gather rep=4 order=6 layer1_ms=14.924072266 relu_ms=6.366943359 conversion_ms=4.343994141 layer2_ms=12.141357422 total_ms=37.776367188
+COMPLETE graph=roadNet-CA checks=7 times=35 pass=1

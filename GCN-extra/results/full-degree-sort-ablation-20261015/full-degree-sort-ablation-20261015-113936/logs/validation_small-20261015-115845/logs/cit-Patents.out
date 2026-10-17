@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/cit-Patents/cit-Patents.csrbin
+Matrix: cit-Patents  N=3774768  NNZ=16518948  avg_deg=4.4
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 77.68 ms
+  run 1: 77.20 ms
+  run 2: 77.35 ms
+  run 3: 77.43 ms
+  run 4: 77.02 ms
+  TFS V3 E2E BEST: 77.02 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 272.89 ms
+  run 1: 272.85 ms
+  run 2: 272.77 ms
+  run 3: 272.85 ms
+  run 4: 272.62 ms
+  MKL E2E BEST: 272.62 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 77.02 ms
+  MKL (FP32):      272.62 ms
+  E2E Speedup:     3.54×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010544  RMSE=2.1617e+00
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+ABLATION_CHECK graph=cit-Patents l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=cit-Patents schedule=degree nonempty_tiles=130585 padded_row_steps=16526288 real_edges=16518948 max_degree=770 amx_dpbf16ps_per_layer=4178720
+ABLATION_WORK graph=cit-Patents schedule=identity nonempty_tiles=132477 padded_row_steps=52657344 real_edges=16518948 max_degree=770 amx_dpbf16ps_per_layer=4239264
+ABLATION_SETUP graph=cit-Patents degree_sort_ms=106.523037 identity_init_ms=1.00517273 included_in_prepared_e2e=0
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=0 order=0 prepared_e2e_ms=82.5030804
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=0 order=1 prepared_e2e_ms=72.0992088
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=1 order=0 prepared_e2e_ms=72.2801685
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=1 order=1 prepared_e2e_ms=82.1690559
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=2 order=0 prepared_e2e_ms=82.2548866
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=2 order=1 prepared_e2e_ms=72.1669197
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=3 order=0 prepared_e2e_ms=72.3309517
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=3 order=1 prepared_e2e_ms=82.4899673
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=4 order=0 prepared_e2e_ms=82.3369026
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=4 order=1 prepared_e2e_ms=72.9420185
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=5 order=0 prepared_e2e_ms=73.969841
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=5 order=1 prepared_e2e_ms=83.3461285
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=6 order=0 prepared_e2e_ms=83.3849907
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=6 order=1 prepared_e2e_ms=73.9831924
+ABLATION_TIME graph=cit-Patents schedule=identity repeat=7 order=0 prepared_e2e_ms=73.786974
+ABLATION_TIME graph=cit-Patents schedule=degree repeat=7 order=1 prepared_e2e_ms=83.2509995
+ABLATION_STAGE graph=cit-Patents schedule=degree repeat=0 layer1_ms=37.9929543 relu_ms=6.45494461 interlayer_ms=9.02509689 layer2_ms=32.6030254 total_ms=86.0760212
+ABLATION_STAGE graph=cit-Patents schedule=degree repeat=1 layer1_ms=37.8031731 relu_ms=7.21383095 interlayer_ms=6.99114799 layer2_ms=32.681942 total_ms=84.690094
+ABLATION_STAGE graph=cit-Patents schedule=degree repeat=2 layer1_ms=37.6729965 relu_ms=6.3829422 interlayer_ms=7.01403618 layer2_ms=32.6528549 total_ms=83.7228298
+ABLATION_STAGE graph=cit-Patents schedule=identity repeat=0 layer1_ms=32.1741104 relu_ms=6.29091263 interlayer_ms=7.0540905 layer2_ms=28.2919407 total_ms=73.8110542
+ABLATION_STAGE graph=cit-Patents schedule=identity repeat=1 layer1_ms=32.0677757 relu_ms=6.34622574 interlayer_ms=7.0939064 layer2_ms=28.4240246 total_ms=73.9319324
+ABLATION_STAGE graph=cit-Patents schedule=identity repeat=2 layer1_ms=32.184124 relu_ms=6.3188076 interlayer_ms=7.12800026 layer2_ms=28.4671783 total_ms=74.0981102
+ABLATION_COMPLETE graph=cit-Patents pass=1

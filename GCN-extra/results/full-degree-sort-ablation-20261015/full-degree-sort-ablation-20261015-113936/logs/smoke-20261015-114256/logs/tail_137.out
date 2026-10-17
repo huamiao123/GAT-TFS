@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 4
+
+Loading: /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/h-panel-reuse-10964897/fixtures/tail_137/tail_137.csrbin
+Matrix: tail_137  N=137  NNZ=4011  avg_deg=29.3
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 0.14 ms
+  run 1: 0.14 ms
+  run 2: 0.13 ms
+  run 3: 0.13 ms
+  run 4: 0.14 ms
+  TFS V3 E2E BEST: 0.13 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 0.05 ms
+  run 1: 0.07 ms
+  run 2: 0.18 ms
+  run 3: 0.05 ms
+  run 4: 0.05 ms
+  MKL E2E BEST: 0.05 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 0.13 ms
+  MKL (FP32):      0.05 ms
+  E2E Speedup:     0.37×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.011090  RMSE=2.7750e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+ABLATION_CHECK graph=tail_137 l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=tail_137 schedule=degree nonempty_tiles=9 padded_row_steps=4521 real_edges=4011 max_degree=129 amx_dpbf16ps_per_layer=288
+ABLATION_WORK graph=tail_137 schedule=identity nonempty_tiles=9 padded_row_steps=16665 real_edges=4011 max_degree=129 amx_dpbf16ps_per_layer=288
+ABLATION_SETUP graph=tail_137 degree_sort_ms=0.226020813 identity_init_ms=0 included_in_prepared_e2e=0
+ABLATION_TIME graph=tail_137 schedule=degree repeat=0 order=0 prepared_e2e_ms=0.180959702
+ABLATION_TIME graph=tail_137 schedule=identity repeat=0 order=1 prepared_e2e_ms=0.0519752502
+ABLATION_TIME graph=tail_137 schedule=identity repeat=1 order=0 prepared_e2e_ms=0.0450611115
+ABLATION_TIME graph=tail_137 schedule=degree repeat=1 order=1 prepared_e2e_ms=0.0519752502
+ABLATION_TIME graph=tail_137 schedule=degree repeat=2 order=0 prepared_e2e_ms=0.0541210175
+ABLATION_TIME graph=tail_137 schedule=identity repeat=2 order=1 prepared_e2e_ms=0.0450611115
+ABLATION_TIME graph=tail_137 schedule=identity repeat=3 order=0 prepared_e2e_ms=0.0548362732
+ABLATION_TIME graph=tail_137 schedule=degree repeat=3 order=1 prepared_e2e_ms=0.049829483
+ABLATION_TIME graph=tail_137 schedule=degree repeat=4 order=0 prepared_e2e_ms=0.0460147858
+ABLATION_TIME graph=tail_137 schedule=identity repeat=4 order=1 prepared_e2e_ms=0.0441074371
+ABLATION_TIME graph=tail_137 schedule=identity repeat=5 order=0 prepared_e2e_ms=0.0441074371
+ABLATION_TIME graph=tail_137 schedule=degree repeat=5 order=1 prepared_e2e_ms=0.0488758087
+ABLATION_TIME graph=tail_137 schedule=degree repeat=6 order=0 prepared_e2e_ms=0.0469684601
+ABLATION_TIME graph=tail_137 schedule=identity repeat=6 order=1 prepared_e2e_ms=0.0419616699
+ABLATION_TIME graph=tail_137 schedule=identity repeat=7 order=0 prepared_e2e_ms=0.0429153442
+ABLATION_TIME graph=tail_137 schedule=degree repeat=7 order=1 prepared_e2e_ms=0.048160553
+ABLATION_STAGE graph=tail_137 schedule=degree repeat=0 layer1_ms=0.0219345093 relu_ms=0.00309944153 interlayer_ms=0.00190734863 layer2_ms=0.0221729279 total_ms=0.0491142273
+ABLATION_STAGE graph=tail_137 schedule=degree repeat=1 layer1_ms=0.0219345093 relu_ms=0.00309944153 interlayer_ms=0.00190734863 layer2_ms=0.0259876251 total_ms=0.0529289246
+ABLATION_STAGE graph=tail_137 schedule=degree repeat=2 layer1_ms=0.020980835 relu_ms=0.00286102295 interlayer_ms=0.00214576721 layer2_ms=0.0219345093 total_ms=0.0479221344
+ABLATION_STAGE graph=tail_137 schedule=identity repeat=0 layer1_ms=0.0200271606 relu_ms=0.00309944153 interlayer_ms=0.00190734863 layer2_ms=0.0190734863 total_ms=0.0441074371
+ABLATION_STAGE graph=tail_137 schedule=identity repeat=1 layer1_ms=0.0190734863 relu_ms=0.00286102295 interlayer_ms=0.00309944153 layer2_ms=0.0169277191 total_ms=0.0419616699
+ABLATION_STAGE graph=tail_137 schedule=identity repeat=2 layer1_ms=0.0197887421 relu_ms=0.00214576721 interlayer_ms=0.00286102295 layer2_ms=0.0190734863 total_ms=0.0438690186
+ABLATION_COMPLETE graph=tail_137 pass=1

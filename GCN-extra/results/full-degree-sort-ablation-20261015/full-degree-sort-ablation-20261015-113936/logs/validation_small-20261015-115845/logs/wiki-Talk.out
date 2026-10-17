@@ -1,0 +1,59 @@
+GCN E2E v3 — Hybrid Pipeline (FP32 inter-layer + BF16 final)
+Threads: 32
+
+Loading: /home/huangjianqiang_group/hdacp1/data/yx/TFS/data/wiki-Talk/wiki-Talk.csrbin
+Matrix: wiki-Talk  N=2394385  NNZ=5021410  avg_deg=2.1
+
+=== TFS V3 Hybrid Pipeline ===
+  run 0: 105.84 ms
+  run 1: 105.98 ms
+  run 2: 105.36 ms
+  run 3: 104.31 ms
+  run 4: 105.96 ms
+  TFS V3 E2E BEST: 104.31 ms
+
+=== MKL FP32 Two-Step ===
+  run 0: 96.65 ms
+  run 1: 91.23 ms
+  run 2: 91.33 ms
+  run 3: 91.32 ms
+  run 4: 90.95 ms
+  MKL E2E BEST: 90.95 ms
+
+=== E2E Summary ===
+  TFS V3 (hybrid): 104.31 ms
+  MKL (FP32):      90.95 ms
+  E2E Speedup:     0.87×
+
+=== Precision ===
+  TFS_hybrid vs MKL_FP32: max_rel_err=0.010017  RMSE=3.4860e+01
+First 8:
+  TFS: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  MKL: 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+ABLATION_CHECK graph=wiki-Talk l1_bitwise=1 l2_bitwise=1 pass=1
+ABLATION_WORK graph=wiki-Talk schedule=degree nonempty_tiles=9227 padded_row_steps=5363526 real_edges=5021410 max_degree=100022 amx_dpbf16ps_per_layer=295264
+ABLATION_WORK graph=wiki-Talk schedule=identity nonempty_tiles=42027 padded_row_steps=43434384 real_edges=5021410 max_degree=100022 amx_dpbf16ps_per_layer=1344864
+ABLATION_SETUP graph=wiki-Talk degree_sort_ms=39.2808914 identity_init_ms=0.634908676 included_in_prepared_e2e=0
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=0 order=0 prepared_e2e_ms=43.8919067
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=0 order=1 prepared_e2e_ms=29.6509266
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=1 order=0 prepared_e2e_ms=29.9911499
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=1 order=1 prepared_e2e_ms=47.0759869
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=2 order=0 prepared_e2e_ms=44.1219807
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=2 order=1 prepared_e2e_ms=30.0869942
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=3 order=0 prepared_e2e_ms=31.8739414
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=3 order=1 prepared_e2e_ms=45.4552174
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=4 order=0 prepared_e2e_ms=45.9170341
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=4 order=1 prepared_e2e_ms=32.3739052
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=5 order=0 prepared_e2e_ms=32.2408676
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=5 order=1 prepared_e2e_ms=48.2239723
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=6 order=0 prepared_e2e_ms=44.9728966
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=6 order=1 prepared_e2e_ms=32.4478149
+ABLATION_TIME graph=wiki-Talk schedule=identity repeat=7 order=0 prepared_e2e_ms=30.4739475
+ABLATION_TIME graph=wiki-Talk schedule=degree repeat=7 order=1 prepared_e2e_ms=45.6039906
+ABLATION_STAGE graph=wiki-Talk schedule=degree repeat=0 layer1_ms=18.9299583 relu_ms=3.47113609 interlayer_ms=4.55999374 layer2_ms=19.6838379 total_ms=46.6449261
+ABLATION_STAGE graph=wiki-Talk schedule=degree repeat=1 layer1_ms=21.8269825 relu_ms=3.48687172 interlayer_ms=4.58908081 layer2_ms=17.3270702 total_ms=47.2300053
+ABLATION_STAGE graph=wiki-Talk schedule=degree repeat=2 layer1_ms=20.072937 relu_ms=3.48711014 interlayer_ms=4.57286835 layer2_ms=17.9259777 total_ms=46.0588932
+ABLATION_STAGE graph=wiki-Talk schedule=identity repeat=0 layer1_ms=12.9129887 relu_ms=3.49521637 interlayer_ms=4.58979607 layer2_ms=11.4300251 total_ms=32.4280262
+ABLATION_STAGE graph=wiki-Talk schedule=identity repeat=1 layer1_ms=13.3969784 relu_ms=3.47805023 interlayer_ms=5.13601303 layer2_ms=10.4649067 total_ms=32.4759483
+ABLATION_STAGE graph=wiki-Talk schedule=identity repeat=2 layer1_ms=11.8410587 relu_ms=3.51595879 interlayer_ms=4.57310677 layer2_ms=9.66095924 total_ms=29.5910835
+ABLATION_COMPLETE graph=wiki-Talk pass=1

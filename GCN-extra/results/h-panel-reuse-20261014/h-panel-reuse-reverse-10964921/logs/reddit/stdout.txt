@@ -1,0 +1,51 @@
+CONFIG graph=reddit N=232965 E=114615892 threads=32 repeats=5 seed=12345 R=64 TR=16 D=128 F=128
+WORK method=A0_original gathered_neighbors=229231784 h_source_logical_bytes=58683336704 hbuf_copy_bytes=58683336704 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=0 c_state_load_tiles=0 c_state_store_tiles=0
+WORK method=A1_step gathered_neighbors=114615892 h_source_logical_bytes=29341668352 hbuf_copy_bytes=29341668352 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=7187514 c_state_load_tiles=57383624 c_state_store_tiles=57383624
+WORK method=A2_window8 gathered_neighbors=114615892 h_source_logical_bytes=29341668352 hbuf_copy_bytes=29341668352 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=904904 c_state_load_tiles=7122744 c_state_store_tiles=7122744
+WORK method=A3_window16 gathered_neighbors=114615892 h_source_logical_bytes=29341668352 hbuf_copy_bytes=29341668352 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=912450 c_state_load_tiles=7183112 c_state_store_tiles=7183112
+WORK method=A4_window32 gathered_neighbors=114615892 h_source_logical_bytes=29341668352 hbuf_copy_bytes=29341668352 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=231977 c_state_load_tiles=1739328 c_state_store_tiles=1739328
+WORK method=A5_window64 gathered_neighbors=114615892 h_source_logical_bytes=29341668352 hbuf_copy_bytes=29341668352 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=119990 c_state_load_tiles=843432 c_state_store_tiles=843432
+WORK method=control_window16_duplicate_gather gathered_neighbors=229231784 h_source_logical_bytes=58683336704 hbuf_copy_bytes=58683336704 h_tile_loads=57500112 w_tile_loads=230000448 tdp=230000448 windows=912450 c_state_load_tiles=7183112 c_state_store_tiles=7183112
+CHECK method=A0_original l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A1_step l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A2_window8 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A3_window16 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A4_window32 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=A5_window64 l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+CHECK method=control_window16_duplicate_gather l1_fp32_bits=1 interlayer_bf16_bits=1 l2_bf16_bits=1 pass=1
+TIME graph=reddit method=A0_original rep=0 order=0 layer1_ms=157.859130859 relu_ms=0.369873047 conversion_ms=1.699951172 layer2_ms=151.574218750 total_ms=311.503173828
+TIME graph=reddit method=A1_step rep=0 order=1 layer1_ms=182.145019531 relu_ms=0.399902344 conversion_ms=1.965820312 layer2_ms=178.392333984 total_ms=362.903076172
+TIME graph=reddit method=A2_window8 rep=0 order=2 layer1_ms=136.713867188 relu_ms=0.386962891 conversion_ms=1.852050781 layer2_ms=136.264160156 total_ms=275.217041016
+TIME graph=reddit method=A3_window16 rep=0 order=3 layer1_ms=126.347900391 relu_ms=0.384765625 conversion_ms=1.938232422 layer2_ms=124.737060547 total_ms=253.407958984
+TIME graph=reddit method=A4_window32 rep=0 order=4 layer1_ms=116.865234375 relu_ms=0.386962891 conversion_ms=1.915039062 layer2_ms=116.979980469 total_ms=236.147216797
+TIME graph=reddit method=A5_window64 rep=0 order=5 layer1_ms=115.936035156 relu_ms=0.398925781 conversion_ms=1.906005859 layer2_ms=114.989990234 total_ms=233.230957031
+TIME graph=reddit method=control_window16_duplicate_gather rep=0 order=6 layer1_ms=171.417968750 relu_ms=0.368164062 conversion_ms=1.813964844 layer2_ms=154.561035156 total_ms=328.161132812
+TIME graph=reddit method=control_window16_duplicate_gather rep=1 order=0 layer1_ms=175.953125000 relu_ms=0.382080078 conversion_ms=1.886962891 layer2_ms=171.559082031 total_ms=349.781250000
+TIME graph=reddit method=A5_window64 rep=1 order=1 layer1_ms=118.355957031 relu_ms=0.382080078 conversion_ms=1.814941406 layer2_ms=116.143066406 total_ms=236.696044922
+TIME graph=reddit method=A4_window32 rep=1 order=2 layer1_ms=120.468994141 relu_ms=0.402099609 conversion_ms=1.889892578 layer2_ms=120.373046875 total_ms=243.134033203
+TIME graph=reddit method=A3_window16 rep=1 order=3 layer1_ms=134.020019531 relu_ms=0.383056641 conversion_ms=1.818115234 layer2_ms=120.131835938 total_ms=256.353027344
+TIME graph=reddit method=A2_window8 rep=1 order=4 layer1_ms=131.286865234 relu_ms=0.387207031 conversion_ms=1.944824219 layer2_ms=142.440917969 total_ms=276.059814453
+TIME graph=reddit method=A1_step rep=1 order=5 layer1_ms=174.678222656 relu_ms=0.396972656 conversion_ms=1.958984375 layer2_ms=183.050781250 total_ms=360.084960938
+TIME graph=reddit method=A0_original rep=1 order=6 layer1_ms=163.686035156 relu_ms=0.369140625 conversion_ms=1.688964844 layer2_ms=149.417724609 total_ms=315.161865234
+TIME graph=reddit method=A0_original rep=2 order=0 layer1_ms=162.565917969 relu_ms=0.365966797 conversion_ms=1.693115234 layer2_ms=152.573974609 total_ms=317.198974609
+TIME graph=reddit method=A1_step rep=2 order=1 layer1_ms=189.634765625 relu_ms=0.374023438 conversion_ms=1.859863281 layer2_ms=177.776123047 total_ms=369.644775391
+TIME graph=reddit method=A2_window8 rep=2 order=2 layer1_ms=132.557861328 relu_ms=0.389892578 conversion_ms=1.930175781 layer2_ms=142.950927734 total_ms=277.828857422
+TIME graph=reddit method=A3_window16 rep=2 order=3 layer1_ms=128.099853516 relu_ms=0.380126953 conversion_ms=1.826904297 layer2_ms=132.047119141 total_ms=262.354003906
+TIME graph=reddit method=A4_window32 rep=2 order=4 layer1_ms=125.312988281 relu_ms=0.391845703 conversion_ms=1.777099609 layer2_ms=113.826904297 total_ms=241.308837891
+TIME graph=reddit method=A5_window64 rep=2 order=5 layer1_ms=122.339843750 relu_ms=0.390136719 conversion_ms=1.891845703 layer2_ms=119.016113281 total_ms=243.637939453
+TIME graph=reddit method=control_window16_duplicate_gather rep=2 order=6 layer1_ms=174.377929688 relu_ms=0.374267578 conversion_ms=1.791015625 layer2_ms=163.742919922 total_ms=340.286132812
+TIME graph=reddit method=control_window16_duplicate_gather rep=3 order=0 layer1_ms=164.318603516 relu_ms=0.421142578 conversion_ms=1.895019531 layer2_ms=168.842041016 total_ms=335.476806641
+TIME graph=reddit method=A5_window64 rep=3 order=1 layer1_ms=107.967285156 relu_ms=0.389892578 conversion_ms=1.809814453 layer2_ms=120.682128906 total_ms=230.849121094
+TIME graph=reddit method=A4_window32 rep=3 order=2 layer1_ms=118.737060547 relu_ms=0.385009766 conversion_ms=1.947998047 layer2_ms=124.231933594 total_ms=245.302001953
+TIME graph=reddit method=A3_window16 rep=3 order=3 layer1_ms=118.869873047 relu_ms=0.385986328 conversion_ms=1.938964844 layer2_ms=120.730224609 total_ms=241.925048828
+TIME graph=reddit method=A2_window8 rep=3 order=4 layer1_ms=144.018798828 relu_ms=0.376220703 conversion_ms=1.862792969 layer2_ms=139.757324219 total_ms=286.015136719
+TIME graph=reddit method=A1_step rep=3 order=5 layer1_ms=174.055908203 relu_ms=11.653076172 conversion_ms=1.810791016 layer2_ms=185.291015625 total_ms=372.810791016
+TIME graph=reddit method=A0_original rep=3 order=6 layer1_ms=150.031005859 relu_ms=0.363037109 conversion_ms=1.690185547 layer2_ms=149.095947266 total_ms=301.180175781
+TIME graph=reddit method=A0_original rep=4 order=0 layer1_ms=151.168212891 relu_ms=0.376953125 conversion_ms=1.764160156 layer2_ms=153.088867188 total_ms=306.398193359
+TIME graph=reddit method=A1_step rep=4 order=1 layer1_ms=175.419189453 relu_ms=0.390869141 conversion_ms=1.921875000 layer2_ms=179.912109375 total_ms=357.644042969
+TIME graph=reddit method=A2_window8 rep=4 order=2 layer1_ms=133.148193359 relu_ms=0.393798828 conversion_ms=1.939941406 layer2_ms=134.900146484 total_ms=270.382080078
+TIME graph=reddit method=A3_window16 rep=4 order=3 layer1_ms=120.310058594 relu_ms=0.385009766 conversion_ms=1.934082031 layer2_ms=119.354003906 total_ms=241.983154297
+TIME graph=reddit method=A4_window32 rep=4 order=4 layer1_ms=116.750000000 relu_ms=0.393798828 conversion_ms=1.883056641 layer2_ms=120.610839844 total_ms=239.637695312
+TIME graph=reddit method=A5_window64 rep=4 order=5 layer1_ms=121.788085938 relu_ms=0.408935547 conversion_ms=2.011962891 layer2_ms=116.358154297 total_ms=240.567138672
+TIME graph=reddit method=control_window16_duplicate_gather rep=4 order=6 layer1_ms=163.574951172 relu_ms=0.375976562 conversion_ms=1.907226562 layer2_ms=165.756835938 total_ms=331.614990234
+COMPLETE graph=reddit checks=7 times=35 pass=1
