@@ -1,0 +1,18 @@
+{
+  "id": "consumer-mask-c4-realgraphs-20261018-job10996686-completed",
+  "status": "EXCLUSIVE_REALGRAPH_STAGE_COMPLETED_STRONG_BASELINE_PENDING",
+  "kind": "exclusive_real_graph_sparse_stage_followup",
+  "paper_eligible": false,
+  "job_id": 10996686,
+  "slurm_state": "COMPLETED 0:0",
+  "node": "qhcn818",
+  "elapsed": "00:01:51",
+  "cpu_placement": "32 physical worker CPUs 0-31 on one socket",
+  "report": "results/consumer-mask-c4-kernel-20261018/REALGRAPH_SPARSE_STAGE.md",
+  "report_sha256": "4c1856aeba123cfa9dd420e91b3241bec65364e74ac191cbe9037fe134b85cc3",
+  "raw": "runs/consumer_mask_c4_realgraphs_20261018-01/summary.json",
+  "finding": "Real Indochina-2004 shared-mask median 494.53ms versus identical-plan fanout 789.74ms (1.597x); as-Skitter 1.092x; LiveJournal1 1.003x; Reddit 1.007x.",
+  "major_issue": "Standalone rowwise reference reads/writes output for each edge; canonical FULL reduction keeps eight ZMM accumulators per row. Rowwise-relative pilot speedups are not strong-baseline claims.",
+  "numerical": "All sparse gates passed; BF16 aggregate mismatch counts 1,1,0,51 across fixed four graphs.",
+  "next": "Exclusive same-job register-resident rowwise control before any claim versus canonical FULL or AMX integration."
+}

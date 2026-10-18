@@ -1,0 +1,3499 @@
+{
+  "scope": "2026-10-08 late frontier/recompute/source-partition historical versions only",
+  "snapshot_sha": "9369b9e0491d59e328a99153b6d97314c62285da",
+  "snapshot_prefix": "results/crosslayer-fusion-20261008/runs",
+  "review_date": "2026-10-18",
+  "summary": {
+    "containers": 52,
+    "timing_groups": 106,
+    "paired_raw_rows": 372,
+    "six_sample_upper_median_groups": 18,
+    "event_result_gate_rows_checked": 198,
+    "event_result_gate_rows_absent_from_raw": 0,
+    "partition_rows_checked": 153,
+    "partition_edge_and_unique_duplication_all_pass": true,
+    "window_ratio_rows_checked": 152,
+    "window_ratio_all_pass": true
+  },
+  "review_boundaries": [
+    "52 containers is the exact selected prefix set, not all GCN-extra experiments.",
+    "233639 adaptive build has no compiler log: 12-file inventory confirmed locally and on server.",
+    "372 raw timing pairs include assigned/zero adaptive fallback times and are not all independent measurements.",
+    "Weighted denominator global_weight absent from logs; cannot independently validate weighted ratio without CSR.",
+    "Window lifecycle fixed at 04, but row/column-degree and row/group-unit model concerns remain.",
+    "Batch FAILED status contradicts completed raw gates; exact outer acceptance threshold not recovered.",
+    "No kernel execution, performance rerun, full CSR replay or complete assembly audit."
+  ],
+  "artifacts": [
+    "coverage_late_versions.md",
+    "coverage_late_raw.json",
+    "coverage_late_checks.json",
+    "coverage_late_diffs.txt",
+    "coverage_late_diff_manifest.json"
+  ],
+  "lineage": [
+    {
+      "run": "frontier-certificate-20261008-01",
+      "category": "link_failure",
+      "finding": "std::filesystem undefined references; compile stderr inspected",
+      "file_count": 40,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\certificate_01\\certificate_job.sh",
+          "sha256": "2e4ad7675c801d647d98a4c242c2de1f4cc99db281cc5eac57a2e16b8cc06435",
+          "size": 1603
+        },
+        {
+          "path": "source_snapshot\\certificate_01\\frontier_certificate.cpp",
+          "sha256": "c235e7356f1e8de0ba52d20bcd7c96096b056f045bbc9de483c4db84cce6cf16",
+          "size": 8770
+        },
+        {
+          "path": "source_snapshot\\certificate_01\\run_certificate.py",
+          "sha256": "0022b77346a166e7ed55216c953c3f0f39aa5f0c0f241b6aed56a9a02a150eb3",
+          "size": 5550
+        },
+        {
+          "path": "source_snapshot\\certificate_01\\stage_certificate.py",
+          "sha256": "bef585cc97902314edb4ae735f4a9cd60f0cb23b5a65a3a35625264038154704",
+          "size": 4762
+        },
+        {
+          "path": "source_snapshot\\certificate_01\\verify_certificate.py",
+          "sha256": "88dfa847e5a836f8232be8d388e370ea59439cc7780074ef5f968edb7d149155",
+          "size": 15354
+        },
+        {
+          "path": "source_snapshot\\frontier_structure.cpp",
+          "sha256": "2d7a8ae89203a08f40e24abaf65d21a0c3dfd418a82632bcdc5bb01d23f0f511",
+          "size": 22166
+        },
+        {
+          "path": "source_snapshot\\grouping_schedule.hpp",
+          "sha256": "2dc2a0a978c87959b5523a1ae11e29e74b36e1f447d4f2dbd3dcb62b8d8dab45",
+          "size": 13129
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899017\\event.json",
+          "status": "FAILED",
+          "kind": null,
+          "job": "10899017"
+        },
+        {
+          "path": "compute-10899017\\recovery_event.json",
+          "status": "FAILED_BUILD_RETAINED",
+          "kind": null,
+          "job": "10899017"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899017"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899017\\compile_certificate.stderr.log",
+          "line_count": 13,
+          "errors": [
+            {
+              "line": 2,
+              "text": "frontier_certificate.cpp:(.text+0x9758): undefined reference to `std::filesystem::status(std::filesystem::__cxx11::path const&)'",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `frontier_certificate::run(int, char**)':",
+                "frontier_certificate.cpp:(.text+0x9758): undefined reference to `std::filesystem::status(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0x97da): undefined reference to `std::filesystem::create_directory(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa3fa): undefined reference to `std::filesystem::file_size(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa99e): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'"
+              ]
+            },
+            {
+              "line": 3,
+              "text": "frontier_certificate.cpp:(.text+0x97da): undefined reference to `std::filesystem::create_directory(std::filesystem::__cxx11::path const&)'",
+              "context": [
+                "frontier_certificate.cpp:(.text+0x9758): undefined reference to `std::filesystem::status(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0x97da): undefined reference to `std::filesystem::create_directory(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa3fa): undefined reference to `std::filesystem::file_size(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa99e): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "frontier_certificate.cpp:(.text+0xaf6c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'"
+              ]
+            },
+            {
+              "line": 4,
+              "text": "frontier_certificate.cpp:(.text+0xa3fa): undefined reference to `std::filesystem::file_size(std::filesystem::__cxx11::path const&)'",
+              "context": [
+                "frontier_certificate.cpp:(.text+0x97da): undefined reference to `std::filesystem::create_directory(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa3fa): undefined reference to `std::filesystem::file_size(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa99e): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "frontier_certificate.cpp:(.text+0xaf6c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::path::path<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::filesystem::__cxx11::path>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path::format)':"
+              ]
+            },
+            {
+              "line": 5,
+              "text": "frontier_certificate.cpp:(.text+0xa99e): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+              "context": [
+                "frontier_certificate.cpp:(.text+0xa3fa): undefined reference to `std::filesystem::file_size(std::filesystem::__cxx11::path const&)'",
+                "frontier_certificate.cpp:(.text+0xa99e): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "frontier_certificate.cpp:(.text+0xaf6c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::path::path<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::filesystem::__cxx11::path>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path::format)':",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE[_ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE]+0x8c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'"
+              ]
+            },
+            {
+              "line": 6,
+              "text": "frontier_certificate.cpp:(.text+0xaf6c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+              "context": [
+                "frontier_certificate.cpp:(.text+0xa99e): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "frontier_certificate.cpp:(.text+0xaf6c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::path::path<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::filesystem::__cxx11::path>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path::format)':",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE[_ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE]+0x8c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::operator/(std::filesystem::__cxx11::path const&, std::filesystem::__cxx11::path const&)':"
+              ]
+            },
+            {
+              "line": 8,
+              "text": "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE[_ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE]+0x8c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::path::path<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::filesystem::__cxx11::path>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path::format)':",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE[_ZNSt10filesystem7__cxx114pathC2INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES1_EERKT_NS1_6formatE]+0x8c): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::operator/(std::filesystem::__cxx11::path const&, std::filesystem::__cxx11::path const&)':",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x1d): undefined reference to `std::filesystem::__cxx11::path::has_root_directory() const'",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x39): undefined reference to `std::filesystem::__cxx11::path::has_filename() const'"
+              ]
+            },
+            {
+              "line": 10,
+              "text": "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x1d): undefined reference to `std::filesystem::__cxx11::path::has_root_directory() const'",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/compute-10899017/tmp/icpx-480d96ac15/frontier_certificate-632f15.o: In function `std::filesystem::__cxx11::operator/(std::filesystem::__cxx11::path const&, std::filesystem::__cxx11::path const&)':",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x1d): undefined reference to `std::filesystem::__cxx11::path::has_root_directory() const'",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x39): undefined reference to `std::filesystem::__cxx11::path::has_filename() const'",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x148): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "icpx: error: linker command failed with exit code 1 (use -v to see invocation)"
+              ]
+            },
+            {
+              "line": 11,
+              "text": "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x39): undefined reference to `std::filesystem::__cxx11::path::has_filename() const'",
+              "context": [
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x1d): undefined reference to `std::filesystem::__cxx11::path::has_root_directory() const'",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x39): undefined reference to `std::filesystem::__cxx11::path::has_filename() const'",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x148): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "icpx: error: linker command failed with exit code 1 (use -v to see invocation)"
+              ]
+            },
+            {
+              "line": 12,
+              "text": "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x148): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+              "context": [
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x39): undefined reference to `std::filesystem::__cxx11::path::has_filename() const'",
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x148): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "icpx: error: linker command failed with exit code 1 (use -v to see invocation)"
+              ]
+            },
+            {
+              "line": 13,
+              "text": "icpx: error: linker command failed with exit code 1 (use -v to see invocation)",
+              "context": [
+                "frontier_certificate.cpp:(.text._ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_[_ZNSt10filesystem7__cxx11dvERKNS0_4pathES3_]+0x148): undefined reference to `std::filesystem::__cxx11::path::_M_split_cmpts()'",
+                "icpx: error: linker command failed with exit code 1 (use -v to see invocation)"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "compute-10899017\\suite.log",
+          "line_count": 10,
+          "errors": [
+            {
+              "line": 1,
+              "text": "Traceback (most recent call last):",
+              "context": [
+                "Traceback (most recent call last):",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/source_snapshot/certificate_01/run_certificate.py\", line 91, in <module>",
+                "    try:main()",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/frontier-certificate-20261008-01/source_snapshot/certificate_01/run_certificate.py\", line 44, in main"
+              ]
+            },
+            {
+              "line": 8,
+              "text": "AssertionError: ('compile_certificate', 1)",
+              "context": [
+                "    assert ret.returncode==0,(label,ret.returncode)",
+                "AssertionError: ('compile_certificate', 1)",
+                "srun: error: qhcn006: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899017.0"
+              ]
+            },
+            {
+              "line": 9,
+              "text": "srun: error: qhcn006: task 0: Exited with exit code 1",
+              "context": [
+                "AssertionError: ('compile_certificate', 1)",
+                "srun: error: qhcn006: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899017.0"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "slurm-10899017.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "frontier-certificate-20261008-02",
+      "category": "link_fix",
+      "finding": "Adds -lstdc++fs; certificate C++ byte-identical to 01; restricted certificate completes",
+      "file_count": 121,
+      "record_tag_counts": {
+        "GROUP_NATIVE_PERM": 5,
+        "GROUP_SETUP": 45,
+        "GROUP_GUARD_PROBE": 20,
+        "GROUP_GUARD_SELECT": 5,
+        "GROUP_AUDIT": 25,
+        "FRONTIER_ORDER": 15,
+        "FRONTIER_ANALYSIS": 5
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\certificate_02\\certificate_job.sh",
+          "sha256": "fdb7063773eb5e2ba2a62b6cd4923a198cd3bc8c8625998ec044a6caecb49aa6",
+          "size": 1603
+        },
+        {
+          "path": "source_snapshot\\certificate_02\\frontier_certificate.cpp",
+          "sha256": "c235e7356f1e8de0ba52d20bcd7c96096b056f045bbc9de483c4db84cce6cf16",
+          "size": 8770
+        },
+        {
+          "path": "source_snapshot\\certificate_02\\run_certificate.py",
+          "sha256": "8b5273f907b705fb99c170b1a5cf56fd9fec6643717cae3ed6e952be22ff7a00",
+          "size": 5563
+        },
+        {
+          "path": "source_snapshot\\certificate_02\\stage_certificate.py",
+          "sha256": "d2f7e23fc117c245aa775af8fa72374e417707e2b02ba933f3afd67cfafdbef0",
+          "size": 4768
+        },
+        {
+          "path": "source_snapshot\\certificate_02\\verify_certificate.py",
+          "sha256": "88dfa847e5a836f8232be8d388e370ea59439cc7780074ef5f968edb7d149155",
+          "size": 15354
+        },
+        {
+          "path": "source_snapshot\\frontier_structure.cpp",
+          "sha256": "2d7a8ae89203a08f40e24abaf65d21a0c3dfd418a82632bcdc5bb01d23f0f511",
+          "size": 22166
+        },
+        {
+          "path": "source_snapshot\\grouping_schedule.hpp",
+          "sha256": "2dc2a0a978c87959b5523a1ae11e29e74b36e1f447d4f2dbd3dcb62b8d8dab45",
+          "size": 13129
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899028\\event.json",
+          "status": "PASS",
+          "kind": null,
+          "job": "10899028"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899028"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899028\\mycielskian19\\native.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\mycielskian19\\verify.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\reddit\\native.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\reddit\\verify.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\capacity_two\\certificate.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\capacity_two\\reference.stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\cycle33\\certificate.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\cycle33\\reference.stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\empty\\certificate.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\empty\\reference.stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\repeated\\certificate.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\repeated\\reference.stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\self17\\certificate.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest\\self17\\reference.stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\selftest.stdout.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10899028\\suite.log",
+          "line_count": 4,
+          "errors": []
+        },
+        {
+          "path": "slurm-10899028.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "frontier-structure-20261008-01",
+      "category": "structural_run",
+      "finding": "Structural/oracle and deliberate malformed-input checks; not kernel timing",
+      "file_count": 324,
+      "record_tag_counts": {
+        "GROUP_NATIVE_PERM": 4,
+        "GROUP_SETUP": 36,
+        "GROUP_GUARD_PROBE": 16,
+        "GROUP_GUARD_SELECT": 4,
+        "GROUP_AUDIT": 20,
+        "FRONTIER_ORDER": 12,
+        "FRONTIER_ANALYSIS": 4
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\audit_frontier.py",
+          "sha256": "ea75cff52b94b7c9f655c0c765434670ef981d55be2f667efcab962b73ba51c4",
+          "size": 19022
+        },
+        {
+          "path": "source_snapshot\\frontier_structure.cpp",
+          "sha256": "2d7a8ae89203a08f40e24abaf65d21a0c3dfd418a82632bcdc5bb01d23f0f511",
+          "size": 22166
+        },
+        {
+          "path": "source_snapshot\\grouping_schedule.hpp",
+          "sha256": "2dc2a0a978c87959b5523a1ae11e29e74b36e1f447d4f2dbd3dcb62b8d8dab45",
+          "size": 13129
+        },
+        {
+          "path": "source_snapshot\\run_structure.py",
+          "sha256": "3fa19d7ae8343a45709c19fd91f5ff0fc077400e453b2e73a143684982e20840",
+          "size": 5294
+        },
+        {
+          "path": "source_snapshot\\stage_and_submit.py",
+          "sha256": "72059d1b78209687393b6fde72797f2779a21c1dc0c85b4f782923a85b57e016",
+          "size": 4636
+        },
+        {
+          "path": "source_snapshot\\structure_job.sh",
+          "sha256": "e3ba3b583ef5dbac8238cfe3537753b7d344549cae9f57b994cfe8631eb445c4",
+          "size": 1872
+        },
+        {
+          "path": "source_snapshot\\validate_real.py",
+          "sha256": "1d767f15000d0e861f33360f9188b42a034cf2ca3ac203c8047e72db30e5eec6",
+          "size": 4877
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10898893\\event.json",
+          "status": "PASS",
+          "kind": null,
+          "job": "10898893"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10898893"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10898893\\amazon0601\\stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\amazon0601\\validation.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\mycielskian19\\stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\mycielskian19\\validation.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle\\fixtures\\malformed_column_out_of_bounds.stderr.txt",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle\\fixtures\\malformed_non_square.stderr.txt",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle\\fixtures\\malformed_rowptr_out_of_bounds.stderr.txt",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle\\fixtures\\malformed_truncated_header.stderr.txt",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle\\fixtures\\malformed_truncated_payload.stderr.txt",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle\\fixtures\\malformed_wrong_version.stderr.txt",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\oracle.stdout.log",
+          "line_count": 12,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\reddit\\stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\reddit\\validation.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\roadNet-CA\\stdout.log",
+          "line_count": 24,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\roadNet-CA\\validation.log",
+          "line_count": 1,
+          "errors": []
+        },
+        {
+          "path": "compute-10898893\\suite.log",
+          "line_count": 8,
+          "errors": []
+        },
+        {
+          "path": "slurm-10898893.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-audit-20261008-01",
+      "category": "staging_failure",
+      "finding": "Missing frozen frontier_prior_inputs.json; stage.py NAMES fixed next version",
+      "file_count": 25,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\audit_job.sh",
+          "sha256": "c8bcdfad5e71d68dcb5f8fd95194eef858f0073e922d3a0f65ca58ab322793a0",
+          "size": 1472
+        },
+        {
+          "path": "source_snapshot\\recompute_audit.py",
+          "sha256": "518c403c04df4921f3b70d14e51dc58a8805ea6b564efb91cc9df5ebde043f72",
+          "size": 4937
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "6272ae736771ae840f5686cf55dfa26b9c31987883dac0cb1d2ddd67f616a6b7",
+          "size": 3222
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899639\\event.json",
+          "status": "FAILED",
+          "kind": null,
+          "job": "10899639"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899639"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899639\\suite.log",
+          "line_count": 14,
+          "errors": [
+            {
+              "line": 1,
+              "text": "Traceback (most recent call last):",
+              "context": [
+                "Traceback (most recent call last):",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-01/source_snapshot/recompute_audit.py\", line 85, in <module>",
+                "    if __name__=='__main__': main()",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-01/source_snapshot/recompute_audit.py\", line 76, in main"
+              ]
+            },
+            {
+              "line": 12,
+              "text": "FileNotFoundError: [Errno 2] No such file or directory: '/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-01/source_snapshot/frontier_prior_inputs.json'",
+              "context": [
+                "    return self._accessor.open(self, flags, mode)",
+                "FileNotFoundError: [Errno 2] No such file or directory: '/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-01/source_snapshot/frontier_prior_inputs.json'",
+                "srun: error: qhcn006: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899639.0"
+              ]
+            },
+            {
+              "line": 13,
+              "text": "srun: error: qhcn006: task 0: Exited with exit code 1",
+              "context": [
+                "FileNotFoundError: [Errno 2] No such file or directory: '/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-01/source_snapshot/frontier_prior_inputs.json'",
+                "srun: error: qhcn006: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899639.0"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "slurm-10899639.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-audit-20261008-02",
+      "category": "python_failure",
+      "finding": "Hash sentinel b causes UnboundLocalError; next version uses b''",
+      "file_count": 26,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\audit_job.sh",
+          "sha256": "c8bcdfad5e71d68dcb5f8fd95194eef858f0073e922d3a0f65ca58ab322793a0",
+          "size": 1472
+        },
+        {
+          "path": "source_snapshot\\recompute_audit.py",
+          "sha256": "518c403c04df4921f3b70d14e51dc58a8805ea6b564efb91cc9df5ebde043f72",
+          "size": 4937
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "6a374bb539f88799d98704427875ac6e899f1cf3c3af960ea25e49d8e4fa2edd",
+          "size": 3317
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899667\\event.json",
+          "status": "FAILED",
+          "kind": null,
+          "job": "10899667"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899667"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899667\\suite.log",
+          "line_count": 12,
+          "errors": [
+            {
+              "line": 1,
+              "text": "Traceback (most recent call last):",
+              "context": [
+                "Traceback (most recent call last):",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-02/source_snapshot/recompute_audit.py\", line 85, in <module>",
+                "    if __name__=='__main__': main()",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-audit-20261008-02/source_snapshot/recompute_audit.py\", line 78, in main"
+              ]
+            },
+            {
+              "line": 10,
+              "text": "UnboundLocalError: local variable 'b' referenced before assignment",
+              "context": [
+                "    for b in iter(lambda:f.read(8*1024*1024),b): h.update(b)",
+                "UnboundLocalError: local variable 'b' referenced before assignment",
+                "srun: error: qhcn006: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899667.0"
+              ]
+            },
+            {
+              "line": 11,
+              "text": "srun: error: qhcn006: task 0: Exited with exit code 1",
+              "context": [
+                "UnboundLocalError: local variable 'b' referenced before assignment",
+                "srun: error: qhcn006: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899667.0"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "slurm-10899667.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-audit-20261008-03",
+      "category": "cancelled_incomplete",
+      "finding": "Python per-edge scan cancelled; no result JSON despite event exit_code 0",
+      "file_count": 27,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\audit_job.sh",
+          "sha256": "c8bcdfad5e71d68dcb5f8fd95194eef858f0073e922d3a0f65ca58ab322793a0",
+          "size": 1472
+        },
+        {
+          "path": "source_snapshot\\recompute_audit.py",
+          "sha256": "54b07362e73e42b7e0c32b5347bc43991e05f35e984ccc82bbd9cd78cbfc90be",
+          "size": 5024
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "823355de8aa1f168e4e46a196e292d2e19b54a5f769bcae22a2ebb3f0ef690e9",
+          "size": 3320
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899674\\event.json",
+          "status": "FAILED",
+          "kind": null,
+          "job": "10899674"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899674"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899674\\suite.log",
+          "line_count": 4,
+          "errors": [
+            {
+              "line": 1,
+              "text": "srun: Job step aborted: Waiting up to 32 seconds for job step to finish.",
+              "context": [
+                "srun: Job step aborted: Waiting up to 32 seconds for job step to finish.",
+                "slurmstepd-qhcn006: error: *** STEP 10899674.0 ON qhcn006 CANCELLED AT 2026-10-08T17:37:43 ***",
+                "srun: error: qhcn006: task 0: Terminated",
+                "srun: Terminating StepId=10899674.0"
+              ]
+            },
+            {
+              "line": 2,
+              "text": "slurmstepd-qhcn006: error: *** STEP 10899674.0 ON qhcn006 CANCELLED AT 2026-10-08T17:37:43 ***",
+              "context": [
+                "srun: Job step aborted: Waiting up to 32 seconds for job step to finish.",
+                "slurmstepd-qhcn006: error: *** STEP 10899674.0 ON qhcn006 CANCELLED AT 2026-10-08T17:37:43 ***",
+                "srun: error: qhcn006: task 0: Terminated",
+                "srun: Terminating StepId=10899674.0"
+              ]
+            },
+            {
+              "line": 3,
+              "text": "srun: error: qhcn006: task 0: Terminated",
+              "context": [
+                "slurmstepd-qhcn006: error: *** STEP 10899674.0 ON qhcn006 CANCELLED AT 2026-10-08T17:37:43 ***",
+                "srun: error: qhcn006: task 0: Terminated",
+                "srun: Terminating StepId=10899674.0"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "slurm-10899674.err",
+          "line_count": 11,
+          "errors": [
+            {
+              "line": 11,
+              "text": "slurmstepd-qhcn006: error: *** JOB 10899674 ON qhcn006 CANCELLED AT 2026-10-08T17:37:43 ***",
+              "context": [
+                "    intel/intel-tbb/2021.9.0/intel2021.10.0-lute5pk",
+                "slurmstepd-qhcn006: error: *** JOB 10899674 ON qhcn006 CANCELLED AT 2026-10-08T17:37:43 ***"
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-audit-20261008-04",
+      "category": "prepared_only",
+      "finding": "Five files, no job or result",
+      "file_count": 5,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\audit_job.sh",
+          "sha256": "abe0a2637f1dfc827832720fd4e1d36390c668af9429a90238940074cee51e09",
+          "size": 1441
+        },
+        {
+          "path": "source_snapshot\\recompute_scan.cpp",
+          "sha256": "b152653c06773178368b73b3997b54e5f49ad15932195a8b8a57b0acb81abbb3",
+          "size": 4539
+        },
+        {
+          "path": "source_snapshot\\run.py",
+          "sha256": "0cfb340b93831bbf81150bb7c19f6c00a12f2b89f34e54820f185dadc0f614db",
+          "size": 2799
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "f559729700b10b06d4c5be56a7a177db983f0580c495d36307827d13b30be5a2",
+          "size": 3980
+        }
+      ],
+      "event_evidence": [],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-audit-20261008-05",
+      "category": "scanner_rewrite",
+      "finding": "C++ two-pass/sort structural scan completes four graphs; not inference kernel",
+      "file_count": 53,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\audit_job.sh",
+          "sha256": "abe0a2637f1dfc827832720fd4e1d36390c668af9429a90238940074cee51e09",
+          "size": 1441
+        },
+        {
+          "path": "source_snapshot\\recompute_scan.cpp",
+          "sha256": "b152653c06773178368b73b3997b54e5f49ad15932195a8b8a57b0acb81abbb3",
+          "size": 4539
+        },
+        {
+          "path": "source_snapshot\\run.py",
+          "sha256": "0cfb340b93831bbf81150bb7c19f6c00a12f2b89f34e54820f185dadc0f614db",
+          "size": 2799
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "c38cda81fc0ddd75743af5832d8ea4d349a319e7711ae549752650f351df5750",
+          "size": 4051
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899784\\event.json",
+          "status": "PASS",
+          "kind": null,
+          "job": "10899784"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899784"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899784\\suite.log",
+          "line_count": 4,
+          "errors": []
+        },
+        {
+          "path": "slurm-10899784.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-20261008-01",
+      "category": "structural_run_superseded_counter",
+      "finding": "PASS with four graphs; old lifecycle counter superseded by 04",
+      "file_count": 54,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_scan.cpp",
+          "sha256": "b152653c06773178368b73b3997b54e5f49ad15932195a8b8a57b0acb81abbb3",
+          "size": 4539
+        },
+        {
+          "path": "source_snapshot\\run.py",
+          "sha256": "e7badf3eac580c6f0224587f1e546f4e90e8b2e23491845fce6cae944fbe2c6d",
+          "size": 2093
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "d90c75e7f9fda65f5f30258b136f8d5cfed44cf39cf297ee714b91e1b8855c91",
+          "size": 3339
+        },
+        {
+          "path": "source_snapshot\\window_job.sh",
+          "sha256": "f863a76fcf7a9ecdd80c25072c19183ed2173f4ab9ee818b684243476d78a8d6",
+          "size": 1435
+        },
+        {
+          "path": "source_snapshot\\window_scan.cpp",
+          "sha256": "d83f4c5ad605342f83a793e42dfe10ae2c74bd5a6a93439de6e3ff3e2860bb39",
+          "size": 3271
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899912\\event.json",
+          "status": "PASS",
+          "kind": null,
+          "job": "10899912"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899912"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899912\\suite.log",
+          "line_count": 4,
+          "errors": []
+        },
+        {
+          "path": "slurm-10899912.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-20261008-02",
+      "category": "compile_failure_new_mode",
+      "finding": "Adds -1 mode but unsigned loop causes narrowing into int32 field",
+      "file_count": 32,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_scan.cpp",
+          "sha256": "b152653c06773178368b73b3997b54e5f49ad15932195a8b8a57b0acb81abbb3",
+          "size": 4539
+        },
+        {
+          "path": "source_snapshot\\run.py",
+          "sha256": "e7badf3eac580c6f0224587f1e546f4e90e8b2e23491845fce6cae944fbe2c6d",
+          "size": 2093
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "1735e703a0d2a984fa2e149d9a4704ff5a0c18c615987af9ebc3846347dc3f23",
+          "size": 3394
+        },
+        {
+          "path": "source_snapshot\\window_job.sh",
+          "sha256": "f863a76fcf7a9ecdd80c25072c19183ed2173f4ab9ee818b684243476d78a8d6",
+          "size": 1435
+        },
+        {
+          "path": "source_snapshot\\window_scan.cpp",
+          "sha256": "3032fa8d8148f2f60ebf9b4ecd9e722535aab8987aea1f18ac3ceed0a3d991d6",
+          "size": 3368
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899982\\event.json",
+          "status": "FAILED",
+          "kind": null,
+          "job": "10899982"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899982"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899982\\compile.stderr.log",
+          "line_count": 8,
+          "errors": [
+            {
+              "line": 1,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-20261008-02/source_snapshot/window_scan.cpp:23:92: error: non-constant-expression cannot be narrowed from type 'uint32_t' (aka 'unsigned int') to 'int32_t' (aka 'int') in initializer list [-Wc++11-narrowing]",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-20261008-02/source_snapshot/window_scan.cpp:23:92: error: non-constant-expression cannot be narrowed from type 'uint32_t' (aka 'unsigned int') to 'int32_t' (aka 'int') in initializer list [-Wc++11-narrowing]",
+                "   23 |   std::vector<WindowMetric> metrics; for(uint32_t w:windows)metrics.push_back(WindowMetric{w});",
+                "      |                                                                                            ^",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-20261008-02/source_snapshot/window_scan.cpp:23:92: note: insert an explicit cast to silence this issue"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "compute-10899982\\suite.log",
+          "line_count": 10,
+          "errors": [
+            {
+              "line": 1,
+              "text": "Traceback (most recent call last):",
+              "context": [
+                "Traceback (most recent call last):",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-20261008-02/source_snapshot/run.py\", line 35, in <module>",
+                "    if __name__=='__main__': main()",
+                "  File \"/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-20261008-02/source_snapshot/run.py\", line 28, in main"
+              ]
+            },
+            {
+              "line": 8,
+              "text": "AssertionError: ('compile', 1)",
+              "context": [
+                "    save(run/(label+'.exit.json'),{'exit_code':ret.returncode}); assert ret.returncode==0,(label,ret.returncode)",
+                "AssertionError: ('compile', 1)",
+                "srun: error: qhcn282: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899982.0"
+              ]
+            },
+            {
+              "line": 9,
+              "text": "srun: error: qhcn282: task 0: Exited with exit code 1",
+              "context": [
+                "AssertionError: ('compile', 1)",
+                "srun: error: qhcn282: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10899982.0"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "slurm-10899982.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-20261008-03",
+      "category": "compile_fix_old_counter",
+      "finding": "Signed loop fixes build; four graphs, thirteen windows; old lifecycle counter",
+      "file_count": 54,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_scan.cpp",
+          "sha256": "b152653c06773178368b73b3997b54e5f49ad15932195a8b8a57b0acb81abbb3",
+          "size": 4539
+        },
+        {
+          "path": "source_snapshot\\run.py",
+          "sha256": "e7badf3eac580c6f0224587f1e546f4e90e8b2e23491845fce6cae944fbe2c6d",
+          "size": 2093
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "6142ac96200944e38df31578c9c92f50e1576c601ea08e308f42614754188b73",
+          "size": 3394
+        },
+        {
+          "path": "source_snapshot\\window_job.sh",
+          "sha256": "f863a76fcf7a9ecdd80c25072c19183ed2173f4ab9ee818b684243476d78a8d6",
+          "size": 1435
+        },
+        {
+          "path": "source_snapshot\\window_scan.cpp",
+          "sha256": "fdd424023e5f2d87b5418b0249cbfbcd726994ac3ccbe439e68fc7741889d9f7",
+          "size": 3418
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10899992\\event.json",
+          "status": "PASS",
+          "kind": null,
+          "job": "10899992"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10899992"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10899992\\suite.log",
+          "line_count": 4,
+          "errors": []
+        },
+        {
+          "path": "slurm-10899992.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-20261008-04",
+      "category": "lifecycle_model_fix",
+      "finding": "Subsequent regeneration groups now begin lifetime at starts[g] instead of original producer",
+      "file_count": 54,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_scan.cpp",
+          "sha256": "b152653c06773178368b73b3997b54e5f49ad15932195a8b8a57b0acb81abbb3",
+          "size": 4539
+        },
+        {
+          "path": "source_snapshot\\run.py",
+          "sha256": "e7badf3eac580c6f0224587f1e546f4e90e8b2e23491845fce6cae944fbe2c6d",
+          "size": 2093
+        },
+        {
+          "path": "source_snapshot\\stage.py",
+          "sha256": "11f117e14e05390904f43867c9a58e99eed635de3edc90819824cbc9276172ac",
+          "size": 3394
+        },
+        {
+          "path": "source_snapshot\\window_job.sh",
+          "sha256": "f863a76fcf7a9ecdd80c25072c19183ed2173f4ab9ee818b684243476d78a8d6",
+          "size": 1435
+        },
+        {
+          "path": "source_snapshot\\window_scan.cpp",
+          "sha256": "fd2185cb82cf669dd568897a953d115e35d6f39a2640cb45f48588092c3aba2c",
+          "size": 3429
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "compute-10900001\\event.json",
+          "status": "PASS",
+          "kind": null,
+          "job": "10900001"
+        },
+        {
+          "path": "submission_event.json",
+          "status": "SUBMITTED",
+          "kind": null,
+          "job": "10900001"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "compute-10900001\\suite.log",
+          "line_count": 4,
+          "errors": []
+        },
+        {
+          "path": "slurm-10900001.err",
+          "line_count": 10,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-adaptive-20261008-233857",
+      "category": "adaptive_run_invalid_fallback_timing",
+      "finding": "Road fused timed; Amazon/Reddit zero candidate time is not speedup",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PLAN": 3,
+        "ADAPT_RUN": 18,
+        "ADAPT_RESULT": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_adaptive",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 24,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-adaptive-20261008-234255",
+      "category": "adaptive_run_fallback_not_independent",
+      "finding": "Road fused timed; fallback 1.0 is assignment, not independent timing",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PLAN": 3,
+        "ADAPT_RUN": 18,
+        "ADAPT_RESULT": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_adaptive",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 24,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-adaptive-build-20261008-233758",
+      "category": "adaptive_prototype_v1",
+      "finding": "No warmup; fallback returns zero candidate time and copies baseline output",
+      "file_count": 18,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_adaptive.cpp",
+          "sha256": "5cb9f76aff0413e1baab026e1e472ff1cdd3d9865f2749e48aff685e23394de5",
+          "size": 12979
+        },
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_adaptive_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-adaptive-build-20261008-234221",
+      "category": "measurement_fix_partial",
+      "finding": "Adds warmup and fallback baseline rerun; assigns candidate time equal baseline time",
+      "file_count": 18,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_adaptive.cpp",
+          "sha256": "14afb9d04ce058c3ef0fc953517410f88e2405371cfa34a91ee702a0ed763899",
+          "size": 13655
+        },
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_adaptive_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-batch-20261008-221757",
+      "category": "input_path_failure",
+      "finding": "Cannot open roadNet-CA CSR; srun exit 1; no PAR results",
+      "file_count": 13,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_batch",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 36,
+          "errors": [
+            {
+              "line": 1,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.0",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 2,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.0",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 4,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.0",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.1",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 5,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.1",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 7,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.1",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.2",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 8,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.2",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 10,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.2",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.3",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 11,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.3",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 13,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.3",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.4",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 14,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.4",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 16,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.4",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.5",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 17,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.5",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 19,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.5",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.6",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 20,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.6",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 22,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.6",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.7",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 23,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.7",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 25,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.7",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.8",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 26,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.8",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 28,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.8",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.9",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 29,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.9",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 31,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.9",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.10",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 32,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.10",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 34,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902098.10",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.11"
+              ]
+            },
+            {
+              "line": 35,
+              "text": "srun: error: qhcn064: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn064: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902098.11"
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-batch-20261008-222234",
+      "category": "outer_status_disagrees_with_raw",
+      "finding": "108 pairs/36 results/36 gates exact=1, event FAILED; acceptance script not recovered",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PAR_RUN": 108,
+        "PAR_RESULT": 36,
+        "PAR_GATE": 36
+      },
+      "timing_groups": 36,
+      "paired_raw_rows": 108,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_batch",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 180,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-batch-20261008-222602",
+      "category": "input_path_failure",
+      "finding": "Cannot open roadNet-CA CSR; srun exit 1; no PAR results",
+      "file_count": 13,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_batch",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 36,
+          "errors": [
+            {
+              "line": 1,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.0",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 2,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.0",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 4,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.0",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.1",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 5,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.1",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 7,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.1",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.2",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 8,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.2",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 10,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.2",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.3",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 11,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.3",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 13,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.3",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.4",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 14,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.4",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 16,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.4",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.5",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 17,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.5",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 19,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.5",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.6",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 20,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.6",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 22,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.6",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.7",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 23,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.7",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 25,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.7",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.8",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 26,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.8",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 28,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.8",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.9",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 29,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.9",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 31,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.9",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.10",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin"
+              ]
+            },
+            {
+              "line": 32,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.10",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1"
+              ]
+            },
+            {
+              "line": 34,
+              "text": "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+              "context": [
+                "srun: Terminating StepId=10902079.10",
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.11"
+              ]
+            },
+            {
+              "line": 35,
+              "text": "srun: error: qhcn819: task 0: Exited with exit code 1",
+              "context": [
+                "Cannot open /home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/data/roadNet-CA/roadNet-CA.csrbin",
+                "srun: error: qhcn819: task 0: Exited with exit code 1",
+                "srun: Terminating StepId=10902079.11"
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-batch-20261008-222837",
+      "category": "outer_status_disagrees_with_raw",
+      "finding": "108 pairs/36 results/36 gates exact=1, event FAILED; acceptance script not recovered",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PAR_RUN": 108,
+        "PAR_RESULT": 36,
+        "PAR_GATE": 36
+      },
+      "timing_groups": 36,
+      "paired_raw_rows": 108,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_batch",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 180,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-batch-build-20261008-221327",
+      "category": "new_packing_mechanism",
+      "finding": "Collect missing sources across multiple destination tiles, then pack AMX 16 rows",
+      "file_count": 18,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_batch.cpp",
+          "sha256": "f1bc3ef889d15e742016f7ae72b3bf3c0abded01b4dfe7212c11549509682073",
+          "size": 12636
+        },
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_batch_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-interleave-20261008-230519",
+      "category": "timing_run_statistic_issue",
+      "finding": "RoadNet batch16; three six-sample results",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PAR_RUN": 18,
+        "PAR_RESULT": 3,
+        "PAR_GATE": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_interleave",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 24,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-interleave-20261008-230957",
+      "category": "timing_run_statistic_issue",
+      "finding": "Amazon batch16; three six-sample results",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PAR_RUN": 18,
+        "PAR_RESULT": 3,
+        "PAR_GATE": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_interleave",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 24,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-interleave-20261008-231443",
+      "category": "timing_run_statistic_issue",
+      "finding": "RoadNet batch64; three six-sample results",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PAR_RUN": 18,
+        "PAR_RESULT": 3,
+        "PAR_GATE": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_interleave",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 24,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-interleave-20261008-233649",
+      "category": "timing_run_statistic_issue",
+      "finding": "RoadNet batch16; three six-sample results; not proof failed adaptive build worked",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PAR_RUN": 18,
+        "PAR_RESULT": 3,
+        "PAR_GATE": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_interleave",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 24,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-interleave-build-20261008-230314",
+      "category": "measurement_schedule_change",
+      "finding": "Six alternating timing reps; RESULT upper median, gate second-smallest",
+      "file_count": 18,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_interleave.cpp",
+          "sha256": "249674cecdd0a45d83926e3dee092103c81f3b6f22041dc724f8f877e2ca3827",
+          "size": 13120
+        },
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_interleave_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-interleave-build-20261008-233639",
+      "category": "failure_log_missing",
+      "finding": "Actually adaptive_build; FAILED/1; only 12 files locally and on server, no compiler log",
+      "file_count": 12,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_adaptive.cpp",
+          "sha256": "5cb9f76aff0413e1baab026e1e472ff1cdd3d9865f2749e48aff685e23394de5",
+          "size": 12979
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_adaptive_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit",
+        "Compiler log missing both snapshot and server"
+      ]
+    },
+    {
+      "run": "recompute-window-kernel-10900289",
+      "category": "kernel_run",
+      "finding": "Two WINDOW_RESULT rows and output gate",
+      "file_count": 20,
+      "record_tag_counts": {
+        "WINDOW_CONFIG": 1,
+        "BASELINE_FULL": 1,
+        "WINDOW_RESULT": 2,
+        "WINDOW_GATE": 1
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_kernel",
+          "job": "10900289"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 5,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-kernel-build-20261008-193715",
+      "category": "compile_failure",
+      "finding": "using TR conflicts with TR macro",
+      "file_count": 15,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "97244384600c40c460d976657c1275c4fed4f29f816ec73b3229d3a8ac8cce79",
+          "size": 15118
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_kernel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "build.log",
+          "line_count": 7,
+          "errors": [
+            {
+              "line": 1,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-kernel-build-20261008-193715/source_snapshot/recompute_window_kernel.cpp:17:24: error: expected unqualified-id",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-kernel-build-20261008-193715/source_snapshot/recompute_window_kernel.cpp:17:24: error: expected unqualified-id",
+                "   17 | using gcn_extra_paper::TR;",
+                "      |                        ^",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-kernel-build-20261008-193715/source_snapshot/../../../original/gcn_e2e_v3.cpp:29:16: note: expanded from macro 'TR'"
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-kernel-build-20261008-193923",
+      "category": "compile_failure",
+      "finding": "Wrong include path to absent publish directory",
+      "file_count": 15,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "7a7c592ab3453dba826444753c0096cda7320df6e1ed3f8bb398b01761655c41",
+          "size": 15167
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_kernel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "build.log",
+          "line_count": 4,
+          "errors": [
+            {
+              "line": 1,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-kernel-build-20261008-193923/source_snapshot/recompute_window_kernel.cpp:2:10: fatal error: '../GAT-TFS-publish-GCNextra-20261003/GCN-extra/original/gcn_e2e_v3.cpp' file not found",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-kernel-build-20261008-193923/source_snapshot/recompute_window_kernel.cpp:2:10: fatal error: '../GAT-TFS-publish-GCNextra-20261003/GCN-extra/original/gcn_e2e_v3.cpp' file not found",
+                "    2 | #include \"../GAT-TFS-publish-GCNextra-20261003/GCN-extra/original/gcn_e2e_v3.cpp\"",
+                "      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+                "1 error generated."
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-kernel-build-20261008-194137",
+      "category": "compile_fix",
+      "finding": "Restore original/src includes; no new dataflow relative to failed versions",
+      "file_count": 17,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "47b89c062d088ae0212f5a662b6fea7e49a785dbdcff2f894338cd07d050f703",
+          "size": 15091
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_kernel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-10900662",
+      "category": "timing_run",
+      "finding": "Degree only; three raw pairs, one result",
+      "file_count": 20,
+      "record_tag_counts": {
+        "PAR_RUN": 3,
+        "PAR_RESULT": 1,
+        "PAR_GATE": 1
+      },
+      "timing_groups": 1,
+      "paired_raw_rows": 3,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_parallel",
+          "job": "10900662"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 5,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-10901373",
+      "category": "timing_run",
+      "finding": "Three orders; three pairs each",
+      "file_count": 20,
+      "record_tag_counts": {
+        "PAR_RUN": 9,
+        "PAR_RESULT": 3,
+        "PAR_GATE": 3
+      },
+      "timing_groups": 3,
+      "paired_raw_rows": 9,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_parallel",
+          "job": "10901373"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 15,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-build-20261008-202152",
+      "category": "compile_failure",
+      "finding": "vector locals(size_t(threads)) vexing parse",
+      "file_count": 16,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "47b89c062d088ae0212f5a662b6fea7e49a785dbdcff2f894338cd07d050f703",
+          "size": 15091
+        },
+        {
+          "path": "source_snapshot\\recompute_window_parallel.cpp",
+          "sha256": "0e230c7ace25382d7713c82851981ea14b08b100000964c5d26767e322de38a3",
+          "size": 10063
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_parallel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "build.log",
+          "line_count": 57,
+          "errors": [
+            {
+              "line": 15,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:65:34: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+              "context": [
+                "      |                                       (              )",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:65:34: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+                "   65 |                                  locals[tid].source_projection_groups);",
+                "      |                                  ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:68:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')"
+              ]
+            },
+            {
+              "line": 18,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:68:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+              "context": [
+                "      |                                  ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:68:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+                "   68 |                     locals[tid].source_rows++;",
+                "      |                     ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:84:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')"
+              ]
+            },
+            {
+              "line": 21,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:84:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+              "context": [
+                "      |                     ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:84:21: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+                "   84 |                     locals[tid].edges++;",
+                "      |                     ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:105:13: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')"
+              ]
+            },
+            {
+              "line": 24,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:105:13: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+              "context": [
+                "      |                     ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:105:13: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+                "  105 |             locals[tid].second_projection_groups += (uint64_t(end - begin) + 15) / 16;",
+                "      |             ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:107:9: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')"
+              ]
+            },
+            {
+              "line": 27,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:107:9: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+              "context": [
+                "      |             ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:107:9: error: subscript of pointer to function type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)')",
+                "  107 |         locals[tid].peak_cache = cache.peak;",
+                "      |         ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:110:24: error: invalid range expression of type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)'); no viable 'begin' function available"
+              ]
+            },
+            {
+              "line": 30,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:110:24: error: invalid range expression of type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)'); no viable 'begin' function available",
+              "context": [
+                "      |         ^~~~~~",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:110:24: error: invalid range expression of type 'std::vector<ParallelStats> (size_t)' (aka 'vector<ParallelStats> (unsigned long)'); no viable 'begin' function available",
+                "  110 |     for (const auto& x : locals) {",
+                "      |                        ^ ~~~~~~",
+                "/usr/lib/gcc/x86_64-redhat-linux/8/../../../../include/c++/8/initializer_list:89:5: note: candidate template ignored: could not match 'initializer_list<_Tp>' against 'std::vector<ParallelStats> (*)(size_t)' (aka 'vector<ParallelStats> (*)(unsigned long)')"
+              ]
+            },
+            {
+              "line": 51,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:124:5: error: redefinition of 'main'",
+              "context": [
+                "      |                                     ^",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_parallel.cpp:124:5: error: redefinition of 'main'",
+                "  124 | int main(int argc, char** argv) {",
+                "      |     ^",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-202152/source_snapshot/recompute_window_kernel.cpp:248:5: note: previous definition is here"
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-build-20261008-202420",
+      "category": "compile_fix",
+      "finding": "static_cast size plus WINDOW_KERNEL_NO_MAIN guard",
+      "file_count": 18,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        },
+        {
+          "path": "source_snapshot\\recompute_window_parallel.cpp",
+          "sha256": "c38659a08b614d0558cc388f5d90b33fa55f1f6535ad4c6c1b4543901fb7a6b2",
+          "size": 10084
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_parallel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-build-20261008-211935",
+      "category": "compile_failure_new_order",
+      "finding": "Adds identity/min_source ordering; fails missing std::iota",
+      "file_count": 16,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        },
+        {
+          "path": "source_snapshot\\recompute_window_parallel.cpp",
+          "sha256": "f87d9cda587f4c9c999349082dd29a239df2a94d081c117819728c7b92e03562",
+          "size": 11643
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "FAILED",
+          "kind": "recompute_window_parallel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "build.log",
+          "line_count": 7,
+          "errors": [
+            {
+              "line": 1,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-211935/source_snapshot/recompute_window_parallel.cpp:133:10: error: no member named 'iota' in namespace 'std'",
+              "context": [
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-211935/source_snapshot/recompute_window_parallel.cpp:133:10: error: no member named 'iota' in namespace 'std'",
+                "  133 |     std::iota(order.begin(), order.end(), 0);",
+                "      |     ~~~~~^",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-211935/source_snapshot/recompute_window_parallel.cpp:164:10: error: no member named 'iota' in namespace 'std'"
+              ]
+            },
+            {
+              "line": 4,
+              "text": "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-211935/source_snapshot/recompute_window_parallel.cpp:164:10: error: no member named 'iota' in namespace 'std'",
+              "context": [
+                "      |     ~~~~~^",
+                "/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/runs/recompute-window-parallel-build-20261008-211935/source_snapshot/recompute_window_parallel.cpp:164:10: error: no member named 'iota' in namespace 'std'",
+                "  164 |     std::iota(identity_order.begin(), identity_order.end(), 0);",
+                "      |     ~~~~~^",
+                "2 errors generated."
+              ]
+            }
+          ]
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-build-20261008-212208",
+      "category": "compile_fix",
+      "finding": "Adds numeric header",
+      "file_count": 18,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\recompute_window_kernel.cpp",
+          "sha256": "e709e2ac9b2e3c94df273223d414bde4be4105e90f1d3b8b1a9812a81eef5857",
+          "size": 15128
+        },
+        {
+          "path": "source_snapshot\\recompute_window_parallel.cpp",
+          "sha256": "c736fa4bd98f833349597ceb0ac67b32023239d8ace81b1abf9ad9663a750c1b",
+          "size": 11663
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_parallel_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-cross-10901444",
+      "category": "timing_run",
+      "finding": "Two graphs by three orders",
+      "file_count": 21,
+      "record_tag_counts": {
+        "PAR_RUN": 18,
+        "PAR_RESULT": 6,
+        "PAR_GATE": 6
+      },
+      "timing_groups": 6,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_parallel_cross",
+          "job": "10901444"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 30,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-parallel-exclusive-10901902",
+      "category": "timing_run",
+      "finding": "Exclusive run; two graphs by three orders",
+      "file_count": 20,
+      "record_tag_counts": {
+        "PAR_RUN": 18,
+        "PAR_RESULT": 6,
+        "PAR_GATE": 6
+      },
+      "timing_groups": 6,
+      "paired_raw_rows": 18,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_parallel_exclusive",
+          "job": "10901902"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 30,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-sweep-10900343",
+      "category": "partial_sweep",
+      "finding": "Only W=1 retained; PASS is not nine-window coverage",
+      "file_count": 23,
+      "record_tag_counts": {
+        "WINDOW_CONFIG": 1,
+        "BASELINE_FULL": 1,
+        "WINDOW_RESULT": 2,
+        "WINDOW_GATE": 1
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_sweep",
+          "job": "10900343"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "window-1.log",
+          "line_count": 5,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "recompute-window-sweep-10900360",
+      "category": "expanded_sweep",
+      "finding": "Nine positive window values retained",
+      "file_count": 39,
+      "record_tag_counts": {
+        "WINDOW_CONFIG": 9,
+        "BASELINE_FULL": 9,
+        "WINDOW_RESULT": 18,
+        "WINDOW_GATE": 9
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "recompute_window_sweep",
+          "job": "10900360"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "window-1.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-1024.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-16.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-2048.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-256.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-4.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-4096.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-512.log",
+          "line_count": 5,
+          "errors": []
+        },
+        {
+          "path": "window-64.log",
+          "line_count": 5,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-10901309",
+      "category": "structural_run",
+      "finding": "Six PARTITION rows",
+      "file_count": 18,
+      "record_tag_counts": {
+        "PARTITION": 6
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_audit",
+          "job": "10901309"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 6,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-build-20261008-210228",
+      "category": "structural_analyzer_build",
+      "finding": "Source-overlap analyzer; not kernel",
+      "file_count": 16,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\source_partition_analyzer.cpp",
+          "sha256": "5343b23d467abe1550ea11a957d2d8fb85d2a530d1cdf792b80ca6f96453640a",
+          "size": 4768
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-cross-10901392",
+      "category": "structural_run",
+      "finding": "Twelve PARTITION rows",
+      "file_count": 21,
+      "record_tag_counts": {
+        "PARTITION": 12
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_cross_graph",
+          "job": "10901392"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 12,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-cross-10902064",
+      "category": "structural_run",
+      "finding": "Forty-two PARTITION rows",
+      "file_count": 26,
+      "record_tag_counts": {
+        "PARTITION": 42
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_screen_graphs",
+          "job": "10902064"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 42,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-cross-10902071",
+      "category": "structural_run",
+      "finding": "Eighteen PARTITION rows",
+      "file_count": 22,
+      "record_tag_counts": {
+        "PARTITION": 18
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_screen_graphs",
+          "job": "10902071"
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 18,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-weighted-20261008-232054",
+      "category": "structural_run",
+      "finding": "Eighteen PARTITION rows, six orders",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PARTITION": 18
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_weighted",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 18,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-weighted-20261008-232839",
+      "category": "structural_run",
+      "finding": "Twenty-one PARTITION rows, includes hot_source",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PARTITION": 21
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_hot",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 21,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-weighted-build-20261008-232004",
+      "category": "weighted_model_extension",
+      "finding": "Weight unique sources by CSR row degree; denominator global consumed-source row-degree sum, not E",
+      "file_count": 15,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\source_partition_weighted.cpp",
+          "sha256": "3567387587f408c54683f984f29bb84f649feb82f264ea9dde510dc556a6a429",
+          "size": 5295
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_weighted_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-weighted-build-20261008-232709",
+      "category": "new_order_with_initialization_issue",
+      "finding": "Adds hot_source, but hot_src starts as node 0 rather than first neighbor",
+      "file_count": 15,
+      "record_tag_counts": {},
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [
+        {
+          "path": "source_snapshot\\source_partition_hot.cpp",
+          "sha256": "6b8e63bcb86f99f0802a4744c670fee2cd924170e9b3267f428fc783c628a4f0",
+          "size": 5712
+        }
+      ],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_hot_build",
+          "job": null
+        }
+      ],
+      "log_evidence": [],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-weighted-heldout-20261008-234650",
+      "category": "structural_run",
+      "finding": "Thirty PARTITION rows; weighted six-order binary, not hot_source",
+      "file_count": 13,
+      "record_tag_counts": {
+        "PARTITION": 30
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_weighted_heldout",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 30,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    },
+    {
+      "run": "source-partition-weighted-roadusa-20261008-235043",
+      "category": "structural_run",
+      "finding": "Six PARTITION rows; weighted binary, no runtime validation",
+      "file_count": 12,
+      "record_tag_counts": {
+        "PARTITION": 6
+      },
+      "timing_groups": 0,
+      "paired_raw_rows": 0,
+      "review_depth": [
+        "file_and_event_inventory",
+        "available_error_and_result_logs",
+        "frozen_source_diff_where_available",
+        "stored_raw_arithmetic_where_applicable"
+      ],
+      "source_files": [],
+      "event_evidence": [
+        {
+          "path": "event.json",
+          "status": "PASS",
+          "kind": "source_partition_weighted_roadusa",
+          "job": null
+        }
+      ],
+      "log_evidence": [
+        {
+          "path": "program.log",
+          "line_count": 6,
+          "errors": []
+        }
+      ],
+      "limitations": [
+        "No benchmark rerun or complete assembly audit"
+      ]
+    }
+  ]
+}

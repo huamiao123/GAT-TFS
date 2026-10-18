@@ -1,0 +1,22 @@
+# C4 shared-mask AVX aggregation: conservative register-prefetch control
+
+2026-10-18 Job `10996728`, `intel_expr --exclusive`, node `qhcn818`, Slurm `COMPLETED 0:0`, elapsed 00:11:04. All 32 OpenMP workers used physical CPUs `0–31` on one socket. Default NUMA policy; no interleave. Original 128-wide BF16 input and unit-weight CSR, Identity TR16, FP32 sparse aggregate. One warmup per method and eight balanced-order paired rounds; output zeroing outside the timers. Four methods in one process: eight-register rowwise **without** software prefetch, same rowwise **with** four next-source prefetches, per-source fanout, and same-plan common-mask aggregation.
+
+| Graph | Rowwise no prefetch | Rowwise prefetch | Same-plan fanout | Shared mask | Shared vs faster register rowwise | Shared vs fanout |
+|---|---:|---:|---:|---:|---:|---:|
+| indochina-2004 | 422.558 ms | 413.826 ms | 617.518 ms | 257.413 ms | **1.608×** | **2.399×** |
+| mycielskian19 (constructed) | 17249.150 ms | 16560.100 ms | 7714.205 ms | 4867.530 ms | **3.402×** | **1.585×** |
+| hollywood-2009 | 1567.060 ms | 1491.250 ms | 1559.980 ms | 1489.065 ms | 1.001× | 1.048× |
+| as-Skitter | 143.860 ms | 135.211 ms | 188.240 ms | 172.445 ms | 0.784× | 1.092× |
+| reddit | 182.204 ms | 215.197 ms | 190.756 ms | 189.057 ms | 0.964× | 1.009× |
+| roadNet-CA | 59.232 ms | 54.018 ms | 72.590 ms | 72.976 ms | 0.740× | 0.995× |
+
+Numbers are medians of eight raw repetitions. Selecting the faster of the two rowwise variants **after observing each graph** is deliberately conservative for this mechanism gate, but is an oracle and not a deployed policy. The additional rowwise methods have identical FP32 output bitwise in all six graphs; this was a required pre-timing check. Disassembly snapshots in the run directory confirm register accumulation in both variants, no `prefetcht0` in the no-prefetch variant and four in the prefetch variant. All six input SHA-256 values, plan source counts and saved-addition counts matched the frozen controls. Shared output relative L2 versus rowwise was at most `2.12e-6`; BF16 aggregate mismatch counts were `1,552,49,1,51,0` in table order. Five smoke cases passed, including a nonzero-rounding fixture and duplicate-edge rejection.
+
+The real Indochina graph remains a strong **sparse-stage** opportunity after both register-resident controls. Myciel is an even stronger constructed case. Hollywood is statistically indistinguishable from the faster rowwise control at this resolution; the other three real graphs are negative. Reddit's previous win versus the prefetching control disappears when no-prefetch rowwise is available, confirming that it was a prefetch/dataflow issue rather than meaningful common aggregation. A simple universal mask plan would thus regress multiple graphs and add substantial storage.
+
+The complete mask plan is 229.6 MB and took 2.436 s to build for Indochina; in this job the sparse-pass saving versus the faster register control was about 0.156 s, so roughly 16 repeated sparse passes would be required to repay this **particular** build cost, ignoring memory-capacity and full-model effects. Myciel's plan is 2.355 GB/~29.79 s. Absolute Myciel times here are several times higher than a prior exclusive job on the same node, and Indochina times also changed substantially. All four methods move together and within-job repetitions are mostly stable, but the cause of cross-job variability is unresolved. **Do not form cross-job speedups or paper tables from these numbers.**
+
+This is still a standalone aggregation kernel, not canonical FULL Identity + AMX two-layer inference. The next test must integrate a bounded/selective version of the mask plan into the actual AVX→BF16→AMX path, compare same precision and epilogue against canonical FULL Identity and an optimized separate AVX+AMX path in the same process, measure plan-build amortization, and verify two-layer numerical accuracy. The mathematical idea of shared subaggregation has prior art; journal novelty would have to lie in an effective mask/plan/quantization/AMX collaboration mechanism and its validated operating range. Paper eligibility false.
+
+Evidence: `runs/consumer_mask_c4_prefetch_control_20261018-01/` contains `PROTOCOL.md` source via experiment directory, preflight copies/hashes, source/binary hashes, five smoke cases, original graph input checks, exact per-graph commands, eight raw timings and errors in `summary.json`, `rowwise_np_asm.txt`, `rowwise_pf_asm.txt`, CPU/NUMA environment, Slurm stdout/stderr and `sacct.txt`.

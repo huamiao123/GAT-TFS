@@ -1,0 +1,18 @@
+{
+  "id": "consumer-mask-c4-prefetch-control-20261018-job10996728-completed",
+  "status": "CONSERVATIVE_SPARSE_CONTROL_COMPLETED",
+  "kind": "exclusive_register_prefetch_on_off_conservative_control",
+  "paper_eligible": false,
+  "job_id": 10996728,
+  "slurm_state": "COMPLETED 0:0",
+  "node": "qhcn818",
+  "elapsed": "00:11:04",
+  "cpu_placement": "32 workers on one socket, CPU IDs 0-31",
+  "report": "results/consumer-mask-c4-kernel-20261018/PREFETCH_CONTROL_RESULTS.md",
+  "report_sha256": "ec6af71ed50898dc016e7b5cd325f0ec56de04241198a33d27b0338651afb20c",
+  "raw": "runs/consumer_mask_c4_prefetch_control_20261018-01/summary.json",
+  "finding": "Eight-round exclusive median shared versus faster register rowwise: Indochina-2004 1.608x, Mycielskian19 3.402x, Hollywood 1.001x, as-Skitter 0.784x, Reddit 0.964x, RoadNet-CA 0.740x. Same-plan fanout/shared Indochina 2.399x.",
+  "gates": ["prefetch on/off rowwise output bitwise equal all six graphs", "32 workers one socket", "all input SHA256, structural counts and sparse numerical gates passed", "assembly shows no software prefetch in np and four next-row prefetches in pf", "Slurm exit 0"],
+  "caveat": "Per-graph faster rowwise control is an evaluation oracle, not deployed selector. Absolute times vary markedly across exclusive jobs. No AMX/two-layer integration or paper-eligible speedup.",
+  "next": "Integrate selective shared-mask reducer into frozen-snapshot canonical FULL Identity AVX-to-AMX pipeline with matched two-layer correctness, strong separate baseline and plan amortization."
+}

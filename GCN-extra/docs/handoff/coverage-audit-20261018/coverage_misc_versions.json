@@ -1,0 +1,324 @@
+{
+  "scope": "specific historical launcher/build/smoke corrections; read-only",
+  "units": [
+    {
+      "experiment_id": "delayed112010_10869361",
+      "date": "2026-10-05",
+      "purpose": "P3 delayed-residual numerical fixture first launcher",
+      "status": "launcher_failed_before_kernel",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/delayed-residual-gate-20261005-112010/job.sh",
+        "runs/delayed-residual-gate-20261005-112010/logs/slurm-10869361.err"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "preflight.sh overwrites RUN; output attempted logs/logs/node.txt",
+        "No results/gate.log and no kernel performance records",
+        "sacct FAILED1:0 elapsed1s; not D1 numerical rejection"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "delayed112212_10869364",
+      "date": "2026-10-05",
+      "purpose": "Same counterexample after saving/restoring RUN",
+      "status": "completed_expected_D1_rejection",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/delayed-residual-gate-20261005-112212/source_snapshot/run_gate.sh",
+        "runs/delayed-residual-gate-20261005-112212/results/gate.log"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "Only launcher run-variable restoration differs",
+        "Five RESIDUAL_GATE rows; D1 L2 .00195694716243 > .001 but finalBF16equal1",
+        "Other4 gates pass; experiment COMPLETE pass1; no timing samples",
+        "sacct COMPLETED0:0; numerical experiment intentionally succeeds by observing rejection"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "selective122940_10869522",
+      "date": "2026-10-05",
+      "purpose": "Initial P4 shape smoke",
+      "status": "superseded_smoke_pass",
+      "mechanism_change": true,
+      "raw_paths": [
+        "runs/selective-shape-build-20261005-122940/logs/smoke-10869522"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "3smoke x2shapes,8candidate methods plusMKL,270time rows",
+        "144CHECK 15EQUIV 96PROFILE_GATE 96WORK allpass;48accepted",
+        "Oldcontinuous random initialization; no formal realgraph round"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "selective123418",
+      "date": "2026-10-05",
+      "purpose": "P4 corrected initialization and stronger mixed-layer baseline",
+      "status": "validated_final",
+      "mechanism_change": true,
+      "raw_paths": [
+        "runs/selective-shape-build-20261005-123418/source_snapshot/selective_shape.cpp",
+        "runs/selective-shape-build-20261005-123418/logs"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "Switch to source discrete rand()%200 and interleaved W1/W2 sequence at width128",
+        "Add project_used_L1_full_L2 and support second-layer independent kind",
+        "Add partial_state_load and thread-active profiles",
+        "3smoke+2synthetic+5real,2shapes,9candidates,1000time rows",
+        "540CHECK 50EQUIV 360PROFILE_GATE 360WORK allpass;180accepted;20complete"
+      ],
+      "remaining": "Earlier270smoke timings cannot be mixed with final1000 or used as formal denominator"
+    },
+    {
+      "experiment_id": "full_degree10968050",
+      "date": "2026-10-15",
+      "purpose": "First FULL permutation smoke",
+      "status": "pre_kernel_affinity_failure",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/full-degree-sort-ablation-20261015-113936/logs/smoke-20261015-114039/slurm-10968050.err"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "Hardcoded32 cores rejects4core allocation",
+        "No graphoutput or performance samples",
+        "sacct FAILED1:0 elapsed11s"
+      ],
+      "remaining": "Failed launcher full source not separately frozen in this container; actual stderr and final job source corroborate fix"
+    },
+    {
+      "experiment_id": "full_degree10968053",
+      "date": "2026-10-15",
+      "purpose": "Second FULL permutation smoke",
+      "status": "one_graph_completed_then_extraction_failure",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/full-degree-sort-ablation-20261015-113936/logs/smoke-20261015-114139/logs/tail_37.out",
+        "runs/full-degree-sort-ablation-20261015-113936/logs/smoke-20261015-114139/slurm-10968053.err"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "tail37 bitwise L1/L2 pass and ABLATION_COMPLETE pass1",
+        "16ABLATION_TIME +6STAGE produced for tail37; tail137 not run",
+        "rg command missing; sacct FAILED127:0; no algorithm/numericfailure"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "full_degree10968058",
+      "date": "2026-10-15",
+      "purpose": "Third FULL permutation smoke",
+      "status": "two_fixture_complete",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/full-degree-sort-ablation-20261015-113936/logs/smoke-20261015-114256",
+        "experiments/full_degree_sort_ablation_20261015/job.sh:21",
+        "experiments/full_degree_sort_ablation_20261015/job.sh:49"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "Finaljob checks SLURM_CPUS_PER_TASK and usesgrep",
+        "tail37 andtail137 eachCHECK/COMPLETEpass,16time+6stage"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "packed163149",
+      "date": "2026-10-15",
+      "purpose": "First packed oneMKL BF16 build",
+      "status": "compile_failed_no_binary",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/onemkl-bf16-twostep-packed-20261015-163149/build/compile.log"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "3undeclared CblasBIdentifier errors at driver71/75/77",
+        "No executed benchmark or timing"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "packed163228_10973261",
+      "date": "2026-10-15",
+      "purpose": "Correct enum and packed-B smoke",
+      "status": "smoke_pass",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/onemkl-bf16-twostep-packed-20261015-163228/source_snapshot/driver.cpp",
+        "runs/onemkl-bf16-twostep-packed-20261015-163228/smoke/logs/email-Enron.out"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "Only3enum identifiers replace CblasBIdentifier withCblasBMatrix",
+        "emailEnron3CHECK30TIME; compilelog empty"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "packed163448",
+      "date": "2026-10-15",
+      "purpose": "Add full17 graph batching and32/4core runs",
+      "status": "completed",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/onemkl-bf16-twostep-packed-20261015-163448/source_snapshot/job.sh",
+        "runs/onemkl-bf16-twostep-packed-20261015-163448/full17",
+        "runs/onemkl-bf16-twostep-packed-20261015-163448/full17_4core"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "Corrected driver samehash as163228; job onlyadds full17 branch",
+        "Full17 jobs10973268 and10973286; prior audit covers successful timings"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "packed10973279",
+      "date": "2026-10-15",
+      "purpose": "Duplicate shorter backfill submission",
+      "status": "cancelled_pending_never_started",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/onemkl-bf16-twostep-packed-20261015-163448/full17_backfill/event.json",
+        "coverage_misc_sacct.txt"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        "sacct CANCELLED by3538 StartNone Elapsed0 NodeNone assigned",
+        "Directory eventonly; no graph/performance records",
+        "Eventexit_status1 differs fromsacct0:0; cancellation status and noexecution decisive"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "projection-window-smoke-10865904",
+      "date": "2026-10-04",
+      "purpose": "Early S/M correctness smoke raw validation",
+      "status": "all3fixtures_completed",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/projection-window-smoke-10865904/*/methods.log"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        {
+          "METHOD_SETUP": 45,
+          "METHOD_CONFIG": 3,
+          "METHOD_MODEL": 45,
+          "METHOD_CHECK": 180,
+          "METHOD_EQUIV": 72,
+          "METHOD_GATE_COMPLETE": 3,
+          "METHOD_TIME": 480,
+          "METHOD_STAGE": 135,
+          "METHOD_PROFILE_GATE": 84,
+          "METHOD_PROFILE": 1104,
+          "METHOD_DETAIL": 1152,
+          "METHOD_THREAD": 192,
+          "METHOD_THREAD_DETAIL": 4608,
+          "METHOD_COUNTERS": 48,
+          "METHOD_MKL_STAGE": 9,
+          "METHOD_STRUCTURE": 9,
+          "METHOD_COMPLETE": 3
+        },
+        "Every180CHECK72EQUIV84PROFILE_GATE pass;3GATE_COMPLETE3COMPLETE;480TIME",
+        "Secondrun has81METHOD_PMU; firstrun no PMU rows; not numerical failure"
+      ],
+      "remaining": "No benchmark rerun"
+    },
+    {
+      "experiment_id": "projection-window-smoke-10865927",
+      "date": "2026-10-04",
+      "purpose": "Early S/M correctness smoke raw validation",
+      "status": "all3fixtures_completed",
+      "mechanism_change": false,
+      "raw_paths": [
+        "runs/projection-window-smoke-10865927/*/methods.log"
+      ],
+      "review_depth": "actual_source_diff_logs_gates_and_inventory",
+      "findings": [
+        {
+          "METHOD_SETUP": 45,
+          "METHOD_CONFIG": 3,
+          "METHOD_MODEL": 45,
+          "METHOD_CHECK": 180,
+          "METHOD_EQUIV": 72,
+          "METHOD_GATE_COMPLETE": 3,
+          "METHOD_TIME": 480,
+          "METHOD_STAGE": 135,
+          "METHOD_PROFILE_GATE": 84,
+          "METHOD_PROFILE": 1104,
+          "METHOD_DETAIL": 1152,
+          "METHOD_THREAD": 192,
+          "METHOD_THREAD_DETAIL": 4608,
+          "METHOD_COUNTERS": 48,
+          "METHOD_MKL_STAGE": 9,
+          "METHOD_PMU": 81,
+          "METHOD_PMU_THREAD": 324,
+          "METHOD_PMU_WALL": 81,
+          "METHOD_STRUCTURE": 9,
+          "METHOD_COMPLETE": 3
+        },
+        "Every180CHECK72EQUIV84PROFILE_GATE pass;3GATE_COMPLETE3COMPLETE;480TIME",
+        "Secondrun has81METHOD_PMU; firstrun no PMU rows; not numerical failure"
+      ],
+      "remaining": "No benchmark rerun"
+    }
+  ],
+  "source_diffs": [
+    {
+      "pair": [
+        "delayed-residual-gate-20261005-112010",
+        "delayed-residual-gate-20261005-112212"
+      ],
+      "changed": {
+        "run_gate.sh": "--- \n\n+++ \n\n@@ -32,7 +32,8 @@\n\n #!/usr/bin/env bash\n set -euo pipefail\n ROOT=/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra\n-RUN=$1\n+GATE_RUN=$1\n+RUN=$GATE_RUN\n finish(){\n  s=$?\n  python3 - \"$RUN\" \"$s\" <<'PY'\n@@ -44,6 +45,7 @@\n\n }\n trap finish EXIT\n source \"$ROOT/scripts/preflight.sh\" \"$RUN/logs\"\n+RUN=$GATE_RUN\n unset MKL_NUM_THREADS MKL_DYNAMIC MKL_DOMAIN_NUM_THREADS KMP_AFFINITY\n export OMP_NUM_THREADS=4 OMP_PROC_BIND=close OMP_PLACES=cores\n hostname > \"$RUN/logs/node.txt\""
+      }
+    },
+    {
+      "pair": [
+        "selective-shape-build-20261005-122940",
+        "selective-shape-build-20261005-123418"
+      ],
+      "changed": {
+        "selective_kernels.hpp": "--- \n\n+++ \n\n@@ -5,14 +5,14 @@\n\n namespace selective {\n enum Phase { SETUP, META, INIT, INDEX, LOOKUP, PREFETCH, HLOAD, DECODE, COLD_ADD,\n  QLOAD, HOT_ADD, STATE_STORE, HI_PACK, LO_PACK, ALOAD, BLOAD, TDP, CSTORE, MERGE,\n- OUTPUT, CACHE_GATHER, CACHE_STORE, RELEASE, PHASES };\n+ OUTPUT, CACHE_GATHER, CACHE_STORE, RELEASE, STATE_LOAD, PHASES };\n constexpr const char* phase_names[]={\"thread_amx_setup\",\"row_metadata\",\"partial_init\",\"csr_index\",\n  \"cache_membership\",\"prefetch\",\"BF16_H_load\",\"BF16_decode\",\"cold_FP32_reduce\",\n  \"FP32_Q_load\",\"hot_FP32_reduce\",\"partial_state_store\",\"partial_hi_pack\",\"partial_lo_pack\",\n  \"AMX_A_load\",\"AMX_B_load\",\"AMX_compute\",\"C_store\",\"hot_cold_merge\",\"output_scatter\",\n- \"cache_H_gather\",\"cache_Q_store\",\"thread_amx_release\"};\n+ \"cache_H_gather\",\"cache_Q_store\",\"thread_amx_release\",\"partial_state_load\"};\n struct Stats{std::array<double,PHASES> sec{};std::array<uint64_t,PHASES> calls{};\n- uint64_t edges=0,hot=0,cold=0,cold_tiles=0,cache_tiles=0,parts=0,tdp=0,threads=0;};\n+ uint64_t edges=0,hot=0,cold=0,cold_tiles=0,cache_tiles=0,parts=0,tdp=0,threads=0;double active_s=0;std::vector<std::array<double,6>> thread_rows;};\n template<bool P>inline double tick(bool s){if constexpr(P)if(s)return omp_get_wtime();return 0;}\n template<bool P>inline void tock(Stats& p,int phase,double t,bool s){if constexpr(P)if(s){p.sec[phase]+=omp_get_wtime()-t;p.calls[phase]++;}}\n inline void add(Stats& a,const Stats& b){for(int k=0;k<PHASES;k++){a.sec[k]+=b.sec[k];a.calls[k]+=b.calls[k];}a.edges+=b.edges;a.hot+=b.hot;a.cold+=b.cold;a.cold_tiles+=b.cold_tiles;a.cache_tiles+=b.cache_tiles;a.parts+=b.parts;a.tdp+=b.tdp;a.threads+=b.threads;}\n@@ -68,16 +68,16 @@\n\n  #pragma omp parallel\n  {\n   Stats& p=stats[omp_get_thread_num()];double t=tick<P>(true);if(syscall(SYS_arch_prctl,0x1023,18)!=0)abort();tilecfg_t cfg;setup_tilecfg(&cfg);_tile_loadconfig(&cfg);tock<P>(p,SETUP,t,true);\n-  alignas(64) uint16_t input[16*D];alignas(64) float c[16*F];\n+  double active=tick<P>(true);alignas(64) uint16_t input[16*D];alignas(64) float c[16*F];\n   #pragma omp for schedule(dynamic,1) nowait\n   for(size_t rg=0;rg<plan.sources.size();rg+=64)for(size_t i=rg;i<std::min(plan.sources.size(),rg+64);i+=16){\n    bool sample=P&&((i/16)%256==0||i+16>=plan.sources.size());int n=std::min(size_t(16),plan.sources.size()-i);\n    double a=tick<P>(sample);memset(input,0,sizeof(input));for(int r=0;r<n;r++)memcpy(input+r*D,h+size_t(plan.sources[i+r])*D,D*2);tock<P>(p,CACHE_GATHER,a,sample);\n    project<D,F,P>(input,w,nullptr,c,p,sample);a=tick<P>(sample);for(int r=0;r<n;r++)memcpy(q+(i+r)*F,c+r*F,F*4);tock<P>(p,CACHE_STORE,a,sample);if constexpr(P)p.cache_tiles++;\n   }\n-  t=tick<P>(true);_tile_release();tock<P>(p,RELEASE,t,true);if constexpr(P)p.threads++;\n+  t=tick<P>(true);_tile_release();tock<P>(p,RELEASE,t,true);if constexpr(P){p.threads++;p.active_s=omp_get_wtime()-active;}\n  }\n- if constexpr(P)for(auto& p:stats)add(*result,p);\n+ if constexpr(P)for(size_t tid=0;tid<stats.size();tid++){auto& p=stats[tid];add(*result,p);result->thread_rows.push_back({1.,double(tid),p.active_s*1000,double(p.edges),double(p.hot),double(p.cold)});}\n }\n // Kind0: fused FULL. Kind1: selective hot/cold. Kind2: all-source projected\n // cache, direct source indexing; same source layout as the all-source plan.\n@@ -86,7 +86,7 @@\n\n  #pragma omp parallel\n  {\n   Stats& p=stats[omp_get_thread_num()];double t=tick<P>(true);if(syscall(SYS_arch_prctl,0x1023,18)!=0)abort();tilecfg_t cfg;setup_tilecfg(&cfg);_tile_loadconfig(&cfg);tock<P>(p,SETUP,t,true);\n-  alignas(64) float cold[16*D],hot[16*F],c[16*F];alignas(64) uint16_t hi[16*D],lo[16*D];int rows[16];uint32_t base[16],degree[16];\n+  double active=tick<P>(true);alignas(64) float cold[16*D],hot[16*F],c[16*F];alignas(64) uint16_t hi[16*D],lo[16*D];int rows[16];uint32_t base[16],degree[16];\n   #pragma omp for schedule(dynamic,1) nowait\n   for(int rg=0;rg<g.N;rg+=64)for(int i=rg;i<std::min(g.N,rg+64);i+=16){\n    bool sample=P&&((i/16)%256==0||i+16>=g.N);int n=std::min(16,g.N-i);uint32_t md=0;bool has_cold=false;\n@@ -94,8 +94,9 @@\n\n    t=tick<P>(sample);if constexpr(Kind<=1)memset(cold,0,sizeof(cold));if constexpr(Kind!=0)memset(hot,0,sizeof(hot));memset(c,0,sizeof(c));tock<P>(p,INIT,t,sample);\n    for(uint32_t b=0;b<md;b+=64)for(int r=0;r<n;r++){\n     uint32_t end=std::min(degree[r],b+64);if(b>=end)continue;\n-    __m512 ac[D/16],aq[F/16];if constexpr(Kind<=1)for(int f=0;f<D/16;f++)ac[f]=_mm512_load_ps(cold+r*D+f*16);\n+    t=tick<P>(sample);__m512 ac[D/16],aq[F/16];if constexpr(Kind<=1)for(int f=0;f<D/16;f++)ac[f]=_mm512_load_ps(cold+r*D+f*16);\n     if constexpr(Kind!=0)for(int f=0;f<F/16;f++)aq[f]=_mm512_load_ps(hot+r*F+f*16);\n+    tock<P>(p,STATE_LOAD,t,sample);\n     for(uint32_t k=b;k<end;k++){\n      t=tick<P>(sample);uint32_t j=g.indices[size_t(base[r])+k];tock<P>(p,INDEX,t,sample);\n      int ix=-1;if constexpr(Kind==2)ix=int(j);else if constexpr(Kind!=0){t=tick<P>(sample);ix=plan.map[j];tock<P>(p,LOOKUP,t,sample);}\n@@ -122,9 +123,9 @@\n\n     t=tick<P>(sample);gcn_extra_paper::scatter_output<B16>(out+size_t(rows[r])*F,c+r*F,F);tock<P>(p,OUTPUT,t,sample);\n    }\n   }\n-  t=tick<P>(true);_tile_release();tock<P>(p,RELEASE,t,true);if constexpr(P)p.threads++;\n+  t=tick<P>(true);_tile_release();tock<P>(p,RELEASE,t,true);if constexpr(P){p.threads++;p.active_s=omp_get_wtime()-active;}\n  }\n- if constexpr(P)for(auto& p:stats)add(*result,p);\n+ if constexpr(P)for(size_t tid=0;tid<stats.size();tid++){auto& p=stats[tid];add(*result,p);result->thread_rows.push_back({2.,double(tid),p.active_s*1000,double(p.edges),double(p.hot),double(p.cold)});}\n }\n template<int D,int F,bool P,bool B16>void layer(const csr_t& g,const int* perm,const uint16_t* h,const uint16_t* w,const Plan& plan,float* q,std::conditional_t<B16,uint16_t,float>* out,int kind,Stats* s){\n  if(kind&&!plan.sources.empty())cache<D,F,P>(h,w,q,plan,s);",
+        "selective_shape.cpp": "--- \n\n+++ \n\n@@ -13,9 +13,9 @@\n\n  T* p;size_t n;Buffer(size_t size):n(size){p=(T*)mkl_malloc(std::max(size_t(64),n*sizeof(T)),64);if(!p)throw std::bad_alloc();}\n  ~Buffer(){mkl_free(p);}Buffer(const Buffer&)=delete;T& operator[](size_t i){return p[i];}\n };\n-struct Choice{std::string name;int kind,plan;};\n+struct Choice{std::string name;int kind,plan,second=-1;};\n template<int F,bool B16>void forward(const csr_t& g,const int* perm,const Choice& m,const Plan& plan,const uint16_t* h0,const uint16_t* w1,const uint16_t* w2,float* q1,float* q2,float* h1,uint16_t* h1b,std::conditional_t<B16,uint16_t,float>* out){\n- layer<128,F,false,false>(g,perm,h0,w1,plan,q1,h1,m.kind,nullptr);relu_f32(h1,size_t(g.N)*F);convert_f32_to_bf16(h1,h1b,size_t(g.N)*F);layer<F,F,false,B16>(g,perm,h1b,w2,plan,q2,out,m.kind,nullptr);\n+ layer<128,F,false,false>(g,perm,h0,w1,plan,q1,h1,m.kind,nullptr);relu_f32(h1,size_t(g.N)*F);convert_f32_to_bf16(h1,h1b,size_t(g.N)*F);layer<F,F,false,B16>(g,perm,h1b,w2,plan,q2,out,m.second<0?m.kind:m.second,nullptr);\n }\n template<class A,class B>bool observe(const char* graph,int f,const Choice& m,const char* boundary,const char* ref,const A* a,const B* b,size_t n,double gate){\n  auto e=gcn_extra_paper::error(a,b,n);bool pass=e.finite&&e.l2<gate&&e.nmax<gate;\n@@ -30,8 +30,8 @@\n\n  const size_t nd=size_t(g.N)*128,nf=size_t(g.N)*F;\n  Buffer<float> h0(nd),w1(128*F),w2(F*F),h0q(nd),w1q(128*F),w2q(F*F),h1(nf),out(nf),ref1(nf),ref2(nf),mkl1(nf),mkl2(nf),z(nd),mkh1q(nf);\n  Buffer<uint16_t> hb(nd),wb1(128*F),wb2(F*F),h1b(nf),final(nf),refb(nf);\n- srand(12345);for(size_t k=0;k<w1.n;k++)w1[k]=((float)rand()/RAND_MAX-.5f)*.1f;for(size_t k=0;k<w2.n;k++)w2[k]=((float)rand()/RAND_MAX-.5f)*.1f;\n- for(size_t k=0;k<nd;k++)h0[k]=(float)rand()/RAND_MAX-.5f;\n+ srand(12345);for(size_t k=0;k<w1.n;k++){w1[k]=.01f*((rand()%200)-100);if(k<w2.n)w2[k]=.01f*((rand()%200)-100);}\n+ for(size_t k=0;k<nd;k++)h0[k]=.01f*((rand()%200)-100);\n  convert_f32_to_bf16(h0.p,hb.p,nd);pack<128,F>(w1.p,wb1.p);pack<F,F>(w2.p,wb2.p);\n  #pragma omp parallel for schedule(static)\n  for(size_t k=0;k<nd;k++)h0q[k]=bf16_to_f32(hb[k]);\n@@ -46,7 +46,7 @@\n\n  #pragma omp parallel for schedule(static)\n  for(size_t k=0;k<nf;k++)mkh1q[k]=bf16_to_f32(h1b[k]);\n  mkl_one<F,F>(a,desc,mkh1q.p,w2q.p,z.p,ref2.p,g.N);convert_f32_to_bf16(ref2.p,refb.p,nf);\n- std::vector<Choice> methods{{\"fused_full_accurate\",0,0},{\"hybrid_none\",1,0},{\"top_1_64\",1,1},{\"top_1_16\",1,2},{\"top_1_4\",1,3},{\"hybrid_all\",1,4},{\"project_all\",2,4},{\"project_used\",3,5}};\n+ std::vector<Choice> methods{{\"fused_full_accurate\",0,0},{\"hybrid_none\",1,0},{\"top_1_64\",1,1},{\"top_1_16\",1,2},{\"top_1_4\",1,3},{\"hybrid_all\",1,4},{\"project_all\",2,4},{\"project_used\",3,5},{\"project_used_L1_full_L2\",3,5,0}};\n  std::vector<std::unique_ptr<Buffer<float>>> q1,q2;for(auto& m:methods){size_t ns=pl[m.plan].sources.size();q1.emplace_back(new Buffer<float>(ns*F));q2.emplace_back(new Buffer<float>(ns*F));}\n  printf(\"SEL_CONFIG graph=%s shape=128_%d_%d N=%d E=%u threads=%d seed=12345 TR=16 R=64 S=64 partial=ACCURATE cache=FP32 final=BF16 repeats=5 numa=default\\n\",graph,F,F,g.N,g.nnz,omp_get_max_threads());\n  std::vector<bool> accepted(methods.size(),true);std::vector<float> full1(nf),all1(nf),all_final(nf);\n@@ -69,25 +69,26 @@\n\n   auto& m=methods[k];auto& p=pl[m.plan];for(int rep=0;rep<3;rep++){\n    double t=omp_get_wtime();if(m.kind&&!p.sources.empty())cache<128,F,false>(hb.p,wb1.p,q1[k]->p,p,nullptr);double c1=omp_get_wtime();\n    if(m.kind==0)reduce<128,F,0,false,false>(g,perm,hb.p,wb1.p,p,q1[k]->p,h1.p,nullptr);else if(m.kind==1)reduce<128,F,1,false,false>(g,perm,hb.p,wb1.p,p,q1[k]->p,h1.p,nullptr);else if(m.kind==2)reduce<128,F,2,false,false>(g,perm,hb.p,wb1.p,p,q1[k]->p,h1.p,nullptr);else reduce<128,F,3,false,false>(g,perm,hb.p,wb1.p,p,q1[k]->p,h1.p,nullptr);double l1=omp_get_wtime();relu_f32(h1.p,nf);double rel=omp_get_wtime();convert_f32_to_bf16(h1.p,h1b.p,nf);double cv=omp_get_wtime();\n-   if(m.kind&&!p.sources.empty())cache<F,F,false>(h1b.p,wb2.p,q2[k]->p,p,nullptr);double c2=omp_get_wtime();\n-   if(m.kind==0)reduce<F,F,0,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);else if(m.kind==1)reduce<F,F,1,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);else if(m.kind==2)reduce<F,F,2,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);else reduce<F,F,3,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);double end=omp_get_wtime();\n+   int k2=m.second<0?m.kind:m.second;if(k2&&!p.sources.empty())cache<F,F,false>(h1b.p,wb2.p,q2[k]->p,p,nullptr);double c2=omp_get_wtime();\n+   if(k2==0)reduce<F,F,0,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);else if(k2==1)reduce<F,F,1,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);else if(k2==2)reduce<F,F,2,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);else reduce<F,F,3,false,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,nullptr);double end=omp_get_wtime();\n    printf(\"SEL_STAGE graph=%s shape=128_%d_%d method=%s repeat=%d cache1_ms=%.12g reduce_project1_ms=%.12g relu_ms=%.12g interlayer_ms=%.12g cache2_ms=%.12g reduce_project2_ms=%.12g total_ms=%.12g\\n\",graph,F,F,m.name.c_str(),rep,(c1-t)*1000,(l1-c1)*1000,(rel-l1)*1000,(cv-rel)*1000,(c2-cv)*1000,(end-c2)*1000,(end-t)*1000);\n   }\n   for(int li=0;li<2;li++){\n    forward<F,true>(g,perm,m,p,hb.p,wb1.p,wb2.p,q1[k]->p,q2[k]->p,h1.p,h1b.p,final.p);Stats s;bool eq;\n    if(li==0){std::vector<float> expected(h1.p,h1.p+nf); // h1 is ReLU after forward; obtain raw layer reference first.\n     layer<128,F,false,false>(g,perm,hb.p,wb1.p,p,q1[k]->p,h1.p,m.kind,nullptr);expected.assign(h1.p,h1.p+nf);layer<128,F,true,false>(g,perm,hb.p,wb1.p,p,q1[k]->p,h1.p,m.kind,&s);eq=memcmp(expected.data(),h1.p,nf*4)==0;\n-   }else{std::vector<uint16_t> expected(final.p,final.p+nf);layer<F,F,true,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,m.kind,&s);eq=memcmp(expected.data(),final.p,nf*2)==0;}\n+   }else{std::vector<uint16_t> expected(final.p,final.p+nf);layer<F,F,true,true>(g,perm,h1b.p,wb2.p,p,q2[k]->p,final.p,m.second<0?m.kind:m.second,&s);eq=memcmp(expected.data(),final.p,nf*2)==0;}\n    printf(\"SEL_PROFILE_GATE graph=%s shape=128_%d_%d method=%s layer=%d bitwise=%d pass=%d\\n\",graph,F,F,m.name.c_str(),li+1,eq,eq);if(!eq)throw std::runtime_error(\"selector profile gate\");\n    for(int phase=0;phase<PHASES;phase++)printf(\"SEL_DETAIL graph=%s shape=128_%d_%d method=%s layer=%d phase=%s sampled_thread_ms=%.12g clocked_sections=%llu additive_wall=0\\n\",graph,F,F,m.name.c_str(),li+1,phase_names[phase],s.sec[phase]*1000,(unsigned long long)s.calls[phase]);\n-   int d=li?F:128;uint64_t expected_cold=m.kind==0?g.nnz:(m.kind>=2?0:g.nnz-p.hot_edges),expected_hot=g.nnz-expected_cold;\n+   for(auto& th:s.thread_rows)printf(\"SEL_THREAD graph=%s shape=128_%d_%d method=%s layer=%d stage=%s thread=%.0f instrumented_active_ms=%.12g edges=%.0f hot=%.0f cold=%.0f\\n\",graph,F,F,m.name.c_str(),li+1,th[0]==1?\"cache\":\"reduce\",th[1],th[2],th[3],th[4],th[5]);\n+   int d=li?F:128,kind=li&&m.second>=0?m.second:m.kind;uint64_t expected_cold=kind==0?g.nnz:(kind>=2?0:g.nnz-p.hot_edges),expected_hot=g.nnz-expected_cold;\n    uint64_t expected_tdp=(s.cache_tiles+2*s.cold_tiles)*(d/32)*(F/16);\n    bool work=s.edges==g.nnz&&s.cold==expected_cold&&s.hot==expected_hot&&s.tdp==expected_tdp;\n    printf(\"SEL_WORK graph=%s shape=128_%d_%d method=%s layer=%d edges=%llu hot=%llu cold=%llu cold_tiles=%llu cache_tiles=%llu parts=%llu tdp=%llu cold_H_request_bytes=%llu hot_Q_request_bytes=%llu cache_storage_bytes=%llu pass=%d\\n\",graph,F,F,m.name.c_str(),li+1,(unsigned long long)s.edges,(unsigned long long)s.hot,(unsigned long long)s.cold,(unsigned long long)s.cold_tiles,(unsigned long long)s.cache_tiles,(unsigned long long)s.parts,(unsigned long long)s.tdp,(unsigned long long)(s.cold*2*d),(unsigned long long)(s.hot*4*F),(unsigned long long)(p.sources.size()*4*F),work);if(!work)throw std::runtime_error(\"selector work gate\");\n   }\n   for(int rep=0;rep<3;rep++){call(k);gcn_extra_projection_pmu::Region pm;pm.start();call(k);auto result=pm.stop();std::string label=\"shape128_\"+std::to_string(F)+\"_\"+m.name;gcn_extra_projection_pmu::print(result,graph,label.c_str(),rep);}\n  }\n- mkl_sparse_destroy(a);printf(\"SEL_COMPLETE graph=%s shape=128_%d_%d methods=8 rejected=%d pass=1\\n\",graph,F,F,int(std::count(accepted.begin(),accepted.end(),false)));fflush(stdout);\n+ mkl_sparse_destroy(a);printf(\"SEL_COMPLETE graph=%s shape=128_%d_%d methods=9 rejected=%d pass=1\\n\",graph,F,F,int(std::count(accepted.begin(),accepted.end(),false)));fflush(stdout);\n }\n }\n int main(int argc,char** argv){",
+        "selective_suite.py": "--- \n\n+++ \n\n@@ -28,7 +28,7 @@\n\n             if not (label.startswith('SEL_') or label.startswith('METHOD_PMU')):continue\n             tables.setdefault(label,[]).append(dict(x.split('=',1) for x in shlex.split(body) if '=' in x))\n         assert len(tables['SEL_COMPLETE'])==2 and all(r['pass']=='1' for r in tables['SEL_COMPLETE'])\n-        assert len(tables['SEL_CHECK'])==48 and len(tables['SEL_ACCEPT'])==16\n+        assert len(tables['SEL_CHECK'])==54 and len(tables['SEL_ACCEPT'])==18\n         assert all(r['pass']=='1' for r in tables['SEL_EQUIV']+tables.get('SEL_PROFILE_GATE',[])+tables.get('SEL_WORK',[]))\n         for shape in ['128_32_32','128_128_128']:\n             accepted={r['method'] for r in tables['SEL_ACCEPT'] if r['shape']==shape and r['accepted']=='1'}"
+      }
+    },
+    {
+      "pair": [
+        "onemkl-bf16-twostep-packed-20261015-163149",
+        "onemkl-bf16-twostep-packed-20261015-163228"
+      ],
+      "changed": {
+        "driver.cpp": "--- \n\n+++ \n\n@@ -68,13 +68,13 @@\n\n     int *perm=make_degree_perm(csr.indptr,n);\n     convert_f32_to_bf16(h0,h0b,cells);decode_bf16(h0b,h0q,cells);\n     for(int i=0;i<K_DIM*K_DIM;i++){w1b[i]=f32_to_bf16(w1[i]);w2b[i]=f32_to_bf16(w2[i]);}\n-    const size_t packed_bytes=cblas_gemm_bf16bf16f32_pack_get_size(CblasBIdentifier,n,K_DIM,K_DIM);\n+    const size_t packed_bytes=cblas_gemm_bf16bf16f32_pack_get_size(CblasBMatrix,n,K_DIM,K_DIM);\n     if(packed_bytes==0)throw std::runtime_error(\"oneMKL BF16 B packing unavailable\");\n     MKL_BF16 *w1packed=(MKL_BF16*)checked_alloc(packed_bytes);\n     MKL_BF16 *w2packed=(MKL_BF16*)checked_alloc(packed_bytes);\n-    cblas_gemm_bf16bf16f32_pack(CblasRowMajor,CblasBIdentifier,CblasNoTrans,n,K_DIM,K_DIM,\n+    cblas_gemm_bf16bf16f32_pack(CblasRowMajor,CblasBMatrix,CblasNoTrans,n,K_DIM,K_DIM,\n         (const MKL_BF16*)w1b,K_DIM,w1packed);\n-    cblas_gemm_bf16bf16f32_pack(CblasRowMajor,CblasBIdentifier,CblasNoTrans,n,K_DIM,K_DIM,\n+    cblas_gemm_bf16bf16f32_pack(CblasRowMajor,CblasBMatrix,CblasNoTrans,n,K_DIM,K_DIM,\n         (const MKL_BF16*)w2b,K_DIM,w2packed);\n     make_W_vnni(w1,wv1);make_W_vnni(w2,wv2);\n     MKL_INT *rs=(MKL_INT*)checked_alloc(size_t(n)*sizeof(MKL_INT));"
+      }
+    },
+    {
+      "pair": [
+        "onemkl-bf16-twostep-packed-20261015-163228",
+        "onemkl-bf16-twostep-packed-20261015-163448"
+      ],
+      "changed": {
+        "job.sh": "--- \n\n+++ \n\n@@ -17,6 +17,7 @@\n\n if [[ $MODE == smoke ]];then graphs=(email-Enron)\n elif [[ $MODE == diagnostic ]];then graphs=(ogbn-products reddit mycielskian19 roadNet-CA wiki-Talk)\n elif [[ $MODE == remaining ]];then graphs=(hollywood-2009 indochina-2004 soc-Pokec cit-Patents soc-LiveJournal1 com-LiveJournal as-Skitter rgg_n_2_24_s0 web-Google email-Enron amazon0601 com-Youtube)\n+elif [[ $MODE == full17 ]];then graphs=(ogbn-products reddit mycielskian19 roadNet-CA wiki-Talk hollywood-2009 indochina-2004 soc-Pokec cit-Patents soc-LiveJournal1 com-LiveJournal as-Skitter rgg_n_2_24_s0 web-Google email-Enron amazon0601 com-Youtube)\n elif [[ $MODE == pmu ]];then graphs=(email-Enron web-Google)\n else echo \"Unknown mode $MODE\" >&2;exit 2;fi\n for graph in \"${graphs[@]}\";do"
+      }
+    }
+  ],
+  "raw_artifacts": [
+    "coverage_misc_remote.json",
+    "coverage_misc_gate_detail.json",
+    "coverage_misc_sacct.txt"
+  ],
+  "limitations": [
+    "No new kernel run",
+    "Failed full-degree launcher complete historical copies not preserved; actual stderr+final source read",
+    "Every repeated diagnostic row not manually interpreted"
+  ]
+}

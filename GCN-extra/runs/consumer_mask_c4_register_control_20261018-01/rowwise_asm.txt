@@ -1,0 +1,135 @@
+
+/home/huangjianqiang_group/hdacp1/data/wzh/GCN-extra/experiments/consumer_mask_c4_register_control_20261018/mask_kernel:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000405cf0 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]>:
+  405cf0:	push   %rbp
+  405cf1:	push   %r15
+  405cf3:	push   %r14
+  405cf5:	push   %rbx
+  405cf6:	sub    $0x18,%rsp
+  405cfa:	mov    %r8,%rbx
+  405cfd:	mov    %rcx,%r14
+  405d00:	mov    %rdx,%r15
+  405d03:	movl   $0x0,0x4(%rsp)
+  405d0b:	mov    (%rdi),%ebp
+  405d0d:	movq   $0x0,0x8(%rsp)
+  405d16:	movq   $0x1,0x10(%rsp)
+  405d1f:	sub    $0x8,%rsp
+  405d23:	lea    0x18(%rsp),%rax
+  405d28:	lea    0xc(%rsp),%rcx
+  405d2d:	lea    0x10(%rsp),%r8
+  405d32:	lea    0x48(%rsp),%r9
+  405d37:	mov    $0x620270,%edi
+  405d3c:	mov    %ebp,%esi
+  405d3e:	mov    $0x22,%edx
+  405d43:	pushq  $0x1
+  405d45:	pushq  $0x1
+  405d47:	push   %rax
+  405d48:	callq  401ef0 <__kmpc_for_static_init_8u@plt>
+  405d4d:	add    $0x20,%rsp
+  405d51:	mov    0x8(%rsp),%rax
+  405d56:	mov    0x40(%rsp),%rcx
+  405d5b:	cmp    %rcx,%rax
+  405d5e:	jbe    405d8c <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x9c>
+  405d60:	jmpq   405f52 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x262>
+  405d65:	data16 data16 data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)
+  405d74:	data16 data16 nopw %cs:0x0(%rax,%rax,1)
+  405d80:	inc    %rax
+  405d83:	cmp    %rcx,%rax
+  405d86:	ja     405f52 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x262>
+  405d8c:	mov    0x28(%r15),%rsi
+  405d90:	mov    (%rsi,%rax,4),%edx
+  405d93:	mov    0x4(%rsi,%rax,4),%esi
+  405d97:	cmp    %esi,%edx
+  405d99:	je     405d80 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x90>
+  405d9b:	cmp    %esi,%edx
+  405d9d:	jae    405ee0 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x1f0>
+  405da3:	mov    0x30(%r15),%rdi
+  405da7:	mov    %rsi,%r8
+  405daa:	neg    %r8
+  405dad:	inc    %rdx
+  405db0:	vxorps %xmm0,%xmm0,%xmm0
+  405db4:	vxorps %xmm1,%xmm1,%xmm1
+  405db8:	vxorps %xmm2,%xmm2,%xmm2
+  405dbc:	vxorps %xmm3,%xmm3,%xmm3
+  405dc0:	vxorps %xmm4,%xmm4,%xmm4
+  405dc4:	vxorps %xmm5,%xmm5,%xmm5
+  405dc8:	vxorps %xmm6,%xmm6,%xmm6
+  405dcc:	vxorps %xmm7,%xmm7,%xmm7
+  405dd0:	jmpq   405e9b <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x1ab>
+  405dd5:	data16 nopw %cs:0x0(%rax,%rax,1)
+  405de0:	shl    $0x8,%r9
+  405de4:	vpmovzxwd 0x60(%r14,%r9,1),%zmm8
+  405dec:	vpmovzxwd 0x40(%r14,%r9,1),%zmm9
+  405df4:	vpmovzxwd 0x20(%r14,%r9,1),%zmm10
+  405dfc:	vpmovzxwd (%r14,%r9,1),%zmm11
+  405e03:	vpmovzxwd 0x80(%r14,%r9,1),%zmm12
+  405e0b:	vpmovzxwd 0xa0(%r14,%r9,1),%zmm13
+  405e13:	vpmovzxwd 0xc0(%r14,%r9,1),%zmm14
+  405e1b:	vpmovzxwd 0xe0(%r14,%r9,1),%zmm15
+  405e23:	vpslld $0x10,%zmm15,%zmm15
+  405e2a:	vaddps %zmm15,%zmm7,%zmm7
+  405e30:	vpslld $0x10,%zmm14,%zmm14
+  405e37:	vaddps %zmm14,%zmm6,%zmm6
+  405e3d:	vpslld $0x10,%zmm13,%zmm13
+  405e44:	vaddps %zmm13,%zmm5,%zmm5
+  405e4a:	vpslld $0x10,%zmm12,%zmm12
+  405e51:	vaddps %zmm12,%zmm4,%zmm4
+  405e57:	vpslld $0x10,%zmm11,%zmm11
+  405e5e:	vaddps %zmm11,%zmm0,%zmm0
+  405e64:	vpslld $0x10,%zmm10,%zmm10
+  405e6b:	vaddps %zmm10,%zmm1,%zmm1
+  405e71:	vpslld $0x10,%zmm9,%zmm9
+  405e78:	vaddps %zmm9,%zmm2,%zmm2
+  405e7e:	vpslld $0x10,%zmm8,%zmm8
+  405e85:	vaddps %zmm8,%zmm3,%zmm3
+  405e8b:	lea    (%r8,%rdx,1),%r9
+  405e8f:	inc    %r9
+  405e92:	inc    %rdx
+  405e95:	cmp    $0x1,%r9
+  405e99:	je     405f00 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x210>
+  405e9b:	mov    -0x4(%rdi,%rdx,4),%r9d
+  405ea0:	cmp    %rsi,%rdx
+  405ea3:	jae    405de0 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0xf0>
+  405ea9:	mov    (%rdi,%rdx,4),%r10d
+  405ead:	shl    $0x8,%r10
+  405eb1:	prefetcht0 (%r14,%r10,1)
+  405eb6:	prefetcht0 0x40(%r14,%r10,1)
+  405ebc:	prefetcht0 0x80(%r14,%r10,1)
+  405ec5:	prefetcht0 0xc0(%r14,%r10,1)
+  405ece:	jmpq   405de0 <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0xf0>
+  405ed3:	data16 data16 data16 nopw %cs:0x0(%rax,%rax,1)
+  405ee0:	vxorps %xmm0,%xmm0,%xmm0
+  405ee4:	vxorps %xmm1,%xmm1,%xmm1
+  405ee8:	vxorps %xmm2,%xmm2,%xmm2
+  405eec:	vxorps %xmm3,%xmm3,%xmm3
+  405ef0:	vxorps %xmm4,%xmm4,%xmm4
+  405ef4:	vxorps %xmm5,%xmm5,%xmm5
+  405ef8:	vxorps %xmm6,%xmm6,%xmm6
+  405efc:	vxorps %xmm7,%xmm7,%xmm7
+  405f00:	mov    %rax,%rdx
+  405f03:	shl    $0x9,%rdx
+  405f07:	vmovups %zmm1,0x40(%rbx,%rdx,1)
+  405f0f:	vmovups %zmm0,(%rbx,%rdx,1)
+  405f16:	vmovups %zmm2,0x80(%rbx,%rdx,1)
+  405f1e:	vmovups %zmm3,0xc0(%rbx,%rdx,1)
+  405f26:	vmovups %zmm4,0x100(%rbx,%rdx,1)
+  405f2e:	vmovups %zmm5,0x140(%rbx,%rdx,1)
+  405f36:	vmovups %zmm6,0x180(%rbx,%rdx,1)
+  405f3e:	vmovups %zmm7,0x1c0(%rbx,%rdx,1)
+  405f46:	inc    %rax
+  405f49:	cmp    %rcx,%rax
+  405f4c:	jbe    405d8c <rowwise(Graph const&, unsigned short const*, float*) [clone .extracted]+0x9c>
+  405f52:	mov    $0x620290,%edi
+  405f57:	mov    %ebp,%esi
+  405f59:	add    $0x18,%rsp
+  405f5d:	pop    %rbx
+  405f5e:	pop    %r14
+  405f60:	pop    %r15
+  405f62:	pop    %rbp
+  405f63:	vzeroupper 
+  405f66:	jmpq   401d60 <__kmpc_for_static_fini@plt>
+  405f6b:	nopl   0x0(%rax,%rax,1)

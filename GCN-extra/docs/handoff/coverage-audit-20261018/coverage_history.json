@@ -1,0 +1,138 @@
+{
+  "scope": "Pre-cleanup history at 8aeef1613fdeaeb929379874c4152eccde620f74; supplements current HEAD review",
+  "report": "coverage_history.md",
+  "full_text_read_every_file": false,
+  "performance_rerun": false,
+  "units": [
+    {
+      "experiment_id": "legacy_shared_replay",
+      "date": "2026-10-03",
+      "purpose": "B/FULL precision and replay vs shared output-state tradeoff",
+      "raw_paths": [
+        "runs/formal-10861421"
+      ],
+      "review_depth": "runtime branches, six frozen build diffs, all 560 measured timing rows vs stdout, 112 summary medians",
+      "status": "historical pass; old interleave protocol excluded from current performance claims",
+      "remaining": "No rerun or disassembly"
+    },
+    {
+      "experiment_id": "legacy_nozero",
+      "date": "2026-10-03",
+      "purpose": "Remove redundant global memset",
+      "raw_paths": [
+        "runs/formal-10861923"
+      ],
+      "review_depth": "runtime, NaN output coverage and original equality; 440 timing rows and 88 medians",
+      "status": "historical pass",
+      "remaining": "Old protocol not current comparison"
+    },
+    {
+      "experiment_id": "legacy_expanded_block_sweep",
+      "date": "2026-10-03",
+      "purpose": "B2..64/FULL fast/accurate with controls",
+      "raw_paths": [
+        "runs/formal-10861974"
+      ],
+      "review_depth": "runtime, 1680 timing rows vs stdout, 168 medians",
+      "status": "historical pass",
+      "remaining": "Old protocol not current comparison"
+    },
+    {
+      "experiment_id": "legacy_25graph",
+      "date": "2026-10-03",
+      "purpose": "Graph coverage and input semantics",
+      "raw_paths": [
+        "runs/formal-10862002"
+      ],
+      "review_depth": "runtime gates, 6120 measured timings and 612 medians, failure statuses",
+      "status": "17 pass; 6 weighted rejection; 2 LP64 failures supplemented separately",
+      "remaining": "No reinterpretation as 25 valid graph benchmark"
+    },
+    {
+      "experiment_id": "legacy_friendster_ilp64",
+      "date": "2026-10-03",
+      "purpose": "Large graph support with ILP64",
+      "raw_paths": [
+        "runs/formal-10862158"
+      ],
+      "review_depth": "ILP64 source diff and 140 timings/28 medians",
+      "status": "historical pass outside source-faithful current protocol",
+      "remaining": "No claim within current 17-graph source baseline"
+    },
+    {
+      "experiment_id": "legacy_roadusa_ilp64",
+      "date": "2026-10-03",
+      "purpose": "Large dense-offset graph support",
+      "raw_paths": [
+        "runs/formal-10862162"
+      ],
+      "review_depth": "source diff and 360 timings/36 medians",
+      "status": "historical pass outside source-faithful current protocol",
+      "remaining": "Same limit as Friendster"
+    },
+    {
+      "experiment_id": "legacy_fixture_versions",
+      "date": "2026-10-03",
+      "purpose": "Empty/tail/B1 and nozero coverage",
+      "raw_paths": [
+        "runs/smoke-10861412",
+        "runs/smoke-10861414",
+        "runs/smoke-10861420",
+        "runs/smoke-10861922",
+        "runs/smoke-10861973",
+        "runs/smoke-10862001",
+        "runs/smoke-10862091"
+      ],
+      "review_depth": "994 existing timing rows vs stdout plus all written correctness rows and stderr; fix source diff",
+      "status": "10861414 fails zero-nnz MKL create; fixed later",
+      "remaining": "Smoke timings not performance evidence"
+    },
+    {
+      "experiment_id": "source_protocol_before_paper_v3",
+      "date": "2026-10-04",
+      "purpose": "Original source initialization/MKL/default-NUMA alignment",
+      "raw_paths": [
+        "runs/source-formal-10864754",
+        "runs/source-formal-10864792"
+      ],
+      "review_depth": "generator/runtime/protocol; all 2890 timing rows match stdout; 578 min/median groups; 765 gates",
+      "status": "superseded baseline version; main shell exit2 retained, individual valid results and RGG supplement distinguished",
+      "remaining": "No performance rerun; original E2E stdout precision is 0.01ms"
+    },
+    {
+      "experiment_id": "source_launcher_and_rgg_repairs",
+      "date": "2026-10-04",
+      "purpose": "Avoid live launcher edits and fix exact LP64 boundary",
+      "raw_paths": [
+        "runs/source-smoke-10864752",
+        "runs/source-smoke-10864830"
+      ],
+      "review_depth": "events, launcher snapshot, 760 CSV timings and 204 gates",
+      "status": "fix validated",
+      "remaining": "Not independent algorithm contribution"
+    },
+    {
+      "experiment_id": "paper_v3_reproduction",
+      "date": "2026-10-04",
+      "purpose": "Identify actual Table2 executable and validate timed BF16 result",
+      "raw_paths": [
+        "runs/paper-formal-10864848"
+      ],
+      "review_depth": "source/protocol, all 340 stdout timing values, 68 min/median groups, 17 complete BF16 gates",
+      "status": "pass; min5 and median5 kept separate",
+      "remaining": "Random H/W not trained accuracy"
+    },
+    {
+      "experiment_id": "real_asset_inventory",
+      "date": "2026-10-03/04",
+      "purpose": "Locate actual features/labels/checkpoints",
+      "raw_paths": [
+        "docs/YX_REAL_GCN_ASSETS_20261003.md",
+        "runs/paper-assets-20261004-120700"
+      ],
+      "review_depth": "document and metadata audit conclusions",
+      "status": "real features identified; full checkpoint not established",
+      "remaining": "No real-model accuracy experiment"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "consumer-mask-c4-kernel-20261018-job10996305-completed-v1",
+  "status": "PILOT_COMPLETED_NUMERICAL_GATE_LIMITED",
+  "kind": "isolated_avx_same_plan_microbenchmark",
+  "paper_eligible": false,
+  "job_id": 10996305,
+  "slurm_state": "COMPLETED 0:0",
+  "node": "qhcn053",
+  "elapsed": "00:01:47",
+  "report": "results/consumer-mask-c4-kernel-20261018/KERNEL_PILOT_V1.md",
+  "report_sha256": "9b0320c25b626130e8441637439a2155f7bbddc08cdd0b05b870e2024e4764d4",
+  "raw": "runs/consumer_mask_c4_kernel_20261018-01/summary.json",
+  "finding": "Same-plan shared aggregation is faster than per-source fanout on Hollywood and Mycielskian19; Mycielskian19 standalone sparse stage shared 1.624s versus rowwise 4.736s, but three other graphs do not beat rowwise.",
+  "major_issue": "Synthetic BF16 features were small multiples of 1/1024; reordering produced exact FP32 and zero BF16 mismatches. Numerical gate did not stress rounding; new snapshot required.",
+  "next": "Repeat with broad-mantissa random BF16 inputs, freeze v1 unchanged, then integrate with canonical two-layer AMX baseline if numeric and performance gates survive."
+}

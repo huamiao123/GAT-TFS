@@ -1,0 +1,17 @@
+{
+  "id": "consumer-mask-c4-kernel-v2-20261018-job10996636-completed",
+  "status": "NUMERICAL_STRESS_PILOT_COMPLETED",
+  "kind": "same_plan_avx_random_bf16_numerical_stress",
+  "paper_eligible": false,
+  "job_id": 10996636,
+  "slurm_state": "COMPLETED 0:0",
+  "node": "qhcn085",
+  "elapsed": "00:03:43",
+  "report": "results/consumer-mask-c4-kernel-20261018/KERNEL_PILOT_V2.md",
+  "report_sha256": "c645ec3369d987c5824b3ffe0f53c02c1aa6230ceca9f8994b63e16f188e6b71",
+  "raw": "runs/consumer_mask_c4_kernel_v2_20261018-01/summary.json",
+  "gates": ["all five smoke fixtures passed including nonzero rounding stress", "four graph input hashes and plan counts matched frozen controls", "all sparse output relative L2 and normalized max errors <=1e-2", "Slurm completed exit 0"],
+  "finding": "Within job Mycielskian19 shared 4.313s, fanout 6.330s, rowwise 14.550s; Hollywood shared 2.194s, fanout 2.330s, rowwise 2.862s; Amazon and RoadNet regress or tie. BF16 aggregate mismatches 552 and 49 for Myciel/Hollywood.",
+  "caveat": "Shared node assigned split-socket CPUs 0-7,56-63; v1 was on 32-47 on another node. No v1-v2 absolute timing comparison or canonical two-layer AMX claim.",
+  "next": "Exclusive one-socket 32-core paired sparse-stage rerun, then canonical FULL Identity plus two-layer integration and plan amortization."
+}
